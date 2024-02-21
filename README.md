@@ -1,19 +1,7 @@
 # DOPE Query Builder
 
-DOPE Query Builder is a transpiler that enables easily written queries in Kotlin for Couchbase and other databases. DOPE Query Builder is not yet
-finished and is still a work in progress.
-
-**Inclusion of the crystal-map project:**
-
-```
-includeBuild("../crystal-map") {
-    dependencySubstitution {
-        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-versioning-plugin")).using(project(":crystal-map-versioning-plugin"))
-        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-processor")).using(project(":crystal-map-processor"))
-        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-api")).using(project(":crystal-map-api"))
-    }
-}
-```
+DOPE Query Builder is a type-safe N1QL/SQL++ query builder written in Kotlin for Couchbase and other databases. 
+DOPE Query Builder is not yet finished and is still a *work in progress*.
 
 ## License
 
