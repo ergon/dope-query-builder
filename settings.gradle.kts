@@ -15,8 +15,6 @@ include("core", "crystal-map-connector", "crystal-map-processor", "crystal-map-a
 
 includeBuild("../crystal-map") {
     dependencySubstitution {
-        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-versioning-plugin")).using(project(":crystal-map-versioning-plugin"))
-        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-processor")).using(project(":crystal-map-processor"))
         substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-api")).using(project(":crystal-map-api"))
     }
 }
