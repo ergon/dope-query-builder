@@ -7,13 +7,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
-import com.schwarz.crystalapi.schema.DocType
 
 fun CMField<Number>.asNumberField(): Field<NumberType> = Field(name, path)
 
 fun CMField<String>.asStringField(): Field<StringType> = Field(name, path)
-
-fun CMField<DocType>.asDocTypeField(): Field<StringType> = Field(name, path)
 
 fun CMField<Boolean>.asBooleanField(): Field<BooleanType> = Field(name, path)
 

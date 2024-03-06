@@ -7,7 +7,6 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
-import com.schwarz.crystalapi.schema.DocType
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
@@ -35,15 +34,6 @@ class CrystalMapAdapter {
         val cmField = CMField<Boolean>("testName", "testPath")
 
         val actual: Field<BooleanType> = cmField.asBooleanField()
-
-        assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
-    }
-
-    @Test
-    fun `should convert CMField with DocType`() {
-        val cmField = CMField<DocType>("testName", "testPath")
-
-        val actual: Field<StringType> = cmField.asDocTypeField()
 
         assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
     }
