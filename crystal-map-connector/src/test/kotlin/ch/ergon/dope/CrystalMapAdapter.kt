@@ -39,10 +39,28 @@ class CrystalMapAdapter {
     }
 
     @Test
-    fun `should convert CMFList`() {
+    fun `should convert CMFList string`() {
         val cmList = CMList<String>("testName", "testPath")
 
-        val actual: Field<ArrayType> = cmList.asArrayField()
+        val actual: Field<ArrayType<StringType>> = cmList.asStringArrayField()
+
+        assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
+    }
+
+    @Test
+    fun `should convert CMFList number`() {
+        val cmList = CMList<Number>("testName", "testPath")
+
+        val actual: Field<ArrayType<NumberType>> = cmList.asNumberArrayField()
+
+        assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
+    }
+
+    @Test
+    fun `should convert CMFList boolean`() {
+        val cmList = CMList<Boolean>("testName", "testPath")
+
+        val actual: Field<ArrayType<BooleanType>> = cmList.asBooleanArrayField()
 
         assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
     }

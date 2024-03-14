@@ -19,6 +19,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.testcontainers:testcontainers:1.19.0")
     implementation(kotlin("reflect"))
+    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.17.0")
 }
 
 tasks.test {
