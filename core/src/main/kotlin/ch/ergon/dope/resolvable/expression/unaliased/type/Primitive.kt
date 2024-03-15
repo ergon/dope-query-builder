@@ -22,7 +22,10 @@ class Primitive<T : ValidType> : TypeExpression<T> {
     }
 
     constructor(value: Boolean) {
-        this.queryString = "$value"
+        this.queryString = when (value) {
+            true -> TRUE.queryString
+            false -> FALSE.queryString
+        }
     }
 
     constructor(collection: List<TypeExpression<out ValidType>>) {
