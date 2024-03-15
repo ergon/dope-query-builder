@@ -16,13 +16,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.16.0")
-    testImplementation("org.testcontainers:testcontainers:1.19.0")
-    implementation("com.couchbase.client:java-client:3.4.9")
-    testImplementation("org.testcontainers:couchbase:1.19.0")
     testImplementation(kotlin("test"))
+    testImplementation("org.testcontainers:testcontainers:1.19.0")
     implementation(kotlin("reflect"))
-    implementation("com.squareup:kotlinpoet:1.14.2")
+    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.17.0")
 }
 
 tasks.test {

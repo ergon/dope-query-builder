@@ -16,6 +16,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
+import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import kotlin.test.BeforeTest
@@ -691,6 +692,16 @@ class QueryBuilderTest {
         ).from(
             TestBucket.Customer,
         ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support to boolean type`() {
+        val getSomething = { "something" }
+        val expected = "TRUE"
+
+        val actual = (getSomething() == "something").toBooleanType().toQueryString()
 
         assertEquals(expected, actual)
     }
