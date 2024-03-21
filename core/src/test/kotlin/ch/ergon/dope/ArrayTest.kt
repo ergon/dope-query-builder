@@ -176,6 +176,159 @@ class ArrayTest {
     }
 
     @Test
+    fun `should support in array with boolean`() {
+        val expected = "SELECT TRUE IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                true.inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        TestBucket.Person.age,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ).toArrayType(),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in array with string`() {
+        val expected = "SELECT \"test\" IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                "test".inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        TestBucket.Person.age,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ).toArrayType(),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in array with number`() {
+        val expected = "SELECT 3 IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                3.inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        TestBucket.Person.age,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ).toArrayType(),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in array with boolean and collection`() {
+        val expected = "SELECT TRUE IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                true.inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        TestBucket.Person.age,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in array with string and collection`() {
+        val expected = "SELECT \"test\" IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                "test".inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        TestBucket.Person.age,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in array with number and collection`() {
+        val expected = "SELECT 3 IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                3.inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        TestBucket.Person.age,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in array with field and collection`() {
+        val expected = "SELECT person.age IN [person.fname, FALSE, \"string\", 23] AS test FROM person"
+
+        val actual: String = create
+            .select(
+                TestBucket.Person.age.inArray(
+                    listOf(
+                        TestBucket.Person.fname,
+                        FALSE,
+                        "string".toStringType(),
+                        23.toNumberType(),
+                    ),
+                ).alias("test"),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support in array as whereClause`() {
         val expected = "SELECT * FROM person WHERE person.fname IN [\"string\", \"hallo\"]"
 

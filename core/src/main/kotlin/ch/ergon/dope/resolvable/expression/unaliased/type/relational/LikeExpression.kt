@@ -17,4 +17,4 @@ class LikeExpression(
 
 fun Field<out ValidType>.isLike(right: TypeExpression<StringType>): LikeExpression = LikeExpression(this, right)
 
-fun Field<out ValidType>.isLike(right: String): LikeExpression = this.isLike(right.toStringType())
+fun Field<out ValidType>.isLike(right: String): LikeExpression = isLike(right.toStringType())
