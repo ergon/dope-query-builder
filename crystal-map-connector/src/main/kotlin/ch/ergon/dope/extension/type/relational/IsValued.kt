@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isValuedNumber")
-fun CMField<Number>.isValued() = asField().isValued()
+fun CMField<out Number>.isValued() = asField().isValued()
 
 @JvmName("isValuedString")
 fun CMField<String>.isValued() = asField().isValued()

@@ -5,4 +5,4 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.NegationExp
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.neg
 import com.schwarz.crystalapi.schema.CMField
 
-fun neg(number: CMField<Number>): NegationExpression = neg(number.asField())
+fun neg(number: CMField<out Number>): NegationExpression = neg(number.asField())

@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotMissin
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isNotMissingNumber")
-fun CMField<Number>.isNotMissing() = asField().isNotMissing()
+fun CMField<out Number>.isNotMissing() = asField().isNotMissing()
 
 @JvmName("isNotMissingString")
 fun CMField<String>.isNotMissing() = asField().isNotMissing()

@@ -12,23 +12,23 @@ import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isGreaterOrEqualThanNumber")
-fun CMField<Number>.isGreaterOrEqualThan(right: CMField<Number>): GreaterOrEqualThanExpression<ComparableType> =
+fun CMField<out Number>.isGreaterOrEqualThan(right: CMField<out Number>): GreaterOrEqualThanExpression<ComparableType> =
     asField().isGreaterOrEqualThan(right.asField())
 
 @JvmName("isGreaterOrEqualThanNumber")
-fun TypeExpression<NumberType>.isGreaterOrEqualThan(right: CMField<Number>): GreaterOrEqualThanExpression<ComparableType> =
+fun TypeExpression<NumberType>.isGreaterOrEqualThan(right: CMField<out Number>): GreaterOrEqualThanExpression<ComparableType> =
     isGreaterOrEqualThan(right.asField())
 
 @JvmName("isGreaterOrEqualThanNumber")
-fun Number.isGreaterOrEqualThan(right: CMField<Number>): GreaterOrEqualThanExpression<ComparableType> =
+fun Number.isGreaterOrEqualThan(right: CMField<out Number>): GreaterOrEqualThanExpression<ComparableType> =
     toNumberType().isGreaterOrEqualThan(right.asField())
 
 @JvmName("isGreaterOrEqualThanNumber")
-fun CMField<Number>.isGreaterOrEqualThan(right: TypeExpression<NumberType>): GreaterOrEqualThanExpression<ComparableType> =
+fun CMField<out Number>.isGreaterOrEqualThan(right: TypeExpression<NumberType>): GreaterOrEqualThanExpression<ComparableType> =
     asField().isGreaterOrEqualThan(right)
 
 @JvmName("isGreaterOrEqualThanNumber")
-fun CMField<Number>.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<ComparableType> =
+fun CMField<out Number>.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<ComparableType> =
     asField().isGreaterOrEqualThan(right.toNumberType())
 
 @JvmName("isGreaterOrEqualThanString")

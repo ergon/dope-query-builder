@@ -17,19 +17,19 @@ fun CMField<out Number>.isEqualTo(right: Number): EqualsExpression<NumberType> =
     asField().isEqualTo(right.toNumberType())
 
 @JvmName("isEqualToNumber")
-fun Number.isEqualTo(right: CMField<Number>): EqualsExpression<NumberType> =
+fun Number.isEqualTo(right: CMField<out Number>): EqualsExpression<NumberType> =
     toNumberType().isEqualTo(right.asField())
 
 @JvmName("isEqualToNumber")
-fun CMField<Number>.isEqualTo(right: CMField<Number>): EqualsExpression<NumberType> =
+fun CMField<out Number>.isEqualTo(right: CMField<out Number>): EqualsExpression<NumberType> =
     asField().isEqualTo(right.asField())
 
 @JvmName("isEqualToNumber")
-fun TypeExpression<NumberType>.isEqualTo(right: CMField<Number>): EqualsExpression<NumberType> =
+fun TypeExpression<NumberType>.isEqualTo(right: CMField<out Number>): EqualsExpression<NumberType> =
     isEqualTo(right.asField())
 
 @JvmName("isEqualToNumber")
-fun CMField<Number>.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> =
+fun CMField<out Number>.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> =
     asField().isEqualTo(right)
 
 @JvmName("isEqualToString")

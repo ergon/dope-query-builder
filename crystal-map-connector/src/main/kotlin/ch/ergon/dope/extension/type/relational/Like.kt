@@ -13,7 +13,7 @@ import com.schwarz.crystalapi.schema.CMField
 fun Field<out ValidType>.isLike(right: CMField<String>): LikeExpression = isLike(right.asField())
 
 @JvmName("isLikeNumber")
-fun CMField<Number>.isLike(right: String): LikeExpression = asField().isLike(right.toStringType())
+fun CMField<out Number>.isLike(right: String): LikeExpression = asField().isLike(right.toStringType())
 
 @JvmName("isLikeString")
 fun CMField<String>.isLike(right: String): LikeExpression = asField().isLike(right.toStringType())

@@ -12,23 +12,23 @@ import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isLessThanNumber")
-fun CMField<Number>.isLessThan(right: CMField<Number>): LessThanExpression<ComparableType> =
+fun CMField<out Number>.isLessThan(right: CMField<out Number>): LessThanExpression<ComparableType> =
     asField().isLessThan(right.asField())
 
 @JvmName("isLessThanNumber")
-fun TypeExpression<NumberType>.isLessThan(right: CMField<Number>): LessThanExpression<ComparableType> =
+fun TypeExpression<NumberType>.isLessThan(right: CMField<out Number>): LessThanExpression<ComparableType> =
     isLessThan(right.asField())
 
 @JvmName("isLessThanNumber")
-fun Number.isLessThan(right: CMField<Number>): LessThanExpression<ComparableType> =
+fun Number.isLessThan(right: CMField<out Number>): LessThanExpression<ComparableType> =
     toNumberType().isLessThan(right.asField())
 
 @JvmName("isLessThanNumber")
-fun CMField<Number>.isLessThan(right: TypeExpression<NumberType>): LessThanExpression<ComparableType> =
+fun CMField<out Number>.isLessThan(right: TypeExpression<NumberType>): LessThanExpression<ComparableType> =
     asField().isLessThan(right)
 
 @JvmName("isLessThanNumber")
-fun CMField<Number>.isLessThan(right: Number): LessThanExpression<ComparableType> =
+fun CMField<out Number>.isLessThan(right: Number): LessThanExpression<ComparableType> =
     asField().isLessThan(right.toNumberType())
 
 @JvmName("isLessThanString")

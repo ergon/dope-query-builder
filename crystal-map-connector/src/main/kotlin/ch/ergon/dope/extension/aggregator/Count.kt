@@ -8,7 +8,7 @@ import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
 @JvmName("countNumber")
-fun count(field: CMField<Number>): CountExpression = count(field.asField())
+fun count(field: CMField<out Number>): CountExpression = count(field.asField())
 
 @JvmName("countString")
 fun count(field: CMField<String>): CountExpression = count(field.asField())
@@ -17,7 +17,7 @@ fun count(field: CMField<String>): CountExpression = count(field.asField())
 fun count(field: CMField<Boolean>): CountExpression = count(field.asField())
 
 @JvmName("countNumber")
-fun count(field: CMList<Number>): CountExpression = count(field.asArrayField())
+fun count(field: CMList<out Number>): CountExpression = count(field.asArrayField())
 
 @JvmName("countString")
 fun count(field: CMList<String>): CountExpression = count(field.asArrayField())

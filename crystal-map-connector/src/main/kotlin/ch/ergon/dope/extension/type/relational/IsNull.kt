@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isNullNumber")
-fun CMField<Number>.isNull() = asField().isNull()
+fun CMField<out Number>.isNull() = asField().isNull()
 
 @JvmName("isNullString")
 fun CMField<String>.isNull() = asField().isNull()

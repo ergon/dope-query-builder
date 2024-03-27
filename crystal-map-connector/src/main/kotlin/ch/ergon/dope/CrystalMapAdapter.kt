@@ -13,8 +13,6 @@ import com.schwarz.crystalapi.schema.CMList
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
 
-// todo add CMField<out Number>
-
 @JvmName("asNumberField")
 fun CMField<out Number>.asField(reference: String = path): Field<NumberType> = Field(name, reference)
 

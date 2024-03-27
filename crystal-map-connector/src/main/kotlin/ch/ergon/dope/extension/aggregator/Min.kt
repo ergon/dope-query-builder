@@ -8,7 +8,7 @@ import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
 @JvmName("minNumber")
-fun min(field: CMField<Number>): MinExpression = min(field.asField())
+fun min(field: CMField<out Number>): MinExpression = min(field.asField())
 
 @JvmName("minString")
 fun min(field: CMField<String>): MinExpression = min(field.asField())
@@ -17,7 +17,7 @@ fun min(field: CMField<String>): MinExpression = min(field.asField())
 fun min(field: CMField<Boolean>): MinExpression = min(field.asField())
 
 @JvmName("minNumber")
-fun min(field: CMList<Number>): MinExpression = min(field.asArrayField())
+fun min(field: CMList<out Number>): MinExpression = min(field.asArrayField())
 
 @JvmName("minString")
 fun min(field: CMList<String>): MinExpression = min(field.asArrayField())

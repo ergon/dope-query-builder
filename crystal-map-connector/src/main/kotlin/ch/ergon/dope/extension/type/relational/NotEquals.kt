@@ -13,23 +13,23 @@ import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isNotEqualToNumber")
-fun CMField<Number>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
+fun CMField<out Number>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
     asField().isNotEqualTo(right.toNumberType())
 
 @JvmName("isNotEqualToNumber")
-fun Number.isNotEqualTo(right: CMField<Number>): NotEqualsExpression<NumberType> =
+fun Number.isNotEqualTo(right: CMField<out Number>): NotEqualsExpression<NumberType> =
     toNumberType().isNotEqualTo(right.asField())
 
 @JvmName("isNotEqualToNumber")
-fun CMField<Number>.isNotEqualTo(right: CMField<Number>): NotEqualsExpression<NumberType> =
+fun CMField<out Number>.isNotEqualTo(right: CMField<out Number>): NotEqualsExpression<NumberType> =
     asField().isNotEqualTo(right.asField())
 
 @JvmName("isNotEqualToNumber")
-fun TypeExpression<NumberType>.isNotEqualTo(right: CMField<Number>): NotEqualsExpression<NumberType> =
+fun TypeExpression<NumberType>.isNotEqualTo(right: CMField<out Number>): NotEqualsExpression<NumberType> =
     isNotEqualTo(right.asField())
 
 @JvmName("isNotEqualToNumber")
-fun CMField<Number>.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> =
+fun CMField<out Number>.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> =
     asField().isNotEqualTo(right)
 
 @JvmName("isNotEqualToString")
