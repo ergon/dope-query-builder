@@ -15,7 +15,7 @@ class CrystalMapAdapter {
     fun `should convert CMField with Number`() {
         val cmField = CMField<Number>("testName", "testPath")
 
-        val actual: Field<NumberType> = cmField.asNumberField()
+        val actual: Field<NumberType> = cmField.asField()
 
         assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
     }
@@ -24,7 +24,7 @@ class CrystalMapAdapter {
     fun `should convert CMField with String`() {
         val cmField = CMField<String>("testName", "testPath")
 
-        val actual: Field<StringType> = cmField.asStringField()
+        val actual: Field<StringType> = cmField.asField()
 
         assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
     }
@@ -33,34 +33,34 @@ class CrystalMapAdapter {
     fun `should convert CMField with Boolean`() {
         val cmField = CMField<Boolean>("testName", "testPath")
 
-        val actual: Field<BooleanType> = cmField.asBooleanField()
+        val actual: Field<BooleanType> = cmField.asField()
 
         assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
     }
 
     @Test
-    fun `should convert CMFList string`() {
+    fun `should convert CMList string`() {
         val cmList = CMList<String>("testName", "testPath")
 
-        val actual: Field<ArrayType<StringType>> = cmList.asStringArrayField()
+        val actual: Field<ArrayType<StringType>> = cmList.asArrayField()
 
         assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
     }
 
     @Test
-    fun `should convert CMFList number`() {
+    fun `should convert CMList number`() {
         val cmList = CMList<Number>("testName", "testPath")
 
-        val actual: Field<ArrayType<NumberType>> = cmList.asNumberArrayField()
+        val actual: Field<ArrayType<NumberType>> = cmList.asArrayField()
 
         assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
     }
 
     @Test
-    fun `should convert CMFList boolean`() {
+    fun `should convert CMList boolean`() {
         val cmList = CMList<Boolean>("testName", "testPath")
 
-        val actual: Field<ArrayType<BooleanType>> = cmList.asBooleanArrayField()
+        val actual: Field<ArrayType<BooleanType>> = cmList.asArrayField()
 
         assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
     }

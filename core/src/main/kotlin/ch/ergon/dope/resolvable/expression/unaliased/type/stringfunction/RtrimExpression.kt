@@ -9,7 +9,7 @@ class RtrimExpression(
     private val inStr: TypeExpression<StringType>,
     private val extra: String = " ",
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "RTRIM", inStr, extra.toStringType())
+    override fun toQueryString(): String = toFunctionQueryString(symbol = "RTRIM", inStr, extra = extra.toStringType())
 }
 
 fun rtrim(inStr: TypeExpression<StringType>, extra: String) = RtrimExpression(inStr, extra)

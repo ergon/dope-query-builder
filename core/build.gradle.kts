@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "1.9.22"
     application
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
 }
@@ -19,7 +19,6 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.testcontainers:testcontainers:1.19.0")
     implementation(kotlin("reflect"))
-    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.17.0")
 }
 
 tasks.test {

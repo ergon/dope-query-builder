@@ -10,7 +10,7 @@ class TrimExpression(
     private val inStr: TypeExpression<StringType>,
     private val char: TypeExpression<StringType> = " ".toStringType(),
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "TRIM", inStr, char)
+    override fun toQueryString(): String = toFunctionQueryString(symbol = "TRIM", inStr, extra = char)
 }
 
 fun trim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType> = " ".toStringType()) = TrimExpression(inStr, char)

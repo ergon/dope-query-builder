@@ -23,12 +23,54 @@ class OperatorTest {
     }
 
     @Test
-    fun `should support adding two numbers`() {
+    fun `should support adding two number types`() {
         val expected = "SELECT (2 + 5) FROM person"
 
         val actual: String = create
             .select(
                 2.toNumberType().add(5.toNumberType()),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support adding two number`() {
+        val expected = "SELECT (2 + 5) FROM person"
+
+        val actual: String = create
+            .select(
+                2.add(5),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support adding a number with a numberType`() {
+        val expected = "SELECT (2 + person.age) FROM person"
+
+        val actual: String = create
+            .select(
+                2.add(TestBucket.Person.age),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support adding a number type with a number`() {
+        val expected = "SELECT (person.age + 2) FROM person"
+
+        val actual: String = create
+            .select(
+                TestBucket.Person.age.add(2),
             ).from(
                 TestBucket.Person,
             ).build()
@@ -79,12 +121,54 @@ class OperatorTest {
     }
 
     @Test
-    fun `should support subtracting two numbers`() {
+    fun `should support subtracting two number types`() {
         val expected = "SELECT (13 - 6) FROM person"
 
         val actual: String = create
             .select(
                 13.toNumberType().sub(6.toNumberType()),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support subtracting two number`() {
+        val expected = "SELECT (2 - 5) FROM person"
+
+        val actual: String = create
+            .select(
+                2.sub(5),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support subtracting a number with a numberType`() {
+        val expected = "SELECT (6 - person.age) FROM person"
+
+        val actual: String = create
+            .select(
+                6.sub(TestBucket.Person.age),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support subtracting a number type with a number`() {
+        val expected = "SELECT (person.age - 11) FROM person"
+
+        val actual: String = create
+            .select(
+                TestBucket.Person.age.sub(11),
             ).from(
                 TestBucket.Person,
             ).build()
@@ -135,12 +219,54 @@ class OperatorTest {
     }
 
     @Test
-    fun `should support multiplying two numbers`() {
+    fun `should support multiplying two number types`() {
         val expected = "SELECT (13 * 6) FROM person"
 
         val actual: String = create
             .select(
                 13.toNumberType().mul(6.toNumberType()),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support multiplying two number`() {
+        val expected = "SELECT (7 * 5) FROM person"
+
+        val actual: String = create
+            .select(
+                7.mul(5),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support multiplying a number with a numberType`() {
+        val expected = "SELECT (4 * person.age) FROM person"
+
+        val actual: String = create
+            .select(
+                4.mul(TestBucket.Person.age),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support multiplying a number type with a number`() {
+        val expected = "SELECT (person.age * 7) FROM person"
+
+        val actual: String = create
+            .select(
+                TestBucket.Person.age.mul(7),
             ).from(
                 TestBucket.Person,
             ).build()
@@ -191,12 +317,40 @@ class OperatorTest {
     }
 
     @Test
-    fun `should support dividing two numbers`() {
+    fun `should support dividing two number types`() {
         val expected = "SELECT (13 / 6) FROM person"
 
         val actual: String = create
             .select(
                 13.toNumberType().div(6.toNumberType()),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support dividing a number with a numberType`() {
+        val expected = "SELECT (14 / person.age) FROM person"
+
+        val actual: String = create
+            .select(
+                14.div(TestBucket.Person.age),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support dividing a number type with a number`() {
+        val expected = "SELECT (person.age / 2) FROM person"
+
+        val actual: String = create
+            .select(
+                TestBucket.Person.age.div(2),
             ).from(
                 TestBucket.Person,
             ).build()
@@ -247,12 +401,54 @@ class OperatorTest {
     }
 
     @Test
-    fun `should support modulo with two numbers`() {
+    fun `should support modulo with two number types`() {
         val expected = "SELECT (13 % 6) FROM person"
 
         val actual: String = create
             .select(
                 13.toNumberType().mod(6.toNumberType()),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support modulo with two numbers`() {
+        val expected = "SELECT (2 % 5) FROM person"
+
+        val actual: String = create
+            .select(
+                2.mod(5),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support modulo with a number with a numberType`() {
+        val expected = "SELECT (2 % person.age) FROM person"
+
+        val actual: String = create
+            .select(
+                2.mod(TestBucket.Person.age),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support modulo with a number type with a number`() {
+        val expected = "SELECT (person.age % 2) FROM person"
+
+        val actual: String = create
+            .select(
+                TestBucket.Person.age.mod(2),
             ).from(
                 TestBucket.Person,
             ).build()
@@ -393,12 +589,26 @@ class OperatorTest {
     }
 
     @Test
-    fun `should support negation with a number`() {
+    fun `should support negation with a number type`() {
         val expected = "SELECT -(6) FROM person"
 
         val actual: String = create
             .select(
                 neg(6.toNumberType()),
+            ).from(
+                TestBucket.Person,
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support negation with a number`() {
+        val expected = "SELECT -(6) FROM person"
+
+        val actual: String = create
+            .select(
+                neg(6),
             ).from(
                 TestBucket.Person,
             ).build()

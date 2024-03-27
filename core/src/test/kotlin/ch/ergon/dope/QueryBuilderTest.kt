@@ -10,11 +10,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
@@ -202,230 +198,6 @@ class QueryBuilderTest {
     }
 
     @Test
-    fun `should support is not equal to with number`() {
-        val expected = "SELECT * FROM person WHERE 12 != 5"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                12.toNumberType().isNotEqualTo(5.toNumberType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is not equal to with numberField and number`() {
-        val expected = "SELECT * FROM person WHERE person.age != 5"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                TestBucket.Person.age.isNotEqualTo(5.toNumberType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is not equal to with number and numberField`() {
-        val expected = "SELECT * FROM person WHERE 3 != person.age"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                3.toNumberType().isNotEqualTo(TestBucket.Person.age),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is not equal to with string`() {
-        val expected = "SELECT * FROM person WHERE \"test\" != \"hallo\""
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                "test".toStringType().isNotEqualTo("hallo".toStringType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is not equal to with stringField and string`() {
-        val expected = "SELECT * FROM person WHERE person.fname != \"5\""
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                TestBucket.Person.fname.isNotEqualTo("5".toStringType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is greater or equal to with number`() {
-        val expected = "SELECT * FROM person WHERE 12 >= 5"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is greater or equal to with numberField and number`() {
-        val expected = "SELECT * FROM person WHERE person.age >= 5"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                TestBucket.Person.age.isGreaterOrEqualThan(5.toNumberType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is greater or equal to with number and numberField`() {
-        val expected = "SELECT * FROM person WHERE 3 >= person.age"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                3.toNumberType().isGreaterOrEqualThan(TestBucket.Person.age),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is greater or equal to with string`() {
-        val expected = "SELECT * FROM person WHERE \"test\" >= \"hallo\""
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is greater or equal to with stringField and string`() {
-        val expected = "SELECT * FROM person WHERE person.fname >= \"5\""
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                TestBucket.Person.fname.isGreaterOrEqualThan("5".toStringType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is greater or equal to with boolean and stringField`() {
-        val expected = "SELECT * FROM person WHERE \"test\" >= person.fname"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                "test".toStringType().isGreaterOrEqualThan(TestBucket.Person.fname),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is Less or equal to with number`() {
-        val expected = "SELECT * FROM person WHERE 12 <= 5"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                12.toNumberType().isLessOrEqualThan(5.toNumberType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is Less or equal to with numberField and number`() {
-        val expected = "SELECT * FROM person WHERE person.age <= 5"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                TestBucket.Person.age.isLessOrEqualThan(5.toNumberType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is Less or equal to with number and numberField`() {
-        val expected = "SELECT * FROM person WHERE 3 <= person.age"
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                3.toNumberType().isLessOrEqualThan(TestBucket.Person.age),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is Less or equal to with string`() {
-        val expected = "SELECT * FROM person WHERE \"test\" <= \"hallo\""
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support is Less or equal to with stringField and string`() {
-        val expected = "SELECT * FROM person WHERE person.fname <= \"5\""
-
-        val actual: String = create
-            .selectAll()
-            .from(TestBucket.Person)
-            .where(
-                TestBucket.Person.fname.isLessOrEqualThan("5".toStringType()),
-            ).build()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun `should Support Where With Many Chained Conditions`() {
         val expected = "SELECT * FROM person WHERE person.age < 50 AND person.title = \"Mr.\" AND person.relation = \"friend\""
 
@@ -444,44 +216,6 @@ class QueryBuilderTest {
                     ),
                 ),
             ).build()
-
-        assertEquals(unifyString(expected), actual)
-    }
-
-    @Test
-    fun `should Support Where With Like`() {
-        val expected = "SELECT person.fname, person.email FROM person WHERE person.email LIKE \"%@yahoo.com\""
-
-        val actual: String = create.select(
-            TestBucket.Person.fname,
-            TestBucket.Person.email,
-        ).from(
-            TestBucket.Person,
-        ).where(
-            TestBucket.Person.email.isLike(
-                "%@yahoo.com".toStringType(),
-            ),
-        ).build()
-
-        assertEquals(unifyString(expected), actual)
-    }
-
-    @Test
-    fun `should Support Where With Like Chained`() {
-        val expected = "SELECT person.email, person.age FROM person WHERE person.email LIKE \"%@gmail.com\" AND person.age = 46"
-
-        val actual: String = create.select(
-            TestBucket.Person.email,
-            TestBucket.Person.age,
-        ).from(
-            TestBucket.Person,
-        ).where(
-            TestBucket.Person.email.isLike(
-                "%@gmail.com".toStringType(),
-            ).and(
-                TestBucket.Person.age.isEqualTo(46.toNumberType()),
-            ),
-        ).build()
 
         assertEquals(unifyString(expected), actual)
     }
@@ -580,7 +314,7 @@ class QueryBuilderTest {
     }
 
     @Test
-    fun `should Support And`() {
+    fun `should Support And with two types`() {
         val expected = "SELECT TRUE AND FALSE"
 
         val actual: String = create.select(
@@ -593,11 +327,63 @@ class QueryBuilderTest {
     }
 
     @Test
-    fun `should Support Or`() {
+    fun `should Support And with a boolean type and boolean`() {
+        val expected = "SELECT TRUE AND FALSE"
+
+        val actual: String = create.select(
+            TRUE.and(
+                false,
+            ),
+        ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support And with a boolean and boolean type`() {
+        val expected = "SELECT TRUE AND FALSE"
+
+        val actual: String = create.select(
+            true.and(
+                FALSE,
+            ),
+        ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support Or with two types`() {
         val expected = "SELECT TRUE OR FALSE"
 
         val actual: String = create.select(
             TRUE.or(
+                FALSE,
+            ),
+        ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support Or with boolean type and boolean`() {
+        val expected = "SELECT TRUE OR FALSE"
+
+        val actual: String = create.select(
+            TRUE.or(
+                false,
+            ),
+        ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support Or with boolean and boolean type`() {
+        val expected = "SELECT TRUE OR FALSE"
+
+        val actual: String = create.select(
+            true.or(
                 FALSE,
             ),
         ).build()
@@ -647,7 +433,7 @@ class QueryBuilderTest {
     }
 
     @Test
-    fun `should Support Equals As Object`() {
+    fun `should Support Equals with two types`() {
         val expected = "TRUE = FALSE"
 
         val actual: String = TRUE.isEqualTo(

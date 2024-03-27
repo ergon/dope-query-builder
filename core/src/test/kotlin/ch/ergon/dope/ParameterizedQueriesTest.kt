@@ -64,7 +64,7 @@ class ParameterizedQueriesTest {
     @Test
     fun `shouldSupport Named Parameters With Values`() {
         val parameterActual = FALSE.asParameter("isAwesome")
-        assertEquals(FALSE, parameterActual.previousValue)
+        assertEquals(FALSE, parameterActual.value)
     }
 
     @Test

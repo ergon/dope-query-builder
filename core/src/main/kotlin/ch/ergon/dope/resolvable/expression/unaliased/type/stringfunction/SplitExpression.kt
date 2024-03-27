@@ -9,7 +9,7 @@ class SplitExpression(
     private val inStr: TypeExpression<StringType>,
     private val inSubstring: TypeExpression<StringType> = " ".toStringType(),
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "SPLIT", inStr, inSubstring)
+    override fun toQueryString(): String = toFunctionQueryString(symbol = "SPLIT", inStr, extra = inSubstring)
 }
 
 fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType> = "".toStringType()) = SplitExpression(inStr, inSubstring)
