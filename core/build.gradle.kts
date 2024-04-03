@@ -5,7 +5,7 @@ plugins {
     `maven-publish`
 }
 
-group = "ch.ergon"
+group = "com.github.ergon"
 version = "0.0.1"
 
 publishing {
