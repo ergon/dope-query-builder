@@ -11,6 +11,7 @@ class NowStrExpression(
     override fun toQueryString(): String = toFunctionQueryString("NOW_STR", fmt)
 }
 
+// todo: DOPE-177
 fun nowStr(fmt: TypeExpression<StringType> = "".toStringType()): NowStrExpression = NowStrExpression(fmt)
 
 fun nowStr(fmt: String): NowStrExpression = nowStr(fmt.toStringType())
