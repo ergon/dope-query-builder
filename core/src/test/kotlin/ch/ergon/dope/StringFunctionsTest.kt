@@ -268,7 +268,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Ltrim`() {
-        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS dots, LTRIM(\"    N1QL is awesome\") AS " +
+        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS dots, LTRIM(\"    N1QL is awesome\", \" \") AS " +
             "explicit_spaces, LTRIM(\"      N1QL is awesome\") AS implicit_spaces, LTRIM(\"N1QL is awesome\") AS no_dots"
 
         val actual: String = create.select(
@@ -484,7 +484,7 @@ class StringFunctionsTest {
     @Test
     fun `should Support Rtrim`() {
         val expected =
-            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \") AS " +
+            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \", \" \") AS " +
                 "explicit_spaces, RTRIM(\"N1QL is awesome     \") AS implicit_spaces, RTRIM(\"N1QL is awesome\") AS no_dots"
 
         val actual: String = create.select(
@@ -500,7 +500,7 @@ class StringFunctionsTest {
     @Test
     fun `should Support Rtrim With String And String`() {
         val expected =
-            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \") AS " +
+            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \", \" \") AS " +
                 "explicit_spaces, RTRIM(\"N1QL is awesome     \") AS implicit_spaces, RTRIM(\"N1QL is awesome\") AS no_dots"
 
         val actual: String = create.select(
@@ -537,8 +537,8 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             rtrim("N1QL is awesome...".toStringType(), '.').alias("dots"),
-            rtrim("N1QL is awesome     ".toStringType(), ' ').alias("explicit_spaces"),
-            rtrim("N1QL is awesome     ".toStringType(), ' ').alias("implicit_spaces"),
+            rtrim("N1QL is awesome     ".toStringType()).alias("explicit_spaces"),
+            rtrim("N1QL is awesome     ".toStringType()).alias("implicit_spaces"),
             rtrim("N1QL is awesome".toStringType()).alias("no_dots"),
         ).build()
 
@@ -548,7 +548,7 @@ class StringFunctionsTest {
     @Test
     fun `should Support Split`() {
         val expected =
-            "SELECT SPLIT(\"N1QL is awesome\") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
+            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
                 " implicit_spaces, SPLIT(\"N1QL is awesome\", \"is\") AS split_is"
 
         val actual: String = create.select(
@@ -563,7 +563,7 @@ class StringFunctionsTest {
     @Test
     fun `should Support Split With StringType`() {
         val expected =
-            "SELECT SPLIT(\"N1QL is awesome\") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
+            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
                 " implicit_spaces, SPLIT(\"N1QL is awesome\", \"is\") AS split_is"
 
         val actual: String = create.select(
@@ -578,7 +578,7 @@ class StringFunctionsTest {
     @Test
     fun `should Support Split With String And A StringType`() {
         val expected =
-            "SELECT SPLIT(\"N1QL is awesome\") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
+            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
                 " implicit_spaces, SPLIT(\"N1QL is awesome\", \"is\") AS split_is"
 
         val actual: String = create.select(
@@ -713,7 +713,7 @@ class StringFunctionsTest {
     @Test
     fun `should Support Trim With A String And A String`() {
         val expected = "SELECT TRIM(\"...N1QL is awesome...\", \"...\") AS dots," +
-            " TRIM(\"     N1QL is awesome     \") AS explicit_spaces," +
+            " TRIM(\"     N1QL is awesome     \", \" \") AS explicit_spaces," +
             " TRIM(\"     N1QL is awesome     \") AS implicit_spaces," +
             " TRIM(\"N1QL is awesome\") AS no_dots"
 

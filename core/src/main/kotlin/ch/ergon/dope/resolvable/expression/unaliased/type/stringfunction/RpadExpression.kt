@@ -10,7 +10,7 @@ import ch.ergon.dope.validtype.StringType
 class RpadExpression(
     private val inStr: TypeExpression<StringType>,
     private val size: TypeExpression<NumberType>,
-    private val extra: TypeExpression<StringType> = " ".toStringType(),
+    private val extra: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toQueryString(): String = toFunctionQueryString(symbol = "RPAD", inStr, size, extra = extra)
 }
@@ -18,7 +18,7 @@ class RpadExpression(
 fun rpad(
     inStr: TypeExpression<StringType>,
     size: TypeExpression<NumberType>,
-    extra: TypeExpression<StringType> = " ".toStringType(),
+    extra: TypeExpression<StringType>? = null,
 ): RpadExpression =
     RpadExpression(inStr, size, extra)
 

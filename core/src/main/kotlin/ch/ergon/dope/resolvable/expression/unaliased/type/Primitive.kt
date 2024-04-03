@@ -49,8 +49,6 @@ class Primitive<T : ValidType> : TypeExpression<T> {
     }
 }
 
-fun TypeExpression<StringType>.isBlank(): Boolean = toQueryString().drop(1).dropLast(1).isBlank()
-
 fun String.toStringType(): Primitive<StringType> = Primitive(this)
 
 fun Number.toNumberType(): Primitive<NumberType> = Primitive(this)

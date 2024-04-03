@@ -7,22 +7,19 @@ import ch.ergon.dope.validtype.StringType
 
 class SplitExpression(
     private val inStr: TypeExpression<StringType>,
-    private val inSubstring: TypeExpression<StringType> = " ".toStringType(),
+    private val inSubstring: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toQueryString(): String = toFunctionQueryString(symbol = "SPLIT", inStr, extra = inSubstring)
 }
 
-fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType> = "".toStringType()) = SplitExpression(inStr, inSubstring)
+fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) = SplitExpression(inStr, inSubstring)
 
 fun split(inStr: String): SplitExpression = split(inStr.toStringType())
 
 fun split(inStr: TypeExpression<StringType>): SplitExpression = SplitExpression(inStr)
 
-fun split(inStr: String, inSubstring: String = ""): SplitExpression = split(inStr.toStringType(), inSubstring.toStringType())
+fun split(inStr: String, inSubstring: String? = null): SplitExpression = split(inStr.toStringType(), inSubstring?.toStringType())
 
-fun split(inStr: TypeExpression<StringType>, inSubstring: String = ""): SplitExpression = split(inStr, inSubstring.toStringType())
+fun split(inStr: TypeExpression<StringType>, inSubstring: String? = null): SplitExpression = split(inStr, inSubstring?.toStringType())
 
-fun split(inStr: String, inSubstring: TypeExpression<StringType> = "".toStringType()) = split(
-    inStr.toStringType(),
-    inSubstring,
-)
+fun split(inStr: String, inSubstring: TypeExpression<StringType>? = null) = split(inStr.toStringType(), inSubstring)

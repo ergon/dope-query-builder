@@ -10,37 +10,39 @@ import ch.ergon.dope.validtype.StringType
 class LpadExpression(
     private val inStr: TypeExpression<StringType>,
     private val size: TypeExpression<NumberType>,
-    private val extra: TypeExpression<StringType> = " ".toStringType(),
+    private val prefix: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "LPAD", inStr, size, extra = extra)
+    override fun toQueryString(): String = toFunctionQueryString(symbol = "LPAD", inStr, size, extra = prefix)
 }
 
 fun lpad(
     inStr: TypeExpression<StringType>,
     size: TypeExpression<NumberType>,
-    extra: TypeExpression<StringType> = " ".toStringType(),
+    prefix: TypeExpression<StringType>? = null,
 ): LpadExpression =
-    LpadExpression(inStr, size, extra)
+    LpadExpression(inStr, size, prefix)
 
-fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, extra: String): LpadExpression =
-    lpad(inStr, size, extra.toStringType())
+fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String): LpadExpression =
+    lpad(inStr, size, prefix.toStringType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: Number, extra: TypeExpression<StringType>): LpadExpression =
-    lpad(inStr, size.toNumberType(), extra)
+fun lpad(inStr: TypeExpression<StringType>, size: Number, prefix: TypeExpression<StringType>): LpadExpression =
+    lpad(inStr, size.toNumberType(), prefix)
 
-fun lpad(inStr: String, size: TypeExpression<NumberType>, extra: TypeExpression<StringType>): LpadExpression =
-    lpad(inStr.toStringType(), size, extra)
+fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>): LpadExpression =
+    lpad(inStr.toStringType(), size, prefix)
 
 fun lpad(inStr: TypeExpression<StringType>, size: Number): LpadExpression = lpad(inStr, size.toNumberType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: Number, extra: String): LpadExpression = lpad(inStr, size.toNumberType(), extra.toStringType())
+fun lpad(inStr: TypeExpression<StringType>, size: Number, prefix: String): LpadExpression =
+    lpad(inStr, size.toNumberType(), prefix.toStringType())
 
 fun lpad(inStr: String, size: TypeExpression<NumberType>): LpadExpression = lpad(inStr.toStringType(), size)
 
-fun lpad(inStr: String, size: TypeExpression<NumberType>, extra: String): LpadExpression = lpad(inStr.toStringType(), size, extra.toStringType())
+fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: String): LpadExpression =
+    lpad(inStr.toStringType(), size, prefix.toStringType())
 
-fun lpad(inStr: String, size: Number, extra: TypeExpression<StringType>) = lpad(inStr.toStringType(), size.toNumberType(), extra)
+fun lpad(inStr: String, size: Number, prefix: TypeExpression<StringType>) = lpad(inStr.toStringType(), size.toNumberType(), prefix)
 
 fun lpad(inStr: String, size: Number): LpadExpression = lpad(inStr.toStringType(), size.toNumberType())
 
-fun lpad(inStr: String, size: Number, extra: String): LpadExpression = lpad(inStr.toStringType(), size.toNumberType(), extra.toStringType())
+fun lpad(inStr: String, size: Number, prefix: String): LpadExpression = lpad(inStr.toStringType(), size.toNumberType(), prefix.toStringType())

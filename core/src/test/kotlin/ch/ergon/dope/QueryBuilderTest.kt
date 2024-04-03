@@ -445,7 +445,7 @@ class QueryBuilderTest {
 
     @Test
     fun `Should support the NOW_STR function`() {
-        val expected = "SELECT NOW_STR(\"\") AS full_date, NOW_STR(\"invalid date\") AS invalid_date, " +
+        val expected = "SELECT NOW_STR() AS full_date, NOW_STR(\"invalid date\") AS invalid_date, " +
             "NOW_STR(\"1111-11-11\") " +
             "AS short_date"
 

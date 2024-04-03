@@ -7,12 +7,12 @@ import ch.ergon.dope.validtype.StringType
 
 class LtrimExpression(
     private val inStr: TypeExpression<StringType>,
-    private val extra: TypeExpression<StringType> = " ".toStringType(),
+    private val extra: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toQueryString(): String = toFunctionQueryString(symbol = "LTRIM", inStr, extra = extra)
 }
 
-fun ltrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType> = " ".toStringType()): LtrimExpression =
+fun ltrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType>? = null): LtrimExpression =
     LtrimExpression(inStr, extra)
 
 fun ltrim(inStr: TypeExpression<StringType>, extra: String): LtrimExpression = ltrim(inStr, extra.toStringType())
