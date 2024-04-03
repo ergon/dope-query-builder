@@ -2,17 +2,34 @@ plugins {
     kotlin("jvm") version "1.9.22"
     application
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+    `maven-publish`
 }
 
 group = "ch.ergon"
-version = "1.0-SNAPSHOT"
+version = "0.0.1"
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("https://jitpack.io")
+        }
+    }
+}
 
 repositories {
     mavenLocal()
     mavenCentral()
-    repositories {
-        maven(url = "https://jitpack.io")
-    }
+    maven(url = "https://jitpack.io")
 }
 
 dependencies {
@@ -35,16 +52,8 @@ java {
 }
 
 kotlin {
-    tasks {
-        compileKotlin {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-        }
-        compileTestKotlin {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-        }
-        jvmToolchain {
-            this.languageVersion.set(JavaLanguageVersion.of(17))
-        }
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
