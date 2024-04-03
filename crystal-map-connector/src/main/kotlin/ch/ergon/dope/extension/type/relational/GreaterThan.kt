@@ -6,7 +6,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.GreaterThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.validtype.ComparableType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField

@@ -6,12 +6,12 @@ import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
 class NowStrExpression(
-    private val fmt: TypeExpression<StringType>,
+    private val format: TypeExpression<StringType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString("NOW_STR", fmt)
+    override fun toQueryString(): String = toFunctionQueryString("NOW_STR", format)
 }
 
 // todo: DOPE-177
-fun nowStr(fmt: TypeExpression<StringType> = "".toStringType()): NowStrExpression = NowStrExpression(fmt)
+fun nowStr(format: TypeExpression<StringType> = "".toStringType()): NowStrExpression = NowStrExpression(format)
 
-fun nowStr(fmt: String): NowStrExpression = nowStr(fmt.toStringType())
+fun nowStr(format: String): NowStrExpression = nowStr(format.toStringType())
