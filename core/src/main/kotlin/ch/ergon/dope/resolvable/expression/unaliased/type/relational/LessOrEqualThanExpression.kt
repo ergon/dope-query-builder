@@ -10,23 +10,23 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 class LessOrEqualThanExpression<T : ComparableType>(
-    left: TypeExpression<out T>,
-    right: TypeExpression<out T>,
+    left: TypeExpression<T>,
+    right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "<=", right) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ComparableType> TypeExpression<out T>.isLessOrEqualThan(right: TypeExpression<out T>): LessOrEqualThanExpression<T> =
+fun <T : ComparableType> TypeExpression<T>.isLessOrEqualThan(right: TypeExpression<T>): LessOrEqualThanExpression<T> =
     LessOrEqualThanExpression(this, right)
 
-fun <T : NumberType> TypeExpression<T>.isLessOrEqualThan(right: Number): LessOrEqualThanExpression<ComparableType> =
+fun TypeExpression<NumberType>.isLessOrEqualThan(right: Number): LessOrEqualThanExpression<NumberType> =
     isLessOrEqualThan(right.toNumberType())
 
-fun <T : NumberType> Number.isLessOrEqualThan(right: TypeExpression<T>): LessOrEqualThanExpression<ComparableType> =
-    this.toNumberType().isLessOrEqualThan(right)
+fun Number.isLessOrEqualThan(right: TypeExpression<NumberType>): LessOrEqualThanExpression<NumberType> =
+    toNumberType().isLessOrEqualThan(right)
 
-fun <T : StringType> TypeExpression<T>.isLessOrEqualThan(right: String): LessOrEqualThanExpression<ComparableType> =
+fun TypeExpression<StringType>.isLessOrEqualThan(right: String): LessOrEqualThanExpression<StringType> =
     isLessOrEqualThan(right.toStringType())
 
-fun <T : StringType> String.isLessOrEqualThan(right: TypeExpression<T>): LessOrEqualThanExpression<ComparableType> =
-    this.toStringType().isLessOrEqualThan(right)
+fun String.isLessOrEqualThan(right: TypeExpression<StringType>): LessOrEqualThanExpression<StringType> =
+    toStringType().isLessOrEqualThan(right)

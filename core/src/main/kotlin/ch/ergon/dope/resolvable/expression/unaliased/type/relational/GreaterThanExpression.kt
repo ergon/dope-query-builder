@@ -10,29 +10,29 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 class GreaterThanExpression<T : ComparableType>(
-    left: TypeExpression<out T>,
-    right: TypeExpression<out T>,
+    left: TypeExpression<T>,
+    right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, ">", right) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ComparableType> TypeExpression<out T>.isGreaterThan(right: TypeExpression<out T>): GreaterThanExpression<T> =
+fun <T : ComparableType> TypeExpression<T>.isGreaterThan(right: TypeExpression<T>): GreaterThanExpression<T> =
     GreaterThanExpression(this, right)
 
-fun TypeExpression<NumberType>.isGreaterThan(right: Number): GreaterThanExpression<ComparableType> =
+fun TypeExpression<NumberType>.isGreaterThan(right: Number): GreaterThanExpression<NumberType> =
     isGreaterThan(right.toNumberType())
 
-fun Number.isGreaterThan(right: TypeExpression<NumberType>): GreaterThanExpression<ComparableType> =
+fun Number.isGreaterThan(right: TypeExpression<NumberType>): GreaterThanExpression<NumberType> =
     this.toNumberType().isGreaterThan(right)
 
-fun Number.isGreaterThan(right: Number): GreaterThanExpression<ComparableType> =
+fun Number.isGreaterThan(right: Number): GreaterThanExpression<NumberType> =
     this.toNumberType().isGreaterThan(right.toNumberType())
 
-fun TypeExpression<StringType>.isGreaterThan(right: String): GreaterThanExpression<ComparableType> =
+fun TypeExpression<StringType>.isGreaterThan(right: String): GreaterThanExpression<StringType> =
     isGreaterThan(right.toStringType())
 
-fun String.isGreaterThan(right: TypeExpression<StringType>): GreaterThanExpression<ComparableType> =
+fun String.isGreaterThan(right: TypeExpression<StringType>): GreaterThanExpression<StringType> =
     this.toStringType().isGreaterThan(right)
 
-fun String.isGreaterThan(right: String): GreaterThanExpression<ComparableType> =
+fun String.isGreaterThan(right: String): GreaterThanExpression<StringType> =
     this.toStringType().isGreaterThan(right.toStringType())

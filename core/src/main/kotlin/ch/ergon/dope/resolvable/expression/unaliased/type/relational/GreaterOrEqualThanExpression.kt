@@ -10,29 +10,29 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 class GreaterOrEqualThanExpression<T : ComparableType>(
-    left: TypeExpression<out T>,
-    right: TypeExpression<out T>,
+    left: TypeExpression<T>,
+    right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, ">=", right) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ComparableType> TypeExpression<out T>.isGreaterOrEqualThan(right: TypeExpression<out T>): GreaterOrEqualThanExpression<T> =
+fun <T : ComparableType> TypeExpression<T>.isGreaterOrEqualThan(right: TypeExpression<T>): GreaterOrEqualThanExpression<T> =
     GreaterOrEqualThanExpression(this, right)
 
-fun TypeExpression<NumberType>.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<ComparableType> =
+fun TypeExpression<NumberType>.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<NumberType> =
     isGreaterOrEqualThan(right.toNumberType())
 
-fun Number.isGreaterOrEqualThan(right: TypeExpression<NumberType>): GreaterOrEqualThanExpression<ComparableType> =
+fun Number.isGreaterOrEqualThan(right: TypeExpression<NumberType>): GreaterOrEqualThanExpression<NumberType> =
     toNumberType().isGreaterOrEqualThan(right)
 
-fun Number.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<ComparableType> =
+fun Number.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<NumberType> =
     toNumberType().isGreaterOrEqualThan(right.toNumberType())
 
-fun TypeExpression<StringType>.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<ComparableType> =
+fun TypeExpression<StringType>.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<StringType> =
     isGreaterOrEqualThan(right.toStringType())
 
-fun String.isGreaterOrEqualThan(right: TypeExpression<StringType>): GreaterOrEqualThanExpression<ComparableType> =
+fun String.isGreaterOrEqualThan(right: TypeExpression<StringType>): GreaterOrEqualThanExpression<StringType> =
     toStringType().isGreaterOrEqualThan(right)
 
-fun String.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<ComparableType> =
+fun String.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<StringType> =
     toStringType().isGreaterOrEqualThan(right.toStringType())

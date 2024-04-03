@@ -11,13 +11,13 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class NotEqualsExpression<T : ValidType>(
-    left: TypeExpression<out T>,
-    right: TypeExpression<out T>,
+    left: TypeExpression<T>,
+    right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "!=", right) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ValidType> TypeExpression<out T>.isNotEqualTo(right: TypeExpression<out T>): NotEqualsExpression<T> =
+fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> =
     NotEqualsExpression(this, right)
 
 fun TypeExpression<NumberType>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =

@@ -10,14 +10,14 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class EqualsExpression<out T : ValidType>(
-    val left: TypeExpression<out T>,
-    val right: TypeExpression<out T>,
+class EqualsExpression<T : ValidType>(
+    val left: TypeExpression<T>,
+    val right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "=", right) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ValidType> TypeExpression<out T>.isEqualTo(right: TypeExpression<out T>): EqualsExpression<T> =
+fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): EqualsExpression<T> =
     EqualsExpression(this, right)
 
 fun TypeExpression<NumberType>.isEqualTo(right: Number): EqualsExpression<NumberType> =
