@@ -16,4 +16,4 @@ interface MissingType : ValidType
 
 interface ArrayType<T : ValidType> : ValidType
 
-class DopeSchemaArray<out T : Any>(val schema: T, val name: String) : ValidType
+class DopeSchemaArray<T : Any>(val schema: T, val name: String) : ValidType

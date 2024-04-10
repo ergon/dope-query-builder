@@ -17,15 +17,15 @@ import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
 @JvmName("inArrayNumber")
-fun CMField<out Number>.inArray(array: TypeExpression<out ArrayType<NumberType>>): InExpression<NumberType> =
+fun CMField<out Number>.inArray(array: TypeExpression<ArrayType<NumberType>>): InExpression<NumberType> =
     asField().inArray(array)
 
 @JvmName("inArrayString")
-fun CMField<String>.inArray(array: TypeExpression<out ArrayType<StringType>>): InExpression<StringType> =
+fun CMField<String>.inArray(array: TypeExpression<ArrayType<StringType>>): InExpression<StringType> =
     asField().inArray(array)
 
 @JvmName("inArrayBoolean")
-fun CMField<Boolean>.inArray(array: TypeExpression<out ArrayType<BooleanType>>): InExpression<BooleanType> =
+fun CMField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression<BooleanType> =
     asField().inArray(array)
 
 @JvmName("inArrayNumber")

@@ -14,21 +14,21 @@ import ch.ergon.dope.validtype.ValidType
 
 class InExpression<T : ValidType>(
     value: TypeExpression<T>,
-    collection: TypeExpression<out ArrayType<T>>,
+    collection: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<BooleanType>, InfixOperator(value, "IN", collection) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<out ArrayType<T>>): InExpression<T> =
+fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<ArrayType<T>>): InExpression<T> =
     InExpression(this, array)
 
-fun Number.inArray(array: TypeExpression<out ArrayType<NumberType>>): InExpression<NumberType> =
+fun Number.inArray(array: TypeExpression<ArrayType<NumberType>>): InExpression<NumberType> =
     toNumberType().inArray(array)
 
-fun String.inArray(array: TypeExpression<out ArrayType<StringType>>): InExpression<StringType> =
+fun String.inArray(array: TypeExpression<ArrayType<StringType>>): InExpression<StringType> =
     toStringType().inArray(array)
 
-fun Boolean.inArray(array: TypeExpression<out ArrayType<BooleanType>>): InExpression<BooleanType> =
+fun Boolean.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression<BooleanType> =
     toBooleanType().inArray(array)
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: Collection<TypeExpression<T>>): InExpression<T> =

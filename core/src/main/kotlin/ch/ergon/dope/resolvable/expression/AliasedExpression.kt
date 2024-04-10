@@ -13,7 +13,7 @@ class AliasedExpression<T : ValidType>(
         "${unaliasedExpression.toQueryString()} AS $alias"
 }
 
-fun <T : ValidType> UnaliasedExpression<T>.alias(string: String) = AliasedExpression(this, string)
+fun UnaliasedExpression<out ValidType>.alias(string: String) = AliasedExpression(this, string)
 
 fun Number.alias(string: String) = this.toNumberType().alias(string)
 
