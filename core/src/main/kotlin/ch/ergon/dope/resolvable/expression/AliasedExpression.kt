@@ -5,8 +5,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.validtype.ValidType
 
-class AliasedExpression<out T : ValidType>(
-    private val unaliasedExpression: UnaliasedExpression<out T>,
+class AliasedExpression<T : ValidType>(
+    private val unaliasedExpression: UnaliasedExpression<T>,
     private val alias: String,
 ) : Expression {
     override fun toQueryString(): String =

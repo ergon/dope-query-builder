@@ -8,35 +8,37 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class InExpression(
-    value: TypeExpression<out ValidType>,
-    collection: TypeExpression<out ArrayType<out ValidType>>,
+class InExpression<T : ValidType>(
+    value: TypeExpression<T>,
+    collection: TypeExpression<out ArrayType<T>>,
 ) : TypeExpression<BooleanType>, InfixOperator(value, "IN", collection) {
     override fun toQueryString(): String = toInfixQueryString()
 }
 
-fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<out ArrayType<out ValidType>>): InExpression =
+fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<out ArrayType<T>>): InExpression<T> =
     InExpression(this, array)
 
-fun Number.inArray(array: TypeExpression<out ArrayType<out ValidType>>): InExpression =
+fun Number.inArray(array: TypeExpression<out ArrayType<NumberType>>): InExpression<NumberType> =
     toNumberType().inArray(array)
 
-fun String.inArray(array: TypeExpression<out ArrayType<out ValidType>>): InExpression =
+fun String.inArray(array: TypeExpression<out ArrayType<StringType>>): InExpression<StringType> =
     toStringType().inArray(array)
 
-fun Boolean.inArray(array: TypeExpression<out ArrayType<out ValidType>>): InExpression =
+fun Boolean.inArray(array: TypeExpression<out ArrayType<BooleanType>>): InExpression<BooleanType> =
     toBooleanType().inArray(array)
 
-fun <T : ValidType> TypeExpression<T>.inArray(array: Collection<TypeExpression<out ValidType>>): InExpression =
+fun <T : ValidType> TypeExpression<T>.inArray(array: Collection<TypeExpression<T>>): InExpression<T> =
+    this.inArray(array.toArrayType())
+
+fun Number.inArray(array: Collection<TypeExpression<NumberType>>): InExpression<NumberType> =
     inArray(array.toArrayType())
 
-fun Number.inArray(array: Collection<TypeExpression<out ValidType>>): InExpression =
+fun String.inArray(array: Collection<TypeExpression<StringType>>): InExpression<StringType> =
     inArray(array.toArrayType())
 
-fun String.inArray(array: Collection<TypeExpression<out ValidType>>): InExpression =
-    inArray(array.toArrayType())
-
-fun Boolean.inArray(array: Collection<TypeExpression<out ValidType>>): InExpression =
+fun Boolean.inArray(array: Collection<TypeExpression<BooleanType>>): InExpression<BooleanType> =
     inArray(array.toArrayType())

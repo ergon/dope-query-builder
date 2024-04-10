@@ -55,7 +55,7 @@ fun Number.toNumberType(): Primitive<NumberType> = Primitive(this)
 
 fun Boolean.toBooleanType(): Primitive<BooleanType> = Primitive(this)
 
-fun Collection<TypeExpression<out ValidType>>.toArrayType(): Primitive<ArrayType<ValidType>> = Primitive(this)
+fun <T : ValidType> Collection<TypeExpression<out T>>.toArrayType(): Primitive<ArrayType<T>> = Primitive(this)
 
 private enum class PrimitiveType {
     NULL,

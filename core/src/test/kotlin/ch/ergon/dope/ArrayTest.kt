@@ -6,6 +6,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.TR
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import junit.framework.TestCase.assertEquals
@@ -155,17 +156,14 @@ class ArrayTest {
 
     @Test
     fun `should support in array`() {
-        val expected = "SELECT TRUE IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT TRUE IN [FALSE, TRUE] AS test FROM person"
 
         val actual: String = create
             .select(
                 TRUE.inArray(
                     listOf(
-                        TestBucket.Person.fname,
-                        TestBucket.Person.age,
                         FALSE,
-                        "string".toStringType(),
-                        23.toNumberType(),
+                        TRUE,
                     ).toArrayType(),
                 ).alias("test"),
             ).from(
@@ -177,17 +175,14 @@ class ArrayTest {
 
     @Test
     fun `should support in array with boolean`() {
-        val expected = "SELECT TRUE IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT TRUE IN [FALSE, TRUE] AS test FROM person"
 
         val actual: String = create
             .select(
                 true.inArray(
                     listOf(
-                        TestBucket.Person.fname,
-                        TestBucket.Person.age,
                         FALSE,
-                        "string".toStringType(),
-                        23.toNumberType(),
+                        true.toBooleanType(),
                     ).toArrayType(),
                 ).alias("test"),
             ).from(
@@ -199,17 +194,14 @@ class ArrayTest {
 
     @Test
     fun `should support in array with string`() {
-        val expected = "SELECT \"test\" IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT \"test\" IN [person.fname, \"string\"] AS test FROM person"
 
         val actual: String = create
             .select(
                 "test".inArray(
                     listOf(
                         TestBucket.Person.fname,
-                        TestBucket.Person.age,
-                        FALSE,
                         "string".toStringType(),
-                        23.toNumberType(),
                     ).toArrayType(),
                 ).alias("test"),
             ).from(
@@ -221,16 +213,12 @@ class ArrayTest {
 
     @Test
     fun `should support in array with number`() {
-        val expected = "SELECT 3 IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT 3 IN [23] AS test FROM person"
 
         val actual: String = create
             .select(
                 3.inArray(
                     listOf(
-                        TestBucket.Person.fname,
-                        TestBucket.Person.age,
-                        FALSE,
-                        "string".toStringType(),
                         23.toNumberType(),
                     ).toArrayType(),
                 ).alias("test"),
@@ -243,17 +231,14 @@ class ArrayTest {
 
     @Test
     fun `should support in array with boolean and collection`() {
-        val expected = "SELECT TRUE IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT TRUE IN [FALSE, TRUE] AS test FROM person"
 
         val actual: String = create
             .select(
                 true.inArray(
                     listOf(
-                        TestBucket.Person.fname,
-                        TestBucket.Person.age,
                         FALSE,
-                        "string".toStringType(),
-                        23.toNumberType(),
+                        true.toBooleanType(),
                     ),
                 ).alias("test"),
             ).from(
@@ -265,17 +250,14 @@ class ArrayTest {
 
     @Test
     fun `should support in array with string and collection`() {
-        val expected = "SELECT \"test\" IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT \"test\" IN [person.fname, \"string\"] AS test FROM person"
 
         val actual: String = create
             .select(
                 "test".inArray(
                     listOf(
                         TestBucket.Person.fname,
-                        TestBucket.Person.age,
-                        FALSE,
                         "string".toStringType(),
-                        23.toNumberType(),
                     ),
                 ).alias("test"),
             ).from(
@@ -287,16 +269,13 @@ class ArrayTest {
 
     @Test
     fun `should support in array with number and collection`() {
-        val expected = "SELECT 3 IN [person.fname, person.age, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT 3 IN [person.age, 23] AS test FROM person"
 
         val actual: String = create
             .select(
                 3.inArray(
                     listOf(
-                        TestBucket.Person.fname,
                         TestBucket.Person.age,
-                        FALSE,
-                        "string".toStringType(),
                         23.toNumberType(),
                     ),
                 ).alias("test"),
@@ -309,15 +288,12 @@ class ArrayTest {
 
     @Test
     fun `should support in array with field and collection`() {
-        val expected = "SELECT person.age IN [person.fname, FALSE, \"string\", 23] AS test FROM person"
+        val expected = "SELECT person.age IN [23] AS test FROM person"
 
         val actual: String = create
             .select(
                 TestBucket.Person.age.inArray(
                     listOf(
-                        TestBucket.Person.fname,
-                        FALSE,
-                        "string".toStringType(),
                         23.toNumberType(),
                     ),
                 ).alias("test"),
