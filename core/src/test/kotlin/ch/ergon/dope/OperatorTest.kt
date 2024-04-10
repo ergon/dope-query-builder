@@ -15,6 +15,7 @@ import kotlin.test.Test
 class OperatorTest {
     private lateinit var builder: StringBuilder
     private lateinit var create: DSLContext
+    private val person = someBucket("person")
 
     @BeforeTest
     fun setup() {
@@ -30,7 +31,7 @@ class OperatorTest {
             .select(
                 2.toNumberType().add(5.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -84,9 +85,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.add(5.toNumberType()),
+                someNumberField("age", person).add(5.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -98,9 +99,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                3.toNumberType().add(TestBucket.Person.age.add(5.toNumberType())),
+                3.toNumberType().add(someNumberField("age", person).add(5.toNumberType())),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -112,9 +113,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.add(5.toNumberType()).alias("something"),
+                someNumberField("age", person).add(5.toNumberType()).alias("something"),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -128,7 +129,7 @@ class OperatorTest {
             .select(
                 13.toNumberType().sub(6.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -182,9 +183,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.sub(2.toNumberType()),
+                someNumberField("age", person).sub(2.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -196,9 +197,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toNumberType().sub(TestBucket.Person.age.sub(2.toNumberType())),
+                9.toNumberType().sub(someNumberField("age", person).sub(2.toNumberType())),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -210,9 +211,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.sub(5.toNumberType()).alias("something"),
+                someNumberField("age", person).sub(5.toNumberType()).alias("something"),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -226,7 +227,7 @@ class OperatorTest {
             .select(
                 13.toNumberType().mul(6.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -280,9 +281,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.mul(2.toNumberType()),
+                someNumberField("age", person).mul(2.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -294,9 +295,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toNumberType().mul(TestBucket.Person.age.mul(2.toNumberType())),
+                9.toNumberType().mul(someNumberField("age", person).mul(2.toNumberType())),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -308,9 +309,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.mul(5.toNumberType()).alias("something"),
+                someNumberField("age", person).mul(5.toNumberType()).alias("something"),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -324,7 +325,7 @@ class OperatorTest {
             .select(
                 13.toNumberType().div(6.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -364,9 +365,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.div(2.toNumberType()),
+                someNumberField("age", person).div(2.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -378,9 +379,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toNumberType().div(TestBucket.Person.age.div(2.toNumberType())),
+                9.toNumberType().div(someNumberField("age", person).div(2.toNumberType())),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -392,9 +393,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.div(5.toNumberType()).alias("something"),
+                someNumberField("age", person).div(5.toNumberType()).alias("something"),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -408,7 +409,7 @@ class OperatorTest {
             .select(
                 13.toNumberType().mod(6.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -462,9 +463,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.mod(2.toNumberType()),
+                someNumberField("age", person).mod(2.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -476,9 +477,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toNumberType().mod(TestBucket.Person.age.mod(2.toNumberType())),
+                9.toNumberType().mod(someNumberField("age", person).mod(2.toNumberType())),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -490,9 +491,9 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                TestBucket.Person.age.mod(5.toNumberType()).alias("something"),
+                someNumberField("age", person).mod(5.toNumberType()).alias("something"),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -500,13 +501,13 @@ class OperatorTest {
 
     @Test
     fun `should support negation with a NumberField`() {
-        val expected = "SELECT -(person.age) FROM person"
+        val expected = "SELECT -(numField) FROM person"
 
         val actual: String = create
             .select(
-                neg(TestBucket.Person.age),
+                neg(someNumberField()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -514,13 +515,13 @@ class OperatorTest {
 
     @Test
     fun `should support negation on a calculation`() {
-        val expected = "SELECT -((person.age * 12)) FROM person"
+        val expected = "SELECT -((numField * 12)) FROM person"
 
         val actual: String = create
             .select(
-                neg(TestBucket.Person.age.mul(12.toNumberType())),
+                neg(someNumberField().mul(12.toNumberType())),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -528,13 +529,13 @@ class OperatorTest {
 
     @Test
     fun `should support negation with different calculation`() {
-        val expected = "SELECT (-(person.age) + 6) FROM person"
+        val expected = "SELECT (-(numField) + 6) FROM person"
 
         val actual: String = create
             .select(
-                neg(TestBucket.Person.age).add(6.toNumberType()),
+                neg(someNumberField()).add(6.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -542,15 +543,15 @@ class OperatorTest {
 
     @Test
     fun `should support negation with calculations`() {
-        val expected = "SELECT (12 + (-(route.stops) % ((12 * -((route.id - -(12)))) + 6))) AS calculation FROM route"
+        val expected = "SELECT (12 + (-(numField) % ((12 * -((numField - -(12)))) + 6))) AS calculation FROM person"
 
         val actual: String = create
             .select(
                 12.toNumberType().add(
-                    neg(TestBucket.Route.stops).mod(
+                    neg(someNumberField()).mod(
                         12.toNumberType().mul(
                             neg(
-                                TestBucket.Route.id.sub(
+                                someNumberField().sub(
                                     neg(12.toNumberType()),
                                 ),
                             ),
@@ -560,7 +561,7 @@ class OperatorTest {
                     ),
                 ).alias("calculation"),
             ).from(
-                TestBucket.Route,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -582,7 +583,7 @@ class OperatorTest {
                     ),
                 ).alias("calculation"),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -596,7 +597,7 @@ class OperatorTest {
             .select(
                 neg(6.toNumberType()),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)

@@ -69,11 +69,11 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Positional Parameters`() {
-        val expected = "SELECT * FROM airline WHERE airline.country = $1"
+        val expected = "SELECT * FROM someBucket WHERE country = $1"
 
         val actual: String =
-            create.selectFrom(TestBucket.Airline)
-                .where(TestBucket.Airline.country.isEqualTo("UnitedStates".toStringType().asParameter())).build()
+            create.selectFrom(someBucket())
+                .where(someStringField("country").isEqualTo("UnitedStates".toStringType().asParameter())).build()
         assertEquals(unifyString(expected), actual)
     }
 

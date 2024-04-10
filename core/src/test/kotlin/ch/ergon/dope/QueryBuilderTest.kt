@@ -31,12 +31,12 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String`() {
-        val expected = "SELECT customer.firstname\n" + "FROM customer"
+        val expected = "SELECT strField\n" + "FROM someBucket"
 
         val actual = create.select(
-            TestBucket.Customer.firstName,
+            someStringField(),
         ).from(
-            TestBucket.Customer,
+            someBucket(),
         ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -44,14 +44,14 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String 2`() {
-        val expected = "SELECT *\n" + "  FROM person\n" + "    WHERE person.fname = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).where(
-                TestBucket.Person.fname.isEqualTo("Ian".toStringType()),
+                someStringField().isEqualTo("Ian".toStringType()),
             ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -59,12 +59,12 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where`() {
-        val expected = "SELECT *\n" + "  FROM person\n" + "    WHERE person.fname = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
 
         val actual: String = create.selectFrom(
-            TestBucket.Person,
+            someBucket(),
         ).where(
-            TestBucket.Person.fname.isEqualTo("Ian".toStringType()),
+            someStringField().isEqualTo("Ian".toStringType()),
         ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -72,14 +72,14 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String 3`() {
-        val expected = "SELECT *\n" + "  FROM person\n" + "    WHERE person.fname = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).where(
-                TestBucket.Person.fname.isEqualTo("Ian".toStringType()),
+                someStringField().isEqualTo("Ian".toStringType()),
             ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -87,15 +87,15 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Select Distinct`() {
-        val expected = "SELECT DISTINCT person.fname, person.lname\n" + "  FROM person\n" + "    WHERE person.fname = \"Ian\"\n"
+        val expected = "SELECT DISTINCT strField, numField\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
 
         val actual: String = create.selectDistinct(
-            TestBucket.Person.fname,
-            TestBucket.Person.lname,
+            someStringField(),
+            someNumberField(),
         ).from(
-            TestBucket.Person,
+            someBucket(),
         ).where(
-            TestBucket.Person.fname.isEqualTo("Ian".toStringType()),
+            someStringField().isEqualTo("Ian".toStringType()),
         ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -103,14 +103,14 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias`() {
-        val expected = "SELECT person.fname AS firstName\n" + "  FROM person\n" + "    WHERE person.fname = \"Peter\""
+        val expected = "SELECT strField AS firstName\n" + "  FROM someBucket\n" + "    WHERE strField = \"Peter\""
 
         val actual: String = create.select(
-            TestBucket.Person.fname.alias("firstName"),
+            someStringField().alias("firstName"),
         ).from(
-            TestBucket.Person,
+            someBucket(),
         ).where(
-            TestBucket.Person.fname.isEqualTo("Peter".toStringType()),
+            someStringField().isEqualTo("Peter".toStringType()),
         ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -118,13 +118,13 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In First`() {
-        val expected = "SELECT person.fname AS FirstName, person.lname\n" + "    FROM person\n" + "       WHERE person.lname = \"Jackson\""
+        val expected = "SELECT strField AS FirstName, strField\n" + "    FROM someBucket\n" + "       WHERE strField = \"Jackson\""
 
         val actual: String = create.select(
-            TestBucket.Person.fname.alias("FirstName"),
-            TestBucket.Person.lname,
-        ).from(TestBucket.Person).where(
-            TestBucket.Person.lname.isEqualTo("Jackson".toStringType()),
+            someStringField().alias("FirstName"),
+            someStringField(),
+        ).from(someBucket()).where(
+            someStringField().isEqualTo("Jackson".toStringType()),
         ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -132,13 +132,13 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In Last`() {
-        val expected = "SELECT person.fname, person.lname AS LastName\n" + "    FROM person\n" + "       WHERE person.lname = \"Jackson\""
+        val expected = "SELECT strField, strField AS LastName\n" + "    FROM someBucket\n" + "       WHERE strField = \"Jackson\""
 
         val actual: String = create.select(
-            TestBucket.Person.fname,
-            TestBucket.Person.lname.alias("LastName"),
-        ).from(TestBucket.Person).where(
-            TestBucket.Person.lname.isEqualTo("Jackson".toStringType()),
+            someStringField(),
+            someStringField().alias("LastName"),
+        ).from(someBucket()).where(
+            someStringField().isEqualTo("Jackson".toStringType()),
         ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -146,14 +146,14 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Simple Condition`() {
-        val expected = "SELECT * FROM person WHERE person.age < 50"
+        val expected = "SELECT * FROM someBucket WHERE numField < 50"
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).where(
-                TestBucket.Person.age.isLessThan(50.toNumberType()),
+                someNumberField().isLessThan(50.toNumberType()),
             ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -161,15 +161,15 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions`() {
-        val expected = "SELECT * FROM person WHERE person.age < 50 AND person.title = \"Mr.\""
+        val expected = "SELECT * FROM someBucket WHERE numField < 50 AND strField = \"Mr.\""
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).where(
-                TestBucket.Person.age.isLessThan(50.toNumberType()).and(
-                    TestBucket.Person.title.isEqualTo("Mr.".toStringType()),
+                someNumberField().isLessThan(50.toNumberType()).and(
+                    someStringField().isEqualTo("Mr.".toStringType()),
                 ),
             ).build()
 
@@ -178,17 +178,17 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions And Expressions`() {
-        val expected = "SELECT * FROM person WHERE person.age < 50 AND person.title = \"Mr.\""
+        val expected = "SELECT * FROM someBucket WHERE numField < 50 AND strField = \"Mr.\""
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).where(
-                TestBucket.Person.age.isLessThan(
+                someNumberField().isLessThan(
                     (45 + 5).toNumberType(),
                 ).and(
-                    TestBucket.Person.title.isEqualTo(
+                    someStringField().isEqualTo(
                         ("M" + "r.").toStringType(),
                     ),
                 ),
@@ -198,24 +198,285 @@ class QueryBuilderTest {
     }
 
     @Test
+    fun `should support is not equal to with number`() {
+        val expected = "SELECT * FROM someBucket WHERE 12 != 5"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                12.toNumberType().isNotEqualTo(5.toNumberType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is not equal to with numberField and number`() {
+        val expected = "SELECT * FROM someBucket WHERE numField != 5"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                someNumberField().isNotEqualTo(5.toNumberType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is not equal to with number and numberField`() {
+        val expected = "SELECT * FROM someBucket WHERE 3 != numField"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                3.toNumberType().isNotEqualTo(someNumberField()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is not equal to with string`() {
+        val expected = "SELECT * FROM someBucket WHERE \"test\" != \"hallo\""
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                "test".toStringType().isNotEqualTo("hallo".toStringType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is not equal to with stringField and string`() {
+        val expected = "SELECT * FROM someBucket WHERE strField != \"5\""
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                someStringField().isNotEqualTo("5".toStringType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is greater or equal to with number`() {
+        val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is greater or equal to with numberField and number`() {
+        val expected = "SELECT * FROM someBucket WHERE numField >= 5"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                someNumberField().isGreaterOrEqualThan(5.toNumberType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is greater or equal to with number and numberField`() {
+        val expected = "SELECT * FROM someBucket WHERE 3 >= numField"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                3.toNumberType().isGreaterOrEqualThan(someNumberField()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is greater or equal to with string`() {
+        val expected = "SELECT * FROM someBucket WHERE \"test\" >= \"hallo\""
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is greater or equal to with stringField and string`() {
+        val expected = "SELECT * FROM someBucket WHERE strField >= \"5\""
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                someStringField().isGreaterOrEqualThan("5".toStringType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is greater or equal to with boolean and stringField`() {
+        val expected = "SELECT * FROM someBucket WHERE \"test\" >= strField"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                "test".toStringType().isGreaterOrEqualThan(someStringField()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is Less or equal to with number`() {
+        val expected = "SELECT * FROM someBucket WHERE 12 <= 5"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                12.toNumberType().isLessOrEqualThan(5.toNumberType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is Less or equal to with numberField and number`() {
+        val expected = "SELECT * FROM someBucket WHERE numField <= 5"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                someNumberField().isLessOrEqualThan(5.toNumberType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is Less or equal to with number and numberField`() {
+        val expected = "SELECT * FROM someBucket WHERE 3 <= numField"
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                3.toNumberType().isLessOrEqualThan(someNumberField()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is Less or equal to with string`() {
+        val expected = "SELECT * FROM someBucket WHERE \"test\" <= \"hallo\""
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is Less or equal to with stringField and string`() {
+        val expected = "SELECT * FROM someBucket WHERE strField <= \"5\""
+
+        val actual: String = create
+            .selectAll()
+            .from(someBucket())
+            .where(
+                someStringField().isLessOrEqualThan("5".toStringType()),
+            ).build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should Support Where With Many Chained Conditions`() {
-        val expected = "SELECT * FROM person WHERE person.age < 50 AND person.title = \"Mr.\" AND person.relation = \"friend\""
+        val expected = "SELECT * FROM someBucket WHERE numField < 50 AND strField = \"Mr.\" AND strField = \"friend\""
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).where(
-                TestBucket.Person.age.isLessThan(
+                someNumberField().isLessThan(
                     (45 + 5).toNumberType(),
                 ).and(
-                    TestBucket.Person.title.isEqualTo(
+                    someStringField().isEqualTo(
                         "Mr.".toStringType(),
                     ).and(
-                        TestBucket.Person.relation.isEqualTo("friend".toStringType()),
+                        someStringField().isEqualTo("friend".toStringType()),
                     ),
                 ),
             ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support Where With Like`() {
+        val expected = "SELECT strField FROM someBucket WHERE email LIKE \"%@yahoo.com\""
+
+        val actual: String = create.select(
+            someStringField(),
+        ).from(
+            someBucket(),
+        ).where(
+            someStringField("email").isLike(
+                "%@yahoo.com".toStringType(),
+            ),
+        ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support Where With Like Chained`() {
+        val expected = "SELECT strField, numField FROM someBucket WHERE email LIKE \"%@gmail.com\" AND numField = 46"
+
+        val actual: String = create.select(
+            someStringField(),
+            someNumberField(),
+        ).from(
+            someBucket(),
+        ).where(
+            someStringField("email").isLike(
+                "%@gmail.com".toStringType(),
+            ).and(
+                someNumberField().isEqualTo(46.toNumberType()),
+            ),
+        ).build()
 
         assertEquals(unifyString(expected), actual)
     }
@@ -244,7 +505,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Long Complex Query`() {
-        val expected = "SELECT 1 = 1 AND 2 = 2 AND 3 = 3 AS what FROM airline WHERE 1 = 1 AND \"run\" = \"run\""
+        val expected = "SELECT 1 = 1 AND 2 = 2 AND 3 = 3 AS what FROM someBucket WHERE 1 = 1 AND \"run\" = \"run\""
 
         val actual: String = create.select(
             1.toNumberType().isEqualTo(
@@ -259,7 +520,7 @@ class QueryBuilderTest {
                 ),
             ).alias("what"),
         ).from(
-            TestBucket.Airline,
+            someBucket(),
         ).where(
             1.toNumberType().isEqualTo(
                 1.toNumberType(),
@@ -471,12 +732,12 @@ class QueryBuilderTest {
 
     @Test
     fun `should support select raw with field`() {
-        val expected = "SELECT RAW customer.firstname FROM customer"
+        val expected = "SELECT RAW name FROM someBucket"
 
         val actual = create.selectRaw(
-            TestBucket.Customer.firstName,
+            someStringField("name"),
         ).from(
-            TestBucket.Customer,
+            someBucket(),
         ).build()
 
         assertEquals(expected, actual)

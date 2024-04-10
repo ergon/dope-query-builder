@@ -12,6 +12,7 @@ import kotlin.test.Test
 class NumberFunctionsTest {
     private lateinit var builder: StringBuilder
     private lateinit var create: DSLContext
+    private val person = someBucket("person")
 
     @BeforeTest
     fun setup() {
@@ -33,14 +34,14 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support min with a ValidType`() {
-        val expected = "SELECT MIN(person.age), MIN(person.fname) FROM person"
+        val expected = "SELECT MIN(numField), MIN(person.fname) FROM person"
 
         val actual: String = create
             .select(
-                min(TestBucket.Person.age),
-                min(TestBucket.Person.fname),
+                min(someNumberField()),
+                min(someStringField("fname", person)),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -54,7 +55,7 @@ class NumberFunctionsTest {
             .select(
                 countAll(),
             ).from(
-                TestBucket.Person,
+                person,
             ).build()
 
         assertEquals(expected, actual)
@@ -62,13 +63,13 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support count with a Field`() {
-        val expected = "SELECT COUNT(route.id) FROM route"
+        val expected = "SELECT COUNT(numField) FROM person"
 
         val actual: String = create
             .select(
-                count(TestBucket.Route.id),
+                count(someNumberField()),
             ).from(
-                TestBucket.Route,
+                person,
             ).build()
 
         assertEquals(expected, actual)
