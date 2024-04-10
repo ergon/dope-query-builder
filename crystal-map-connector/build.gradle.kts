@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "1.9.22"
 }
 
 group = "ch.ergon"
@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.17.0")
+    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.18.0")
     implementation(kotlin("reflect"))
     implementation(project(":core"))
 

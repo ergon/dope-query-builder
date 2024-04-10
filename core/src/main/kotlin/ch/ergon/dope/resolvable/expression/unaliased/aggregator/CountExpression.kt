@@ -6,8 +6,8 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class CountExpression(
-    private val field: Field<out ValidType>
-): AggregateExpression {
+    private val field: Field<out ValidType>,
+) : AggregateExpression {
     override fun toQueryString(): String = formatToQueryStringWithBrackets("COUNT", field)
 }
 

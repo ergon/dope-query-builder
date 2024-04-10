@@ -11,10 +11,10 @@ pluginManagement {
 
 rootProject.name = "dope-query-builder"
 
-include("core", "crystal-map-connector", "crystal-map-processor", "crystal-map-api")
+include("core", "crystal-map-connector", "crystal-map-api")
 
-includeBuild("../crystal-map") {
-    dependencySubstitution {
-        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-api")).using(project(":crystal-map-api"))
-    }
-}
+//includeBuild("../crystal-map") {
+//    dependencySubstitution {
+//        substitute(module("com.github.SchwarzIT.crystal-map:crystal-map-api")).using(project(":crystal-map-api"))
+//    }
+//}

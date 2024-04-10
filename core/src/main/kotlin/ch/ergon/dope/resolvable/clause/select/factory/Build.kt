@@ -1,11 +1,11 @@
 package ch.ergon.dope.resolvable.clause.select.factory
 
 import ch.ergon.dope.resolvable.clause.Clause
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterCounter
+import ch.ergon.dope.resolvable.expression.unaliased.type.resetCounter
 
 open class Build(val clauses: List<Clause>) {
     fun build(): String {
-        ParameterCounter.resetCounter()
+        resetCounter()
 
         val clausesStringList = clauses.map { it.toQueryString() }
 

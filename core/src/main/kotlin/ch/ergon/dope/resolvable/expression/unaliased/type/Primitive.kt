@@ -28,7 +28,7 @@ class Primitive<T : ValidType> : TypeExpression<T> {
         }
     }
 
-    constructor(collection: List<TypeExpression<out ValidType>>) {
+    constructor(collection: Collection<TypeExpression<out ValidType>>) {
         this.queryString = collection.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.toQueryString() }
     }
 
@@ -55,7 +55,7 @@ fun Number.toNumberType(): Primitive<NumberType> = Primitive(this)
 
 fun Boolean.toBooleanType(): Primitive<BooleanType> = Primitive(this)
 
-fun List<TypeExpression<out ValidType>>.toArrayType(): Primitive<ArrayType<ValidType>> = Primitive(this)
+fun <T : ValidType> Collection<TypeExpression<out T>>.toArrayType(): Primitive<ArrayType<T>> = Primitive(this)
 
 private enum class PrimitiveType {
     NULL,
