@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.ergon"
-version = "0.0.4"
+version = findProperty("projectVersion")?.toString() ?: "unknown-version"
 
 publishing {
     publications {
