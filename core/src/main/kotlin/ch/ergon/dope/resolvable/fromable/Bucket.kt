@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.resolvable.clause.select.Fromable
+import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.StringType
 
@@ -17,3 +18,11 @@ class AliasedBucket(name: String, val alias: String) : Bucket(name) {
 }
 
 fun AliasedBucket.field(field: String): Field<StringType> = Field(field, alias)
+
+fun Bucket.all(): Expression = Field<StringType>(
+    "*",
+    when (this) {
+        is AliasedBucket -> alias
+        else -> name
+    },
+)

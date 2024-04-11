@@ -15,6 +15,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.fromable.AliasedBucket
+import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.fromable.all
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -488,6 +491,32 @@ class QueryBuilderTest {
         val expected = "TRUE"
 
         val actual = (getSomething() == "something").toBooleanType().toQueryString()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support selecting all Fields from bucket`() {
+        val someBucket = UnaliasedBucket("someBucket")
+        val expected = "SELECT someBucket.* FROM someBucket"
+
+        val actual = create
+            .select(someBucket.all())
+            .from(someBucket)
+            .build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support selecting all Fields from aliased bucket`() {
+        val someBucket = AliasedBucket("someBucket", "alias")
+        val expected = "SELECT alias.* FROM someBucket AS alias"
+
+        val actual = create
+            .select(someBucket.all())
+            .from(someBucket)
+            .build()
 
         assertEquals(expected, actual)
     }
