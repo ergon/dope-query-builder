@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "1.9.22"
-    application
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
     `maven-publish`
 }
@@ -55,8 +54,4 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-}
-
-application {
-    mainClass.set("MainKt")
 }
