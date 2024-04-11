@@ -11,5 +11,6 @@ open class OrderBy(clauses: List<Clause>) : Limit(clauses) {
 }
 
 enum class OrderByType(val type: String) {
-    ASC("ASC"), DESC("DESC")
+    ASC("ASC"),
+    DESC("DESC")
 }

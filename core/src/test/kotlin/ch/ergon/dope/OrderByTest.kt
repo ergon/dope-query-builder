@@ -6,12 +6,10 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class OrderByTest {
-    private lateinit var builder: StringBuilder
     private lateinit var create: DSLContext
 
     @BeforeTest
     fun setup() {
-        builder = StringBuilder()
         create = DSLContext()
     }
 
@@ -19,12 +17,12 @@ class OrderByTest {
     fun `should add an Order By clause to the end`() {
         val expected = "SELECT * FROM person ORDER BY person.fname"
 
-        val actual : String = create
+        val actual: String = create
             .selectAll()
             .from(
                 TestBucket.Person,
             ).orderBy(
-                TestBucket.Person.fname
+                TestBucket.Person.fname,
             ).build()
 
         assertEquals(expected, actual)
@@ -34,13 +32,13 @@ class OrderByTest {
     fun `should add an Order By Ascending clause`() {
         val expected = "SELECT * FROM person ORDER BY person.fname ASC"
 
-        val actual : String = create
+        val actual: String = create
             .selectAll()
             .from(
                 TestBucket.Person,
             ).orderBy(
                 TestBucket.Person.fname,
-                OrderByType.ASC
+                OrderByType.ASC,
             ).build()
 
         assertEquals(expected, actual)
@@ -50,13 +48,13 @@ class OrderByTest {
     fun `should add an Order By Descending clause`() {
         val expected = "SELECT * FROM person ORDER BY person.fname DESC"
 
-        val actual : String = create
+        val actual: String = create
             .selectAll()
             .from(
                 TestBucket.Person,
             ).orderBy(
                 TestBucket.Person.fname,
-                OrderByType.DESC
+                OrderByType.DESC,
             ).build()
 
         assertEquals(expected, actual)

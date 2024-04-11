@@ -50,7 +50,7 @@ class ClauseBuilder(private val clauses: List<Clause>) {
 
     fun orderBy(stringField: Field<StringType>): Limit = Limit(addClause(OrderByClause(stringField)))
 
-    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) : Limit =
+    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType): Limit =
         Limit(addClause(OrderByTypeClause(stringField, orderByType)))
 
     fun limit(numberExpression: TypeExpression<NumberType>): Offset = Offset(addClause(LimitClause(numberExpression)))
