@@ -22,8 +22,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -765,7 +763,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support selecting all Fields from bucket`() {
-        val someBucket = UnaliasedBucket("someBucket")
+        val someBucket = someBucket()
         val expected = "SELECT someBucket.* FROM someBucket"
 
         val actual = create
@@ -778,7 +776,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support selecting all Fields from aliased bucket`() {
-        val someBucket = AliasedBucket("someBucket", "alias")
+        val someBucket = someBucket().alias("alias")
         val expected = "SELECT alias.* FROM someBucket AS alias"
 
         val actual = create
