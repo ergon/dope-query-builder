@@ -1,5 +1,7 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
@@ -67,14 +69,14 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Mixed Concat`() {
-        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", person.fname) AS concat"
+        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", stringField) AS concat"
 
         val actual: String = create.select(
             concat(
                 "abc".toStringType(),
                 "def".toStringType(),
                 "ghi".toStringType(),
-                TestBucket.Person.fname,
+                someStringField(),
             ).alias(
                 "concat",
             ),
@@ -763,18 +765,18 @@ class StringFunctionsTest {
 
     @Test
     fun `should support string functions in where clause`() {
-        val expected = "SELECT * FROM customer WHERE CONTAINS(customer.firstname, \"123\")"
+        val expected = "SELECT * FROM someBucket WHERE CONTAINS(stringField, \"123\")"
 
-        val actual: String = create.selectFrom(TestBucket.Customer).where(contains(TestBucket.Customer.firstName, "123")).build()
+        val actual: String = create.selectFrom(someBucket()).where(contains(someStringField(), "123")).build()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support string functions with conditions in where clause`() {
-        val expected = "SELECT * FROM customer WHERE UPPER(customer.firstname) = \"VENDOLIN\""
+        val expected = "SELECT * FROM someBucket WHERE UPPER(stringField) = \"VENDOLIN\""
         val actual: String =
-            create.selectFrom(TestBucket.Customer).where(upper(TestBucket.Customer.firstName).isEqualTo("VENDOLIN".toStringType())).build()
+            create.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toStringType())).build()
 
         assertEquals(expected, actual)
     }

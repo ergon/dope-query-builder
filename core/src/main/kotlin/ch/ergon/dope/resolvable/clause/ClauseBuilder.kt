@@ -6,6 +6,7 @@ import ch.ergon.dope.resolvable.clause.select.GroupByClause
 import ch.ergon.dope.resolvable.clause.select.LimitClause
 import ch.ergon.dope.resolvable.clause.select.OffsetClause
 import ch.ergon.dope.resolvable.clause.select.OrderByClause
+import ch.ergon.dope.resolvable.clause.select.OrderByTypeClause
 import ch.ergon.dope.resolvable.clause.select.SelectClause
 import ch.ergon.dope.resolvable.clause.select.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.select.SelectRawClause
@@ -16,6 +17,7 @@ import ch.ergon.dope.resolvable.clause.select.factory.GroupBy
 import ch.ergon.dope.resolvable.clause.select.factory.Limit
 import ch.ergon.dope.resolvable.clause.select.factory.Offset
 import ch.ergon.dope.resolvable.clause.select.factory.OrderBy
+import ch.ergon.dope.resolvable.clause.select.factory.OrderByType
 import ch.ergon.dope.resolvable.clause.select.factory.Where
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -47,6 +49,9 @@ class ClauseBuilder(private val clauses: List<Clause>) {
     fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>): OrderBy = OrderBy(addClause(GroupByClause(field, *fields)))
 
     fun orderBy(stringField: Field<StringType>): Limit = Limit(addClause(OrderByClause(stringField)))
+
+    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType): Limit =
+        Limit(addClause(OrderByTypeClause(stringField, orderByType)))
 
     fun limit(numberExpression: TypeExpression<NumberType>): Offset = Offset(addClause(LimitClause(numberExpression)))
 

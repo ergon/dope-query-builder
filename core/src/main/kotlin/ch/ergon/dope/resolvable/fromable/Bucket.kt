@@ -17,8 +17,6 @@ class AliasedBucket(name: String, val alias: String) : Bucket(name) {
     override fun toQueryString(): String = "$name AS $alias"
 }
 
-fun AliasedBucket.field(field: String): Field<StringType> = Field(field, alias)
-
 fun Bucket.all(): Expression = Field<StringType>(
     "*",
     when (this) {
