@@ -35,7 +35,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String`() {
-        val expected = "SELECT strField\n" + "FROM someBucket"
+        val expected = "SELECT stringField\n" + "FROM someBucket"
 
         val actual = create.select(
             someStringField(),
@@ -48,7 +48,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String 2`() {
-        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
 
         val actual: String = create
             .selectAll()
@@ -63,7 +63,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where`() {
-        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
 
         val actual: String = create.selectFrom(
             someBucket(),
@@ -76,7 +76,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String 3`() {
-        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
 
         val actual: String = create
             .selectAll()
@@ -91,7 +91,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Select Distinct`() {
-        val expected = "SELECT DISTINCT strField, numField\n" + "  FROM someBucket\n" + "    WHERE strField = \"Ian\"\n"
+        val expected = "SELECT DISTINCT stringField, numberField\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
 
         val actual: String = create.selectDistinct(
             someStringField(),
@@ -107,7 +107,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias`() {
-        val expected = "SELECT strField AS firstName\n" + "  FROM someBucket\n" + "    WHERE strField = \"Peter\""
+        val expected = "SELECT stringField AS firstName\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Peter\""
 
         val actual: String = create.select(
             someStringField().alias("firstName"),
@@ -122,7 +122,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In First`() {
-        val expected = "SELECT strField AS FirstName, strField\n" + "    FROM someBucket\n" + "       WHERE strField = \"Jackson\""
+        val expected = "SELECT stringField AS FirstName, stringField\n" + "    FROM someBucket\n" + "       WHERE stringField = \"Jackson\""
 
         val actual: String = create.select(
             someStringField().alias("FirstName"),
@@ -136,7 +136,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In Last`() {
-        val expected = "SELECT strField, strField AS LastName\n" + "    FROM someBucket\n" + "       WHERE strField = \"Jackson\""
+        val expected = "SELECT stringField, stringField AS LastName\n" + "    FROM someBucket\n" + "       WHERE stringField = \"Jackson\""
 
         val actual: String = create.select(
             someStringField(),
@@ -150,7 +150,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Simple Condition`() {
-        val expected = "SELECT * FROM someBucket WHERE numField < 50"
+        val expected = "SELECT * FROM someBucket WHERE numberField < 50"
 
         val actual: String = create
             .selectAll()
@@ -165,7 +165,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions`() {
-        val expected = "SELECT * FROM someBucket WHERE numField < 50 AND strField = \"Mr.\""
+        val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\""
 
         val actual: String = create
             .selectAll()
@@ -182,7 +182,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions And Expressions`() {
-        val expected = "SELECT * FROM someBucket WHERE numField < 50 AND strField = \"Mr.\""
+        val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\""
 
         val actual: String = create
             .selectAll()
@@ -217,7 +217,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numField != 5"
+        val expected = "SELECT * FROM someBucket WHERE numberField != 5"
 
         val actual: String = create
             .selectAll()
@@ -231,7 +231,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 != numField"
+        val expected = "SELECT * FROM someBucket WHERE 3 != numberField"
 
         val actual: String = create
             .selectAll()
@@ -259,7 +259,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE strField != \"5\""
+        val expected = "SELECT * FROM someBucket WHERE stringField != \"5\""
 
         val actual: String = create
             .selectAll()
@@ -287,7 +287,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numField >= 5"
+        val expected = "SELECT * FROM someBucket WHERE numberField >= 5"
 
         val actual: String = create
             .selectAll()
@@ -301,7 +301,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 >= numField"
+        val expected = "SELECT * FROM someBucket WHERE 3 >= numberField"
 
         val actual: String = create
             .selectAll()
@@ -329,7 +329,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE strField >= \"5\""
+        val expected = "SELECT * FROM someBucket WHERE stringField >= \"5\""
 
         val actual: String = create
             .selectAll()
@@ -343,7 +343,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with boolean and stringField`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" >= strField"
+        val expected = "SELECT * FROM someBucket WHERE \"test\" >= stringField"
 
         val actual: String = create
             .selectAll()
@@ -371,7 +371,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numField <= 5"
+        val expected = "SELECT * FROM someBucket WHERE numberField <= 5"
 
         val actual: String = create
             .selectAll()
@@ -385,7 +385,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 <= numField"
+        val expected = "SELECT * FROM someBucket WHERE 3 <= numberField"
 
         val actual: String = create
             .selectAll()
@@ -413,7 +413,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE strField <= \"5\""
+        val expected = "SELECT * FROM someBucket WHERE stringField <= \"5\""
 
         val actual: String = create
             .selectAll()
@@ -427,7 +427,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Many Chained Conditions`() {
-        val expected = "SELECT * FROM someBucket WHERE numField < 50 AND strField = \"Mr.\" AND strField = \"friend\""
+        val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\" AND stringField = \"friend\""
 
         val actual: String = create
             .selectAll()
@@ -450,7 +450,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Like`() {
-        val expected = "SELECT strField FROM someBucket WHERE email LIKE \"%@yahoo.com\""
+        val expected = "SELECT stringField FROM someBucket WHERE email LIKE \"%@yahoo.com\""
 
         val actual: String = create.select(
             someStringField(),
@@ -467,7 +467,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Like Chained`() {
-        val expected = "SELECT strField, numField FROM someBucket WHERE email LIKE \"%@gmail.com\" AND numField = 46"
+        val expected = "SELECT stringField, numberField FROM someBucket WHERE email LIKE \"%@gmail.com\" AND numberField = 46"
 
         val actual: String = create.select(
             someStringField(),

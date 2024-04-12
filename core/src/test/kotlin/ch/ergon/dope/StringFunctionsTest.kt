@@ -67,7 +67,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Mixed Concat`() {
-        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", strField) AS concat"
+        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", stringField) AS concat"
 
         val actual: String = create.select(
             concat(
@@ -763,7 +763,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should support string functions in where clause`() {
-        val expected = "SELECT * FROM someBucket WHERE CONTAINS(strField, \"123\")"
+        val expected = "SELECT * FROM someBucket WHERE CONTAINS(stringField, \"123\")"
 
         val actual: String = create.selectFrom(someBucket()).where(contains(someStringField(), "123")).build()
 
@@ -772,7 +772,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should support string functions with conditions in where clause`() {
-        val expected = "SELECT * FROM someBucket WHERE UPPER(strField) = \"VENDOLIN\""
+        val expected = "SELECT * FROM someBucket WHERE UPPER(stringField) = \"VENDOLIN\""
         val actual: String =
             create.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toStringType())).build()
 

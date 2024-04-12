@@ -15,7 +15,7 @@ class OrderByTest {
 
     @Test
     fun `should add an Order By clause to the end`() {
-        val expected = "SELECT * FROM someBucket ORDER BY strField"
+        val expected = "SELECT * FROM someBucket ORDER BY stringField"
 
         val actual: String = create
             .selectAll()
@@ -30,7 +30,7 @@ class OrderByTest {
 
     @Test
     fun `should add an Order By Ascending clause`() {
-        val expected = "SELECT * FROM someBucket ORDER BY strField ASC"
+        val expected = "SELECT * FROM someBucket ORDER BY stringField ASC"
 
         val actual: String = create
             .selectAll()
@@ -46,7 +46,7 @@ class OrderByTest {
 
     @Test
     fun `should add an Order By Descending clause`() {
-        val expected = "SELECT * FROM someBucket ORDER BY strField DESC"
+        val expected = "SELECT * FROM someBucket ORDER BY stringField DESC"
 
         val actual: String = create
             .selectAll()

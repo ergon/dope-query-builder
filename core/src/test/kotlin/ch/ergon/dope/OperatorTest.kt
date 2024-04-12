@@ -53,7 +53,7 @@ class OperatorTest {
 
     @Test
     fun `should support adding a number with a numberType`() {
-        val expected = "SELECT (2 + numField) FROM someBucket"
+        val expected = "SELECT (2 + numberField) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -67,7 +67,7 @@ class OperatorTest {
 
     @Test
     fun `should support adding a number type with a number`() {
-        val expected = "SELECT (numField + 2) FROM someBucket"
+        val expected = "SELECT (numberField + 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -81,7 +81,7 @@ class OperatorTest {
 
     @Test
     fun `should support adding a NumberField and a number`() {
-        val expected = "SELECT (numField + 5) FROM someBucket"
+        val expected = "SELECT (numberField + 5) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -95,7 +95,7 @@ class OperatorTest {
 
     @Test
     fun `should support nested additions`() {
-        val expected = "SELECT (3 + (numField + 5)) FROM someBucket"
+        val expected = "SELECT (3 + (numberField + 5)) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -109,7 +109,7 @@ class OperatorTest {
 
     @Test
     fun `should support alias on addition`() {
-        val expected = "SELECT (numField + 5) AS something FROM someBucket"
+        val expected = "SELECT (numberField + 5) AS something FROM someBucket"
 
         val actual: String = create
             .select(
@@ -151,7 +151,7 @@ class OperatorTest {
 
     @Test
     fun `should support subtracting a number with a numberType`() {
-        val expected = "SELECT (6 - numField) FROM someBucket"
+        val expected = "SELECT (6 - numberField) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -165,7 +165,7 @@ class OperatorTest {
 
     @Test
     fun `should support subtracting a number type with a number`() {
-        val expected = "SELECT (numField - 11) FROM someBucket"
+        val expected = "SELECT (numberField - 11) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -179,7 +179,7 @@ class OperatorTest {
 
     @Test
     fun `should support subtracting a NumberField and a number`() {
-        val expected = "SELECT (numField - 2) FROM someBucket"
+        val expected = "SELECT (numberField - 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -193,7 +193,7 @@ class OperatorTest {
 
     @Test
     fun `should support nested subtracting`() {
-        val expected = "SELECT (9 - (numField - 2)) FROM someBucket"
+        val expected = "SELECT (9 - (numberField - 2)) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -207,7 +207,7 @@ class OperatorTest {
 
     @Test
     fun `should support alias on subtraction`() {
-        val expected = "SELECT (numField - 5) AS something FROM someBucket"
+        val expected = "SELECT (numberField - 5) AS something FROM someBucket"
 
         val actual: String = create
             .select(
@@ -249,7 +249,7 @@ class OperatorTest {
 
     @Test
     fun `should support multiplying a number with a numberType`() {
-        val expected = "SELECT (4 * numField) FROM someBucket"
+        val expected = "SELECT (4 * numberField) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -263,7 +263,7 @@ class OperatorTest {
 
     @Test
     fun `should support multiplying a number type with a number`() {
-        val expected = "SELECT (numField * 7) FROM someBucket"
+        val expected = "SELECT (numberField * 7) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -277,7 +277,7 @@ class OperatorTest {
 
     @Test
     fun `should support multiplying a NumberField and a number`() {
-        val expected = "SELECT (numField * 2) FROM someBucket"
+        val expected = "SELECT (numberField * 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -291,7 +291,7 @@ class OperatorTest {
 
     @Test
     fun `should support nested multiplying`() {
-        val expected = "SELECT (9 * (numField * 2)) FROM someBucket"
+        val expected = "SELECT (9 * (numberField * 2)) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -305,7 +305,7 @@ class OperatorTest {
 
     @Test
     fun `should support alias on multiplication`() {
-        val expected = "SELECT (numField * 5) AS something FROM someBucket"
+        val expected = "SELECT (numberField * 5) AS something FROM someBucket"
 
         val actual: String = create
             .select(
@@ -333,7 +333,7 @@ class OperatorTest {
 
     @Test
     fun `should support dividing a number with a numberType`() {
-        val expected = "SELECT (14 / numField) FROM someBucket"
+        val expected = "SELECT (14 / numberField) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -347,7 +347,7 @@ class OperatorTest {
 
     @Test
     fun `should support dividing a number type with a number`() {
-        val expected = "SELECT (numField / 2) FROM someBucket"
+        val expected = "SELECT (numberField / 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -361,7 +361,7 @@ class OperatorTest {
 
     @Test
     fun `should support dividing a NumberField and a number`() {
-        val expected = "SELECT (numField / 2) FROM someBucket"
+        val expected = "SELECT (numberField / 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -375,7 +375,7 @@ class OperatorTest {
 
     @Test
     fun `should support nested dividing`() {
-        val expected = "SELECT (9 / (numField / 2)) FROM someBucket"
+        val expected = "SELECT (9 / (numberField / 2)) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -389,7 +389,7 @@ class OperatorTest {
 
     @Test
     fun `should support alias on dividing`() {
-        val expected = "SELECT (numField / 5) AS something FROM someBucket"
+        val expected = "SELECT (numberField / 5) AS something FROM someBucket"
 
         val actual: String = create
             .select(
@@ -431,7 +431,7 @@ class OperatorTest {
 
     @Test
     fun `should support modulo with a number with a numberType`() {
-        val expected = "SELECT (2 % numField) FROM someBucket"
+        val expected = "SELECT (2 % numberField) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -445,7 +445,7 @@ class OperatorTest {
 
     @Test
     fun `should support modulo with a number type with a number`() {
-        val expected = "SELECT (numField % 2) FROM someBucket"
+        val expected = "SELECT (numberField % 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -459,7 +459,7 @@ class OperatorTest {
 
     @Test
     fun `should support modulo with a NumberField and a number`() {
-        val expected = "SELECT (numField % 2) FROM someBucket"
+        val expected = "SELECT (numberField % 2) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -473,7 +473,7 @@ class OperatorTest {
 
     @Test
     fun `should support nested modulo`() {
-        val expected = "SELECT (9 % (numField % 2)) FROM someBucket"
+        val expected = "SELECT (9 % (numberField % 2)) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -487,7 +487,7 @@ class OperatorTest {
 
     @Test
     fun `should support alias on modulo`() {
-        val expected = "SELECT (numField % 5) AS something FROM someBucket"
+        val expected = "SELECT (numberField % 5) AS something FROM someBucket"
 
         val actual: String = create
             .select(
@@ -501,7 +501,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with a NumberField`() {
-        val expected = "SELECT -(numField) FROM someBucket"
+        val expected = "SELECT -(numberField) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -515,7 +515,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation on a calculation`() {
-        val expected = "SELECT -((numField * 12)) FROM someBucket"
+        val expected = "SELECT -((numberField * 12)) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -529,7 +529,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with different calculation`() {
-        val expected = "SELECT (-(numField) + 6) FROM someBucket"
+        val expected = "SELECT (-(numberField) + 6) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -543,7 +543,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with calculations`() {
-        val expected = "SELECT (12 + (-(numField) % ((12 * -((numField - -(12)))) + 6))) AS calculation FROM someBucket"
+        val expected = "SELECT (12 + (-(numberField) % ((12 * -((numberField - -(12)))) + 6))) AS calculation FROM someBucket"
 
         val actual: String = create
             .select(

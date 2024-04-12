@@ -34,7 +34,7 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support min with a ValidType`() {
-        val expected = "SELECT MIN(numField), MIN(person.fname) FROM person"
+        val expected = "SELECT MIN(numberField), MIN(person.fname) FROM person"
 
         val actual: String = create
             .select(
@@ -63,7 +63,7 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support count with a Field`() {
-        val expected = "SELECT COUNT(numField) FROM person"
+        val expected = "SELECT COUNT(numberField) FROM person"
 
         val actual: String = create
             .select(
