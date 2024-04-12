@@ -10,7 +10,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType

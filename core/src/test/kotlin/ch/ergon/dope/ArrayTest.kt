@@ -243,7 +243,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array with number and collection`() {
-        val expected = "SELECT 3 IN [numField, 23] AS test FROM person"
+        val expected = "SELECT 3 IN [numField, 23] AS test FROM someBucket"
 
         val actual: String = create
             .select(
