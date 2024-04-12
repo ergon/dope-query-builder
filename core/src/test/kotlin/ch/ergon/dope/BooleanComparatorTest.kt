@@ -54,7 +54,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 2 > 4"
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -69,7 +69,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 2 > 4"
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -84,7 +84,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 2 > 4"
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -112,7 +112,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" > \"test\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -127,7 +127,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" > \"test\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -142,7 +142,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" > \"test\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -197,7 +197,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 5 < 7"
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -212,7 +212,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 5 < 7"
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -227,7 +227,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 5 < 7"
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -255,7 +255,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" < \"test\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -270,7 +270,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" < \"test\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -285,7 +285,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" < \"test\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -430,7 +430,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isNotEqualTo(5.toNumberType()),
@@ -444,7 +444,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.isNotEqualTo(5),
@@ -458,7 +458,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isNotEqualTo(5),
@@ -472,7 +472,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.isNotEqualTo(5.toNumberType()),
@@ -486,7 +486,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE numberField != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someNumberField().isNotEqualTo(5.toNumberType()),
@@ -500,7 +500,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 3 != numberField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 3.toNumberType().isNotEqualTo(someNumberField()),
@@ -514,7 +514,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" != \"hallo\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isNotEqualTo("hallo".toStringType()),
@@ -528,7 +528,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE stringField != \"5\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isNotEqualTo("5".toStringType()),
@@ -542,7 +542,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
@@ -556,7 +556,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.isGreaterOrEqualThan(5.toNumberType()),
@@ -570,7 +570,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isGreaterOrEqualThan(5),
@@ -584,7 +584,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"hallo\" >= \"test\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "hallo".isGreaterOrEqualThan("test".toStringType()),
@@ -598,7 +598,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE stringField >= \"test\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("test"),
@@ -612,7 +612,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE numberField >= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toNumberType()),
@@ -626,7 +626,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 3 >= numberField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 3.toNumberType().isGreaterOrEqualThan(someNumberField()),
@@ -640,7 +640,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" >= \"hallo\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
@@ -654,7 +654,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE stringField >= \"5\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toStringType()),
@@ -668,7 +668,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" >= stringField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isGreaterOrEqualThan(someStringField()),
@@ -682,7 +682,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 12 <= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isLessOrEqualThan(5.toNumberType()),
@@ -696,7 +696,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE numberField <= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someNumberField().isLessOrEqualThan(5.toNumberType()),
@@ -710,7 +710,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE 3 <= numberField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 3.toNumberType().isLessOrEqualThan(someNumberField()),
@@ -724,7 +724,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" <= \"hallo\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
@@ -738,7 +738,7 @@ class BooleanComparatorTest {
         val expected = "SELECT * FROM someBucket WHERE stringField <= \"5\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isLessOrEqualThan("5".toStringType()),

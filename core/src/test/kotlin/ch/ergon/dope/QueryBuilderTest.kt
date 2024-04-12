@@ -24,7 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
-import ch.ergon.dope.resolvable.fromable.all
+import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -57,7 +57,7 @@ class QueryBuilderTest {
         val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -85,7 +85,7 @@ class QueryBuilderTest {
         val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -159,7 +159,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField < 50"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -174,7 +174,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -191,7 +191,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -212,7 +212,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE 12 != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isNotEqualTo(5.toNumberType()),
@@ -226,7 +226,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField != 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someNumberField().isNotEqualTo(5.toNumberType()),
@@ -240,7 +240,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE 3 != numberField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 3.toNumberType().isNotEqualTo(someNumberField()),
@@ -254,7 +254,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" != \"hallo\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isNotEqualTo("hallo".toStringType()),
@@ -268,7 +268,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE stringField != \"5\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isNotEqualTo("5".toStringType()),
@@ -282,7 +282,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
@@ -296,7 +296,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField >= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toNumberType()),
@@ -310,7 +310,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE 3 >= numberField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 3.toNumberType().isGreaterOrEqualThan(someNumberField()),
@@ -324,7 +324,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" >= \"hallo\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
@@ -338,7 +338,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE stringField >= \"5\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toStringType()),
@@ -352,7 +352,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" >= stringField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isGreaterOrEqualThan(someStringField()),
@@ -366,7 +366,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE 12 <= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 12.toNumberType().isLessOrEqualThan(5.toNumberType()),
@@ -380,7 +380,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField <= 5"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someNumberField().isLessOrEqualThan(5.toNumberType()),
@@ -394,7 +394,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE 3 <= numberField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 3.toNumberType().isLessOrEqualThan(someNumberField()),
@@ -408,7 +408,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE \"test\" <= \"hallo\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
@@ -422,7 +422,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE stringField <= \"5\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(someBucket())
             .where(
                 someStringField().isLessOrEqualThan("5".toStringType()),
@@ -436,7 +436,7 @@ class QueryBuilderTest {
         val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\" AND stringField = \"friend\""
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).where(
@@ -769,7 +769,7 @@ class QueryBuilderTest {
         val expected = "SELECT someBucket.* FROM someBucket"
 
         val actual = create
-            .select(someBucket.all())
+            .select(someBucket.asterisk())
             .from(someBucket)
             .build()
 
@@ -782,7 +782,7 @@ class QueryBuilderTest {
         val expected = "SELECT alias.* FROM someBucket AS alias"
 
         val actual = create
-            .select(someBucket.all())
+            .select(someBucket.asterisk())
             .from(someBucket)
             .build()
 

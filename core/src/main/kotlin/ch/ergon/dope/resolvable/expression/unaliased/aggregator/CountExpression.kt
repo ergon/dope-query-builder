@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
+import ch.ergon.dope.resolvable.expression.ASTERISK
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
 import ch.ergon.dope.validtype.StringType
@@ -13,4 +14,4 @@ class CountExpression(
 
 fun count(field: Field<out ValidType>) = CountExpression(field)
 
-fun countAll() = CountExpression(Field<StringType>("*", ""))
+fun countAsterisk() = CountExpression(Field<StringType>(ASTERISK.toQueryString(), ""))

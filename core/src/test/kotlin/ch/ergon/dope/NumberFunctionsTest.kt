@@ -5,7 +5,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.count
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAll
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAsterisk
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.min
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import junit.framework.TestCase.assertEquals
@@ -56,7 +56,7 @@ class NumberFunctionsTest {
 
         val actual: String = create
             .select(
-                countAll(),
+                countAsterisk(),
             ).from(
                 person,
             ).build()
