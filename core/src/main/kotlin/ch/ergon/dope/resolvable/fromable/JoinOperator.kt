@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-abstract class JoinOperator : Fromable {
+sealed class JoinOperator : Fromable {
     private val queryString: String
 
     constructor(fromBucket: Bucket, joinType: String, goalBucket: Bucket, onCondition: TypeExpression<BooleanType>) {
