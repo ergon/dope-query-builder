@@ -1,5 +1,8 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.count
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAll

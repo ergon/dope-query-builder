@@ -1,4 +1,4 @@
-package ch.ergon.dope
+package ch.ergon.dope.helper
 
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
