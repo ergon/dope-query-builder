@@ -1,5 +1,8 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.min
@@ -8,7 +11,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.resolvable.fromable.field
 import ch.ergon.dope.resolvable.fromable.innerJoin
 import ch.ergon.dope.resolvable.fromable.join
 import ch.ergon.dope.resolvable.fromable.leftJoin
@@ -20,6 +22,8 @@ import kotlin.test.Test
 class JoinOperatorTest {
     private lateinit var builder: StringBuilder
     private lateinit var create: DSLContext
+    private val route = someBucket("route")
+    private val airline = someBucket("airline")
 
     @BeforeTest
     fun setup() {
@@ -34,14 +38,14 @@ class JoinOperatorTest {
         val actual = create
             .selectAll()
             .from(
-                TestBucket.Route.join(
-                    TestBucket.Airline,
-                    onCondition = TestBucket.Route.airlineid.isEqualTo(
-                        meta(TestBucket.Airline).id,
+                route.join(
+                    airline,
+                    onCondition = someStringField("airlineid", route).isEqualTo(
+                        meta(airline).id,
                     ),
                 ),
             ).where(
-                TestBucket.Airline.country.isEqualTo(
+                someStringField("country", airline).isEqualTo(
                     "France".toStringType(),
                 ),
             ).build()
@@ -56,14 +60,14 @@ class JoinOperatorTest {
         val actual = create
             .selectAll()
             .from(
-                TestBucket.Route.leftJoin(
-                    TestBucket.Airline,
-                    onCondition = TestBucket.Route.airlineid.isEqualTo(
-                        meta(TestBucket.Airline).id,
+                route.leftJoin(
+                    airline,
+                    onCondition = someStringField("airlineid", route).isEqualTo(
+                        meta(airline).id,
                     ),
                 ),
             ).where(
-                TestBucket.Route.sourceairport.isEqualTo("SFO".toStringType()),
+                someStringField("sourceairport", route).isEqualTo("SFO".toStringType()),
             ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -76,16 +80,16 @@ class JoinOperatorTest {
         val actual = create
             .selectAll()
             .from(
-                TestBucket.Route.rightJoin(
-                    TestBucket.Airline,
-                    onCondition = TestBucket.Route.airlineid.isEqualTo(
+                route.rightJoin(
+                    airline,
+                    onCondition = someStringField("airlineid", route).isEqualTo(
                         meta(
-                            TestBucket.Airline,
+                            airline,
                         ).id,
                     ),
                 ),
             ).where(
-                TestBucket.Route.sourceairport.isEqualTo(
+                someStringField("sourceairport", route).isEqualTo(
                     "SFO".toStringType(),
                 ),
             ).build()
@@ -97,28 +101,28 @@ class JoinOperatorTest {
     fun `Should support complex inner join`() {
         val expected = "SELECT route.airlineid, airline.iota, route.sourceairport, " +
             "route.destinationairport FROM route INNER JOIN airline ON route.airlineid = " +
-            "META(airline).id WHERE route.destinationairport = \"SFO\" ORDER BY route.sourceairport"
+            "META(airline).id WHERE route.destinationairport = \"SFO\" ORDER BY sourceairport"
 
         val actual = create.select(
-            TestBucket.Route.airlineid,
-            TestBucket.Airline.iota,
-            TestBucket.Route.sourceairport,
-            TestBucket.Route.destinationairport,
+            someStringField("airlineid", route),
+            someStringField("iota", airline),
+            someStringField("sourceairport", route),
+            someStringField("destinationairport", route),
         ).from(
-            TestBucket.Route.innerJoin(
-                TestBucket.Airline,
-                onCondition = TestBucket.Route.airlineid.isEqualTo(
+            route.innerJoin(
+                airline,
+                onCondition = someStringField("airlineid", route).isEqualTo(
                     meta(
-                        TestBucket.Airline,
+                        airline,
                     ).id,
                 ),
             ),
         ).where(
-            TestBucket.Route.destinationairport.isEqualTo(
+            someStringField("destinationairport", route).isEqualTo(
                 "SFO".toStringType(),
             ),
         ).orderBy(
-            TestBucket.Route.sourceairport,
+            someStringField("sourceairport"),
         ).build()
 
         assertEquals(
@@ -129,8 +133,8 @@ class JoinOperatorTest {
 
     @Test
     fun `Left Outer Join of US airports in the same city as a landmark`() {
-        val aport = TestBucket.Airport.alias("aport")
-        val lmark = TestBucket.Landmark.alias("lmark")
+        val aport = someBucket("airport").alias("aport")
+        val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
             "SELECT DISTINCT MIN(aport.airportname) AS Airport__Name, " +
@@ -141,52 +145,46 @@ class JoinOperatorTest {
 
         val actual = create.selectDistinct(
             min(
-                aport.field("airportname"),
+                someStringField("airportname", aport),
             ).alias(
                 "Airport__Name",
             ),
             min(
-                aport.field("tz"),
+                someStringField("tz", aport),
             ).alias(
                 "Airport__Time",
             ),
             min(
-                lmark.field("name"),
+                someStringField("name", lmark),
             ).alias(
                 "Landmark_Name",
             ),
         ).from(
             aport.leftJoin(
                 lmark,
-                onCondition = aport.field("city").isEqualTo(
-                    lmark.field("city"),
+                onCondition = someStringField("city", aport).isEqualTo(
+                    someStringField("city", lmark),
                 ).and(
-                    lmark.field("country").isEqualTo(
+                    someStringField("country", lmark).isEqualTo(
                         "United States".toStringType(),
                     ),
                 ),
             ),
         ).groupBy(
-            aport.field(
-                "airportname",
-            ),
-        )
-            .orderBy(
-                aport.field(
-                    "airportname",
-                ),
-            )
-            .limit(
-                4,
-            ).build()
+            someStringField("airportname", aport),
+        ).orderBy(
+            someStringField("airportname", aport),
+        ).limit(
+            4,
+        ).build()
 
         assertEquals(unifyString(expected), actual)
     }
 
     @Test
     fun `Right Outer Join of US airports in the same city as a landmark`() {
-        val aport = TestBucket.Airport.alias("aport")
-        val lmark = TestBucket.Landmark.alias("lmark")
+        val aport = someBucket("airport").alias("aport")
+        val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
             "SELECT DISTINCT MIN(aport.airportname) AS Airport__Name, " +
@@ -197,51 +195,35 @@ class JoinOperatorTest {
 
         val actual = create.selectDistinct(
             min(
-                aport.field(
-                    "airportname",
-                ),
+                someStringField("airportname", aport),
             ).alias(
                 "Airport__Name",
             ),
             min(
-                aport.field(
-                    "tz",
-                ),
+                someStringField("tz", aport),
             ).alias(
                 "Airport__Time",
             ),
             min(
-                lmark.field(
-                    "name",
-                ),
+                someStringField("name", lmark),
             ).alias(
                 "Landmark_Name",
             ),
         ).from(
             aport.rightJoin(
                 lmark,
-                onCondition = aport.field(
-                    "city",
-                ).isEqualTo(
-                    lmark.field(
-                        "city",
-                    ),
+                onCondition = someStringField("city", aport).isEqualTo(
+                    someStringField("city", lmark),
                 ).and(
-                    lmark.field(
-                        "country",
-                    ).isEqualTo(
+                    someStringField("country", lmark).isEqualTo(
                         "United States".toStringType(),
                     ),
                 ),
             ),
         ).groupBy(
-            aport.field(
-                "airportname",
-            ),
+            someStringField("airportname", aport),
         ).orderBy(
-            aport.field(
-                "airportname",
-            ),
+            someStringField("airportname", aport),
         ).limit(
             4.toNumberType(),
         ).build()
@@ -270,21 +252,21 @@ class JoinOperatorTest {
             "WHERE route.sourceairport = \"SFO\" AND route.stops = 0 LIMIT 4"
 
         val actual = create.selectDistinct(
-            TestBucket.Route.destinationairport,
-            TestBucket.Route.stops,
-            TestBucket.Route.airline,
-            TestBucket.Airline.aname,
-            TestBucket.Airline.callsign,
+            someStringField("destinationairport", route),
+            someStringField("stops", route),
+            someStringField("airline", route),
+            someStringField("name", airline),
+            someStringField("callsign", airline),
         ).from(
-            TestBucket.Route.join(
-                TestBucket.Airline,
-                onKeys = TestBucket.Route.airlineid,
+            route.join(
+                airline,
+                onKeys = someStringField("airlineid", route),
             ),
         ).where(
-            TestBucket.Route.sourceairport.isEqualTo(
+            someStringField("sourceairport", route).isEqualTo(
                 "SFO".toStringType(),
             ).and(
-                TestBucket.Route.stops.isEqualTo(
+                someNumberField("stops", route).isEqualTo(
                     0.toNumberType(),
                 ),
             ),
@@ -303,20 +285,20 @@ class JoinOperatorTest {
             "\"ATL\" AND route.sourceairport = \"SEA\""
 
         val actual = create.select(
-            TestBucket.Route.airline,
-            TestBucket.Route.sourceairport,
-            TestBucket.Route.destinationairport,
-            TestBucket.Airline.callsign,
+            someStringField("airline", route),
+            someStringField("sourceairport", route),
+            someStringField("destinationairport", route),
+            someStringField("callsign", airline),
         ).from(
-            TestBucket.Route.leftJoin(
-                TestBucket.Airline,
-                onKeys = TestBucket.Route.airlineid,
+            route.leftJoin(
+                airline,
+                onKeys = someStringField("airlineid", route),
             ),
         ).where(
-            TestBucket.Route.destinationairport.isEqualTo(
+            someStringField("destinationairport", route).isEqualTo(
                 "ATL".toStringType(),
             ).and(
-                TestBucket.Route.sourceairport.isEqualTo(
+                someStringField("sourceairport", route).isEqualTo(
                     "SEA".toStringType(),
                 ),
             ),
@@ -333,18 +315,18 @@ class JoinOperatorTest {
             "WHERE airline.icao = \"SWA\" LIMIT 4"
 
         val actual = create.selectDistinct(
-            TestBucket.Route.destinationairport,
-            TestBucket.Route.stops,
-            TestBucket.Route.airline,
-            TestBucket.Airline.aname,
-            TestBucket.Airline.callsign,
+            someStringField("destinationairport", route),
+            someStringField("stops", route),
+            someStringField("airline", route),
+            someStringField("name", airline),
+            someStringField("callsign", airline),
         ).from(
-            TestBucket.Route.join(
-                TestBucket.Airline,
-                onKeys = TestBucket.Route.airlineid,
+            route.join(
+                airline,
+                onKeys = someStringField("airlineid", route),
             ),
         ).where(
-            TestBucket.Airline.icao.isEqualTo("SWA".toStringType()),
+            someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
             4,
         ).build()
@@ -360,18 +342,18 @@ class JoinOperatorTest {
             "WHERE airline.icao = \"SWA\" LIMIT 4"
 
         val actual = create.selectDistinct(
-            TestBucket.Route.destinationairport,
-            TestBucket.Route.stops,
-            TestBucket.Route.airline,
-            TestBucket.Airline.aname,
-            TestBucket.Airline.callsign,
+            someStringField("destinationairport", route),
+            someStringField("stops", route),
+            someStringField("airline", route),
+            someStringField("name", airline),
+            someStringField("callsign", airline),
         ).from(
-            TestBucket.Route.rightJoin(
-                TestBucket.Airline,
-                onKeys = TestBucket.Route.airlineid,
+            route.rightJoin(
+                airline,
+                onKeys = someStringField("airlineid", route),
             ),
         ).where(
-            TestBucket.Airline.icao.isEqualTo("SWA".toStringType()),
+            someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
             4,
         ).build()
@@ -386,20 +368,16 @@ class JoinOperatorTest {
             "JOIN airline AS a " +
             "ON r.airlineid = META(a).id"
 
-        val r = TestBucket.Route.alias("r")
-        val a = TestBucket.Airline.alias("a")
+        val r = someBucket("route").alias("r")
+        val a = airline.alias("a")
 
         val actual = create
             .selectAll()
             .from(
                 r.join(
                     a,
-                    onCondition = r.field(
-                        "airlineid",
-                    ).isEqualTo(
-                        meta(
-                            a,
-                        ).id,
+                    onCondition = someStringField("airlineid", r).isEqualTo(
+                        meta(a).id,
                     ),
                 ),
             ).build()
@@ -411,16 +389,14 @@ class JoinOperatorTest {
     fun `Simple Join Example 2`() {
         val expected = "SELECT * FROM route AS r JOIN airline ON KEYS r.airlineid"
 
-        val r = TestBucket.Route.alias("r")
+        val r = someBucket("route").alias("r")
 
         val actual = create
             .selectAll()
             .from(
                 r.join(
-                    TestBucket.Airline,
-                    onKeys = r.field(
-                        "airlineid",
-                    ),
+                    airline,
+                    onKeys = someStringField("airlineid", r),
                 ),
             ).build()
 
@@ -435,18 +411,18 @@ class JoinOperatorTest {
             "WHERE airline.icao = \"SWA\" LIMIT 4"
 
         val actual = create.selectDistinct(
-            TestBucket.Route.destinationairport,
-            TestBucket.Route.stops,
-            TestBucket.Route.airline,
-            TestBucket.Airline.aname,
-            TestBucket.Airline.callsign,
+            someStringField("destinationairport", route),
+            someStringField("stops", route),
+            someStringField("airline", route),
+            someStringField("name", airline),
+            someStringField("callsign", airline),
         ).from(
-            TestBucket.Route.innerJoin(
-                TestBucket.Airline,
-                onKeys = TestBucket.Route.airlineid,
+            route.innerJoin(
+                airline,
+                onKeys = someStringField("airlineid", route),
             ),
         ).where(
-            TestBucket.Airline.icao.isEqualTo("SWA".toStringType()),
+            someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
             4,
         ).build()
@@ -459,14 +435,14 @@ class JoinOperatorTest {
         val expected = "SELECT *\n" +
             "FROM airline AS a1\n" +
             "JOIN airline AS a2 ON a1.id = a2.id\n"
-        val a1 = TestBucket.Airline.alias("a1")
-        val a2 = TestBucket.Airline.alias("a2")
+        val a1 = airline.alias("a1")
+        val a2 = airline.alias("a2")
 
         val actual = create
             .selectFrom(
                 a1.join(
                     a2,
-                    onCondition = a1.field("id").isEqualTo(a2.field("id")),
+                    onCondition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
                 ),
             ).build()
 

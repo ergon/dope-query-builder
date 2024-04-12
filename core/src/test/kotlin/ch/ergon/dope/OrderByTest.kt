@@ -1,5 +1,7 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.select.factory.OrderByType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
@@ -15,14 +17,14 @@ class OrderByTest {
 
     @Test
     fun `should add an Order By clause to the end`() {
-        val expected = "SELECT * FROM person ORDER BY person.fname"
+        val expected = "SELECT * FROM someBucket ORDER BY stringField"
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).orderBy(
-                TestBucket.Person.fname,
+                someStringField(),
             ).build()
 
         assertEquals(expected, actual)
@@ -30,14 +32,14 @@ class OrderByTest {
 
     @Test
     fun `should add an Order By Ascending clause`() {
-        val expected = "SELECT * FROM person ORDER BY person.fname ASC"
+        val expected = "SELECT * FROM someBucket ORDER BY stringField ASC"
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).orderBy(
-                TestBucket.Person.fname,
+                someStringField(),
                 OrderByType.ASC,
             ).build()
 
@@ -46,14 +48,14 @@ class OrderByTest {
 
     @Test
     fun `should add an Order By Descending clause`() {
-        val expected = "SELECT * FROM person ORDER BY person.fname DESC"
+        val expected = "SELECT * FROM someBucket ORDER BY stringField DESC"
 
         val actual: String = create
             .selectAll()
             .from(
-                TestBucket.Person,
+                someBucket(),
             ).orderBy(
-                TestBucket.Person.fname,
+                someStringField(),
                 OrderByType.DESC,
             ).build()
 
