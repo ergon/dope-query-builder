@@ -104,7 +104,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters 2`() {
-        val expected = "SELECT $1, \$name OR $2 AND \$MagicNumber AS one"
+        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)) AS one"
 
         val actual: String = create
             .select(
@@ -119,7 +119,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters 3`() {
-        val expected = "SELECT $1, \$name OR $2 AND \$MagicNumber, CONCAT(\$superMagic, $3) AS one"
+        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)), CONCAT(\$superMagic, $3) AS one"
 
         val actual: String = create
             .select(
@@ -138,7 +138,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters 4`() {
-        val expected = "SELECT $1, \$name OR $2 AND \$MagicNumber AS one, CONCAT(\$superMagic, \$3)"
+        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)) AS one, CONCAT(\$superMagic, \$3)"
 
         val actual: String = create
             .select(
