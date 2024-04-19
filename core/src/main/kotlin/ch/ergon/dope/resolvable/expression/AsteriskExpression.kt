@@ -4,19 +4,20 @@ import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 
+const val ASTERISK_STRING = "*"
+
 class AsteriskExpression : Expression {
-    private val asterisk = "*"
     private val queryString: String
 
     constructor(bucket: Bucket) {
         queryString = when (bucket) {
             is AliasedBucket -> bucket.alias
             is UnaliasedBucket -> bucket.name
-        } + ".$asterisk"
+        } + ".$ASTERISK_STRING"
     }
 
     constructor() {
-        queryString = asterisk
+        queryString = ASTERISK_STRING
     }
 
     override fun toQueryString(): String = queryString
