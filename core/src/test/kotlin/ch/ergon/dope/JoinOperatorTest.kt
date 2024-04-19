@@ -21,14 +21,14 @@ import kotlin.test.Test
 
 class JoinOperatorTest {
     private lateinit var builder: StringBuilder
-    private lateinit var create: DSLContext
+    private lateinit var create: QueryBuilder
     private val route = someBucket("route")
     private val airline = someBucket("airline")
 
     @BeforeTest
     fun setup() {
         builder = StringBuilder()
-        create = DSLContext()
+        create = QueryBuilder()
     }
 
     @Test

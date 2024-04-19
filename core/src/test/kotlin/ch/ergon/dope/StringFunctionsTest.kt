@@ -37,12 +37,12 @@ import kotlin.test.assertEquals
 class StringFunctionsTest {
 
     private lateinit var builder: StringBuilder
-    private lateinit var create: DSLContext
+    private lateinit var create: QueryBuilder
 
     @BeforeTest
     fun setup() {
         builder = StringBuilder()
-        create = DSLContext()
+        create = QueryBuilder()
     }
 
     @Test

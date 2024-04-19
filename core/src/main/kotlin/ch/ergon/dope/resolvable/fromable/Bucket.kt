@@ -1,6 +1,6 @@
 package ch.ergon.dope.resolvable.fromable
 
-import ch.ergon.dope.resolvable.clause.select.Fromable
+import ch.ergon.dope.resolvable.clause.Fromable
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 
 sealed class Bucket(open val name: String) : Fromable {

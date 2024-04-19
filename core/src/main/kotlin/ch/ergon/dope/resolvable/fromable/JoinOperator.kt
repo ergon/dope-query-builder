@@ -1,6 +1,6 @@
 package ch.ergon.dope.resolvable.fromable
 
-import ch.ergon.dope.resolvable.clause.select.Fromable
+import ch.ergon.dope.resolvable.clause.Fromable
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.BooleanType
