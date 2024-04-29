@@ -30,6 +30,7 @@ interface IOrderByClause : ILimitClause {
 
 interface IGroupByClause : IOrderByClause {
     fun orderBy(stringField: Field<StringType>): OrderByClause = OrderByClause(stringField, this)
+
     fun orderBy(stringField: Field<StringType>, orderByType: OrderByType): OrderByTypeClause = OrderByTypeClause(stringField, orderByType, this)
 }
 
