@@ -36,7 +36,7 @@ class JoinOperatorTest {
         val expected = "SELECT * FROM route JOIN airline ON route.airlineid = META(airline).id WHERE airline.country = \"France\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 route.join(
                     airline,
@@ -58,7 +58,7 @@ class JoinOperatorTest {
         val expected = "SELECT * FROM route LEFT JOIN airline ON route.airlineid = META(airline).id WHERE route.sourceairport = \"SFO\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 route.leftJoin(
                     airline,
@@ -78,7 +78,7 @@ class JoinOperatorTest {
         val expected = "SELECT * FROM route RIGHT JOIN airline ON route.airlineid = META(airline).id WHERE route.sourceairport = \"SFO\""
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 route.rightJoin(
                     airline,
@@ -372,7 +372,7 @@ class JoinOperatorTest {
         val a = airline.alias("a")
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 r.join(
                     a,
@@ -392,7 +392,7 @@ class JoinOperatorTest {
         val r = someBucket("route").alias("r")
 
         val actual = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 r.join(
                     airline,

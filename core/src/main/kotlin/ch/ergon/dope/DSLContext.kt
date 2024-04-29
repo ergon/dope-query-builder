@@ -5,17 +5,18 @@ import ch.ergon.dope.resolvable.clause.select.factory.From
 import ch.ergon.dope.resolvable.clause.select.factory.Select
 import ch.ergon.dope.resolvable.clause.select.factory.Where
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.SingleExpression
 
 class DSLContext {
     private val select = Select()
 
     fun select(expression: Expression, vararg expressions: Expression): From = select.select(expression, *expressions)
 
-    fun selectAll(): From = select.selectAll()
+    fun selectAsterisk(): From = select.selectAsterisk()
 
     fun selectDistinct(expression: Expression, vararg expressions: Expression): From = select.selectDistinct(expression, *expressions)
 
-    fun selectRaw(expression: Expression): From = select.selectRaw(expression)
+    fun selectRaw(expression: SingleExpression): From = select.selectRaw(expression)
 
     fun selectFrom(fromable: Fromable): Where = select.selectFrom(fromable)
 }

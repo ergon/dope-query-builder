@@ -19,7 +19,9 @@ import ch.ergon.dope.resolvable.clause.select.factory.Offset
 import ch.ergon.dope.resolvable.clause.select.factory.OrderBy
 import ch.ergon.dope.resolvable.clause.select.factory.OrderByType
 import ch.ergon.dope.resolvable.clause.select.factory.Where
+import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.BooleanType
@@ -30,14 +32,14 @@ import ch.ergon.dope.validtype.ValidType
 class ClauseBuilder(private val clauses: List<Clause>) {
     fun select(expression: Expression, vararg expressions: Expression): From = From(addClause(SelectClause(expression, *expressions)))
 
-    fun selectAll(): From = From(addClause(SelectClause(AsterisksExpression())))
+    fun selectAsterisk(): From = From(addClause(SelectClause(AsteriskExpression())))
 
     fun selectDistinct(expression: Expression, vararg expressions: Expression): From =
         From(addClause(SelectDistinctClause(expression, *expressions)))
 
-    fun selectRaw(expression: Expression): From = From(addClause(SelectRawClause(expression)))
+    fun selectRaw(expression: SingleExpression): From = From(addClause(SelectRawClause(expression)))
 
-    fun selectFrom(fromable: Fromable): Where = ClauseBuilder(addClause(SelectClause(AsterisksExpression()))).from(fromable)
+    fun selectFrom(fromable: Fromable): Where = ClauseBuilder(addClause(SelectClause(AsteriskExpression()))).from(fromable)
 
     fun from(fromable: Fromable): Where = Where(addClause(FromClause(fromable)))
 
@@ -60,8 +62,4 @@ class ClauseBuilder(private val clauses: List<Clause>) {
     private fun addClause(clause: Clause): List<Clause> {
         return clauses + clause
     }
-}
-
-private class AsterisksExpression : Expression {
-    override fun toQueryString(): String = "*"
 }

@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
+import ch.ergon.dope.resolvable.expression.ASTERISK_STRING
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
-import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class CountExpression(
@@ -11,6 +11,10 @@ class CountExpression(
     override fun toQueryString(): String = formatToQueryStringWithBrackets("COUNT", field)
 }
 
+class CountAsteriskExpression : AggregateExpression {
+    override fun toQueryString(): String = "COUNT($ASTERISK_STRING)"
+}
+
 fun count(field: Field<out ValidType>) = CountExpression(field)
 
-fun countAll() = CountExpression(Field<StringType>("*", ""))
+fun countAsterisk() = CountAsteriskExpression()

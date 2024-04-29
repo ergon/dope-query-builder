@@ -18,5 +18,5 @@ fun someBooleanField(name: String = "booleanField", bucket: Bucket = UnaliasedBu
 
 private fun getBucketName(bucket: Bucket): String = when (bucket) {
     is AliasedBucket -> bucket.alias
-    else -> bucket.name
+    is UnaliasedBucket -> bucket.name
 }

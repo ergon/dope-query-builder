@@ -84,7 +84,7 @@ class ParameterizedQueriesTest {
         val expected = "SELECT *"
 
         val actual: String =
-            create.selectAll().build()
+            create.selectAsterisk().build()
 
         assertEquals(unifyString(expected), actual)
     }

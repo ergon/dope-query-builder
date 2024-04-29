@@ -20,7 +20,7 @@ class OrderByTest {
         val expected = "SELECT * FROM someBucket ORDER BY stringField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).orderBy(
@@ -35,7 +35,7 @@ class OrderByTest {
         val expected = "SELECT * FROM someBucket ORDER BY stringField ASC"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).orderBy(
@@ -51,7 +51,7 @@ class OrderByTest {
         val expected = "SELECT * FROM someBucket ORDER BY stringField DESC"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).orderBy(
