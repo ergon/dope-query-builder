@@ -11,10 +11,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.resolvable.fromable.innerJoin
-import ch.ergon.dope.resolvable.fromable.join
-import ch.ergon.dope.resolvable.fromable.leftJoin
-import ch.ergon.dope.resolvable.fromable.rightJoin
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -38,11 +34,11 @@ class JoinOperatorTest {
         val actual = create
             .selectAsterisk()
             .from(
-                route.join(
-                    airline,
-                    onCondition = someStringField("airlineid", route).isEqualTo(
-                        meta(airline).id,
-                    ),
+                route,
+            ).join(
+                airline,
+                onCondition = someStringField("airlineid", route).isEqualTo(
+                    meta(airline).id,
                 ),
             ).where(
                 someStringField("country", airline).isEqualTo(
@@ -60,11 +56,11 @@ class JoinOperatorTest {
         val actual = create
             .selectAsterisk()
             .from(
-                route.leftJoin(
-                    airline,
-                    onCondition = someStringField("airlineid", route).isEqualTo(
-                        meta(airline).id,
-                    ),
+                route,
+            ).leftJoin(
+                airline,
+                onCondition = someStringField("airlineid", route).isEqualTo(
+                    meta(airline).id,
                 ),
             ).where(
                 someStringField("sourceairport", route).isEqualTo("SFO".toStringType()),
@@ -80,13 +76,13 @@ class JoinOperatorTest {
         val actual = create
             .selectAsterisk()
             .from(
-                route.rightJoin(
-                    airline,
-                    onCondition = someStringField("airlineid", route).isEqualTo(
-                        meta(
-                            airline,
-                        ).id,
-                    ),
+                route,
+            ).rightJoin(
+                airline,
+                onCondition = someStringField("airlineid", route).isEqualTo(
+                    meta(
+                        airline,
+                    ).id,
                 ),
             ).where(
                 someStringField("sourceairport", route).isEqualTo(
@@ -109,13 +105,13 @@ class JoinOperatorTest {
             someStringField("sourceairport", route),
             someStringField("destinationairport", route),
         ).from(
-            route.innerJoin(
-                airline,
-                onCondition = someStringField("airlineid", route).isEqualTo(
-                    meta(
-                        airline,
-                    ).id,
-                ),
+            route,
+        ).innerJoin(
+            airline,
+            onCondition = someStringField("airlineid", route).isEqualTo(
+                meta(
+                    airline,
+                ).id,
             ),
         ).where(
             someStringField("destinationairport", route).isEqualTo(
@@ -160,14 +156,14 @@ class JoinOperatorTest {
                 "Landmark_Name",
             ),
         ).from(
-            aport.leftJoin(
-                lmark,
-                onCondition = someStringField("city", aport).isEqualTo(
-                    someStringField("city", lmark),
-                ).and(
-                    someStringField("country", lmark).isEqualTo(
-                        "United States".toStringType(),
-                    ),
+            aport,
+        ).leftJoin(
+            lmark,
+            onCondition = someStringField("city", aport).isEqualTo(
+                someStringField("city", lmark),
+            ).and(
+                someStringField("country", lmark).isEqualTo(
+                    "United States".toStringType(),
                 ),
             ),
         ).groupBy(
@@ -210,14 +206,14 @@ class JoinOperatorTest {
                 "Landmark_Name",
             ),
         ).from(
-            aport.rightJoin(
-                lmark,
-                onCondition = someStringField("city", aport).isEqualTo(
-                    someStringField("city", lmark),
-                ).and(
-                    someStringField("country", lmark).isEqualTo(
-                        "United States".toStringType(),
-                    ),
+            aport,
+        ).rightJoin(
+            lmark,
+            onCondition = someStringField("city", aport).isEqualTo(
+                someStringField("city", lmark),
+            ).and(
+                someStringField("country", lmark).isEqualTo(
+                    "United States".toStringType(),
                 ),
             ),
         ).groupBy(
@@ -258,10 +254,10 @@ class JoinOperatorTest {
             someStringField("name", airline),
             someStringField("callsign", airline),
         ).from(
-            route.join(
-                airline,
-                onKeys = someStringField("airlineid", route),
-            ),
+            route,
+        ).join(
+            airline,
+            onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("sourceairport", route).isEqualTo(
                 "SFO".toStringType(),
@@ -290,10 +286,10 @@ class JoinOperatorTest {
             someStringField("destinationairport", route),
             someStringField("callsign", airline),
         ).from(
-            route.leftJoin(
-                airline,
-                onKeys = someStringField("airlineid", route),
-            ),
+            route,
+        ).leftJoin(
+            airline,
+            onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("destinationairport", route).isEqualTo(
                 "ATL".toStringType(),
@@ -321,10 +317,10 @@ class JoinOperatorTest {
             someStringField("name", airline),
             someStringField("callsign", airline),
         ).from(
-            route.join(
-                airline,
-                onKeys = someStringField("airlineid", route),
-            ),
+            route,
+        ).join(
+            airline,
+            onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
@@ -348,10 +344,10 @@ class JoinOperatorTest {
             someStringField("name", airline),
             someStringField("callsign", airline),
         ).from(
-            route.rightJoin(
-                airline,
-                onKeys = someStringField("airlineid", route),
-            ),
+            route,
+        ).rightJoin(
+            airline,
+            onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
@@ -374,11 +370,11 @@ class JoinOperatorTest {
         val actual = create
             .selectAsterisk()
             .from(
-                r.join(
-                    a,
-                    onCondition = someStringField("airlineid", r).isEqualTo(
-                        meta(a).id,
-                    ),
+                r,
+            ).join(
+                a,
+                onCondition = someStringField("airlineid", r).isEqualTo(
+                    meta(a).id,
                 ),
             ).build()
 
@@ -394,10 +390,10 @@ class JoinOperatorTest {
         val actual = create
             .selectAsterisk()
             .from(
-                r.join(
-                    airline,
-                    onKeys = someStringField("airlineid", r),
-                ),
+                r,
+            ).join(
+                airline,
+                onKeys = someStringField("airlineid", r),
             ).build()
 
         assertEquals(unifyString(expected), actual)
@@ -417,10 +413,10 @@ class JoinOperatorTest {
             someStringField("name", airline),
             someStringField("callsign", airline),
         ).from(
-            route.innerJoin(
-                airline,
-                onKeys = someStringField("airlineid", route),
-            ),
+            route,
+        ).innerJoin(
+            airline,
+            onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
@@ -440,10 +436,10 @@ class JoinOperatorTest {
 
         val actual = create
             .selectFrom(
-                a1.join(
-                    a2,
-                    onCondition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
-                ),
+                a1,
+            ).join(
+                a2,
+                onCondition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
             ).build()
 
         assertEquals(unifyString(expected), actual)

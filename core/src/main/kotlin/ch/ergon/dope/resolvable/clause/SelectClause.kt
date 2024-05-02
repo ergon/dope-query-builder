@@ -41,7 +41,7 @@ class WhereClause(private val whereExpression: TypeExpression<BooleanType>, priv
     override fun toQueryString(): String = formatToQueryString(parent, "WHERE", whereExpression)
 }
 
-class FromClause(private val fromable: Fromable, private val parent: ISelectClause) : IFromClause {
+class FromClause(private val fromable: Fromable, private val parent: ISelectClause) : IJoinClause {
     override fun toQueryString(): String = formatToQueryString(parent, "FROM", fromable)
 }
 
