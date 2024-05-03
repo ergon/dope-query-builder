@@ -444,4 +444,28 @@ class JoinOperatorTest {
 
         assertEquals(unifyString(expected), actual)
     }
+
+    @Test
+    fun `should support multiple joins`() {
+        val expected = "SELECT *\n" +
+            "FROM airline AS al\n" +
+            "JOIN airport AS ap ON al.id = ap.id\n" +
+            "JOIN city AS c ON ap.id = c.id\n"
+        val airline = airline.alias("al")
+        val airport = someBucket("airport").alias("ap")
+        val city = someBucket("city").alias("c")
+
+        val actual = create
+            .selectFrom(
+                airline,
+            ).join(
+                airport,
+                onCondition = someStringField("id", airline).isEqualTo(someStringField("id", airport)),
+            ).join(
+                city,
+                onCondition = someStringField("id", airport).isEqualTo(someStringField("id", city)),
+            ).build()
+
+        assertEquals(unifyString(expected), actual)
+    }
 }
