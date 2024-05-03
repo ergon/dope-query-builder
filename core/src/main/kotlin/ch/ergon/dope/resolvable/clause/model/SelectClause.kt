@@ -1,5 +1,6 @@
-package ch.ergon.dope.resolvable.clause
+package ch.ergon.dope.resolvable.clause.model
 
+import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.formatToQueryString
 
