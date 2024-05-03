@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.ValidType
 interface IReturningClause : Clause
 
 interface IDeleteOffsetClass : IReturningClause {
-    fun returning(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = ReturningClause(field, *fields, parent = this)
+    fun returning(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = ReturningClause(field, *fields, parentClause = this)
 }
 
 interface IDeleteLimitClass : IDeleteOffsetClass {

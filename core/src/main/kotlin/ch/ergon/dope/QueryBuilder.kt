@@ -23,5 +23,5 @@ class QueryBuilder {
 
     fun selectFrom(fromable: Fromable): FromClause = SelectClause(AsteriskExpression()).from(fromable)
 
-    fun deleteFrom(from: Bucket): DeleteClause = DeleteClause(from)
+    fun deleteFrom(bucket: Bucket): DeleteClause = DeleteClause(bucket)
 }

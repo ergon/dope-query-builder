@@ -14,12 +14,12 @@ import ch.ergon.dope.validtype.ValidType
 interface IOffsetClause : Clause
 
 interface ILimitClause : IOffsetClause {
-    fun offset(numberExpression: TypeExpression<NumberType>): OffsetClause = OffsetClause(numberExpression, this)
+    fun offset(numberExpression: TypeExpression<NumberType>): SelectOffsetClause = SelectOffsetClause(numberExpression, this)
 }
 
 interface IOrderByClause : ILimitClause {
-    fun limit(numberExpression: TypeExpression<NumberType>): LimitClause = LimitClause(numberExpression, this)
-    fun limit(number: Number): LimitClause = limit(number.toNumberType())
+    fun limit(numberExpression: TypeExpression<NumberType>): SelectLimitClause = SelectLimitClause(numberExpression, this)
+    fun limit(number: Number): SelectLimitClause = limit(number.toNumberType())
 }
 
 interface IGroupByClause : IOrderByClause {
@@ -33,7 +33,7 @@ interface IWhereClause : IGroupByClause {
 }
 
 interface IFromClause : IWhereClause {
-    fun where(whereExpression: TypeExpression<BooleanType>) = WhereClause(whereExpression, this)
+    fun where(whereExpression: TypeExpression<BooleanType>) = SelectWhereClause(whereExpression, this)
 }
 
 interface IJoinClause : IFromClause {

@@ -6,13 +6,11 @@ import ch.ergon.dope.validtype.NumberType
 
 private const val LIMIT = "LIMIT"
 
-class LimitClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IOrderByClause) : ILimitClause {
+class SelectLimitClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IOrderByClause) : ILimitClause {
     override fun toQueryString(): String = formatToQueryString(parentClause, LIMIT, numberExpression)
 }
 
-class DeleteLimitClause(private val numberExpression: TypeExpression<NumberType>, private val parent: IDeleteWhereClause) :
+class DeleteLimitClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteWhereClause) :
     IDeleteLimitClass {
-    override fun toQueryString(): String {
-        return formatToQueryString(parent, LIMIT, numberExpression)
-    }
+    override fun toQueryString(): String = formatToQueryString(parentClause, LIMIT, numberExpression)
 }

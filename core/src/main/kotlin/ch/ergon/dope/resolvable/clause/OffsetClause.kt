@@ -6,11 +6,11 @@ import ch.ergon.dope.validtype.NumberType
 
 private const val OFFSET = "OFFSET"
 
-class OffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: ILimitClause) : IOffsetClause {
+class SelectOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: ILimitClause) : IOffsetClause {
     override fun toQueryString(): String = formatToQueryString(parentClause, OFFSET, numberExpression)
 }
 
-class DeleteOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parent: IDeleteLimitClass) :
+class DeleteOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteLimitClass) :
     IDeleteOffsetClass {
-    override fun toQueryString(): String = formatToQueryString(parent, OFFSET, numberExpression)
+    override fun toQueryString(): String = formatToQueryString(parentClause, OFFSET, numberExpression)
 }
