@@ -8,8 +8,8 @@ import ch.ergon.dope.resolvable.clause.SelectRawClause
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
-import ch.ergon.dope.resolvable.fromable.Fromable
 import ch.ergon.dope.resolvable.fromable.Bucket
+import ch.ergon.dope.resolvable.fromable.Fromable
 
 class QueryBuilder {
     fun select(expression: Expression, vararg expressions: Expression): SelectClause = SelectClause(expression, *expressions)
