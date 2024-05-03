@@ -9,45 +9,45 @@ import ch.ergon.dope.validtype.ValidType
 sealed class JoinClause : IJoinClause {
     private val queryString: String
 
-    constructor(parentClause: IFromClause, joinType: String, goalBucket: Bucket, onCondition: TypeExpression<BooleanType>) {
-        queryString = "${parentClause.toQueryString()} $joinType ${goalBucket.toQueryString()} ON ${onCondition.toQueryString()}"
+    constructor(parentClause: IFromClause, joinType: String, bucket: Bucket, onCondition: TypeExpression<BooleanType>) {
+        queryString = "${parentClause.toQueryString()} $joinType ${bucket.toQueryString()} ON ${onCondition.toQueryString()}"
     }
 
-    constructor(parentClause: IFromClause, joinType: String, goalBucket: Bucket, key: Field<out ValidType>) {
-        queryString = "${parentClause.toQueryString()} $joinType ${goalBucket.toQueryString()} ON KEYS ${key.toQueryString()}"
+    constructor(parentClause: IFromClause, joinType: String, bucket: Bucket, key: Field<out ValidType>) {
+        queryString = "${parentClause.toQueryString()} $joinType ${bucket.toQueryString()} ON KEYS ${key.toQueryString()}"
     }
 
     override fun toQueryString(): String = queryString
 }
 
 class StandardJoinClause : JoinClause {
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onCondition: TypeExpression<BooleanType>) :
-        super(parentClause, "JOIN", goalBucket, onCondition)
+    constructor(parentClause: IFromClause, bucket: Bucket, onCondition: TypeExpression<BooleanType>) :
+        super(parentClause, "JOIN", bucket, onCondition)
 
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onKeys: Field<out ValidType>) :
-        super(parentClause, "JOIN", goalBucket, onKeys)
+    constructor(parentClause: IFromClause, bucket: Bucket, onKeys: Field<out ValidType>) :
+        super(parentClause, "JOIN", bucket, onKeys)
 }
 
 class LeftJoinClause : JoinClause {
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onCondition: TypeExpression<BooleanType>) :
-        super(parentClause, "LEFT JOIN", goalBucket, onCondition)
+    constructor(parentClause: IFromClause, bucket: Bucket, onCondition: TypeExpression<BooleanType>) :
+        super(parentClause, "LEFT JOIN", bucket, onCondition)
 
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onKeys: Field<out ValidType>) :
-        super(parentClause, "LEFT JOIN", goalBucket, onKeys)
+    constructor(parentClause: IFromClause, bucket: Bucket, onKeys: Field<out ValidType>) :
+        super(parentClause, "LEFT JOIN", bucket, onKeys)
 }
 
 class InnerJoinClause : JoinClause {
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onCondition: TypeExpression<BooleanType>) :
-        super(parentClause, "INNER JOIN", goalBucket, onCondition)
+    constructor(parentClause: IFromClause, bucket: Bucket, onCondition: TypeExpression<BooleanType>) :
+        super(parentClause, "INNER JOIN", bucket, onCondition)
 
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onKeys: Field<out ValidType>) :
-        super(parentClause, "INNER JOIN", goalBucket, onKeys)
+    constructor(parentClause: IFromClause, bucket: Bucket, onKeys: Field<out ValidType>) :
+        super(parentClause, "INNER JOIN", bucket, onKeys)
 }
 
 class RightJoinClause : JoinClause {
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onCondition: TypeExpression<BooleanType>) :
-        super(parentClause, "RIGHT JOIN", goalBucket, onCondition)
+    constructor(parentClause: IFromClause, bucket: Bucket, onCondition: TypeExpression<BooleanType>) :
+        super(parentClause, "RIGHT JOIN", bucket, onCondition)
 
-    constructor(parentClause: IFromClause, goalBucket: Bucket, onKeys: Field<out ValidType>) :
-        super(parentClause, "RIGHT JOIN", goalBucket, onKeys)
+    constructor(parentClause: IFromClause, bucket: Bucket, onKeys: Field<out ValidType>) :
+        super(parentClause, "RIGHT JOIN", bucket, onKeys)
 }
