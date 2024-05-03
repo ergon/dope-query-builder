@@ -2,7 +2,7 @@ package ch.ergon.dope
 
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderByType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
