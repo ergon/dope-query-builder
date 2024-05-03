@@ -16,14 +16,8 @@ interface ILimitClause : IOffsetClause {
     fun offset(numberExpression: TypeExpression<NumberType>): OffsetClause = OffsetClause(numberExpression, this)
 }
 
-enum class OrderByType(val type: String) {
-    ASC("ASC"),
-    DESC("DESC"),
-}
-
 interface IOrderByClause : ILimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>): LimitClause = LimitClause(numberExpression, this)
-
     fun limit(number: Number): LimitClause = limit(number.toNumberType())
 }
 
