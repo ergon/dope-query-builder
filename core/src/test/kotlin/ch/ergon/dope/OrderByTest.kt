@@ -2,17 +2,17 @@ package ch.ergon.dope
 
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.select.factory.OrderByType
+import ch.ergon.dope.resolvable.clause.OrderByType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class OrderByTest {
-    private lateinit var create: DSLContext
+    private lateinit var create: QueryBuilder
 
     @BeforeTest
     fun setup() {
-        create = DSLContext()
+        create = QueryBuilder()
     }
 
     @Test

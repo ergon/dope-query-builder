@@ -18,11 +18,11 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class ArrayTest {
-    private lateinit var create: DSLContext
+    private lateinit var create: QueryBuilder
 
     @BeforeTest
     fun setup() {
-        create = DSLContext()
+        create = QueryBuilder()
     }
 
     @Test
