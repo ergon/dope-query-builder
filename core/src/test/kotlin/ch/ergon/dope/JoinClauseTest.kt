@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class JoinOperatorTest {
+class JoinClauseTest {
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
     private val route = someBucket("route")

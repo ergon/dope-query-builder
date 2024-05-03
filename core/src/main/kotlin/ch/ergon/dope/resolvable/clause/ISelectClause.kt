@@ -1,10 +1,11 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
 import ch.ergon.dope.resolvable.fromable.Bucket
+import ch.ergon.dope.resolvable.fromable.Fromable
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -23,12 +24,12 @@ interface IOrderByClause : ILimitClause {
 
 interface IGroupByClause : IOrderByClause {
     fun orderBy(stringField: Field<StringType>): OrderByClause = OrderByClause(stringField, this)
-
     fun orderBy(stringField: Field<StringType>, orderByType: OrderByType): OrderByTypeClause = OrderByTypeClause(stringField, orderByType, this)
 }
 
 interface IWhereClause : IGroupByClause {
-    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>): GroupByClause = GroupByClause(field, *fields, parent = this)
+    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>): GroupByClause =
+        GroupByClause(field, *fields, parentClause = this)
 }
 
 interface IFromClause : IWhereClause {
@@ -48,8 +49,6 @@ interface IJoinClause : IFromClause {
     fun rightJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(this, bucket, onCondition)
     fun rightJoin(bucket: Bucket, onKeys: Field<out ValidType>) = RightJoinClause(this, bucket, onKeys)
 }
-
-interface Fromable : Resolvable
 
 interface ISelectClause : IFromClause {
     fun from(fromable: Fromable) = FromClause(fromable, this)
