@@ -6,7 +6,9 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-interface IDeleteOffsetClass : Clause {
+interface IReturningClause : Clause
+
+interface IDeleteOffsetClass : IReturningClause {
     fun returning(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = ReturningClause(field, *fields, parent = this)
 }
 

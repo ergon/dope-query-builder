@@ -8,6 +8,6 @@ class ReturningClause(
     private val field: Field<out ValidType>,
     private vararg val fields: Field<out ValidType>,
     private val parent: IDeleteOffsetClass,
-) : Clause {
+) : IReturningClause {
     override fun toQueryString(): String = formatToQueryString(parent, "RETURNING", field, *fields)
 }
