@@ -37,6 +37,10 @@ interface IWhereClause : IGroupByClause {
     fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>): GroupByClause = GroupByClause(field, *fields, parent = this)
 }
 
+interface IFromClause : IWhereClause {
+    fun where(whereExpression: TypeExpression<BooleanType>) = WhereClause(whereExpression, this)
+}
+
 interface IJoinClause : IFromClause {
     fun join(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(this, bucket, onCondition)
     fun join(bucket: Bucket, onKeys: Field<out ValidType>) = StandardJoinClause(this, bucket, onKeys)
@@ -46,13 +50,9 @@ interface IJoinClause : IFromClause {
 
     fun leftJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(this, bucket, onCondition)
     fun leftJoin(bucket: Bucket, onKeys: Field<out ValidType>) = LeftJoinClause(this, bucket, onKeys)
-
+    
     fun rightJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(this, bucket, onCondition)
     fun rightJoin(bucket: Bucket, onKeys: Field<out ValidType>) = RightJoinClause(this, bucket, onKeys)
-}
-
-interface IFromClause : IWhereClause {
-    fun where(whereExpression: TypeExpression<BooleanType>) = WhereClause(whereExpression, this)
 }
 
 interface Fromable : Resolvable
