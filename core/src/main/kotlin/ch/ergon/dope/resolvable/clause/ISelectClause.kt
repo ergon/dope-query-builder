@@ -12,12 +12,16 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
+import ch.ergon.dope.resolvable.clause.model.UnnestClause
+import ch.ergon.dope.resolvable.clause.model.UnnestClauseWithAliased
+import ch.ergon.dope.resolvable.expression.AliasedExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Fromable
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -62,6 +66,11 @@ interface ISelectJoinClause : ISelectFromClause {
 
     fun rightJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(this, bucket, onCondition)
     fun rightJoin(bucket: Bucket, onKeys: Field<out ValidType>) = RightJoinClause(this, bucket, onKeys)
+}
+
+interface ISelectUnnestClause : ISelectJoinClause {
+    fun unnest(field: Field<ArrayType<out ValidType>>) = UnnestClause(this, field)
+    fun unnest(field: AliasedExpression<ArrayType<out ValidType>>) = UnnestClauseWithAliased(this, field)
 }
 
 interface ISelectClause : ISelectFromClause {

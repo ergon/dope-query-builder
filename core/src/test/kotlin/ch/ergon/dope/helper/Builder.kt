@@ -4,17 +4,21 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
-fun someNumberField(name: String = "numberField", bucket: Bucket = UnaliasedBucket("")) = Field<NumberType>(name, getBucketName(bucket))
+fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
 
-fun someStringField(name: String = "stringField", bucket: Bucket = UnaliasedBucket("")) = Field<StringType>(name, getBucketName(bucket))
+fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
 
-fun someBooleanField(name: String = "booleanField", bucket: Bucket = UnaliasedBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
+fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
+
+fun someArrayField(name: String = "arrayField", bucket: Bucket = someBucket("")) = Field<ArrayType<out ValidType>>(name, getBucketName(bucket))
 
 private fun getBucketName(bucket: Bucket): String = when (bucket) {
     is AliasedBucket -> bucket.alias
