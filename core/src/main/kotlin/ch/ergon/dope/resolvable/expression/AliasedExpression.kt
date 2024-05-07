@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
@@ -9,8 +10,13 @@ class AliasedExpression<T : ValidType>(
     private val unaliasedExpression: UnaliasedExpression<T>,
     private val alias: String,
 ) : Expression {
-    override fun toQueryString(): String =
-        "${unaliasedExpression.toQueryString()} AS $alias"
+    override fun toQuery(): DopeQuery {
+        val unaliasedExpressionDopeQuery = unaliasedExpression.toQuery()
+        return DopeQuery(
+            queryString = "${unaliasedExpressionDopeQuery.queryString} AS $alias",
+            parameters = unaliasedExpressionDopeQuery.parameters,
+        )
+    }
 }
 
 fun UnaliasedExpression<out ValidType>.alias(string: String) = AliasedExpression(this, string)

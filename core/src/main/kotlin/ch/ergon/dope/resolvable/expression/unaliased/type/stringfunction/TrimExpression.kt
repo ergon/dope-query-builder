@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -10,7 +11,14 @@ class TrimExpression(
     private val inStr: TypeExpression<StringType>,
     private val char: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "TRIM", inStr, extra = char)
+    override fun toQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toQuery()
+        val charDopeQuery = char?.toQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(symbol = "TRIM", inStrDopeQuery, extra = charDopeQuery),
+            parameters = inStrDopeQuery.parameters + (charDopeQuery?.parameters ?: emptyMap()),
+        )
+    }
 }
 
 fun trim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = TrimExpression(inStr, char)

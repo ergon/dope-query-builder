@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -9,7 +10,14 @@ class SplitExpression(
     private val inStr: TypeExpression<StringType>,
     private val inSubstring: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "SPLIT", inStr, extra = inSubstring)
+    override fun toQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toQuery()
+        val inSubstringDopeQuery = inSubstring?.toQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(symbol = "SPLIT", inStrDopeQuery, extra = inSubstringDopeQuery),
+            parameters = inStrDopeQuery.parameters + (inSubstringDopeQuery?.parameters ?: emptyMap()),
+        )
+    }
 }
 
 fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) = SplitExpression(inStr, inSubstring)

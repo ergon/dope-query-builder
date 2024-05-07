@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -11,7 +12,7 @@ import ch.ergon.dope.validtype.ValidType
 
 class Primitive<T : ValidType> : TypeExpression<T> {
     private val queryString: String
-    override fun toQueryString(): String = queryString
+    override fun toQuery(): DopeQuery = DopeQuery(queryString, emptyMap())
 
     constructor(value: Number) {
         this.queryString = "$value"
@@ -29,7 +30,7 @@ class Primitive<T : ValidType> : TypeExpression<T> {
     }
 
     constructor(collection: Collection<TypeExpression<out ValidType>>) {
-        this.queryString = collection.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.toQueryString() }
+        this.queryString = collection.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.toQuery().queryString }
     }
 
     private constructor(primitiveType: PrimitiveType) {

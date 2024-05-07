@@ -51,7 +51,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             concat("abc".toStringType(), "def".toStringType(), "ghi".toStringType()).alias("concat"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -62,7 +62,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             concat("abc", "def", "ghi").alias("concat"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -80,7 +80,7 @@ class StringFunctionsTest {
             ).alias(
                 "concat",
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -97,7 +97,7 @@ class StringFunctionsTest {
                 "c".toStringType(),
                 "d".toStringType(),
             ).alias("c1"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -114,7 +114,7 @@ class StringFunctionsTest {
                 "c",
                 "d",
             ).alias("c1"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -131,7 +131,7 @@ class StringFunctionsTest {
                 "c",
                 "d",
             ).alias("c1"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -140,7 +140,7 @@ class StringFunctionsTest {
     fun `should Support Concat2 One Argument`() {
         val expected = "CONCAT2(\"-\", \"a\") AS c2"
 
-        val actual: String = concat2("-", "a".toStringType()).alias("c2").toQueryString()
+        val actual: String = concat2("-", "a".toStringType()).alias("c2").toQuery().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -152,7 +152,7 @@ class StringFunctionsTest {
         val actual: String = create.select(
             contains("N1QL is awesome".toStringType(), "N1QL".toStringType())
                 .alias("n1ql"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -164,7 +164,7 @@ class StringFunctionsTest {
         val actual: String = create.select(
             contains("N1QL is awesome", "N1QL".toStringType())
                 .alias("n1ql"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -178,7 +178,7 @@ class StringFunctionsTest {
             create.select(
                 contains("N1QL is awesome".toStringType(), "N1QL".toStringType()).alias("n1ql"),
                 contains("N1QL is awesome", "SQL").alias("no_sql"),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -187,7 +187,7 @@ class StringFunctionsTest {
     fun `should Support Initcap`() {
         val expected = "SELECT INITCAP(\"N1QL is awesome\") AS n1ql"
 
-        val actual: String = create.select(initCap("N1QL is awesome").alias("n1ql")).build()
+        val actual: String = create.select(initCap("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -203,7 +203,7 @@ class StringFunctionsTest {
                 length("N1QL is awesome").alias("ascii"),
                 length("Café").alias("diacritic"),
                 length("").alias("zero"),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -212,7 +212,7 @@ class StringFunctionsTest {
     fun `should Support Lower`() {
         val expected = "SELECT LOWER(\"N1QL is awesome\") AS n1ql"
 
-        val actual: String = create.select(lower("N1QL is awesome").alias("n1ql")).build()
+        val actual: String = create.select(lower("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -229,7 +229,7 @@ class StringFunctionsTest {
             lpad("N1QL is awesome", 20, "-*").alias("repeated_padding"),
             lpad("N1QL is awesome", 20, "987654321").alias("truncate_padding"),
             lpad("N1QL is awesome", 4, "987654321").alias("truncate_string"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -252,7 +252,7 @@ class StringFunctionsTest {
             lpad("N1QL is awesome", 20.toNumberType(), "987654321".toStringType()),
             lpad("N1QL is awesome", 20.toNumberType(), "987654321"),
             lpad("N1QL is awesome".toStringType(), 4, "987654321".toStringType()).alias("truncate_string"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -263,7 +263,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             lpad("N1QL is awesome", 20, "1234".toStringType()).alias("implicit_padding"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -278,7 +278,7 @@ class StringFunctionsTest {
             ltrim("    N1QL is awesome", " ").alias("explicit_spaces"),
             ltrim("      N1QL is awesome").alias("implicit_spaces"),
             ltrim("N1QL is awesome".toStringType()).alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -289,7 +289,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             ltrim("...N1QL is awesome", "...").alias("dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -301,7 +301,7 @@ class StringFunctionsTest {
         val actual: String = create.select(
             ltrim("...N1QL is awesome".toStringType(), ".").alias("dots"),
             ltrim("...N1QL is awesome", ".".toStringType()),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -316,7 +316,7 @@ class StringFunctionsTest {
             mask("SomeTextToMask").alias("mask"),
             mask("SomeTextToMask", mapOf("mask" to "++++")).alias("mask_custom"),
             mask("SomeTextToMask", mapOf("mask" to "++++ ++++")).alias("mask_hole"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -331,7 +331,7 @@ class StringFunctionsTest {
             mask("SomeTextToMask".toStringType()).alias("mask"),
             mask("SomeTextToMask".toStringType(), mapOf("mask" to "++++")).alias("mask_custom"),
             mask("SomeTextToMask".toStringType(), mapOf("mask" to "++++ ++++")).alias("mask_hole"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -349,7 +349,7 @@ class StringFunctionsTest {
                 .alias("mask_custom"),
             mask("SomeTextToMask", mapOf("mask" to "++++ ++++"))
                 .alias("mask_hole"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -364,7 +364,7 @@ class StringFunctionsTest {
             position("N1QL is awesome", "awesome").alias("awesome"),
             position("N1QL is awesome", "N1QL").alias("n1ql"),
             position("N1QL is awesome", "SQL").alias("sql"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -379,7 +379,7 @@ class StringFunctionsTest {
             position("N1QL is awesome".toStringType(), "awesome").alias("awesome"),
             position("N1QL is awesome".toStringType(), "N1QL").alias("n1ql"),
             position("N1QL is awesome".toStringType(), "SQL").alias("sql"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -394,7 +394,7 @@ class StringFunctionsTest {
             position("N1QL is awesome", "awesome".toStringType()).alias("awesome"),
             position("N1QL is awesome", "N1QL".toStringType()).alias("n1ql"),
             position("N1QL is awesome", "SQL".toStringType()).alias("sql"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -408,7 +408,7 @@ class StringFunctionsTest {
             repeat("N1QL".toStringType(), 3),
             repeat("N1QL".toStringType(), 3.toNumberType()),
             repeat("N1QL", 3.toNumberType()).alias("n1ql_3"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -421,7 +421,7 @@ class StringFunctionsTest {
         val actual: String = create.select(
             reverse("N1QL is awesome").alias("n1ql"),
             reverse("racecar").alias("palindrome"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -444,7 +444,7 @@ class StringFunctionsTest {
             rpad("N1QL is awesome", 4.toNumberType(), "123456789".toStringType()).alias("truncate_string"),
             rpad("N1QL is awesome", 4.toNumberType()).alias("truncate_string"),
             rpad("N1QL is awesome".toStringType(), 4, "123456789".toStringType()).alias("truncate_string"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -461,7 +461,7 @@ class StringFunctionsTest {
             rpad("N1QL is awesome".toStringType(), 20, "-*").alias("repeated_padding"),
             rpad("N1QL is awesome".toStringType(), 20, "123456789").alias("truncate_padding"),
             rpad("N1QL is awesome".toStringType(), 4, "123456789").alias("truncate_string"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -478,7 +478,7 @@ class StringFunctionsTest {
             rpad("N1QL is awesome", 20, "-*".toStringType()).alias("repeated_padding"),
             rpad("N1QL is awesome", 20, "123456789".toStringType()).alias("truncate_padding"),
             rpad("N1QL is awesome", 4, "123456789".toStringType()).alias("truncate_string"),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -494,7 +494,7 @@ class StringFunctionsTest {
             rtrim("N1QL is awesome     ", ' ').alias("explicit_spaces"),
             rtrim("N1QL is awesome     ").alias("implicit_spaces"),
             rtrim("N1QL is awesome").alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -510,7 +510,7 @@ class StringFunctionsTest {
             rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
             rtrim("N1QL is awesome     ").alias("implicit_spaces"),
             rtrim("N1QL is awesome").alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -526,7 +526,7 @@ class StringFunctionsTest {
             rtrim("N1QL is awesome     ".toStringType()).alias("explicit_spaces"),
             rtrim("N1QL is awesome     ".toStringType()).alias("implicit_spaces"),
             rtrim("N1QL is awesome".toStringType()).alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -542,7 +542,7 @@ class StringFunctionsTest {
             rtrim("N1QL is awesome     ".toStringType()).alias("explicit_spaces"),
             rtrim("N1QL is awesome     ".toStringType()).alias("implicit_spaces"),
             rtrim("N1QL is awesome".toStringType()).alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -557,7 +557,7 @@ class StringFunctionsTest {
             split("N1QL is awesome", " ").alias("explicit_spaces"),
             split("N1QL is awesome").alias("implicit_spaces"),
             split("N1QL is awesome", "is").alias("split_is"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -572,7 +572,7 @@ class StringFunctionsTest {
             split("N1QL is awesome".toStringType(), " ").alias("explicit_spaces"),
             split("N1QL is awesome".toStringType()).alias("implicit_spaces"),
             split("N1QL is awesome".toStringType(), "is").alias("split_is"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -587,7 +587,7 @@ class StringFunctionsTest {
             split("N1QL is awesome", " ".toStringType()).alias("explicit_spaces"),
             split("N1QL is awesome").alias("implicit_spaces"),
             split("N1QL is awesome", "is".toStringType()).alias("split_is"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -602,7 +602,7 @@ class StringFunctionsTest {
             substr("N1QL is awesome", 3).alias("end_of_string"),
             substr("N1QL is awesome", 3, 1).alias("single_letter"),
             substr("N1QL is awesome", 3, 3).alias("three_letters"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -611,7 +611,7 @@ class StringFunctionsTest {
     fun `should Support Suffixes`() {
         val expected = "SELECT SUFFIXES(\"N1QL is awesome\")"
 
-        val actual: String = create.select(suffixes("N1QL is awesome")).build()
+        val actual: String = create.select(suffixes("N1QL is awesome")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -620,7 +620,7 @@ class StringFunctionsTest {
     fun `should Support Title`() {
         val expected = "SELECT INITCAP(\"N1QL is awesome\") AS n1ql"
 
-        val actual: String = create.select(title("N1QL is awesome").alias("n1ql")).build()
+        val actual: String = create.select(title("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -629,7 +629,7 @@ class StringFunctionsTest {
     fun `should Support Title with string Type`() {
         val expected = "SELECT INITCAP(\"N1QL is awesome\") AS n1ql"
 
-        val actual: String = create.select(title("N1QL is awesome".toStringType()).alias("n1ql")).build()
+        val actual: String = create.select(title("N1QL is awesome".toStringType()).alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -641,7 +641,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             tokens(listOf("jim@example.com", "kim@example.com", "http://example.com/", "408-555-1212"), CustomTokenOptions(specials = true)),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -652,7 +652,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             tokens(listOf("jim@example.com")),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -661,7 +661,7 @@ class StringFunctionsTest {
     fun `should Support Token Options`() {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"specials\": true})"
 
-        val actual: String = create.select(tokens(listOf("jim@example.com"), CustomTokenOptions(specials = true))).build()
+        val actual: String = create.select(tokens(listOf("jim@example.com"), CustomTokenOptions(specials = true))).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -675,7 +675,7 @@ class StringFunctionsTest {
                 listOf("jim@example.com"),
                 CustomTokenOptions(specials = true, case = TOKEN_CASES.UPPER),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -686,7 +686,7 @@ class StringFunctionsTest {
 
         val actual: String = create.select(
             tokens(listOf("jim@example.com"), CustomTokenOptions(specials = false, case = TOKEN_CASES.UPPER, name = false)),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -707,7 +707,7 @@ class StringFunctionsTest {
                 .alias("implicit_spaces"),
             trim("N1QL is awesome")
                 .alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -728,7 +728,7 @@ class StringFunctionsTest {
                 .alias("implicit_spaces"),
             trim("N1QL is awesome")
                 .alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -749,7 +749,7 @@ class StringFunctionsTest {
                 .alias("implicit_spaces"),
             trim("N1QL is awesome".toStringType())
                 .alias("no_dots"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -758,7 +758,7 @@ class StringFunctionsTest {
     fun `should Support Upper`() {
         val expected = "SELECT UPPER(\"N1QL is awesome\") AS n1ql"
 
-        val actual: String = create.select(upper("N1QL is awesome").alias("n1ql")).build()
+        val actual: String = create.select(upper("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -767,7 +767,7 @@ class StringFunctionsTest {
     fun `should support string functions in where clause`() {
         val expected = "SELECT * FROM someBucket WHERE CONTAINS(stringField, \"123\")"
 
-        val actual: String = create.selectFrom(someBucket()).where(contains(someStringField(), "123")).build()
+        val actual: String = create.selectFrom(someBucket()).where(contains(someStringField(), "123")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -776,7 +776,7 @@ class StringFunctionsTest {
     fun `should support string functions with conditions in where clause`() {
         val expected = "SELECT * FROM someBucket WHERE UPPER(stringField) = \"VENDOLIN\""
         val actual: String =
-            create.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toStringType())).build()
+            create.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toStringType())).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -785,7 +785,7 @@ class StringFunctionsTest {
     fun `should support nested string functions`() {
         val expected = "SELECT CONTAINS(UPPER(\"vendolin\"), \"VEN\") AS foo"
 
-        val actual: String = create.select(contains(upper("vendolin"), "VEN").alias("foo")).build()
+        val actual: String = create.select(contains(upper("vendolin"), "VEN").alias("foo")).build().queryString
 
         assertEquals(expected, actual)
     }

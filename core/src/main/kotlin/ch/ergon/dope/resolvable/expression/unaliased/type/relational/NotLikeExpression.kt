@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
@@ -12,7 +13,7 @@ class NotLikeExpression(
     left: Field<out ValidType>,
     right: TypeExpression<StringType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "NOT LIKE", right) {
-    override fun toQueryString(): String = toInfixQueryString()
+    override fun toQuery(): DopeQuery = toInfixQuery()
 }
 
 fun Field<out ValidType>.isNotLike(right: TypeExpression<StringType>): NotLikeExpression = NotLikeExpression(this, right)

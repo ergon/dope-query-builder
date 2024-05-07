@@ -45,7 +45,7 @@ class QueryBuilderTest {
             someStringField(),
         ).from(
             someBucket(),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -60,7 +60,7 @@ class QueryBuilderTest {
                 someBucket(),
             ).where(
                 someStringField().isEqualTo("Ian".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -73,7 +73,7 @@ class QueryBuilderTest {
             someBucket(),
         ).where(
             someStringField().isEqualTo("Ian".toStringType()),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -88,7 +88,7 @@ class QueryBuilderTest {
                 someBucket(),
             ).where(
                 someStringField().isEqualTo("Ian".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -104,7 +104,7 @@ class QueryBuilderTest {
             someBucket(),
         ).where(
             someStringField().isEqualTo("Ian".toStringType()),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -119,7 +119,7 @@ class QueryBuilderTest {
             someBucket(),
         ).where(
             someStringField().isEqualTo("Peter".toStringType()),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -133,7 +133,7 @@ class QueryBuilderTest {
             someStringField(),
         ).from(someBucket()).where(
             someStringField().isEqualTo("Jackson".toStringType()),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -147,7 +147,7 @@ class QueryBuilderTest {
             someStringField().alias("LastName"),
         ).from(someBucket()).where(
             someStringField().isEqualTo("Jackson".toStringType()),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -162,7 +162,7 @@ class QueryBuilderTest {
                 someBucket(),
             ).where(
                 someNumberField().isLessThan(50.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -179,7 +179,7 @@ class QueryBuilderTest {
                 someNumberField().isLessThan(50.toNumberType()).and(
                     someStringField().isEqualTo("Mr.".toStringType()),
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -200,7 +200,7 @@ class QueryBuilderTest {
                         ("M" + "r.").toStringType(),
                     ),
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -214,7 +214,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 12.toNumberType().isNotEqualTo(5.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -228,7 +228,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 someNumberField().isNotEqualTo(5.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -242,7 +242,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 3.toNumberType().isNotEqualTo(someNumberField()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -256,7 +256,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 "test".toStringType().isNotEqualTo("hallo".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -270,7 +270,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 someStringField().isNotEqualTo("5".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -284,7 +284,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -298,7 +298,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -312,7 +312,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 3.toNumberType().isGreaterOrEqualThan(someNumberField()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -326,7 +326,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -340,7 +340,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -354,7 +354,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 "test".toStringType().isGreaterOrEqualThan(someStringField()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -368,7 +368,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 12.toNumberType().isLessOrEqualThan(5.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -382,7 +382,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 someNumberField().isLessOrEqualThan(5.toNumberType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -396,7 +396,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 3.toNumberType().isLessOrEqualThan(someNumberField()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -410,7 +410,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -424,7 +424,7 @@ class QueryBuilderTest {
             .from(someBucket())
             .where(
                 someStringField().isLessOrEqualThan("5".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -447,7 +447,7 @@ class QueryBuilderTest {
                         someStringField().isEqualTo("friend".toStringType()),
                     ),
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -464,7 +464,7 @@ class QueryBuilderTest {
             someStringField("email").isLike(
                 "%@yahoo.com".toStringType(),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -484,7 +484,7 @@ class QueryBuilderTest {
             ).and(
                 someNumberField().isEqualTo(46.toNumberType()),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -495,7 +495,7 @@ class QueryBuilderTest {
 
         val actual: String = create.select(
             NULL,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -506,7 +506,7 @@ class QueryBuilderTest {
 
         val actual: String = create.select(
             MISSING,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -537,7 +537,7 @@ class QueryBuilderTest {
                     "run".toStringType(),
                 ),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -546,7 +546,7 @@ class QueryBuilderTest {
     fun `should Support Simple Boolean Value True`() {
         val expected = "SELECT TRUE"
 
-        val actual: String = create.select(TRUE).build()
+        val actual: String = create.select(TRUE).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -555,7 +555,7 @@ class QueryBuilderTest {
     fun `should Support Simple Boolean Value False`() {
         val expected = "SELECT FALSE"
 
-        val actual: String = create.select(FALSE).build()
+        val actual: String = create.select(FALSE).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -564,7 +564,7 @@ class QueryBuilderTest {
     fun `should Support Simple String Value False`() {
         val expected = "SELECT \"FALSE\""
 
-        val actual: String = create.select("FALSE".toStringType()).build()
+        val actual: String = create.select("FALSE".toStringType()).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -577,7 +577,7 @@ class QueryBuilderTest {
             TRUE.isEqualTo(
                 TRUE,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -590,7 +590,7 @@ class QueryBuilderTest {
             TRUE.and(
                 FALSE,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -603,7 +603,7 @@ class QueryBuilderTest {
             TRUE.and(
                 false,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -616,7 +616,7 @@ class QueryBuilderTest {
             true.and(
                 FALSE,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -629,7 +629,7 @@ class QueryBuilderTest {
             TRUE.or(
                 FALSE,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -642,7 +642,7 @@ class QueryBuilderTest {
             TRUE.or(
                 false,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -655,7 +655,7 @@ class QueryBuilderTest {
             true.or(
                 FALSE,
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -664,7 +664,7 @@ class QueryBuilderTest {
     fun `should Support Not 1`() {
         val expected = "SELECT NOT(TRUE)"
 
-        val actual: String = create.select(not(TRUE)).build()
+        val actual: String = create.select(not(TRUE)).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -679,7 +679,7 @@ class QueryBuilderTest {
                     FALSE,
                 ),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -696,7 +696,7 @@ class QueryBuilderTest {
                     ),
                 ),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -707,7 +707,7 @@ class QueryBuilderTest {
 
         val actual: String = TRUE.isEqualTo(
             FALSE,
-        ).toQueryString()
+        ).toQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -722,7 +722,7 @@ class QueryBuilderTest {
             nowStr().alias("full_date"),
             nowStr("invalid date").alias("invalid_date"),
             nowStr("1111-11-11").alias("short_date"),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -733,7 +733,7 @@ class QueryBuilderTest {
 
         val actual = create.selectRaw(
             not(TRUE.or(FALSE)),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -746,7 +746,7 @@ class QueryBuilderTest {
             someStringField("name"),
         ).from(
             someBucket(),
-        ).build()
+        ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -756,7 +756,7 @@ class QueryBuilderTest {
         val getSomething = { "something" }
         val expected = "TRUE"
 
-        val actual = (getSomething() == "something").toBooleanType().toQueryString()
+        val actual = (getSomething() == "something").toBooleanType().toQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -769,7 +769,7 @@ class QueryBuilderTest {
         val actual = create
             .select(someBucket.asterisk())
             .from(someBucket)
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -782,7 +782,7 @@ class QueryBuilderTest {
         val actual = create
             .select(someBucket.asterisk())
             .from(someBucket)
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }

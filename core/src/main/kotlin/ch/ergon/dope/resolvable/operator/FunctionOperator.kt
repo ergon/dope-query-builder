@@ -1,23 +1,21 @@
 package ch.ergon.dope.resolvable.operator
 
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.validtype.StringType
-import ch.ergon.dope.validtype.ValidType
+import ch.ergon.dope.DopeQuery
 
 interface FunctionOperator {
-    fun toFunctionQueryString(symbol: String, vararg arguments: TypeExpression<out ValidType>, extra: TypeExpression<StringType>?) =
+    fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery, extra: DopeQuery?) =
         if (extra == null) {
             toFunctionQueryString(symbol = symbol, *arguments)
         } else {
             toFunctionQueryString(symbol = symbol, *arguments, extra)
         }
 
-    fun toFunctionQueryString(symbol: String, vararg arguments: TypeExpression<out ValidType>) = arguments.joinToString(
+    fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery) = arguments.joinToString(
         ", ",
         prefix = "$symbol(",
         postfix = ")",
     ) {
-        it.toQueryString()
+        it.queryString
     }
 
     fun toFunctionQueryString(symbol: String, vararg arguments: String) = arguments.joinToString(

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.operator.InfixOperator
@@ -10,7 +11,7 @@ class LogicalInfixExpression(
     symbol: String,
     right: TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, symbol, right) {
-    override fun toQueryString(): String = toInfixQueryString()
+    override fun toQuery(): DopeQuery = toInfixQuery()
 }
 
 fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =

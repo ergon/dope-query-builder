@@ -44,7 +44,7 @@ class JoinClauseTest {
                 someStringField("country", airline).isEqualTo(
                     "France".toStringType(),
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -64,7 +64,7 @@ class JoinClauseTest {
                 ),
             ).where(
                 someStringField("sourceairport", route).isEqualTo("SFO".toStringType()),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -88,7 +88,7 @@ class JoinClauseTest {
                 someStringField("sourceairport", route).isEqualTo(
                     "SFO".toStringType(),
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -119,7 +119,7 @@ class JoinClauseTest {
             ),
         ).orderBy(
             someStringField("sourceairport"),
-        ).build()
+        ).build().queryString
 
         assertEquals(
             unifyString(expected),
@@ -172,7 +172,7 @@ class JoinClauseTest {
             someStringField("airportname", aport),
         ).limit(
             4,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -222,7 +222,7 @@ class JoinClauseTest {
             someStringField("airportname", aport),
         ).limit(
             4.toNumberType(),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -268,7 +268,7 @@ class JoinClauseTest {
             ),
         ).limit(
             4,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -298,7 +298,7 @@ class JoinClauseTest {
                     "SEA".toStringType(),
                 ),
             ),
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -325,7 +325,7 @@ class JoinClauseTest {
             someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
             4,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -352,7 +352,7 @@ class JoinClauseTest {
             someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
             4,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -376,7 +376,7 @@ class JoinClauseTest {
                 onCondition = someStringField("airlineid", r).isEqualTo(
                     meta(a).id,
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -394,7 +394,7 @@ class JoinClauseTest {
             ).join(
                 airline,
                 onKeys = someStringField("airlineid", r),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -421,7 +421,7 @@ class JoinClauseTest {
             someStringField("icao", airline).isEqualTo("SWA".toStringType()),
         ).limit(
             4,
-        ).build()
+        ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -440,7 +440,7 @@ class JoinClauseTest {
             ).join(
                 a2,
                 onCondition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -464,7 +464,7 @@ class JoinClauseTest {
             ).join(
                 city,
                 onCondition = someStringField("id", airport).isEqualTo(someStringField("id", city)),
-            ).build()
+            ).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }

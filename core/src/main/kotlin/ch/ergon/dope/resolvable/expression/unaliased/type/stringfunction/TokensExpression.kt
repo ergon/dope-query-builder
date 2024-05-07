@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -12,9 +13,15 @@ class TokensExpression(
     private val inStr: List<String>,
     private val opt: CustomTokenOptions = CustomTokenOptions(),
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(
-        symbol = "TOKENS",
-        inStr.joinToString(prefix = "[\"", postfix = "\"]"),
-        opt.toQueryString(),
-    )
+    override fun toQuery(): DopeQuery {
+        val optDopeQuery = opt.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(
+                symbol = "TOKENS",
+                inStr.joinToString(prefix = "[\"", postfix = "\"]"),
+                optDopeQuery.queryString,
+            ),
+            parameters = optDopeQuery.parameters,
+        )
+    }
 }

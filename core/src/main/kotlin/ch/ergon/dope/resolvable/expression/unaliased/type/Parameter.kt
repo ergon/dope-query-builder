@@ -1,28 +1,63 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class Parameter<T : ValidType>(val value: TypeExpression<T>, private val parameterName: String?) : TypeExpression<T> {
-    override fun toQueryString(): String = when (parameterName) {
-        null -> "\$${ParameterCounter.count}"
-        else -> "\$$parameterName"
+object ParameterManager {
+    var count: Int = 1
+        get() = field++
+
+    fun resetCounter() {
+        count = 1
     }
 }
 
-fun <T : ValidType> TypeExpression<T>.asParameter(parameterName: String) = Parameter(this, parameterName)
+class Parameter<T : ValidType> : TypeExpression<T> {
+    val value: Any
+    private val parameterName: String?
 
-fun String.asParameter(parameterName: String) = Parameter(this.toStringType(), parameterName)
+    constructor(number: Number, parameterName: String?) {
+        this.value = number
+        this.parameterName = parameterName
+    }
 
-fun <T : ValidType> TypeExpression<T>.asParameter() = Parameter(this, null)
+    constructor(string: String, parameterName: String?) {
+        this.value = string
+        this.parameterName = parameterName
+    }
 
-fun String.asParameter() = Parameter(this.toStringType(), null)
+    constructor(boolean: Boolean, parameterName: String?) {
+        this.value = boolean
+        this.parameterName = parameterName
+    }
 
-private object ParameterCounter {
-    var count: Int = 1
-        get() = field++
+    constructor(collection: Collection<Any>, parameterName: String?) {
+        this.value = collection
+        this.parameterName = parameterName
+    }
+
+    override fun toQuery(): DopeQuery = when (parameterName) {
+        null -> {
+            val count = ParameterManager.count.toString()
+            DopeQuery(
+                queryString = "\$$count",
+                parameters = mapOf(count to value),
+            )
+        }
+
+        else -> DopeQuery(
+            queryString = "\$$parameterName",
+            parameters = mapOf(parameterName to value),
+        )
+    }
 }
 
-fun resetCounter() {
-    ParameterCounter.count = 1
-}
+fun Number.asParameter(parameterName: String? = null) = Parameter<NumberType>(this, parameterName)
+fun String.asParameter(parameterName: String? = null) = Parameter<StringType>(this, parameterName)
+fun Boolean.asParameter(parameterName: String? = null) = Parameter<BooleanType>(this, parameterName)
+fun Collection<Any>.asParameter(parameterName: String? = null) = Parameter<ArrayType<ValidType>>(this, parameterName)

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
@@ -20,5 +21,5 @@ class AsteriskExpression : Expression {
         queryString = ASTERISK_STRING
     }
 
-    override fun toQueryString(): String = queryString
+    override fun toQuery(): DopeQuery = DopeQuery(queryString, emptyMap())
 }

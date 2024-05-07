@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
@@ -12,7 +13,15 @@ class LpadExpression(
     private val size: TypeExpression<NumberType>,
     private val prefix: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "LPAD", inStr, size, extra = prefix)
+    override fun toQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toQuery()
+        val sizeDopeQuery = size.toQuery()
+        val prefixDopeQuery = prefix?.toQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(symbol = "LPAD", inStrDopeQuery, sizeDopeQuery, extra = prefixDopeQuery),
+            parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + (prefixDopeQuery?.parameters ?: emptyMap()),
+        )
+    }
 }
 
 fun lpad(

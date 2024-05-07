@@ -25,7 +25,7 @@ class DeleteTest {
 
         val actual: String = create
             .deleteFrom(someBucket())
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class DeleteTest {
         val actual: String = create
             .deleteFrom(someBucket())
             .where(TRUE)
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class DeleteTest {
         val actual: String = create
             .deleteFrom(someBucket())
             .limit(10.toNumberType())
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class DeleteTest {
         val actual: String = create
             .deleteFrom(someBucket())
             .offset(10.toNumberType())
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class DeleteTest {
         val actual: String = create
             .deleteFrom(someBucket())
             .returning(someStringField())
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -85,7 +85,7 @@ class DeleteTest {
         val actual: String = create
             .deleteFrom(someBucket())
             .returning(someStringField(), someNumberField())
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -100,7 +100,7 @@ class DeleteTest {
             .limit(7.toNumberType())
             .offset(10.toNumberType())
             .returning(someStringField())
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
