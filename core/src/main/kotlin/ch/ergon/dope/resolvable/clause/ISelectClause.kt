@@ -13,7 +13,7 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
-import ch.ergon.dope.resolvable.clause.model.UnnestClauseWithAliased
+import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.expression.AliasedExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
@@ -70,7 +70,7 @@ interface ISelectJoinClause : ISelectFromClause {
 
 interface ISelectUnnestClause : ISelectJoinClause {
     fun unnest(field: Field<ArrayType<out ValidType>>) = UnnestClause(this, field)
-    fun unnest(field: AliasedExpression<ArrayType<out ValidType>>) = UnnestClauseWithAliased(this, field)
+    fun unnest(field: AliasedExpression<ArrayType<out ValidType>>) = AliasedUnnestClause(this, field)
 }
 
 interface ISelectClause : ISelectFromClause {
