@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
@@ -13,7 +14,6 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
-import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.expression.AliasedExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
@@ -69,8 +69,8 @@ interface ISelectJoinClause : ISelectFromClause {
 }
 
 interface ISelectUnnestClause : ISelectJoinClause {
-    fun unnest(field: Field<ArrayType<out ValidType>>) = UnnestClause(field, this)
-    fun unnest(field: AliasedExpression<ArrayType<out ValidType>>) = AliasedUnnestClause(field, this)
+    fun <T : ValidType> unnest(arrayField: Field<ArrayType<T>>) = UnnestClause(arrayField, this)
+    fun <T : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<T>>) = AliasedUnnestClause(aliasedArrayExpression, this)
 }
 
 interface ISelectClause : ISelectFromClause {

@@ -9,13 +9,14 @@ import ch.ergon.dope.validtype.ValidType
 
 private const val UNNEST = "UNNEST"
 
-class UnnestClause(private val arrayTypeField: Field<ArrayType<out ValidType>>, private val parentClause: ISelectUnnestClause) : ISelectUnnestClause {
+class UnnestClause<T : ValidType>(private val arrayTypeField: Field<ArrayType<T>>, private val parentClause: ISelectUnnestClause) :
+    ISelectUnnestClause {
     override fun toQueryString(): String = formatToQueryString(parentClause, UNNEST, arrayTypeField)
 }
 
-class AliasedUnnestClause(
-    private val aliasedExpression: AliasedExpression<ArrayType<out ValidType>>,
-    private val parentClause: ISelectUnnestClause
+class AliasedUnnestClause<T : ValidType>(
+    private val aliasedExpression: AliasedExpression<ArrayType<T>>,
+    private val parentClause: ISelectUnnestClause,
 ) :
     ISelectUnnestClause {
     override fun toQueryString(): String = formatToQueryString(parentClause, UNNEST, aliasedExpression)

@@ -8,7 +8,6 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import ch.ergon.dope.validtype.ValidType
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
@@ -18,7 +17,14 @@ fun someStringField(name: String = "stringField", bucket: Bucket = someBucket(""
 
 fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
 
-fun someArrayField(name: String = "arrayField", bucket: Bucket = someBucket("")) = Field<ArrayType<out ValidType>>(name, getBucketName(bucket))
+fun someNumberArrayField(name: String = "numberArrayField", bucket: Bucket = someBucket("")) =
+    Field<ArrayType<NumberType>>(name, getBucketName(bucket))
+
+fun someStringArrayField(name: String = "stringArrayField", bucket: Bucket = someBucket("")) =
+    Field<ArrayType<StringType>>(name, getBucketName(bucket))
+
+fun someBooleanArrayField(name: String = "booleanArrayField", bucket: Bucket = someBucket("")) =
+    Field<ArrayType<BooleanType>>(name, getBucketName(bucket))
 
 private fun getBucketName(bucket: Bucket): String = when (bucket) {
     is AliasedBucket -> bucket.alias
