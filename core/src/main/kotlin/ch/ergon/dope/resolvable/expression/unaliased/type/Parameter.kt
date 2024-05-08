@@ -43,9 +43,9 @@ class Parameter<T : ValidType> : TypeExpression<T> {
 
     override fun toQuery(): DopeQuery = when (parameterName) {
         null -> {
-            val count = ParameterManager.count.toString()
+            val count = "\$${ParameterManager.count}"
             DopeQuery(
-                queryString = "\$$count",
+                queryString = count,
                 parameters = mapOf(count to value),
             )
         }

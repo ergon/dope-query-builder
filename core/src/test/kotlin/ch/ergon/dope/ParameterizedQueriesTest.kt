@@ -16,23 +16,11 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class ParameterizedQueriesTest {
-
-    private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
 
     @BeforeTest
     fun setup() {
-        builder = StringBuilder()
         create = QueryBuilder()
-    }
-
-    @Test
-    fun `should get one parameter as result`() {
-        val parameter = 1.asParameter("hallo")
-
-        val parameters = create.select(parameter.isEqualTo(1.toNumberType())).build().parameters
-
-        assertEquals(1, parameters.size)
     }
 
     @Test

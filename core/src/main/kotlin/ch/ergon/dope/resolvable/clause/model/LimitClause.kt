@@ -1,7 +1,6 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
-
 import ch.ergon.dope.resolvable.clause.IDeleteLimitClass
 import ch.ergon.dope.resolvable.clause.IDeleteWhereClause
 import ch.ergon.dope.resolvable.clause.ISelectLimitClause
