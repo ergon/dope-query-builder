@@ -11,6 +11,9 @@ open class InfixOperator(
     private val right: TypeExpression<out ValidType>,
 ) {
     fun toInfixQueryString(useBrackets: Boolean = false) =
-        if (useBrackets) formatToQueryStringWithBrackets(left.toQueryString(), symbol, right.toQueryString())
-        else formatToQueryString(left.toQueryString(), symbol, right.toQueryString())
+        if (useBrackets) {
+            formatToQueryStringWithBrackets(left.toQueryString(), symbol, right.toQueryString())
+        } else {
+            formatToQueryString(left.toQueryString(), symbol, right.toQueryString())
+        }
 }
