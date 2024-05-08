@@ -661,7 +661,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Not 1`() {
-        val expected = "SELECT NOT(TRUE)"
+        val expected = "SELECT NOT TRUE"
 
         val actual: String = create.select(not(TRUE)).build()
 
@@ -670,7 +670,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Not 2`() {
-        val expected = "SELECT NOT((TRUE AND FALSE))"
+        val expected = "SELECT NOT (TRUE AND FALSE)"
 
         val actual: String = create.select(
             not(
@@ -685,7 +685,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Not 3`() {
-        val expected = "SELECT NOT((TRUE AND (FALSE AND TRUE)))"
+        val expected = "SELECT NOT (TRUE AND (FALSE AND TRUE))"
 
         val actual: String = create.select(
             not(
@@ -728,7 +728,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support select raw`() {
-        val expected = "SELECT RAW NOT((TRUE OR FALSE))"
+        val expected = "SELECT RAW NOT (TRUE OR FALSE)"
 
         val actual = create.selectRaw(
             not(TRUE.or(FALSE)),

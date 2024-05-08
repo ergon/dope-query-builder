@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.BooleanType
 class NotExpression(
     expression: TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType>, PrefixOperator("NOT", expression) {
-    override fun toQueryString(): String = toPrefixQueryString()
+    override fun toQueryString(): String = toPrefixQueryString(separator = " ")
 }
 
 fun not(expression: TypeExpression<BooleanType>) = NotExpression(expression)
