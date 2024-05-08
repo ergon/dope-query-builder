@@ -1,12 +1,15 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
@@ -72,6 +75,33 @@ class ParameterizedQueriesTest {
             create.selectFrom(someBucket())
                 .where(someStringField("country").isEqualTo("UnitedStates".asParameter())).build().queryString
         assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should Support Number Array Parameters`() {
+        val expected = "SELECT * FROM someBucket WHERE numberField IN $1"
+
+        val actual: String = create.selectFrom(someBucket())
+            .where(someNumberField().inArray(listOf<Number>().asParameter())).build().queryString
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should Support String Array Parameters`() {
+        val expected = "SELECT * FROM someBucket WHERE stringField IN $1"
+
+        val actual: String = create.selectFrom(someBucket())
+            .where(someStringField().inArray(listOf<String>().asParameter())).build().queryString
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should Support Boolean Array Parameters`() {
+        val expected = "SELECT * FROM someBucket WHERE booleanField IN $1"
+
+        val actual: String = create.selectFrom(someBucket())
+            .where(someBooleanField().inArray(listOf<Boolean>().asParameter())).build().queryString
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -189,8 +219,7 @@ class ParameterizedQueriesTest {
             concat(
                 "Salut".asParameter("greetingLeft"),
                 ("Good Afternoon".asParameter("greetingRight")),
-            )
-                .alias("concatted"),
+            ).alias("concatted"),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)

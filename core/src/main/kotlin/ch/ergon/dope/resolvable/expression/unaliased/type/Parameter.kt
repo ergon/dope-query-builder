@@ -60,4 +60,12 @@ class Parameter<T : ValidType> : TypeExpression<T> {
 fun Number.asParameter(parameterName: String? = null) = Parameter<NumberType>(this, parameterName)
 fun String.asParameter(parameterName: String? = null) = Parameter<StringType>(this, parameterName)
 fun Boolean.asParameter(parameterName: String? = null) = Parameter<BooleanType>(this, parameterName)
-fun Collection<Any>.asParameter(parameterName: String? = null) = Parameter<ArrayType<ValidType>>(this, parameterName)
+
+@JvmName("numberCollectionAsParameter")
+fun Collection<Number>.asParameter(parameterName: String? = null) = Parameter<ArrayType<NumberType>>(this, parameterName)
+
+@JvmName("stringCollectionAsParameter")
+fun Collection<String>.asParameter(parameterName: String? = null) = Parameter<ArrayType<StringType>>(this, parameterName)
+
+@JvmName("booleanParameterAsParameter")
+fun Collection<Boolean>.asParameter(parameterName: String? = null) = Parameter<ArrayType<BooleanType>>(this, parameterName)
