@@ -55,22 +55,22 @@ interface ISelectFromClause : ISelectWhereClause {
 }
 
 interface ISelectJoinClause : ISelectFromClause {
-    fun join(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(this, bucket, onCondition)
-    fun join(bucket: Bucket, onKeys: Field<out ValidType>) = StandardJoinClause(this, bucket, onKeys)
+    fun join(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(bucket, onCondition, this)
+    fun join(bucket: Bucket, onKeys: Field<out ValidType>) = StandardJoinClause(bucket, onKeys, this)
 
-    fun innerJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = InnerJoinClause(this, bucket, onCondition)
-    fun innerJoin(bucket: Bucket, onKeys: Field<out ValidType>) = InnerJoinClause(this, bucket, onKeys)
+    fun innerJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = InnerJoinClause(bucket, onCondition, this)
+    fun innerJoin(bucket: Bucket, onKeys: Field<out ValidType>) = InnerJoinClause(bucket, onKeys, this)
 
-    fun leftJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(this, bucket, onCondition)
-    fun leftJoin(bucket: Bucket, onKeys: Field<out ValidType>) = LeftJoinClause(this, bucket, onKeys)
+    fun leftJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(bucket, onCondition, this)
+    fun leftJoin(bucket: Bucket, onKeys: Field<out ValidType>) = LeftJoinClause(bucket, onKeys, this)
 
-    fun rightJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(this, bucket, onCondition)
-    fun rightJoin(bucket: Bucket, onKeys: Field<out ValidType>) = RightJoinClause(this, bucket, onKeys)
+    fun rightJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(bucket, onCondition, this)
+    fun rightJoin(bucket: Bucket, onKeys: Field<out ValidType>) = RightJoinClause(bucket, onKeys, this)
 }
 
 interface ISelectUnnestClause : ISelectJoinClause {
-    fun unnest(field: Field<ArrayType<out ValidType>>) = UnnestClause(this, field)
-    fun unnest(field: AliasedExpression<ArrayType<out ValidType>>) = AliasedUnnestClause(this, field)
+    fun unnest(field: Field<ArrayType<out ValidType>>) = UnnestClause(field, this)
+    fun unnest(field: AliasedExpression<ArrayType<out ValidType>>) = AliasedUnnestClause(field, this)
 }
 
 interface ISelectClause : ISelectFromClause {
