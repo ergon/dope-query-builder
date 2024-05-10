@@ -13,16 +13,16 @@ import ch.ergon.dope.validtype.ValidType
 
 interface IDeleteReturningClause : Clause
 
-interface IDeleteOffsetClass : IDeleteReturningClause {
+interface IDeleteOffsetClause : IDeleteReturningClause {
     fun returning(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = ReturningClause(field, *fields, parentClause = this)
 }
 
-interface IDeleteLimitClass : IDeleteOffsetClass {
+interface IDeleteLimitClause : IDeleteOffsetClause {
     fun offset(numberExpression: TypeExpression<NumberType>) = DeleteOffsetClause(numberExpression, this)
     fun offset(number: Number): DeleteOffsetClause = offset(number.toNumberType())
 }
 
-interface IDeleteWhereClause : IDeleteLimitClass {
+interface IDeleteWhereClause : IDeleteLimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>) = DeleteLimitClause(numberExpression, this)
     fun limit(number: Number): DeleteLimitClause = limit(number.toNumberType())
 }
