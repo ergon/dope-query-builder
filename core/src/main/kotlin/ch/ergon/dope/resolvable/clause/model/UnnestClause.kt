@@ -17,7 +17,6 @@ class UnnestClause<T : ValidType>(private val arrayTypeField: Field<ArrayType<T>
 class AliasedUnnestClause<T : ValidType>(
     private val aliasedExpression: AliasedExpression<ArrayType<T>>,
     private val parentClause: ISelectUnnestClause,
-) :
-    ISelectUnnestClause {
+) : ISelectUnnestClause {
     override fun toQueryString(): String = formatToQueryString(parentClause, UNNEST, aliasedExpression)
 }
