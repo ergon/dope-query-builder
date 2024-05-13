@@ -76,7 +76,7 @@ class UnnestClauseTest {
     @Test
     fun `should support unnest s`() {
         val expected =
-            "SELECT b.* FROM someBucket AS b UNNEST stringArrayField AS a WHERE b.stringField = \"something\" AND a.stringField = \$param"
+            "SELECT b.* FROM someBucket AS b UNNEST stringArrayField AS a WHERE (b.stringField = \"something\" AND a.stringField = \$param)"
 
         val b = someBucket().alias("b")
         val actual: String = create

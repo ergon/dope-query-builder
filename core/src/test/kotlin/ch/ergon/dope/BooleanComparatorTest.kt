@@ -877,7 +877,7 @@ class BooleanComparatorTest {
     fun `should add brackets to one Boolean comparator`() {
         val expected = "SELECT * FROM someBucket WHERE (TRUE AND TRUE)"
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             )
@@ -893,7 +893,7 @@ class BooleanComparatorTest {
     fun `should add first bracket pair to two Boolean comparators`() {
         val expected = "SELECT * FROM someBucket WHERE ((TRUE AND TRUE) OR FALSE)"
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             )
@@ -909,7 +909,7 @@ class BooleanComparatorTest {
     fun `should add second bracket pair to two Boolean comparators`() {
         val expected = "SELECT * FROM someBucket WHERE (TRUE AND (TRUE OR FALSE))"
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             )
