@@ -6,9 +6,9 @@ import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 
 class LogicalInfixExpression(
-    private val left: TypeExpression<BooleanType>,
-    private val symbol: String,
-    private val right: TypeExpression<BooleanType>,
+    left: TypeExpression<BooleanType>,
+    symbol: String,
+    right: TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, symbol, right) {
     override fun toQueryString(): String = toInfixQueryString(useBrackets = true)
 }
