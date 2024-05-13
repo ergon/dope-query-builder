@@ -16,13 +16,13 @@ import kotlin.test.Test
 
 class OperatorTest {
     private lateinit var builder: StringBuilder
-    private lateinit var create: DSLContext
+    private lateinit var create: QueryBuilder
     private val someBucket = someBucket("someBucket")
 
     @BeforeTest
     fun setup() {
         builder = StringBuilder()
-        create = DSLContext()
+        create = QueryBuilder()
     }
 
     @Test

@@ -2,17 +2,17 @@ package ch.ergon.dope
 
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.select.factory.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderByType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class OrderByTest {
-    private lateinit var create: DSLContext
+    private lateinit var create: QueryBuilder
 
     @BeforeTest
     fun setup() {
-        create = DSLContext()
+        create = QueryBuilder()
     }
 
     @Test
@@ -20,7 +20,7 @@ class OrderByTest {
         val expected = "SELECT * FROM someBucket ORDER BY stringField"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).orderBy(
@@ -35,7 +35,7 @@ class OrderByTest {
         val expected = "SELECT * FROM someBucket ORDER BY stringField ASC"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).orderBy(
@@ -51,7 +51,7 @@ class OrderByTest {
         val expected = "SELECT * FROM someBucket ORDER BY stringField DESC"
 
         val actual: String = create
-            .selectAll()
+            .selectAsterisk()
             .from(
                 someBucket(),
             ).orderBy(
