@@ -10,7 +10,7 @@ class LogicalInfixExpression(
     symbol: String,
     right: TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, symbol, right) {
-    override fun toQueryString(): String = toInfixQueryString()
+    override fun toQueryString(): String = toInfixQueryString(useBrackets = true)
 }
 
 fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =

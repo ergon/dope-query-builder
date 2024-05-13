@@ -169,7 +169,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\""
+        val expected = "SELECT * FROM someBucket WHERE (numberField < 50 AND stringField = \"Mr.\")"
 
         val actual: String = create
             .selectAsterisk()
@@ -186,7 +186,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions And Expressions`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\""
+        val expected = "SELECT * FROM someBucket WHERE (numberField < 50 AND stringField = \"Mr.\")"
 
         val actual: String = create
             .selectAsterisk()
@@ -431,7 +431,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Many Chained Conditions`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField < 50 AND stringField = \"Mr.\" AND stringField = \"friend\""
+        val expected = "SELECT * FROM someBucket WHERE (numberField < 50 AND (stringField = \"Mr.\" AND stringField = \"friend\"))"
 
         val actual: String = create
             .selectAsterisk()
@@ -471,7 +471,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Like Chained`() {
-        val expected = "SELECT stringField, numberField FROM someBucket WHERE email LIKE \"%@gmail.com\" AND numberField = 46"
+        val expected = "SELECT stringField, numberField FROM someBucket WHERE (email LIKE \"%@gmail.com\" AND numberField = 46)"
 
         val actual: String = create.select(
             someStringField(),
@@ -513,7 +513,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Long Complex Query`() {
-        val expected = "SELECT 1 = 1 AND 2 = 2 AND 3 = 3 AS what FROM someBucket WHERE 1 = 1 AND \"run\" = \"run\""
+        val expected = "SELECT ((1 = 1 AND 2 = 2) AND 3 = 3) AS what FROM someBucket WHERE (1 = 1 AND \"run\" = \"run\")"
 
         val actual: String = create.select(
             1.toNumberType().isEqualTo(
@@ -584,7 +584,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support And with two types`() {
-        val expected = "SELECT TRUE AND FALSE"
+        val expected = "SELECT (TRUE AND FALSE)"
 
         val actual: String = create.select(
             TRUE.and(
@@ -597,7 +597,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support And with a boolean type and boolean`() {
-        val expected = "SELECT TRUE AND FALSE"
+        val expected = "SELECT (TRUE AND FALSE)"
 
         val actual: String = create.select(
             TRUE.and(
@@ -610,7 +610,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support And with a boolean and boolean type`() {
-        val expected = "SELECT TRUE AND FALSE"
+        val expected = "SELECT (TRUE AND FALSE)"
 
         val actual: String = create.select(
             true.and(
@@ -623,7 +623,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Or with two types`() {
-        val expected = "SELECT TRUE OR FALSE"
+        val expected = "SELECT (TRUE OR FALSE)"
 
         val actual: String = create.select(
             TRUE.or(
@@ -636,7 +636,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Or with boolean type and boolean`() {
-        val expected = "SELECT TRUE OR FALSE"
+        val expected = "SELECT (TRUE OR FALSE)"
 
         val actual: String = create.select(
             TRUE.or(
@@ -649,7 +649,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Or with boolean and boolean type`() {
-        val expected = "SELECT TRUE OR FALSE"
+        val expected = "SELECT (TRUE OR FALSE)"
 
         val actual: String = create.select(
             true.or(
@@ -662,7 +662,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Not 1`() {
-        val expected = "SELECT NOT(TRUE)"
+        val expected = "SELECT NOT TRUE"
 
         val actual: String = create.select(not(TRUE)).build()
 
@@ -671,7 +671,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Not 2`() {
-        val expected = "SELECT NOT(TRUE AND FALSE)"
+        val expected = "SELECT NOT (TRUE AND FALSE)"
 
         val actual: String = create.select(
             not(
@@ -686,7 +686,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Not 3`() {
-        val expected = "SELECT NOT(TRUE AND FALSE AND TRUE)"
+        val expected = "SELECT NOT (TRUE AND (FALSE AND TRUE))"
 
         val actual: String = create.select(
             not(
@@ -729,7 +729,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support select raw`() {
-        val expected = "SELECT RAW NOT(TRUE OR FALSE)"
+        val expected = "SELECT RAW NOT (TRUE OR FALSE)"
 
         val actual = create.selectRaw(
             not(TRUE.or(FALSE)),

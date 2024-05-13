@@ -135,8 +135,8 @@ class JoinClauseTest {
         val expected =
             "SELECT DISTINCT MIN(aport.airportname) AS Airport__Name, " +
                 "MIN(aport.tz) AS Airport__Time, MIN(lmark.name) AS Landmark_Name " +
-                "FROM airport AS aport LEFT JOIN landmark AS lmark ON aport.city = " +
-                "lmark.city AND lmark.country = \"United States\" GROUP BY " +
+                "FROM airport AS aport LEFT JOIN landmark AS lmark ON (aport.city = " +
+                "lmark.city AND lmark.country = \"United States\") GROUP BY " +
                 "aport.airportname ORDER BY aport.airportname LIMIT 4"
 
         val actual = create.selectDistinct(
@@ -185,8 +185,8 @@ class JoinClauseTest {
         val expected =
             "SELECT DISTINCT MIN(aport.airportname) AS Airport__Name, " +
                 "MIN(aport.tz) AS Airport__Time, MIN(lmark.name) AS Landmark_Name " +
-                "FROM airport AS aport RIGHT JOIN landmark AS lmark ON aport.city = " +
-                "lmark.city AND lmark.country = \"United States\" GROUP BY " +
+                "FROM airport AS aport RIGHT JOIN landmark AS lmark ON (aport.city = " +
+                "lmark.city AND lmark.country = \"United States\") GROUP BY " +
                 "aport.airportname ORDER BY aport.airportname LIMIT 4"
 
         val actual = create.selectDistinct(
@@ -245,7 +245,7 @@ class JoinClauseTest {
         val expected = "SELECT DISTINCT route.destinationairport, route.stops, " +
             "route.airline, airline.name, airline.callsign " +
             "FROM route JOIN airline ON KEYS route.airlineid " +
-            "WHERE route.sourceairport = \"SFO\" AND route.stops = 0 LIMIT 4"
+            "WHERE (route.sourceairport = \"SFO\" AND route.stops = 0) LIMIT 4"
 
         val actual = create.selectDistinct(
             someStringField("destinationairport", route),
@@ -277,8 +277,8 @@ class JoinClauseTest {
     fun `Left Outer Lookup Join`() {
         val expected = "SELECT route.airline, route.sourceairport, " +
             "route.destinationairport, airline.callsign FROM route LEFT JOIN airline " +
-            "ON KEYS route.airlineid WHERE route.destinationairport = " +
-            "\"ATL\" AND route.sourceairport = \"SEA\""
+            "ON KEYS route.airlineid WHERE (route.destinationairport = " +
+            "\"ATL\" AND route.sourceairport = \"SEA\")"
 
         val actual = create.select(
             someStringField("airline", route),

@@ -6,7 +6,10 @@ fun formatToQueryString(left: String, symbol: String, right: String) = "$left $s
 fun formatToQueryString(left: Resolvable, symbol: String, vararg right: Resolvable) =
     "${left.toQueryString()} $symbol ${right.joinToString { it.toQueryString() }}"
 fun formatToQueryString(symbol: String, vararg argument: Resolvable) =
-    "$symbol ${argument.joinToString(separator = ", ") { it.toQueryString() }}"
+    formatToQueryString(symbol, separator = " ", *argument)
+
+fun formatToQueryString(symbol: String, separator: String, vararg argument: Resolvable) =
+    "$symbol$separator${argument.joinToString(separator = ", ") { it.toQueryString() }}"
 
 fun formatToQueryStringWithBrackets(left: String, symbol: String, right: String) = "($left $symbol $right)"
 fun formatToQueryStringWithBrackets(symbol: String, vararg argument: Resolvable) =

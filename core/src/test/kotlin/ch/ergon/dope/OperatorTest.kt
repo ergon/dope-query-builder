@@ -503,7 +503,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with a NumberField`() {
-        val expected = "SELECT -(numberField) FROM someBucket"
+        val expected = "SELECT -numberField FROM someBucket"
 
         val actual: String = create
             .select(
@@ -517,7 +517,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation on a calculation`() {
-        val expected = "SELECT -((numberField * 12)) FROM someBucket"
+        val expected = "SELECT -(numberField * 12) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -531,7 +531,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with different calculation`() {
-        val expected = "SELECT (-(numberField) + 6) FROM someBucket"
+        val expected = "SELECT (-numberField + 6) FROM someBucket"
 
         val actual: String = create
             .select(
@@ -545,7 +545,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with calculations`() {
-        val expected = "SELECT (12 + (-(numberField) % ((12 * -((numberField - -(12)))) + 6))) AS calculation FROM someBucket"
+        val expected = "SELECT (12 + (-numberField % ((12 * -(numberField - -12)) + 6))) AS calculation FROM someBucket"
 
         val actual: String = create
             .select(
@@ -593,7 +593,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with a number type`() {
-        val expected = "SELECT -(6) FROM someBucket"
+        val expected = "SELECT -6 FROM someBucket"
 
         val actual: String = create
             .select(
@@ -607,7 +607,7 @@ class OperatorTest {
 
     @Test
     fun `should support negation with a number`() {
-        val expected = "SELECT -(6) FROM someBucket"
+        val expected = "SELECT -6 FROM someBucket"
 
         val actual: String = create
             .select(

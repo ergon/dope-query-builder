@@ -5,6 +5,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
+import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
@@ -767,7 +768,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should Support Where With Like Chained`() {
-        val expected = "SELECT stringField, numberField FROM someBucket WHERE email LIKE \"%@gmail.com\" AND numberField = 46"
+        val expected = "SELECT stringField, numberField FROM someBucket WHERE (email LIKE \"%@gmail.com\" AND numberField = 46)"
 
         val actual: String = create.select(
             someStringField(),
@@ -870,5 +871,53 @@ class BooleanComparatorTest {
         val actual: String = booleanExpression.isEqualTo(true).toQueryString()
 
         kotlin.test.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should add brackets to one Boolean comparator`() {
+        val expected = "SELECT * FROM someBucket WHERE (TRUE AND TRUE)"
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .where(
+                true.toBooleanType().and(true),
+            )
+            .build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should add first bracket pair to two Boolean comparators`() {
+        val expected = "SELECT * FROM someBucket WHERE ((TRUE AND TRUE) OR FALSE)"
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .where(
+                true.toBooleanType().and(true).or(false),
+            )
+            .build()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should add second bracket pair to two Boolean comparators`() {
+        val expected = "SELECT * FROM someBucket WHERE (TRUE AND (TRUE OR FALSE))"
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .where(
+                true.toBooleanType().and(true.toBooleanType().or(false)),
+            )
+            .build()
+
+        assertEquals(expected, actual)
     }
 }
