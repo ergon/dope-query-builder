@@ -19,7 +19,10 @@ class CountExpression(
 }
 
 class CountAsteriskExpression : AggregateExpression {
-    override fun toDopeQuery(): DopeQuery = DopeQuery("COUNT($ASTERISK_STRING)", emptyMap())
+    override fun toDopeQuery(): DopeQuery = DopeQuery(
+        queryString = "COUNT($ASTERISK_STRING)",
+        parameters = emptyMap(),
+    )
 }
 
 fun count(field: Field<out ValidType>) = CountExpression(field)

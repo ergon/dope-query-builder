@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.ValidType
 
 class Primitive<T : ValidType> : TypeExpression<T> {
     private val queryString: String
-    override fun toDopeQuery(): DopeQuery = DopeQuery(queryString, emptyMap())
+    override fun toDopeQuery(): DopeQuery = DopeQuery(queryString = queryString, parameters = emptyMap())
 
     constructor(value: Number) {
         this.queryString = "$value"
