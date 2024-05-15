@@ -6,8 +6,8 @@ fun formatToQueryString(left: String, vararg right: String) =
 fun formatMinimumTwoToQueryString(left: String, symbol: String, vararg right: String) =
     "$left $symbol ${right.joinToString()}"
 
-fun formatToQueryString(symbol: String, separator: String, vararg argument: String) =
-    "$symbol$separator${argument.joinToString(separator = ", ")}}"
+fun formatToQueryStringWithSeparator(symbol: String, separator: String, vararg argument: String) =
+    "$symbol$separator${argument.joinToString(separator = ", ")}"
 
 fun formatToQueryStringWithBrackets(left: String, symbol: String, right: String) = "($left $symbol $right)"
 fun formatToQueryStringWithBrackets(symbol: String, vararg argument: String) =

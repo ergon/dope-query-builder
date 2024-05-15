@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.resolvable.formatToQueryString
+import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
 import ch.ergon.dope.validtype.ValidType
 
 class AliasedExpression<T : ValidType>(
@@ -14,7 +14,7 @@ class AliasedExpression<T : ValidType>(
     override fun toQuery(): DopeQuery {
         val unaliasedExpressionDopeQuery = unaliasedExpression.toQuery()
         return DopeQuery(
-            queryString = formatToQueryString(unaliasedExpressionDopeQuery.queryString, "AS", alias),
+            queryString = formatMinimumTwoToQueryString(unaliasedExpressionDopeQuery.queryString, "AS", alias),
             parameters = unaliasedExpressionDopeQuery.parameters,
         )
     }

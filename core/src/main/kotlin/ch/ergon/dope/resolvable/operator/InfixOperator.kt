@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.operator
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.formatToQueryString
+import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ValidType
 
@@ -21,7 +21,7 @@ open class InfixOperator(
             )
         } else {
             DopeQuery(
-                queryString = formatToQueryString(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
+                queryString = formatMinimumTwoToQueryString(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
                 parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
             )
         }

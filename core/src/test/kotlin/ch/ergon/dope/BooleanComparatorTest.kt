@@ -884,7 +884,7 @@ class BooleanComparatorTest {
             .where(
                 true.toBooleanType().and(true),
             )
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -900,7 +900,7 @@ class BooleanComparatorTest {
             .where(
                 true.toBooleanType().and(true).or(false),
             )
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -916,7 +916,7 @@ class BooleanComparatorTest {
             .where(
                 true.toBooleanType().and(true.toBooleanType().or(false)),
             )
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }
