@@ -24,7 +24,7 @@ class GroupByClause(
                 fieldDopeQuery.queryString,
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = fieldDopeQuery.parameters + fieldsDopeQuery.fold(emptyMap()) { fieldParameters, field ->
+            parameters = fieldsDopeQuery.fold(fieldDopeQuery.parameters) { fieldParameters, field ->
                 fieldParameters + field.parameters
             } + parentDopeQuery.parameters,
         )

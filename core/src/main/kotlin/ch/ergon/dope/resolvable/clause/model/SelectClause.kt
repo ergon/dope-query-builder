@@ -16,7 +16,7 @@ class SelectClause(private val expression: Expression, private vararg val expres
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionDopeQuery.parameters + expressionsDopeQuery.fold(emptyMap()) { expressionParameters, field ->
+            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
                 expressionParameters + field.parameters
             },
         )
@@ -44,7 +44,7 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionDopeQuery.parameters + expressionsDopeQuery.fold(emptyMap()) { expressionParameters, field ->
+            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
                 expressionParameters + field.parameters
             },
         )
