@@ -19,7 +19,7 @@ class RpadExpression(
         val extraDopeQuery = extra?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "RPAD", inStrDopeQuery, sizeDopeQuery, extra = extraDopeQuery),
-            parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + (extraDopeQuery?.parameters ?: emptyMap()),
+            parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + extraDopeQuery?.parameters.orEmpty(),
         )
     }
 }

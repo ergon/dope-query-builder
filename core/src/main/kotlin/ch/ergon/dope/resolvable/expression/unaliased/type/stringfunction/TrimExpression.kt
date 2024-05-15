@@ -16,7 +16,7 @@ class TrimExpression(
         val charDopeQuery = char?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "TRIM", inStrDopeQuery, extra = charDopeQuery),
-            parameters = inStrDopeQuery.parameters + (charDopeQuery?.parameters ?: emptyMap()),
+            parameters = inStrDopeQuery.parameters + charDopeQuery?.parameters.orEmpty(),
         )
     }
 }

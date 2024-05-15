@@ -15,7 +15,7 @@ class RtrimExpression(
         val extraDopeQuery = extra?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "RTRIM", inStrDopeQuery, extra = extraDopeQuery),
-            parameters = inStrDopeQuery.parameters + (extraDopeQuery?.parameters ?: emptyMap()),
+            parameters = inStrDopeQuery.parameters + extraDopeQuery?.parameters.orEmpty(),
         )
     }
 }

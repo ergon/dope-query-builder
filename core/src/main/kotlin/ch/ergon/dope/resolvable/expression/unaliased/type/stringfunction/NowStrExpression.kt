@@ -13,7 +13,7 @@ class NowStrExpression(
         val formatDopeQuery = format?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString("NOW_STR", extra = formatDopeQuery),
-            parameters = formatDopeQuery?.parameters ?: emptyMap(),
+            parameters = formatDopeQuery?.parameters.orEmpty(),
         )
     }
 }
