@@ -2,8 +2,8 @@ package ch.ergon.dope.resolvable.operator
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
+import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 open class InfixOperator(
