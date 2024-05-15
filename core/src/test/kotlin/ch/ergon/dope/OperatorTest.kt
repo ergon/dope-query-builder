@@ -34,7 +34,7 @@ class OperatorTest {
                 2.toNumberType().add(5.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class OperatorTest {
                 2.add(5),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -62,7 +62,7 @@ class OperatorTest {
                 2.add(someNumberField()),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class OperatorTest {
                 someNumberField().add(2),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -90,7 +90,7 @@ class OperatorTest {
                 someNumberField().add(5.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -104,7 +104,7 @@ class OperatorTest {
                 3.toNumberType().add(someNumberField().add(5.toNumberType())),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class OperatorTest {
                 someNumberField().add(5.toNumberType()).alias("something"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -132,7 +132,7 @@ class OperatorTest {
                 13.toNumberType().sub(6.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -146,7 +146,7 @@ class OperatorTest {
                 2.sub(5),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -160,7 +160,7 @@ class OperatorTest {
                 6.sub(someNumberField()),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -174,7 +174,7 @@ class OperatorTest {
                 someNumberField().sub(11),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -188,7 +188,7 @@ class OperatorTest {
                 someNumberField().sub(2.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -202,7 +202,7 @@ class OperatorTest {
                 9.toNumberType().sub(someNumberField().sub(2.toNumberType())),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -216,7 +216,7 @@ class OperatorTest {
                 someNumberField().sub(5.toNumberType()).alias("something"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -230,7 +230,7 @@ class OperatorTest {
                 13.toNumberType().mul(6.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -244,7 +244,7 @@ class OperatorTest {
                 7.mul(5),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -258,7 +258,7 @@ class OperatorTest {
                 4.mul(someNumberField()),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -272,7 +272,7 @@ class OperatorTest {
                 someNumberField().mul(7),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -286,7 +286,7 @@ class OperatorTest {
                 someNumberField().mul(2.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -300,7 +300,7 @@ class OperatorTest {
                 9.toNumberType().mul(someNumberField().mul(2.toNumberType())),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -314,7 +314,7 @@ class OperatorTest {
                 someNumberField().mul(5.toNumberType()).alias("something"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -328,7 +328,7 @@ class OperatorTest {
                 13.toNumberType().div(6.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -342,7 +342,7 @@ class OperatorTest {
                 14.div(someNumberField()),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -356,7 +356,7 @@ class OperatorTest {
                 someNumberField().div(2),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -370,7 +370,7 @@ class OperatorTest {
                 someNumberField().div(2.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -384,7 +384,7 @@ class OperatorTest {
                 9.toNumberType().div(someNumberField().div(2.toNumberType())),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -398,7 +398,7 @@ class OperatorTest {
                 someNumberField().div(5.toNumberType()).alias("something"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -412,7 +412,7 @@ class OperatorTest {
                 13.toNumberType().mod(6.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -426,7 +426,7 @@ class OperatorTest {
                 2.mod(5),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -440,7 +440,7 @@ class OperatorTest {
                 2.mod(someNumberField()),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -454,7 +454,7 @@ class OperatorTest {
                 someNumberField().mod(2),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -468,7 +468,7 @@ class OperatorTest {
                 someNumberField().mod(2.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -482,7 +482,7 @@ class OperatorTest {
                 9.toNumberType().mod(someNumberField().mod(2.toNumberType())),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -496,7 +496,7 @@ class OperatorTest {
                 someNumberField().mod(5.toNumberType()).alias("something"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -510,7 +510,7 @@ class OperatorTest {
                 neg(someNumberField()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -524,7 +524,7 @@ class OperatorTest {
                 neg(someNumberField().mul(12.toNumberType())),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -538,7 +538,7 @@ class OperatorTest {
                 neg(someNumberField()).add(6.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -564,7 +564,7 @@ class OperatorTest {
                 ).alias("calculation"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -586,7 +586,7 @@ class OperatorTest {
                 ).alias("calculation"),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -600,7 +600,7 @@ class OperatorTest {
                 neg(6.toNumberType()),
             ).from(
                 someBucket,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -614,7 +614,7 @@ class OperatorTest {
                 neg(6),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }

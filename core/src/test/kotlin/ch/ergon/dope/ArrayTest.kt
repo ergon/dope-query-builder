@@ -35,7 +35,7 @@ class ArrayTest {
                 listOf(someStringField("fname", person), someStringField()).toArrayType(),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -51,7 +51,7 @@ class ArrayTest {
                 listOf(someStringField()).toArrayType(),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class ArrayTest {
                 ).toArrayType(),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -88,7 +88,7 @@ class ArrayTest {
                 listOf(someStringField()).toArrayType().alias("test"),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -104,7 +104,7 @@ class ArrayTest {
                 listOf(someStringField()).toArrayType().alias("true"),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -127,7 +127,7 @@ class ArrayTest {
                 ).toArrayType().alias("test"),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -145,7 +145,7 @@ class ArrayTest {
                 ).toArrayType(),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -164,7 +164,7 @@ class ArrayTest {
                 23.toNumberType(),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -183,7 +183,7 @@ class ArrayTest {
                 ),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -202,7 +202,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -221,7 +221,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket("person"),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -240,7 +240,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket("person"),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -259,7 +259,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -277,7 +277,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket("person"),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -297,7 +297,7 @@ class ArrayTest {
                         "hallo".toStringType(),
                     ).toArrayType(),
                 ),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }

@@ -25,7 +25,7 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -41,7 +41,7 @@ class OrderByTest {
             ).orderBy(
                 someStringField(),
                 OrderByType.ASC,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -57,7 +57,7 @@ class OrderByTest {
             ).orderBy(
                 someStringField(),
                 OrderByType.DESC,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }

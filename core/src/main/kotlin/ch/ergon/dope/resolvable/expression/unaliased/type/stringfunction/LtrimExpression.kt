@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -9,7 +10,14 @@ class LtrimExpression(
     private val inStr: TypeExpression<StringType>,
     private val extra: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "LTRIM", inStr, extra = extra)
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val extraDopeQuery = extra?.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(symbol = "LTRIM", inStrDopeQuery, extra = extraDopeQuery),
+            parameters = inStrDopeQuery.parameters + extraDopeQuery?.parameters.orEmpty(),
+        )
+    }
 }
 
 fun ltrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType>? = null): LtrimExpression =

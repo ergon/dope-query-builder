@@ -20,7 +20,7 @@ class SubQueryTest {
         val actual: String = create
             .select(someStringField())
             .from(create.selectAsterisk().alias("asdf"))
-            .build()
+            .build().queryString
 
         assertEquals(expected, actual)
     }

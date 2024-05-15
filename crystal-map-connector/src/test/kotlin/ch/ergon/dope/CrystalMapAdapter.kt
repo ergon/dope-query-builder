@@ -17,7 +17,7 @@ class CrystalMapAdapter {
 
         val actual: Field<NumberType> = cmField.asField()
 
-        assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
+        assertEquals("${cmField.path}.${cmField.name}", actual.toDopeQuery().queryString)
     }
 
     @Test
@@ -26,7 +26,7 @@ class CrystalMapAdapter {
 
         val actual: Field<StringType> = cmField.asField()
 
-        assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
+        assertEquals("${cmField.path}.${cmField.name}", actual.toDopeQuery().queryString)
     }
 
     @Test
@@ -35,7 +35,7 @@ class CrystalMapAdapter {
 
         val actual: Field<BooleanType> = cmField.asField()
 
-        assertEquals("${cmField.path}.${cmField.name}", actual.toQueryString())
+        assertEquals("${cmField.path}.${cmField.name}", actual.toDopeQuery().queryString)
     }
 
     @Test
@@ -44,7 +44,7 @@ class CrystalMapAdapter {
 
         val actual: Field<ArrayType<StringType>> = cmList.asArrayField()
 
-        assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
+        assertEquals("${cmList.path}.${cmList.name}", actual.toDopeQuery().queryString)
     }
 
     @Test
@@ -53,7 +53,7 @@ class CrystalMapAdapter {
 
         val actual: Field<ArrayType<NumberType>> = cmList.asArrayField()
 
-        assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
+        assertEquals("${cmList.path}.${cmList.name}", actual.toDopeQuery().queryString)
     }
 
     @Test
@@ -62,6 +62,6 @@ class CrystalMapAdapter {
 
         val actual: Field<ArrayType<BooleanType>> = cmList.asArrayField()
 
-        assertEquals("${cmList.path}.${cmList.name}", actual.toQueryString())
+        assertEquals("${cmList.path}.${cmList.name}", actual.toDopeQuery().queryString)
     }
 }

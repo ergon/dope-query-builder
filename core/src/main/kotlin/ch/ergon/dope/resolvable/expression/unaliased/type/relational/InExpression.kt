@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
@@ -16,7 +17,7 @@ class InExpression<T : ValidType>(
     value: TypeExpression<T>,
     collection: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<BooleanType>, InfixOperator(value, "IN", collection) {
-    override fun toQueryString(): String = toInfixQueryString()
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
 }
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<ArrayType<T>>): InExpression<T> =

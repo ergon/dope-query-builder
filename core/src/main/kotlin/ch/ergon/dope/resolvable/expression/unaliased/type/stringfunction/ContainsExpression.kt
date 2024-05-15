@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -10,7 +11,14 @@ class ContainsExpression(
     private val inStr: TypeExpression<StringType>,
     private val searchStr: TypeExpression<StringType>,
 ) : TypeExpression<BooleanType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "CONTAINS", inStr, searchStr)
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val searchStrDopeQuery = searchStr.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(symbol = "CONTAINS", inStrDopeQuery, searchStrDopeQuery),
+            parameters = inStrDopeQuery.parameters + searchStrDopeQuery.parameters,
+        )
+    }
 }
 
 fun contains(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>): ContainsExpression = ContainsExpression(inStr, searchStr)

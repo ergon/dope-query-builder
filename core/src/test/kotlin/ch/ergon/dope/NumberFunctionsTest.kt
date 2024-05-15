@@ -30,7 +30,7 @@ class NumberFunctionsTest {
         val actual: String = create
             .select(
                 12.toNumberType().alias("someNumber"),
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class NumberFunctionsTest {
                 min(someStringField("fname", person)),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -59,7 +59,7 @@ class NumberFunctionsTest {
                 countAsterisk(),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class NumberFunctionsTest {
                 count(someNumberField()),
             ).from(
                 person,
-            ).build()
+            ).build().queryString
 
         assertEquals(expected, actual)
     }

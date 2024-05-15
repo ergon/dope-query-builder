@@ -1,8 +1,9 @@
 package ch.ergon.dope.resolvable.operator
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.formatToQueryString
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
+import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 open class InfixOperator(
@@ -10,10 +11,19 @@ open class InfixOperator(
     private val symbol: String,
     private val right: TypeExpression<out ValidType>,
 ) {
-    fun toInfixQueryString(useBrackets: Boolean = false) =
-        if (useBrackets) {
-            formatToQueryStringWithBrackets(left.toQueryString(), symbol, right.toQueryString())
+    fun toInfixDopeQuery(useBrackets: Boolean = false): DopeQuery {
+        val leftDopeQuery = left.toDopeQuery()
+        val rightDopeQuery = right.toDopeQuery()
+        return if (useBrackets) {
+            DopeQuery(
+                queryString = formatToQueryStringWithBrackets(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
+                parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
+            )
         } else {
-            formatToQueryString(left.toQueryString(), symbol, right.toQueryString())
+            DopeQuery(
+                queryString = formatToQueryStringWithSymbol(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
+                parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
+            )
         }
+    }
 }

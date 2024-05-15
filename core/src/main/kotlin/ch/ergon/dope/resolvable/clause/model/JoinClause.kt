@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause.model
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectJoinClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -9,17 +10,29 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
 sealed class SelectJoinClause : ISelectJoinClause {
-    private val queryString: String
+    private val dopeQuery: DopeQuery
 
     constructor(joinType: String, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
-        queryString = "${parentClause.toQueryString()} $joinType ${bucket.toQueryString()} ON ${onCondition.toQueryString()}"
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val bucketDopeQuery = bucket.toDopeQuery()
+        val onConditionDopeQuery = onCondition.toDopeQuery()
+        dopeQuery = DopeQuery(
+            queryString = "${parentDopeQuery.queryString} $joinType ${bucketDopeQuery.queryString} ON ${onConditionDopeQuery.queryString}",
+            parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + onConditionDopeQuery.parameters,
+        )
     }
 
     constructor(joinType: String, bucket: Bucket, key: Field<out ValidType>, parentClause: ISelectFromClause) {
-        queryString = "${parentClause.toQueryString()} $joinType ${bucket.toQueryString()} ON KEYS ${key.toQueryString()}"
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val bucketDopeQuery = bucket.toDopeQuery()
+        val keyDopeQuery = key.toDopeQuery()
+        dopeQuery = DopeQuery(
+            queryString = "${parentDopeQuery.queryString} $joinType ${bucketDopeQuery.queryString} ON KEYS ${keyDopeQuery.queryString}",
+            parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters,
+        )
     }
 
-    override fun toQueryString(): String = queryString
+    override fun toDopeQuery(): DopeQuery = dopeQuery
 }
 
 class StandardJoinClause : SelectJoinClause {

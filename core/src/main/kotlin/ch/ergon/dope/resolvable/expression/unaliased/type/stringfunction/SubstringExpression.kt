@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
@@ -11,10 +12,21 @@ class SubstringExpression(
     private val startPos: Int,
     private val length: Int,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQueryString(): String = toFunctionQueryString(symbol = "SUBSTR", inStr, startPos.toNumberType(), length.toNumberType())
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(
+                symbol = "SUBSTR",
+                inStrDopeQuery,
+                startPos.toNumberType().toDopeQuery(),
+                length.toNumberType().toDopeQuery(),
+            ),
+            parameters = inStrDopeQuery.parameters,
+        )
+    }
 }
 
-fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int = inStr.toQueryString().length) =
+fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int = inStr.toDopeQuery().queryString.length) =
     SubstringExpression(inStr, startPos, length)
 
 fun substr(inStr: String, startPos: Int, length: Int = inStr.length): SubstringExpression = substr(inStr.toStringType(), startPos, length)
