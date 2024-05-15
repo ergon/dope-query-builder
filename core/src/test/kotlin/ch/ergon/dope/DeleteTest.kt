@@ -92,7 +92,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete`() {
-        val expected = "DELETE FROM someBucket WHERE someBucket.age = 2 AND TRUE LIMIT 7 OFFSET 10 RETURNING stringField"
+        val expected = "DELETE FROM someBucket WHERE (someBucket.age = 2 AND TRUE) LIMIT 7 OFFSET 10 RETURNING stringField"
 
         val actual: String = create
             .deleteFrom(someBucket())

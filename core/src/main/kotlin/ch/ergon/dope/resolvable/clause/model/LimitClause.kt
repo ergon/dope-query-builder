@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.resolvable.clause.IDeleteLimitClass
+import ch.ergon.dope.resolvable.clause.IDeleteLimitClause
 import ch.ergon.dope.resolvable.clause.IDeleteWhereClause
 import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
@@ -25,7 +25,7 @@ class SelectLimitClause(private val numberExpression: TypeExpression<NumberType>
 }
 
 class DeleteLimitClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteWhereClause) :
-    IDeleteLimitClass {
+    IDeleteLimitClause {
 
     override fun toQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toQuery()

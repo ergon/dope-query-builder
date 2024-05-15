@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.resolvable.clause.IDeleteLimitClass
-import ch.ergon.dope.resolvable.clause.IDeleteOffsetClass
+import ch.ergon.dope.resolvable.clause.IDeleteLimitClause
+import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -24,8 +24,8 @@ class SelectOffsetClause(private val numberExpression: TypeExpression<NumberType
     }
 }
 
-class DeleteOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteLimitClass) :
-    IDeleteOffsetClass {
+class DeleteOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteLimitClause) :
+    IDeleteOffsetClause {
 
     override fun toQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toQuery()
