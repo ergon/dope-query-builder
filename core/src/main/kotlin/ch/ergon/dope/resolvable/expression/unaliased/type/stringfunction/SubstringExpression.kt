@@ -12,21 +12,21 @@ class SubstringExpression(
     private val startPos: Int,
     private val length: Int,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol = "SUBSTR",
                 inStrDopeQuery,
-                startPos.toNumberType().toQuery(),
-                length.toNumberType().toQuery(),
+                startPos.toNumberType().toDopeQuery(),
+                length.toNumberType().toDopeQuery(),
             ),
             parameters = inStrDopeQuery.parameters,
         )
     }
 }
 
-fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int = inStr.toQuery().queryString.length) =
+fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int = inStr.toDopeQuery().queryString.length) =
     SubstringExpression(inStr, startPos, length)
 
 fun substr(inStr: String, startPos: Int, length: Int = inStr.length): SubstringExpression = substr(inStr.toStringType(), startPos, length)

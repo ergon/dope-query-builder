@@ -13,10 +13,10 @@ class GroupByClause(
     private val parentClause: ISelectWhereClause,
 ) : ISelectGroupByClause {
 
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val fieldDopeQuery = field.toQuery()
-        val fieldsDopeQuery = fields.map { it.toQuery() }
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val fieldDopeQuery = field.toDopeQuery()
+        val fieldsDopeQuery = fields.map { it.toDopeQuery() }
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(
                 parentDopeQuery.queryString,
@@ -24,8 +24,9 @@ class GroupByClause(
                 fieldDopeQuery.queryString,
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = fieldDopeQuery.parameters + fieldsDopeQuery.fold(emptyMap()) { map, field -> map + field.parameters } +
-                parentDopeQuery.parameters,
+            parameters = fieldDopeQuery.parameters + fieldsDopeQuery.fold(emptyMap()) { fieldParameters, field ->
+                fieldParameters + field.parameters
+            } + parentDopeQuery.parameters,
         )
     }
 }

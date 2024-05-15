@@ -14,9 +14,9 @@ private const val OFFSET = "OFFSET"
 class SelectOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: ISelectLimitClause) :
     ISelectOffsetClause {
 
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val numberDopeQuery = numberExpression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val numberDopeQuery = numberExpression.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, OFFSET, numberDopeQuery.queryString),
             parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
@@ -27,9 +27,9 @@ class SelectOffsetClause(private val numberExpression: TypeExpression<NumberType
 class DeleteOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteLimitClause) :
     IDeleteOffsetClause {
 
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val numberDopeQuery = numberExpression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val numberDopeQuery = numberExpression.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, OFFSET, numberDopeQuery.queryString),
             parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,

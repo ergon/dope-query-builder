@@ -790,7 +790,7 @@ class BooleanComparatorTest {
     fun `should support Number isEqualTo Number`() {
         val expected = "5 = 5"
 
-        val actual: String = 5.isEqualTo(5).toQuery().queryString
+        val actual: String = 5.isEqualTo(5).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -800,7 +800,7 @@ class BooleanComparatorTest {
         val numberExpression = 5.toNumberType()
         val expected = "5 = 5"
 
-        val actual: String = 5.isEqualTo(numberExpression).toQuery().queryString
+        val actual: String = 5.isEqualTo(numberExpression).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -810,7 +810,7 @@ class BooleanComparatorTest {
         val numberExpression = 5.toNumberType()
         val expected = "5 = 5"
 
-        val actual: String = numberExpression.isEqualTo(5).toQuery().queryString
+        val actual: String = numberExpression.isEqualTo(5).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -819,7 +819,7 @@ class BooleanComparatorTest {
     fun `should support String isEqualTo String`() {
         val expected = "\"hello\" = \"hello\""
 
-        val actual: String = "hello".isEqualTo("hello").toQuery().queryString
+        val actual: String = "hello".isEqualTo("hello").toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -829,7 +829,7 @@ class BooleanComparatorTest {
         val stringExpression = "hello".toStringType()
         val expected = "\"hello\" = \"hello\""
 
-        val actual: String = "hello".isEqualTo(stringExpression).toQuery().queryString
+        val actual: String = "hello".isEqualTo(stringExpression).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -839,7 +839,7 @@ class BooleanComparatorTest {
         val stringExpression = "hello".toStringType()
         val expected = "\"hello\" = \"hello\""
 
-        val actual: String = stringExpression.isEqualTo("hello").toQuery().queryString
+        val actual: String = stringExpression.isEqualTo("hello").toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -848,7 +848,7 @@ class BooleanComparatorTest {
     fun `should support Boolean isEqualTo Boolean`() {
         val expected = "TRUE = TRUE"
 
-        val actual: String = true.isEqualTo(true).toQuery().queryString
+        val actual: String = true.isEqualTo(true).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -858,7 +858,7 @@ class BooleanComparatorTest {
         val booleanExpression = true.toBooleanType()
         val expected = "TRUE = TRUE"
 
-        val actual: String = true.isEqualTo(booleanExpression).toQuery().queryString
+        val actual: String = true.isEqualTo(booleanExpression).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }
@@ -868,7 +868,7 @@ class BooleanComparatorTest {
         val booleanExpression = true.toBooleanType()
         val expected = "TRUE = TRUE"
 
-        val actual: String = booleanExpression.isEqualTo(true).toQuery().queryString
+        val actual: String = booleanExpression.isEqualTo(true).toDopeQuery().queryString
 
         kotlin.test.assertEquals(expected, actual)
     }

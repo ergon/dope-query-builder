@@ -17,7 +17,7 @@ class InExpression<T : ValidType>(
     value: TypeExpression<T>,
     collection: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<BooleanType>, InfixOperator(value, "IN", collection) {
-    override fun toQuery(): DopeQuery = toInfixQuery()
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
 }
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<ArrayType<T>>): InExpression<T> =

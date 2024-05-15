@@ -11,7 +11,7 @@ class LogicalInfixExpression(
     symbol: String,
     right: TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, symbol, right) {
-    override fun toQuery(): DopeQuery = toInfixQuery(useBrackets = true)
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery(useBrackets = true)
 }
 
 fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =

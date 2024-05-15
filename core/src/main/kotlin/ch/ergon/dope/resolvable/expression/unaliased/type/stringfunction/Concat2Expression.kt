@@ -12,10 +12,10 @@ class Concat2Expression(
     private val string: TypeExpression<StringType>,
     private vararg val strings: TypeExpression<StringType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val stringsDopeQuery = strings.map { it.toQuery() }
-        val separatorDopeQuery = separator.toQuery()
-        val stringDopeQuery = string.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val stringsDopeQuery = strings.map { it.toDopeQuery() }
+        val separatorDopeQuery = separator.toDopeQuery()
+        val stringDopeQuery = string.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol = "CONCAT2",
@@ -23,9 +23,9 @@ class Concat2Expression(
                 stringDopeQuery,
                 *stringsDopeQuery.toTypedArray(),
             ),
-            parameters = separatorDopeQuery.parameters + stringDopeQuery.parameters + stringsDopeQuery.fold(emptyMap()) { map, field ->
-                map + field.parameters
-            },
+            parameters = separatorDopeQuery.parameters + stringDopeQuery.parameters + stringsDopeQuery.fold(
+                emptyMap(),
+            ) { stringParameters, field -> stringParameters + field.parameters },
         )
     }
 }

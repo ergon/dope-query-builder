@@ -11,9 +11,9 @@ class TrimExpression(
     private val inStr: TypeExpression<StringType>,
     private val char: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val charDopeQuery = char?.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val charDopeQuery = char?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "TRIM", inStrDopeQuery, extra = charDopeQuery),
             parameters = inStrDopeQuery.parameters + (charDopeQuery?.parameters ?: emptyMap()),

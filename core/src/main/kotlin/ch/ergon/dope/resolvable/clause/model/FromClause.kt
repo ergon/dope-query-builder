@@ -7,9 +7,9 @@ import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
 import ch.ergon.dope.resolvable.fromable.Fromable
 
 class FromClause(private val fromable: Fromable, private val parentClause: ISelectClause) : ISelectUnnestClause {
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val fromableDopeQuery = fromable.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val fromableDopeQuery = fromable.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, "FROM", fromableDopeQuery.queryString),
             parameters = fromableDopeQuery.parameters + parentDopeQuery.parameters,

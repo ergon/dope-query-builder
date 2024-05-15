@@ -12,9 +12,9 @@ class NumberInfixExpression(
     private val symbol: String,
     private val right: TypeExpression<NumberType>,
 ) : TypeExpression<NumberType>, InfixOperator(left, symbol, right) {
-    override fun toQuery(): DopeQuery {
-        val leftDopeQuery = left.toQuery()
-        val rightDopeQuery = right.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val leftDopeQuery = left.toDopeQuery()
+        val rightDopeQuery = right.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryStringWithBrackets(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
             parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,

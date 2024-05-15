@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.NumberType
 class NegationExpression(
     numberExpression: TypeExpression<NumberType>,
 ) : TypeExpression<NumberType>, PrefixOperator("-", numberExpression) {
-    override fun toQuery(): DopeQuery = toPrefixQueryString(separator = "")
+    override fun toDopeQuery(): DopeQuery = toPrefixDopeQuery(separator = "")
 }
 
 fun neg(numberExpression: TypeExpression<NumberType>): NegationExpression =

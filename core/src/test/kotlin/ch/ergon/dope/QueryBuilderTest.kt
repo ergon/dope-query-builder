@@ -707,7 +707,7 @@ class QueryBuilderTest {
 
         val actual: String = TRUE.isEqualTo(
             FALSE,
-        ).toQuery().queryString
+        ).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -756,7 +756,7 @@ class QueryBuilderTest {
         val getSomething = { "something" }
         val expected = "TRUE"
 
-        val actual = (getSomething() == "something").toBooleanType().toQuery().queryString
+        val actual = (getSomething() == "something").toBooleanType().toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }

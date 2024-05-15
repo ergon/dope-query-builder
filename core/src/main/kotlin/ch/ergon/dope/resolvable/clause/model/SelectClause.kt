@@ -7,24 +7,26 @@ import ch.ergon.dope.resolvable.formatToQueryString
 
 class SelectClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
 
-    override fun toQuery(): DopeQuery {
-        val expressionDopeQuery = expression.toQuery()
-        val expressionsDopeQuery = expressions.map { it.toQuery() }
+    override fun toDopeQuery(): DopeQuery {
+        val expressionDopeQuery = expression.toDopeQuery()
+        val expressionsDopeQuery = expressions.map { it.toDopeQuery() }
         return DopeQuery(
             queryString = formatToQueryString(
                 "SELECT",
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionDopeQuery.parameters + expressionsDopeQuery.fold(emptyMap()) { map, field -> map + field.parameters },
+            parameters = expressionDopeQuery.parameters + expressionsDopeQuery.fold(emptyMap()) { expressionParameters, field ->
+                expressionParameters + field.parameters
+            },
         )
     }
 }
 
 class SelectRawClause(private val expression: Expression) : ISelectClause {
 
-    override fun toQuery(): DopeQuery {
-        val expressionDopeQuery = expression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val expressionDopeQuery = expression.toDopeQuery()
         return DopeQuery(
             formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
             expressionDopeQuery.parameters,
@@ -33,16 +35,18 @@ class SelectRawClause(private val expression: Expression) : ISelectClause {
 }
 
 class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
-    override fun toQuery(): DopeQuery {
-        val expressionsDopeQuery = expressions.map { it.toQuery() }
-        val expressionDopeQuery = expression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val expressionsDopeQuery = expressions.map { it.toDopeQuery() }
+        val expressionDopeQuery = expression.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryString(
                 "SELECT DISTINCT",
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionDopeQuery.parameters + expressionsDopeQuery.fold(emptyMap()) { map, field -> map + field.parameters },
+            parameters = expressionDopeQuery.parameters + expressionsDopeQuery.fold(emptyMap()) { expressionParameters, field ->
+                expressionParameters + field.parameters
+            },
         )
     }
 }

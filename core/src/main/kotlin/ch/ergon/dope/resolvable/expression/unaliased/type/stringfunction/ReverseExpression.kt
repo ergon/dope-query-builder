@@ -9,8 +9,8 @@ import ch.ergon.dope.validtype.StringType
 class ReverseExpression(
     private val inStr: TypeExpression<StringType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "REVERSE", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,

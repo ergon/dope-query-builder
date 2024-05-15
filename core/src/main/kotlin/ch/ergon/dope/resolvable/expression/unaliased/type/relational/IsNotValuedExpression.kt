@@ -10,8 +10,8 @@ import ch.ergon.dope.validtype.ValidType
 class IsNotValuedExpression(
     private val field: Field<out ValidType>,
 ) : TypeExpression<BooleanType> {
-    override fun toQuery(): DopeQuery {
-        val fieldDopeQuery = field.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT VALUED"),
             parameters = fieldDopeQuery.parameters,

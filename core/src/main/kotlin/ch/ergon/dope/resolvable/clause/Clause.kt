@@ -7,6 +7,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 interface Clause : Resolvable {
     fun build(): DopeQuery {
         ParameterManager.resetCounter()
-        return toQuery()
+        return toDopeQuery()
     }
 }

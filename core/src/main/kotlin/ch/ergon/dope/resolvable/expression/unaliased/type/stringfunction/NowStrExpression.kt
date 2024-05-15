@@ -9,8 +9,8 @@ import ch.ergon.dope.validtype.StringType
 class NowStrExpression(
     private val format: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val formatDopeQuery = format?.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val formatDopeQuery = format?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString("NOW_STR", extra = formatDopeQuery),
             parameters = formatDopeQuery?.parameters ?: emptyMap(),

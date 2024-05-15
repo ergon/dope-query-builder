@@ -10,8 +10,8 @@ class MaskExpression(
     private val inStr: TypeExpression<StringType>,
     private val options: Map<String, String> = mapOf(),
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "MASK",

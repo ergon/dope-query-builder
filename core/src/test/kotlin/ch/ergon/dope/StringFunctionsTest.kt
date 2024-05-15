@@ -140,7 +140,7 @@ class StringFunctionsTest {
     fun `should Support Concat2 One Argument`() {
         val expected = "CONCAT2(\"-\", \"a\") AS c2"
 
-        val actual: String = concat2("-", "a".toStringType()).alias("c2").toQuery().queryString
+        val actual: String = concat2("-", "a".toStringType()).alias("c2").toDopeQuery().queryString
 
         assertEquals(unifyString(expected), actual)
     }

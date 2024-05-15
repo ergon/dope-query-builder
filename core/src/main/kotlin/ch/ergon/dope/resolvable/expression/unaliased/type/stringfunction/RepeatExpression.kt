@@ -12,9 +12,9 @@ class RepeatExpression(
     private val inStr: TypeExpression<StringType>,
     private val repeatAmount: TypeExpression<NumberType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val repeatDopeQuery = repeatAmount.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val repeatDopeQuery = repeatAmount.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "REPEAT", inStrDopeQuery, repeatDopeQuery),
             parameters = inStrDopeQuery.parameters + repeatDopeQuery.parameters,

@@ -10,9 +10,9 @@ class SplitExpression(
     private val inStr: TypeExpression<StringType>,
     private val inSubstring: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val inSubstringDopeQuery = inSubstring?.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val inSubstringDopeQuery = inSubstring?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "SPLIT", inStrDopeQuery, extra = inSubstringDopeQuery),
             parameters = inStrDopeQuery.parameters + (inSubstringDopeQuery?.parameters ?: emptyMap()),

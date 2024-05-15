@@ -15,7 +15,7 @@ class NotEqualsExpression<T : ValidType>(
     left: TypeExpression<T>,
     right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "!=", right) {
-    override fun toQuery(): DopeQuery = toInfixQuery()
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
 }
 
 fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> =

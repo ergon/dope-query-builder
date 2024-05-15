@@ -12,9 +12,9 @@ private const val UNNEST = "UNNEST"
 
 class UnnestClause<T : ValidType>(private val arrayTypeField: Field<ArrayType<T>>, private val parentClause: ISelectUnnestClause) :
     ISelectUnnestClause {
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val arrayTypeDopeQuery = arrayTypeField.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val arrayTypeDopeQuery = arrayTypeField.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, UNNEST, arrayTypeDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + arrayTypeDopeQuery.parameters,
@@ -26,9 +26,9 @@ class AliasedUnnestClause<T : ValidType>(
     private val aliasedExpression: AliasedExpression<ArrayType<T>>,
     private val parentClause: ISelectUnnestClause,
 ) : ISelectUnnestClause {
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val aliasedExpressionDopeQuery = aliasedExpression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val aliasedExpressionDopeQuery = aliasedExpression.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, UNNEST, aliasedExpressionDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + aliasedExpressionDopeQuery.parameters,

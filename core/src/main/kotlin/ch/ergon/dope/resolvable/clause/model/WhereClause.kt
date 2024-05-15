@@ -13,9 +13,9 @@ private const val WHERE = "WHERE"
 
 class SelectWhereClause(private val whereExpression: TypeExpression<BooleanType>, private val parentClause: ISelectFromClause) :
     ISelectWhereClause {
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val whereDopeQuery = whereExpression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val whereDopeQuery = whereExpression.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, WHERE, whereDopeQuery.queryString),
             parameters = whereDopeQuery.parameters + parentDopeQuery.parameters,
@@ -25,9 +25,9 @@ class SelectWhereClause(private val whereExpression: TypeExpression<BooleanType>
 
 class DeleteWhereClause(private val booleanExpression: TypeExpression<BooleanType>, private val parentClause: IDeleteClause) :
     IDeleteWhereClause {
-    override fun toQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toQuery()
-        val booleanDopeQuery = booleanExpression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val booleanDopeQuery = booleanExpression.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, WHERE, booleanDopeQuery.queryString),
             parameters = booleanDopeQuery.parameters + parentDopeQuery.parameters,

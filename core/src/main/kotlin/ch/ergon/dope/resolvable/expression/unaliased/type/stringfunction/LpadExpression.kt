@@ -13,10 +13,10 @@ class LpadExpression(
     private val size: TypeExpression<NumberType>,
     private val prefix: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val sizeDopeQuery = size.toQuery()
-        val prefixDopeQuery = prefix?.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val sizeDopeQuery = size.toDopeQuery()
+        val prefixDopeQuery = prefix?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "LPAD", inStrDopeQuery, sizeDopeQuery, extra = prefixDopeQuery),
             parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + (prefixDopeQuery?.parameters ?: emptyMap()),

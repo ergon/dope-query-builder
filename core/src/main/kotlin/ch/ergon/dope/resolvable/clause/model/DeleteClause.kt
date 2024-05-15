@@ -6,8 +6,8 @@ import ch.ergon.dope.resolvable.fromable.Bucket
 
 class DeleteClause(private val bucket: Bucket) : IDeleteClause {
 
-    override fun toQuery(): DopeQuery {
-        val bucketDopeQuery = bucket.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val bucketDopeQuery = bucket.toDopeQuery()
         return DopeQuery(
             queryString = "DELETE FROM ${bucketDopeQuery.queryString}",
             parameters = bucketDopeQuery.parameters,

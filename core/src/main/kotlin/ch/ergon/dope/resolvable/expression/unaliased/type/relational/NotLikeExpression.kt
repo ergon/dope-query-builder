@@ -13,7 +13,7 @@ class NotLikeExpression(
     left: Field<out ValidType>,
     right: TypeExpression<StringType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "NOT LIKE", right) {
-    override fun toQuery(): DopeQuery = toInfixQuery()
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
 }
 
 fun Field<out ValidType>.isNotLike(right: TypeExpression<StringType>): NotLikeExpression = NotLikeExpression(this, right)

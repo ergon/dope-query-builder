@@ -13,7 +13,7 @@ class LikeExpression(
     left: Field<out ValidType>,
     right: TypeExpression<StringType>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "LIKE", right) {
-    override fun toQuery(): DopeQuery = toInfixQuery()
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
 }
 
 fun Field<out ValidType>.isLike(right: TypeExpression<StringType>): LikeExpression = LikeExpression(this, right)

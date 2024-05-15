@@ -37,9 +37,9 @@ class QueryStringBuilderTest {
     fun `should format symbol with arguments`() {
         val symbol = "testsymbol"
         val arguments = arrayOf(1.toNumberType(), "hallo".toStringType())
-        val expected = "$symbol ${arguments.joinToString(", ") { it.toQuery().queryString }}"
+        val expected = "$symbol ${arguments.joinToString(", ") { it.toDopeQuery().queryString }}"
 
-        val actual = formatToQueryString(symbol, *arguments.map { it.toQuery().queryString }.toTypedArray())
+        val actual = formatToQueryString(symbol, *arguments.map { it.toDopeQuery().queryString }.toTypedArray())
 
         assertEquals(expected, actual)
     }
@@ -60,9 +60,9 @@ class QueryStringBuilderTest {
     fun `should format symbol with arguments and brackets`() {
         val symbol = "testsymbol"
         val arguments = arrayOf(1.toNumberType(), "hallo".toStringType())
-        val expected = "$symbol(${arguments.joinToString(", ") { it.toQuery().queryString }})"
+        val expected = "$symbol(${arguments.joinToString(", ") { it.toDopeQuery().queryString }})"
 
-        val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toQuery().queryString }.toTypedArray())
+        val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toDopeQuery().queryString }.toTypedArray())
 
         assertEquals(expected, actual)
     }

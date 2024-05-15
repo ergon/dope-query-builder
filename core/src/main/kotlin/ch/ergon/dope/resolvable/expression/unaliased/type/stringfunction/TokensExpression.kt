@@ -13,7 +13,7 @@ class TokensExpression(
     private val inStr: List<String>,
     private val opt: CustomTokenOptions = CustomTokenOptions(),
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
+    override fun toDopeQuery(): DopeQuery {
         val optDopeQuery = opt.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(

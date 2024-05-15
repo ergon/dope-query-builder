@@ -13,10 +13,10 @@ class RpadExpression(
     private val size: TypeExpression<NumberType>,
     private val extra: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val sizeDopeQuery = size.toQuery()
-        val extraDopeQuery = extra?.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val sizeDopeQuery = size.toDopeQuery()
+        val extraDopeQuery = extra?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "RPAD", inStrDopeQuery, sizeDopeQuery, extra = extraDopeQuery),
             parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + (extraDopeQuery?.parameters ?: emptyMap()),

@@ -13,10 +13,10 @@ class ReturningClause(
     private val parentClause: IDeleteOffsetClause,
 ) : IDeleteReturningClause {
 
-    override fun toQuery(): DopeQuery {
-        val fieldsDopeQuery = fields.map { it.toQuery() }
-        val fieldDopeQuery = field.toQuery()
-        val parentDopeQuery = parentClause.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val fieldsDopeQuery = fields.map { it.toDopeQuery() }
+        val fieldDopeQuery = field.toDopeQuery()
+        val parentDopeQuery = parentClause.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(
                 parentDopeQuery.queryString,
@@ -24,8 +24,9 @@ class ReturningClause(
                 fieldDopeQuery.queryString,
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = fieldDopeQuery.parameters + fieldsDopeQuery.fold(emptyMap()) { map, field -> map + field.parameters } +
-                parentDopeQuery.parameters,
+            parameters = fieldDopeQuery.parameters + fieldsDopeQuery.fold(emptyMap()) { fieldParameters, field ->
+                fieldParameters + field.parameters
+            } + parentDopeQuery.parameters,
         )
     }
 }

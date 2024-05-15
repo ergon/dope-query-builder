@@ -9,8 +9,8 @@ import ch.ergon.dope.validtype.ValidType
 class CountExpression(
     private val field: Field<out ValidType>,
 ) : AggregateExpression {
-    override fun toQuery(): DopeQuery {
-        val fieldDopeQuery = field.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryStringWithBrackets("COUNT", fieldDopeQuery.queryString),
             parameters = fieldDopeQuery.parameters,
@@ -19,7 +19,7 @@ class CountExpression(
 }
 
 class CountAsteriskExpression : AggregateExpression {
-    override fun toQuery(): DopeQuery = DopeQuery("COUNT($ASTERISK_STRING)", emptyMap())
+    override fun toDopeQuery(): DopeQuery = DopeQuery("COUNT($ASTERISK_STRING)", emptyMap())
 }
 
 fun count(field: Field<out ValidType>) = CountExpression(field)

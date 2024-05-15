@@ -10,9 +10,9 @@ class RtrimExpression(
     private val inStr: TypeExpression<StringType>,
     private val extra: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val extraDopeQuery = extra?.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val extraDopeQuery = extra?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "RTRIM", inStrDopeQuery, extra = extraDopeQuery),
             parameters = inStrDopeQuery.parameters + (extraDopeQuery?.parameters ?: emptyMap()),

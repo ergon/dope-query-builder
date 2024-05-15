@@ -11,9 +11,9 @@ class ContainsExpression(
     private val inStr: TypeExpression<StringType>,
     private val searchStr: TypeExpression<StringType>,
 ) : TypeExpression<BooleanType>, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toQuery()
-        val searchStrDopeQuery = searchStr.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        val searchStrDopeQuery = searchStr.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "CONTAINS", inStrDopeQuery, searchStrDopeQuery),
             parameters = inStrDopeQuery.parameters + searchStrDopeQuery.parameters,

@@ -6,8 +6,8 @@ import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ValidType
 
 class MinExpression(private val field: Field<out ValidType>) : AggregateExpression, FunctionOperator {
-    override fun toQuery(): DopeQuery {
-        val fieldDopeQuery = field.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString("MIN", fieldDopeQuery),
             parameters = fieldDopeQuery.parameters,

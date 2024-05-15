@@ -11,8 +11,8 @@ class AliasedExpression<T : ValidType>(
     private val unaliasedExpression: UnaliasedExpression<T>,
     private val alias: String,
 ) : Expression {
-    override fun toQuery(): DopeQuery {
-        val unaliasedExpressionDopeQuery = unaliasedExpression.toQuery()
+    override fun toDopeQuery(): DopeQuery {
+        val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery()
         return DopeQuery(
             queryString = formatMinimumTwoToQueryString(unaliasedExpressionDopeQuery.queryString, "AS", alias),
             parameters = unaliasedExpressionDopeQuery.parameters,

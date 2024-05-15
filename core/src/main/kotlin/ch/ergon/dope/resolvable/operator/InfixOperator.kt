@@ -11,9 +11,9 @@ open class InfixOperator(
     private val symbol: String,
     private val right: TypeExpression<out ValidType>,
 ) {
-    fun toInfixQuery(useBrackets: Boolean = false): DopeQuery {
-        val leftDopeQuery = left.toQuery()
-        val rightDopeQuery = right.toQuery()
+    fun toInfixDopeQuery(useBrackets: Boolean = false): DopeQuery {
+        val leftDopeQuery = left.toDopeQuery()
+        val rightDopeQuery = right.toDopeQuery()
         return if (useBrackets) {
             DopeQuery(
                 queryString = formatToQueryStringWithBrackets(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),

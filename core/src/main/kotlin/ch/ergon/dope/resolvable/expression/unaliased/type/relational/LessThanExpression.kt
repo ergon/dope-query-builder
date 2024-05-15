@@ -14,7 +14,7 @@ class LessThanExpression<T : ComparableType>(
     left: TypeExpression<T>,
     right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "<", right) {
-    override fun toQuery(): DopeQuery = toInfixQuery()
+    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
 }
 
 fun <T : ComparableType> TypeExpression<T>.isLessThan(right: TypeExpression<T>): LessThanExpression<T> =

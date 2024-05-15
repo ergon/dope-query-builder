@@ -13,9 +13,9 @@ sealed class SelectJoinClause : ISelectJoinClause {
     private val dopeQuery: DopeQuery
 
     constructor(joinType: String, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
-        val parentDopeQuery = parentClause.toQuery()
-        val bucketDopeQuery = bucket.toQuery()
-        val onConditionDopeQuery = onCondition.toQuery()
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val bucketDopeQuery = bucket.toDopeQuery()
+        val onConditionDopeQuery = onCondition.toDopeQuery()
         dopeQuery = DopeQuery(
             queryString = "${parentDopeQuery.queryString} $joinType ${bucketDopeQuery.queryString} ON ${onConditionDopeQuery.queryString}",
             parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + onConditionDopeQuery.parameters,
@@ -23,16 +23,16 @@ sealed class SelectJoinClause : ISelectJoinClause {
     }
 
     constructor(joinType: String, bucket: Bucket, key: Field<out ValidType>, parentClause: ISelectFromClause) {
-        val parentDopeQuery = parentClause.toQuery()
-        val bucketDopeQuery = bucket.toQuery()
-        val keyDopeQuery = key.toQuery()
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val bucketDopeQuery = bucket.toDopeQuery()
+        val keyDopeQuery = key.toDopeQuery()
         dopeQuery = DopeQuery(
             queryString = "${parentDopeQuery.queryString} $joinType ${bucketDopeQuery.queryString} ON KEYS ${keyDopeQuery.queryString}",
             parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters,
         )
     }
 
-    override fun toQuery(): DopeQuery = dopeQuery
+    override fun toDopeQuery(): DopeQuery = dopeQuery
 }
 
 class StandardJoinClause : SelectJoinClause {
