@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
+import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.StringType
 
 enum class OrderByType(val type: String) {
@@ -21,7 +21,7 @@ open class SelectOrderByClause(private val stringField: Field<StringType>, priva
         val parentDopeQuery = parentClause.toDopeQuery()
         val stringDopeQuery = stringField.toDopeQuery()
         return DopeQuery(
-            queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
+            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
             parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
         )
     }
@@ -37,7 +37,7 @@ class SelectOrderByTypeClause(
         val parentDopeQuery = parentClause.toDopeQuery()
         val stringDopeQuery = stringField.toDopeQuery()
         return DopeQuery(
-            queryString = formatMinimumTwoToQueryString(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
+            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
             parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
         )
     }

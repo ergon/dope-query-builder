@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
+import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 class GroupByClause(
@@ -18,7 +18,7 @@ class GroupByClause(
         val fieldDopeQuery = field.toDopeQuery()
         val fieldsDopeQuery = fields.map { it.toDopeQuery() }
         return DopeQuery(
-            queryString = formatMinimumTwoToQueryString(
+            queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
                 "GROUP BY",
                 fieldDopeQuery.queryString,

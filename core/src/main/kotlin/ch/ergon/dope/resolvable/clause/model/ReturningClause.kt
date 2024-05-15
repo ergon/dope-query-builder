@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.IDeleteReturningClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
+import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 class ReturningClause(
@@ -18,7 +18,7 @@ class ReturningClause(
         val fieldDopeQuery = field.toDopeQuery()
         val parentDopeQuery = parentClause.toDopeQuery()
         return DopeQuery(
-            queryString = formatMinimumTwoToQueryString(
+            queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
                 "RETURNING",
                 fieldDopeQuery.queryString,

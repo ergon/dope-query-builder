@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable
 fun formatToQueryString(left: String, vararg right: String) =
     "$left ${right.joinToString()}"
 
-fun formatMinimumTwoToQueryString(left: String, symbol: String, vararg right: String) =
+fun formatToQueryStringWithSymbol(left: String, symbol: String, vararg right: String) =
     "$left $symbol ${right.joinToString()}"
 
 fun formatToQueryStringWithSeparator(symbol: String, separator: String, vararg argument: String) =

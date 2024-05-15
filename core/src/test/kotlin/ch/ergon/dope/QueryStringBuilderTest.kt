@@ -2,7 +2,7 @@ package ch.ergon.dope
 
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.resolvable.formatMinimumTwoToQueryString
+import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.formatPathToQueryString
 import ch.ergon.dope.resolvable.formatToQueryString
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
@@ -28,7 +28,7 @@ class QueryStringBuilderTest {
         val right = "testRight"
         val expected = "$left $symbol $right"
 
-        val actual = formatMinimumTwoToQueryString(left, symbol, right)
+        val actual = formatToQueryStringWithSymbol(left, symbol, right)
 
         assertEquals(expected, actual)
     }
