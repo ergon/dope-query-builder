@@ -44,9 +44,14 @@ fun ISelectJoinClause.innerJoin(bucket: Bucket, onKeys: CMField<Any>) = innerJoi
 fun ISelectJoinClause.leftJoin(bucket: Bucket, onKeys: CMField<Any>) = leftJoin(bucket, onKeys.asField())
 
 fun ISelectJoinClause.rightJoin(bucket: Bucket, onKeys: CMField<Any>) = rightJoin(bucket, onKeys.asField())
+
+@JvmName("unnestString")
 fun ISelectUnnestClause.unnest(arrayField: CMList<String>) = unnest(arrayField.asArrayField())
+
+@JvmName("unnestNumber")
 fun ISelectUnnestClause.unnest(arrayField: CMList<Number>) = unnest(arrayField.asArrayField())
 
+@JvmName("unnestBoolean")
 fun ISelectUnnestClause.unnest(arrayField: CMList<Boolean>) = unnest(arrayField.asArrayField())
 
 fun QueryBuilder.select(expression: CMType, vararg expressions: CMType): SelectClause =

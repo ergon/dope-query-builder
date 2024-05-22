@@ -20,7 +20,9 @@ fun CMType.asField(reference: String = path): Field<out ValidType> = Field(
         is CMList<*> -> this.name
         is CMObjectList<*> -> this.name
         else -> ""
-    }, reference)
+    },
+    reference,
+)
 
 @JvmName("asNumberField")
 fun CMField<out Number>.asField(reference: String = path): Field<NumberType> = Field(name, reference)
