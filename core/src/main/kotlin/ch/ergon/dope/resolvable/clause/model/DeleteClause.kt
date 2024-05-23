@@ -9,7 +9,7 @@ class DeleteClause(private val bucket: Bucket) : IDeleteClause {
     override fun toDopeQuery(): DopeQuery {
         val bucketDopeQuery = bucket.toDopeQuery()
         return DopeQuery(
-            queryString = "DELETE FROM ${bucketDopeQuery.queryString}",
+            queryString = "DELETE FROM `${bucketDopeQuery.queryString}`",
             parameters = bucketDopeQuery.parameters,
         )
     }

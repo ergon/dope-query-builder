@@ -29,7 +29,7 @@ class JoinClauseTest {
 
     @Test
     fun `should support join`() {
-        val expected = "SELECT * FROM route JOIN airline ON route.airlineid = META(airline).id WHERE airline.country = \"France\""
+        val expected = "SELECT * FROM `route` JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` WHERE `airline`.`country` = \"France\""
 
         val actual = create
             .selectAsterisk()
@@ -51,7 +51,7 @@ class JoinClauseTest {
 
     @Test
     fun `Should support left join`() {
-        val expected = "SELECT * FROM route LEFT JOIN airline ON route.airlineid = META(airline).id WHERE route.sourceairport = \"SFO\""
+        val expected = "SELECT * FROM `route` LEFT JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` WHERE `route`.`sourceairport` = \"SFO\""
 
         val actual = create
             .selectAsterisk()
@@ -71,7 +71,7 @@ class JoinClauseTest {
 
     @Test
     fun `Should support right outer join`() {
-        val expected = "SELECT * FROM route RIGHT JOIN airline ON route.airlineid = META(airline).id WHERE route.sourceairport = \"SFO\""
+        val expected = "SELECT * FROM `route` RIGHT JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` WHERE `route`.`sourceairport` = \"SFO\""
 
         val actual = create
             .selectAsterisk()
@@ -95,9 +95,9 @@ class JoinClauseTest {
 
     @Test
     fun `Should support complex inner join`() {
-        val expected = "SELECT route.airlineid, airline.iota, route.sourceairport, " +
-            "route.destinationairport FROM route INNER JOIN airline ON route.airlineid = " +
-            "META(airline).id WHERE route.destinationairport = \"SFO\" ORDER BY sourceairport"
+        val expected = "SELECT `route`.`airlineid`, `airline`.`iota`, `route`.`sourceairport`, " +
+            "`route``.destinationairport` FROM `route` INNER JOIN `airline` ON `route`.`airlineid` = " +
+            "META(`airline`).`id` WHERE `route`.`destinationairport` = \"SFO\" ORDER BY `sourceairport`"
 
         val actual = create.select(
             someStringField("airlineid", route),
@@ -133,11 +133,11 @@ class JoinClauseTest {
         val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
-            "SELECT DISTINCT MIN(aport.airportname) AS Airport__Name, " +
-                "MIN(aport.tz) AS Airport__Time, MIN(lmark.name) AS Landmark_Name " +
-                "FROM airport AS aport LEFT JOIN landmark AS lmark ON (aport.city = " +
-                "lmark.city AND lmark.country = \"United States\") GROUP BY " +
-                "aport.airportname ORDER BY aport.airportname LIMIT 4"
+            "SELECT DISTINCT MIN(`aport`.`airportname`) AS `Airport__Name, " +
+                "MIN(`aport`.`tz`) AS `Airport__Time`, MIN(`lmark`.`name`) AS `Landmark_Name` " +
+                "FROM `airport` AS `aport` LEFT JOIN `landmark` AS `lmark` ON (`aport`.`city` = " +
+                "`lmark`.`city` AND `lmark`.`country` = \"United States\") GROUP BY " +
+                "`aport`.`airportname` ORDER BY `aport`.`airportname` LIMIT 4"
 
         val actual = create.selectDistinct(
             min(
@@ -183,11 +183,11 @@ class JoinClauseTest {
         val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
-            "SELECT DISTINCT MIN(aport.airportname) AS Airport__Name, " +
-                "MIN(aport.tz) AS Airport__Time, MIN(lmark.name) AS Landmark_Name " +
-                "FROM airport AS aport RIGHT JOIN landmark AS lmark ON (aport.city = " +
-                "lmark.city AND lmark.country = \"United States\") GROUP BY " +
-                "aport.airportname ORDER BY aport.airportname LIMIT 4"
+            "SELECT DISTINCT MIN(`aport`.`airportname`) AS `Airport__Name`, " +
+                "MIN(`aport`.`tz`) AS `Airport__Time`, MIN(`lmark`.`name`) AS `Landmark_Name` " +
+                "FROM `airport` AS `aport` RIGHT JOIN `landmark` AS `lmark` ON (`aport`.`city` = " +
+                "`lmark`.`city` AND `lmark`.`country` = \"United States\") GROUP BY " +
+                "`aport`.`airportname` ORDER BY `aport`.`airportname` LIMIT 4"
 
         val actual = create.selectDistinct(
             min(
@@ -242,10 +242,10 @@ class JoinClauseTest {
 
     @Test
     fun `Inner Lookup Join`() {
-        val expected = "SELECT DISTINCT route.destinationairport, route.stops, " +
-            "route.airline, airline.name, airline.callsign " +
-            "FROM route JOIN airline ON KEYS route.airlineid " +
-            "WHERE (route.sourceairport = \"SFO\" AND route.stops = 0) LIMIT 4"
+        val expected = "SELECT DISTINCT `route`.`destinationairport`, `route`.`stops`, " +
+            "`route`.`airline`, `airline`.`name`, `airline`.`callsign` " +
+            "FROM `route` JOIN `airline` ON KEYS `route`.`airlineid` " +
+            "WHERE (`route`.`sourceairport` = \"SFO\" AND `route`.`stops` = 0) LIMIT 4"
 
         val actual = create.selectDistinct(
             someStringField("destinationairport", route),
@@ -275,10 +275,10 @@ class JoinClauseTest {
 
     @Test
     fun `Left Outer Lookup Join`() {
-        val expected = "SELECT route.airline, route.sourceairport, " +
-            "route.destinationairport, airline.callsign FROM route LEFT JOIN airline " +
-            "ON KEYS route.airlineid WHERE (route.destinationairport = " +
-            "\"ATL\" AND route.sourceairport = \"SEA\")"
+        val expected = "SELECT `route`.`airline`, `route`.`sourceairport`, " +
+            "`route`.`destinationairport`, `airline`.`callsign` FROM `route` LEFT JOIN `airline` " +
+            "ON KEYS `route`.`airlineid` WHERE (`route`.`destinationairport` = " +
+            "\"ATL\" AND `route`.`sourceairport` = \"SEA\")"
 
         val actual = create.select(
             someStringField("airline", route),
@@ -305,10 +305,10 @@ class JoinClauseTest {
 
     @Test
     fun `Use INDEX join to flip the direction`() {
-        val expected = "SELECT DISTINCT route.destinationairport, " +
-            "route.stops, route.airline, airline.name, airline.callsign " +
-            "FROM route JOIN airline ON KEYS route.airlineid " +
-            "WHERE airline.icao = \"SWA\" LIMIT 4"
+        val expected = "SELECT DISTINCT `route`.`destinationairport`, " +
+            "`route`.`stops`, `route`.`airline`, `airline`.`name`, `airline`.`callsign` " +
+            "FROM `route` RIGHT JOIN `airline` ON KEYS `route`.`airlineid` " +
+            "WHERE `airline`.`icao` = \"SWA\" LIMIT 4"
 
         val actual = create.selectDistinct(
             someStringField("destinationairport", route),
@@ -332,10 +332,10 @@ class JoinClauseTest {
 
     @Test
     fun `Use INDEX right join to flip the direction`() {
-        val expected = "SELECT DISTINCT route.destinationairport, " +
-            "route.stops, route.airline, airline.name, airline.callsign " +
-            "FROM route RIGHT JOIN airline ON KEYS route.airlineid " +
-            "WHERE airline.icao = \"SWA\" LIMIT 4"
+        val expected = "SELECT DISTINCT `route`.`destinationairport`, " +
+            "`route`.`stops`, `route`.`airline`, `airline`.`name`, `airline`.`callsign` " +
+            "FROM `route` RIGHT JOIN `airline` ON KEYS `route`.`airlineid` " +
+            "WHERE `airline`.`icao` = \"SWA\" LIMIT 4"
 
         val actual = create.selectDistinct(
             someStringField("destinationairport", route),
@@ -360,9 +360,9 @@ class JoinClauseTest {
     @Test
     fun `Simple Join Example`() {
         val expected = "SELECT * " +
-            "FROM route AS r " +
-            "JOIN airline AS a " +
-            "ON r.airlineid = META(a).id"
+            "FROM `route` AS `r` " +
+            "JOIN `airline` AS `a` " +
+            "ON `r`.`airlineid` = META(`a`).`id`"
 
         val r = someBucket("route").alias("r")
         val a = airline.alias("a")
@@ -383,7 +383,7 @@ class JoinClauseTest {
 
     @Test
     fun `Simple Join Example 2`() {
-        val expected = "SELECT * FROM route AS r JOIN airline ON KEYS r.airlineid"
+        val expected = "SELECT * FROM `route` AS `r` JOIN `airline` ON KEYS `r`.`airlineid`"
 
         val r = someBucket("route").alias("r")
 
@@ -401,10 +401,10 @@ class JoinClauseTest {
 
     @Test
     fun `Use INDEX inner join to flip the direction`() {
-        val expected = "SELECT DISTINCT route.destinationairport, " +
-            "route.stops, route.airline, airline.name, airline.callsign " +
-            "FROM route INNER JOIN airline ON KEYS route.airlineid " +
-            "WHERE airline.icao = \"SWA\" LIMIT 4"
+        val expected = "SELECT DISTINCT `route`.`destinationairport`, " +
+            "`route`.`stops`, `route`.`airline`, `airline`.`name`, `airline`.`callsign` " +
+            "FROM `route` INNER JOIN `airline` ON KEYS `route`.`airlineid` " +
+            "WHERE `airline`.`icao` = \"SWA\" LIMIT 4"
 
         val actual = create.selectDistinct(
             someStringField("destinationairport", route),
@@ -429,8 +429,8 @@ class JoinClauseTest {
     @Test
     fun `Very minimal Example`() {
         val expected = "SELECT *\n" +
-            "FROM airline AS a1\n" +
-            "JOIN airline AS a2 ON a1.id = a2.id\n"
+            "FROM `airline` AS `a1`\n" +
+            "JOIN `airline` AS `a2` ON `a1`.`id` = `a2`.`id`\n"
         val a1 = airline.alias("a1")
         val a2 = airline.alias("a2")
 
@@ -448,9 +448,9 @@ class JoinClauseTest {
     @Test
     fun `should support multiple joins`() {
         val expected = "SELECT *\n" +
-            "FROM airline AS al\n" +
-            "JOIN airport AS ap ON al.id = ap.id\n" +
-            "JOIN city AS c ON ap.id = c.id\n"
+            "FROM `airline` AS `al`\n" +
+            "JOIN `airport` AS `ap` ON `al`.`id` = `ap`.`id`\n" +
+            "JOIN `city` AS `c` ON `ap`.`id` = `c`.`id`\n"
         val airline = airline.alias("al")
         val airport = someBucket("airport").alias("ap")
         val city = someBucket("city").alias("c")

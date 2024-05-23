@@ -11,7 +11,7 @@ class FromClause(private val fromable: Fromable, private val parentClause: ISele
         val parentDopeQuery = parentClause.toDopeQuery()
         val fromableDopeQuery = fromable.toDopeQuery()
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "FROM", fromableDopeQuery.queryString),
+            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "FROM", "`" + fromableDopeQuery.queryString) + "`",
             parameters = fromableDopeQuery.parameters + parentDopeQuery.parameters,
         )
     }

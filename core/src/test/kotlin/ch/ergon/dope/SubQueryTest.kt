@@ -15,7 +15,7 @@ class SubQueryTest {
 
     @Test
     fun `should support sub select in from`() {
-        val expected = "SELECT stringField FROM (SELECT *) AS asdf"
+        val expected = "SELECT `stringField` FROM (SELECT *) AS `asdf`"
 
         val actual: String = create
             .select(someStringField())

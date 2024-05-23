@@ -28,7 +28,7 @@ class ArrayTest {
     @Test
     fun `should support arrays`() {
         val person = someBucket("person")
-        val expected = "SELECT [person.fname, stringField] FROM person"
+        val expected = "SELECT [`person`.`fname`, `stringField`] FROM `person`"
 
         val actual: String = create
             .select(
@@ -43,7 +43,7 @@ class ArrayTest {
     @Test
     fun `should support multiple arrays`() {
         val person = someBucket("person")
-        val expected = "SELECT [stringField], [stringField] FROM person"
+        val expected = "SELECT [`stringField`], [`stringField`] FROM `person`"
 
         val actual: String = create
             .select(
@@ -59,7 +59,7 @@ class ArrayTest {
     @Test
     fun `should support arrays with multiple types`() {
         val person = someBucket("person")
-        val expected = "SELECT [\"test\", 53, TRUE, stringField, person.age, booleanField] FROM person"
+        val expected = "SELECT [\"test\", 53, TRUE, `stringField`, `person`.`age`, `booleanField`] FROM `person`"
 
         val actual: String = create
             .select(
@@ -81,7 +81,7 @@ class ArrayTest {
     @Test
     fun `should support array aliased`() {
         val person = someBucket("person")
-        val expected = "SELECT [stringField] AS test FROM person"
+        val expected = "SELECT [`stringField`] AS `test` FROM `person`"
 
         val actual: String = create
             .select(
@@ -96,7 +96,7 @@ class ArrayTest {
     @Test
     fun `should support multiple arrays aliased`() {
         val person = someBucket("person")
-        val expected = "SELECT [stringField] AS fname, [stringField] AS true FROM person"
+        val expected = "SELECT [`stringField`] AS `fname`, [`stringField`] AS `true` FROM `person`"
 
         val actual: String = create
             .select(
@@ -112,7 +112,7 @@ class ArrayTest {
     @Test
     fun `should support nested arrays`() {
         val person = someBucket("person")
-        val expected = "SELECT [stringField, [person.age, TRUE, \"string\"], 23] AS test FROM person"
+        val expected = "SELECT [`stringField`, [`person`.`age`, TRUE, \"string\"], 23] AS `test` FROM `person`"
 
         val actual: String = create
             .select(
@@ -135,7 +135,7 @@ class ArrayTest {
     @Test
     fun `should support string arrays`() {
         val person = someBucket("person")
-        val expected = "SELECT [\"string\", \"hallo\"] FROM person"
+        val expected = "SELECT [\"string\", \"hallo\"] FROM `person`"
 
         val actual: String = create
             .select(
@@ -153,7 +153,7 @@ class ArrayTest {
     @Test
     fun `should support stringFunction in string arrays`() {
         val person = someBucket("person")
-        val expected = "SELECT [CONCAT(\"string\", stringField), \"hallo\"] AS test, 23 FROM person"
+        val expected = "SELECT [CONCAT(\"string\", `stringField`), \"hallo\"] AS `test`, 23 FROM `person`"
 
         val actual: String = create
             .select(
@@ -172,7 +172,7 @@ class ArrayTest {
     @Test
     fun `should support in array`() {
         val person = someBucket("person")
-        val expected = "SELECT TRUE IN [FALSE] FROM person"
+        val expected = "SELECT TRUE IN [FALSE] FROM `person`"
 
         val actual: String = create
             .select(
@@ -191,7 +191,7 @@ class ArrayTest {
     @Test
     fun `should support in array aliased`() {
         val person = someBucket("person")
-        val expected = "SELECT TRUE IN [FALSE] AS test FROM person"
+        val expected = "SELECT TRUE IN [FALSE] AS `test` FROM `person`"
 
         val actual: String = create
             .select(
@@ -209,7 +209,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array with boolean and collection`() {
-        val expected = "SELECT TRUE IN [FALSE, TRUE] AS test FROM person"
+        val expected = "SELECT TRUE IN [FALSE, TRUE] AS `test` FROM `person`"
 
         val actual: String = create
             .select(
@@ -228,7 +228,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array with string and collection`() {
-        val expected = "SELECT \"test\" IN [stringField, \"string\"] AS test FROM person"
+        val expected = "SELECT \"test\" IN [`stringField`, \"string\"] AS `test` FROM `person`"
 
         val actual: String = create
             .select(
@@ -247,7 +247,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array with number and collection`() {
-        val expected = "SELECT 3 IN [numberField, 23] AS test FROM someBucket"
+        val expected = "SELECT 3 IN [`numberField`, 23] AS `test` FROM `someBucket`"
 
         val actual: String = create
             .select(
@@ -266,7 +266,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array with field and collection`() {
-        val expected = "SELECT numberField IN [23] AS test FROM person"
+        val expected = "SELECT `numberField` IN [23] AS `test` FROM `person`"
 
         val actual: String = create
             .select(
@@ -285,7 +285,7 @@ class ArrayTest {
     @Test
     fun `should support in array as whereClause`() {
         val person = someBucket("person")
-        val expected = "SELECT * FROM person WHERE stringField IN [\"string\", \"hallo\"]"
+        val expected = "SELECT * FROM `person` WHERE `stringField` IN [\"string\", \"hallo\"]"
 
         val actual: String = create
             .selectFrom(

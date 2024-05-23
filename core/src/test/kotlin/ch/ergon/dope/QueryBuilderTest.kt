@@ -39,7 +39,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String`() {
-        val expected = "SELECT stringField\n" + "FROM someBucket"
+        val expected = "SELECT `stringField`\n" + "FROM `someBucket`"
 
         val actual = create.select(
             someStringField(),
@@ -52,7 +52,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String 2`() {
-        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
         val actual: String = create
             .selectAsterisk()
@@ -67,7 +67,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where`() {
-        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
         val actual: String = create.selectFrom(
             someBucket(),
@@ -80,7 +80,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Equal Simple String 3`() {
-        val expected = "SELECT *\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
+        val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
         val actual: String = create
             .selectAsterisk()
@@ -95,7 +95,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Select Distinct`() {
-        val expected = "SELECT DISTINCT stringField, numberField\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Ian\"\n"
+        val expected = "SELECT DISTINCT `stringField`, `numberField`\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
         val actual: String = create.selectDistinct(
             someStringField(),
@@ -111,7 +111,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias`() {
-        val expected = "SELECT stringField AS firstName\n" + "  FROM someBucket\n" + "    WHERE stringField = \"Peter\""
+        val expected = "SELECT `stringField` AS `firstName`\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Peter\""
 
         val actual: String = create.select(
             someStringField().alias("firstName"),
@@ -126,7 +126,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In First`() {
-        val expected = "SELECT stringField AS FirstName, stringField\n" + "    FROM someBucket\n" + "       WHERE stringField = \"Jackson\""
+        val expected = "SELECT `stringField` AS `FirstName`, `stringField`\n" + "    FROM `someBucket`\n" + "       WHERE `stringField` = \"Jackson\""
 
         val actual: String = create.select(
             someStringField().alias("FirstName"),
@@ -140,7 +140,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In Last`() {
-        val expected = "SELECT stringField, stringField AS LastName\n" + "    FROM someBucket\n" + "       WHERE stringField = \"Jackson\""
+        val expected = "SELECT `stringField`, `stringField` AS `LastName`\n" + "    FROM `someBucket`\n" + "       WHERE `stringField` = \"Jackson\""
 
         val actual: String = create.select(
             someStringField(),
@@ -154,7 +154,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Simple Condition`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField < 50"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` < 50"
 
         val actual: String = create
             .selectAsterisk()
@@ -169,7 +169,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions`() {
-        val expected = "SELECT * FROM someBucket WHERE (numberField < 50 AND stringField = \"Mr.\")"
+        val expected = "SELECT * FROM `someBucket` WHERE (`numberField` < 50 AND `stringField` = \"Mr.\")"
 
         val actual: String = create
             .selectAsterisk()
@@ -186,7 +186,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Chained Conditions And Expressions`() {
-        val expected = "SELECT * FROM someBucket WHERE (numberField < 50 AND stringField = \"Mr.\")"
+        val expected = "SELECT * FROM `someBucket` WHERE (`numberField` < 50 AND `stringField` = \"Mr.\")"
 
         val actual: String = create
             .selectAsterisk()
@@ -207,7 +207,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -221,7 +221,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -235,7 +235,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 != numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 3 != `numberField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -249,7 +249,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" != \"hallo\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" != \"hallo\""
 
         val actual: String = create
             .selectAsterisk()
@@ -263,7 +263,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is not equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField != \"5\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` != \"5\""
 
         val actual: String = create
             .selectAsterisk()
@@ -277,7 +277,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -291,7 +291,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField >= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` >= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -305,7 +305,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 >= numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 3 >= `numberField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -319,7 +319,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" >= \"hallo\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= \"hallo\""
 
         val actual: String = create
             .selectAsterisk()
@@ -333,7 +333,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField >= \"5\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` >= \"5\""
 
         val actual: String = create
             .selectAsterisk()
@@ -347,7 +347,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is greater or equal to with boolean and stringField`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" >= stringField"
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= `stringField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -361,7 +361,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 <= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 <= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -375,7 +375,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField <= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` <= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -389,7 +389,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 <= numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 3 <= `numberField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -403,7 +403,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" <= \"hallo\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" <= \"hallo\""
 
         val actual: String = create
             .selectAsterisk()
@@ -417,7 +417,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support is Less or equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField <= \"5\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` <= \"5\""
 
         val actual: String = create
             .selectAsterisk()
@@ -431,7 +431,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Many Chained Conditions`() {
-        val expected = "SELECT * FROM someBucket WHERE (numberField < 50 AND (stringField = \"Mr.\" AND stringField = \"friend\"))"
+        val expected = "SELECT * FROM `someBucket` WHERE (`numberField` < 50 AND (`stringField` = \"Mr.\" AND `stringField` = \"friend\"))"
 
         val actual: String = create
             .selectAsterisk()
@@ -454,7 +454,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Like`() {
-        val expected = "SELECT stringField FROM someBucket WHERE email LIKE \"%@yahoo.com\""
+        val expected = "SELECT `stringField` FROM `someBucket` WHERE `email` LIKE \"%@yahoo.com\""
 
         val actual: String = create.select(
             someStringField(),
@@ -471,7 +471,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Where With Like Chained`() {
-        val expected = "SELECT stringField, numberField FROM someBucket WHERE (email LIKE \"%@gmail.com\" AND numberField = 46)"
+        val expected = "SELECT `stringField`, `numberField` FROM `someBucket` WHERE (`email` LIKE \"%@gmail.com\" AND `numberField` = 46)"
 
         val actual: String = create.select(
             someStringField(),
@@ -513,7 +513,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Long Complex Query`() {
-        val expected = "SELECT ((1 = 1 AND 2 = 2) AND 3 = 3) AS what FROM someBucket WHERE (1 = 1 AND \"run\" = \"run\")"
+        val expected = "SELECT ((1 = 1 AND 2 = 2) AND 3 = 3) AS `what` FROM `someBucket` WHERE (1 = 1 AND \"run\" = \"run\")"
 
         val actual: String = create.select(
             1.toNumberType().isEqualTo(
@@ -714,9 +714,9 @@ class QueryBuilderTest {
 
     @Test
     fun `Should support the NOW_STR function`() {
-        val expected = "SELECT NOW_STR() AS full_date, NOW_STR(\"invalid date\") AS invalid_date, " +
+        val expected = "SELECT NOW_STR() AS `full_date`, NOW_STR(\"invalid date\") AS `invalid_date`, " +
             "NOW_STR(\"1111-11-11\") " +
-            "AS short_date"
+            "AS `short_date`"
 
         val actual = create.select(
             nowStr().alias("full_date"),
@@ -740,7 +740,7 @@ class QueryBuilderTest {
 
     @Test
     fun `should support select raw with field`() {
-        val expected = "SELECT RAW name FROM someBucket"
+        val expected = "SELECT RAW `name` FROM `someBucket`"
 
         val actual = create.selectRaw(
             someStringField("name"),
@@ -764,7 +764,7 @@ class QueryBuilderTest {
     @Test
     fun `should support selecting all Fields from bucket`() {
         val someBucket = someBucket()
-        val expected = "SELECT someBucket.* FROM someBucket"
+        val expected = "SELECT `someBucket`.* FROM `someBucket`"
 
         val actual = create
             .select(someBucket.asterisk())
@@ -777,7 +777,7 @@ class QueryBuilderTest {
     @Test
     fun `should support selecting all Fields from aliased bucket`() {
         val someBucket = someBucket().alias("alias")
-        val expected = "SELECT alias.* FROM someBucket AS alias"
+        val expected = "SELECT `alias`.* FROM `someBucket` AS `alias`"
 
         val actual = create
             .select(someBucket.asterisk())

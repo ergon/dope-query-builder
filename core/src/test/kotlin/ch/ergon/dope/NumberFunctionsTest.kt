@@ -25,7 +25,7 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support numberType alias`() {
-        val expected = "SELECT 12 AS someNumber"
+        val expected = "SELECT 12 AS `someNumber`"
 
         val actual: String = create
             .select(
@@ -37,7 +37,7 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support min with a ValidType`() {
-        val expected = "SELECT MIN(numberField), MIN(person.fname) FROM person"
+        val expected = "SELECT MIN(`numberField`), MIN(`person`.`fname`) FROM `person`"
 
         val actual: String = create
             .select(
@@ -52,7 +52,7 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support count all`() {
-        val expected = "SELECT COUNT(*) FROM person"
+        val expected = "SELECT COUNT(*) FROM `person`"
 
         val actual: String = create
             .select(
@@ -66,7 +66,7 @@ class NumberFunctionsTest {
 
     @Test
     fun `should support count with a Field`() {
-        val expected = "SELECT COUNT(numberField) FROM person"
+        val expected = "SELECT COUNT(`numberField`) FROM `person`"
 
         val actual: String = create
             .select(
