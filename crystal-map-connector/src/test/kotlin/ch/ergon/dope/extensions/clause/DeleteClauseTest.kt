@@ -39,4 +39,11 @@ class DeleteClauseTest {
 
         assertEquals("DELETE FROM someBucket RETURNING someNumberField", actual)
     }
+
+    @Test
+    fun `should support delete returning with multiple CM`() {
+        val actual: String = someDelete().returning(someCMNumberField(), someCMStringList(), someCMBooleanField()).toDopeQuery().queryString
+
+        assertEquals("DELETE FROM someBucket RETURNING someNumberField, someStringList, someBooleanField", actual)
+    }
 }
