@@ -17,7 +17,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
         val bucketDopeQuery = bucket.toDopeQuery()
         val onConditionDopeQuery = onCondition.toDopeQuery()
         dopeQuery = DopeQuery(
-            queryString = "${parentDopeQuery.queryString} $joinType `${bucketDopeQuery.queryString}` ON `${onConditionDopeQuery.queryString}`",
+            queryString = "${parentDopeQuery.queryString} $joinType ${bucketDopeQuery.queryString} ON ${onConditionDopeQuery.queryString}",
             parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + onConditionDopeQuery.parameters,
         )
     }

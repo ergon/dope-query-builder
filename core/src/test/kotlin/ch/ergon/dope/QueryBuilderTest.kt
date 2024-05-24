@@ -126,7 +126,8 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In First`() {
-        val expected = "SELECT `stringField` AS `FirstName`, `stringField`\n" + "    FROM `someBucket`\n" + "       WHERE `stringField` = \"Jackson\""
+        val expected =
+            "SELECT `stringField` AS `FirstName`, `stringField` FROM `someBucket` WHERE `stringField` = \"Jackson\""
 
         val actual: String = create.select(
             someStringField().alias("FirstName"),
@@ -140,7 +141,8 @@ class QueryBuilderTest {
 
     @Test
     fun `should Support Alias Mixed In Last`() {
-        val expected = "SELECT `stringField`, `stringField` AS `LastName`\n" + "    FROM `someBucket`\n" + "       WHERE `stringField` = \"Jackson\""
+        val expected =
+            "SELECT `stringField`, `stringField` AS `LastName` FROM `someBucket` WHERE `stringField` = \"Jackson\""
 
         val actual: String = create.select(
             someStringField(),

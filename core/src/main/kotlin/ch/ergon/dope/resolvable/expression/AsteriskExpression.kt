@@ -11,10 +11,10 @@ class AsteriskExpression : Expression {
     private val queryString: String
 
     constructor(bucket: Bucket) {
-        queryString = "`" + when (bucket) {
-            is AliasedBucket -> bucket.alias
-            is UnaliasedBucket -> bucket.name
-        } + "`.$ASTERISK_STRING"
+        queryString = when (bucket) {
+            is AliasedBucket -> "`${bucket.alias}`"
+            is UnaliasedBucket -> "`${bucket.name}`"
+        } + ".$ASTERISK_STRING"
     }
 
     constructor() {
