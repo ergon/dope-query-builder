@@ -47,7 +47,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Concat With StringTypes`() {
-        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\") AS concat"
+        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\") AS `concat`"
 
         val actual: String = create.select(
             concat("abc".toStringType(), "def".toStringType(), "ghi".toStringType()).alias("concat"),
@@ -58,7 +58,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Concat With Strings`() {
-        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\") AS concat"
+        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\") AS `concat`"
 
         val actual: String = create.select(
             concat("abc", "def", "ghi").alias("concat"),
@@ -69,7 +69,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Mixed Concat`() {
-        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", stringField) AS concat"
+        val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", `stringField`) AS `concat`"
 
         val actual: String = create.select(
             concat(
@@ -87,7 +87,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Concat2 With StringTypes`() {
-        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS c1"
+        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(
             concat2(
@@ -104,7 +104,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Concat2 With Strings`() {
-        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS c1"
+        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(
             concat2(
@@ -121,7 +121,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Concat2 With Strings And StringType As Seperator`() {
-        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS c1"
+        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(
             concat2(
@@ -138,7 +138,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Concat2 One Argument`() {
-        val expected = "CONCAT2(\"-\", \"a\") AS c2"
+        val expected = "CONCAT2(\"-\", \"a\") AS `c2`"
 
         val actual: String = concat2("-", "a".toStringType()).alias("c2").toDopeQuery().queryString
 
@@ -147,7 +147,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Contains`() {
-        val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS n1ql\n"
+        val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS `n1ql`\n"
 
         val actual: String = create.select(
             contains("N1QL is awesome".toStringType(), "N1QL".toStringType())
@@ -159,7 +159,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Contains With String`() {
-        val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS n1ql\n"
+        val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS `n1ql`\n"
 
         val actual: String = create.select(
             contains("N1QL is awesome", "N1QL".toStringType())
@@ -171,8 +171,8 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Contains Chained`() {
-        val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS n1ql,\n" +
-            "       CONTAINS(\"N1QL is awesome\", \"SQL\") AS no_sql"
+        val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
+            "       CONTAINS(\"N1QL is awesome\", \"SQL\") AS `no_sql`"
 
         val actual: String =
             create.select(
@@ -185,7 +185,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Initcap`() {
-        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS n1ql"
+        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(initCap("N1QL is awesome").alias("n1ql")).build().queryString
 
@@ -194,9 +194,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Length`() {
-        val expected = "SELECT LENGTH(\"N1QL is awesome\") AS ascii,\n" +
-            "       LENGTH(\"Café\") AS diacritic,\n" +
-            "       LENGTH(\"\") AS zero"
+        val expected = "SELECT LENGTH(\"N1QL is awesome\") AS `ascii`,\n" +
+            "       LENGTH(\"Café\") AS `diacritic`,\n" +
+            "       LENGTH(\"\") AS `zero`"
 
         val actual: String =
             create.select(
@@ -210,7 +210,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Lower`() {
-        val expected = "SELECT LOWER(\"N1QL is awesome\") AS n1ql"
+        val expected = "SELECT LOWER(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(lower("N1QL is awesome").alias("n1ql")).build().queryString
 
@@ -219,10 +219,10 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Lpad`() {
-        val expected = "SELECT LPAD(\"N1QL is awesome\", 20) AS implicit_padding,\n" +
-            "       LPAD(\"N1QL is awesome\", 20, \"-*\") AS repeated_padding,\n" +
-            "       LPAD(\"N1QL is awesome\", 20, \"987654321\") AS truncate_padding,\n" +
-            "       LPAD(\"N1QL is awesome\", 4, \"987654321\") AS truncate_string"
+        val expected = "SELECT LPAD(\"N1QL is awesome\", 20) AS `implicit_padding`,\n" +
+            "       LPAD(\"N1QL is awesome\", 20, \"-*\") AS `repeated_padding`,\n" +
+            "       LPAD(\"N1QL is awesome\", 20, \"987654321\") AS `truncate_padding`,\n" +
+            "       LPAD(\"N1QL is awesome\", 4, \"987654321\") AS `truncate_string`"
 
         val actual: String = create.select(
             lpad("N1QL is awesome", 20).alias("implicit_padding"),
@@ -236,13 +236,13 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Lpad With String`() {
-        val expected = "SELECT LPAD(\"N1QL is awesome\", 20) AS implicit_padding,\n" +
-            "       LPAD(\"N1QL is awesome\", 20, \"-*\") AS repeated_padding,\n" +
-            "       LPAD(\"N1QL is awesome\", 20, \"987654321\") AS truncate_padding,\n" +
+        val expected = "SELECT LPAD(\"N1QL is awesome\", 20) AS `implicit_padding`,\n" +
+            "       LPAD(\"N1QL is awesome\", 20, \"-*\") AS `repeated_padding`,\n" +
+            "       LPAD(\"N1QL is awesome\", 20, \"987654321\") AS `truncate_padding`,\n" +
             "       LPAD(\"N1QL is awesome\", 20),\n" +
             "       LPAD(\"N1QL is awesome\", 20, \"987654321\"),\n" +
             "       LPAD(\"N1QL is awesome\", 20, \"987654321\"),\n" +
-            "       LPAD(\"N1QL is awesome\", 4, \"987654321\") AS truncate_string"
+            "       LPAD(\"N1QL is awesome\", 4, \"987654321\") AS `truncate_string`"
 
         val actual: String = create.select(
             lpad("N1QL is awesome".toStringType(), 20).alias("implicit_padding"),
@@ -259,7 +259,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Lpad With String And StringTypes`() {
-        val expected = "SELECT LPAD(\"N1QL is awesome\", 20, \"1234\") AS implicit_padding"
+        val expected = "SELECT LPAD(\"N1QL is awesome\", 20, \"1234\") AS `implicit_padding`"
 
         val actual: String = create.select(
             lpad("N1QL is awesome", 20, "1234".toStringType()).alias("implicit_padding"),
@@ -270,8 +270,8 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Ltrim`() {
-        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS dots, LTRIM(\"    N1QL is awesome\", \" \") AS " +
-            "explicit_spaces, LTRIM(\"      N1QL is awesome\") AS implicit_spaces, LTRIM(\"N1QL is awesome\") AS no_dots"
+        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS `dots`, LTRIM(\"    N1QL is awesome\", \" \") AS " +
+            "`explicit_spaces`, LTRIM(\"      N1QL is awesome\") AS `implicit_spaces`, LTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             ltrim("...N1QL is awesome", ".").alias("dots"),
@@ -285,7 +285,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Ltrim With A String`() {
-        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \"...\") AS dots"
+        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \"...\") AS `dots`"
 
         val actual: String = create.select(
             ltrim("...N1QL is awesome", "...").alias("dots"),
@@ -296,7 +296,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Ltrim With A StringType And Char`() {
-        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS dots, LTRIM(\"...N1QL is awesome\", \".\")"
+        val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS `dots`, LTRIM(\"...N1QL is awesome\", \".\")"
 
         val actual: String = create.select(
             ltrim("...N1QL is awesome".toStringType(), ".").alias("dots"),
@@ -308,9 +308,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Mask`() {
-        val expected = "SELECT MASK(\"SomeTextToMask\", {}) AS mask,\n" +
-            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS mask_custom,\n" +
-            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS mask_hole"
+        val expected = "SELECT MASK(\"SomeTextToMask\", {}) AS `mask`,\n" +
+            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS `mask_custom`,\n" +
+            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS `mask_hole`"
 
         val actual: String = create.select(
             mask("SomeTextToMask").alias("mask"),
@@ -323,9 +323,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Mask With StringType`() {
-        val expected = "SELECT MASK(\"SomeTextToMask\", {}) AS mask,\n" +
-            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS mask_custom,\n" +
-            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS mask_hole"
+        val expected = "SELECT MASK(\"SomeTextToMask\", {}) AS `mask`,\n" +
+            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS `mask_custom`,\n" +
+            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS `mask_hole`"
 
         val actual: String = create.select(
             mask("SomeTextToMask".toStringType()).alias("mask"),
@@ -338,9 +338,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Mask 2`() {
-        val expected = "SELECT MASK(\"SomeTextToMask\", {}) AS mask,\n" +
-            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS mask_custom,\n" +
-            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS mask_hole"
+        val expected = "SELECT MASK(\"SomeTextToMask\", {}) AS `mask`,\n" +
+            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS `mask_custom`,\n" +
+            "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS `mask_hole`"
 
         val actual: String = create.select(
             mask("SomeTextToMask")
@@ -356,9 +356,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Position`() {
-        val expected = "SELECT POSITION(\"N1QL is awesome\", \"awesome\") AS awesome,\n" +
-            "       POSITION(\"N1QL is awesome\", \"N1QL\") AS n1ql,\n" +
-            "       POSITION(\"N1QL is awesome\", \"SQL\") AS sql"
+        val expected = "SELECT POSITION(\"N1QL is awesome\", \"awesome\") AS `awesome`,\n" +
+            "       POSITION(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
+            "       POSITION(\"N1QL is awesome\", \"SQL\") AS `sql`"
 
         val actual: String = create.select(
             position("N1QL is awesome", "awesome").alias("awesome"),
@@ -371,9 +371,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Position With As StringType And String`() {
-        val expected = "SELECT POSITION(\"N1QL is awesome\", \"awesome\") AS awesome,\n" +
-            "       POSITION(\"N1QL is awesome\", \"N1QL\") AS n1ql,\n" +
-            "       POSITION(\"N1QL is awesome\", \"SQL\") AS sql"
+        val expected = "SELECT POSITION(\"N1QL is awesome\", \"awesome\") AS `awesome`,\n" +
+            "       POSITION(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
+            "       POSITION(\"N1QL is awesome\", \"SQL\") AS `sql`"
 
         val actual: String = create.select(
             position("N1QL is awesome".toStringType(), "awesome").alias("awesome"),
@@ -386,9 +386,9 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Position With As String And StringType`() {
-        val expected = "SELECT POSITION(\"N1QL is awesome\", \"awesome\") AS awesome,\n" +
-            "       POSITION(\"N1QL is awesome\", \"N1QL\") AS n1ql,\n" +
-            "       POSITION(\"N1QL is awesome\", \"SQL\") AS sql"
+        val expected = "SELECT POSITION(\"N1QL is awesome\", \"awesome\") AS `awesome`,\n" +
+            "       POSITION(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
+            "       POSITION(\"N1QL is awesome\", \"SQL\") AS `sql`"
 
         val actual: String = create.select(
             position("N1QL is awesome", "awesome".toStringType()).alias("awesome"),
@@ -401,7 +401,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Repeat`() {
-        val expected = "SELECT REPEAT(\"N1QL\", 0) AS empty_string, REPEAT(\"N1QL\", 3), REPEAT(\"N1QL\", 3), REPEAT(\"N1QL\", 3) AS n1ql_3"
+        val expected = "SELECT REPEAT(\"N1QL\", 0) AS `empty_string`, REPEAT(\"N1QL\", 3), REPEAT(\"N1QL\", 3), REPEAT(\"N1QL\", 3) AS `n1ql_3`"
 
         val actual: String = create.select(
             repeat("N1QL", 0).alias("empty_string"),
@@ -415,8 +415,8 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Reverse`() {
-        val expected = "SELECT REVERSE(\"N1QL is awesome\") AS n1ql,\n" +
-            "       REVERSE(\"racecar\") AS palindrome"
+        val expected = "SELECT REVERSE(\"N1QL is awesome\") AS `n1ql`,\n" +
+            "       REVERSE(\"racecar\") AS `palindrome`"
 
         val actual: String = create.select(
             reverse("N1QL is awesome").alias("n1ql"),
@@ -428,13 +428,13 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Rpad`() {
-        val expected = "SELECT RPAD(\"N1QL is awesome\", 20) AS implicit_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 20, \"-*\") AS repeated_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS truncate_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS truncate_string,\n" +
-            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS truncate_string,\n" +
-            "       RPAD(\"N1QL is awesome\", 4) AS truncate_string,\n" +
-            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS truncate_string"
+        val expected = "SELECT RPAD(\"N1QL is awesome\", 20) AS `implicit_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 20, \"-*\") AS `repeated_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS `truncate_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`,\n" +
+            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`,\n" +
+            "       RPAD(\"N1QL is awesome\", 4) AS `truncate_string`,\n" +
+            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`"
 
         val actual: String = create.select(
             rpad("N1QL is awesome", 20).alias("implicit_padding"),
@@ -451,10 +451,10 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Rpad With StringType And String`() {
-        val expected = "SELECT RPAD(\"N1QL is awesome\", 20) AS implicit_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 20, \"-*\") AS repeated_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS truncate_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS truncate_string"
+        val expected = "SELECT RPAD(\"N1QL is awesome\", 20) AS `implicit_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 20, \"-*\") AS `repeated_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS `truncate_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`"
 
         val actual: String = create.select(
             rpad("N1QL is awesome".toStringType(), 20).alias("implicit_padding"),
@@ -468,10 +468,10 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Rpad With String And StringType`() {
-        val expected = "SELECT RPAD(\"N1QL is awesome\", 20) AS implicit_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 20, \"-*\") AS repeated_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS truncate_padding,\n" +
-            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS truncate_string"
+        val expected = "SELECT RPAD(\"N1QL is awesome\", 20) AS `implicit_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 20, \"-*\") AS `repeated_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS `truncate_padding`,\n" +
+            "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`"
 
         val actual: String = create.select(
             rpad("N1QL is awesome", 20).alias("implicit_padding"),
@@ -486,8 +486,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Rtrim`() {
         val expected =
-            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \", \" \") AS " +
-                "explicit_spaces, RTRIM(\"N1QL is awesome     \") AS implicit_spaces, RTRIM(\"N1QL is awesome\") AS no_dots"
+            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS `dots`, RTRIM(\"N1QL is awesome     \", \" \") AS " +
+                "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             rtrim("N1QL is awesome...", '.').alias("dots"),
@@ -502,8 +502,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Rtrim With String And String`() {
         val expected =
-            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \", \" \") AS " +
-                "explicit_spaces, RTRIM(\"N1QL is awesome     \") AS implicit_spaces, RTRIM(\"N1QL is awesome\") AS no_dots"
+            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS `dots`, RTRIM(\"N1QL is awesome     \", \" \") AS " +
+                "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             rtrim("N1QL is awesome...", ".").alias("dots"),
@@ -518,8 +518,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Rtrim With StringType`() {
         val expected =
-            "SELECT RTRIM(\"N1QL is awesome...\") AS dots, RTRIM(\"N1QL is awesome     \") AS " +
-                "explicit_spaces, RTRIM(\"N1QL is awesome     \") AS implicit_spaces, RTRIM(\"N1QL is awesome\") AS no_dots"
+            "SELECT RTRIM(\"N1QL is awesome...\") AS `dots`, RTRIM(\"N1QL is awesome     \") AS " +
+                "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             rtrim("N1QL is awesome...".toStringType()).alias("dots"),
@@ -534,8 +534,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Rtrim With StringType And A Char`() {
         val expected =
-            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS dots, RTRIM(\"N1QL is awesome     \") AS " +
-                "explicit_spaces, RTRIM(\"N1QL is awesome     \") AS implicit_spaces, RTRIM(\"N1QL is awesome\") AS no_dots"
+            "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS `dots`, RTRIM(\"N1QL is awesome     \") AS " +
+                "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             rtrim("N1QL is awesome...".toStringType(), '.').alias("dots"),
@@ -550,8 +550,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Split`() {
         val expected =
-            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
-                " implicit_spaces, SPLIT(\"N1QL is awesome\", \"is\") AS split_is"
+            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS `explicit_spaces`, SPLIT(\"N1QL is awesome\") AS" +
+                " `implicit_spaces`, SPLIT(\"N1QL is awesome\", \"is\") AS `split_is`"
 
         val actual: String = create.select(
             split("N1QL is awesome", " ").alias("explicit_spaces"),
@@ -565,8 +565,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Split With StringType`() {
         val expected =
-            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
-                " implicit_spaces, SPLIT(\"N1QL is awesome\", \"is\") AS split_is"
+            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS `explicit_spaces`, SPLIT(\"N1QL is awesome\") AS" +
+                " `implicit_spaces`, SPLIT(\"N1QL is awesome\", \"is\") AS `split_is`"
 
         val actual: String = create.select(
             split("N1QL is awesome".toStringType(), " ").alias("explicit_spaces"),
@@ -580,8 +580,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Split With String And A StringType`() {
         val expected =
-            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS explicit_spaces, SPLIT(\"N1QL is awesome\") AS" +
-                " implicit_spaces, SPLIT(\"N1QL is awesome\", \"is\") AS split_is"
+            "SELECT SPLIT(\"N1QL is awesome\", \" \") AS `explicit_spaces`, SPLIT(\"N1QL is awesome\") AS" +
+                " `implicit_spaces`, SPLIT(\"N1QL is awesome\", \"is\") AS `split_is`"
 
         val actual: String = create.select(
             split("N1QL is awesome", " ".toStringType()).alias("explicit_spaces"),
@@ -595,8 +595,8 @@ class StringFunctionsTest {
     @Test
     fun `should Support Substring`() {
         val expected =
-            "SELECT SUBSTR(\"N1QL is awesome\", 3, 15) AS end_of_string, SUBSTR(\"N1QL is awesome\", 3, 1) AS" +
-                " single_letter, SUBSTR(\"N1QL is awesome\", 3, 3) AS three_letters"
+            "SELECT SUBSTR(\"N1QL is awesome\", 3, 15) AS `end_of_string`, SUBSTR(\"N1QL is awesome\", 3, 1) AS" +
+                " `single_letter`, SUBSTR(\"N1QL is awesome\", 3, 3) AS `three_letters`"
 
         val actual: String = create.select(
             substr("N1QL is awesome", 3).alias("end_of_string"),
@@ -618,7 +618,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Title`() {
-        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS n1ql"
+        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(title("N1QL is awesome").alias("n1ql")).build().queryString
 
@@ -627,7 +627,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Title with string Type`() {
-        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS n1ql"
+        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(title("N1QL is awesome".toStringType()).alias("n1ql")).build().queryString
 
@@ -693,10 +693,10 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Trim`() {
-        val expected = "SELECT TRIM(\"...N1QL is awesome...\", \".\") AS dots," +
-            " TRIM(\"     N1QL is awesome     \") AS explicit_spaces," +
-            " TRIM(\"     N1QL is awesome     \") AS implicit_spaces," +
-            " TRIM(\"N1QL is awesome\") AS no_dots"
+        val expected = "SELECT TRIM(\"...N1QL is awesome...\", \".\") AS `dots`," +
+            " TRIM(\"     N1QL is awesome     \") AS `explicit_spaces`," +
+            " TRIM(\"     N1QL is awesome     \") AS `implicit_spaces`," +
+            " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             trim("...N1QL is awesome...", '.')
@@ -714,10 +714,10 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Trim With A String And A String`() {
-        val expected = "SELECT TRIM(\"...N1QL is awesome...\", \"...\") AS dots," +
-            " TRIM(\"     N1QL is awesome     \", \" \") AS explicit_spaces," +
-            " TRIM(\"     N1QL is awesome     \") AS implicit_spaces," +
-            " TRIM(\"N1QL is awesome\") AS no_dots"
+        val expected = "SELECT TRIM(\"...N1QL is awesome...\", \"...\") AS `dots`," +
+            " TRIM(\"     N1QL is awesome     \", \" \") AS `explicit_spaces`," +
+            " TRIM(\"     N1QL is awesome     \") AS `implicit_spaces`," +
+            " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             trim("...N1QL is awesome...", "...")
@@ -735,10 +735,10 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Trim With String Type`() {
-        val expected = "SELECT TRIM(\"...N1QL is awesome...\", \".\") AS dots," +
-            " TRIM(\"     N1QL is awesome     \") AS explicit_spaces," +
-            " TRIM(\"     N1QL is awesome     \") AS implicit_spaces," +
-            " TRIM(\"N1QL is awesome\") AS no_dots"
+        val expected = "SELECT TRIM(\"...N1QL is awesome...\", \".\") AS `dots`," +
+            " TRIM(\"     N1QL is awesome     \") AS `explicit_spaces`," +
+            " TRIM(\"     N1QL is awesome     \") AS `implicit_spaces`," +
+            " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
             trim("...N1QL is awesome...".toStringType(), '.')
@@ -756,7 +756,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Upper`() {
-        val expected = "SELECT UPPER(\"N1QL is awesome\") AS n1ql"
+        val expected = "SELECT UPPER(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(upper("N1QL is awesome").alias("n1ql")).build().queryString
 
@@ -765,7 +765,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should support string functions in where clause`() {
-        val expected = "SELECT * FROM someBucket WHERE CONTAINS(stringField, \"123\")"
+        val expected = "SELECT * FROM `someBucket` WHERE CONTAINS(`stringField`, \"123\")"
 
         val actual: String = create.selectFrom(someBucket()).where(contains(someStringField(), "123")).build().queryString
 
@@ -774,7 +774,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should support string functions with conditions in where clause`() {
-        val expected = "SELECT * FROM someBucket WHERE UPPER(stringField) = \"VENDOLIN\""
+        val expected = "SELECT * FROM `someBucket` WHERE UPPER(`stringField`) = \"VENDOLIN\""
         val actual: String =
             create.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toStringType())).build().queryString
 
@@ -783,7 +783,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should support nested string functions`() {
-        val expected = "SELECT CONTAINS(UPPER(\"vendolin\"), \"VEN\") AS foo"
+        val expected = "SELECT CONTAINS(UPPER(\"vendolin\"), \"VEN\") AS `foo`"
 
         val actual: String = create.select(contains(upper("vendolin"), "VEN").alias("foo")).build().queryString
 

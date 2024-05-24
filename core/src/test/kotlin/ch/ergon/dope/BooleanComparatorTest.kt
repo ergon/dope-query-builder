@@ -39,7 +39,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support greater than number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField > 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` > 5"
 
         val actual = create
             .selectFrom(someBucket())
@@ -52,7 +52,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is greater than a number`() {
-        val expected = "SELECT * FROM someBucket WHERE 2 > 4"
+        val expected = "SELECT * FROM `someBucket` WHERE 2 > 4"
 
         val actual = create
             .selectAsterisk()
@@ -67,7 +67,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is greater than a numberType`() {
-        val expected = "SELECT * FROM someBucket WHERE 2 > 4"
+        val expected = "SELECT * FROM `someBucket` WHERE 2 > 4"
 
         val actual = create
             .selectAsterisk()
@@ -82,7 +82,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support numberType is greater than a number`() {
-        val expected = "SELECT * FROM someBucket WHERE 2 > 4"
+        val expected = "SELECT * FROM `someBucket` WHERE 2 > 4"
 
         val actual = create
             .selectAsterisk()
@@ -97,7 +97,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support greater than with a field and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField > \"a\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` > \"a\""
 
         val actual = create
             .selectFrom(someBucket())
@@ -110,7 +110,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support string is greater than a string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" > \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" > \"test\""
 
         val actual = create
             .selectAsterisk()
@@ -125,7 +125,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support stringType is greater than a string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" > \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" > \"test\""
 
         val actual = create
             .selectAsterisk()
@@ -140,7 +140,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support string is greater than a stringType`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" > \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" > \"test\""
 
         val actual = create
             .selectAsterisk()
@@ -155,7 +155,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support greater than with a string and a field`() {
-        val expected = "SELECT * FROM someBucket WHERE \"a\" > stringField"
+        val expected = "SELECT * FROM `someBucket` WHERE \"a\" > `stringField`"
 
         val actual = create
             .selectFrom(someBucket())
@@ -168,7 +168,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support less than with a field and a number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField < 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` < 5"
 
         val actual = create
             .selectFrom(
@@ -182,7 +182,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support less than with a number and a field`() {
-        val expected = "SELECT * FROM someBucket WHERE 5 < numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 5 < `numberField`"
 
         val actual = create
             .selectFrom(someBucket())
@@ -195,7 +195,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is less than a number`() {
-        val expected = "SELECT * FROM someBucket WHERE 5 < 7"
+        val expected = "SELECT * FROM `someBucket` WHERE 5 < 7"
 
         val actual = create
             .selectAsterisk()
@@ -210,7 +210,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support numberType is less than a number`() {
-        val expected = "SELECT * FROM someBucket WHERE 5 < 7"
+        val expected = "SELECT * FROM `someBucket` WHERE 5 < 7"
 
         val actual = create
             .selectAsterisk()
@@ -225,7 +225,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is less than a numberType`() {
-        val expected = "SELECT * FROM someBucket WHERE 5 < 7"
+        val expected = "SELECT * FROM `someBucket` WHERE 5 < 7"
 
         val actual = create
             .selectAsterisk()
@@ -240,7 +240,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is less than with a string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField < \"a\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` < \"a\""
 
         val actual = create
             .selectFrom(someBucket())
@@ -253,7 +253,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support string is less than a string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" < \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" < \"test\""
 
         val actual = create
             .selectAsterisk()
@@ -268,7 +268,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support stringType is less than a string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" < \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" < \"test\""
 
         val actual = create
             .selectAsterisk()
@@ -283,7 +283,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support string is less than a stringType`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" < \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" < \"test\""
 
         val actual = create
             .selectAsterisk()
@@ -298,7 +298,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support like with a string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField LIKE \"_b%\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` LIKE \"_b%\""
 
         val actual = create
             .selectFrom(someBucket())
@@ -311,7 +311,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support like with a type`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField LIKE \"_b%\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` LIKE \"_b%\""
 
         val actual = create
             .selectFrom(someBucket())
@@ -324,7 +324,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support not like with a string`() {
-        val expected = "SELECT * FROM someBucket WHERE email NOT LIKE \"%@yahoo.com\""
+        val expected = "SELECT * FROM `someBucket` WHERE `email` NOT LIKE \"%@yahoo.com\""
 
         val actual: String = create
             .selectFrom(someBucket())
@@ -337,7 +337,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support not like with a type`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField NOT LIKE \"_b%\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` NOT LIKE \"_b%\""
 
         val actual = create
             .selectFrom(someBucket())
@@ -350,7 +350,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is null`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IS NULL"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NULL"
 
         val actual = create
             .selectFrom(someBucket())
@@ -363,7 +363,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not null`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IS NOT NULL"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT NULL"
 
         val actual = create
             .selectFrom(someBucket())
@@ -376,7 +376,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is missing`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IS MISSING"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS MISSING"
 
         val actual = create
             .selectFrom(someBucket())
@@ -389,7 +389,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not missing`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IS NOT MISSING"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT MISSING"
 
         val actual = create
             .selectFrom(someBucket())
@@ -402,7 +402,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is valued`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IS VALUED"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS VALUED"
 
         val actual = create
             .selectFrom(someBucket())
@@ -415,7 +415,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not valued`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IS NOT VALUED"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT VALUED"
 
         val actual = create
             .selectFrom(someBucket())
@@ -428,7 +428,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -442,7 +442,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is not equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -456,7 +456,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support numberType is not equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -470,7 +470,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is not equal to with numberType`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -484,7 +484,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField != 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` != 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -498,7 +498,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 != numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 3 != `numberField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -512,7 +512,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" != \"hallo\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" != \"hallo\""
 
         val actual: String = create
             .selectAsterisk()
@@ -526,7 +526,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is not equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField != \"5\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` != \"5\""
 
         val actual: String = create
             .selectAsterisk()
@@ -540,7 +540,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is greater or equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -554,7 +554,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support number is greater or equal to with numberType`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -568,7 +568,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support numberType is greater or equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 >= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -582,7 +582,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support string is greater or equal to with stringType`() {
-        val expected = "SELECT * FROM someBucket WHERE \"hallo\" >= \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" >= \"test\""
 
         val actual: String = create
             .selectAsterisk()
@@ -596,7 +596,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support stringType is greater or equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField >= \"test\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` >= \"test\""
 
         val actual: String = create
             .selectAsterisk()
@@ -610,7 +610,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is greater or equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField >= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` >= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -624,7 +624,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is greater or equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 >= numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 3 >= `numberField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -638,7 +638,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is greater or equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" >= \"hallo\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= \"hallo\""
 
         val actual: String = create
             .selectAsterisk()
@@ -652,7 +652,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is greater or equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField >= \"5\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` >= \"5\""
 
         val actual: String = create
             .selectAsterisk()
@@ -666,7 +666,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is greater or equal to with boolean and stringField`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" >= stringField"
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= `stringField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -680,7 +680,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is Less or equal to with number`() {
-        val expected = "SELECT * FROM someBucket WHERE 12 <= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE 12 <= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -694,7 +694,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is Less or equal to with numberField and number`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField <= 5"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` <= 5"
 
         val actual: String = create
             .selectAsterisk()
@@ -708,7 +708,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is Less or equal to with number and numberField`() {
-        val expected = "SELECT * FROM someBucket WHERE 3 <= numberField"
+        val expected = "SELECT * FROM `someBucket` WHERE 3 <= `numberField`"
 
         val actual: String = create
             .selectAsterisk()
@@ -722,7 +722,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is Less or equal to with string`() {
-        val expected = "SELECT * FROM someBucket WHERE \"test\" <= \"hallo\""
+        val expected = "SELECT * FROM `someBucket` WHERE \"test\" <= \"hallo\""
 
         val actual: String = create
             .selectAsterisk()
@@ -736,7 +736,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support is Less or equal to with stringField and string`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField <= \"5\""
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` <= \"5\""
 
         val actual: String = create
             .selectAsterisk()
@@ -750,7 +750,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should Support Where With Like`() {
-        val expected = "SELECT stringField, email FROM someBucket WHERE email LIKE \"%@yahoo.com\""
+        val expected = "SELECT `stringField`, `email` FROM `someBucket` WHERE `email` LIKE \"%@yahoo.com\""
 
         val actual: String = create.select(
             someStringField(),
@@ -768,7 +768,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should Support Where With Like Chained`() {
-        val expected = "SELECT stringField, numberField FROM someBucket WHERE (email LIKE \"%@gmail.com\" AND numberField = 46)"
+        val expected = "SELECT `stringField`, `numberField` FROM `someBucket` WHERE (`email` LIKE \"%@gmail.com\" AND `numberField` = 46)"
 
         val actual: String = create.select(
             someStringField(),
@@ -875,7 +875,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should add brackets to one Boolean comparator`() {
-        val expected = "SELECT * FROM someBucket WHERE (TRUE AND TRUE)"
+        val expected = "SELECT * FROM `someBucket` WHERE (TRUE AND TRUE)"
         val actual: String = create
             .selectAsterisk()
             .from(
@@ -891,7 +891,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should add first bracket pair to two Boolean comparators`() {
-        val expected = "SELECT * FROM someBucket WHERE ((TRUE AND TRUE) OR FALSE)"
+        val expected = "SELECT * FROM `someBucket` WHERE ((TRUE AND TRUE) OR FALSE)"
         val actual: String = create
             .selectAsterisk()
             .from(
@@ -907,7 +907,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should add second bracket pair to two Boolean comparators`() {
-        val expected = "SELECT * FROM someBucket WHERE (TRUE AND (TRUE OR FALSE))"
+        val expected = "SELECT * FROM `someBucket` WHERE (TRUE AND (TRUE OR FALSE))"
         val actual: String = create
             .selectAsterisk()
             .from(

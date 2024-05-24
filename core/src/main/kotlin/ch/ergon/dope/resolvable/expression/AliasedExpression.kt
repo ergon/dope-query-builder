@@ -14,7 +14,7 @@ class AliasedExpression<T : ValidType>(
     override fun toDopeQuery(): DopeQuery {
         val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery()
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(unaliasedExpressionDopeQuery.queryString, "AS", alias),
+            queryString = formatToQueryStringWithSymbol(unaliasedExpressionDopeQuery.queryString, "AS", "`$alias`"),
             parameters = unaliasedExpressionDopeQuery.parameters,
         )
     }

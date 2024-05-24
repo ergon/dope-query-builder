@@ -15,7 +15,7 @@ fun formatToQueryStringWithBrackets(symbol: String, vararg argument: String) =
 
 fun formatPathToQueryString(name: String, path: String) =
     if (path.isBlank()) {
-        name
+        "`$name`"
     } else {
-        "$path.$name"
+        "`$path`.`$name`"
     }

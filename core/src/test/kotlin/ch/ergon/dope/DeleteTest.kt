@@ -21,7 +21,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete from`() {
-        val expected = "DELETE FROM someBucket"
+        val expected = "DELETE FROM `someBucket`"
 
         val actual: String = create
             .deleteFrom(someBucket())
@@ -32,7 +32,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with where`() {
-        val expected = "DELETE FROM someBucket WHERE TRUE"
+        val expected = "DELETE FROM `someBucket` WHERE TRUE"
 
         val actual: String = create
             .deleteFrom(someBucket())
@@ -44,7 +44,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with limit`() {
-        val expected = "DELETE FROM someBucket LIMIT 10"
+        val expected = "DELETE FROM `someBucket` LIMIT 10"
 
         val actual: String = create
             .deleteFrom(someBucket())
@@ -56,7 +56,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with offset`() {
-        val expected = "DELETE FROM someBucket OFFSET 10"
+        val expected = "DELETE FROM `someBucket` OFFSET 10"
 
         val actual: String = create
             .deleteFrom(someBucket())
@@ -68,7 +68,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with returning`() {
-        val expected = "DELETE FROM someBucket RETURNING stringField"
+        val expected = "DELETE FROM `someBucket` RETURNING `stringField`"
 
         val actual: String = create
             .deleteFrom(someBucket())
@@ -80,7 +80,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with multiple returning`() {
-        val expected = "DELETE FROM someBucket RETURNING stringField, numberField"
+        val expected = "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`"
 
         val actual: String = create
             .deleteFrom(someBucket())
@@ -92,7 +92,7 @@ class DeleteTest {
 
     @Test
     fun `should support delete`() {
-        val expected = "DELETE FROM someBucket WHERE (someBucket.age = 2 AND TRUE) LIMIT 7 OFFSET 10 RETURNING stringField"
+        val expected = "DELETE FROM `someBucket` WHERE (`someBucket`.`age` = 2 AND TRUE) LIMIT 7 OFFSET 10 RETURNING `stringField`"
 
         val actual: String = create
             .deleteFrom(someBucket())

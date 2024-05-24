@@ -32,7 +32,7 @@ class UnnestClauseTest {
     fun `should support unnest`() {
         val airline = someBucket()
         val aField = listOf("a".toStringType()).toArrayType()
-        val expected = "SELECT * FROM someBucket UNNEST [\"a\"] AS a"
+        val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
         val alias: AliasedExpression<ArrayType<StringType>> = aField.alias("a")
         val actual: String = create
@@ -45,7 +45,7 @@ class UnnestClauseTest {
 
     @Test
     fun `should support unnest with arrayField`() {
-        val expected = "SELECT c FROM airline UNNEST a"
+        val expected = "SELECT `c` FROM `airline` UNNEST `a`"
 
         val actual: String = create
             .select(someNumberArrayField("c"))
@@ -60,7 +60,7 @@ class UnnestClauseTest {
     fun `should support nested unnest`() {
         val airline = someBucket("airline").alias("ai")
         val aField = someNumberArrayField("a")
-        val expected = "SELECT c FROM airline AS ai UNNEST a AS ab UNNEST ab.c WHERE a IS VALUED"
+        val expected = "SELECT `c` FROM `airline` AS `ai` UNNEST `a` AS `ab` UNNEST `ab`.`c` WHERE `a` IS VALUED"
 
         val actual: String = create
             .select(someNumberArrayField("c"))
@@ -76,7 +76,8 @@ class UnnestClauseTest {
     @Test
     fun `should support unnest s`() {
         val expected =
-            "SELECT b.* FROM someBucket AS b UNNEST stringArrayField AS a WHERE (b.stringField = \"something\" AND a.stringField = \$param)"
+            "SELECT `b`.* FROM `someBucket` AS `b` UNNEST `stringArrayField` AS `a` " +
+                "WHERE (`b`.`stringField` = \"something\" AND `a`.`stringField` = \$param)"
 
         val b = someBucket().alias("b")
         val actual: String = create

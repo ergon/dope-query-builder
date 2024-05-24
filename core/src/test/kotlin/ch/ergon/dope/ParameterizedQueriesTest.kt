@@ -69,7 +69,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Positional Parameters`() {
-        val expected = "SELECT * FROM someBucket WHERE country = $1"
+        val expected = "SELECT * FROM `someBucket` WHERE `country` = $1"
 
         val actual: String =
             create.selectFrom(someBucket())
@@ -79,7 +79,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Number Array Parameters`() {
-        val expected = "SELECT * FROM someBucket WHERE numberField IN $1"
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` IN $1"
 
         val actual: String = create.selectFrom(someBucket())
             .where(someNumberField().inArray(listOf<Number>().asParameter())).build().queryString
@@ -88,7 +88,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support String Array Parameters`() {
-        val expected = "SELECT * FROM someBucket WHERE stringField IN $1"
+        val expected = "SELECT * FROM `someBucket` WHERE `stringField` IN $1"
 
         val actual: String = create.selectFrom(someBucket())
             .where(someStringField().inArray(listOf<String>().asParameter())).build().queryString
@@ -97,7 +97,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Boolean Array Parameters`() {
-        val expected = "SELECT * FROM someBucket WHERE booleanField IN $1"
+        val expected = "SELECT * FROM `someBucket` WHERE `booleanField` IN $1"
 
         val actual: String = create.selectFrom(someBucket())
             .where(someBooleanField().inArray(listOf<Boolean>().asParameter())).build().queryString
@@ -116,7 +116,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters`() {
-        val expected = "SELECT $1 AS one, \$MagicNumber AS two"
+        val expected = "SELECT $1 AS `one`, \$MagicNumber AS `two`"
 
         val actual: String = create
             .select(
@@ -129,7 +129,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters 2`() {
-        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)) AS one"
+        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)) AS `one`"
 
         val actual: String = create
             .select(
@@ -144,7 +144,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters 3`() {
-        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)), CONCAT(\$superMagic, $3) AS one"
+        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)), CONCAT(\$superMagic, $3) AS `one`"
 
         val actual: String = create
             .select(
@@ -163,7 +163,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Mixed Parameters 4`() {
-        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)) AS one, CONCAT(\$superMagic, \$3)"
+        val expected = "SELECT $1, (\$name OR ($2 AND \$MagicNumber)) AS `one`, CONCAT(\$superMagic, \$3)"
 
         val actual: String = create
             .select(
@@ -184,7 +184,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `should Support Aliased Parameters`() {
-        val expected = "SELECT $1 AS one"
+        val expected = "SELECT $1 AS `one`"
 
         val actual: String = create.select(
             "Questionable"
@@ -213,7 +213,7 @@ class ParameterizedQueriesTest {
 
     @Test
     fun `shouldSupport Prefix Operator2 Parameters Aliased`() {
-        val expected = "SELECT CONCAT(\$greetingLeft, \$greetingRight) AS concatted"
+        val expected = "SELECT CONCAT(\$greetingLeft, \$greetingRight) AS `concatted`"
 
         val actual: String = create.select(
             concat(

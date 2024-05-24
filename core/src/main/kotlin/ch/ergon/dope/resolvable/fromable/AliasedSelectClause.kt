@@ -7,7 +7,7 @@ class AliasedSelectClause(private val alias: String, private val selectClause: I
     override fun toDopeQuery(): DopeQuery {
         val selectClauseDopeQuery = selectClause.toDopeQuery()
         return DopeQuery(
-            queryString = "(${selectClauseDopeQuery.queryString}) AS $alias",
+            queryString = "(${selectClauseDopeQuery.queryString}) AS `$alias`",
             parameters = selectClauseDopeQuery.parameters,
         )
     }

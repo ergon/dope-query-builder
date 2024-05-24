@@ -12,8 +12,8 @@ class AsteriskExpression : Expression {
 
     constructor(bucket: Bucket) {
         queryString = when (bucket) {
-            is AliasedBucket -> bucket.alias
-            is UnaliasedBucket -> bucket.name
+            is AliasedBucket -> "`${bucket.alias}`"
+            is UnaliasedBucket -> "`${bucket.name}`"
         } + ".$ASTERISK_STRING"
     }
 

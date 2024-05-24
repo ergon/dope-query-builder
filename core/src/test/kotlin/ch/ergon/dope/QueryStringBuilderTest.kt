@@ -71,17 +71,18 @@ class QueryStringBuilderTest {
     fun `should format name with empty path`() {
         val name = "testName"
         val path = ""
+        val expected = "`$name`"
 
         val actual = formatPathToQueryString(name, path)
 
-        assertEquals(name, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should format name with path`() {
         val name = "testName"
         val path = "testPath"
-        val expected = "$path.$name"
+        val expected = "`$path`.`$name`"
 
         val actual = formatPathToQueryString(name, path)
 
