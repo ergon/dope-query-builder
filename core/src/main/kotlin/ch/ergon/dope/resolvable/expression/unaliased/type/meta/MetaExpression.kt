@@ -16,7 +16,7 @@ class MetaExpression(private val bucket: Bucket) : TypeExpression<StringType>, F
         val bucketDopeQuery = bucket.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
-                "META",
+                symbol = "META",
                 when (bucket) {
                     is AliasedBucket -> "`${bucket.alias}`"
                     is UnaliasedBucket -> bucketDopeQuery.queryString
@@ -38,12 +38,12 @@ class MetaExpression(private val bucket: Bucket) : TypeExpression<StringType>, F
 
     val keyspace: Field<StringType> = getMetaField("keyspace")
 
-    private fun <T : ValidType> getMetaField(field: String): MetaField<T> = MetaField(field, toDopeQuery().queryString)
+    private fun <T : ValidType> getMetaField(field: String): MetaField<T> = MetaField(field, toDopeQuery())
 
-    private class MetaField<T : ValidType>(private val name: String, private val queryString: String) : Field<T>(name, "") {
+    private class MetaField<T : ValidType>(private val name: String, private val dopeQuery: DopeQuery) : Field<T>(name, "") {
         override fun toDopeQuery(): DopeQuery = DopeQuery(
-            queryString = "$queryString.`$name`",
-            parameters = emptyMap(),
+            queryString = "${dopeQuery.queryString}.`$name`",
+            parameters = dopeQuery.parameters,
         )
     }
 }
