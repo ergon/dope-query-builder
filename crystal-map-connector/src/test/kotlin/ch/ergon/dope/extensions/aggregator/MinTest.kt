@@ -15,41 +15,41 @@ class MinTest {
     fun `should support min with CMField Number`() {
         val actual: String = min(someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("MIN(someNumberField)", actual)
+        assertEquals("MIN(`someNumberField`)", actual)
     }
 
     @Test
     fun `should support min with CMField String`() {
         val actual: String = min(someCMStringField()).toDopeQuery().queryString
 
-        assertEquals("MIN(someStringField)", actual)
+        assertEquals("MIN(`someStringField`)", actual)
     }
 
     @Test
     fun `should support min with CMField Boolean`() {
         val actual: String = min(someCMBooleanField()).toDopeQuery().queryString
 
-        assertEquals("MIN(someBooleanField)", actual)
+        assertEquals("MIN(`someBooleanField`)", actual)
     }
 
     @Test
     fun `should support min with CMList Number`() {
         val actual: String = min(someCMNumberList()).toDopeQuery().queryString
 
-        assertEquals("MIN(someNumberList)", actual)
+        assertEquals("MIN(`someNumberList`)", actual)
     }
 
     @Test
     fun `should support min with CMList String`() {
         val actual: String = min(someCMStringList()).toDopeQuery().queryString
 
-        assertEquals("MIN(someStringList)", actual)
+        assertEquals("MIN(`someStringList`)", actual)
     }
 
     @Test
     fun `should support min with CMList Boolean`() {
         val actual: String = min(someCMBooleanList()).toDopeQuery().queryString
 
-        assertEquals("MIN(someBooleanList)", actual)
+        assertEquals("MIN(`someBooleanList`)", actual)
     }
 }
