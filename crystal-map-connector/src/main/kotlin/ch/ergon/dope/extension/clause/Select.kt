@@ -1,6 +1,5 @@
 package ch.ergon.dope.extension.clause
 
-import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.asArrayField
 import ch.ergon.dope.asField
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
@@ -12,12 +11,9 @@ import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.clause.model.SelectClause
-import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
-import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.fromable.Bucket
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
@@ -53,11 +49,3 @@ fun ISelectUnnestClause.unnest(arrayField: CMList<Number>) = unnest(arrayField.a
 
 @JvmName("unnestBoolean")
 fun ISelectUnnestClause.unnest(arrayField: CMList<Boolean>) = unnest(arrayField.asArrayField())
-
-fun QueryBuilder.select(expression: CMType, vararg expressions: CMType): SelectClause =
-    select(expression.asField(), *expressions.map { it.asField() }.toTypedArray())
-
-fun QueryBuilder.selectDistinct(expression: CMType, vararg expressions: CMType): SelectDistinctClause =
-    selectDistinct(expression.asField(), *expressions.map { it.asField() }.toTypedArray())
-
-fun QueryBuilder.selectRaw(expression: CMType): SelectRawClause = selectRaw(expression.asField())
