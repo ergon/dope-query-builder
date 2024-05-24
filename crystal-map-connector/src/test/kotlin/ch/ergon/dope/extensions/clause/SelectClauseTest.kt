@@ -28,97 +28,97 @@ class SelectClauseTest {
     fun `should support select where with CM`() {
         val actual: String = someSelect().where(someCMBooleanField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * WHERE someBooleanField", actual)
+        assertEquals("SELECT * WHERE `someBooleanField`", actual)
     }
 
     @Test
     fun `should support select unnest with CM Number`() {
         val actual: String = someFrom().unnest(someCMNumberList()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket UNNEST someNumberList", actual)
+        assertEquals("SELECT * FROM `someBucket` UNNEST `someNumberList`", actual)
     }
 
     @Test
     fun `should support select unnest with CM String`() {
         val actual: String = someFrom().unnest(someCMStringList()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket UNNEST someStringList", actual)
+        assertEquals("SELECT * FROM `someBucket` UNNEST `someStringList`", actual)
     }
 
     @Test
     fun `should support select unnest with CM Boolean`() {
         val actual: String = someFrom().unnest(someCMBooleanList()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket UNNEST someBooleanList", actual)
+        assertEquals("SELECT * FROM `someBucket` UNNEST `someBooleanList`", actual)
     }
 
     @Test
     fun `should support select join with CM`() {
         val actual: String = someFrom().join(someBucket("other"), onKeys = someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket JOIN other ON KEYS someNumberField", actual)
+        assertEquals("SELECT * FROM `someBucket` JOIN `other` ON KEYS `someNumberField`", actual)
     }
 
     @Test
     fun `should support select inner join with CM`() {
         val actual: String = someFrom().innerJoin(someBucket("other"), onKeys = someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket INNER JOIN other ON KEYS someNumberField", actual)
+        assertEquals("SELECT * FROM `someBucket` INNER JOIN `other` ON KEYS `someNumberField`", actual)
     }
 
     @Test
     fun `should support select left join with CM`() {
         val actual: String = someFrom().leftJoin(someBucket("other"), onKeys = someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket LEFT JOIN other ON KEYS someNumberField", actual)
+        assertEquals("SELECT * FROM `someBucket` LEFT JOIN `other` ON KEYS `someNumberField`", actual)
     }
 
     @Test
     fun `should support select right join with CM`() {
         val actual: String = someFrom().rightJoin(someBucket("other"), onKeys = someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM someBucket RIGHT JOIN other ON KEYS someNumberField", actual)
+        assertEquals("SELECT * FROM `someBucket` RIGHT JOIN `other` ON KEYS `someNumberField`", actual)
     }
 
     @Test
     fun `should support select group by with multiple CM`() {
         val actual: String = someSelect().groupBy(someCMStringField(), someCMNumberList()).toDopeQuery().queryString
 
-        assertEquals("SELECT * GROUP BY someStringField, someNumberList", actual)
+        assertEquals("SELECT * GROUP BY `someStringField`, `someNumberList`", actual)
     }
 
     @Test
     fun `should support select group by with CM`() {
         val actual: String = someSelect().groupBy(someCMStringField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * GROUP BY someStringField", actual)
+        assertEquals("SELECT * GROUP BY `someStringField`", actual)
     }
 
     @Test
     fun `should support select order by with CM and type`() {
         val actual: String = someSelect().orderBy(someCMStringField(), OrderByType.ASC).toDopeQuery().queryString
 
-        assertEquals("SELECT * ORDER BY someStringField ASC", actual)
+        assertEquals("SELECT * ORDER BY `someStringField` ASC", actual)
     }
 
     @Test
     fun `should support select order by with CM`() {
         val actual: String = someSelect().orderBy(someCMStringField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * ORDER BY someStringField", actual)
+        assertEquals("SELECT * ORDER BY `someStringField`", actual)
     }
 
     @Test
     fun `should support select limit with CM`() {
         val actual: String = someSelect().limit(someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * LIMIT someNumberField", actual)
+        assertEquals("SELECT * LIMIT `someNumberField`", actual)
     }
 
     @Test
     fun `should support select offset with CM`() {
         val actual: String = someSelect().offset(someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("SELECT * OFFSET someNumberField", actual)
+        assertEquals("SELECT * OFFSET `someNumberField`", actual)
     }
 }

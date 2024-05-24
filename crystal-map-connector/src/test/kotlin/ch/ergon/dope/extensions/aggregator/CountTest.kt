@@ -15,41 +15,41 @@ class CountTest {
     fun `should support count with CMField Number`() {
         val actual: String = count(someCMNumberField()).toDopeQuery().queryString
 
-        assertEquals("COUNT(someNumberField)", actual)
+        assertEquals("COUNT(`someNumberField`)", actual)
     }
 
     @Test
     fun `should support count with CMField String`() {
         val actual: String = count(someCMStringField()).toDopeQuery().queryString
 
-        assertEquals("COUNT(someStringField)", actual)
+        assertEquals("COUNT(`someStringField`)", actual)
     }
 
     @Test
     fun `should support count with CMField Boolean`() {
         val actual: String = count(someCMBooleanField()).toDopeQuery().queryString
 
-        assertEquals("COUNT(someBooleanField)", actual)
+        assertEquals("COUNT(`someBooleanField`)", actual)
     }
 
     @Test
     fun `should support count with CMList Number`() {
         val actual: String = count(someCMNumberList()).toDopeQuery().queryString
 
-        assertEquals("COUNT(someNumberList)", actual)
+        assertEquals("COUNT(`someNumberList`)", actual)
     }
 
     @Test
     fun `should support count with CMList String`() {
         val actual: String = count(someCMStringList()).toDopeQuery().queryString
 
-        assertEquals("COUNT(someStringList)", actual)
+        assertEquals("COUNT(`someStringList`)", actual)
     }
 
     @Test
     fun `should support count with CMList Boolean`() {
         val actual: String = count(someCMBooleanList()).toDopeQuery().queryString
 
-        assertEquals("COUNT(someBooleanList)", actual)
+        assertEquals("COUNT(`someBooleanList`)", actual)
     }
 }
