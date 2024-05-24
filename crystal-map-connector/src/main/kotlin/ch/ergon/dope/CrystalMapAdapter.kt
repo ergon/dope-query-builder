@@ -10,6 +10,7 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMObject
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
@@ -19,7 +20,8 @@ fun CMType.asField(reference: String = path): Field<out ValidType> = Field(
         is CMField<*> -> this.name
         is CMList<*> -> this.name
         is CMObjectList<*> -> this.name
-        else -> ""
+        is CMObject<*> -> TODO("DOPE-216")
+        else -> throw IllegalArgumentException("Unsupported type $this")
     },
     reference,
 )
