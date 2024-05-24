@@ -37,13 +37,13 @@ fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType): GroupByCla
 
 fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.asField())
 
-fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMField<Any>) = join(bucket, onKeys.asField())
+fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMField<out Any>) = join(bucket, onKeys.asField())
 
-fun ISelectJoinClause.innerJoin(bucket: Bucket, onKeys: CMField<Any>) = innerJoin(bucket, onKeys.asField())
+fun ISelectJoinClause.innerJoin(bucket: Bucket, onKeys: CMField<out Any>) = innerJoin(bucket, onKeys.asField())
 
-fun ISelectJoinClause.leftJoin(bucket: Bucket, onKeys: CMField<Any>) = leftJoin(bucket, onKeys.asField())
+fun ISelectJoinClause.leftJoin(bucket: Bucket, onKeys: CMField<out Any>) = leftJoin(bucket, onKeys.asField())
 
-fun ISelectJoinClause.rightJoin(bucket: Bucket, onKeys: CMField<Any>) = rightJoin(bucket, onKeys.asField())
+fun ISelectJoinClause.rightJoin(bucket: Bucket, onKeys: CMField<out Any>) = rightJoin(bucket, onKeys.asField())
 
 @JvmName("unnestString")
 fun ISelectUnnestClause.unnest(arrayField: CMList<String>) = unnest(arrayField.asArrayField())
