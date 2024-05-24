@@ -27,7 +27,7 @@ import ch.ergon.dope.resolvable.clause.model.OrderByType
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
-class SelectTest {
+class SelectClauseTest {
     @Test
     fun `should support select with CM`() {
         val actual: String = QueryBuilder().select(someCMNumberField()).toDopeQuery().queryString

@@ -6,11 +6,12 @@ import ch.ergon.dope.extension.clause.returning
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
+import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someDelete
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
-class DeleteTest {
+class DeleteClauseTest {
     @Test
     fun `should support delete where with CM`() {
         val actual: String = someDelete().where(someCMBooleanField()).toDopeQuery().queryString
