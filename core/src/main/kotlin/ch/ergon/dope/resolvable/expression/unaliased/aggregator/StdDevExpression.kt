@@ -4,19 +4,19 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.operator.FunctionOperator
-import ch.ergon.dope.validtype.ValidType
+import ch.ergon.dope.validtype.NumberType
 
-class MinExpression(
-    private val field: Field<out ValidType>,
+class StdDevExpression(
+    private val number: Field<out NumberType>,
     private val quantifier: AggregateQuantifier,
 ) : AggregateExpression, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
-        val fieldDopeQuery = field.toDopeQuery()
+        val numberDopeQuery = number.toDopeQuery()
         return DopeQuery(
-            queryString = toFunctionQueryString("MIN", quantifier, fieldDopeQuery),
-            parameters = fieldDopeQuery.parameters,
+            queryString = toFunctionQueryString("STDDEV", quantifier, numberDopeQuery),
+            parameters = numberDopeQuery.parameters,
         )
     }
 }
 
-fun min(field: Field<out ValidType>, quantifier: AggregateQuantifier = ALL) = MinExpression(field, quantifier)
+fun stddev(number: Field<out NumberType>, quantifier: AggregateQuantifier = ALL) = StdDevExpression(number, quantifier)
