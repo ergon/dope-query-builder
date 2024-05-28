@@ -3,9 +3,9 @@ package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.ValidType
 
-class MaxExpression(
+class ArrayAggregateExpression(
     field: Field<out ValidType>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression(field, quantifier, "MAX")
+) : AggregateExpression(field, quantifier, "ARRAY_AGG")
 
-fun max(field: Field<out ValidType>, quantifier: AggregateQuantifier? = null) = MaxExpression(field, quantifier)
+fun arrayAggregate(field: Field<out ValidType>, quantifier: AggregateQuantifier? = null) = ArrayAggregateExpression(field, quantifier)

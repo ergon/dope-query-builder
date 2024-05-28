@@ -136,8 +136,8 @@ class JoinClauseTest {
         val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
-            "SELECT DISTINCT MIN(ALL `aport`.`airportname`) AS `Airport__Name`, " +
-                "MIN(ALL `aport`.`tz`) AS `Airport__Time`, MIN(ALL `lmark`.`name`) AS `Landmark_Name` " +
+            "SELECT DISTINCT MIN(`aport`.`airportname`) AS `Airport__Name`, " +
+                "MIN(`aport`.`tz`) AS `Airport__Time`, MIN(`lmark`.`name`) AS `Landmark_Name` " +
                 "FROM `airport` AS `aport` LEFT JOIN `landmark` AS `lmark` ON (`aport`.`city` = " +
                 "`lmark`.`city` AND `lmark`.`country` = \"United States\") GROUP BY " +
                 "`aport`.`airportname` ORDER BY `aport`.`airportname` LIMIT 4"
@@ -186,8 +186,8 @@ class JoinClauseTest {
         val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
-            "SELECT DISTINCT MIN(ALL `aport`.`airportname`) AS `Airport__Name`, " +
-                "MIN(ALL `aport`.`tz`) AS `Airport__Time`, MIN(ALL `lmark`.`name`) AS `Landmark_Name` " +
+            "SELECT DISTINCT MIN(`aport`.`airportname`) AS `Airport__Name`, " +
+                "MIN(`aport`.`tz`) AS `Airport__Time`, MIN(`lmark`.`name`) AS `Landmark_Name` " +
                 "FROM `airport` AS `aport` RIGHT JOIN `landmark` AS `lmark` ON (`aport`.`city` = " +
                 "`lmark`.`city` AND `lmark`.`country` = \"United States\") GROUP BY " +
                 "`aport`.`airportname` ORDER BY `aport`.`airportname` LIMIT 4"

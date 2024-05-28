@@ -19,17 +19,20 @@ interface FunctionOperator {
         it.queryString
     }
 
-    fun toFunctionQueryString(symbol: String, quantifier: AggregateQuantifier, vararg arguments: DopeQuery) = arguments.joinToString(
-        ", ",
-        prefix = "$symbol($quantifier ",
-        postfix = ")",
-    ) {
-        it.queryString
-    }
-
     fun toFunctionQueryString(symbol: String, vararg arguments: String) = arguments.joinToString(
         ", ",
         prefix = "$symbol(",
         postfix = ")",
     )
+
+    fun toFunctionQueryString(symbol: String, quantifier: AggregateQuantifier?, vararg arguments: String) =
+        if (quantifier == null) {
+            toFunctionQueryString(symbol, *arguments)
+        } else {
+            arguments.joinToString(
+                ", ",
+                prefix = "$symbol($quantifier ",
+                postfix = ")",
+            )
+        }
 }
