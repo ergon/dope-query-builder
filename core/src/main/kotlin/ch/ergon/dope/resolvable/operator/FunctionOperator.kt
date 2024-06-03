@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.operator
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier
 
 interface FunctionOperator {
     fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery, extra: DopeQuery?) =
@@ -23,4 +24,15 @@ interface FunctionOperator {
         prefix = "$symbol(",
         postfix = ")",
     )
+
+    fun toFunctionQueryString(symbol: String, quantifier: AggregateQuantifier?, vararg arguments: String) =
+        if (quantifier == null) {
+            toFunctionQueryString(symbol, *arguments)
+        } else {
+            arguments.joinToString(
+                ", ",
+                prefix = "$symbol($quantifier ",
+                postfix = ")",
+            )
+        }
 }
