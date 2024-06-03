@@ -9,19 +9,25 @@ import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
 @JvmName("countNumber")
-fun count(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): CountExpression = count(field.asField(), quantifier)
+fun count(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    CountExpression = count(field.asField(), quantifier)
 
 @JvmName("countString")
-fun count(field: CMField<String>, quantifier: AggregateQuantifier? = null): CountExpression = count(field.asField(), quantifier)
+fun count(field: CMField<String>, quantifier: AggregateQuantifier? = null):
+    CountExpression = count(field.asField(), quantifier)
 
 @JvmName("countBoolean")
-fun count(field: CMField<Boolean>, quantifier: AggregateQuantifier? = null): CountExpression = count(field.asField(), quantifier)
+fun count(field: CMField<Boolean>, quantifier: AggregateQuantifier? = null):
+    CountExpression = count(field.asField(), quantifier)
 
 @JvmName("countNumber")
-fun count(field: CMList<out Number>, quantifier: AggregateQuantifier? = null): CountExpression = count(field.asArrayField(), quantifier)
+fun count(field: CMList<out Number>, quantifier: AggregateQuantifier? = null):
+    CountExpression = count(field.asArrayField(), quantifier)
 
 @JvmName("countString")
-fun count(field: CMList<String>, quantifier: AggregateQuantifier? = null): CountExpression = count(field.asArrayField(), quantifier)
+fun count(field: CMList<String>, quantifier: AggregateQuantifier? = null):
+    CountExpression = count(field.asArrayField(), quantifier)
 
 @JvmName("countBoolean")
-fun count(field: CMList<Boolean>, quantifier: AggregateQuantifier? = null): CountExpression = count(field.asArrayField(), quantifier)
+fun count(field: CMList<Boolean>, quantifier: AggregateQuantifier? = null):
+    CountExpression = count(field.asArrayField(), quantifier)

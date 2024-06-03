@@ -3,9 +3,9 @@ package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.NumberType
 
-class StandardDeviationExpression(
-    number: Field<out NumberType>,
+class StandardDeviationExpression<T : NumberType>(
+    number: Field<T>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression(number, quantifier, "STDDEV")
+) : AggregateExpression<T>(number, quantifier, "STDDEV")
 
 fun stdDev(number: Field<out NumberType>, quantifier: AggregateQuantifier? = null) = StandardDeviationExpression(number, quantifier)

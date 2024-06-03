@@ -2,16 +2,26 @@ package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.ASTERISK_STRING
-import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.operator.FunctionOperator
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 class CountExpression(
-    field: Field<out ValidType>,
-    quantifier: AggregateQuantifier?,
-) : AggregateExpression(field, quantifier, "COUNT")
+    private val field: Field<out ValidType>,
+    private val quantifier: AggregateQuantifier?,
+) : FunctionOperator, UnaliasedExpression<NumberType> {
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString("COUNT", quantifier, fieldDopeQuery.queryString),
+            parameters = fieldDopeQuery.parameters,
+        )
+    }
+}
 
-class CountAsteriskExpression : Expression {
+class CountAsteriskExpression : UnaliasedExpression<ValidType> {
     override fun toDopeQuery(): DopeQuery = DopeQuery(
         queryString = "COUNT($ASTERISK_STRING)",
         parameters = emptyMap(),

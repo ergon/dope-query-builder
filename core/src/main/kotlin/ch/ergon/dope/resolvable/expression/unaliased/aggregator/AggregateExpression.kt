@@ -4,14 +4,13 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.operator.FunctionOperator
-import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-open class AggregateExpression(
-    private val field: Field<out ValidType>,
+open class AggregateExpression<T : ValidType>(
+    private val field: Field<T>,
     private val quantifier: AggregateQuantifier?,
     private val symbol: String,
-) : FunctionOperator, UnaliasedExpression<NumberType> {
+) : FunctionOperator, UnaliasedExpression<T> {
     override fun toDopeQuery(): DopeQuery {
         val fieldDopeQuery = field.toDopeQuery()
         return DopeQuery(

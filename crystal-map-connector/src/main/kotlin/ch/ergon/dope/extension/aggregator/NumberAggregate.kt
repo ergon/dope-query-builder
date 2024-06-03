@@ -14,23 +14,29 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.median
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.stdDev
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.sum
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.variance
+import ch.ergon.dope.validtype.NumberType
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("avgNumber")
-fun avg(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): AverageExpression = avg(field.asField(), quantifier)
+fun avg(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    AverageExpression<out NumberType> = avg(field.asField(), quantifier)
 
 @JvmName("meanNumber")
-fun mean(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): MeanExpression = mean(field.asField(), quantifier)
+fun mean(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    MeanExpression<out NumberType> = mean(field.asField(), quantifier)
 
 @JvmName("medianNumber")
-fun median(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): MedianExpression = median(field.asField(), quantifier)
+fun median(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    MedianExpression<out NumberType> = median(field.asField(), quantifier)
 
 @JvmName("sumNumber")
-fun sum(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): SumExpression = sum(field.asField(), quantifier)
+fun sum(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    SumExpression<out NumberType> = sum(field.asField(), quantifier)
 
-@JvmName("stddevNumber")
-fun stdDev(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): StandardDeviationExpression =
-    stdDev(field.asField(), quantifier)
+@JvmName("stdDevNumber")
+fun stdDev(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    StandardDeviationExpression<out NumberType> = stdDev(field.asField(), quantifier)
 
 @JvmName("varianceNumber")
-fun variance(field: CMField<out Number>, quantifier: AggregateQuantifier? = null): VarianceExpression = variance(field.asField(), quantifier)
+fun variance(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+    VarianceExpression<out NumberType> = variance(field.asField(), quantifier)
