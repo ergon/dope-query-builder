@@ -1,6 +1,5 @@
 package ch.ergon.dope
 
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import junit.framework.TestCase.assertEquals
@@ -10,7 +9,6 @@ import kotlin.test.Test
 class NumberFunctionsTest {
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
-    private val person = someBucket("person")
 
     @BeforeTest
     fun setup() {
