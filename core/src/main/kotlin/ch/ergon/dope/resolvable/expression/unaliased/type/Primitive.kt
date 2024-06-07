@@ -12,7 +12,11 @@ import ch.ergon.dope.validtype.ValidType
 
 class Primitive<T : ValidType> : TypeExpression<T> {
     private val queryString: String
-    override fun toDopeQuery(): DopeQuery = DopeQuery(queryString = queryString, parameters = emptyMap())
+    private val parameters = mutableMapOf<String, Any>()
+
+    override fun toDopeQuery(): DopeQuery {
+        return DopeQuery(queryString = queryString, parameters = parameters)
+    }
 
     constructor(value: Number) {
         this.queryString = "$value"
@@ -30,7 +34,11 @@ class Primitive<T : ValidType> : TypeExpression<T> {
     }
 
     constructor(collection: Collection<TypeExpression<out ValidType>>) {
-        this.queryString = collection.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.toDopeQuery().queryString }
+        this.queryString = collection.joinToString(separator = ", ", prefix = "[", postfix = "]") {
+            val dopeQuery = it.toDopeQuery()
+            parameters.putAll(dopeQuery.parameters)
+            dopeQuery.queryString
+        }
     }
 
     private constructor(primitiveType: PrimitiveType) {
