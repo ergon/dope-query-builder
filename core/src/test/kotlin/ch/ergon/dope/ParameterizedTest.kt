@@ -8,15 +8,16 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
+import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import junit.framework.TestCase.assertEquals
-import kotlin.test.BeforeTest
+import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
 class ParameterizedTest {
     private lateinit var create: QueryBuilder
 
-    @BeforeTest
+    @BeforeEach
     fun setup() {
         create = QueryBuilder()
     }
@@ -137,5 +138,16 @@ class ParameterizedTest {
         assertEquals(value5, parameters[parameterName5])
         assertEquals(value6, parameters["$3"])
         assertEquals(6, parameters.size)
+    }
+
+    @Test
+    fun `should get correct value inside array parameters`() {
+        val parameterValue = 3
+        val parameter = parameterValue.asParameter()
+
+        val parameters = create.select(listOf(parameter).toArrayType()).build().parameters
+
+        assertEquals(parameterValue, parameters["$1"])
+        assertEquals(1, parameters.size)
     }
 }
