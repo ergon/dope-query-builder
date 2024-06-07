@@ -34,11 +34,11 @@ class Primitive<T : ValidType> : TypeExpression<T> {
     }
 
     constructor(collection: Collection<TypeExpression<out ValidType>>) {
-        val dopeQueryCollection = collection.map { it.toDopeQuery() }
+        val dopeQueries = collection.map { it.toDopeQuery() }
         this.dopeQuery = DopeQuery(
-            queryString = dopeQueryCollection.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.queryString },
-            parameters = dopeQueryCollection.fold(emptyMap()) { parameters, field ->
-                parameters + field.parameters
+            queryString = dopeQueries.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.queryString },
+            parameters = dopeQueries.fold(emptyMap()) { parameters, dopeQueryElement ->
+                parameters + dopeQueryElement.parameters
             },
         )
     }
