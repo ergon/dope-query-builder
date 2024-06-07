@@ -11,43 +11,47 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class Primitive<T : ValidType> : TypeExpression<T> {
-    private val queryString: String
-    private val parameters = mutableMapOf<String, Any>()
+    private val dopeQuery: DopeQuery
 
-    override fun toDopeQuery(): DopeQuery {
-        return DopeQuery(queryString = queryString, parameters = parameters)
-    }
+    override fun toDopeQuery(): DopeQuery = dopeQuery
 
     constructor(value: Number) {
-        this.queryString = "$value"
+        this.dopeQuery = DopeQuery(queryString = "$value", parameters = emptyMap())
     }
 
     constructor(value: String) {
-        this.queryString = "\"$value\""
+        this.dopeQuery = DopeQuery(queryString = "\"$value\"", parameters = emptyMap())
     }
 
     constructor(value: Boolean) {
-        this.queryString = when (value) {
-            true -> TRUE.queryString
-            false -> FALSE.queryString
-        }
+        this.dopeQuery = DopeQuery(
+            queryString = when (value) {
+                true -> TRUE.toDopeQuery().queryString
+                false -> FALSE.toDopeQuery().queryString
+            },
+            parameters = emptyMap(),
+        )
     }
 
     constructor(collection: Collection<TypeExpression<out ValidType>>) {
-        this.queryString = collection.joinToString(separator = ", ", prefix = "[", postfix = "]") {
-            val dopeQuery = it.toDopeQuery()
-            parameters.putAll(dopeQuery.parameters)
-            dopeQuery.queryString
-        }
+        val dopeQueryCollection = collection.map { it.toDopeQuery() }
+        this.dopeQuery = DopeQuery(
+            queryString = dopeQueryCollection.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.queryString },
+            parameters = dopeQueryCollection.fold(emptyMap()) { parameters, field ->
+                parameters + field.parameters
+            },
+        )
     }
 
     private constructor(primitiveType: PrimitiveType) {
-        this.queryString = when (primitiveType) {
+        val queryString = when (primitiveType) {
             PrimitiveType.NULL -> "NULL"
             PrimitiveType.MISSING -> "MISSING"
             PrimitiveType.TRUE -> "TRUE"
             PrimitiveType.FALSE -> "FALSE"
         }
+
+        this.dopeQuery = DopeQuery(queryString, emptyMap())
     }
 
     companion object {
