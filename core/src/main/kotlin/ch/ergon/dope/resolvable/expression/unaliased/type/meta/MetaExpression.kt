@@ -11,19 +11,26 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class MetaExpression(private val bucket: Bucket) : TypeExpression<StringType>, FunctionOperator {
+class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
-        val bucketDopeQuery = bucket.toDopeQuery()
-        return DopeQuery(
-            queryString = toFunctionQueryString(
-                symbol = "META",
-                when (bucket) {
-                    is AliasedBucket -> "`${bucket.alias}`"
-                    is UnaliasedBucket -> bucketDopeQuery.queryString
-                },
-            ),
-            parameters = bucketDopeQuery.parameters,
-        )
+        if (bucket == null) {
+            return DopeQuery(
+                queryString = "META()",
+                parameters = emptyMap(),
+            )
+        } else {
+            val bucketDopeQuery = bucket.toDopeQuery()
+            return DopeQuery(
+                queryString = toFunctionQueryString(
+                    symbol = "META",
+                    when (bucket) {
+                        is AliasedBucket -> "`${bucket.alias}`"
+                        is UnaliasedBucket -> bucketDopeQuery.queryString
+                    },
+                ),
+                parameters = bucketDopeQuery.parameters,
+            )
+        }
     }
 
     val cas: Field<NumberType> = getMetaField("cas")
@@ -50,4 +57,4 @@ class MetaExpression(private val bucket: Bucket) : TypeExpression<StringType>, F
 
 fun meta(bucket: Bucket) = MetaExpression(bucket)
 
-fun meta() = MetaExpression(UnaliasedBucket(""))
+fun meta() = MetaExpression(null)
