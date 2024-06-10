@@ -4,7 +4,13 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 
 sealed class Bucket(open val name: String) : Fromable {
-    override fun toDopeQuery(): DopeQuery = DopeQuery("`$name`", emptyMap())
+    override fun toDopeQuery(): DopeQuery = DopeQuery(
+        when (name) {
+            "" -> ""
+            else -> "`$name`"
+        },
+        emptyMap(),
+    )
 }
 
 open class UnaliasedBucket(name: String) : Bucket(name) {

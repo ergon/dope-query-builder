@@ -49,3 +49,5 @@ class MetaExpression(private val bucket: Bucket) : TypeExpression<StringType>, F
 }
 
 fun meta(bucket: Bucket) = MetaExpression(bucket)
+
+fun meta() = MetaExpression(UnaliasedBucket(""))
