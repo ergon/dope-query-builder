@@ -10,49 +10,22 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class Primitive<T : ValidType> : TypeExpression<T> {
-    private val dopeQuery: DopeQuery
+open class Primitive<T : ValidType>() : TypeExpression<T> {
+    private var queryString: String = ""
 
-    override fun toDopeQuery(): DopeQuery = dopeQuery
-
-    constructor(value: Number) {
-        this.dopeQuery = DopeQuery(queryString = "$value", parameters = emptyMap())
-    }
-
-    constructor(value: String) {
-        this.dopeQuery = DopeQuery(queryString = "\"$value\"", parameters = emptyMap())
-    }
-
-    constructor(value: Boolean) {
-        this.dopeQuery = DopeQuery(
-            queryString = when (value) {
-                true -> TRUE.toDopeQuery().queryString
-                false -> FALSE.toDopeQuery().queryString
-            },
-            parameters = emptyMap(),
-        )
-    }
-
-    constructor(collection: Collection<TypeExpression<out ValidType>>) {
-        val dopeQueries = collection.map { it.toDopeQuery() }
-        this.dopeQuery = DopeQuery(
-            queryString = dopeQueries.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.queryString },
-            parameters = dopeQueries.fold(emptyMap()) { parameters, dopeQueryElement ->
-                parameters + dopeQueryElement.parameters
-            },
-        )
-    }
-
-    private constructor(primitiveType: PrimitiveType) {
-        val queryString = when (primitiveType) {
+    constructor(type: PrimitiveType) : this() {
+        this.queryString = when (type) {
             PrimitiveType.NULL -> "NULL"
             PrimitiveType.MISSING -> "MISSING"
             PrimitiveType.TRUE -> "TRUE"
             PrimitiveType.FALSE -> "FALSE"
         }
-
-        this.dopeQuery = DopeQuery(queryString, emptyMap())
     }
+
+    override fun toDopeQuery() = DopeQuery(
+        queryString = queryString,
+        parameters = emptyMap(),
+    )
 
     companion object {
         val NULL = Primitive<NullType>(PrimitiveType.NULL)
@@ -62,15 +35,51 @@ class Primitive<T : ValidType> : TypeExpression<T> {
     }
 }
 
-fun String.toStringType(): Primitive<StringType> = Primitive(this)
+class NumberPrimitive(private val value: Number) : Primitive<NumberType>() {
+    override fun toDopeQuery() = DopeQuery(
+        queryString = "$value",
+        parameters = emptyMap(),
+    )
+}
 
-fun Number.toNumberType(): Primitive<NumberType> = Primitive(this)
+class StringPrimitive(private val value: String) : Primitive<StringType>() {
+    override fun toDopeQuery() = DopeQuery(
+        queryString = "\"$value\"",
+        parameters = emptyMap(),
+    )
+}
 
-fun Boolean.toBooleanType(): Primitive<BooleanType> = Primitive(this)
+class BooleanPrimitive(private val value: Boolean) : Primitive<BooleanType>() {
+    override fun toDopeQuery() = DopeQuery(
+        queryString = when (value) {
+            true -> TRUE.toDopeQuery().queryString
+            false -> FALSE.toDopeQuery().queryString
+        },
+        parameters = emptyMap(),
+    )
+}
 
-fun <T : ValidType> Collection<TypeExpression<out T>>.toArrayType(): Primitive<ArrayType<T>> = Primitive(this)
+class ArrayPrimitive<T : ValidType>(private val collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>() {
+    override fun toDopeQuery(): DopeQuery {
+        val dopeQueries = collection.map { it.toDopeQuery() }
+        return DopeQuery(
+            queryString = dopeQueries.joinToString(separator = ", ", prefix = "[", postfix = "]") { it.queryString },
+            parameters = dopeQueries.fold(emptyMap()) { parameters, dopeQueryElement ->
+                parameters + dopeQueryElement.parameters
+            },
+        )
+    }
+}
 
-private enum class PrimitiveType {
+fun String.toStringType(): StringPrimitive = StringPrimitive(this)
+
+fun Number.toNumberType(): NumberPrimitive = NumberPrimitive(this)
+
+fun Boolean.toBooleanType(): BooleanPrimitive = BooleanPrimitive(this)
+
+fun <T : ValidType> Collection<TypeExpression<out T>>.toArrayType() = ArrayPrimitive(this)
+
+enum class PrimitiveType {
     NULL,
     MISSING,
     TRUE,

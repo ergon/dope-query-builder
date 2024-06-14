@@ -17,30 +17,10 @@ object ParameterManager {
     }
 }
 
-class Parameter<T : ValidType> : TypeExpression<T> {
-    val value: Any
-    private val parameterName: String?
-
-    constructor(number: Number, parameterName: String?) {
-        this.value = number
-        this.parameterName = parameterName
-    }
-
-    constructor(string: String, parameterName: String?) {
-        this.value = string
-        this.parameterName = parameterName
-    }
-
-    constructor(boolean: Boolean, parameterName: String?) {
-        this.value = boolean
-        this.parameterName = parameterName
-    }
-
-    constructor(collection: Collection<Any>, parameterName: String?) {
-        this.value = collection
-        this.parameterName = parameterName
-    }
-
+sealed class Parameter<T : ValidType>(
+    val value: Any,
+    val parameterName: String? = null,
+) : TypeExpression<T> {
     override fun toDopeQuery(): DopeQuery = when (parameterName) {
         null -> {
             val unnamedParameterCount = "\$${ParameterManager.count}"
@@ -49,7 +29,6 @@ class Parameter<T : ValidType> : TypeExpression<T> {
                 parameters = mapOf(unnamedParameterCount to value),
             )
         }
-
         else -> DopeQuery(
             queryString = "\$$parameterName",
             parameters = mapOf(parameterName to value),
@@ -57,15 +36,25 @@ class Parameter<T : ValidType> : TypeExpression<T> {
     }
 }
 
-fun Number.asParameter(parameterName: String? = null) = Parameter<NumberType>(this, parameterName)
-fun String.asParameter(parameterName: String? = null) = Parameter<StringType>(this, parameterName)
-fun Boolean.asParameter(parameterName: String? = null) = Parameter<BooleanType>(this, parameterName)
+class NumberParameter(value: Number, parameterName: String?) : Parameter<NumberType>(value, parameterName)
+
+class StringParameter(value: String, parameterName: String?) : Parameter<StringType>(value, parameterName)
+
+class BooleanParameter(value: Boolean, parameterName: String?) : Parameter<BooleanType>(value, parameterName)
+
+class ArrayParameter<T : ValidType>(value: Collection<Any>, parameterName: String?) : Parameter<ArrayType<T>>(value, parameterName)
+
+fun Number.asParameter(parameterName: String? = null) = NumberParameter(this, parameterName)
+
+fun String.asParameter(parameterName: String? = null) = StringParameter(this, parameterName)
+
+fun Boolean.asParameter(parameterName: String? = null) = BooleanParameter(this, parameterName)
 
 @JvmName("numberCollectionAsParameter")
-fun Collection<Number>.asParameter(parameterName: String? = null) = Parameter<ArrayType<NumberType>>(this, parameterName)
+fun Collection<Number>.asParameter(parameterName: String? = null) = ArrayParameter<NumberType>(this, parameterName)
 
 @JvmName("stringCollectionAsParameter")
-fun Collection<String>.asParameter(parameterName: String? = null) = Parameter<ArrayType<StringType>>(this, parameterName)
+fun Collection<String>.asParameter(parameterName: String? = null) = ArrayParameter<StringType>(this, parameterName)
 
 @JvmName("booleanParameterAsParameter")
-fun Collection<Boolean>.asParameter(parameterName: String? = null) = Parameter<ArrayType<BooleanType>>(this, parameterName)
+fun Collection<Boolean>.asParameter(parameterName: String? = null) = ArrayParameter<BooleanType>(this, parameterName)
