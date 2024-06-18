@@ -5,10 +5,10 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.FALSE
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.MISSING
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.NULL
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
+import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
+import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
+import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or

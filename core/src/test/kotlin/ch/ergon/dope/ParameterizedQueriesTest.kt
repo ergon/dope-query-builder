@@ -62,9 +62,9 @@ class ParameterizedQueriesTest {
     }
 
     @Test
-    fun `shouldSupport Named Parameters With Values`() {
+    fun `should Support Named Parameters With Values`() {
         val parameterActual = false.asParameter("isAwesome")
-        assertEquals(false, parameterActual.value)
+        assertEquals(false, parameterActual.toDopeQuery().parameters["isAwesome"])
     }
 
     @Test
