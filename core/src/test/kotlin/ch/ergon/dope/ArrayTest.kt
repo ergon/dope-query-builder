@@ -7,8 +7,8 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.FALSE
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
+import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray

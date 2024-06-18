@@ -18,8 +18,8 @@ object ParameterManager {
 }
 
 sealed class Parameter<T : ValidType>(
-    val value: Any,
-    val parameterName: String? = null,
+    private val value: Any,
+    private val parameterName: String? = null,
 ) : TypeExpression<T> {
     override fun toDopeQuery(): DopeQuery = when (parameterName) {
         null -> {
