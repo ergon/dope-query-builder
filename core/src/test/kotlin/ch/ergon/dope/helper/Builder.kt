@@ -1,6 +1,7 @@
 package ch.ergon.dope.helper
 
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.TRUE
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
@@ -16,6 +17,8 @@ fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket(""
 fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
 
 fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
+
+fun someBooleanExpression() = TRUE
 
 fun someNumberArrayField(name: String = "numberArrayField", bucket: Bucket = someBucket("")) =
     Field<ArrayType<NumberType>>(name, getBucketName(bucket))

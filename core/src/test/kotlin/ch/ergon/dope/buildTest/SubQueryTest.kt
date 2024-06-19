@@ -1,5 +1,6 @@
-package ch.ergon.dope
+package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someStringField
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest

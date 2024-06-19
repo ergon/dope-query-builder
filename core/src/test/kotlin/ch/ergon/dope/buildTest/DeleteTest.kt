@@ -1,5 +1,6 @@
-package ch.ergon.dope
+package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField

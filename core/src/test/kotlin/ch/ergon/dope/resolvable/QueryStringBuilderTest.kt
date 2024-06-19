@@ -1,11 +1,7 @@
-package ch.ergon.dope
+package ch.ergon.dope.resolvable
 
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import ch.ergon.dope.resolvable.formatPathToQueryString
-import ch.ergon.dope.resolvable.formatToQueryString
-import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
-import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
