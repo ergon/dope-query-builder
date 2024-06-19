@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.Primitive.Companion.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
