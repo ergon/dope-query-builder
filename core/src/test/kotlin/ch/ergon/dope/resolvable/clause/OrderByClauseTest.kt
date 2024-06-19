@@ -24,20 +24,20 @@ class OrderByClauseTest {
             emptyMap(),
         )
 
-        val actual = SelectOrderByClause(someStringField(), someSelectClause()).build()
+        val actual = SelectOrderByClause(someStringField(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support order by with parameter in parent`() {
-        val paramValue = "asdf"
+        val parameterValue = "asdf"
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField`",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = SelectOrderByClause(someStringField(), someSelectClause(paramValue.asParameter())).build()
+        val actual = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }

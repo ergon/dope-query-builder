@@ -13,4 +13,5 @@ fun someSelectClause(expression: Expression = AsteriskExpression()) = SelectClau
 
 fun someDeleteClause(bucket: Bucket = someBucket()) = DeleteClause(bucket)
 
-fun someFromClause(bucket: UnaliasedBucket = someBucket(), parent: SelectClause = someSelectClause()): ISelectUnnestClause = FromClause(bucket, parent)
+fun someFromClause(bucket: UnaliasedBucket = someBucket(), parent: SelectClause = someSelectClause()): ISelectUnnestClause =
+    FromClause(bucket, parent)

@@ -15,7 +15,7 @@ class FromClauseTest {
             emptyMap(),
         )
 
-        val actual = FromClause(someBucket(), someSelectClause()).build()
+        val actual = FromClause(someBucket(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -27,7 +27,7 @@ class FromClauseTest {
             emptyMap(),
         )
 
-        val actual = FromClause(someBucket().alias("bucket"), someSelectClause()).build()
+        val actual = FromClause(someBucket().alias("bucket"), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }

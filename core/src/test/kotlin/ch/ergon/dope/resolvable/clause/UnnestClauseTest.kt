@@ -27,7 +27,7 @@ class UnnestClauseTest {
             emptyMap(),
         )
 
-        val actual = UnnestClause(someStringArrayField(), someFromClause()).build()
+        val actual = UnnestClause(someStringArrayField(), someFromClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -39,34 +39,37 @@ class UnnestClauseTest {
             emptyMap(),
         )
 
-        val actual = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause()).build()
+        val actual = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support aliased unnest with parameter`() {
-        val paramValue = listOf("value")
+        val parameterValue = listOf("value")
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = AliasedUnnestClause(paramValue.asParameter().alias("value"), someFromClause()).build()
+        val actual = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support aliased unnest with parameter and parent parameter`() {
-        val paramValue = "param"
-        val paramValue2 = listOf("param")
+        val parameterValue = "param"
+        val parameterValue2 = listOf("param")
         val expected = DopeQuery(
             "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = AliasedUnnestClause(paramValue2.asParameter().alias("value"), someFromClause(parent = someSelectClause(paramValue.asParameter()))).build()
+        val actual = AliasedUnnestClause(
+            parameterValue2.asParameter().alias("value"),
+            someFromClause(parent = someSelectClause(parameterValue.asParameter())),
+        ).toDopeQuery()
 
         assertEquals(expected, actual)
     }

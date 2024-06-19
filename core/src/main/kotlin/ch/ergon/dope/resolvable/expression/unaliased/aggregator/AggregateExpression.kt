@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ValidType
 
-open class AggregateExpression<T : ValidType>(
+sealed class AggregateExpression<T : ValidType>(
     private val field: Field<T>,
     private val quantifier: AggregateQuantifier?,
     private val symbol: String,

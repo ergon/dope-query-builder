@@ -26,20 +26,20 @@ class WhereClauseTest {
             emptyMap(),
         )
 
-        val actual = DeleteWhereClause(someBooleanExpression(), someDeleteClause()).build()
+        val actual = DeleteWhereClause(someBooleanExpression(), someDeleteClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support delete where with positional parameter`() {
-        val paramValue = true
+        val parameterValue = true
         val expected = DopeQuery(
             "DELETE FROM `someBucket` WHERE $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = DeleteWhereClause(paramValue.asParameter(), someDeleteClause()).build()
+        val actual = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -51,34 +51,34 @@ class WhereClauseTest {
             emptyMap(),
         )
 
-        val actual = SelectWhereClause(someBooleanExpression(), someSelectClause()).build()
+        val actual = SelectWhereClause(someBooleanExpression(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select where with positional parameter`() {
-        val paramValue = false
+        val parameterValue = false
         val expected = DopeQuery(
             "SELECT * WHERE $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = SelectWhereClause(paramValue.asParameter(), someSelectClause()).build()
+        val actual = SelectWhereClause(parameterValue.asParameter(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select where with parameter and parent parameter`() {
-        val paramValue = "param"
-        val paramValue2 = false
+        val parameterValue = "param"
+        val parameterValue2 = false
         val expected = DopeQuery(
             "SELECT $1 WHERE $2",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = SelectWhereClause(paramValue2.asParameter(), someSelectClause(paramValue.asParameter())).build()
+        val actual = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }

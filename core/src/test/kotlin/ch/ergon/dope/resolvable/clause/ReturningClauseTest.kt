@@ -24,7 +24,7 @@ class ReturningClauseTest {
             emptyMap(),
         )
 
-        val actual = ReturningClause(someStringField(), parentClause = someDeleteClause()).build()
+        val actual = ReturningClause(someStringField(), parentClause = someDeleteClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -36,7 +36,7 @@ class ReturningClauseTest {
             emptyMap(),
         )
 
-        val actual = ReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause()).build()
+        val actual = ReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }

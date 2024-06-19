@@ -26,20 +26,20 @@ class OffsetClauseTest {
             emptyMap(),
         )
 
-        val actual = DeleteOffsetClause(someNumberField(), someDeleteClause()).build()
+        val actual = DeleteOffsetClause(someNumberField(), someDeleteClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support delete offset with positional parameter`() {
-        val paramValue = 2
+        val parameterValue = 2
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = DeleteOffsetClause(paramValue.asParameter(), someDeleteClause()).build()
+        val actual = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -51,34 +51,34 @@ class OffsetClauseTest {
             emptyMap(),
         )
 
-        val actual = SelectOffsetClause(someNumberField(), someSelectClause()).build()
+        val actual = SelectOffsetClause(someNumberField(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select offset with positional parameter`() {
-        val paramValue = 5
+        val parameterValue = 5
         val expected = DopeQuery(
             "SELECT * OFFSET $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = SelectOffsetClause(paramValue.asParameter(), someSelectClause()).build()
+        val actual = SelectOffsetClause(parameterValue.asParameter(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select offset with parameter and parent parameter`() {
-        val paramValue = "param"
-        val paramValue2 = 5
+        val parameterValue = "param"
+        val parameterValue2 = 5
         val expected = DopeQuery(
             "SELECT $1 OFFSET $2",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = SelectOffsetClause(paramValue2.asParameter(), someSelectClause(paramValue.asParameter())).build()
+        val actual = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }

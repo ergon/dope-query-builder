@@ -35,13 +35,13 @@ class SelectClauseTest {
 
     @Test
     fun `should support select with positional parameter`() {
-        val paramValue = "value"
+        val parameterValue = "value"
         val expected = DopeQuery(
             "SELECT $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = SelectClause(paramValue.asParameter()).toDopeQuery()
+        val actual = SelectClause(parameterValue.asParameter()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class SelectClauseTest {
     fun `should support select with multiple fields`() {
         val expected = DopeQuery(
             "SELECT `numberField`, `stringArrayField`",
-            emptyMap()
+            emptyMap(),
         )
 
         val actual = SelectClause(someNumberField(), someStringArrayField()).toDopeQuery()
@@ -62,7 +62,7 @@ class SelectClauseTest {
     fun `should support select distinct`() {
         val expected = DopeQuery(
             "SELECT DISTINCT `numberField`",
-            emptyMap()
+            emptyMap(),
         )
 
         val actual = SelectDistinctClause(someNumberField()).toDopeQuery()
@@ -72,13 +72,13 @@ class SelectClauseTest {
 
     @Test
     fun `should support select distinct with positional parameter`() {
-        val paramValue = "value"
+        val parameterValue = "value"
         val expected = DopeQuery(
             "SELECT DISTINCT $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = SelectDistinctClause(paramValue.asParameter()).toDopeQuery()
+        val actual = SelectDistinctClause(parameterValue.asParameter()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -87,7 +87,7 @@ class SelectClauseTest {
     fun `should support select distinct with multiple fields`() {
         val expected = DopeQuery(
             "SELECT DISTINCT `numberField`, `stringArrayField`",
-            emptyMap()
+            emptyMap(),
         )
 
         val actual = SelectDistinctClause(someNumberField(), someStringArrayField()).toDopeQuery()
@@ -99,7 +99,7 @@ class SelectClauseTest {
     fun `should support select with alias`() {
         val expected = DopeQuery(
             "SELECT `stringField` AS `stringFieldAlias`",
-            emptyMap()
+            emptyMap(),
         )
 
         val actual = SelectClause(someStringField().alias("stringFieldAlias")).toDopeQuery()
@@ -111,7 +111,7 @@ class SelectClauseTest {
     fun `should support select with mixed aliases`() {
         val expected = DopeQuery(
             "SELECT `numberField` AS `numberFieldAlias`, `stringArrayField`",
-            emptyMap()
+            emptyMap(),
         )
 
         val actual = SelectClause(someNumberField().alias("numberFieldAlias"), someStringArrayField()).toDopeQuery()
@@ -133,13 +133,13 @@ class SelectClauseTest {
 
     @Test
     fun `should support select with raw expression with positional parameter`() {
-        val paramValue = "value"
+        val parameterValue = "value"
         val expected = DopeQuery(
             "SELECT RAW $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = SelectRawClause(paramValue.asParameter()).toDopeQuery()
+        val actual = SelectRawClause(parameterValue.asParameter()).toDopeQuery()
 
         assertEquals(expected, actual)
     }

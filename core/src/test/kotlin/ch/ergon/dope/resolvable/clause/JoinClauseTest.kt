@@ -36,27 +36,31 @@ class JoinClauseTest {
 
     @Test
     fun `should support standard join with parameter`() {
-        val paramValue = true
+        val parameterValue = true
         val expected = DopeQuery(
             "SELECT * JOIN `someBucket` ON $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = StandardJoinClause(someBucket(), onCondition = paramValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = StandardJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support standard join with parameter and parameter in parent`() {
-        val paramValue = 1
-        val paramValue2 = true
+        val parameterValue = 1
+        val parameterValue2 = true
         val expected = DopeQuery(
             "SELECT $1 JOIN `someBucket` ON $2",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = StandardJoinClause(someBucket(), onCondition = paramValue2.asParameter(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = StandardJoinClause(
+            someBucket(),
+            onCondition = parameterValue2.asParameter(),
+            someSelectClause(parameterValue.asParameter()),
+        ).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -75,27 +79,31 @@ class JoinClauseTest {
 
     @Test
     fun `should support left join with parameter`() {
-        val paramValue = true
+        val parameterValue = true
         val expected = DopeQuery(
             "SELECT * LEFT JOIN `someBucket` ON $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = LeftJoinClause(someBucket(), onCondition = paramValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = LeftJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support left join with parameter and parameter in parent`() {
-        val paramValue = 1
-        val paramValue2 = true
+        val parameterValue = 1
+        val parameterValue2 = true
         val expected = DopeQuery(
             "SELECT $1 LEFT JOIN `someBucket` ON $2",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = LeftJoinClause(someBucket(), onCondition = paramValue2.asParameter(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = LeftJoinClause(
+            someBucket(),
+            onCondition = parameterValue2.asParameter(),
+            someSelectClause(parameterValue.asParameter()),
+        ).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -114,27 +122,31 @@ class JoinClauseTest {
 
     @Test
     fun `should support inner join with parameter`() {
-        val paramValue = true
+        val parameterValue = true
         val expected = DopeQuery(
             "SELECT * INNER JOIN `someBucket` ON $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = InnerJoinClause(someBucket(), onCondition = paramValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = InnerJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support inner join with parameter and parameter in parent`() {
-        val paramValue = 1
-        val paramValue2 = true
+        val parameterValue = 1
+        val parameterValue2 = true
         val expected = DopeQuery(
             "SELECT $1 INNER JOIN `someBucket` ON $2",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = InnerJoinClause(someBucket(), onCondition = paramValue2.asParameter(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = InnerJoinClause(
+            someBucket(),
+            onCondition = parameterValue2.asParameter(),
+            someSelectClause(parameterValue.asParameter()),
+        ).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -153,27 +165,31 @@ class JoinClauseTest {
 
     @Test
     fun `should support right join with parameter`() {
-        val paramValue = true
+        val parameterValue = true
         val expected = DopeQuery(
             "SELECT * RIGHT JOIN `someBucket` ON $1",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = RightJoinClause(someBucket(), onCondition = paramValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = RightJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support right join with parameter and parameter in parent`() {
-        val paramValue = 1
-        val paramValue2 = true
+        val parameterValue = 1
+        val parameterValue2 = true
         val expected = DopeQuery(
             "SELECT $1 RIGHT JOIN `someBucket` ON $2",
-            mapOf("$1" to paramValue, "$2" to paramValue2),
+            mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
 
-        val actual = RightJoinClause(someBucket(), onCondition = paramValue2.asParameter(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = RightJoinClause(
+            someBucket(),
+            onCondition = parameterValue2.asParameter(),
+            someSelectClause(parameterValue.asParameter()),
+        ).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -194,13 +210,13 @@ class JoinClauseTest {
 
     @Test
     fun `should support standard join on keys and parameter in parent`() {
-        val paramValue = 1
+        val parameterValue = 1
         val expected = DopeQuery(
             "SELECT $1 JOIN `someBucket` ON KEYS `stringField`",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -219,13 +235,13 @@ class JoinClauseTest {
 
     @Test
     fun `should support left join on keys with parameter and parameter in parent`() {
-        val paramValue = 1
+        val parameterValue = 1
         val expected = DopeQuery(
             "SELECT $1 LEFT JOIN `someBucket` ON KEYS `stringField`",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -244,13 +260,13 @@ class JoinClauseTest {
 
     @Test
     fun `should support inner join on keys with parameter and parameter in parent`() {
-        val paramValue = 1
+        val parameterValue = 1
         val expected = DopeQuery(
             "SELECT $1 INNER JOIN `someBucket` ON KEYS `stringField`",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -269,13 +285,13 @@ class JoinClauseTest {
 
     @Test
     fun `should support right join on keys with parameter and parameter in parent`() {
-        val paramValue = 1
+        val parameterValue = 1
         val expected = DopeQuery(
             "SELECT $1 RIGHT JOIN `someBucket` ON KEYS `stringField`",
-            mapOf("$1" to paramValue),
+            mapOf("$1" to parameterValue),
         )
 
-        val actual = RightJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(paramValue.asParameter())).toDopeQuery()
+        val actual = RightJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
 
         assertEquals(expected, actual)
     }
