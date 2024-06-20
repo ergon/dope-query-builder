@@ -34,12 +34,13 @@ fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType): GroupByCla
 fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.asField())
 
 fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMField<out Any>) = join(bucket, onKeys.asField())
+fun ISelectJoinClause.join(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = join(bucket, onKey.asField(), forBucket)
 
 fun ISelectJoinClause.innerJoin(bucket: Bucket, onKeys: CMField<out Any>) = innerJoin(bucket, onKeys.asField())
+fun ISelectJoinClause.innerJoin(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = innerJoin(bucket, onKey.asField(), forBucket)
 
 fun ISelectJoinClause.leftJoin(bucket: Bucket, onKeys: CMField<out Any>) = leftJoin(bucket, onKeys.asField())
-
-fun ISelectJoinClause.rightJoin(bucket: Bucket, onKeys: CMField<out Any>) = rightJoin(bucket, onKeys.asField())
+fun ISelectJoinClause.leftJoin(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = leftJoin(bucket, onKey.asField(), forBucket)
 
 @JvmName("unnestString")
 fun ISelectUnnestClause.unnest(arrayField: CMList<String>) = unnest(arrayField.asArrayField())

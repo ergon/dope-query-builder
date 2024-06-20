@@ -7,7 +7,6 @@ import ch.ergon.dope.extension.clause.leftJoin
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
-import ch.ergon.dope.extension.clause.rightJoin
 import ch.ergon.dope.extension.clause.unnest
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.someBucket
@@ -60,10 +59,24 @@ class SelectClauseTest {
     }
 
     @Test
+    fun `should support select join on key for with CM`() {
+        val actual: String = someFrom().join(someBucket("other"), onKey = someCMNumberField(), someBucket()).toDopeQuery().queryString
+
+        assertEquals("SELECT * FROM `someBucket` JOIN `other` ON KEY `someNumberField` FOR `someBucket`", actual)
+    }
+
+    @Test
     fun `should support select inner join with CM`() {
         val actual: String = someFrom().innerJoin(someBucket("other"), onKeys = someCMNumberField()).toDopeQuery().queryString
 
         assertEquals("SELECT * FROM `someBucket` INNER JOIN `other` ON KEYS `someNumberField`", actual)
+    }
+
+    @Test
+    fun `should support select inner join on key for with CM`() {
+        val actual: String = someFrom().innerJoin(someBucket("other"), onKey = someCMNumberField(), someBucket()).toDopeQuery().queryString
+
+        assertEquals("SELECT * FROM `someBucket` INNER JOIN `other` ON KEY `someNumberField` FOR `someBucket`", actual)
     }
 
     @Test
@@ -74,10 +87,10 @@ class SelectClauseTest {
     }
 
     @Test
-    fun `should support select right join with CM`() {
-        val actual: String = someFrom().rightJoin(someBucket("other"), onKeys = someCMNumberField()).toDopeQuery().queryString
+    fun `should support select left join on key for with CM`() {
+        val actual: String = someFrom().leftJoin(someBucket("other"), onKey = someCMNumberField(), someBucket()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM `someBucket` RIGHT JOIN `other` ON KEYS `someNumberField`", actual)
+        assertEquals("SELECT * FROM `someBucket` LEFT JOIN `other` ON KEY `someNumberField` FOR `someBucket`", actual)
     }
 
     @Test
