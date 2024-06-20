@@ -20,9 +20,6 @@ jobs:
               run: git status
             
             - name: Merge head branch into main
-              run: git pull origin/${{ github.event.pull_request.head.ref }} --no-rebase --allow-unrelated-histories
-            
-            - name: Merge head branch into main
               run: git pull origin ${{ github.event.pull_request.head.ref }} --no-rebase --allow-unrelated-histories
 
             - name: Set up JDK 17
