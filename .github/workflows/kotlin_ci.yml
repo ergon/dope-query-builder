@@ -16,15 +16,12 @@ jobs:
               with:
                   ref: main
 
-            - name: status
-              run: git status
-
             - name: Fetch head branch
               run: git fetch origin ${{ github.event.pull_request.head.ref }}
             
             - name: Merge head branch into main
-              run: git merge origin ${{ github.event.pull_request.head.ref }} --no-rebase
-
+              run: git merge origin ${{ github.event.pull_request.head.ref }}
+              
             - name: Set up JDK 17
               uses: actions/setup-java@v4
               with:
