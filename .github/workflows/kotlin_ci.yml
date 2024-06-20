@@ -17,7 +17,7 @@ jobs:
         ref: main
 
     - name: Pull changes from head branch into target branch
-      run: git pull --no-rebase origin ${{ github.event.pull_request.head.ref }}
+      run: git pull origin ${{ github.event.pull_request.head.ref }} --allow-unrelated-histories --no-rebase
 
     - name: Set up JDK 17
       uses: actions/setup-java@v3
