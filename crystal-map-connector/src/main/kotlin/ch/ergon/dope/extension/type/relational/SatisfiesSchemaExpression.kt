@@ -72,57 +72,56 @@ class EverySatisfiesSchemaExpression<S : Schema>(
 
 fun <S : Schema> DopeSchemaArray<S>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>
+    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) = AnySatisfiesSchemaExpression(variable, this, predicate)
 
 fun <S : Schema> CMObjectList<S>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>
+    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) = AnySatisfiesSchemaExpression(variable, asSchemaArray(), predicate)
 
 @JvmName("anyNumber")
 fun CMList<Number>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>
+    predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
 ) = asArrayField().any(variable, predicate)
 
 @JvmName("anyString")
 fun CMList<String>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>
+    predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
 ) = asArrayField().any(variable, predicate)
 
 @JvmName("anyBoolean")
 fun CMList<Boolean>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>
+    predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
 ) = asArrayField().any(variable, predicate)
 
 fun <S : Schema> DopeSchemaArray<S>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>
+    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) = EverySatisfiesSchemaExpression(variable, this, predicate)
 
 fun <S : Schema> CMObjectList<S>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>
+    predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) = EverySatisfiesSchemaExpression(variable, asSchemaArray(), predicate)
 
 @JvmName("everyNumber")
 fun CMList<Number>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>
+    predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
 ) = asArrayField().every(variable, predicate)
 
 @JvmName("everyString")
 fun CMList<String>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>
+    predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
 ) = asArrayField().every(variable, predicate)
 
 @JvmName("everyBoolean")
 fun CMList<Boolean>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
-    predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>
+    predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
 ) = asArrayField().every(variable, predicate)
-

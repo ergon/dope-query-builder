@@ -30,7 +30,7 @@ class SatisfiesTest {
         val otherObjectList: CMObjectList<Dummy3> = CMObjectList(Dummy3(path), "otherObjectList", path)
     }
 
-    class Dummy3 (path: String = "") : Schema {
+    class Dummy3(path: String = "") : Schema {
         val something: CMField<Number> = CMField("something", path)
     }
 
@@ -74,7 +74,7 @@ class SatisfiesTest {
             parameters = emptyMap(),
         )
 
-        val actual = Dummy().numberList.any { it.mod(2).isEqualTo(1)}.toDopeQuery()
+        val actual = Dummy().numberList.any { it.mod(2).isEqualTo(1) }.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -86,7 +86,7 @@ class SatisfiesTest {
             parameters = emptyMap(),
         )
 
-        val actual = Dummy().stringList.any { upper(it).isEqualTo("some value")}.toDopeQuery()
+        val actual = Dummy().stringList.any { upper(it).isEqualTo("some value") }.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -106,7 +106,8 @@ class SatisfiesTest {
     @Test
     fun `should support nested any satisfies with schema`() {
         val expected = DopeQuery(
-            queryString = "ANY `iterator1` IN `objectList` SATISFIES ANY `iterator2` IN `iterator1`.`objectList` SATISFIES `iterator2`.`something` = 3 END END",
+            queryString = "ANY `iterator1` IN `objectList` SATISFIES ANY `iterator2` IN `iterator1`.`otherObjectList` " +
+                "SATISFIES `iterator2`.`something` = 3 END END",
             parameters = emptyMap(),
         )
 
@@ -152,7 +153,7 @@ class SatisfiesTest {
             parameters = emptyMap(),
         )
 
-        val actual = Dummy().numberList.every { it.mod(2).isEqualTo(1)}.toDopeQuery()
+        val actual = Dummy().numberList.every { it.mod(2).isEqualTo(1) }.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -164,7 +165,7 @@ class SatisfiesTest {
             parameters = emptyMap(),
         )
 
-        val actual = Dummy().stringList.every { upper(it).isEqualTo("some value")}.toDopeQuery()
+        val actual = Dummy().stringList.every { upper(it).isEqualTo("some value") }.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -184,7 +185,8 @@ class SatisfiesTest {
     @Test
     fun `should support nested every satisfies with schema`() {
         val expected = DopeQuery(
-            queryString = "EVERY `iterator1` IN `objectList` SATISFIES EVERY `iterator2` IN `iterator1`.`objectList` SATISFIES `iterator2`.`something` = 3 END END",
+            queryString = "EVERY `iterator1` IN `objectList` SATISFIES EVERY `iterator2` IN `iterator1`.`otherObjectList`" +
+                " SATISFIES `iterator2`.`something` = 3 END END",
             parameters = emptyMap(),
         )
 
@@ -198,7 +200,8 @@ class SatisfiesTest {
     @Test
     fun `should support nested every and any satisfies with schema`() {
         val expected = DopeQuery(
-            queryString = "EVERY `iterator1` IN `objectList` SATISFIES ANY `iterator2` IN `iterator1`.`otherObjectList` SATISFIES `iterator2`.`something` = 3 END END",
+            queryString = "EVERY `iterator1` IN `objectList` SATISFIES ANY `iterator2` IN `iterator1`.`otherObjectList`" +
+                " SATISFIES `iterator2`.`something` = 3 END END",
             parameters = emptyMap(),
         )
 
