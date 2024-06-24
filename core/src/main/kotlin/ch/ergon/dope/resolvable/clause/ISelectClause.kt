@@ -67,15 +67,17 @@ interface ISelectFromClause : ISelectUseKeysClause {
 interface ISelectJoinClause : ISelectFromClause {
     fun join(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(bucket, onCondition, this)
     fun join(bucket: Bucket, onKeys: Field<out ValidType>) = StandardJoinClause(bucket, onKeys, this)
+    fun join(bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket) = StandardJoinClause(bucket, onKey, forBucket, this)
 
     fun innerJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = InnerJoinClause(bucket, onCondition, this)
     fun innerJoin(bucket: Bucket, onKeys: Field<out ValidType>) = InnerJoinClause(bucket, onKeys, this)
+    fun innerJoin(bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket) = InnerJoinClause(bucket, onKey, forBucket, this)
 
     fun leftJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(bucket, onCondition, this)
     fun leftJoin(bucket: Bucket, onKeys: Field<out ValidType>) = LeftJoinClause(bucket, onKeys, this)
+    fun leftJoin(bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket) = LeftJoinClause(bucket, onKey, forBucket, this)
 
     fun rightJoin(bucket: Bucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(bucket, onCondition, this)
-    fun rightJoin(bucket: Bucket, onKeys: Field<out ValidType>) = RightJoinClause(bucket, onKeys, this)
 }
 
 interface ISelectUnnestClause : ISelectJoinClause {
