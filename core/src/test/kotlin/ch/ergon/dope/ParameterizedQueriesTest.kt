@@ -12,8 +12,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -31,7 +30,7 @@ class ParameterizedQueriesTest {
         val expected = "SELECT $1 = 1"
         val positionalParameterActual = 1.asParameter()
 
-        val actual = create.select(positionalParameterActual.isEqualTo(1.toNumberType())).build().queryString
+        val actual = create.select(positionalParameterActual.isEqualTo(1.toDopeType())).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -42,7 +41,7 @@ class ParameterizedQueriesTest {
 
         val actual = create.select(
             "hello".asParameter("greeting")
-                .isEqualTo("hello".toStringType()),
+                .isEqualTo("hello".toDopeType()),
         ).build().queryString
 
         assertEquals(
@@ -55,7 +54,7 @@ class ParameterizedQueriesTest {
     fun `should Support Named Parameters As Key But Missing`() {
         val expected = "There are more parameters in the query than were passed"
         try {
-            create.select("hello".asParameter("greeting").isEqualTo("hello".toStringType())).build()
+            create.select("hello".asParameter("greeting").isEqualTo("hello".toDopeType())).build()
         } catch (e: Exception) {
             assertEquals(expected, e.message)
         }

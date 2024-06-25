@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -20,4 +20,4 @@ class ReverseExpression(
 
 fun reverse(inStr: TypeExpression<StringType>) = ReverseExpression(inStr)
 
-fun reverse(inStr: String): ReverseExpression = reverse(inStr.toStringType())
+fun reverse(inStr: String): ReverseExpression = reverse(inStr.toDopeType())

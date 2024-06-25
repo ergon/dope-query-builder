@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 
@@ -21,13 +21,13 @@ fun TypeExpression<BooleanType>.and(booleanExpression: TypeExpression<BooleanTyp
     LogicalInfixExpression(this, "AND", booleanExpression)
 
 fun TypeExpression<BooleanType>.or(boolean: Boolean): LogicalInfixExpression =
-    this.or(boolean.toBooleanType())
+    this.or(boolean.toDopeType())
 
 fun Boolean.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    this.toBooleanType().or(booleanExpression)
+    this.toDopeType().or(booleanExpression)
 
 fun TypeExpression<BooleanType>.and(boolean: Boolean): LogicalInfixExpression =
-    this.and(boolean.toBooleanType())
+    this.and(boolean.toDopeType())
 
 fun Boolean.and(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    this.toBooleanType().and(booleanExpression)
+    this.toDopeType().and(booleanExpression)

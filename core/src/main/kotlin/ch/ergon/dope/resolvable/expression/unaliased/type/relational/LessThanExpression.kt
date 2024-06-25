@@ -2,8 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ComparableType
@@ -21,19 +20,19 @@ fun <T : ComparableType> TypeExpression<T>.isLessThan(right: TypeExpression<T>):
     LessThanExpression(this, right)
 
 fun TypeExpression<NumberType>.isLessThan(right: Number): LessThanExpression<NumberType> =
-    isLessThan(right.toNumberType())
+    isLessThan(right.toDopeType())
 
 fun Number.isLessThan(right: TypeExpression<NumberType>): LessThanExpression<NumberType> =
-    this.toNumberType().isLessThan(right)
+    this.toDopeType().isLessThan(right)
 
 fun Number.isLessThan(right: Number): LessThanExpression<NumberType> =
-    this.toNumberType().isLessThan(right.toNumberType())
+    this.toDopeType().isLessThan(right.toDopeType())
 
 fun TypeExpression<StringType>.isLessThan(right: String): LessThanExpression<StringType> =
-    isLessThan(right.toStringType())
+    isLessThan(right.toDopeType())
 
 fun String.isLessThan(right: TypeExpression<StringType>): LessThanExpression<StringType> =
-    this.toStringType().isLessThan(right)
+    this.toDopeType().isLessThan(right)
 
 fun String.isLessThan(right: String): LessThanExpression<StringType> =
-    this.toStringType().isLessThan(right.toStringType())
+    this.toDopeType().isLessThan(right.toDopeType())

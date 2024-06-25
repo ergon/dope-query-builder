@@ -1,51 +1,50 @@
 package ch.ergon.dope.extension.type.relational
 
-import ch.ergon.dope.asField
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.LessThanExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.toDopeField
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isLessThanNumber")
 fun CMField<out Number>.isLessThan(right: CMField<out Number>): LessThanExpression<NumberType> =
-    asField().isLessThan(right.asField())
+    toDopeField().isLessThan(right.toDopeField())
 
 @JvmName("isLessThanNumber")
 fun TypeExpression<NumberType>.isLessThan(right: CMField<out Number>): LessThanExpression<NumberType> =
-    isLessThan(right.asField())
+    isLessThan(right.toDopeField())
 
 @JvmName("isLessThanNumber")
 fun Number.isLessThan(right: CMField<out Number>): LessThanExpression<NumberType> =
-    toNumberType().isLessThan(right.asField())
+    toDopeType().isLessThan(right.toDopeField())
 
 @JvmName("isLessThanNumber")
 fun CMField<out Number>.isLessThan(right: TypeExpression<NumberType>): LessThanExpression<NumberType> =
-    asField().isLessThan(right)
+    toDopeField().isLessThan(right)
 
 @JvmName("isLessThanNumber")
 fun CMField<out Number>.isLessThan(right: Number): LessThanExpression<NumberType> =
-    asField().isLessThan(right.toNumberType())
+    toDopeField().isLessThan(right.toDopeType())
 
 @JvmName("isLessThanString")
 fun CMField<String>.isLessThan(right: CMField<String>): LessThanExpression<StringType> =
-    asField().isLessThan(right.asField())
+    toDopeField().isLessThan(right.toDopeField())
 
 @JvmName("isLessThanString")
 fun TypeExpression<StringType>.isLessThan(right: CMField<String>): LessThanExpression<StringType> =
-    isLessThan(right.asField())
+    isLessThan(right.toDopeField())
 
 @JvmName("isLessThanString")
 fun String.isLessThan(right: CMField<String>): LessThanExpression<StringType> =
-    toStringType().isLessThan(right.asField())
+    toDopeType().isLessThan(right.toDopeField())
 
 @JvmName("isLessThanString")
 fun CMField<String>.isLessThan(right: TypeExpression<StringType>): LessThanExpression<StringType> =
-    asField().isLessThan(right)
+    toDopeField().isLessThan(right)
 
 @JvmName("isLessThanString")
 fun CMField<String>.isLessThan(right: String): LessThanExpression<StringType> =
-    asField().isLessThan(right.toStringType())
+    toDopeField().isLessThan(right.toDopeType())

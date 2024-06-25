@@ -1,6 +1,5 @@
 package ch.ergon.dope.extension.type.arithmetic
 
-import ch.ergon.dope.asField
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.NumberInfixExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
@@ -8,81 +7,82 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.div
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mul
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.toDopeField
 import ch.ergon.dope.validtype.NumberType
 import com.schwarz.crystalapi.schema.CMField
 
 fun CMField<out Number>.add(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.asField().add(numberExpression)
+    this.toDopeField().add(numberExpression)
 
 fun CMField<out Number>.add(number: CMField<out Number>): NumberInfixExpression =
-    this.asField().add(number.asField())
+    this.toDopeField().add(number.toDopeField())
 
 fun TypeExpression<NumberType>.add(number: CMField<out Number>): NumberInfixExpression =
-    this.add(number.asField())
+    this.add(number.toDopeField())
 
 fun Number.add(number: CMField<out Number>): NumberInfixExpression =
-    toNumberType().add(number.asField())
+    toDopeType().add(number.toDopeField())
 
 fun CMField<out Number>.add(number: Number): NumberInfixExpression =
-    this.asField().add(number.toNumberType())
+    this.toDopeField().add(number.toDopeType())
 
 fun CMField<out Number>.sub(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.asField().sub(numberExpression)
+    this.toDopeField().sub(numberExpression)
 
 fun CMField<out Number>.sub(number: CMField<out Number>): NumberInfixExpression =
-    this.asField().sub(number.asField())
+    this.toDopeField().sub(number.toDopeField())
 
 fun TypeExpression<NumberType>.sub(number: CMField<out Number>): NumberInfixExpression =
-    this.sub(number.asField())
+    this.sub(number.toDopeField())
 
 fun Number.sub(number: CMField<out Number>): NumberInfixExpression =
-    toNumberType().sub(number.asField())
+    toDopeType().sub(number.toDopeField())
 
 fun CMField<out Number>.sub(number: Number): NumberInfixExpression =
-    this.asField().sub(number.toNumberType())
+    this.toDopeField().sub(number.toDopeType())
 
 fun CMField<out Number>.mul(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.asField().mul(numberExpression)
+    this.toDopeField().mul(numberExpression)
 
 fun CMField<out Number>.mul(number: CMField<out Number>): NumberInfixExpression =
-    this.asField().mul(number.asField())
+    this.toDopeField().mul(number.toDopeField())
 
 fun TypeExpression<NumberType>.mul(number: CMField<out Number>): NumberInfixExpression =
-    this.mul(number.asField())
+    this.mul(number.toDopeField())
 
 fun Number.mul(number: CMField<out Number>): NumberInfixExpression =
-    toNumberType().mul(number.asField())
+    toDopeType().mul(number.toDopeField())
 
 fun CMField<out Number>.mul(number: Number): NumberInfixExpression =
-    this.asField().mul(number.toNumberType())
+    this.toDopeField().mul(number.toDopeType())
 
 fun CMField<out Number>.div(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.asField().div(numberExpression)
+    this.toDopeField().div(numberExpression)
 
 fun CMField<out Number>.div(number: CMField<out Number>): NumberInfixExpression =
-    this.asField().div(number.asField())
+    this.toDopeField().div(number.toDopeField())
 
 fun TypeExpression<NumberType>.div(number: CMField<out Number>): NumberInfixExpression =
-    this.div(number.asField())
+    this.div(number.toDopeField())
 
 fun Number.div(number: CMField<out Number>): NumberInfixExpression =
-    toNumberType().div(number.asField())
+    toDopeType().div(number.toDopeField())
 
 fun CMField<out Number>.div(number: Number): NumberInfixExpression =
-    this.asField().div(number.toNumberType())
+    this.toDopeField().div(number.toDopeType())
 
 fun CMField<out Number>.mod(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.asField().mod(numberExpression)
+    this.toDopeField().mod(numberExpression)
 
 fun CMField<out Number>.mod(number: CMField<out Number>): NumberInfixExpression =
-    this.asField().mod(number.asField())
+    this.toDopeField().mod(number.toDopeField())
 
 fun TypeExpression<NumberType>.mod(number: CMField<out Number>): NumberInfixExpression =
-    this.mod(number.asField())
+    this.mod(number.toDopeField())
 
 fun Number.mod(number: CMField<out Number>): NumberInfixExpression =
-    toNumberType().mod(number.asField())
+    toDopeType().mod(number.toDopeField())
 
 fun CMField<out Number>.mod(number: Number): NumberInfixExpression =
-    this.asField().mod(number.toNumberType())
+    this.toDopeField().mod(number.toDopeType())

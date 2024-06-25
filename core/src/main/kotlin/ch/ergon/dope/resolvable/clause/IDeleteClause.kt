@@ -8,7 +8,7 @@ import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.ReturningClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -23,12 +23,12 @@ interface IDeleteOffsetClause : IDeleteReturningClause {
 
 interface IDeleteLimitClause : IDeleteOffsetClause {
     fun offset(numberExpression: TypeExpression<NumberType>) = DeleteOffsetClause(numberExpression, this)
-    fun offset(number: Number): DeleteOffsetClause = offset(number.toNumberType())
+    fun offset(number: Number): DeleteOffsetClause = offset(number.toDopeType())
 }
 
 interface IDeleteWhereClause : IDeleteLimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>) = DeleteLimitClause(numberExpression, this)
-    fun limit(number: Number): DeleteLimitClause = limit(number.toNumberType())
+    fun limit(number: Number): DeleteLimitClause = limit(number.toDopeType())
 }
 
 interface IDeleteUseKeysClause : IDeleteWhereClause {
