@@ -11,8 +11,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
-import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
@@ -31,7 +30,7 @@ class UnnestClauseTest {
     @Test
     fun `should support unnest`() {
         val airline = someBucket()
-        val aField = listOf("a".toStringType()).toArrayType()
+        val aField = listOf("a".toDopeType()).toDopeType()
         val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
         val alias: AliasedExpression<ArrayType<StringType>> = aField.alias("a")

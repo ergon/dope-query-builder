@@ -54,10 +54,10 @@ class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>
     },
 )
 
-fun String.toStringType(): StringPrimitive = StringPrimitive(this)
+fun String.toDopeType(): StringPrimitive = StringPrimitive(this)
 
-fun Number.toNumberType(): NumberPrimitive = NumberPrimitive(this)
+fun Number.toDopeType(): NumberPrimitive = NumberPrimitive(this)
 
-fun Boolean.toBooleanType(): BooleanPrimitive = BooleanPrimitive(this)
+fun Boolean.toDopeType(): BooleanPrimitive = BooleanPrimitive(this)
 
-fun <T : ValidType> Collection<TypeExpression<out T>>.toArrayType() = ArrayPrimitive(this)
+fun <T : ValidType> Collection<TypeExpression<out T>>.toDopeType() = ArrayPrimitive(this)

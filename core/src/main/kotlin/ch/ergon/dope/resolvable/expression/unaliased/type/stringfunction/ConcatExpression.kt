@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -33,6 +33,6 @@ fun concat(firstString: TypeExpression<StringType>, secondString: TypeExpression
     ConcatExpression(firstString, secondString, *strings)
 
 fun concat(firstString: String, secondString: String, vararg strings: String): ConcatExpression =
-    concat(firstString.toStringType(), secondString.toStringType(), *wrapVarargsWithStringValueType(*strings))
+    concat(firstString.toDopeType(), secondString.toDopeType(), *wrapVarargsWithStringValueType(*strings))
 
-internal fun wrapVarargsWithStringValueType(vararg strings: String) = strings.map { it.toStringType() }.toTypedArray()
+internal fun wrapVarargsWithStringValueType(vararg strings: String) = strings.map { it.toDopeType() }.toTypedArray()

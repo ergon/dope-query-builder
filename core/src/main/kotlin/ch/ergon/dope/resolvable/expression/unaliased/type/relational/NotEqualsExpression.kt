@@ -2,9 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -22,28 +20,28 @@ fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): No
     NotEqualsExpression(this, right)
 
 fun TypeExpression<NumberType>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
-    isNotEqualTo(right.toNumberType())
+    isNotEqualTo(right.toDopeType())
 
 fun Number.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> =
-    toNumberType().isNotEqualTo(right)
+    toDopeType().isNotEqualTo(right)
 
 fun Number.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
-    toNumberType().isNotEqualTo(right.toNumberType())
+    toDopeType().isNotEqualTo(right.toDopeType())
 
 fun TypeExpression<StringType>.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
-    isNotEqualTo(right.toStringType())
+    isNotEqualTo(right.toDopeType())
 
 fun String.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsExpression<StringType> =
-    toStringType().isNotEqualTo(right)
+    toDopeType().isNotEqualTo(right)
 
 fun String.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
-    toStringType().isNotEqualTo(right.toStringType())
+    toDopeType().isNotEqualTo(right.toDopeType())
 
 fun TypeExpression<BooleanType>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
-    isNotEqualTo(right.toBooleanType())
+    isNotEqualTo(right.toDopeType())
 
 fun Boolean.isNotEqualTo(right: TypeExpression<BooleanType>): NotEqualsExpression<BooleanType> =
-    toBooleanType().isNotEqualTo(right)
+    toDopeType().isNotEqualTo(right)
 
 fun Boolean.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
-    toBooleanType().isNotEqualTo(right.toBooleanType())
+    toDopeType().isNotEqualTo(right.toDopeType())

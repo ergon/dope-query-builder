@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -22,12 +22,12 @@ class RtrimExpression(
 
 fun rtrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType>? = null) = RtrimExpression(inStr, extra)
 
-fun rtrim(inStr: TypeExpression<StringType>, extra: String) = rtrim(inStr, extra.toStringType())
+fun rtrim(inStr: TypeExpression<StringType>, extra: String) = rtrim(inStr, extra.toDopeType())
 
-fun rtrim(inStr: String, extra: TypeExpression<StringType>? = null) = rtrim(inStr.toStringType(), extra)
+fun rtrim(inStr: String, extra: TypeExpression<StringType>? = null) = rtrim(inStr.toDopeType(), extra)
 
-fun rtrim(inStr: String, extra: Char) = rtrim(inStr.toStringType(), extra.toString().toStringType())
+fun rtrim(inStr: String, extra: Char) = rtrim(inStr.toDopeType(), extra.toString().toDopeType())
 
-fun rtrim(inStr: String, extra: String) = rtrim(inStr.toStringType(), extra.toStringType())
+fun rtrim(inStr: String, extra: String) = rtrim(inStr.toDopeType(), extra.toDopeType())
 
-fun rtrim(inStr: TypeExpression<StringType>, extra: Char) = rtrim(inStr, extra.toString().toStringType())
+fun rtrim(inStr: TypeExpression<StringType>, extra: Char) = rtrim(inStr, extra.toString().toDopeType())

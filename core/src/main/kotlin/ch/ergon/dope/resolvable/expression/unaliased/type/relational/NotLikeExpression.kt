@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
@@ -18,4 +18,4 @@ class NotLikeExpression(
 
 fun Field<out ValidType>.isNotLike(right: TypeExpression<StringType>): NotLikeExpression = NotLikeExpression(this, right)
 
-fun Field<out ValidType>.isNotLike(right: String): NotLikeExpression = this.isNotLike(right.toStringType())
+fun Field<out ValidType>.isNotLike(right: String): NotLikeExpression = this.isNotLike(right.toDopeType())

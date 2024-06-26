@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -26,4 +26,4 @@ class MaskExpression(
 fun mask(inStr: TypeExpression<StringType>, options: Map<String, String> = mapOf()): MaskExpression =
     MaskExpression(inStr, options)
 
-fun mask(inStr: String, options: Map<String, String> = mapOf()): MaskExpression = mask(inStr.toStringType(), options)
+fun mask(inStr: String, options: Map<String, String> = mapOf()): MaskExpression = mask(inStr.toDopeType(), options)

@@ -20,9 +20,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -44,7 +42,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                someNumberField().isGreaterThan(5.toNumberType()),
+                someNumberField().isGreaterThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -74,7 +72,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                2.isGreaterThan(4.toNumberType()),
+                2.isGreaterThan(4.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -89,7 +87,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                2.toNumberType().isGreaterThan(4),
+                2.toDopeType().isGreaterThan(4),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -102,7 +100,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                someStringField().isGreaterThan("a".toStringType()),
+                someStringField().isGreaterThan("a".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -132,7 +130,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                "hallo".toStringType().isGreaterThan("test"),
+                "hallo".toDopeType().isGreaterThan("test"),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -147,7 +145,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                "hallo".isGreaterThan("test".toStringType()),
+                "hallo".isGreaterThan("test".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -160,7 +158,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                "a".toStringType().isGreaterThan(someStringField()),
+                "a".toDopeType().isGreaterThan(someStringField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -174,7 +172,7 @@ class BooleanComparatorTest {
             .selectFrom(
                 someBucket(),
             ).where(
-                someNumberField().isLessThan(5.toNumberType()),
+                someNumberField().isLessThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -187,7 +185,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                5.toNumberType().isLessThan(someNumberField()),
+                5.toDopeType().isLessThan(someNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -217,7 +215,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                5.toNumberType().isLessThan(7),
+                5.toDopeType().isLessThan(7),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -232,7 +230,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                5.isLessThan(7.toNumberType()),
+                5.isLessThan(7.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -245,7 +243,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                someStringField().isLessThan("a".toStringType()),
+                someStringField().isLessThan("a".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -275,7 +273,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                "hallo".toStringType().isLessThan("test"),
+                "hallo".toDopeType().isLessThan("test"),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -290,7 +288,7 @@ class BooleanComparatorTest {
             .from(
                 someBucket(),
             ).where(
-                "hallo".isLessThan("test".toStringType()),
+                "hallo".isLessThan("test".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -316,7 +314,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                someStringField().isLike("_b%".toStringType()),
+                someStringField().isLike("_b%".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -342,7 +340,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                someStringField().isNotLike("_b%".toStringType()),
+                someStringField().isNotLike("_b%".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -434,7 +432,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isNotEqualTo(5.toNumberType()),
+                12.toDopeType().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -462,7 +460,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isNotEqualTo(5),
+                12.toDopeType().isNotEqualTo(5),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -476,7 +474,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.isNotEqualTo(5.toNumberType()),
+                12.isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -490,7 +488,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isNotEqualTo(5.toNumberType()),
+                someNumberField().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -504,7 +502,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toNumberType().isNotEqualTo(someNumberField()),
+                3.toDopeType().isNotEqualTo(someNumberField()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -518,7 +516,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isNotEqualTo("hallo".toStringType()),
+                "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -532,7 +530,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someStringField().isNotEqualTo("5".toStringType()),
+                someStringField().isNotEqualTo("5".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -546,7 +544,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
+                12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -560,7 +558,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.isGreaterOrEqualThan(5.toNumberType()),
+                12.isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -574,7 +572,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isGreaterOrEqualThan(5),
+                12.toDopeType().isGreaterOrEqualThan(5),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -588,7 +586,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "hallo".isGreaterOrEqualThan("test".toStringType()),
+                "hallo".isGreaterOrEqualThan("test".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -616,7 +614,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isGreaterOrEqualThan(5.toNumberType()),
+                someNumberField().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -630,7 +628,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toNumberType().isGreaterOrEqualThan(someNumberField()),
+                3.toDopeType().isGreaterOrEqualThan(someNumberField()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -644,7 +642,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
+                "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -658,7 +656,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someStringField().isGreaterOrEqualThan("5".toStringType()),
+                someStringField().isGreaterOrEqualThan("5".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -672,7 +670,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isGreaterOrEqualThan(someStringField()),
+                "test".toDopeType().isGreaterOrEqualThan(someStringField()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -686,7 +684,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isLessOrEqualThan(5.toNumberType()),
+                12.toDopeType().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -700,7 +698,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isLessOrEqualThan(5.toNumberType()),
+                someNumberField().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -714,7 +712,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toNumberType().isLessOrEqualThan(someNumberField()),
+                3.toDopeType().isLessOrEqualThan(someNumberField()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -728,7 +726,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
+                "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -742,7 +740,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someStringField().isLessOrEqualThan("5".toStringType()),
+                someStringField().isLessOrEqualThan("5".toDopeType()),
             ).build().queryString
 
         kotlin.test.assertEquals(expected, actual)
@@ -759,7 +757,7 @@ class BooleanComparatorTest {
             someBucket(),
         ).where(
             someStringField("email").isLike(
-                "%@yahoo.com".toStringType(),
+                "%@yahoo.com".toDopeType(),
             ),
         ).build().queryString
 
@@ -777,9 +775,9 @@ class BooleanComparatorTest {
             someBucket(),
         ).where(
             someStringField("email").isLike(
-                "%@gmail.com".toStringType(),
+                "%@gmail.com".toDopeType(),
             ).and(
-                someNumberField().isEqualTo(46.toNumberType()),
+                someNumberField().isEqualTo(46.toDopeType()),
             ),
         ).build().queryString
 
@@ -797,7 +795,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support Number isEqualTo NumberType`() {
-        val numberExpression = 5.toNumberType()
+        val numberExpression = 5.toDopeType()
         val expected = "5 = 5"
 
         val actual: String = 5.isEqualTo(numberExpression).toDopeQuery().queryString
@@ -807,7 +805,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support NumberType isEqualTo Number`() {
-        val numberExpression = 5.toNumberType()
+        val numberExpression = 5.toDopeType()
         val expected = "5 = 5"
 
         val actual: String = numberExpression.isEqualTo(5).toDopeQuery().queryString
@@ -826,7 +824,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support String isEqualTo StringType`() {
-        val stringExpression = "hello".toStringType()
+        val stringExpression = "hello".toDopeType()
         val expected = "\"hello\" = \"hello\""
 
         val actual: String = "hello".isEqualTo(stringExpression).toDopeQuery().queryString
@@ -836,7 +834,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support StringType isEqualTo String`() {
-        val stringExpression = "hello".toStringType()
+        val stringExpression = "hello".toDopeType()
         val expected = "\"hello\" = \"hello\""
 
         val actual: String = stringExpression.isEqualTo("hello").toDopeQuery().queryString
@@ -855,7 +853,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support Boolean isEqualTo BooleanType`() {
-        val booleanExpression = true.toBooleanType()
+        val booleanExpression = true.toDopeType()
         val expected = "TRUE = TRUE"
 
         val actual: String = true.isEqualTo(booleanExpression).toDopeQuery().queryString
@@ -865,7 +863,7 @@ class BooleanComparatorTest {
 
     @Test
     fun `should support BooleanType isEqualTo Boolean`() {
-        val booleanExpression = true.toBooleanType()
+        val booleanExpression = true.toDopeType()
         val expected = "TRUE = TRUE"
 
         val actual: String = booleanExpression.isEqualTo(true).toDopeQuery().queryString
@@ -882,7 +880,7 @@ class BooleanComparatorTest {
                 someBucket(),
             )
             .where(
-                true.toBooleanType().and(true),
+                true.toDopeType().and(true),
             )
             .build().queryString
 
@@ -898,7 +896,7 @@ class BooleanComparatorTest {
                 someBucket(),
             )
             .where(
-                true.toBooleanType().and(true).or(false),
+                true.toDopeType().and(true).or(false),
             )
             .build().queryString
 
@@ -914,7 +912,7 @@ class BooleanComparatorTest {
                 someBucket(),
             )
             .where(
-                true.toBooleanType().and(true.toBooleanType().or(false)),
+                true.toDopeType().and(true.toDopeType().or(false)),
             )
             .build().queryString
 

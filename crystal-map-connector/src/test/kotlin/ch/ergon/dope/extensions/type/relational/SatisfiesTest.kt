@@ -1,7 +1,6 @@
 package ch.ergon.dope.extensions.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.asSchemaArray
 import ch.ergon.dope.extension.type.relational.any
 import ch.ergon.dope.extension.type.relational.every
 import ch.ergon.dope.extension.type.relational.isEqualTo
@@ -9,6 +8,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IteratorManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
+import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 import com.schwarz.crystalapi.schema.CMObjectList
@@ -60,7 +60,7 @@ class SatisfiesTest {
             parameters = emptyMap(),
         )
 
-        val actual = Dummy().objectList.asSchemaArray().any { schema ->
+        val actual = Dummy().objectList.toDopeType().any { schema ->
             schema.field { type }.isEqualTo("some value")
         }.toDopeQuery()
 
@@ -139,7 +139,7 @@ class SatisfiesTest {
             parameters = emptyMap(),
         )
 
-        val actual = Dummy().objectList.asSchemaArray().every { schema ->
+        val actual = Dummy().objectList.toDopeType().every { schema ->
             schema.field { type }.isEqualTo("some value")
         }.toDopeQuery()
 

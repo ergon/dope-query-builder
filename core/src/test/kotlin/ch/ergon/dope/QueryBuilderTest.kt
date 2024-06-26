@@ -19,9 +19,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -59,7 +57,7 @@ class QueryBuilderTest {
             .from(
                 someBucket(),
             ).where(
-                someStringField().isEqualTo("Ian".toStringType()),
+                someStringField().isEqualTo("Ian".toDopeType()),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -72,7 +70,7 @@ class QueryBuilderTest {
         val actual: String = create.selectFrom(
             someBucket(),
         ).where(
-            someStringField().isEqualTo("Ian".toStringType()),
+            someStringField().isEqualTo("Ian".toDopeType()),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -87,7 +85,7 @@ class QueryBuilderTest {
             .from(
                 someBucket(),
             ).where(
-                someStringField().isEqualTo("Ian".toStringType()),
+                someStringField().isEqualTo("Ian".toDopeType()),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -103,7 +101,7 @@ class QueryBuilderTest {
         ).from(
             someBucket(),
         ).where(
-            someStringField().isEqualTo("Ian".toStringType()),
+            someStringField().isEqualTo("Ian".toDopeType()),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -118,7 +116,7 @@ class QueryBuilderTest {
         ).from(
             someBucket(),
         ).where(
-            someStringField().isEqualTo("Peter".toStringType()),
+            someStringField().isEqualTo("Peter".toDopeType()),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -133,7 +131,7 @@ class QueryBuilderTest {
             someStringField().alias("FirstName"),
             someStringField(),
         ).from(someBucket()).where(
-            someStringField().isEqualTo("Jackson".toStringType()),
+            someStringField().isEqualTo("Jackson".toDopeType()),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -148,7 +146,7 @@ class QueryBuilderTest {
             someStringField(),
             someStringField().alias("LastName"),
         ).from(someBucket()).where(
-            someStringField().isEqualTo("Jackson".toStringType()),
+            someStringField().isEqualTo("Jackson".toDopeType()),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -163,7 +161,7 @@ class QueryBuilderTest {
             .from(
                 someBucket(),
             ).where(
-                someNumberField().isLessThan(50.toNumberType()),
+                someNumberField().isLessThan(50.toDopeType()),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -178,8 +176,8 @@ class QueryBuilderTest {
             .from(
                 someBucket(),
             ).where(
-                someNumberField().isLessThan(50.toNumberType()).and(
-                    someStringField().isEqualTo("Mr.".toStringType()),
+                someNumberField().isLessThan(50.toDopeType()).and(
+                    someStringField().isEqualTo("Mr.".toDopeType()),
                 ),
             ).build().queryString
 
@@ -196,10 +194,10 @@ class QueryBuilderTest {
                 someBucket(),
             ).where(
                 someNumberField().isLessThan(
-                    (45 + 5).toNumberType(),
+                    (45 + 5).toDopeType(),
                 ).and(
                     someStringField().isEqualTo(
-                        ("M" + "r.").toStringType(),
+                        ("M" + "r.").toDopeType(),
                     ),
                 ),
             ).build().queryString
@@ -215,7 +213,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isNotEqualTo(5.toNumberType()),
+                12.toDopeType().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -229,7 +227,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isNotEqualTo(5.toNumberType()),
+                someNumberField().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -243,7 +241,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toNumberType().isNotEqualTo(someNumberField()),
+                3.toDopeType().isNotEqualTo(someNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -257,7 +255,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isNotEqualTo("hallo".toStringType()),
+                "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -271,7 +269,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someStringField().isNotEqualTo("5".toStringType()),
+                someStringField().isNotEqualTo("5".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -285,7 +283,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isGreaterOrEqualThan(5.toNumberType()),
+                12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -299,7 +297,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isGreaterOrEqualThan(5.toNumberType()),
+                someNumberField().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -313,7 +311,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toNumberType().isGreaterOrEqualThan(someNumberField()),
+                3.toDopeType().isGreaterOrEqualThan(someNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -327,7 +325,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isGreaterOrEqualThan("hallo".toStringType()),
+                "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -341,7 +339,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someStringField().isGreaterOrEqualThan("5".toStringType()),
+                someStringField().isGreaterOrEqualThan("5".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -355,7 +353,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isGreaterOrEqualThan(someStringField()),
+                "test".toDopeType().isGreaterOrEqualThan(someStringField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -369,7 +367,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                12.toNumberType().isLessOrEqualThan(5.toNumberType()),
+                12.toDopeType().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -383,7 +381,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isLessOrEqualThan(5.toNumberType()),
+                someNumberField().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -397,7 +395,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toNumberType().isLessOrEqualThan(someNumberField()),
+                3.toDopeType().isLessOrEqualThan(someNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -411,7 +409,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                "test".toStringType().isLessOrEqualThan("hallo".toStringType()),
+                "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -425,7 +423,7 @@ class QueryBuilderTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someStringField().isLessOrEqualThan("5".toStringType()),
+                someStringField().isLessOrEqualThan("5".toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -441,12 +439,12 @@ class QueryBuilderTest {
                 someBucket(),
             ).where(
                 someNumberField().isLessThan(
-                    (45 + 5).toNumberType(),
+                    (45 + 5).toDopeType(),
                 ).and(
                     someStringField().isEqualTo(
-                        "Mr.".toStringType(),
+                        "Mr.".toDopeType(),
                     ).and(
-                        someStringField().isEqualTo("friend".toStringType()),
+                        someStringField().isEqualTo("friend".toDopeType()),
                     ),
                 ),
             ).build().queryString
@@ -464,7 +462,7 @@ class QueryBuilderTest {
             someBucket(),
         ).where(
             someStringField("email").isLike(
-                "%@yahoo.com".toStringType(),
+                "%@yahoo.com".toDopeType(),
             ),
         ).build().queryString
 
@@ -482,9 +480,9 @@ class QueryBuilderTest {
             someBucket(),
         ).where(
             someStringField("email").isLike(
-                "%@gmail.com".toStringType(),
+                "%@gmail.com".toDopeType(),
             ).and(
-                someNumberField().isEqualTo(46.toNumberType()),
+                someNumberField().isEqualTo(46.toDopeType()),
             ),
         ).build().queryString
 
@@ -518,25 +516,25 @@ class QueryBuilderTest {
         val expected = "SELECT ((1 = 1 AND 2 = 2) AND 3 = 3) AS `what` FROM `someBucket` WHERE (1 = 1 AND \"run\" = \"run\")"
 
         val actual: String = create.select(
-            1.toNumberType().isEqualTo(
-                1.toNumberType(),
+            1.toDopeType().isEqualTo(
+                1.toDopeType(),
             ).and(
-                2.toNumberType().isEqualTo(
-                    2.toNumberType(),
+                2.toDopeType().isEqualTo(
+                    2.toDopeType(),
                 ),
             ).and(
-                3.toNumberType().isEqualTo(
-                    3.toNumberType(),
+                3.toDopeType().isEqualTo(
+                    3.toDopeType(),
                 ),
             ).alias("what"),
         ).from(
             someBucket(),
         ).where(
-            1.toNumberType().isEqualTo(
-                1.toNumberType(),
+            1.toDopeType().isEqualTo(
+                1.toDopeType(),
             ).and(
-                "run".toStringType().isEqualTo(
-                    "run".toStringType(),
+                "run".toDopeType().isEqualTo(
+                    "run".toDopeType(),
                 ),
             ),
         ).build().queryString
@@ -566,7 +564,7 @@ class QueryBuilderTest {
     fun `should Support Simple String Value False`() {
         val expected = "SELECT \"FALSE\""
 
-        val actual: String = create.select("FALSE".toStringType()).build().queryString
+        val actual: String = create.select("FALSE".toDopeType()).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -758,7 +756,7 @@ class QueryBuilderTest {
         val getSomething = { "something" }
         val expected = "TRUE"
 
-        val actual = (getSomething() == "something").toBooleanType().toDopeQuery().queryString
+        val actual = (getSomething() == "something").toDopeType().toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }

@@ -2,9 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -22,28 +20,28 @@ fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): Equal
     EqualsExpression(this, right)
 
 fun TypeExpression<NumberType>.isEqualTo(right: Number): EqualsExpression<NumberType> =
-    isEqualTo(right.toNumberType())
+    isEqualTo(right.toDopeType())
 
 fun Number.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> =
-    toNumberType().isEqualTo(right)
+    toDopeType().isEqualTo(right)
 
 fun Number.isEqualTo(right: Number): EqualsExpression<NumberType> =
-    toNumberType().isEqualTo(right.toNumberType())
+    toDopeType().isEqualTo(right.toDopeType())
 
 fun TypeExpression<StringType>.isEqualTo(right: String): EqualsExpression<StringType> =
-    isEqualTo(right.toStringType())
+    isEqualTo(right.toDopeType())
 
 fun String.isEqualTo(right: TypeExpression<StringType>): EqualsExpression<StringType> =
-    toStringType().isEqualTo(right)
+    toDopeType().isEqualTo(right)
 
 fun String.isEqualTo(right: String): EqualsExpression<StringType> =
-    toStringType().isEqualTo(right.toStringType())
+    toDopeType().isEqualTo(right.toDopeType())
 
 fun TypeExpression<BooleanType>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
-    isEqualTo(right.toBooleanType())
+    isEqualTo(right.toDopeType())
 
 fun Boolean.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> =
-    toBooleanType().isEqualTo(right)
+    toDopeType().isEqualTo(right)
 
 fun Boolean.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
-    toBooleanType().isEqualTo(right.toBooleanType())
+    toDopeType().isEqualTo(right.toDopeType())

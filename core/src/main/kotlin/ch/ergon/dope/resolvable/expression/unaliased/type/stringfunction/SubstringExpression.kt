@@ -2,8 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -18,8 +17,8 @@ class SubstringExpression(
             queryString = toFunctionQueryString(
                 symbol = "SUBSTR",
                 inStrDopeQuery,
-                startPos.toNumberType().toDopeQuery(),
-                length.toNumberType().toDopeQuery(),
+                startPos.toDopeType().toDopeQuery(),
+                length.toDopeType().toDopeQuery(),
             ),
             parameters = inStrDopeQuery.parameters,
         )
@@ -29,4 +28,4 @@ class SubstringExpression(
 fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int = inStr.toDopeQuery().queryString.length) =
     SubstringExpression(inStr, startPos, length)
 
-fun substr(inStr: String, startPos: Int, length: Int = inStr.length): SubstringExpression = substr(inStr.toStringType(), startPos, length)
+fun substr(inStr: String, startPos: Int, length: Int = inStr.length): SubstringExpression = substr(inStr.toDopeType(), startPos, length)

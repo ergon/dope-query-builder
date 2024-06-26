@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -20,4 +20,4 @@ class SuffixesExpression(
 
 fun suffixes(inStr: TypeExpression<StringType>) = SuffixesExpression(inStr)
 
-fun suffixes(inStr: String): SuffixesExpression = suffixes(inStr.toStringType())
+fun suffixes(inStr: String): SuffixesExpression = suffixes(inStr.toDopeType())
