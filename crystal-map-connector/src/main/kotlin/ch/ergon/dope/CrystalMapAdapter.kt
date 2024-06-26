@@ -15,7 +15,7 @@ import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 
-fun CMType.asField(reference: String = path): Field<out ValidType> = Field(
+fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
     when (this) {
         is CMField<*> -> this.name
         is CMList<*> -> this.name
@@ -26,25 +26,25 @@ fun CMType.asField(reference: String = path): Field<out ValidType> = Field(
     reference,
 )
 
-@JvmName("asNumberField")
-fun CMField<out Number>.asField(reference: String = path): Field<NumberType> = Field(name, reference)
+@JvmName("toDopeNumberField")
+fun CMField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, reference)
 
-@JvmName("asStringField")
-fun CMField<String>.asField(reference: String = path): Field<StringType> = Field(name, reference)
+@JvmName("toDopeStringField")
+fun CMField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, reference)
 
-@JvmName("asBooleanField")
-fun CMField<Boolean>.asField(reference: String = path): Field<BooleanType> = Field(name, reference)
+@JvmName("toDopeBooleanField")
+fun CMField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, reference)
 
-@JvmName("asNumberArrayField")
-fun CMList<out Number>.asArrayField(): Field<ArrayType<NumberType>> = Field(name, path)
+@JvmName("toDopeNumberArrayField")
+fun CMList<out Number>.toDopeType(): Field<ArrayType<NumberType>> = Field(name, path)
 
-@JvmName("asStringArrayField")
-fun CMList<String>.asArrayField(): Field<ArrayType<StringType>> = Field(name, path)
+@JvmName("toDopeStringArrayField")
+fun CMList<String>.toDopeType(): Field<ArrayType<StringType>> = Field(name, path)
 
-@JvmName("asBooleanArrayField")
-fun CMList<Boolean>.asArrayField(): Field<ArrayType<BooleanType>> = Field(name, path)
+@JvmName("toDopeBooleanArrayField")
+fun CMList<Boolean>.toDopeType(): Field<ArrayType<BooleanType>> = Field(name, path)
 
-fun CMList<out Any>.asArrayField(): Field<ArrayType<ValidType>> = Field(name, path)
+fun CMList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, path)
 
 // TODO: DOPE-192
-fun <T : Schema> CMObjectList<T>.asSchemaArray() = DopeSchemaArray(element, formatPathToQueryString(name, path))
+fun <T : Schema> CMObjectList<T>.toDopeType() = DopeSchemaArray(element, formatPathToQueryString(name, path))

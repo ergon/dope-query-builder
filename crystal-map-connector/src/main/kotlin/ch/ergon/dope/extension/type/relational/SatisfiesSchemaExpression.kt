@@ -1,8 +1,6 @@
 package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.asArrayField
-import ch.ergon.dope.asSchemaArray
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.DEFAULT_ITERATOR_VARIABLE
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.Iterator
@@ -12,6 +10,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesTy
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.EVERY
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.any
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.every
+import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.DopeSchemaArray
 import ch.ergon.dope.validtype.NumberType
@@ -74,25 +73,25 @@ fun <S : Schema> DopeSchemaArray<S>.any(
 fun <S : Schema> CMObjectList<S>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) = AnySatisfiesSchemaExpression(variable, asSchemaArray(), predicate)
+) = AnySatisfiesSchemaExpression(variable, toDopeType(), predicate)
 
 @JvmName("anyNumber")
 fun CMList<Number>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = asArrayField().any(variable, predicate)
+) = toDopeType().any(variable, predicate)
 
 @JvmName("anyString")
 fun CMList<String>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
-) = asArrayField().any(variable, predicate)
+) = toDopeType().any(variable, predicate)
 
 @JvmName("anyBoolean")
 fun CMList<Boolean>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
-) = asArrayField().any(variable, predicate)
+) = toDopeType().any(variable, predicate)
 
 fun <S : Schema> DopeSchemaArray<S>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
@@ -102,22 +101,22 @@ fun <S : Schema> DopeSchemaArray<S>.every(
 fun <S : Schema> CMObjectList<S>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) = EverySatisfiesSchemaExpression(variable, asSchemaArray(), predicate)
+) = EverySatisfiesSchemaExpression(variable, toDopeType(), predicate)
 
 @JvmName("everyNumber")
 fun CMList<Number>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = asArrayField().every(variable, predicate)
+) = toDopeType().every(variable, predicate)
 
 @JvmName("everyString")
 fun CMList<String>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
-) = asArrayField().every(variable, predicate)
+) = toDopeType().every(variable, predicate)
 
 @JvmName("everyBoolean")
 fun CMList<Boolean>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
-) = asArrayField().every(variable, predicate)
+) = toDopeType().every(variable, predicate)

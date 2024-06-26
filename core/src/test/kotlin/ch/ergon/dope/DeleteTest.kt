@@ -6,7 +6,7 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -48,7 +48,7 @@ class DeleteTest {
 
         val actual: String = create
             .deleteFrom(someBucket())
-            .limit(10.toNumberType())
+            .limit(10.toDopeType())
             .build().queryString
 
         assertEquals(expected, actual)
@@ -60,7 +60,7 @@ class DeleteTest {
 
         val actual: String = create
             .deleteFrom(someBucket())
-            .offset(10.toNumberType())
+            .offset(10.toDopeType())
             .build().queryString
 
         assertEquals(expected, actual)
@@ -97,8 +97,8 @@ class DeleteTest {
         val actual: String = create
             .deleteFrom(someBucket())
             .where(someNumberField("age", someBucket()).isEqualTo(2).and(TRUE))
-            .limit(7.toNumberType())
-            .offset(10.toNumberType())
+            .limit(7.toDopeType())
+            .offset(10.toDopeType())
             .returning(someStringField())
             .build().queryString
 

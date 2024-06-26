@@ -2,6 +2,7 @@ package ch.ergon.dope
 
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.abs
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.acos
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.asin
@@ -44,7 +45,7 @@ class NumberFunctionsTest {
 
         val actual: String = create
             .select(
-                12.toNumberType().alias("someNumber"),
+                12.toDopeType().alias("someNumber"),
             ).build().queryString
 
         assertEquals(expected, actual)

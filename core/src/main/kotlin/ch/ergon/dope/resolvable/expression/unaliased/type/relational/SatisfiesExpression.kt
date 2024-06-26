@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.EVERY
-import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
@@ -70,7 +70,7 @@ fun <T : ValidType> TypeExpression<ArrayType<T>>.any(
 fun <T : ValidType> Collection<TypeExpression<T>>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-): AnySatisfiesExpression<T> = AnySatisfiesExpression(toArrayType(), variable, predicate)
+): AnySatisfiesExpression<T> = AnySatisfiesExpression(toDopeType(), variable, predicate)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
@@ -80,4 +80,4 @@ fun <T : ValidType> TypeExpression<ArrayType<T>>.every(
 fun <T : ValidType> Collection<TypeExpression<T>>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-): EverySatisfiesExpression<T> = EverySatisfiesExpression(toArrayType(), variable, predicate)
+): EverySatisfiesExpression<T> = EverySatisfiesExpression(toDopeType(), variable, predicate)

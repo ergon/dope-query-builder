@@ -6,8 +6,7 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -30,7 +29,7 @@ class UseClauseTest {
                 someBucket(),
             )
             .useKeys(
-                "someId".toStringType(),
+                "someId".toDopeType(),
             )
             .build().queryString
 
@@ -64,7 +63,7 @@ class UseClauseTest {
                 someBucket(),
             )
             .useKeys(
-                listOf("someId".toStringType(), "anotherId".toStringType()).toArrayType(),
+                listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -96,7 +95,7 @@ class UseClauseTest {
                 someBucket(),
             )
             .useKeys(
-                "someId".toStringType(),
+                "someId".toDopeType(),
             )
             .where(
                 someNumberField().isEqualTo(1),
@@ -131,7 +130,7 @@ class UseClauseTest {
                 someBucket(),
             )
             .useKeys(
-                "someId".toStringType(),
+                "someId".toDopeType(),
             )
             .build().queryString
 
@@ -163,7 +162,7 @@ class UseClauseTest {
                 someBucket(),
             )
             .useKeys(
-                listOf("someId".toStringType(), "anotherId".toStringType()).toArrayType(),
+                listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -193,7 +192,7 @@ class UseClauseTest {
                 someBucket(),
             )
             .useKeys(
-                "someId".toStringType(),
+                "someId".toDopeType(),
             )
             .where(
                 someNumberField().isEqualTo(1),

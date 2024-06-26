@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithBrackets
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.NumberType
@@ -38,43 +38,43 @@ fun TypeExpression<NumberType>.mod(numberExpression: TypeExpression<NumberType>)
     NumberInfixExpression(this, "%", numberExpression)
 
 fun TypeExpression<NumberType>.add(number: Number): NumberInfixExpression =
-    add(number.toNumberType())
+    add(number.toDopeType())
 
 fun Number.add(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().add(numberExpression)
+    this.toDopeType().add(numberExpression)
 
 fun Number.add(number: Number): NumberInfixExpression =
-    this.toNumberType().add(number.toNumberType())
+    this.toDopeType().add(number.toDopeType())
 
 fun TypeExpression<NumberType>.sub(number: Number): NumberInfixExpression =
-    sub(number.toNumberType())
+    sub(number.toDopeType())
 
 fun Number.sub(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().sub(numberExpression)
+    this.toDopeType().sub(numberExpression)
 
 fun Number.sub(number: Number): NumberInfixExpression =
-    this.toNumberType().sub(number.toNumberType())
+    this.toDopeType().sub(number.toDopeType())
 
 fun TypeExpression<NumberType>.mul(number: Number): NumberInfixExpression =
-    mul(number.toNumberType())
+    mul(number.toDopeType())
 
 fun Number.mul(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().mul(numberExpression)
+    this.toDopeType().mul(numberExpression)
 
 fun Number.mul(number: Number): NumberInfixExpression =
-    this.toNumberType().mul(number.toNumberType())
+    this.toDopeType().mul(number.toDopeType())
 
 fun TypeExpression<NumberType>.div(number: Number): NumberInfixExpression =
-    div(number.toNumberType())
+    div(number.toDopeType())
 
 fun Number.div(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().div(numberExpression)
+    this.toDopeType().div(numberExpression)
 
 fun TypeExpression<NumberType>.mod(number: Number): NumberInfixExpression =
-    mod(number.toNumberType())
+    mod(number.toDopeType())
 
 fun Number.mod(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().mod(numberExpression)
+    this.toDopeType().mod(numberExpression)
 
 fun Number.mod(number: Number): NumberInfixExpression =
-    this.toNumberType().mod(number.toNumberType())
+    this.toDopeType().mod(number.toDopeType())
