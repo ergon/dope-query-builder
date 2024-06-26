@@ -48,7 +48,7 @@ sealed class SatisfiesExpression<T : ValidType>(
 }
 
 class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> {
-    override fun toDopeQuery(): DopeQuery = DopeQuery(
+    override fun toDopeQuery() = DopeQuery(
         queryString = "`$variable`",
         parameters = emptyMap(),
     )
