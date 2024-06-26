@@ -30,11 +30,7 @@ sealed class SatisfiesSchemaExpression<S : Schema>(
     private val predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(): DopeQuery {
-        val iteratorVariable = if (variable == DEFAULT_ITERATOR_VARIABLE) {
-            variable + IteratorManager.count
-        } else {
-            variable
-        }
+        val iteratorVariable = if (variable == DEFAULT_ITERATOR_VARIABLE) variable + IteratorManager.count else variable
         val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, list.schema)).toDopeQuery()
 
         return DopeQuery(
