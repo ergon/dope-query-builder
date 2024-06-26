@@ -2,8 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ComparableType
@@ -21,19 +20,19 @@ fun <T : ComparableType> TypeExpression<T>.isGreaterThan(right: TypeExpression<T
     GreaterThanExpression(this, right)
 
 fun TypeExpression<NumberType>.isGreaterThan(right: Number): GreaterThanExpression<NumberType> =
-    isGreaterThan(right.toNumberType())
+    isGreaterThan(right.toDopeType())
 
 fun Number.isGreaterThan(right: TypeExpression<NumberType>): GreaterThanExpression<NumberType> =
-    this.toNumberType().isGreaterThan(right)
+    this.toDopeType().isGreaterThan(right)
 
 fun Number.isGreaterThan(right: Number): GreaterThanExpression<NumberType> =
-    this.toNumberType().isGreaterThan(right.toNumberType())
+    this.toDopeType().isGreaterThan(right.toDopeType())
 
 fun TypeExpression<StringType>.isGreaterThan(right: String): GreaterThanExpression<StringType> =
-    isGreaterThan(right.toStringType())
+    isGreaterThan(right.toDopeType())
 
 fun String.isGreaterThan(right: TypeExpression<StringType>): GreaterThanExpression<StringType> =
-    this.toStringType().isGreaterThan(right)
+    this.toDopeType().isGreaterThan(right)
 
 fun String.isGreaterThan(right: String): GreaterThanExpression<StringType> =
-    this.toStringType().isGreaterThan(right.toStringType())
+    this.toDopeType().isGreaterThan(right.toDopeType())

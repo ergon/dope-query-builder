@@ -1,40 +1,40 @@
 package ch.ergon.dope.extension.type.logical
 
-import ch.ergon.dope.asField
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.LogicalInfixExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import com.schwarz.crystalapi.schema.CMField
 
 fun TypeExpression<BooleanType>.or(boolean: CMField<Boolean>): LogicalInfixExpression =
-    or(boolean.asField())
+    or(boolean.toDopeType())
 
 fun CMField<Boolean>.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    asField().or(booleanExpression)
+    toDopeType().or(booleanExpression)
 
 fun CMField<Boolean>.or(boolean: Boolean): LogicalInfixExpression =
-    asField().or(boolean.toBooleanType())
+    toDopeType().or(boolean.toDopeType())
 
 fun CMField<Boolean>.or(boolean: CMField<Boolean>): LogicalInfixExpression =
-    asField().or(boolean.asField())
+    toDopeType().or(boolean.toDopeType())
 
 fun Boolean.or(booleanExpression: CMField<Boolean>): LogicalInfixExpression =
-    toBooleanType().or(booleanExpression.asField())
+    toDopeType().or(booleanExpression.toDopeType())
 
 fun TypeExpression<BooleanType>.and(boolean: CMField<Boolean>): LogicalInfixExpression =
-    and(boolean.asField())
+    and(boolean.toDopeType())
 
 fun CMField<Boolean>.and(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    asField().and(booleanExpression)
+    toDopeType().and(booleanExpression)
 
 fun CMField<Boolean>.and(boolean: Boolean): LogicalInfixExpression =
-    asField().and(boolean.toBooleanType())
+    toDopeType().and(boolean.toDopeType())
 
 fun CMField<Boolean>.and(boolean: CMField<Boolean>): LogicalInfixExpression =
-    asField().and(boolean.asField())
+    toDopeType().and(boolean.toDopeType())
 
 fun Boolean.and(booleanExpression: CMField<Boolean>): LogicalInfixExpression =
-    toBooleanType().and(booleanExpression.asField())
+    toDopeType().and(booleanExpression.toDopeType())

@@ -1,7 +1,6 @@
 package ch.ergon.dope.resolvable
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,7 +31,7 @@ class QueryStringBuilderTest {
     @Test
     fun `should format symbol with arguments`() {
         val symbol = "testsymbol"
-        val arguments = arrayOf(1.toNumberType(), "hallo".toStringType())
+        val arguments = arrayOf(1.toDopeType(), "hallo".toDopeType())
         val expected = "$symbol ${arguments.joinToString(", ") { it.toDopeQuery().queryString }}"
 
         val actual = formatToQueryString(symbol, *arguments.map { it.toDopeQuery().queryString }.toTypedArray())
@@ -55,7 +54,7 @@ class QueryStringBuilderTest {
     @Test
     fun `should format symbol with arguments and brackets`() {
         val symbol = "testsymbol"
-        val arguments = arrayOf(1.toNumberType(), "hallo".toStringType())
+        val arguments = arrayOf(1.toDopeType(), "hallo".toDopeType())
         val expected = "$symbol(${arguments.joinToString(", ") { it.toDopeQuery().queryString }})"
 
         val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toDopeQuery().queryString }.toTypedArray())

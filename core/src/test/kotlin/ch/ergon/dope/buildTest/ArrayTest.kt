@@ -15,10 +15,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -38,7 +35,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                listOf(someStringField("fname", person), someStringField()).toArrayType(),
+                listOf(someStringField("fname", person), someStringField()).toDopeType(),
             ).from(
                 person,
             ).build().queryString
@@ -53,8 +50,8 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                listOf(someStringField()).toArrayType(),
-                listOf(someStringField()).toArrayType(),
+                listOf(someStringField()).toDopeType(),
+                listOf(someStringField()).toDopeType(),
             ).from(
                 person,
             ).build().queryString
@@ -70,13 +67,13 @@ class ArrayTest {
         val actual: String = create
             .select(
                 listOf(
-                    "test".toStringType(),
-                    53.toNumberType(),
+                    "test".toDopeType(),
+                    53.toDopeType(),
                     TRUE,
                     someStringField(),
                     someNumberField("age", person),
                     someBooleanField(),
-                ).toArrayType(),
+                ).toDopeType(),
             ).from(
                 person,
             ).build().queryString
@@ -91,7 +88,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                listOf(someStringField()).toArrayType().alias("test"),
+                listOf(someStringField()).toDopeType().alias("test"),
             ).from(
                 person,
             ).build().queryString
@@ -106,8 +103,8 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                listOf(someStringField()).toArrayType().alias("fname"),
-                listOf(someStringField()).toArrayType().alias("true"),
+                listOf(someStringField()).toDopeType().alias("fname"),
+                listOf(someStringField()).toDopeType().alias("true"),
             ).from(
                 person,
             ).build().queryString
@@ -127,10 +124,10 @@ class ArrayTest {
                     listOf(
                         someNumberField("age", person),
                         TRUE,
-                        "string".toStringType(),
-                    ).toArrayType(),
-                    23.toNumberType(),
-                ).toArrayType().alias("test"),
+                        "string".toDopeType(),
+                    ).toDopeType(),
+                    23.toDopeType(),
+                ).toDopeType().alias("test"),
             ).from(
                 person,
             ).build().queryString
@@ -146,9 +143,9 @@ class ArrayTest {
         val actual: String = create
             .select(
                 listOf(
-                    "string".toStringType(),
-                    "hallo".toStringType(),
-                ).toArrayType(),
+                    "string".toDopeType(),
+                    "hallo".toDopeType(),
+                ).toDopeType(),
             ).from(
                 person,
             ).build().queryString
@@ -164,10 +161,10 @@ class ArrayTest {
         val actual: String = create
             .select(
                 listOf(
-                    concat("string".toStringType(), someStringField()),
-                    "hallo".toStringType(),
-                ).toArrayType().alias("test"),
-                23.toNumberType(),
+                    concat("string".toDopeType(), someStringField()),
+                    "hallo".toDopeType(),
+                ).toDopeType().alias("test"),
+                23.toDopeType(),
             ).from(
                 person,
             ).build().queryString
@@ -185,7 +182,7 @@ class ArrayTest {
                 TRUE.inArray(
                     listOf(
                         FALSE,
-                    ).toArrayType(),
+                    ).toDopeType(),
                 ),
             ).from(
                 person,
@@ -204,7 +201,7 @@ class ArrayTest {
                 TRUE.inArray(
                     listOf(
                         FALSE,
-                    ).toArrayType(),
+                    ).toDopeType(),
                 ).alias("test"),
             ).from(
                 person,
@@ -222,7 +219,7 @@ class ArrayTest {
                 true.inArray(
                     listOf(
                         FALSE,
-                        true.toBooleanType(),
+                        true.toDopeType(),
                     ),
                 ).alias("test"),
             ).from(
@@ -241,7 +238,7 @@ class ArrayTest {
                 "test".inArray(
                     listOf(
                         someStringField(),
-                        "string".toStringType(),
+                        "string".toDopeType(),
                     ),
                 ).alias("test"),
             ).from(
@@ -260,7 +257,7 @@ class ArrayTest {
                 3.inArray(
                     listOf(
                         someNumberField(),
-                        23.toNumberType(),
+                        23.toDopeType(),
                     ),
                 ).alias("test"),
             ).from(
@@ -278,7 +275,7 @@ class ArrayTest {
             .select(
                 someNumberField().inArray(
                     listOf(
-                        23.toNumberType(),
+                        23.toDopeType(),
                     ),
                 ).alias("test"),
             ).from(
@@ -299,9 +296,9 @@ class ArrayTest {
             ).where(
                 someStringField().inArray(
                     listOf(
-                        "string".toStringType(),
-                        "hallo".toStringType(),
-                    ).toArrayType(),
+                        "string".toDopeType(),
+                        "hallo".toDopeType(),
+                    ).toDopeType(),
                 ),
             ).build().queryString
 
@@ -314,7 +311,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                someNumberArrayField().get(0.toNumberType()),
+                someNumberArrayField().get(0.toDopeType()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -328,7 +325,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                someNumberArrayField().get(1.toNumberType().add(1)),
+                someNumberArrayField().get(1.toDopeType().add(1)),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -342,7 +339,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                someNumberArrayField().get((-1).toNumberType()),
+                someNumberArrayField().get((-1).toDopeType()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -356,7 +353,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                someStringArrayField().get(someNumberArrayField().get(0.toNumberType())),
+                someStringArrayField().get(someNumberArrayField().get(0.toDopeType())),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -372,7 +369,7 @@ class ArrayTest {
             .selectAsterisk().from(
                 someBucket(),
             ).where(
-                someNumberArrayField().get(0.toNumberType()).isEqualTo(1),
+                someNumberArrayField().get(0.toDopeType()).isEqualTo(1),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -386,7 +383,7 @@ class ArrayTest {
             .selectAsterisk().from(
                 someBucket(),
             ).offset(
-                someNumberArrayField().get(0.toNumberType()),
+                someNumberArrayField().get(0.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -400,7 +397,7 @@ class ArrayTest {
             .selectAsterisk().from(
                 someBucket(),
             ).limit(
-                someNumberArrayField().get(0.toNumberType()),
+                someNumberArrayField().get(0.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)

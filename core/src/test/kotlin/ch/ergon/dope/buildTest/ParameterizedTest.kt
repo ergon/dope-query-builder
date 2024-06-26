@@ -9,8 +9,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -34,7 +33,7 @@ class ParameterizedTest {
     fun `should get one parameter as result`() {
         val parameter = 1.asParameter("test")
 
-        val parameters = create.select(parameter.isEqualTo(1.toNumberType())).build().parameters
+        val parameters = create.select(parameter.isEqualTo(1.toDopeType())).build().parameters
 
         assertEquals(1, parameters.size)
     }
@@ -146,7 +145,7 @@ class ParameterizedTest {
         val parameterValue = 3
         val parameter = parameterValue.asParameter()
 
-        val parameters = create.select(listOf(parameter).toArrayType()).build().parameters
+        val parameters = create.select(listOf(parameter).toDopeType()).build().parameters
 
         assertEquals(parameterValue, parameters["$1"])
         assertEquals(1, parameters.size)

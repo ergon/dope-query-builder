@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -20,7 +20,7 @@ class InitCapExpression(
 
 fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
 
-fun initCap(inStr: String): InitCapExpression = initCap(inStr.toStringType())
+fun initCap(inStr: String): InitCapExpression = initCap(inStr.toDopeType())
 
 fun title(inStr: String) = initCap(inStr)
 

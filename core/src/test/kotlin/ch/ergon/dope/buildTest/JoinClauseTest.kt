@@ -10,8 +10,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.min
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -44,7 +43,7 @@ class JoinClauseTest {
                 ),
             ).where(
                 someStringField("country", airline).isEqualTo(
-                    "France".toStringType(),
+                    "France".toDopeType(),
                 ),
             ).build().queryString
 
@@ -66,7 +65,7 @@ class JoinClauseTest {
                     meta(airline).id,
                 ),
             ).where(
-                someStringField("sourceairport", route).isEqualTo("SFO".toStringType()),
+                someStringField("sourceairport", route).isEqualTo("SFO".toDopeType()),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -90,7 +89,7 @@ class JoinClauseTest {
                 ),
             ).where(
                 someStringField("sourceairport", route).isEqualTo(
-                    "SFO".toStringType(),
+                    "SFO".toDopeType(),
                 ),
             ).build().queryString
 
@@ -119,7 +118,7 @@ class JoinClauseTest {
             ),
         ).where(
             someStringField("destinationairport", route).isEqualTo(
-                "SFO".toStringType(),
+                "SFO".toDopeType(),
             ),
         ).orderBy(
             someStringField("sourceairport"),
@@ -167,7 +166,7 @@ class JoinClauseTest {
                 someStringField("city", lmark),
             ).and(
                 someStringField("country", lmark).isEqualTo(
-                    "United States".toStringType(),
+                    "United States".toDopeType(),
                 ),
             ),
         ).groupBy(
@@ -217,7 +216,7 @@ class JoinClauseTest {
                 someStringField("city", lmark),
             ).and(
                 someStringField("country", lmark).isEqualTo(
-                    "United States".toStringType(),
+                    "United States".toDopeType(),
                 ),
             ),
         ).groupBy(
@@ -225,7 +224,7 @@ class JoinClauseTest {
         ).orderBy(
             someStringField("airportname", aport),
         ).limit(
-            4.toNumberType(),
+            4.toDopeType(),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -264,10 +263,10 @@ class JoinClauseTest {
             onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("sourceairport", route).isEqualTo(
-                "SFO".toStringType(),
+                "SFO".toDopeType(),
             ).and(
                 someNumberField("stops", route).isEqualTo(
-                    0.toNumberType(),
+                    0.toDopeType(),
                 ),
             ),
         ).limit(
@@ -296,10 +295,10 @@ class JoinClauseTest {
             onKeys = someStringField("airlineid", route),
         ).where(
             someStringField("destinationairport", route).isEqualTo(
-                "ATL".toStringType(),
+                "ATL".toDopeType(),
             ).and(
                 someStringField("sourceairport", route).isEqualTo(
-                    "SEA".toStringType(),
+                    "SEA".toDopeType(),
                 ),
             ),
         ).build().queryString
@@ -326,7 +325,7 @@ class JoinClauseTest {
             airline,
             onKeys = someStringField("airlineid", route),
         ).where(
-            someStringField("icao", airline).isEqualTo("SWA".toStringType()),
+            someStringField("icao", airline).isEqualTo("SWA".toDopeType()),
         ).limit(
             4,
         ).build().queryString
@@ -335,30 +334,54 @@ class JoinClauseTest {
     }
 
     @Test
-    fun `Use INDEX right join to flip the direction`() {
-        val expected = "SELECT DISTINCT `route`.`destinationairport`, " +
-            "`route`.`stops`, `route`.`airline`, `airline`.`name`, `airline`.`callsign` " +
-            "FROM `route` RIGHT JOIN `airline` ON KEYS `route`.`airlineid` " +
-            "WHERE `airline`.`icao` = \"SWA\" LIMIT 4"
+    fun `Use INDEX join to flip the direction with on key for`() {
+        val expected = "SELECT * FROM `airline` JOIN `route` ON KEY `route`.`airlineid` FOR `airline`"
 
-        val actual = create.selectDistinct(
-            someStringField("destinationairport", route),
-            someStringField("stops", route),
-            someStringField("airline", route),
-            someStringField("name", airline),
-            someStringField("callsign", airline),
-        ).from(
-            route,
-        ).rightJoin(
-            airline,
-            onKeys = someStringField("airlineid", route),
-        ).where(
-            someStringField("icao", airline).isEqualTo("SWA".toStringType()),
-        ).limit(
-            4,
-        ).build().queryString
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                airline,
+            ).join(
+                route,
+                onKey = someStringField("airlineid", route),
+                forBucket = airline,
+            ).build().queryString
 
-        assertEquals(unifyString(expected), actual)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Use INDEX inner join to flip the direction with on key for`() {
+        val expected = "SELECT * FROM `airline` INNER JOIN `route` ON KEY `route`.`airlineid` FOR `airline`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                airline,
+            ).innerJoin(
+                route,
+                onKey = someStringField("airlineid", route),
+                forBucket = airline,
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Use INDEX left join to flip the direction with on key for`() {
+        val expected = "SELECT * FROM `airline` LEFT JOIN `route` ON KEY `route`.`airlineid` FOR `airline`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                airline,
+            ).leftJoin(
+                route,
+                onKey = someStringField("airlineid", route),
+                forBucket = airline,
+            ).build().queryString
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -422,7 +445,7 @@ class JoinClauseTest {
             airline,
             onKeys = someStringField("airlineid", route),
         ).where(
-            someStringField("icao", airline).isEqualTo("SWA".toStringType()),
+            someStringField("icao", airline).isEqualTo("SWA".toDopeType()),
         ).limit(
             4,
         ).build().queryString

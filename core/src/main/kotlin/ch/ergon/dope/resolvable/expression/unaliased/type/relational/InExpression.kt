@@ -2,10 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toArrayType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -24,22 +21,22 @@ fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<ArrayType<T>
     InExpression(this, array)
 
 fun Number.inArray(array: TypeExpression<ArrayType<NumberType>>): InExpression<NumberType> =
-    toNumberType().inArray(array)
+    toDopeType().inArray(array)
 
 fun String.inArray(array: TypeExpression<ArrayType<StringType>>): InExpression<StringType> =
-    toStringType().inArray(array)
+    toDopeType().inArray(array)
 
 fun Boolean.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression<BooleanType> =
-    toBooleanType().inArray(array)
+    toDopeType().inArray(array)
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: Collection<TypeExpression<T>>): InExpression<T> =
-    this.inArray(array.toArrayType())
+    this.inArray(array.toDopeType())
 
 fun Number.inArray(array: Collection<TypeExpression<NumberType>>): InExpression<NumberType> =
-    inArray(array.toArrayType())
+    inArray(array.toDopeType())
 
 fun String.inArray(array: Collection<TypeExpression<StringType>>): InExpression<StringType> =
-    inArray(array.toArrayType())
+    inArray(array.toDopeType())
 
 fun Boolean.inArray(array: Collection<TypeExpression<BooleanType>>): InExpression<BooleanType> =
-    inArray(array.toArrayType())
+    inArray(array.toDopeType())
