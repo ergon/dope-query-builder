@@ -47,4 +47,4 @@ fun CMList<Boolean>.asArrayField(): Field<ArrayType<BooleanType>> = Field(name, 
 fun CMList<out Any>.asArrayField(): Field<ArrayType<ValidType>> = Field(name, path)
 
 // TODO: DOPE-192
-fun CMObjectList<Schema>.asSchemaArray() = DopeSchemaArray(element, formatPathToQueryString(name, path))
+fun <T : Schema> CMObjectList<T>.asSchemaArray() = DopeSchemaArray(element, formatPathToQueryString(name, path))
