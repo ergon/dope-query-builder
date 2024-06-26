@@ -15,7 +15,7 @@ class CrystalMapAdapter {
     fun `should convert CMField with Number`() {
         val cmField = CMField<Number>("testName", "testPath")
 
-        val actual: Field<NumberType> = cmField.toDopeField()
+        val actual: Field<NumberType> = cmField.toDopeType()
 
         assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery().queryString)
     }
@@ -24,7 +24,7 @@ class CrystalMapAdapter {
     fun `should convert CMField with String`() {
         val cmField = CMField<String>("testName", "testPath")
 
-        val actual: Field<StringType> = cmField.toDopeField()
+        val actual: Field<StringType> = cmField.toDopeType()
 
         assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery().queryString)
     }
@@ -33,7 +33,7 @@ class CrystalMapAdapter {
     fun `should convert CMField with Boolean`() {
         val cmField = CMField<Boolean>("testName", "testPath")
 
-        val actual: Field<BooleanType> = cmField.toDopeField()
+        val actual: Field<BooleanType> = cmField.toDopeType()
 
         assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery().queryString)
     }
@@ -42,7 +42,7 @@ class CrystalMapAdapter {
     fun `should convert CMList string`() {
         val cmList = CMList<String>("testName", "testPath")
 
-        val actual: Field<ArrayType<StringType>> = cmList.toDopeArrayField()
+        val actual: Field<ArrayType<StringType>> = cmList.toDopeType()
 
         assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
     }
@@ -51,7 +51,7 @@ class CrystalMapAdapter {
     fun `should convert CMList number`() {
         val cmList = CMList<Number>("testName", "testPath")
 
-        val actual: Field<ArrayType<NumberType>> = cmList.toDopeArrayField()
+        val actual: Field<ArrayType<NumberType>> = cmList.toDopeType()
 
         assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
     }
@@ -60,7 +60,7 @@ class CrystalMapAdapter {
     fun `should convert CMList boolean`() {
         val cmList = CMList<Boolean>("testName", "testPath")
 
-        val actual: Field<ArrayType<BooleanType>> = cmList.toDopeArrayField()
+        val actual: Field<ArrayType<BooleanType>> = cmList.toDopeType()
 
         assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
     }

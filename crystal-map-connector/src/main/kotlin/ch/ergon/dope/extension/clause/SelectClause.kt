@@ -13,40 +13,39 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.toDopeArrayField
-import ch.ergon.dope.toDopeField
+import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 import com.schwarz.crystalapi.schema.CMType
 
-fun ISelectLimitClause.offset(numberField: CMField<Number>): SelectOffsetClause = offset(numberField.toDopeField())
+fun ISelectLimitClause.offset(numberField: CMField<Number>): SelectOffsetClause = offset(numberField.toDopeType())
 
-fun ISelectOrderByClause.limit(numberField: CMField<Number>): SelectLimitClause = limit(numberField.toDopeField())
+fun ISelectOrderByClause.limit(numberField: CMField<Number>): SelectLimitClause = limit(numberField.toDopeType())
 
-fun ISelectGroupByClause.orderBy(stringField: CMField<String>): SelectOrderByClause = orderBy(stringField.toDopeField())
+fun ISelectGroupByClause.orderBy(stringField: CMField<String>): SelectOrderByClause = orderBy(stringField.toDopeType())
 
 fun ISelectGroupByClause.orderBy(stringField: CMField<String>, orderByType: OrderByType): SelectOrderByClause =
-    orderBy(stringField.toDopeField(), orderByType)
+    orderBy(stringField.toDopeType(), orderByType)
 
 fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType): GroupByClause =
-    groupBy(field.toDopeField(), *fields.map { it.toDopeField() }.toTypedArray())
+    groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
-fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.toDopeField())
+fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.toDopeType())
 
-fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMField<out Any>) = join(bucket, onKeys.toDopeField())
-fun ISelectJoinClause.join(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = join(bucket, onKey.toDopeField(), forBucket)
+fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMField<out Any>) = join(bucket, onKeys.toDopeType())
+fun ISelectJoinClause.join(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = join(bucket, onKey.toDopeType(), forBucket)
 
-fun ISelectJoinClause.innerJoin(bucket: Bucket, onKeys: CMField<out Any>) = innerJoin(bucket, onKeys.toDopeField())
-fun ISelectJoinClause.innerJoin(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = innerJoin(bucket, onKey.toDopeField(), forBucket)
+fun ISelectJoinClause.innerJoin(bucket: Bucket, onKeys: CMField<out Any>) = innerJoin(bucket, onKeys.toDopeType())
+fun ISelectJoinClause.innerJoin(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = innerJoin(bucket, onKey.toDopeType(), forBucket)
 
-fun ISelectJoinClause.leftJoin(bucket: Bucket, onKeys: CMField<out Any>) = leftJoin(bucket, onKeys.toDopeField())
-fun ISelectJoinClause.leftJoin(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = leftJoin(bucket, onKey.toDopeField(), forBucket)
+fun ISelectJoinClause.leftJoin(bucket: Bucket, onKeys: CMField<out Any>) = leftJoin(bucket, onKeys.toDopeType())
+fun ISelectJoinClause.leftJoin(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = leftJoin(bucket, onKey.toDopeType(), forBucket)
 
 @JvmName("unnestString")
-fun ISelectUnnestClause.unnest(arrayField: CMList<String>) = unnest(arrayField.toDopeArrayField())
+fun ISelectUnnestClause.unnest(arrayField: CMList<String>) = unnest(arrayField.toDopeType())
 
 @JvmName("unnestNumber")
-fun ISelectUnnestClause.unnest(arrayField: CMList<Number>) = unnest(arrayField.toDopeArrayField())
+fun ISelectUnnestClause.unnest(arrayField: CMList<Number>) = unnest(arrayField.toDopeType())
 
 @JvmName("unnestBoolean")
-fun ISelectUnnestClause.unnest(arrayField: CMList<Boolean>) = unnest(arrayField.toDopeArrayField())
+fun ISelectUnnestClause.unnest(arrayField: CMList<Boolean>) = unnest(arrayField.toDopeType())

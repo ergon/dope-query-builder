@@ -13,30 +13,30 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.median
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.stdDev
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.sum
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.variance
-import ch.ergon.dope.toDopeField
+import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("avgNumber")
 fun avg(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
-    AverageExpression<out NumberType> = avg(field.toDopeField(), quantifier)
+    AverageExpression<out NumberType> = avg(field.toDopeType(), quantifier)
 
 @JvmName("meanNumber")
 fun mean(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
-    MeanExpression<out NumberType> = mean(field.toDopeField(), quantifier)
+    MeanExpression<out NumberType> = mean(field.toDopeType(), quantifier)
 
 @JvmName("medianNumber")
 fun median(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
-    MedianExpression<out NumberType> = median(field.toDopeField(), quantifier)
+    MedianExpression<out NumberType> = median(field.toDopeType(), quantifier)
 
 @JvmName("sumNumber")
 fun sum(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
-    SumExpression<out NumberType> = sum(field.toDopeField(), quantifier)
+    SumExpression<out NumberType> = sum(field.toDopeType(), quantifier)
 
 @JvmName("stdDevNumber")
 fun stdDev(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
-    StandardDeviationExpression<out NumberType> = stdDev(field.toDopeField(), quantifier)
+    StandardDeviationExpression<out NumberType> = stdDev(field.toDopeType(), quantifier)
 
 @JvmName("varianceNumber")
 fun variance(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
-    VarianceExpression<out NumberType> = variance(field.toDopeField(), quantifier)
+    VarianceExpression<out NumberType> = variance(field.toDopeType(), quantifier)
