@@ -33,11 +33,7 @@ sealed class SatisfiesExpression<T : ValidType>(
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(): DopeQuery {
         val listDopeQuery = list.toDopeQuery()
-        val iteratorVariable = if (variable == DEFAULT_ITERATOR_VARIABLE) {
-            variable + IteratorManager.count
-        } else {
-            variable
-        }
+        val iteratorVariable = if (variable == DEFAULT_ITERATOR_VARIABLE) variable + IteratorManager.count else variable
 
         val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery()
         return DopeQuery(
