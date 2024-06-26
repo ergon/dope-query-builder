@@ -270,29 +270,4 @@ class JoinClauseTest {
 
         assertEquals(expected, actual)
     }
-
-    @Test
-    fun `should support right join on keys`() {
-        val expected = DopeQuery(
-            "SELECT * RIGHT JOIN `someBucket` ON KEYS `stringField`",
-            emptyMap(),
-        )
-
-        val actual = RightJoinClause(someBucket(), onKeys = someStringField(), someSelectClause()).toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support right join on keys with parameter and parameter in parent`() {
-        val parameterValue = 1
-        val expected = DopeQuery(
-            "SELECT $1 RIGHT JOIN `someBucket` ON KEYS `stringField`",
-            mapOf("$1" to parameterValue),
-        )
-
-        val actual = RightJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
 }

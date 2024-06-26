@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
 class MultiplicationExpression(left: TypeExpression<NumberType>, right: TypeExpression<NumberType>) :
@@ -11,10 +11,10 @@ fun TypeExpression<NumberType>.mul(numberExpression: TypeExpression<NumberType>)
     MultiplicationExpression(this, numberExpression)
 
 fun TypeExpression<NumberType>.mul(number: Number): NumberInfixExpression =
-    mul(number.toNumberType())
+    mul(number.toDopeType())
 
 fun Number.mul(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().mul(numberExpression)
+    this.toDopeType().mul(numberExpression)
 
 fun Number.mul(number: Number): NumberInfixExpression =
-    this.toNumberType().mul(number.toNumberType())
+    this.toDopeType().mul(number.toDopeType())

@@ -39,4 +39,3 @@ private fun getBucketName(bucket: Bucket): String = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
 }
-

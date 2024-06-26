@@ -8,8 +8,8 @@ import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someDelete
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class DeleteClauseTest {
     @Test

@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 
 class OrExpression(
@@ -13,7 +13,7 @@ fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType
     OrExpression(this, booleanExpression)
 
 fun TypeExpression<BooleanType>.or(boolean: Boolean): LogicalInfixExpression =
-    this.or(boolean.toBooleanType())
+    this.or(boolean.toDopeType())
 
 fun Boolean.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    this.toBooleanType().or(booleanExpression)
+    this.toDopeType().or(booleanExpression)

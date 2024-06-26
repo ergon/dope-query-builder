@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
 class ModuloExpression(left: TypeExpression<NumberType>, right: TypeExpression<NumberType>) :
@@ -11,10 +11,10 @@ fun TypeExpression<NumberType>.mod(numberExpression: TypeExpression<NumberType>)
     ModuloExpression(this, numberExpression)
 
 fun TypeExpression<NumberType>.mod(number: Number): NumberInfixExpression =
-    ModuloExpression(this, number.toNumberType())
+    ModuloExpression(this, number.toDopeType())
 
 fun Number.mod(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toNumberType().mod(numberExpression)
+    this.toDopeType().mod(numberExpression)
 
 fun Number.mod(number: Number): NumberInfixExpression =
-    this.toNumberType().mod(number.toNumberType())
+    this.toDopeType().mod(number.toDopeType())

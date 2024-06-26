@@ -7,8 +7,8 @@ import ch.ergon.dope.extension.selectRaw
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringList
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class QueryBuilderTest {
     @Test

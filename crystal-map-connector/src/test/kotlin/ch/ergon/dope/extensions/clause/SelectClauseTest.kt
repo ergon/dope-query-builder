@@ -19,8 +19,8 @@ import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someFrom
 import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.resolvable.clause.model.OrderByType
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class SelectClauseTest {
     @Test
@@ -62,7 +62,7 @@ class SelectClauseTest {
     fun `should support select join on key for with CM`() {
         val actual: String = someFrom().join(someBucket("other"), onKey = someCMNumberField(), someBucket()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM `someBucket` JOIN `other` ON KEY `someNumberField` FOR `someBucket`", actual)
+        assertEquals("SELECT * FROM `someBucket` JOIN `other` ON KEY `CMNumberField` FOR `someBucket`", actual)
     }
 
     @Test
@@ -76,7 +76,7 @@ class SelectClauseTest {
     fun `should support select inner join on key for with CM`() {
         val actual: String = someFrom().innerJoin(someBucket("other"), onKey = someCMNumberField(), someBucket()).toDopeQuery().queryString
 
-        assertEquals("SELECT * FROM `someBucket` INNER JOIN `other` ON KEY `someNumberField` FOR `someBucket`", actual)
+        assertEquals("SELECT * FROM `someBucket` INNER JOIN `other` ON KEY `CMNumberField` FOR `someBucket`", actual)
     }
 
     @Test

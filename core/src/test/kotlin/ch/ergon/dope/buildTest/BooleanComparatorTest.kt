@@ -22,9 +22,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import kotlin.test.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class BooleanComparatorTest {
     private lateinit var builder: StringBuilder
@@ -331,7 +331,7 @@ class BooleanComparatorTest {
                 someStringField("email").isNotLike("%@yahoo.com"),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -436,7 +436,7 @@ class BooleanComparatorTest {
                 12.toDopeType().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -450,7 +450,7 @@ class BooleanComparatorTest {
                 12.isNotEqualTo(5),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -464,7 +464,7 @@ class BooleanComparatorTest {
                 12.toDopeType().isNotEqualTo(5),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -478,7 +478,7 @@ class BooleanComparatorTest {
                 12.isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -492,7 +492,7 @@ class BooleanComparatorTest {
                 someNumberField().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -506,7 +506,7 @@ class BooleanComparatorTest {
                 3.toDopeType().isNotEqualTo(someNumberField()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -520,7 +520,7 @@ class BooleanComparatorTest {
                 "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -534,7 +534,7 @@ class BooleanComparatorTest {
                 someStringField().isNotEqualTo("5".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -548,7 +548,7 @@ class BooleanComparatorTest {
                 12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -562,7 +562,7 @@ class BooleanComparatorTest {
                 12.isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -576,7 +576,7 @@ class BooleanComparatorTest {
                 12.toDopeType().isGreaterOrEqualThan(5),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -590,7 +590,7 @@ class BooleanComparatorTest {
                 "hallo".isGreaterOrEqualThan("test".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -604,7 +604,7 @@ class BooleanComparatorTest {
                 someStringField().isGreaterOrEqualThan("test"),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -618,7 +618,7 @@ class BooleanComparatorTest {
                 someNumberField().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -632,7 +632,7 @@ class BooleanComparatorTest {
                 3.toDopeType().isGreaterOrEqualThan(someNumberField()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -646,7 +646,7 @@ class BooleanComparatorTest {
                 "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -660,7 +660,7 @@ class BooleanComparatorTest {
                 someStringField().isGreaterOrEqualThan("5".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -674,7 +674,7 @@ class BooleanComparatorTest {
                 "test".toDopeType().isGreaterOrEqualThan(someStringField()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -688,7 +688,7 @@ class BooleanComparatorTest {
                 12.toDopeType().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -702,7 +702,7 @@ class BooleanComparatorTest {
                 someNumberField().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -716,7 +716,7 @@ class BooleanComparatorTest {
                 3.toDopeType().isLessOrEqualThan(someNumberField()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -730,7 +730,7 @@ class BooleanComparatorTest {
                 "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -744,7 +744,7 @@ class BooleanComparatorTest {
                 someStringField().isLessOrEqualThan("5".toDopeType()),
             ).build().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -762,7 +762,7 @@ class BooleanComparatorTest {
             ),
         ).build().queryString
 
-        kotlin.test.assertEquals(unifyString(expected), actual)
+        assertEquals(unifyString(expected), actual)
     }
 
     @Test
@@ -782,7 +782,7 @@ class BooleanComparatorTest {
             ),
         ).build().queryString
 
-        kotlin.test.assertEquals(unifyString(expected), actual)
+        assertEquals(unifyString(expected), actual)
     }
 
     @Test
@@ -791,7 +791,7 @@ class BooleanComparatorTest {
 
         val actual: String = 5.isEqualTo(5).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -801,7 +801,7 @@ class BooleanComparatorTest {
 
         val actual: String = 5.isEqualTo(numberExpression).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -811,7 +811,7 @@ class BooleanComparatorTest {
 
         val actual: String = numberExpression.isEqualTo(5).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -820,7 +820,7 @@ class BooleanComparatorTest {
 
         val actual: String = "hello".isEqualTo("hello").toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -830,7 +830,7 @@ class BooleanComparatorTest {
 
         val actual: String = "hello".isEqualTo(stringExpression).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -840,7 +840,7 @@ class BooleanComparatorTest {
 
         val actual: String = stringExpression.isEqualTo("hello").toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -849,7 +849,7 @@ class BooleanComparatorTest {
 
         val actual: String = true.isEqualTo(true).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -859,7 +859,7 @@ class BooleanComparatorTest {
 
         val actual: String = true.isEqualTo(booleanExpression).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -869,7 +869,7 @@ class BooleanComparatorTest {
 
         val actual: String = booleanExpression.isEqualTo(true).toDopeQuery().queryString
 
-        kotlin.test.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
