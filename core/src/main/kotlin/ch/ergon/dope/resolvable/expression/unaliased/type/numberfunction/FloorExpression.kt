@@ -1,10 +1,10 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
 class FloorExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("FLOOR", value)
 
 fun floor(value: TypeExpression<NumberType>) = FloorExpression(value)
-fun floor(value: Number) = floor(value.toNumberType())
+fun floor(value: Number) = floor(value.toDopeType())

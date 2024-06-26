@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
 
@@ -21,4 +21,4 @@ class RandomExpression(private val value: TypeExpression<NumberType>? = null) :
 fun random() = RandomExpression()
 
 fun random(value: TypeExpression<NumberType>) = RandomExpression(value)
-fun random(value: Number) = random(value.toNumberType())
+fun random(value: Number) = random(value.toDopeType())

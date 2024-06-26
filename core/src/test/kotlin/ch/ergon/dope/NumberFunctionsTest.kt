@@ -2,7 +2,6 @@ package ch.ergon.dope
 
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.abs
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.acos
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.asin
@@ -26,7 +25,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.sin
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.sqrt
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.tan
 import ch.ergon.dope.resolvable.expression.unaliased.type.numberfunction.trunc
-import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
