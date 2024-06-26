@@ -24,7 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.toBooleanType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toNumberType
 import ch.ergon.dope.resolvable.expression.unaliased.type.toStringType
-import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.test.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
