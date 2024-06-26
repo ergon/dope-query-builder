@@ -76,6 +76,18 @@ class SatisfiesTest {
     }
 
     @Test
+    fun `should support query with any satisfies and named iterator`() {
+        val expected = DopeQuery(
+            queryString = "ANY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END",
+            parameters = emptyMap(),
+        )
+
+        val actual = someStringArrayField("hobbies").any("hobby") { it.isEqualTo("Football") }.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support any satisfies with collection`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN [`stringField`, `stringField`] SATISFIES `iterator1` = \"something\" END",
@@ -146,6 +158,18 @@ class SatisfiesTest {
         )
 
         val actual = EverySatisfiesExpression(someBooleanArrayField()) { it }.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support query with every satisfies and named iterator`() {
+        val expected = DopeQuery(
+            queryString = "EVERY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END",
+            parameters = emptyMap(),
+        )
+
+        val actual = someStringArrayField("hobbies").every("hobby") { it.isEqualTo("Football") }.toDopeQuery()
 
         assertEquals(expected, actual)
     }
