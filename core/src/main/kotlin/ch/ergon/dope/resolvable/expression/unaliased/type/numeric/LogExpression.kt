@@ -7,4 +7,5 @@ import ch.ergon.dope.validtype.NumberType
 class LogExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("LOG", value)
 
 fun log(value: TypeExpression<NumberType>) = LogExpression(value)
+
 fun log(value: Number) = log(value.toDopeType())

@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.NumberType
 
 class RandomExpression(private val value: TypeExpression<NumberType>? = null) :
     TypeExpression<NumberType>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery =
+    override fun toDopeQuery() =
         value?.let {
             val valueDopeQuery = value.toDopeQuery()
             DopeQuery(
@@ -21,4 +21,5 @@ class RandomExpression(private val value: TypeExpression<NumberType>? = null) :
 fun random() = RandomExpression()
 
 fun random(value: TypeExpression<NumberType>) = RandomExpression(value)
+
 fun random(value: Number) = random(value.toDopeType())
