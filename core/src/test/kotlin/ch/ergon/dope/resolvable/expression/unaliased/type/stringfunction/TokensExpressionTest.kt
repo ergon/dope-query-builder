@@ -19,8 +19,9 @@ class TokensExpressionTest {
             "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
             emptyMap(),
         )
+        val underTest = TokensExpression(listOf("test", "test2"))
 
-        val actual = TokensExpression(listOf("test", "test2")).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

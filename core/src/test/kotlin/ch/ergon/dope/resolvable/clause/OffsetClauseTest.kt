@@ -25,8 +25,9 @@ class OffsetClauseTest {
             "DELETE FROM `someBucket` OFFSET `numberField`",
             emptyMap(),
         )
+        val underTest = DeleteOffsetClause(someNumberField(), someDeleteClause())
 
-        val actual = DeleteOffsetClause(someNumberField(), someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -38,8 +39,9 @@ class OffsetClauseTest {
             "DELETE FROM `someBucket` OFFSET $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -50,8 +52,9 @@ class OffsetClauseTest {
             "SELECT * OFFSET `numberField`",
             emptyMap(),
         )
+        val underTest = SelectOffsetClause(someNumberField(), someSelectClause())
 
-        val actual = SelectOffsetClause(someNumberField(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -63,8 +66,9 @@ class OffsetClauseTest {
             "SELECT * OFFSET $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectOffsetClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = SelectOffsetClause(parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -77,8 +81,9 @@ class OffsetClauseTest {
             "SELECT $1 OFFSET $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

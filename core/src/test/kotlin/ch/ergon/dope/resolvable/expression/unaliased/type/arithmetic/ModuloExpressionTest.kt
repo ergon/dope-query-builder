@@ -21,8 +21,9 @@ class ModuloExpressionTest {
             "(`numberField` % `numberField`)",
             emptyMap(),
         )
+        val underTest = ModuloExpression(someNumberField(), someNumberField())
 
-        val actual = ModuloExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class ModuloExpressionTest {
             "($1 % `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = ModuloExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = ModuloExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class ModuloExpressionTest {
             "($1 % $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = ModuloExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = ModuloExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

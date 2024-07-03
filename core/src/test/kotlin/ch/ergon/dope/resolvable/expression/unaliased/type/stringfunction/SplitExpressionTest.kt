@@ -21,8 +21,9 @@ class SplitExpressionTest {
             "SPLIT(`stringField`)",
             emptyMap(),
         )
+        val underTest = SplitExpression(someStringField())
 
-        val actual = SplitExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class SplitExpressionTest {
             "SPLIT($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SplitExpression(parameterValue.asParameter())
 
-        val actual = SplitExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class SplitExpressionTest {
             "SPLIT(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = SplitExpression(someStringField(), someStringField())
 
-        val actual = SplitExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -59,8 +62,9 @@ class SplitExpressionTest {
             "SPLIT($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SplitExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = SplitExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -73,8 +77,9 @@ class SplitExpressionTest {
             "SPLIT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = SplitExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = SplitExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

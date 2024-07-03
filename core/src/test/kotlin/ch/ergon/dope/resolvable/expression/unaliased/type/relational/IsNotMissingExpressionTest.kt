@@ -20,8 +20,9 @@ class IsNotMissingExpressionTest {
             "`stringField` IS NOT MISSING",
             emptyMap(),
         )
+        val underTest = IsNotMissingExpression(someStringField())
 
-        val actual = IsNotMissingExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

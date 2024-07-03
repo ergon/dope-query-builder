@@ -1,5 +1,6 @@
-package ch.ergon.dope
+package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
@@ -7,12 +8,6 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.AnySatisfiesExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.EverySatisfiesExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IteratorManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.any
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.every
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -32,8 +27,9 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
         )
+        val underTest = AnySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
-        val actual = AnySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -44,8 +40,9 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
             parameters = emptyMap(),
         )
+        val underTest = AnySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
-        val actual = AnySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -56,8 +53,9 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
             parameters = emptyMap(),
         )
+        val underTest = AnySatisfiesExpression(someBooleanArrayField()) { it }
 
-        val actual = AnySatisfiesExpression(someBooleanArrayField()) { it }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -132,8 +130,9 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
             parameters = emptyMap(),
         )
+        val underTest = EverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
-        val actual = EverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -144,8 +143,9 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
         )
+        val underTest = EverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
-        val actual = EverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -156,8 +156,9 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
             parameters = emptyMap(),
         )
+        val underTest = EverySatisfiesExpression(someBooleanArrayField()) { it }
 
-        val actual = EverySatisfiesExpression(someBooleanArrayField()) { it }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

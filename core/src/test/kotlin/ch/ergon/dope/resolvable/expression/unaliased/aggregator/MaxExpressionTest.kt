@@ -22,8 +22,9 @@ class MaxExpressionTest {
             "MAX(`numberField`)",
             emptyMap(),
         )
+        val underTest = MaxExpression(someNumberField(), null)
 
-        val actual = MaxExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class MaxExpressionTest {
             "MAX(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = MaxExpression(someNumberField(), ALL)
 
-        val actual = MaxExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class MaxExpressionTest {
             "MAX(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = MaxExpression(someNumberField(), DISTINCT)
 
-        val actual = MaxExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

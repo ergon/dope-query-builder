@@ -21,8 +21,9 @@ class PositionExpressionTest {
             "POSITION(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = PositionExpression(someStringField(), someStringField())
 
-        val actual = PositionExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class PositionExpressionTest {
             "POSITION($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = PositionExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = PositionExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class PositionExpressionTest {
             "POSITION($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = PositionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = PositionExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

@@ -23,8 +23,9 @@ class OrderByClauseTest {
             "SELECT * ORDER BY `stringField`",
             emptyMap(),
         )
+        val underTest = SelectOrderByClause(someStringField(), someSelectClause())
 
-        val actual = SelectOrderByClause(someStringField(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -36,8 +37,9 @@ class OrderByClauseTest {
             "SELECT $1 ORDER BY `stringField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

@@ -22,8 +22,9 @@ class SumExpressionTest {
             "SUM(`numberField`)",
             emptyMap(),
         )
+        val underTest = SumExpression(someNumberField(), null)
 
-        val actual = SumExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class SumExpressionTest {
             "SUM(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = SumExpression(someNumberField(), ALL)
 
-        val actual = SumExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class SumExpressionTest {
             "SUM(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = SumExpression(someNumberField(), DISTINCT)
 
-        val actual = SumExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

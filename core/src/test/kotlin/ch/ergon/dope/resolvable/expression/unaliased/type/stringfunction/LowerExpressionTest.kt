@@ -21,8 +21,9 @@ class LowerExpressionTest {
             "LOWER(`stringField`)",
             emptyMap(),
         )
+        val underTest = LowerExpression(someStringField())
 
-        val actual = LowerExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class LowerExpressionTest {
             "LOWER($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LowerExpression(parameterValue.asParameter())
 
-        val actual = LowerExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

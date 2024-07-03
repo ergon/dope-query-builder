@@ -22,8 +22,9 @@ class MedianExpressionTest {
             "MEDIAN(`numberField`)",
             emptyMap(),
         )
+        val underTest = MedianExpression(someNumberField(), null)
 
-        val actual = MedianExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class MedianExpressionTest {
             "MEDIAN(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = MedianExpression(someNumberField(), ALL)
 
-        val actual = MedianExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class MedianExpressionTest {
             "MEDIAN(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = MedianExpression(someNumberField(), DISTINCT)
 
-        val actual = MedianExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

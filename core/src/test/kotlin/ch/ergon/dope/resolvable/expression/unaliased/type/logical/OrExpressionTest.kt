@@ -21,8 +21,9 @@ class OrExpressionTest {
             "(`booleanField` OR `booleanField`)",
             emptyMap(),
         )
+        val underTest = OrExpression(someBooleanField(), someBooleanField())
 
-        val actual = OrExpression(someBooleanField(), someBooleanField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class OrExpressionTest {
             "($1 OR `booleanField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = OrExpression(parameterValue.asParameter(), someBooleanField())
 
-        val actual = OrExpression(parameterValue.asParameter(), someBooleanField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class OrExpressionTest {
             "($1 OR $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = OrExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = OrExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

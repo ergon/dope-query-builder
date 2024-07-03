@@ -22,8 +22,9 @@ class AverageExpressionTest {
             "AVG(`numberField`)",
             emptyMap(),
         )
+        val underTest = AverageExpression(someNumberField(), null)
 
-        val actual = AverageExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class AverageExpressionTest {
             "AVG(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = AverageExpression(someNumberField(), ALL)
 
-        val actual = AverageExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class AverageExpressionTest {
             "AVG(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = AverageExpression(someNumberField(), DISTINCT)
 
-        val actual = AverageExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

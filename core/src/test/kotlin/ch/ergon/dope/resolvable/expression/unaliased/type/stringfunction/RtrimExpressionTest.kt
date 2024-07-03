@@ -21,8 +21,9 @@ class RtrimExpressionTest {
             "RTRIM(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = RtrimExpression(someStringField(), someStringField())
 
-        val actual = RtrimExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class RtrimExpressionTest {
             "RTRIM($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = RtrimExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = RtrimExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class RtrimExpressionTest {
             "RTRIM($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = RtrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = RtrimExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

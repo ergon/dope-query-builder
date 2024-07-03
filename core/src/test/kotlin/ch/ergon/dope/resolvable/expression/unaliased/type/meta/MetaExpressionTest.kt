@@ -20,8 +20,9 @@ class MetaExpressionTest {
             "META(`someBucket`)",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -32,8 +33,9 @@ class MetaExpressionTest {
             "META(`someBucket`).`cas`",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).cas.toDopeQuery()
+        val actual = underTest.cas.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -44,8 +46,9 @@ class MetaExpressionTest {
             "META(`someBucket`).`expiration`",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).expiration.toDopeQuery()
+        val actual = underTest.expiration.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -56,8 +59,9 @@ class MetaExpressionTest {
             "META(`someBucket`).`flags`",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).flags.toDopeQuery()
+        val actual = underTest.flags.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -68,8 +72,9 @@ class MetaExpressionTest {
             "META(`someBucket`).`id`",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).id.toDopeQuery()
+        val actual = underTest.id.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -80,8 +85,9 @@ class MetaExpressionTest {
             "META(`someBucket`).`type`",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).type.toDopeQuery()
+        val actual = underTest.type.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -92,8 +98,9 @@ class MetaExpressionTest {
             "META(`someBucket`).`keyspace`",
             emptyMap(),
         )
+        val underTest = MetaExpression(someBucket())
 
-        val actual = MetaExpression(someBucket()).keyspace.toDopeQuery()
+        val actual = underTest.keyspace.toDopeQuery()
 
         assertEquals(expected, actual)
     }

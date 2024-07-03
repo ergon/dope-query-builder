@@ -21,8 +21,9 @@ class MultiplicationExpressionTest {
             "(`numberField` * `numberField`)",
             emptyMap(),
         )
+        val underTest = MultiplicationExpression(someNumberField(), someNumberField())
 
-        val actual = MultiplicationExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class MultiplicationExpressionTest {
             "($1 * `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = MultiplicationExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = MultiplicationExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class MultiplicationExpressionTest {
             "($1 * $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = MultiplicationExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = MultiplicationExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

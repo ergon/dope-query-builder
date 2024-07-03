@@ -21,8 +21,9 @@ class LikeExpressionTest {
             "`stringField` LIKE `stringField`",
             emptyMap(),
         )
+        val underTest = LikeExpression(someStringField(), someStringField())
 
-        val actual = LikeExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class LikeExpressionTest {
             "`stringField` LIKE $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LikeExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = LikeExpression(someStringField(), parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

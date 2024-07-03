@@ -20,8 +20,9 @@ class ParameterTest {
             "$1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = NumberParameter(parameterValue)
 
-        val actual = NumberParameter(parameterValue).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class ParameterTest {
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
         )
+        val underTest = NumberParameter(parameterValue, parameterName)
 
-        val actual = NumberParameter(parameterValue, parameterName).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -47,8 +49,9 @@ class ParameterTest {
             "$1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = StringParameter(parameterValue)
 
-        val actual = StringParameter(parameterValue).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -61,8 +64,9 @@ class ParameterTest {
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
         )
+        val underTest = StringParameter(parameterValue, parameterName)
 
-        val actual = StringParameter(parameterValue, parameterName).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -74,8 +78,9 @@ class ParameterTest {
             "$1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = BooleanParameter(parameterValue)
 
-        val actual = BooleanParameter(parameterValue).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -88,8 +93,9 @@ class ParameterTest {
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
         )
+        val underTest = BooleanParameter(parameterValue, parameterName)
 
-        val actual = BooleanParameter(parameterValue, parameterName).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -101,8 +107,9 @@ class ParameterTest {
             "$1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = ArrayParameter<ValidType>(parameterValue)
 
-        val actual = ArrayParameter<ValidType>(parameterValue).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -115,8 +122,9 @@ class ParameterTest {
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
         )
+        val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
 
-        val actual = ArrayParameter<ValidType>(parameterValue, parameterName).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

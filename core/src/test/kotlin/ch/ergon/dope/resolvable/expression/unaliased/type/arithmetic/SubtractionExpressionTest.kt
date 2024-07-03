@@ -21,8 +21,9 @@ class SubtractionExpressionTest {
             "(`numberField` - `numberField`)",
             emptyMap(),
         )
+        val underTest = SubtractionExpression(someNumberField(), someNumberField())
 
-        val actual = SubtractionExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class SubtractionExpressionTest {
             "($1 - `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SubtractionExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = SubtractionExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class SubtractionExpressionTest {
             "($1 - $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = SubtractionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = SubtractionExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

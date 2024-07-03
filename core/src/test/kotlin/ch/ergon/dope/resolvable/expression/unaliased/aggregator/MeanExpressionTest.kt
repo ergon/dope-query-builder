@@ -22,8 +22,9 @@ class MeanExpressionTest {
             "MEAN(`numberField`)",
             emptyMap(),
         )
+        val underTest = MeanExpression(someNumberField(), null)
 
-        val actual = MeanExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class MeanExpressionTest {
             "MEAN(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = MeanExpression(someNumberField(), ALL)
 
-        val actual = MeanExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class MeanExpressionTest {
             "MEAN(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = MeanExpression(someNumberField(), DISTINCT)
 
-        val actual = MeanExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

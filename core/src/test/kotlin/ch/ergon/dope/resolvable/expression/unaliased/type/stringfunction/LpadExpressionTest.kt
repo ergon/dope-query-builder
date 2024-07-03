@@ -22,8 +22,9 @@ class LpadExpressionTest {
             "LPAD(`stringField`, `numberField`)",
             emptyMap(),
         )
+        val underTest = LpadExpression(someStringField(), someNumberField())
 
-        val actual = LpadExpression(someStringField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -35,8 +36,9 @@ class LpadExpressionTest {
             "LPAD($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LpadExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = LpadExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -49,8 +51,9 @@ class LpadExpressionTest {
             "LPAD($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -61,8 +64,9 @@ class LpadExpressionTest {
             "LPAD(`stringField`, `numberField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = LpadExpression(someStringField(), someNumberField(), someStringField())
 
-        val actual = LpadExpression(someStringField(), someNumberField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -74,8 +78,9 @@ class LpadExpressionTest {
             "LPAD($1, `numberField`, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
-        val actual = LpadExpression(parameterValue.asParameter(), someNumberField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -89,8 +94,9 @@ class LpadExpressionTest {
             "LPAD($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
         )
+        val underTest = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
-        val actual = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

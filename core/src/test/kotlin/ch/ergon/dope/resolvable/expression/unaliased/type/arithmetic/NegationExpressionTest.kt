@@ -21,8 +21,9 @@ class NegationExpressionTest {
             "-`numberField`",
             emptyMap(),
         )
+        val underTest = NegationExpression(someNumberField())
 
-        val actual = NegationExpression(someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class NegationExpressionTest {
             "-$1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = NegationExpression(parameterValue.asParameter())
 
-        val actual = NegationExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

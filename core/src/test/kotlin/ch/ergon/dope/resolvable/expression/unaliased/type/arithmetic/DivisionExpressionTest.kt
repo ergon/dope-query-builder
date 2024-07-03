@@ -21,8 +21,9 @@ class DivisionExpressionTest {
             "(`numberField` / `numberField`)",
             emptyMap(),
         )
+        val underTest = DivisionExpression(someNumberField(), someNumberField())
 
-        val actual = DivisionExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class DivisionExpressionTest {
             "($1 / `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = DivisionExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = DivisionExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class DivisionExpressionTest {
             "($1 / $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = DivisionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = DivisionExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

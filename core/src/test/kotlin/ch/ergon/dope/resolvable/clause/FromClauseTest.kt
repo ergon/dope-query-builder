@@ -14,8 +14,9 @@ class FromClauseTest {
             "SELECT * FROM `someBucket`",
             emptyMap(),
         )
+        val underTest = FromClause(someBucket(), someSelectClause())
 
-        val actual = FromClause(someBucket(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -26,8 +27,9 @@ class FromClauseTest {
             "SELECT * FROM `someBucket` AS `bucket`",
             emptyMap(),
         )
+        val underTest = FromClause(someBucket().alias("bucket"), someSelectClause())
 
-        val actual = FromClause(someBucket().alias("bucket"), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

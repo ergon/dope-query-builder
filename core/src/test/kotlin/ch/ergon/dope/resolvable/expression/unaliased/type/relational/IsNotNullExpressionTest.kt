@@ -20,8 +20,9 @@ class IsNotNullExpressionTest {
             "`stringField` IS NOT NULL",
             emptyMap(),
         )
+        val underTest = IsNotNullExpression(someStringField())
 
-        val actual = IsNotNullExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

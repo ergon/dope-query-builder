@@ -26,8 +26,9 @@ class UnnestClauseTest {
             "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
             emptyMap(),
         )
+        val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
-        val actual = UnnestClause(someStringArrayField(), someFromClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -38,8 +39,9 @@ class UnnestClauseTest {
             "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
             emptyMap(),
         )
+        val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
-        val actual = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -51,8 +53,9 @@ class UnnestClauseTest {
             "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
 
-        val actual = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -65,11 +68,12 @@ class UnnestClauseTest {
             "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
-
-        val actual = AliasedUnnestClause(
+        val underTest = AliasedUnnestClause(
             parameterValue2.asParameter().alias("value"),
             someFromClause(parent = someSelectClause(parameterValue.asParameter())),
-        ).toDopeQuery()
+        )
+
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

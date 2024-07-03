@@ -21,8 +21,9 @@ class GreaterOrEqualThanExpressionTest {
             "`numberField` >= `numberField`",
             emptyMap(),
         )
+        val underTest = GreaterOrEqualThanExpression(someNumberField(), someNumberField())
 
-        val actual = GreaterOrEqualThanExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class GreaterOrEqualThanExpressionTest {
             "$1 >= `numberField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = GreaterOrEqualThanExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class GreaterOrEqualThanExpressionTest {
             "$1 >= $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = GreaterOrEqualThanExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

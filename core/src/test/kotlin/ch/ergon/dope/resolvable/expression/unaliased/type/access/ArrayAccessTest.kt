@@ -5,6 +5,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,8 +23,9 @@ class ArrayAccessTest {
             "`stringArrayField`[`numberField`]",
             emptyMap(),
         )
+        val underTest = ArrayAccess(someStringArrayField(), someNumberField())
 
-        val actual = ArrayAccess(someStringArrayField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -35,8 +37,9 @@ class ArrayAccessTest {
             "$1[`numberField`]",
             mapOf("$1" to parameterValue),
         )
+        val underTest = ArrayAccess(parameterValue.asParameter(), someNumberField())
 
-        val actual = ArrayAccess(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -49,8 +52,9 @@ class ArrayAccessTest {
             "$1[$2]",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = ArrayAccess(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = ArrayAccess(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

@@ -22,8 +22,9 @@ class MinExpressionTest {
             "MIN(`numberField`)",
             emptyMap(),
         )
+        val underTest = MinExpression(someNumberField(), null)
 
-        val actual = MinExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class MinExpressionTest {
             "MIN(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = MinExpression(someNumberField(), ALL)
 
-        val actual = MinExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class MinExpressionTest {
             "MIN(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = MinExpression(someNumberField(), DISTINCT)
 
-        val actual = MinExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

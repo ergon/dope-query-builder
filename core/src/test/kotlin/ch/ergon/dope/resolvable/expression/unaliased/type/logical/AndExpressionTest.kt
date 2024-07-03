@@ -21,8 +21,9 @@ class AndExpressionTest {
             "(`booleanField` AND `booleanField`)",
             emptyMap(),
         )
+        val underTest = AndExpression(someBooleanField(), someBooleanField())
 
-        val actual = AndExpression(someBooleanField(), someBooleanField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class AndExpressionTest {
             "($1 AND `booleanField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
-        val actual = AndExpression(parameterValue.asParameter(), someBooleanField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class AndExpressionTest {
             "($1 AND $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

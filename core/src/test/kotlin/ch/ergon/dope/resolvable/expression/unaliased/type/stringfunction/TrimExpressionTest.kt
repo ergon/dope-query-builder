@@ -21,8 +21,9 @@ class TrimExpressionTest {
             "TRIM(`stringField`)",
             emptyMap(),
         )
+        val underTest = TrimExpression(someStringField())
 
-        val actual = TrimExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class TrimExpressionTest {
             "TRIM($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = TrimExpression(parameterValue.asParameter())
 
-        val actual = TrimExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class TrimExpressionTest {
             "TRIM(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = TrimExpression(someStringField(), someStringField())
 
-        val actual = TrimExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -59,8 +62,9 @@ class TrimExpressionTest {
             "TRIM($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = TrimExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = TrimExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -73,8 +77,9 @@ class TrimExpressionTest {
             "TRIM($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = TrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = TrimExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

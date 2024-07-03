@@ -22,8 +22,9 @@ class RepeatExpressionTest {
             "REPEAT(`stringField`, `numberField`)",
             emptyMap(),
         )
+        val underTest = RepeatExpression(someStringField(), someNumberField())
 
-        val actual = RepeatExpression(someStringField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -35,8 +36,9 @@ class RepeatExpressionTest {
             "REPEAT($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = RepeatExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = RepeatExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -49,8 +51,9 @@ class RepeatExpressionTest {
             "REPEAT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = RepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = RepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

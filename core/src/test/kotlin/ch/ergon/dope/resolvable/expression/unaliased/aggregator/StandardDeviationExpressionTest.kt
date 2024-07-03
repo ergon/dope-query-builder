@@ -22,8 +22,9 @@ class StandardDeviationExpressionTest {
             "STDDEV(`numberField`)",
             emptyMap(),
         )
+        val underTest = StandardDeviationExpression(someNumberField(), null)
 
-        val actual = StandardDeviationExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class StandardDeviationExpressionTest {
             "STDDEV(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = StandardDeviationExpression(someNumberField(), ALL)
 
-        val actual = StandardDeviationExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class StandardDeviationExpressionTest {
             "STDDEV(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = StandardDeviationExpression(someNumberField(), DISTINCT)
 
-        val actual = StandardDeviationExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

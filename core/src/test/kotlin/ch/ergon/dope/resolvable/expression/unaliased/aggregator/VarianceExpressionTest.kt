@@ -22,8 +22,9 @@ class VarianceExpressionTest {
             "VARIANCE(`numberField`)",
             emptyMap(),
         )
+        val underTest = VarianceExpression(someNumberField(), null)
 
-        val actual = VarianceExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class VarianceExpressionTest {
             "VARIANCE(ALL `numberField`)",
             emptyMap(),
         )
+        val underTest = VarianceExpression(someNumberField(), ALL)
 
-        val actual = VarianceExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class VarianceExpressionTest {
             "VARIANCE(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val underTest = VarianceExpression(someNumberField(), DISTINCT)
 
-        val actual = VarianceExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

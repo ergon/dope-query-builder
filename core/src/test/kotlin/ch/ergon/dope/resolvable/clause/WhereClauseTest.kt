@@ -25,8 +25,9 @@ class WhereClauseTest {
             "DELETE FROM `someBucket` WHERE TRUE",
             emptyMap(),
         )
+        val underTest = DeleteWhereClause(someBooleanExpression(), someDeleteClause())
 
-        val actual = DeleteWhereClause(someBooleanExpression(), someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -38,8 +39,9 @@ class WhereClauseTest {
             "DELETE FROM `someBucket` WHERE $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -50,8 +52,9 @@ class WhereClauseTest {
             "SELECT * WHERE TRUE",
             emptyMap(),
         )
+        val underTest = SelectWhereClause(someBooleanExpression(), someSelectClause())
 
-        val actual = SelectWhereClause(someBooleanExpression(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -63,8 +66,9 @@ class WhereClauseTest {
             "SELECT * WHERE $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectWhereClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = SelectWhereClause(parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -77,8 +81,9 @@ class WhereClauseTest {
             "SELECT $1 WHERE $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

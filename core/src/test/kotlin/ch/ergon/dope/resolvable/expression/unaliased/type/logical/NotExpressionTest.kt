@@ -21,8 +21,9 @@ class NotExpressionTest {
             "NOT `booleanField`",
             emptyMap(),
         )
+        val underTest = NotExpression(someBooleanField())
 
-        val actual = NotExpression(someBooleanField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class NotExpressionTest {
             "NOT $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = NotExpression(parameterValue.asParameter())
 
-        val actual = NotExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

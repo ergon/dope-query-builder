@@ -21,8 +21,9 @@ class MaskExpressionTest {
             "MASK(`stringField`, {\"mask\": \"*\"})",
             emptyMap(),
         )
+        val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
-        val actual = MaskExpression(someStringField(), mapOf("mask" to "*")).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class MaskExpressionTest {
             "MASK($1, {\"mask\": \"*\"})",
             mapOf("$1" to parameterValue),
         )
+        val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
 
-        val actual = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*")).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

@@ -23,8 +23,9 @@ class ReturningClauseTest {
             "DELETE FROM `someBucket` RETURNING `stringField`",
             emptyMap(),
         )
+        val underTest = ReturningClause(someStringField(), parentClause = someDeleteClause())
 
-        val actual = ReturningClause(someStringField(), parentClause = someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -35,8 +36,9 @@ class ReturningClauseTest {
             "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
         )
+        val underTest = ReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause())
 
-        val actual = ReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

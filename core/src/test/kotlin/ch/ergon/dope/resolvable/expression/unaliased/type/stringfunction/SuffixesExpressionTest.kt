@@ -21,8 +21,9 @@ class SuffixesExpressionTest {
             "SUFFIXES(`stringField`)",
             emptyMap(),
         )
+        val underTest = SuffixesExpression(someStringField())
 
-        val actual = SuffixesExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class SuffixesExpressionTest {
             "SUFFIXES($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SuffixesExpression(parameterValue.asParameter())
 
-        val actual = SuffixesExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

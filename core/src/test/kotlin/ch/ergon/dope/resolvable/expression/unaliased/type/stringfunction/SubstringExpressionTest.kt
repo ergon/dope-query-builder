@@ -21,8 +21,9 @@ class SubstringExpressionTest {
             "SUBSTR(`stringField`, 3, 1)",
             emptyMap(),
         )
+        val underTest = SubstringExpression(someStringField(), 3, 1)
 
-        val actual = SubstringExpression(someStringField(), 3, 1).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class SubstringExpressionTest {
             "SUBSTR($1, 3, 1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SubstringExpression(parameterValue.asParameter(), 3, 1)
 
-        val actual = SubstringExpression(parameterValue.asParameter(), 3, 1).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

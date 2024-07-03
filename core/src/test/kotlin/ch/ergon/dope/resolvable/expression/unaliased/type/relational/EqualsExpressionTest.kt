@@ -21,8 +21,9 @@ class EqualsExpressionTest {
             "`numberField` = `numberField`",
             emptyMap(),
         )
+        val underTest = EqualsExpression(someNumberField(), someNumberField())
 
-        val actual = EqualsExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class EqualsExpressionTest {
             "$1 = `numberField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = EqualsExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = EqualsExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class EqualsExpressionTest {
             "$1 = $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = EqualsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = EqualsExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

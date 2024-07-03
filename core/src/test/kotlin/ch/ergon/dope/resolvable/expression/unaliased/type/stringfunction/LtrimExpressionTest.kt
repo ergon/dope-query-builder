@@ -21,8 +21,9 @@ class LtrimExpressionTest {
             "LTRIM(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = LtrimExpression(someStringField(), someStringField())
 
-        val actual = LtrimExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class LtrimExpressionTest {
             "LTRIM($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LtrimExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = LtrimExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class LtrimExpressionTest {
             "LTRIM($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = LtrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = LtrimExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

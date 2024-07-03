@@ -21,8 +21,9 @@ class InitCapExpressionTest {
             "INITCAP(`stringField`)",
             emptyMap(),
         )
+        val underTest = InitCapExpression(someStringField())
 
-        val actual = InitCapExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class InitCapExpressionTest {
             "INITCAP($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = InitCapExpression(parameterValue.asParameter())
 
-        val actual = InitCapExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

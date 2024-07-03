@@ -22,8 +22,9 @@ class ArrayAggregateExpressionTest {
             "ARRAY_AGG(`stringField`)",
             emptyMap(),
         )
+        val underTest = ArrayAggregateExpression(someStringField(), null)
 
-        val actual = ArrayAggregateExpression(someStringField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class ArrayAggregateExpressionTest {
             "ARRAY_AGG(ALL `stringField`)",
             emptyMap(),
         )
+        val underTest = ArrayAggregateExpression(someStringField(), ALL)
 
-        val actual = ArrayAggregateExpression(someStringField(), ALL).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class ArrayAggregateExpressionTest {
             "ARRAY_AGG(DISTINCT `stringField`)",
             emptyMap(),
         )
+        val underTest = ArrayAggregateExpression(someStringField(), DISTINCT)
 
-        val actual = ArrayAggregateExpression(someStringField(), DISTINCT).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

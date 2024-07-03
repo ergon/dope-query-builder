@@ -20,8 +20,9 @@ class AsteriskExpressionTest {
             "*",
             emptyMap(),
         )
+        val underTest = AsteriskExpression()
 
-        val actual = AsteriskExpression().toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -32,8 +33,9 @@ class AsteriskExpressionTest {
             "`someBucket`.*",
             emptyMap(),
         )
+        val underTest = AsteriskExpression(someBucket())
 
-        val actual = AsteriskExpression(someBucket()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

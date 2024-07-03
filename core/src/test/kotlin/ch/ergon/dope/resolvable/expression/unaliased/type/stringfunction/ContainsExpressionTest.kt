@@ -21,8 +21,9 @@ class ContainsExpressionTest {
             "CONTAINS(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = ContainsExpression(someStringField(), someStringField())
 
-        val actual = ContainsExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class ContainsExpressionTest {
             "CONTAINS($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = ContainsExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = ContainsExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class ContainsExpressionTest {
             "CONTAINS($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = ContainsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = ContainsExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

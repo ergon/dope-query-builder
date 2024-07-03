@@ -21,8 +21,9 @@ class LessThanExpressionTest {
             "`numberField` < `numberField`",
             emptyMap(),
         )
+        val underTest = LessThanExpression(someNumberField(), someNumberField())
 
-        val actual = LessThanExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class LessThanExpressionTest {
             "$1 < `numberField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LessThanExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = LessThanExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class LessThanExpressionTest {
             "$1 < $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = LessThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = LessThanExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

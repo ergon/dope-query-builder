@@ -21,8 +21,9 @@ class ConcatExpressionTest {
             "CONCAT(`stringField`, `stringField`)",
             emptyMap(),
         )
+        val underTest = ConcatExpression(someStringField(), someStringField())
 
-        val actual = ConcatExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class ConcatExpressionTest {
             "CONCAT($1, `stringField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = ConcatExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = ConcatExpression(parameterValue.asParameter(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class ConcatExpressionTest {
             "CONCAT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = ConcatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = ConcatExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -62,8 +65,9 @@ class ConcatExpressionTest {
             "CONCAT($1, `stringField`, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = ConcatExpression(parameterValue.asParameter(), someStringField(), parameterValue2.asParameter())
 
-        val actual = ConcatExpression(parameterValue.asParameter(), someStringField(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

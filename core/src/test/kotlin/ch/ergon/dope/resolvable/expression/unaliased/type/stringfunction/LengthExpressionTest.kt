@@ -21,8 +21,9 @@ class LengthExpressionTest {
             "LENGTH(`stringField`)",
             emptyMap(),
         )
+        val underTest = LengthExpression(someStringField())
 
-        val actual = LengthExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class LengthExpressionTest {
             "LENGTH($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LengthExpression(parameterValue.asParameter())
 
-        val actual = LengthExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

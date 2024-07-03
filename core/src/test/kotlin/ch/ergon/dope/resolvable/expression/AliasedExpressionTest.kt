@@ -21,8 +21,9 @@ class AliasedExpressionTest {
             "`stringField` AS `test`",
             emptyMap(),
         )
+        val underTest = AliasedExpression(someStringField(), "test")
 
-        val actual = AliasedExpression(someStringField(), "test").toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class AliasedExpressionTest {
             "$1 AS `test`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = AliasedExpression(parameterValue.asParameter(), "test")
 
-        val actual = AliasedExpression(parameterValue.asParameter(), "test").toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

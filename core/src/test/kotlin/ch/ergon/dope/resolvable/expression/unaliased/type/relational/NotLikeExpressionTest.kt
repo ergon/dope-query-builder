@@ -21,8 +21,9 @@ class NotLikeExpressionTest {
             "`stringField` NOT LIKE `stringField`",
             emptyMap(),
         )
+        val underTest = NotLikeExpression(someStringField(), someStringField())
 
-        val actual = NotLikeExpression(someStringField(), someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class NotLikeExpressionTest {
             "`stringField` NOT LIKE $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = NotLikeExpression(someStringField(), parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

@@ -21,8 +21,9 @@ class UpperExpressionTest {
             "UPPER(`stringField`)",
             emptyMap(),
         )
+        val underTest = UpperExpression(someStringField())
 
-        val actual = UpperExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class UpperExpressionTest {
             "UPPER($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = UpperExpression(parameterValue.asParameter())
 
-        val actual = UpperExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

@@ -28,8 +28,9 @@ class JoinClauseTest {
             "SELECT * JOIN `someBucket` ON TRUE",
             emptyMap(),
         )
+        val underTest = StandardJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
-        val actual = StandardJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -41,8 +42,9 @@ class JoinClauseTest {
             "SELECT * JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = StandardJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
-        val actual = StandardJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -55,12 +57,13 @@ class JoinClauseTest {
             "SELECT $1 JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
-
-        val actual = StandardJoinClause(
+        val underTest = StandardJoinClause(
             someBucket(),
             onCondition = parameterValue2.asParameter(),
             someSelectClause(parameterValue.asParameter()),
-        ).toDopeQuery()
+        )
+
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -71,8 +74,9 @@ class JoinClauseTest {
             "SELECT * LEFT JOIN `someBucket` ON TRUE",
             emptyMap(),
         )
+        val underTest = LeftJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
-        val actual = LeftJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -84,8 +88,9 @@ class JoinClauseTest {
             "SELECT * LEFT JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LeftJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
-        val actual = LeftJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -98,12 +103,13 @@ class JoinClauseTest {
             "SELECT $1 LEFT JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
-
-        val actual = LeftJoinClause(
+        val underTest = LeftJoinClause(
             someBucket(),
             onCondition = parameterValue2.asParameter(),
             someSelectClause(parameterValue.asParameter()),
-        ).toDopeQuery()
+        )
+
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -114,8 +120,9 @@ class JoinClauseTest {
             "SELECT * INNER JOIN `someBucket` ON TRUE",
             emptyMap(),
         )
+        val underTest = InnerJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
-        val actual = InnerJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -127,8 +134,9 @@ class JoinClauseTest {
             "SELECT * INNER JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = InnerJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
-        val actual = InnerJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -141,12 +149,13 @@ class JoinClauseTest {
             "SELECT $1 INNER JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
-
-        val actual = InnerJoinClause(
+        val underTest = InnerJoinClause(
             someBucket(),
             onCondition = parameterValue2.asParameter(),
             someSelectClause(parameterValue.asParameter()),
-        ).toDopeQuery()
+        )
+
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -157,8 +166,9 @@ class JoinClauseTest {
             "SELECT * RIGHT JOIN `someBucket` ON TRUE",
             emptyMap(),
         )
+        val underTest = RightJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
-        val actual = RightJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -170,8 +180,9 @@ class JoinClauseTest {
             "SELECT * RIGHT JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = RightJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
-        val actual = RightJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -184,12 +195,13 @@ class JoinClauseTest {
             "SELECT $1 RIGHT JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
-
-        val actual = RightJoinClause(
+        val underTest = RightJoinClause(
             someBucket(),
             onCondition = parameterValue2.asParameter(),
             someSelectClause(parameterValue.asParameter()),
-        ).toDopeQuery()
+        )
+
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -202,8 +214,9 @@ class JoinClauseTest {
             "SELECT * JOIN `someBucket` ON KEYS `stringField`",
             emptyMap(),
         )
+        val underTest = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause())
 
-        val actual = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -215,8 +228,9 @@ class JoinClauseTest {
             "SELECT $1 JOIN `someBucket` ON KEYS `stringField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -227,8 +241,9 @@ class JoinClauseTest {
             "SELECT * LEFT JOIN `someBucket` ON KEYS `stringField`",
             emptyMap(),
         )
+        val underTest = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause())
 
-        val actual = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -240,8 +255,9 @@ class JoinClauseTest {
             "SELECT $1 LEFT JOIN `someBucket` ON KEYS `stringField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -252,8 +268,9 @@ class JoinClauseTest {
             "SELECT * INNER JOIN `someBucket` ON KEYS `stringField`",
             emptyMap(),
         )
+        val underTest = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause())
 
-        val actual = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -265,8 +282,9 @@ class JoinClauseTest {
             "SELECT $1 INNER JOIN `someBucket` ON KEYS `stringField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

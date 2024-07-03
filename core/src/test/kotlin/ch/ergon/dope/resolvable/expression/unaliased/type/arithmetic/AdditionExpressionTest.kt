@@ -21,8 +21,9 @@ class AdditionExpressionTest {
             "(`numberField` + `numberField`)",
             emptyMap(),
         )
+        val underTest = AdditionExpression(someNumberField(), someNumberField())
 
-        val actual = AdditionExpression(someNumberField(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class AdditionExpressionTest {
             "($1 + `numberField`)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = AdditionExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = AdditionExpression(parameterValue.asParameter(), someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -48,8 +50,9 @@ class AdditionExpressionTest {
             "($1 + $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = AdditionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = AdditionExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

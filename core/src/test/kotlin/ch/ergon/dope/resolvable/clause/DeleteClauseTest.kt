@@ -13,8 +13,9 @@ class DeleteClauseTest {
             "DELETE FROM `someBucket`",
             emptyMap(),
         )
+        val underTest = DeleteClause(someBucket())
 
-        val actual = DeleteClause(someBucket()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -25,8 +26,9 @@ class DeleteClauseTest {
             "DELETE FROM `someBucket` AS `bucket`",
             emptyMap(),
         )
+        val underTest = DeleteClause(someBucket().alias("bucket"))
 
-        val actual = DeleteClause(someBucket().alias("bucket")).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

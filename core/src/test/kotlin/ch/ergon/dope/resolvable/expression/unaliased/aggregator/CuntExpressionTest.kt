@@ -22,8 +22,9 @@ class CuntExpressionTest {
             "COUNT(`numberField`)",
             emptyMap(),
         )
+        val underTest = CountExpression(someNumberField(), null)
 
-        val actual = CountExpression(someNumberField(), null).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class CuntExpressionTest {
             "COUNT(ALL `numberField`)",
             emptyMap(),
         )
+        val countExpression = CountExpression(someNumberField(), ALL)
 
-        val actual = CountExpression(someNumberField(), ALL).toDopeQuery()
+        val actual = countExpression.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class CuntExpressionTest {
             "COUNT(DISTINCT `numberField`)",
             emptyMap(),
         )
+        val countExpression = CountExpression(someNumberField(), DISTINCT)
 
-        val actual = CountExpression(someNumberField(), DISTINCT).toDopeQuery()
+        val actual = countExpression.toDopeQuery()
 
         assertEquals(expected, actual)
     }

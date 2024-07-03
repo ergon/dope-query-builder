@@ -25,8 +25,9 @@ class LimitClauseTest {
             "DELETE FROM `someBucket` LIMIT `numberField`",
             emptyMap(),
         )
+        val underTest = DeleteLimitClause(someNumberField(), someDeleteClause())
 
-        val actual = DeleteLimitClause(someNumberField(), someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -38,8 +39,9 @@ class LimitClauseTest {
             "DELETE FROM `someBucket` LIMIT $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = DeleteLimitClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = DeleteLimitClause(parameterValue.asParameter(), someDeleteClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -50,8 +52,9 @@ class LimitClauseTest {
             "SELECT * LIMIT `numberField`",
             emptyMap(),
         )
+        val underTest = SelectLimitClause(someNumberField(), someSelectClause())
 
-        val actual = SelectLimitClause(someNumberField(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -63,8 +66,9 @@ class LimitClauseTest {
             "SELECT * LIMIT $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectLimitClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = SelectLimitClause(parameterValue.asParameter(), someSelectClause()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -77,8 +81,9 @@ class LimitClauseTest {
             "SELECT $1 LIMIT $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = SelectLimitClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = SelectLimitClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter())).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

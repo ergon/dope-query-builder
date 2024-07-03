@@ -27,8 +27,9 @@ class SelectClauseTest {
             "SELECT `stringField`",
             emptyMap(),
         )
+        val underTest = SelectClause(someStringField())
 
-        val actual = SelectClause(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -40,8 +41,9 @@ class SelectClauseTest {
             "SELECT $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectClause(parameterValue.asParameter())
 
-        val actual = SelectClause(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -52,8 +54,9 @@ class SelectClauseTest {
             "SELECT `numberField`, `stringArrayField`",
             emptyMap(),
         )
+        val underTest = SelectClause(someNumberField(), someStringArrayField())
 
-        val actual = SelectClause(someNumberField(), someStringArrayField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -64,8 +67,9 @@ class SelectClauseTest {
             "SELECT DISTINCT `numberField`",
             emptyMap(),
         )
+        val underTest = SelectDistinctClause(someNumberField())
 
-        val actual = SelectDistinctClause(someNumberField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -77,8 +81,9 @@ class SelectClauseTest {
             "SELECT DISTINCT $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectDistinctClause(parameterValue.asParameter())
 
-        val actual = SelectDistinctClause(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -89,8 +94,9 @@ class SelectClauseTest {
             "SELECT DISTINCT `numberField`, `stringArrayField`",
             emptyMap(),
         )
+        val underTest = SelectDistinctClause(someNumberField(), someStringArrayField())
 
-        val actual = SelectDistinctClause(someNumberField(), someStringArrayField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -101,8 +107,9 @@ class SelectClauseTest {
             "SELECT `stringField` AS `stringFieldAlias`",
             emptyMap(),
         )
+        val underTest = SelectClause(someStringField().alias("stringFieldAlias"))
 
-        val actual = SelectClause(someStringField().alias("stringFieldAlias")).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -113,8 +120,9 @@ class SelectClauseTest {
             "SELECT `numberField` AS `numberFieldAlias`, `stringArrayField`",
             emptyMap(),
         )
+        val underTest = SelectClause(someNumberField().alias("numberFieldAlias"), someStringArrayField())
 
-        val actual = SelectClause(someNumberField().alias("numberFieldAlias"), someStringArrayField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -125,8 +133,9 @@ class SelectClauseTest {
             "SELECT RAW `stringField`",
             emptyMap(),
         )
+        val underTest = SelectRawClause(someStringField())
 
-        val actual = SelectRawClause(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -138,8 +147,9 @@ class SelectClauseTest {
             "SELECT RAW $1",
             mapOf("$1" to parameterValue),
         )
+        val underTest = SelectRawClause(parameterValue.asParameter())
 
-        val actual = SelectRawClause(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -150,8 +160,9 @@ class SelectClauseTest {
             "SELECT RAW `stringField` AS `stringFieldAlias`",
             emptyMap(),
         )
+        val underTest = SelectRawClause(someStringField().alias("stringFieldAlias"))
 
-        val actual = SelectRawClause(someStringField().alias("stringFieldAlias")).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

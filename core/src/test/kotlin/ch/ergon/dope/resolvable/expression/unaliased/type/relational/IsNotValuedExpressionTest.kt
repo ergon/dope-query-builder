@@ -20,8 +20,9 @@ class IsNotValuedExpressionTest {
             "`stringField` IS NOT VALUED",
             emptyMap(),
         )
+        val underTest = IsNotValuedExpression(someStringField())
 
-        val actual = IsNotValuedExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

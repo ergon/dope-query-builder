@@ -21,8 +21,9 @@ class ReverseExpressionTest {
             "REVERSE(`stringField`)",
             emptyMap(),
         )
+        val underTest = ReverseExpression(someStringField())
 
-        val actual = ReverseExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -34,8 +35,9 @@ class ReverseExpressionTest {
             "REVERSE($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = ReverseExpression(parameterValue.asParameter())
 
-        val actual = ReverseExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

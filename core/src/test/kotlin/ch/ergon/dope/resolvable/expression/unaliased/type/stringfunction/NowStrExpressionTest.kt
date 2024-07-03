@@ -21,8 +21,9 @@ class NowStrExpressionTest {
             "NOW_STR()",
             emptyMap(),
         )
+        val underTest = NowStrExpression()
 
-        val actual = NowStrExpression().toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -33,8 +34,9 @@ class NowStrExpressionTest {
             "NOW_STR(`stringField`)",
             emptyMap(),
         )
+        val underTest = NowStrExpression(someStringField())
 
-        val actual = NowStrExpression(someStringField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -46,8 +48,9 @@ class NowStrExpressionTest {
             "NOW_STR($1)",
             mapOf("$1" to parameterValue),
         )
+        val underTest = NowStrExpression(parameterValue.asParameter())
 
-        val actual = NowStrExpression(parameterValue.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

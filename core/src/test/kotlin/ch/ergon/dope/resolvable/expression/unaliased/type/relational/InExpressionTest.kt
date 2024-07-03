@@ -22,8 +22,9 @@ class InExpressionTest {
             "`stringField` IN `stringArrayField`",
             emptyMap(),
         )
+        val underTest = InExpression(someStringField(), someStringArrayField())
 
-        val actual = InExpression(someStringField(), someStringArrayField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -35,8 +36,9 @@ class InExpressionTest {
             "$1 IN `stringArrayField`",
             mapOf("$1" to parameterValue),
         )
+        val underTest = InExpression(parameterValue.asParameter(), someStringArrayField())
 
-        val actual = InExpression(parameterValue.asParameter(), someStringArrayField()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -49,8 +51,9 @@ class InExpressionTest {
             "$1 IN $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
+        val underTest = InExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = InExpression(parameterValue.asParameter(), parameterValue2.asParameter()).toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
