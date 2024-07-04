@@ -20,6 +20,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.notBetween
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.BeforeTest
@@ -915,6 +916,24 @@ class BooleanComparatorTest {
                 true.toDopeType().and(true.toDopeType().or(false)),
             )
             .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support BETWEEN comparison`() {
+        val expected = "`numberField` BETWEEN 1 AND 10"
+
+        val actual = someNumberField().notBetween(1.toDopeType(), 10.toDopeType()).toDopeQuery().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support NOT BETWEEN comparison`() {
+        val expected = "`numberField` NOT BETWEEN 1 AND 10"
+
+        val actual = someNumberField().notBetween(1.toDopeType(), 10.toDopeType()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
