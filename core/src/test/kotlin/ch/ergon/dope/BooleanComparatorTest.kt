@@ -6,6 +6,7 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
@@ -924,7 +925,7 @@ class BooleanComparatorTest {
     fun `should support BETWEEN comparison`() {
         val expected = "`numberField` BETWEEN 1 AND 10"
 
-        val actual = someNumberField().notBetween(1.toDopeType(), 10.toDopeType()).toDopeQuery().queryString
+        val actual = someNumberField().between(1.toDopeType(), 10.toDopeType()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
