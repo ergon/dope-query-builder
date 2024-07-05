@@ -11,8 +11,12 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.exists
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.notInArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.notWithin
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.within
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
@@ -280,6 +284,42 @@ class ArrayTest {
             ).from(
                 someBucket("person"),
             ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support NOT IN expression`() {
+        val expected = "`numberField` NOT IN `numberArrayField`"
+
+        val actual = someNumberField().notInArray(someNumberArrayField()).toDopeQuery().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support WITHIN expression`() {
+        val expected = "`numberField` WITHIN `numberArrayField`"
+
+        val actual = someNumberField().within(someNumberArrayField()).toDopeQuery().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support NOT WITHIN expression`() {
+        val expected = "`numberField` NOT WITHIN `numberArrayField`"
+
+        val actual = someNumberField().notWithin(someNumberArrayField()).toDopeQuery().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support EXISTS expression`() {
+        val expected = "EXISTS `numberArrayField`"
+
+        val actual = exists(someNumberArrayField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }

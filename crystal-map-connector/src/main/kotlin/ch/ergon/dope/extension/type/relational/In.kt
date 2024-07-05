@@ -25,6 +25,18 @@ fun CMField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>): InE
     toDopeType().inArray(array)
 
 @JvmName("inArrayNumber")
+fun TypeExpression<NumberType>.inArray(array: CMList<out Number>): InExpression<NumberType> =
+    this.inArray(array.toDopeType())
+
+@JvmName("inArrayString")
+fun TypeExpression<StringType>.inArray(array: CMList<String>): InExpression<StringType> =
+    this.inArray(array.toDopeType())
+
+@JvmName("inArrayBoolean")
+fun TypeExpression<BooleanType>.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
+    this.inArray(array.toDopeType())
+
+@JvmName("inArrayNumber")
 fun CMField<out Number>.inArray(array: CMList<out Number>): InExpression<NumberType> =
     toDopeType().inArray(array.toDopeType())
 
