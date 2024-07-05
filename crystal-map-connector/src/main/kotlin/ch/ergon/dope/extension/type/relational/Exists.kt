@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.type.relational
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.ExistsExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.exists
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.ExistsExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

@@ -1,7 +1,8 @@
-package ch.ergon.dope.resolvable.expression.unaliased.type.relational
+package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
@@ -17,3 +18,5 @@ class ExistsExpression<T : ValidType>(private val array: TypeExpression<ArrayTyp
 }
 
 fun <T : ValidType> exists(array: TypeExpression<ArrayType<T>>) = ExistsExpression(array)
+
+fun <T : ValidType> exists(array: Collection<TypeExpression<T>>) = exists(array.toDopeType())

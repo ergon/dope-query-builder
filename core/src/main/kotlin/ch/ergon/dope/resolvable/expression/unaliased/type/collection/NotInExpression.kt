@@ -1,9 +1,7 @@
-package ch.ergon.dope.resolvable.expression.unaliased.type.relational
+package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
-import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.operator.InfixOperator
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -13,9 +11,7 @@ import ch.ergon.dope.validtype.ValidType
 class NotInExpression<T : ValidType>(
     value: TypeExpression<T>,
     collection: TypeExpression<ArrayType<T>>,
-) : TypeExpression<BooleanType>, InfixOperator(value, "NOT IN", collection) {
-    override fun toDopeQuery(): DopeQuery = toInfixDopeQuery()
-}
+) : MembershipExpression<T>(value, "NOT IN", collection)
 
 fun <T : ValidType> TypeExpression<T>.notInArray(array: TypeExpression<ArrayType<T>>): NotInExpression<T> =
     NotInExpression(this, array)

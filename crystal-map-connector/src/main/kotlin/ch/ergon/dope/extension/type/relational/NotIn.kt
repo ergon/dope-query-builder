@@ -1,8 +1,8 @@
 package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotInExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.notInArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotInExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.notInArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType

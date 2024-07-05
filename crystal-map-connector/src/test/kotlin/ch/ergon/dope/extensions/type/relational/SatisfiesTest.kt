@@ -5,7 +5,7 @@ import ch.ergon.dope.extension.type.relational.any
 import ch.ergon.dope.extension.type.relational.every
 import ch.ergon.dope.extension.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IteratorManager
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.IteratorManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
 import ch.ergon.dope.toDopeType
