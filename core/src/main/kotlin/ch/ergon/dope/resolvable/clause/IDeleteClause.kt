@@ -2,8 +2,7 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
-import ch.ergon.dope.resolvable.clause.model.DeleteUseKeysArrayClause
-import ch.ergon.dope.resolvable.clause.model.DeleteUseKeysStringClause
+import ch.ergon.dope.resolvable.clause.model.DeleteUseKeysClause.Companion.DeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.ReturningClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -36,9 +35,10 @@ interface IDeleteUseKeysClause : IDeleteWhereClause {
 }
 
 interface IDeleteClause : IDeleteUseKeysClause {
-    fun useKeys(key: TypeExpression<StringType>) = DeleteUseKeysStringClause(key, this)
+    fun useKeys(key: TypeExpression<StringType>) = DeleteUseKeysClause(key, this)
 
+    // JvmName annotation in interfaces is currently not supported. https://youtrack.jetbrains.com/issue/KT-20068
     @Suppress("INAPPLICABLE_JVM_NAME")
     @JvmName("useKeysArray")
-    fun useKeys(key: TypeExpression<ArrayType<StringType>>) = DeleteUseKeysArrayClause(key, this)
+    fun useKeys(key: TypeExpression<ArrayType<StringType>>) = DeleteUseKeysClause(key, this)
 }
