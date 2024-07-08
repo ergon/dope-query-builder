@@ -13,13 +13,31 @@ import ch.ergon.dope.validtype.ValidType
 
 private const val USE_KEYS = "USE KEYS"
 
-sealed class SelectUseKeysClause(
-    private val parentClause: ISelectFromClause,
-    private val keys: TypeExpression<out ValidType>,
-) : ISelectUseKeysClause {
+class SelectUseKeysClause : ISelectUseKeysClause {
+    private lateinit var useKeys: TypeExpression<out ValidType>
+    private lateinit var parentClause: ISelectFromClause
+
+    companion object {
+        @JvmName("selectSingleUseKeysClauseConstructor")
+        fun SelectUseKeysClause(key: TypeExpression<StringType>, parentClause: ISelectFromClause): SelectUseKeysClause {
+            val instance = SelectUseKeysClause()
+            instance.useKeys = key
+            instance.parentClause = parentClause
+            return instance
+        }
+
+        @JvmName("selectMultipleUseKeysClauseConstructor")
+        fun SelectUseKeysClause(keys: TypeExpression<ArrayType<StringType>>, parentClause: ISelectFromClause): SelectUseKeysClause {
+            val instance = SelectUseKeysClause()
+            instance.useKeys = keys
+            instance.parentClause = parentClause
+            return instance
+        }
+    }
+
     override fun toDopeQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery()
-        val keysDopeQuery = keys.toDopeQuery()
+        val keysDopeQuery = useKeys.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
@@ -27,28 +45,34 @@ sealed class SelectUseKeysClause(
     }
 }
 
-class SelectUseKeysStringClause(key: TypeExpression<StringType>, parentClause: ISelectFromClause) :
-    SelectUseKeysClause(parentClause, key)
+class DeleteUseKeysClause : IDeleteUseKeysClause {
+    private lateinit var useKeys: TypeExpression<out ValidType>
+    private lateinit var parentClause: IDeleteClause
 
-class SelectUseKeysArrayClause(keys: TypeExpression<ArrayType<StringType>>, parentClause: ISelectFromClause) :
-    SelectUseKeysClause(parentClause, keys)
+    companion object {
+        @JvmName("deleteSingleUseKeysClauseConstructor")
+        fun DeleteUseKeysClause(key: TypeExpression<StringType>, parentClause: IDeleteClause): DeleteUseKeysClause {
+            val instance = DeleteUseKeysClause()
+            instance.useKeys = key
+            instance.parentClause = parentClause
+            return instance
+        }
 
-sealed class DeleteUseKeysClause(
-    private val parentClause: IDeleteClause,
-    private val keys: TypeExpression<out ValidType>,
-) : IDeleteUseKeysClause {
+        @JvmName("deleteMultipleUseKeysClauseConstructor")
+        fun DeleteUseKeysClause(keys: TypeExpression<ArrayType<StringType>>, parentClause: IDeleteClause): DeleteUseKeysClause {
+            val instance = DeleteUseKeysClause()
+            instance.useKeys = keys
+            instance.parentClause = parentClause
+            return instance
+        }
+    }
+
     override fun toDopeQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery()
-        val keysDopeQuery = keys.toDopeQuery()
+        val keysDopeQuery = useKeys.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
         )
     }
 }
-
-class DeleteUseKeysStringClause(key: TypeExpression<StringType>, parentClause: IDeleteClause) :
-    DeleteUseKeysClause(parentClause, key)
-
-class DeleteUseKeysArrayClause(keys: TypeExpression<ArrayType<StringType>>, parentClause: IDeleteClause) :
-    DeleteUseKeysClause(parentClause, keys)
