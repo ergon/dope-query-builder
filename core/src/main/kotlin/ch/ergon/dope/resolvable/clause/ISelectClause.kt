@@ -11,8 +11,7 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
-import ch.ergon.dope.resolvable.clause.model.SelectUseKeysArrayClause
-import ch.ergon.dope.resolvable.clause.model.SelectUseKeysStringClause
+import ch.ergon.dope.resolvable.clause.model.SelectUseKeysClause.Companion.SelectUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
@@ -57,11 +56,12 @@ interface ISelectUseKeysClause : ISelectWhereClause {
 }
 
 interface ISelectFromClause : ISelectUseKeysClause {
-    fun useKeys(key: TypeExpression<StringType>) = SelectUseKeysStringClause(key, this)
+    fun useKeys(key: TypeExpression<StringType>) = SelectUseKeysClause(key, this)
 
+    // JvmName annotation in interfaces is currently not supported. https://youtrack.jetbrains.com/issue/KT-20068
     @Suppress("INAPPLICABLE_JVM_NAME")
     @JvmName("useKeysArray")
-    fun useKeys(keys: TypeExpression<ArrayType<StringType>>) = SelectUseKeysArrayClause(keys, this)
+    fun useKeys(keys: TypeExpression<ArrayType<StringType>>) = SelectUseKeysClause(keys, this)
 }
 
 interface ISelectJoinClause : ISelectFromClause {
