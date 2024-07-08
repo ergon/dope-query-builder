@@ -24,5 +24,8 @@ class ArrayPrependExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> arrayPrepend(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>, vararg values: TypeExpression<T>) =
-    ArrayPrependExpression(array, value, *values)
+fun <T : ValidType> arrayPrepend(
+    array: TypeExpression<ArrayType<T>>,
+    value: TypeExpression<T>,
+    vararg values: TypeExpression<T>,
+) = ArrayPrependExpression(array, value, *values)

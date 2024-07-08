@@ -7,11 +7,11 @@ import ch.ergon.dope.validtype.ValidType
 class ArrayUnionExpression<T : ValidType>(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
-    vararg arrays: TypeExpression<ArrayType<T>>,
-) : ArrayFunctionExpression<T>("ARRAY_UNION", firstArray, secondArray, *arrays)
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) : ArrayFunctionExpression<T>("ARRAY_UNION", firstArray, secondArray, *additionalArrays)
 
 fun <T : ValidType> arrayUnion(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
-    vararg arrays: TypeExpression<ArrayType<T>>,
-) = ArrayUnionExpression(firstArray, secondArray, *arrays)
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = ArrayUnionExpression(firstArray, secondArray, *additionalArrays)

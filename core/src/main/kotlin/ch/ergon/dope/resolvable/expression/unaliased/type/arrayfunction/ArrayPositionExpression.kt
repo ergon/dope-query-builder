@@ -9,6 +9,8 @@ import ch.ergon.dope.validtype.ValidType
 class ArrayPositionExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>, value: TypeExpression<NumberType>) :
     ArrayFunctionNumberExpression<T>("ARRAY_POSITION", array, value)
 
-fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: TypeExpression<NumberType>) = ArrayPositionExpression(array, value)
+fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: TypeExpression<NumberType>) =
+    ArrayPositionExpression(array, value)
 
-fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: Number) = arrayPosition(array, value.toDopeType())
+fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: Number) =
+    arrayPosition(array, value.toDopeType())

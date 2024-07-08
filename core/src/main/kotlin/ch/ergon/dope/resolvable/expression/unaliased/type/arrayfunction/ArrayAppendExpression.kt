@@ -10,5 +10,8 @@ class ArrayAppendExpression<T : ValidType>(
     vararg values: TypeExpression<T>,
 ) : ArrayFunctionExpression<T>("ARRAY_APPEND", array, value, *values)
 
-fun <T : ValidType> arrayAppend(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>, vararg values: TypeExpression<T>) =
-    ArrayAppendExpression(array, value, *values)
+fun <T : ValidType> arrayAppend(
+    array: TypeExpression<ArrayType<T>>,
+    value: TypeExpression<T>,
+    vararg values: TypeExpression<T>,
+) = ArrayAppendExpression(array, value, *values)

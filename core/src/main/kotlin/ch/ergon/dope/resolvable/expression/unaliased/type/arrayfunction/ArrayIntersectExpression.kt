@@ -7,11 +7,11 @@ import ch.ergon.dope.validtype.ValidType
 class ArrayIntersectExpression<T : ValidType>(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
-    vararg arrays: TypeExpression<ArrayType<T>>,
-) : ArrayFunctionExpression<T>("ARRAY_INTERSECT", firstArray, secondArray, *arrays)
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) : ArrayFunctionExpression<T>("ARRAY_INTERSECT", firstArray, secondArray, *additionalArrays)
 
 fun <T : ValidType> arrayIntersect(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
-    vararg arrays: TypeExpression<ArrayType<T>>,
-) = ArrayIntersectExpression(firstArray, secondArray, *arrays)
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = ArrayIntersectExpression(firstArray, secondArray, *additionalArrays)

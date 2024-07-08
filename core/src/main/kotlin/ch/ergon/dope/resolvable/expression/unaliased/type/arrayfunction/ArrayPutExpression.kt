@@ -10,5 +10,8 @@ class ArrayPutExpression<T : ValidType>(
     vararg values: TypeExpression<T>,
 ) : ArrayFunctionExpression<T>("ARRAY_PUT", array, value, *values)
 
-fun <T : ValidType> arrayPut(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>, vararg values: TypeExpression<T>) =
-    ArrayPutExpression(array, value, *values)
+fun <T : ValidType> arrayPut(
+    array: TypeExpression<ArrayType<T>>,
+    value: TypeExpression<T>,
+    vararg values: TypeExpression<T>,
+) = ArrayPutExpression(array, value, *values)
