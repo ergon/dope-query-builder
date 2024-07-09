@@ -1,5 +1,6 @@
-package ch.ergon.dope
+package ch.ergon.dope.operators.collection
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
