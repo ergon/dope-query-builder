@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType

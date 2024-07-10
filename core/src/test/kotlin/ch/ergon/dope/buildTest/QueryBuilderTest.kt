@@ -1,8 +1,8 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias

@@ -1,10 +1,10 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager

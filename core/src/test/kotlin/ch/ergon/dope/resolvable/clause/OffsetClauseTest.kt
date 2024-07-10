@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause

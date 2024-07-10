@@ -1,8 +1,8 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.div
