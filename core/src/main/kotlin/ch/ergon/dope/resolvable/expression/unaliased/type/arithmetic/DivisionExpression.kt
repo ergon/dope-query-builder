@@ -7,11 +7,8 @@ import ch.ergon.dope.validtype.NumberType
 class DivisionExpression(left: TypeExpression<NumberType>, right: TypeExpression<NumberType>) :
     NumberInfixExpression(left, "/", right)
 
-fun TypeExpression<NumberType>.div(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    DivisionExpression(this, numberExpression)
+fun TypeExpression<NumberType>.div(numberExpression: TypeExpression<NumberType>) = DivisionExpression(this, numberExpression)
 
-fun TypeExpression<NumberType>.div(number: Number): NumberInfixExpression =
-    div(number.toDopeType())
+fun TypeExpression<NumberType>.div(number: Number) = div(number.toDopeType())
 
-fun Number.div(numberExpression: TypeExpression<NumberType>): NumberInfixExpression =
-    this.toDopeType().div(numberExpression)
+fun Number.div(numberExpression: TypeExpression<NumberType>) = toDopeType().div(numberExpression)

@@ -9,11 +9,8 @@ class OrExpression(
     right: TypeExpression<BooleanType>,
 ) : LogicalInfixExpression(left, "OR", right)
 
-fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    OrExpression(this, booleanExpression)
+fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType>) = OrExpression(this, booleanExpression)
 
-fun TypeExpression<BooleanType>.or(boolean: Boolean): LogicalInfixExpression =
-    this.or(boolean.toDopeType())
+fun TypeExpression<BooleanType>.or(boolean: Boolean) = or(boolean.toDopeType())
 
-fun Boolean.or(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    this.toDopeType().or(booleanExpression)
+fun Boolean.or(booleanExpression: TypeExpression<BooleanType>) = toDopeType().or(booleanExpression)

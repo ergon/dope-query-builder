@@ -9,11 +9,8 @@ class AndExpression(
     right: TypeExpression<BooleanType>,
 ) : LogicalInfixExpression(left, "AND", right)
 
-fun TypeExpression<BooleanType>.and(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    AndExpression(this, booleanExpression)
+fun TypeExpression<BooleanType>.and(booleanExpression: TypeExpression<BooleanType>) = AndExpression(this, booleanExpression)
 
-fun TypeExpression<BooleanType>.and(boolean: Boolean): LogicalInfixExpression =
-    this.and(boolean.toDopeType())
+fun TypeExpression<BooleanType>.and(boolean: Boolean) = and(boolean.toDopeType())
 
-fun Boolean.and(booleanExpression: TypeExpression<BooleanType>): LogicalInfixExpression =
-    this.toDopeType().and(booleanExpression)
+fun Boolean.and(booleanExpression: TypeExpression<BooleanType>) = toDopeType().and(booleanExpression)
