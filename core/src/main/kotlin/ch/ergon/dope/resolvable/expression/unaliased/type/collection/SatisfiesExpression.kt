@@ -1,9 +1,9 @@
-package ch.ergon.dope.resolvable.expression.unaliased.type.relational
+package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.ANY
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.EVERY
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType

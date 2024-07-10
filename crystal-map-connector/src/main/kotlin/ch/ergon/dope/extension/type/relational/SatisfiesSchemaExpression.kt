@@ -2,14 +2,14 @@ package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.DEFAULT_ITERATOR_VARIABLE
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.Iterator
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IteratorManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.ANY
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.SatisfiesType.EVERY
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.any
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.every
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.DEFAULT_ITERATOR_VARIABLE
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.Iterator
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.IteratorManager
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.every
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.DopeSchemaArray
