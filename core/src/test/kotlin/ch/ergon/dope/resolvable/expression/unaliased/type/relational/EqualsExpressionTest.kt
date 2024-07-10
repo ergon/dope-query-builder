@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -27,7 +27,7 @@ class EqualsExpressionTest {
             "`numberField` = `numberField`",
             emptyMap(),
         )
-        val underTest = EqualsExpression(someNumberField(), someNumberField())
+        val underTest = EqualsExpression(CMNumberField(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -41,7 +41,7 @@ class EqualsExpressionTest {
             "$1 = `numberField`",
             mapOf("$1" to parameterValue),
         )
-        val underTest = EqualsExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = EqualsExpression(parameterValue.asParameter(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -70,7 +70,7 @@ class EqualsExpressionTest {
             "`numberField` = $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = EqualsExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = EqualsExpression(CMNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -79,8 +79,8 @@ class EqualsExpressionTest {
 
     @Test
     fun `should support equals function type type`() {
-        val left = someNumberField()
-        val right = someNumberField()
+        val left = CMNumberField()
+        val right = CMNumberField()
         val expected = EqualsExpression(left, right)
 
         val actual = left.isEqualTo(right)
@@ -90,7 +90,7 @@ class EqualsExpressionTest {
 
     @Test
     fun `should support equals function type number`() {
-        val left = someNumberField()
+        val left = CMNumberField()
         val right = someNumber()
         val expected = EqualsExpression(left, right.toDopeType())
 
@@ -102,7 +102,7 @@ class EqualsExpressionTest {
     @Test
     fun `should support equals function number type`() {
         val left = someNumber()
-        val right = someNumberField()
+        val right = CMNumberField()
         val expected = EqualsExpression(left.toDopeType(), right)
 
         val actual = left.isEqualTo(right)

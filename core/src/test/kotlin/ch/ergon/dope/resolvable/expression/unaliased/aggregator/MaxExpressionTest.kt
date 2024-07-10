@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
@@ -23,7 +23,7 @@ class MaxExpressionTest {
             "MAX(`numberField`)",
             emptyMap(),
         )
-        val underTest = MaxExpression(someNumberField(), null)
+        val underTest = MaxExpression(CMNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -36,7 +36,7 @@ class MaxExpressionTest {
             "MAX(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = MaxExpression(someNumberField(), ALL)
+        val underTest = MaxExpression(CMNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -49,7 +49,7 @@ class MaxExpressionTest {
             "MAX(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = MaxExpression(someNumberField(), DISTINCT)
+        val underTest = MaxExpression(CMNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 

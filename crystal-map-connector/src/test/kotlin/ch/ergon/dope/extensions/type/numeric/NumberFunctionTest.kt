@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test
 class NumberFunctionTest {
     @Test
     fun `should support ABS number function with number CMField`() {
-        val expected = "ABS(`someNumberField`)"
+        val expected = "ABS(`CMNumberField`)"
 
         val actual = abs(someCMNumberField()).toDopeQuery().queryString
 
@@ -38,7 +38,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ACOS number function with number CMField`() {
-        val expected = "ACOS(`someNumberField`)"
+        val expected = "ACOS(`CMNumberField`)"
 
         val actual = acos(someCMNumberField()).toDopeQuery().queryString
 
@@ -47,7 +47,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ASIN number function with number CMField`() {
-        val expected = "ASIN(`someNumberField`)"
+        val expected = "ASIN(`CMNumberField`)"
 
         val actual = asin(someCMNumberField()).toDopeQuery().queryString
 
@@ -56,7 +56,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ATAN number function with number CMField`() {
-        val expected = "ATAN(`someNumberField`)"
+        val expected = "ATAN(`CMNumberField`)"
 
         val actual = atan(someCMNumberField()).toDopeQuery().queryString
 
@@ -65,7 +65,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ATAN2 number function with divisor and dividend as number CMField`() {
-        val expected = "ATAN2(`someNumberField`, `anotherNumberField`)"
+        val expected = "ATAN2(`CMNumberField`, `anotherNumberField`)"
 
         val actual = atan2(someCMNumberField(), someCMNumberField("anotherNumberField")).toDopeQuery().queryString
 
@@ -74,7 +74,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ATAN2 number function with divisor as number CMField and dividend as TypeExpression`() {
-        val expected = "ATAN2(`someNumberField`, 1)"
+        val expected = "ATAN2(`CMNumberField`, 1)"
 
         val actual = atan2(someCMNumberField(), 1.toDopeType()).toDopeQuery().queryString
 
@@ -83,7 +83,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ATAN2 number function with divisor as number CMField and dividend as Number`() {
-        val expected = "ATAN2(`someNumberField`, 1)"
+        val expected = "ATAN2(`CMNumberField`, 1)"
 
         val actual = atan2(someCMNumberField(), 1).toDopeQuery().queryString
 
@@ -92,7 +92,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ATAN2 number function with divisor as TypeExpression and dividend as number CMField`() {
-        val expected = "ATAN2(1, `someNumberField`)"
+        val expected = "ATAN2(1, `CMNumberField`)"
 
         val actual = atan2(1.toDopeType(), someCMNumberField()).toDopeQuery().queryString
 
@@ -101,7 +101,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ATAN2 number function with divisor as Number and dividend as number CMField`() {
-        val expected = "ATAN2(1, `someNumberField`)"
+        val expected = "ATAN2(1, `CMNumberField`)"
 
         val actual = atan2(1, someCMNumberField()).toDopeQuery().queryString
 
@@ -110,7 +110,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support CEIL number function with number CMField`() {
-        val expected = "CEIL(`someNumberField`)"
+        val expected = "CEIL(`CMNumberField`)"
 
         val actual = ceil(someCMNumberField()).toDopeQuery().queryString
 
@@ -119,7 +119,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support COS number function with number CMField`() {
-        val expected = "COS(`someNumberField`)"
+        val expected = "COS(`CMNumberField`)"
 
         val actual = cos(someCMNumberField()).toDopeQuery().queryString
 
@@ -128,7 +128,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support DEGREES number function with number CMField`() {
-        val expected = "DEGREES(`someNumberField`)"
+        val expected = "DEGREES(`CMNumberField`)"
 
         val actual = degrees(someCMNumberField()).toDopeQuery().queryString
 
@@ -137,7 +137,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support EXP number function with number CMField`() {
-        val expected = "EXP(`someNumberField`)"
+        val expected = "EXP(`CMNumberField`)"
 
         val actual = exp(someCMNumberField()).toDopeQuery().queryString
 
@@ -146,7 +146,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support LN number function with number CMField`() {
-        val expected = "LN(`someNumberField`)"
+        val expected = "LN(`CMNumberField`)"
 
         val actual = ln(someCMNumberField()).toDopeQuery().queryString
 
@@ -155,7 +155,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support LOG number function with number CMField`() {
-        val expected = "LOG(`someNumberField`)"
+        val expected = "LOG(`CMNumberField`)"
 
         val actual = log(someCMNumberField()).toDopeQuery().queryString
 
@@ -164,7 +164,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support FLOOR number function with number CMField`() {
-        val expected = "FLOOR(`someNumberField`)"
+        val expected = "FLOOR(`CMNumberField`)"
 
         val actual = floor(someCMNumberField()).toDopeQuery().queryString
 
@@ -173,7 +173,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support POWER number function with base and exponent as number CMField`() {
-        val expected = "POWER(`someNumberField`, `anotherNumberField`)"
+        val expected = "POWER(`CMNumberField`, `anotherNumberField`)"
 
         val actual = power(someCMNumberField(), someCMNumberField("anotherNumberField")).toDopeQuery().queryString
 
@@ -182,7 +182,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support POWER number function with base as number CMField and exponent as TypeExpression`() {
-        val expected = "POWER(`someNumberField`, 1)"
+        val expected = "POWER(`CMNumberField`, 1)"
 
         val actual = power(someCMNumberField(), 1.toDopeType()).toDopeQuery().queryString
 
@@ -191,7 +191,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support POWER number function with base as number CMField and exponent as Number`() {
-        val expected = "POWER(`someNumberField`, 1)"
+        val expected = "POWER(`CMNumberField`, 1)"
 
         val actual = power(someCMNumberField(), 1).toDopeQuery().queryString
 
@@ -200,7 +200,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support POWER number function with base as TypeExpression and exponent as number CMField`() {
-        val expected = "POWER(1, `someNumberField`)"
+        val expected = "POWER(1, `CMNumberField`)"
 
         val actual = power(1.toDopeType(), someCMNumberField()).toDopeQuery().queryString
 
@@ -209,7 +209,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support POWER number function with base as Number and exponent as number CMField`() {
-        val expected = "POWER(1, `someNumberField`)"
+        val expected = "POWER(1, `CMNumberField`)"
 
         val actual = power(1, someCMNumberField()).toDopeQuery().queryString
 
@@ -218,7 +218,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support RADIANS number function with number CMField`() {
-        val expected = "RADIANS(`someNumberField`)"
+        val expected = "RADIANS(`CMNumberField`)"
 
         val actual = radians(someCMNumberField()).toDopeQuery().queryString
 
@@ -227,7 +227,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support RANDOM number function with number CMField`() {
-        val expected = "RANDOM(`someNumberField`)"
+        val expected = "RANDOM(`CMNumberField`)"
 
         val actual = random(someCMNumberField()).toDopeQuery().queryString
 
@@ -236,7 +236,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ROUND number function with number CMField`() {
-        val expected = "ROUND(`someNumberField`)"
+        val expected = "ROUND(`CMNumberField`)"
 
         val actual = round(someCMNumberField()).toDopeQuery().queryString
 
@@ -245,7 +245,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ROUND number function with value and digits as number CMField`() {
-        val expected = "ROUND(`someNumberField`, `anotherNumberField`)"
+        val expected = "ROUND(`CMNumberField`, `anotherNumberField`)"
 
         val actual = round(someCMNumberField(), someCMNumberField("anotherNumberField")).toDopeQuery().queryString
 
@@ -254,7 +254,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ROUND number function with value as number CMField and digits as TypeExpression`() {
-        val expected = "ROUND(`someNumberField`, 1)"
+        val expected = "ROUND(`CMNumberField`, 1)"
 
         val actual = round(someCMNumberField(), 1.toDopeType()).toDopeQuery().queryString
 
@@ -263,7 +263,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ROUND number function with value as number CMField and digits as Number`() {
-        val expected = "ROUND(`someNumberField`, 1)"
+        val expected = "ROUND(`CMNumberField`, 1)"
 
         val actual = round(someCMNumberField(), 1).toDopeQuery().queryString
 
@@ -272,7 +272,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ROUND number function with value as TypeExpression and digits as number CMField`() {
-        val expected = "ROUND(1, `someNumberField`)"
+        val expected = "ROUND(1, `CMNumberField`)"
 
         val actual = round(1.toDopeType(), someCMNumberField()).toDopeQuery().queryString
 
@@ -281,7 +281,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support ROUND number function with value as Number and digits as number CMField`() {
-        val expected = "ROUND(1, `someNumberField`)"
+        val expected = "ROUND(1, `CMNumberField`)"
 
         val actual = round(1, someCMNumberField()).toDopeQuery().queryString
 
@@ -290,7 +290,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support SIGN number function with number CMField`() {
-        val expected = "SIGN(`someNumberField`)"
+        val expected = "SIGN(`CMNumberField`)"
 
         val actual = sign(someCMNumberField()).toDopeQuery().queryString
 
@@ -299,7 +299,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support SIN number function with number CMField`() {
-        val expected = "SIN(`someNumberField`)"
+        val expected = "SIN(`CMNumberField`)"
 
         val actual = sin(someCMNumberField()).toDopeQuery().queryString
 
@@ -308,7 +308,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support SQRT number function with number CMField`() {
-        val expected = "SQRT(`someNumberField`)"
+        val expected = "SQRT(`CMNumberField`)"
 
         val actual = sqrt(someCMNumberField()).toDopeQuery().queryString
 
@@ -317,7 +317,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TAN number function with number CMField`() {
-        val expected = "TAN(`someNumberField`)"
+        val expected = "TAN(`CMNumberField`)"
 
         val actual = tan(someCMNumberField()).toDopeQuery().queryString
 
@@ -326,7 +326,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TRUNC number function with number CMField`() {
-        val expected = "TRUNC(`someNumberField`)"
+        val expected = "TRUNC(`CMNumberField`)"
 
         val actual = trunc(someCMNumberField()).toDopeQuery().queryString
 
@@ -335,7 +335,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TRUNC number function with value and digits as number CMField`() {
-        val expected = "TRUNC(`someNumberField`, `anotherNumberField`)"
+        val expected = "TRUNC(`CMNumberField`, `anotherNumberField`)"
 
         val actual = trunc(someCMNumberField(), someCMNumberField("anotherNumberField")).toDopeQuery().queryString
 
@@ -344,7 +344,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TRUNC number function with value as number CMField and digits as TypeExpression`() {
-        val expected = "TRUNC(`someNumberField`, 1)"
+        val expected = "TRUNC(`CMNumberField`, 1)"
 
         val actual = trunc(someCMNumberField(), 1.toDopeType()).toDopeQuery().queryString
 
@@ -353,7 +353,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TRUNC number function with value as number CMField and digits as Number`() {
-        val expected = "TRUNC(`someNumberField`, 1)"
+        val expected = "TRUNC(`CMNumberField`, 1)"
 
         val actual = trunc(someCMNumberField(), 1).toDopeQuery().queryString
 
@@ -362,7 +362,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TRUNC number function with value as TypeExpression and digits as number CMField`() {
-        val expected = "TRUNC(1, `someNumberField`)"
+        val expected = "TRUNC(1, `CMNumberField`)"
 
         val actual = trunc(1.toDopeType(), someCMNumberField()).toDopeQuery().queryString
 
@@ -371,7 +371,7 @@ class NumberFunctionTest {
 
     @Test
     fun `should support TRUNC number function with value as Number and digits as number CMField`() {
-        val expected = "TRUNC(1, `someNumberField`)"
+        val expected = "TRUNC(1, `CMNumberField`)"
 
         val actual = trunc(1, someCMNumberField()).toDopeQuery().queryString
 

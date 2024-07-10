@@ -6,7 +6,7 @@ import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -73,7 +73,7 @@ class InExpressionTest {
             "`numberField` IN $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = InExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = InExpression(CMNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -82,7 +82,7 @@ class InExpressionTest {
 
     @Test
     fun `should support in function type type`() {
-        val left = someNumberField()
+        val left = CMNumberField()
         val right = someNumberArrayField()
         val expected = InExpression(left, right)
 
@@ -93,8 +93,8 @@ class InExpressionTest {
 
     @Test
     fun `should support in function type with collection of type`() {
-        val left = someNumberField()
-        val right = listOf(someNumberField())
+        val left = CMNumberField()
+        val right = listOf(CMNumberField())
         val expected = InExpression(left, right.toDopeType())
 
         val actual = left.inArray(right)
@@ -138,7 +138,7 @@ class InExpressionTest {
     @Test
     fun `should support in function number collection of type`() {
         val left = someNumber()
-        val right = listOf(someNumberField())
+        val right = listOf(CMNumberField())
         val expected = InExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.inArray(right)

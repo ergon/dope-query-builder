@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
@@ -85,7 +85,7 @@ class DeleteTest {
 
         val actual: String = create
             .deleteFrom(someBucket())
-            .returning(someStringField(), someNumberField())
+            .returning(someStringField(), CMNumberField())
             .build().queryString
 
         assertEquals(expected, actual)
@@ -97,7 +97,7 @@ class DeleteTest {
 
         val actual: String = create
             .deleteFrom(someBucket())
-            .where(someNumberField("age", someBucket()).isEqualTo(2).and(TRUE))
+            .where(CMNumberField("age", someBucket()).isEqualTo(2).and(TRUE))
             .limit(7.toDopeType())
             .offset(10.toDopeType())
             .returning(someStringField())

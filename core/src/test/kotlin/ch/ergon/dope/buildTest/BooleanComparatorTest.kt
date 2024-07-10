@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
@@ -43,7 +43,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                someNumberField().isGreaterThan(5.toDopeType()),
+                CMNumberField().isGreaterThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -173,7 +173,7 @@ class BooleanComparatorTest {
             .selectFrom(
                 someBucket(),
             ).where(
-                someNumberField().isLessThan(5.toDopeType()),
+                CMNumberField().isLessThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -186,7 +186,7 @@ class BooleanComparatorTest {
         val actual = create
             .selectFrom(someBucket())
             .where(
-                5.toDopeType().isLessThan(someNumberField()),
+                5.toDopeType().isLessThan(CMNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -489,7 +489,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isNotEqualTo(5.toDopeType()),
+                CMNumberField().isNotEqualTo(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -503,7 +503,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toDopeType().isNotEqualTo(someNumberField()),
+                3.toDopeType().isNotEqualTo(CMNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -615,7 +615,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isGreaterOrEqualThan(5.toDopeType()),
+                CMNumberField().isGreaterOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -629,7 +629,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toDopeType().isGreaterOrEqualThan(someNumberField()),
+                3.toDopeType().isGreaterOrEqualThan(CMNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -699,7 +699,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                someNumberField().isLessOrEqualThan(5.toDopeType()),
+                CMNumberField().isLessOrEqualThan(5.toDopeType()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -713,7 +713,7 @@ class BooleanComparatorTest {
             .selectAsterisk()
             .from(someBucket())
             .where(
-                3.toDopeType().isLessOrEqualThan(someNumberField()),
+                3.toDopeType().isLessOrEqualThan(CMNumberField()),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -771,14 +771,14 @@ class BooleanComparatorTest {
 
         val actual: String = create.select(
             someStringField(),
-            someNumberField(),
+            CMNumberField(),
         ).from(
             someBucket(),
         ).where(
             someStringField("email").isLike(
                 "%@gmail.com".toDopeType(),
             ).and(
-                someNumberField().isEqualTo(46.toDopeType()),
+                CMNumberField().isEqualTo(46.toDopeType()),
             ),
         ).build().queryString
 

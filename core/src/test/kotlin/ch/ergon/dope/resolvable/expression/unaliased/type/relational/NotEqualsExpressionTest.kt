@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class NotEqualsExpressionTest {
             "`numberField` != `numberField`",
             emptyMap(),
         )
-        val underTest = NotEqualsExpression(someNumberField(), someNumberField())
+        val underTest = NotEqualsExpression(CMNumberField(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class NotEqualsExpressionTest {
             "$1 != `numberField`",
             mapOf("$1" to parameterValue),
         )
-        val underTest = NotEqualsExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = NotEqualsExpression(parameterValue.asParameter(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -68,7 +68,7 @@ class NotEqualsExpressionTest {
             "`numberField` != $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = NotEqualsExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = NotEqualsExpression(CMNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -77,8 +77,8 @@ class NotEqualsExpressionTest {
 
     @Test
     fun `should support not equals function type type`() {
-        val left = someNumberField()
-        val right = someNumberField()
+        val left = CMNumberField()
+        val right = CMNumberField()
         val expected = NotEqualsExpression(left, right)
 
         val actual = left.isNotEqualTo(right)
@@ -88,7 +88,7 @@ class NotEqualsExpressionTest {
 
     @Test
     fun `should support not equals function type number`() {
-        val left = someNumberField()
+        val left = CMNumberField()
         val right = someNumber()
         val expected = NotEqualsExpression(left, right.toDopeType())
 
@@ -100,7 +100,7 @@ class NotEqualsExpressionTest {
     @Test
     fun `should support not equals function number type`() {
         val left = someNumber()
-        val right = someNumberField()
+        val right = CMNumberField()
         val expected = NotEqualsExpression(left.toDopeType(), right)
 
         val actual = left.isNotEqualTo(right)

@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -23,7 +23,7 @@ class NegationExpressionTest {
             "-`numberField`",
             emptyMap(),
         )
-        val underTest = NegationExpression(someNumberField())
+        val underTest = NegationExpression(CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -46,7 +46,7 @@ class NegationExpressionTest {
 
     @Test
     fun `should support negation function type`() {
-        val type = someNumberField()
+        val type = CMNumberField()
         val expected = NegationExpression(type)
 
         val actual = neg(type)

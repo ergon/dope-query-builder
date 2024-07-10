@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
@@ -23,7 +23,7 @@ class CuntExpressionTest {
             "COUNT(`numberField`)",
             emptyMap(),
         )
-        val underTest = CountExpression(someNumberField(), null)
+        val underTest = CountExpression(CMNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -36,7 +36,7 @@ class CuntExpressionTest {
             "COUNT(ALL `numberField`)",
             emptyMap(),
         )
-        val countExpression = CountExpression(someNumberField(), ALL)
+        val countExpression = CountExpression(CMNumberField(), ALL)
 
         val actual = countExpression.toDopeQuery()
 
@@ -49,7 +49,7 @@ class CuntExpressionTest {
             "COUNT(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val countExpression = CountExpression(someNumberField(), DISTINCT)
+        val countExpression = CountExpression(CMNumberField(), DISTINCT)
 
         val actual = countExpression.toDopeQuery()
 

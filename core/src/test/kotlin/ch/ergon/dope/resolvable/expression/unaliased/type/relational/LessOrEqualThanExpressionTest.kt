@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class LessOrEqualThanExpressionTest {
             "`numberField` <= `numberField`",
             emptyMap(),
         )
-        val underTest = LessOrEqualThanExpression(someNumberField(), someNumberField())
+        val underTest = LessOrEqualThanExpression(CMNumberField(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class LessOrEqualThanExpressionTest {
             "$1 <= `numberField`",
             mapOf("$1" to parameterValue),
         )
-        val underTest = LessOrEqualThanExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = LessOrEqualThanExpression(parameterValue.asParameter(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -68,7 +68,7 @@ class LessOrEqualThanExpressionTest {
             "`numberField` <= $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = LessOrEqualThanExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = LessOrEqualThanExpression(CMNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -77,8 +77,8 @@ class LessOrEqualThanExpressionTest {
 
     @Test
     fun `should support less or equal function type type`() {
-        val left = someNumberField()
-        val right = someNumberField()
+        val left = CMNumberField()
+        val right = CMNumberField()
         val expected = LessOrEqualThanExpression(left, right)
 
         val actual = left.isLessOrEqualThan(right)
@@ -88,7 +88,7 @@ class LessOrEqualThanExpressionTest {
 
     @Test
     fun `should support less or equal function type number`() {
-        val left = someNumberField()
+        val left = CMNumberField()
         val right = someNumber()
         val expected = LessOrEqualThanExpression(left, right.toDopeType())
 
@@ -100,7 +100,7 @@ class LessOrEqualThanExpressionTest {
     @Test
     fun `should support less or equal function number type`() {
         val left = someNumber()
-        val right = someNumberField()
+        val right = CMNumberField()
         val expected = LessOrEqualThanExpression(left.toDopeType(), right)
 
         val actual = left.isLessOrEqualThan(right)

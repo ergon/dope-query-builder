@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -23,7 +23,7 @@ class MultiplicationExpressionTest {
             "(`numberField` * `numberField`)",
             emptyMap(),
         )
-        val underTest = MultiplicationExpression(someNumberField(), someNumberField())
+        val underTest = MultiplicationExpression(CMNumberField(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -37,7 +37,7 @@ class MultiplicationExpressionTest {
             "($1 * `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = MultiplicationExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = MultiplicationExpression(parameterValue.asParameter(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -66,7 +66,7 @@ class MultiplicationExpressionTest {
             "(`numberField` * $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = MultiplicationExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = MultiplicationExpression(CMNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -75,8 +75,8 @@ class MultiplicationExpressionTest {
 
     @Test
     fun `should support multiplication function type type`() {
-        val left = someNumberField()
-        val right = someNumberField()
+        val left = CMNumberField()
+        val right = CMNumberField()
         val expected = MultiplicationExpression(left, right)
 
         val actual = left.mul(right)
@@ -86,7 +86,7 @@ class MultiplicationExpressionTest {
 
     @Test
     fun `should support multiplication function type number`() {
-        val left = someNumberField()
+        val left = CMNumberField()
         val right = someNumber()
         val expected = MultiplicationExpression(left, right.toDopeType())
 
@@ -98,7 +98,7 @@ class MultiplicationExpressionTest {
     @Test
     fun `should support multiplication function number type`() {
         val left = someNumber()
-        val right = someNumberField()
+        val right = CMNumberField()
         val expected = MultiplicationExpression(left.toDopeType(), right)
 
         val actual = left.mul(right)

@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class GreaterOrEqualThanExpressionTest {
             "`numberField` >= `numberField`",
             emptyMap(),
         )
-        val underTest = GreaterOrEqualThanExpression(someNumberField(), someNumberField())
+        val underTest = GreaterOrEqualThanExpression(CMNumberField(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class GreaterOrEqualThanExpressionTest {
             "$1 >= `numberField`",
             mapOf("$1" to parameterValue),
         )
-        val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -68,7 +68,7 @@ class GreaterOrEqualThanExpressionTest {
             "`numberField` >= $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = GreaterOrEqualThanExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = GreaterOrEqualThanExpression(CMNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -77,8 +77,8 @@ class GreaterOrEqualThanExpressionTest {
 
     @Test
     fun `should support greater or equals function type type`() {
-        val left = someNumberField()
-        val right = someNumberField()
+        val left = CMNumberField()
+        val right = CMNumberField()
         val expected = GreaterOrEqualThanExpression(left, right)
 
         val actual = left.isGreaterOrEqualThan(right)
@@ -88,7 +88,7 @@ class GreaterOrEqualThanExpressionTest {
 
     @Test
     fun `should support greater or equals function type number`() {
-        val left = someNumberField()
+        val left = CMNumberField()
         val right = someNumber()
         val expected = GreaterOrEqualThanExpression(left, right.toDopeType())
 
@@ -100,7 +100,7 @@ class GreaterOrEqualThanExpressionTest {
     @Test
     fun `should support greater or equals function number type`() {
         val left = someNumber()
-        val right = someNumberField()
+        val right = CMNumberField()
         val expected = GreaterOrEqualThanExpression(left.toDopeType(), right)
 
         val actual = left.isGreaterOrEqualThan(right)

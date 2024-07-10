@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class VarianceExpressionTest {
             "VARIANCE(`numberField`)",
             emptyMap(),
         )
-        val underTest = VarianceExpression(someNumberField(), null)
+        val underTest = VarianceExpression(CMNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class VarianceExpressionTest {
             "VARIANCE(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = VarianceExpression(someNumberField(), ALL)
+        val underTest = VarianceExpression(CMNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class VarianceExpressionTest {
             "VARIANCE(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = VarianceExpression(someNumberField(), DISTINCT)
+        val underTest = VarianceExpression(CMNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class VarianceExpressionTest {
 
     @Test
     fun `should support variance function`() {
-        val field = someNumberField()
+        val field = CMNumberField()
         val quantifier = DISTINCT
         val expected = VarianceExpression(field, quantifier)
 

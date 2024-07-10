@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
@@ -71,7 +71,7 @@ class ArrayTest {
                     53.toDopeType(),
                     TRUE,
                     someStringField(),
-                    someNumberField("age", person),
+                    CMNumberField("age", person),
                     someBooleanField(),
                 ).toDopeType(),
             ).from(
@@ -122,7 +122,7 @@ class ArrayTest {
                 listOf(
                     someStringField(),
                     listOf(
-                        someNumberField("age", person),
+                        CMNumberField("age", person),
                         TRUE,
                         "string".toDopeType(),
                     ).toDopeType(),
@@ -256,7 +256,7 @@ class ArrayTest {
             .select(
                 3.inArray(
                     listOf(
-                        someNumberField(),
+                        CMNumberField(),
                         23.toDopeType(),
                     ),
                 ).alias("test"),
@@ -273,7 +273,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                someNumberField().inArray(
+                CMNumberField().inArray(
                     listOf(
                         23.toDopeType(),
                     ),

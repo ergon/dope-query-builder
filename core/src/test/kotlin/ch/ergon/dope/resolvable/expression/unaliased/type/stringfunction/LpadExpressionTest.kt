@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumber
-import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class LpadExpressionTest {
             "LPAD(`stringField`, `numberField`)",
             emptyMap(),
         )
-        val underTest = LpadExpression(someStringField(), someNumberField())
+        val underTest = LpadExpression(someStringField(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class LpadExpressionTest {
             "LPAD($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = LpadExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = LpadExpression(parameterValue.asParameter(), CMNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -67,7 +67,7 @@ class LpadExpressionTest {
             "LPAD(`stringField`, `numberField`, `stringField`)",
             emptyMap(),
         )
-        val underTest = LpadExpression(someStringField(), someNumberField(), someStringField())
+        val underTest = LpadExpression(someStringField(), CMNumberField(), someStringField())
 
         val actual = underTest.toDopeQuery()
 
@@ -81,7 +81,7 @@ class LpadExpressionTest {
             "LPAD($1, `numberField`, `stringField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = LpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
+        val underTest = LpadExpression(parameterValue.asParameter(), CMNumberField(), someStringField())
 
         val actual = underTest.toDopeQuery()
 
@@ -107,7 +107,7 @@ class LpadExpressionTest {
     @Test
     fun `should support lpad function type type type`() {
         val inStr = someStringField("inStr")
-        val size = someNumberField("size")
+        val size = CMNumberField("size")
         val prefix = someStringField("prefix")
         val expected = LpadExpression(inStr, size, prefix)
 
@@ -119,7 +119,7 @@ class LpadExpressionTest {
     @Test
     fun `should support lpad function type type string`() {
         val inStr = someStringField("inStr")
-        val size = someNumberField("size")
+        val size = CMNumberField("size")
         val prefix = someString("prefix")
         val expected = LpadExpression(inStr, size, prefix.toDopeType())
 
@@ -143,7 +143,7 @@ class LpadExpressionTest {
     @Test
     fun `should support lpad function string type type`() {
         val inStr = someString("inStr")
-        val size = someNumberField("size")
+        val size = CMNumberField("size")
         val prefix = someStringField("prefix")
         val expected = LpadExpression(inStr.toDopeType(), size, prefix)
 
@@ -179,7 +179,7 @@ class LpadExpressionTest {
     @Test
     fun `should support lpad function string type`() {
         val inStr = someString("inStr")
-        val size = someNumberField("size")
+        val size = CMNumberField("size")
         val prefix = null
         val expected = LpadExpression(inStr.toDopeType(), size, prefix)
 
@@ -191,7 +191,7 @@ class LpadExpressionTest {
     @Test
     fun `should support lpad function string type string`() {
         val inStr = someString("inStr")
-        val size = someNumberField("size")
+        val size = CMNumberField("size")
         val prefix = someString("prefix")
         val expected = LpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
 
