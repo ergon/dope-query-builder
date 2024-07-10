@@ -35,7 +35,7 @@ fun someString(value: String = "someString") = value
 
 fun someBoolean(value: Boolean = true) = value
 
-private fun getBucketName(bucket: Bucket): String = when (bucket) {
+private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
 }

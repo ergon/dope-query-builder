@@ -27,4 +27,4 @@ fun repeat(inStr: TypeExpression<StringType>, repeatAmount: Number) = repeat(inS
 
 fun repeat(inStr: String, repeatAmount: TypeExpression<NumberType>) = repeat(inStr.toDopeType(), repeatAmount)
 
-fun repeat(inStr: String, repeatAmount: Number): RepeatExpression = repeat(inStr.toDopeType(), repeatAmount.toDopeType())
+fun repeat(inStr: String, repeatAmount: Number) = repeat(inStr.toDopeType(), repeatAmount.toDopeType())

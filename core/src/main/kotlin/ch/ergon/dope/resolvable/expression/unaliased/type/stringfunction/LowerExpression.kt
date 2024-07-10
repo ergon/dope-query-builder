@@ -18,6 +18,6 @@ class LowerExpression(
     }
 }
 
-fun lower(inStr: TypeExpression<StringType>): LowerExpression = LowerExpression(inStr)
+fun lower(inStr: TypeExpression<StringType>) = LowerExpression(inStr)
 
-fun lower(inStr: String): LowerExpression = lower(inStr.toDopeType())
+fun lower(inStr: String) = lower(inStr.toDopeType())

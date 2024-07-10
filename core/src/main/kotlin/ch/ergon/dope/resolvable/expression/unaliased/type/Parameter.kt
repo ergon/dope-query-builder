@@ -21,7 +21,7 @@ sealed class Parameter<T : ValidType>(
     private val value: Any,
     private val parameterName: String?,
 ) : TypeExpression<T> {
-    override fun toDopeQuery(): DopeQuery = when (parameterName) {
+    override fun toDopeQuery() = when (parameterName) {
         null -> {
             val unnamedParameterCount = "\$${ParameterManager.count}"
             DopeQuery(

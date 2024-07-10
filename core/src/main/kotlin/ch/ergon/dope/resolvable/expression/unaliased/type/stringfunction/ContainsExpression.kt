@@ -21,10 +21,10 @@ class ContainsExpression(
     }
 }
 
-fun contains(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>): ContainsExpression = ContainsExpression(inStr, searchStr)
+fun contains(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) = ContainsExpression(inStr, searchStr)
 
-fun contains(inStr: String, searchStr: String): ContainsExpression = contains(inStr.toDopeType(), searchStr.toDopeType())
+fun contains(inStr: String, searchStr: String) = contains(inStr.toDopeType(), searchStr.toDopeType())
 
-fun contains(inStr: TypeExpression<StringType>, searchStr: String): ContainsExpression = contains(inStr, searchStr.toDopeType())
+fun contains(inStr: TypeExpression<StringType>, searchStr: String) = contains(inStr, searchStr.toDopeType())
 
-fun contains(inStr: String, searchStr: TypeExpression<StringType>): ContainsExpression = contains(inStr.toDopeType(), searchStr)
+fun contains(inStr: String, searchStr: TypeExpression<StringType>) = contains(inStr.toDopeType(), searchStr)

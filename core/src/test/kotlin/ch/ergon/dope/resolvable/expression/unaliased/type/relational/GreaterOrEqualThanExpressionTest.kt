@@ -110,8 +110,8 @@ class GreaterOrEqualThanExpressionTest {
 
     @Test
     fun `should support greater or equals function number number`() {
-        val left = someString()
-        val right = someString()
+        val left = someNumber()
+        val right = someNumber()
         val expected = GreaterOrEqualThanExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.isGreaterOrEqualThan(right)

@@ -1,10 +1,10 @@
 package ch.ergon.dope.extensions.type.relational
 
 import ch.ergon.dope.extension.type.relational.isLessThan
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.LessThanExpression
@@ -28,7 +28,7 @@ class LessThanTest {
     @Test
     fun `should support less than with CMFieldNumber NumberType`() {
         val left = someCMNumberField()
-        val right = CMNumberField()
+        val right = someNumberField()
         val expected = LessThanExpression(left.toDopeType(), right)
 
         val actual = left.isLessThan(right)
@@ -38,7 +38,7 @@ class LessThanTest {
 
     @Test
     fun `should support less than with NumberType CMFieldNumer`() {
-        val left = CMNumberField()
+        val left = someNumberField()
         val right = someCMNumberField()
         val expected = LessThanExpression(left, right.toDopeType())
 

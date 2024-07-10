@@ -10,6 +10,7 @@ import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Fromable
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -21,6 +22,10 @@ fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 fun someCMNumberField(name: String = "CMNumberField", path: String = "") = CMField<Number>(name, path)
 fun someCMStringField(name: String = "CMStringField", path: String = "") = CMField<String>(name, path)
 fun someCMBooleanField(name: String = "CMBooleanField", path: String = "") = CMField<Boolean>(name, path)
+
+fun someNumberFieldList(name: String = "numberFieldList", path: String = "") = Field<ArrayType<NumberType>>(name, path)
+fun someStringFieldList(name: String = "stringFieldList", path: String = "") = Field<ArrayType<StringType>>(name, path)
+fun someBooleanFieldList(name: String = "booleanFieldList", path: String = "") = Field<ArrayType<BooleanType>>(name, path)
 
 fun someCMNumberList(name: String = "CMNumberList", path: String = "") = CMList<Number>(name, path)
 fun someCMStringList(name: String = "CMStringList", path: String = "") = CMList<String>(name, path)
@@ -37,11 +42,11 @@ fun someString(value: String = "someString") = value
 
 fun someBoolean(value: Boolean = true) = value
 
-fun CMNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
+fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
 fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
 fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
 
-private fun getBucketName(bucket: Bucket): String = when (bucket) {
+private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
 }

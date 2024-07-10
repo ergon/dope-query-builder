@@ -2,6 +2,8 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someBoolean
+import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -145,6 +147,39 @@ class NotEqualsExpressionTest {
     fun `should support not equals function string string`() {
         val left = someString()
         val right = someString()
+        val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support not equals function type boolean`() {
+        val left = someBooleanField()
+        val right = someBoolean()
+        val expected = NotEqualsExpression(left, right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support not equals function boolean type`() {
+        val left = someBoolean()
+        val right = someBooleanField()
+        val expected = NotEqualsExpression(left.toDopeType(), right)
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support not equals function boolean boolean`() {
+        val left = someBoolean()
+        val right = someBoolean()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.isNotEqualTo(right)

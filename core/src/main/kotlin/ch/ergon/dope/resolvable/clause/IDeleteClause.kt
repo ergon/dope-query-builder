@@ -22,12 +22,12 @@ interface IDeleteOffsetClause : IDeleteReturningClause {
 
 interface IDeleteLimitClause : IDeleteOffsetClause {
     fun offset(numberExpression: TypeExpression<NumberType>) = DeleteOffsetClause(numberExpression, this)
-    fun offset(number: Number): DeleteOffsetClause = offset(number.toDopeType())
+    fun offset(number: Number) = offset(number.toDopeType())
 }
 
 interface IDeleteWhereClause : IDeleteLimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>) = DeleteLimitClause(numberExpression, this)
-    fun limit(number: Number): DeleteLimitClause = limit(number.toDopeType())
+    fun limit(number: Number) = limit(number.toDopeType())
 }
 
 interface IDeleteUseKeysClause : IDeleteWhereClause {

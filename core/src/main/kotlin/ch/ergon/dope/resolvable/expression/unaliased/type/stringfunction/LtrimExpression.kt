@@ -20,13 +20,13 @@ class LtrimExpression(
     }
 }
 
-fun ltrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType>? = null): LtrimExpression =
+fun ltrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType>? = null) =
     LtrimExpression(inStr, extra)
 
-fun ltrim(inStr: TypeExpression<StringType>, extra: String): LtrimExpression = ltrim(inStr, extra.toDopeType())
+fun ltrim(inStr: TypeExpression<StringType>, extra: String) = ltrim(inStr, extra.toDopeType())
 
-fun ltrim(inStr: String, extra: TypeExpression<StringType>): LtrimExpression = ltrim(inStr.toDopeType(), extra)
+fun ltrim(inStr: String, extra: TypeExpression<StringType>) = ltrim(inStr.toDopeType(), extra)
 
-fun ltrim(inStr: String, extra: String): LtrimExpression = ltrim(inStr.toDopeType(), extra.toDopeType())
+fun ltrim(inStr: String, extra: String) = ltrim(inStr.toDopeType(), extra.toDopeType())
 
-fun ltrim(inStr: String): LtrimExpression = ltrim(inStr.toDopeType())
+fun ltrim(inStr: String) = ltrim(inStr.toDopeType())

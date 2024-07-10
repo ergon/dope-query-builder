@@ -1,10 +1,10 @@
 package ch.ergon.dope.extensions.type.relational
 
 import ch.ergon.dope.extension.type.relational.isGreaterThan
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.GreaterThanExpression
@@ -28,7 +28,7 @@ class GreaterThanTest {
     @Test
     fun `should support greater than with CMFieldNumber NumberType`() {
         val left = someCMNumberField()
-        val right = CMNumberField()
+        val right = someNumberField()
         val expected = GreaterThanExpression(left.toDopeType(), right)
 
         val actual = left.isGreaterThan(right)
@@ -38,7 +38,7 @@ class GreaterThanTest {
 
     @Test
     fun `should support greater than with NumberType CMFieldNumer`() {
-        val left = CMNumberField()
+        val left = someNumberField()
         val right = someCMNumberField()
         val expected = GreaterThanExpression(left, right.toDopeType())
 

@@ -57,7 +57,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
         )
     }
 
-    override fun toDopeQuery(): DopeQuery = dopeQuery
+    override fun toDopeQuery() = dopeQuery
 }
 
 class StandardJoinClause : SelectJoinClause {

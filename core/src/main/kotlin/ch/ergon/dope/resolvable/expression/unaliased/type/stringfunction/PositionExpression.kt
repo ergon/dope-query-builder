@@ -20,11 +20,11 @@ class PositionExpression(
     }
 }
 
-fun position(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>): PositionExpression =
+fun position(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     PositionExpression(inStr, searchStr)
 
-fun position(inStr: TypeExpression<StringType>, searchStr: String): PositionExpression = position(inStr, searchStr.toDopeType())
+fun position(inStr: TypeExpression<StringType>, searchStr: String) = position(inStr, searchStr.toDopeType())
 
-fun position(inStr: String, searchStr: TypeExpression<StringType>): PositionExpression = position(inStr.toDopeType(), searchStr)
+fun position(inStr: String, searchStr: TypeExpression<StringType>) = position(inStr.toDopeType(), searchStr)
 
-fun position(inStr: String, searchStr: String): PositionExpression = position(inStr.toDopeType(), searchStr.toDopeType())
+fun position(inStr: String, searchStr: String) = position(inStr.toDopeType(), searchStr.toDopeType())

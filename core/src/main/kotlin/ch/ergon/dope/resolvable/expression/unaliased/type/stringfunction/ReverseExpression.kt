@@ -20,4 +20,4 @@ class ReverseExpression(
 
 fun reverse(inStr: TypeExpression<StringType>) = ReverseExpression(inStr)
 
-fun reverse(inStr: String): ReverseExpression = reverse(inStr.toDopeType())
+fun reverse(inStr: String) = reverse(inStr.toDopeType())

@@ -20,7 +20,7 @@ class InitCapExpression(
 
 fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
 
-fun initCap(inStr: String): InitCapExpression = initCap(inStr.toDopeType())
+fun initCap(inStr: String) = initCap(inStr.toDopeType())
 
 // only an alias (defined by couchbase)
 fun title(inStr: TypeExpression<StringType>) = initCap(inStr)
