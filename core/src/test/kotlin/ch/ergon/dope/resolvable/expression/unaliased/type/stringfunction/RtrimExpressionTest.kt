@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class RtrimExpressionTest {
 
@@ -55,5 +57,71 @@ class RtrimExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support rtrim function type type`() {
+        val inStr = someStringField("inStr")
+        val extra = someStringField("extra")
+        val expected = RtrimExpression(inStr, extra)
+
+        val actual = rtrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support rtrim function type string`() {
+        val inStr = someStringField("inStr")
+        val extra = someString("extra")
+        val expected = RtrimExpression(inStr, extra.toDopeType())
+
+        val actual = rtrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support rtrim function string type`() {
+        val inStr = someString("inStr")
+        val extra = someStringField("extra")
+        val expected = RtrimExpression(inStr.toDopeType(), extra)
+
+        val actual = rtrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support rtrim function string string`() {
+        val inStr = someString("inStr")
+        val extra = someString("extra")
+        val expected = RtrimExpression(inStr.toDopeType(), extra.toDopeType())
+
+        val actual = rtrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support rtrim function type`() {
+        val inStr = someStringField("inStr")
+        val extra = null
+        val expected = RtrimExpression(inStr, extra)
+
+        val actual = rtrim(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support rtrim function string`() {
+        val inStr = someString("inStr")
+        val extra = null
+        val expected = RtrimExpression(inStr.toDopeType(), extra)
+
+        val actual = rtrim(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

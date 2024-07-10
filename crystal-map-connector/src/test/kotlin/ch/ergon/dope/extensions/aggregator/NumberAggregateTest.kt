@@ -8,134 +8,146 @@ import ch.ergon.dope.extension.aggregator.sum
 import ch.ergon.dope.extension.aggregator.variance
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AverageExpression
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.MeanExpression
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.MedianExpression
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.StandardDeviationExpression
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.SumExpression
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.VarianceExpression
+import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NumberAggregateTest {
     @Test
     fun `should support avg with CMField Number`() {
-        val actual: String = avg(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = AverageExpression(field.toDopeType(), quantifier)
 
-        assertEquals("AVG(`CMNumberField`)", actual)
+        val actual = avg(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support avg all with CMField Number`() {
-        val actual: String = avg(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support avg with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = AverageExpression(field.toDopeType(), quantifier)
 
-        assertEquals("AVG(ALL `CMNumberField`)", actual)
-    }
+        val actual = avg(field, ALL)
 
-    @Test
-    fun `should support avg distinct with CMField Number`() {
-        val actual: String = avg(someCMNumberField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("AVG(DISTINCT `CMNumberField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support mean with CMField Number`() {
-        val actual: String = mean(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = MeanExpression(field.toDopeType(), quantifier)
 
-        assertEquals("MEAN(`CMNumberField`)", actual)
+        val actual = mean(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support mean all with CMField Number`() {
-        val actual: String = mean(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support mean with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = MeanExpression(field.toDopeType(), quantifier)
 
-        assertEquals("MEAN(ALL `CMNumberField`)", actual)
-    }
+        val actual = mean(field, ALL)
 
-    @Test
-    fun `should support mean distinct with CMField Number`() {
-        val actual: String = mean(someCMNumberField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("MEAN(DISTINCT `CMNumberField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support median with CMField Number`() {
-        val actual: String = median(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = MedianExpression(field.toDopeType(), quantifier)
 
-        assertEquals("MEDIAN(`CMNumberField`)", actual)
+        val actual = median(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support median all with CMField Number`() {
-        val actual: String = median(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support median with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = MedianExpression(field.toDopeType(), quantifier)
 
-        assertEquals("MEDIAN(ALL `CMNumberField`)", actual)
-    }
+        val actual = median(field, ALL)
 
-    @Test
-    fun `should support median distinct with CMField Number`() {
-        val actual: String = median(someCMNumberField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("MEDIAN(DISTINCT `CMNumberField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support sum with CMField Number`() {
-        val actual: String = sum(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = SumExpression(field.toDopeType(), quantifier)
 
-        assertEquals("SUM(`CMNumberField`)", actual)
+        val actual = sum(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support sum all with CMField Number`() {
-        val actual: String = sum(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support sum with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = SumExpression(field.toDopeType(), quantifier)
 
-        assertEquals("SUM(ALL `CMNumberField`)", actual)
-    }
+        val actual = sum(field, ALL)
 
-    @Test
-    fun `should support sum distinct with CMField Number`() {
-        val actual: String = sum(someCMNumberField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("SUM(DISTINCT `CMNumberField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support stddev with CMField Number`() {
-        val actual: String = stdDev(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = StandardDeviationExpression(field.toDopeType(), quantifier)
 
-        assertEquals("STDDEV(`CMNumberField`)", actual)
+        val actual = stdDev(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support stddev all with CMField Number`() {
-        val actual: String = stdDev(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support stddev with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = StandardDeviationExpression(field.toDopeType(), quantifier)
 
-        assertEquals("STDDEV(ALL `CMNumberField`)", actual)
-    }
+        val actual = stdDev(field, ALL)
 
-    @Test
-    fun `should support stddev distinct with CMField Number`() {
-        val actual: String = stdDev(someCMNumberField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("STDDEV(DISTINCT `CMNumberField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support variance with CMField Number`() {
-        val actual: String = variance(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = VarianceExpression(field.toDopeType(), quantifier)
 
-        assertEquals("VARIANCE(`CMNumberField`)", actual)
+        val actual = variance(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support variance all with CMField Number`() {
-        val actual: String = variance(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support variance with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = VarianceExpression(field.toDopeType(), quantifier)
 
-        assertEquals("VARIANCE(ALL `CMNumberField`)", actual)
-    }
+        val actual = variance(field, ALL)
 
-    @Test
-    fun `should support variance distinct with CMField Number`() {
-        val actual: String = variance(someCMNumberField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("VARIANCE(DISTINCT `CMNumberField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

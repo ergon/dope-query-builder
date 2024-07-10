@@ -4,45 +4,70 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.extension.selectDistinct
 import ch.ergon.dope.extension.selectRaw
-import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringList
+import ch.ergon.dope.resolvable.clause.model.SelectClause
+import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
+import ch.ergon.dope.resolvable.clause.model.SelectRawClause
+import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class QueryBuilderTest {
     @Test
     fun `should support select with CM`() {
-        val actual: String = QueryBuilder().select(someCMNumberField()).toDopeQuery().queryString
+        val queryBuilder = QueryBuilder()
+        val expression = someCMNumberField()
+        val expected = SelectClause(expression.toDopeType())
 
-        assertEquals("SELECT `CMNumberField`", actual)
+        val actual = queryBuilder.select(expression)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support select with multiple CM`() {
-        val actual: String = QueryBuilder().select(someCMBooleanField(), someCMStringList()).toDopeQuery().queryString
+        val queryBuilder = QueryBuilder()
+        val expression = someCMNumberField()
+        val expression2 = someCMStringList()
+        val expected = SelectClause(expression.toDopeType(), expression2.toDopeType())
 
-        assertEquals("SELECT `CMBooleanField`, `CMStringList`", actual)
+        val actual = queryBuilder.select(expression, expression2)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support select distinct with CM`() {
-        val actual: String = QueryBuilder().selectDistinct(someCMNumberField()).toDopeQuery().queryString
+        val queryBuilder = QueryBuilder()
+        val expression = someCMNumberField()
+        val expected = SelectDistinctClause(expression.toDopeType())
 
-        assertEquals("SELECT DISTINCT `CMNumberField`", actual)
+        val actual = queryBuilder.selectDistinct(expression)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support select distinct with multiple CM`() {
-        val actual: String = QueryBuilder().selectDistinct(someCMBooleanField(), someCMStringList()).toDopeQuery().queryString
+        val queryBuilder = QueryBuilder()
+        val expression = someCMNumberField()
+        val expression2 = someCMStringList()
+        val expected = SelectDistinctClause(expression.toDopeType(), expression2.toDopeType())
 
-        assertEquals("SELECT DISTINCT `CMBooleanField`, `CMStringList`", actual)
+        val actual = queryBuilder.selectDistinct(expression, expression2)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support select raw with CM`() {
-        val actual: String = QueryBuilder().selectRaw(someCMNumberField()).toDopeQuery().queryString
+        val queryBuilder = QueryBuilder()
+        val expression = someCMNumberField()
+        val expected = SelectRawClause(expression.toDopeType())
 
-        assertEquals("SELECT RAW `CMNumberField`", actual)
+        val actual = queryBuilder.selectRaw(expression)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

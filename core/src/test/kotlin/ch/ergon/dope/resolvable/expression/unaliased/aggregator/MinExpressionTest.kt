@@ -54,4 +54,15 @@ class MinExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support min function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = MinExpression(field, quantifier)
+
+        val actual = min(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

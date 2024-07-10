@@ -54,4 +54,15 @@ class StandardDeviationExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support standard deviation function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = StandardDeviationExpression(field, quantifier)
+
+        val actual = stdDev(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

@@ -58,4 +58,40 @@ class ArrayAccessTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support array access with second parameters`() {
+        val parameterValue = 4
+        val expected = DopeQuery(
+            "`stringArrayField`[$1]",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access function`() {
+        val array = someStringArrayField()
+        val index = someNumberField()
+        val expected = ArrayAccess(array, index)
+
+        val actual = array.get(index)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support array access function2`() {
+        val array = someStringArrayField()
+        val index = 1
+        val expected = ArrayAccess(array, index.toDopeType())
+
+        val actual = array.get(index)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

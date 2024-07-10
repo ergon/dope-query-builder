@@ -45,6 +45,9 @@ fun rpad(inStr: String, size: TypeExpression<NumberType>, extra: TypeExpression<
 
 fun rpad(inStr: String, size: TypeExpression<NumberType>): RpadExpression = rpad(inStr.toDopeType(), size)
 
+fun rpad(inStr: String, size: TypeExpression<NumberType>, prefix: String): RpadExpression =
+    rpad(inStr.toDopeType(), size, prefix.toDopeType())
+
 fun rpad(inStr: String, size: Number, extra: TypeExpression<StringType>): RpadExpression = rpad(inStr.toDopeType(), size.toDopeType(), extra)
 
 fun rpad(inStr: String, size: Number, extra: String): RpadExpression = rpad(inStr.toDopeType(), size.toDopeType(), extra.toDopeType())

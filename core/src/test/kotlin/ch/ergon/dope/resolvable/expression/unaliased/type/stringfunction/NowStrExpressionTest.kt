@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class NowStrExpressionTest {
 
@@ -53,5 +55,25 @@ class NowStrExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support now str function type`() {
+        val inStr = someStringField("inStr")
+        val expected = NowStrExpression(inStr)
+
+        val actual = nowStr(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support now str function string`() {
+        val inStr = someString()
+        val expected = NowStrExpression(inStr.toDopeType())
+
+        val actual = nowStr(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

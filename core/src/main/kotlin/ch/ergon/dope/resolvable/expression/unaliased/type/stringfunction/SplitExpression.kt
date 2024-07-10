@@ -22,12 +22,8 @@ class SplitExpression(
 
 fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) = SplitExpression(inStr, inSubstring)
 
-fun split(inStr: String): SplitExpression = split(inStr.toDopeType())
-
-fun split(inStr: TypeExpression<StringType>): SplitExpression = SplitExpression(inStr)
-
-fun split(inStr: String, inSubstring: String? = null): SplitExpression = split(inStr.toDopeType(), inSubstring?.toDopeType())
-
-fun split(inStr: TypeExpression<StringType>, inSubstring: String? = null): SplitExpression = split(inStr, inSubstring?.toDopeType())
+fun split(inStr: TypeExpression<StringType>, inSubstring: String): SplitExpression = split(inStr, inSubstring.toDopeType())
 
 fun split(inStr: String, inSubstring: TypeExpression<StringType>? = null) = split(inStr.toDopeType(), inSubstring)
+
+fun split(inStr: String, inSubstring: String): SplitExpression = split(inStr.toDopeType(), inSubstring.toDopeType())

@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class PositionExpressionTest {
 
@@ -55,5 +57,49 @@ class PositionExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support position function type type`() {
+        val inStr = someStringField("inStr")
+        val searchStr = someStringField("searchStr")
+        val expected = PositionExpression(inStr, searchStr)
+
+        val actual = position(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support position function type string`() {
+        val inStr = someStringField("inStr")
+        val searchStr = someString("searchStr")
+        val expected = PositionExpression(inStr, searchStr.toDopeType())
+
+        val actual = position(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support position function string type`() {
+        val inStr = someString("inStr")
+        val searchStr = someStringField("searchStr")
+        val expected = PositionExpression(inStr.toDopeType(), searchStr)
+
+        val actual = position(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support position function string string`() {
+        val inStr = someString("inStr")
+        val searchStr = someString("searchStr")
+        val expected = PositionExpression(inStr.toDopeType(), searchStr.toDopeType())
+
+        val actual = position(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

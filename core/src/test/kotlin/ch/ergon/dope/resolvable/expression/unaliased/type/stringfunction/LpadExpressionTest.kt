@@ -1,13 +1,16 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class LpadExpressionTest {
 
@@ -99,5 +102,137 @@ class LpadExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support lpad function type type type`() {
+        val inStr = someStringField("inStr")
+        val size = someNumberField("size")
+        val prefix = someStringField("prefix")
+        val expected = LpadExpression(inStr, size, prefix)
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function type type string`() {
+        val inStr = someStringField("inStr")
+        val size = someNumberField("size")
+        val prefix = someString("prefix")
+        val expected = LpadExpression(inStr, size, prefix.toDopeType())
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function type number type`() {
+        val inStr = someStringField("inStr")
+        val size = someNumber()
+        val prefix = someStringField("prefix")
+        val expected = LpadExpression(inStr, size.toDopeType(), prefix)
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function string type type`() {
+        val inStr = someString("inStr")
+        val size = someNumberField("size")
+        val prefix = someStringField("prefix")
+        val expected = LpadExpression(inStr.toDopeType(), size, prefix)
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function type number`() {
+        val inStr = someStringField("inStr")
+        val size = someNumber()
+        val prefix = null
+        val expected = LpadExpression(inStr, size.toDopeType(), prefix)
+
+        val actual = lpad(inStr, size)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function type number string`() {
+        val inStr = someStringField("inStr")
+        val size = someNumber()
+        val prefix = someString("prefix")
+        val expected = LpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function string type`() {
+        val inStr = someString("inStr")
+        val size = someNumberField("size")
+        val prefix = null
+        val expected = LpadExpression(inStr.toDopeType(), size, prefix)
+
+        val actual = lpad(inStr, size)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function string type string`() {
+        val inStr = someString("inStr")
+        val size = someNumberField("size")
+        val prefix = someString("prefix")
+        val expected = LpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function string number type`() {
+        val inStr = someString("inStr")
+        val size = someNumber()
+        val prefix = someStringField("prefix")
+        val expected = LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function string number`() {
+        val inStr = someString("inStr")
+        val size = someNumber()
+        val prefix = null
+        val expected = LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
+
+        val actual = lpad(inStr, size)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support lpad function string number string`() {
+        val inStr = someString("inStr")
+        val size = someNumber()
+        val prefix = someString("prefix")
+        val expected = LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+
+        val actual = lpad(inStr, size, prefix)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

@@ -25,7 +25,7 @@ class SubstringExpression(
     }
 }
 
-fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int = inStr.toDopeQuery().queryString.length) =
+fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int) =
     SubstringExpression(inStr, startPos, length)
 
 fun substr(inStr: String, startPos: Int, length: Int = inStr.length): SubstringExpression = substr(inStr.toDopeType(), startPos, length)

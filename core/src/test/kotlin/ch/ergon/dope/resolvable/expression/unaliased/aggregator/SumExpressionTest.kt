@@ -54,4 +54,15 @@ class SumExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support sum function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = SumExpression(field, quantifier)
+
+        val actual = sum(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

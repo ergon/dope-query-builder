@@ -1,9 +1,13 @@
 package ch.ergon.dope.resolvable.expression
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someBoolean
+import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -40,5 +44,49 @@ class AliasedExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support alias function type`() {
+        val unaliasedExpression = someStringField()
+        val alias = "alias"
+        val expected = AliasedExpression(unaliasedExpression, alias)
+
+        val actual = unaliasedExpression.alias(alias)
+
+        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support alias function number`() {
+        val unaliasedExpression = someNumber()
+        val alias = "alias"
+        val expected = AliasedExpression(unaliasedExpression.toDopeType(), alias)
+
+        val actual = unaliasedExpression.alias(alias)
+
+        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support alias function string`() {
+        val unaliasedExpression = someString()
+        val alias = "alias"
+        val expected = AliasedExpression(unaliasedExpression.toDopeType(), alias)
+
+        val actual = unaliasedExpression.alias(alias)
+
+        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support alias function boolean`() {
+        val unaliasedExpression = someBoolean()
+        val alias = "alias"
+        val expected = AliasedExpression(unaliasedExpression.toDopeType(), alias)
+
+        val actual = unaliasedExpression.alias(alias)
+
+        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

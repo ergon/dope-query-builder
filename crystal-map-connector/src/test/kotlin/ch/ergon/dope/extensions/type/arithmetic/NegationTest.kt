@@ -1,21 +1,20 @@
 package ch.ergon.dope.extensions.type.arithmetic
 
-import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.extension.type.arithmetic.neg
 import ch.ergon.dope.helper.someCMNumberField
+import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.NegationExpression
+import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NegationTest {
     @Test
-    fun `should support negation with CMField Number`() {
-        val expected = DopeQuery(
-            queryString = "-`CMNumberField`",
-            parameters = emptyMap(),
-        )
+    fun `should support neg with CMField Number`() {
+        val field = someCMNumberField()
+        val expected = NegationExpression(field.toDopeType())
 
-        val actual = neg(someCMNumberField()).toDopeQuery()
+        val actual = neg(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

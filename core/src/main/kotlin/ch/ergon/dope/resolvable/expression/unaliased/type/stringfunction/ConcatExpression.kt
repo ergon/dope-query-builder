@@ -32,6 +32,12 @@ class ConcatExpression(
 fun concat(firstString: TypeExpression<StringType>, secondString: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
     ConcatExpression(firstString, secondString, *strings)
 
+fun concat(firstString: String, secondString: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>): ConcatExpression =
+    concat(firstString.toDopeType(), secondString, *strings)
+
+fun concat(firstString: TypeExpression<StringType>, secondString: String, vararg strings: String): ConcatExpression =
+    concat(firstString, secondString.toDopeType(), *wrapVarargsWithStringValueType(*strings))
+
 fun concat(firstString: String, secondString: String, vararg strings: String): ConcatExpression =
     concat(firstString.toDopeType(), secondString.toDopeType(), *wrapVarargsWithStringValueType(*strings))
 

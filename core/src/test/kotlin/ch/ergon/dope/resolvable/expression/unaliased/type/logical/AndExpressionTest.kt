@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -55,5 +57,52 @@ class AndExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and with second parameter`() {
+        val parameterValue = false
+        val expected = DopeQuery(
+            "(`booleanField` AND $1)",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and function type type`() {
+        val left = someBooleanField()
+        val right = someBooleanField()
+        val expected = AndExpression(left, right)
+
+        val actual = left.and(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support and function type boolean`() {
+        val left = someBooleanField()
+        val right = someBoolean()
+        val expected = AndExpression(left, right.toDopeType())
+
+        val actual = left.and(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support and function boolean type`() {
+        val left = someBoolean()
+        val right = someBooleanField()
+        val expected = AndExpression(left.toDopeType(), right)
+
+        val actual = left.and(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

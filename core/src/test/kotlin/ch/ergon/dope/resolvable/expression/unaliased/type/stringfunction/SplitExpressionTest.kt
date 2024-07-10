@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class SplitExpressionTest {
 
@@ -82,5 +84,60 @@ class SplitExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support split function type type`() {
+        val inStr = someStringField("inStr")
+        val inSubstring = someStringField("inSubstring")
+        val expected = SplitExpression(inStr, inSubstring)
+
+        val actual = split(inStr, inSubstring)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support split function type`() {
+        val inStr = someStringField("inStr")
+        val inSubstring = null
+        val expected = SplitExpression(inStr, inSubstring)
+
+        val actual = split(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support split function string type`() {
+        val inStr = someString("inStr")
+        val inSubstring = someStringField("inSubstring")
+        val expected = SplitExpression(inStr.toDopeType(), inSubstring)
+
+        val actual = split(inStr, inSubstring)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support split function string`() {
+        val inStr = someString("inStr")
+        val inSubstring = null
+        val expected = SplitExpression(inStr.toDopeType(), inSubstring)
+
+        val actual = split(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support split function string string`() {
+        val inStr = someString("inStr")
+        val inSubstring = someString("inSubstring")
+        val expected = SplitExpression(inStr.toDopeType(), inSubstring.toDopeType())
+
+        val actual = split(inStr, inSubstring)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

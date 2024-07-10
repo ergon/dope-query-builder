@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -40,5 +42,27 @@ class LikeExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support like function with type`() {
+        val left = someStringField("left")
+        val right = someStringField("right")
+        val expected = LikeExpression(left, right)
+
+        val actual = left.isLike(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support like function with string`() {
+        val left = someStringField("left")
+        val right = someString("right")
+        val expected = LikeExpression(left, right.toDopeType())
+
+        val actual = left.isLike(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

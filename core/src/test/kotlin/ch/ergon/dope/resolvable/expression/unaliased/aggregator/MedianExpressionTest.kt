@@ -54,4 +54,15 @@ class MedianExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support median function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = MedianExpression(field, quantifier)
+
+        val actual = median(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

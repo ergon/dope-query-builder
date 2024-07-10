@@ -104,4 +104,23 @@ class MetaExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support meta function`() {
+        val expected = MetaExpression(null)
+
+        val actual = meta()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support meta function with bucket`() {
+        val bucket = someBucket()
+        val expected = MetaExpression(bucket)
+
+        val actual = meta(bucket)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

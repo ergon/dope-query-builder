@@ -54,4 +54,15 @@ class MeanExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support mean function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = MeanExpression(field, quantifier)
+
+        val actual = mean(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

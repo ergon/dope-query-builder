@@ -26,4 +26,14 @@ class IsValuedExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support is valued function`() {
+        val field = someStringField()
+        val expected = IsValuedExpression(field)
+
+        val actual = field.isValued()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

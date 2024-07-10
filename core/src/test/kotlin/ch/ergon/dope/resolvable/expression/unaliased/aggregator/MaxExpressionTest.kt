@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -53,5 +54,16 @@ class MaxExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support max function`() {
+        val field = someStringField()
+        val quantifier = DISTINCT
+        val expected = MaxExpression(field, quantifier)
+
+        val actual = max(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

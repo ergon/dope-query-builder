@@ -54,4 +54,15 @@ class VarianceExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support variance function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = VarianceExpression(field, quantifier)
+
+        val actual = variance(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

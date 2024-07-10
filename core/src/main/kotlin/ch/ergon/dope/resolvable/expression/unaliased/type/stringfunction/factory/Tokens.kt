@@ -23,6 +23,4 @@ data class CustomTokenOptions(var name: Boolean = false, private val specials: B
     fun toDopeQuery(): DopeQuery = DopeQuery(queryString, emptyMap())
 }
 
-fun tokens(inStr: List<String>): TokensExpression = TokensExpression(inStr)
-
-fun tokens(inStr: List<String>, opt: CustomTokenOptions): TokensExpression = TokensExpression(inStr, opt)
+fun tokens(inStr: List<String>, opt: CustomTokenOptions = CustomTokenOptions()): TokensExpression = TokensExpression(inStr, opt)

@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -55,5 +57,63 @@ class SubtractionExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support subtraction with second parameter`() {
+        val parameterValue = 4
+        val expected = DopeQuery(
+            "(`numberField` % $1)",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = ModuloExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support subtraction function type type`() {
+        val left = someNumberField()
+        val right = someNumberField()
+        val expected = SubtractionExpression(left, right)
+
+        val actual = left.sub(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support subtraction function type number`() {
+        val left = someNumberField()
+        val right = someNumber()
+        val expected = SubtractionExpression(left, right.toDopeType())
+
+        val actual = left.sub(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support subtraction function number type`() {
+        val left = someNumber()
+        val right = someNumberField()
+        val expected = SubtractionExpression(left.toDopeType(), right)
+
+        val actual = left.sub(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support subtraction function number number`() {
+        val left = someNumber()
+        val right = someNumber()
+        val expected = SubtractionExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.sub(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

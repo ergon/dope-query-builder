@@ -20,8 +20,8 @@ class AliasedExpression<T : ValidType>(
 
 fun <T : ValidType> UnaliasedExpression<T>.alias(string: String): AliasedExpression<T> = AliasedExpression(this, string)
 
-fun Number.alias(string: String) = this.toDopeType().alias(string)
+fun Number.alias(string: String) = toDopeType().alias(string)
 
-fun String.alias(string: String) = this.toDopeType().alias(string)
+fun String.alias(string: String) = toDopeType().alias(string)
 
-fun Boolean.alias(string: String) = this.toDopeType().alias(string)
+fun Boolean.alias(string: String) = toDopeType().alias(string)

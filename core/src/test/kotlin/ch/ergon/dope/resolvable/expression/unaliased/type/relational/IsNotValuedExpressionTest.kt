@@ -26,4 +26,14 @@ class IsNotValuedExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support is not valued function`() {
+        val field = someStringField()
+        val expected = IsNotValuedExpression(field)
+
+        val actual = field.isNotValued()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

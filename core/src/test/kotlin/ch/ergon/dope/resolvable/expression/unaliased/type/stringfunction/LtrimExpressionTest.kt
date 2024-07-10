@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class LtrimExpressionTest {
 
@@ -55,5 +57,71 @@ class LtrimExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ltrim function type type`() {
+        val inStr = someStringField("inStr")
+        val extra = someStringField("extra")
+        val expected = LtrimExpression(inStr, extra)
+
+        val actual = ltrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ltrim function type string`() {
+        val inStr = someStringField("inStr")
+        val extra = someString("extra")
+        val expected = LtrimExpression(inStr, extra.toDopeType())
+
+        val actual = ltrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ltrim function string type`() {
+        val inStr = someString("inStr")
+        val extra = someStringField("extra")
+        val expected = LtrimExpression(inStr.toDopeType(), extra)
+
+        val actual = ltrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ltrim function string string`() {
+        val inStr = someString("inStr")
+        val extra = someString("extra")
+        val expected = LtrimExpression(inStr.toDopeType(), extra.toDopeType())
+
+        val actual = ltrim(inStr, extra)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ltrim function type`() {
+        val inStr = someStringField("inStr")
+        val extra = null
+        val expected = LtrimExpression(inStr, extra)
+
+        val actual = ltrim(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ltrim function string`() {
+        val inStr = someString("inStr")
+        val extra = null
+        val expected = LtrimExpression(inStr.toDopeType(), extra)
+
+        val actual = ltrim(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

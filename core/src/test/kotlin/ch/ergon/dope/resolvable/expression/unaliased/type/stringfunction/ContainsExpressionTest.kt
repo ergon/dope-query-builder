@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ContainsExpressionTest {
 
@@ -55,5 +57,49 @@ class ContainsExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support contains function type type`() {
+        val inStr = someStringField("inStr")
+        val searchStr = someStringField("searchStr")
+        val expected = ContainsExpression(inStr, searchStr)
+
+        val actual = contains(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support contains function type string`() {
+        val inStr = someStringField("inStr")
+        val searchStr = someString()
+        val expected = ContainsExpression(inStr, searchStr.toDopeType())
+
+        val actual = contains(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support contains function string type`() {
+        val inStr = someString()
+        val searchStr = someStringField("searchStr")
+        val expected = ContainsExpression(inStr.toDopeType(), searchStr)
+
+        val actual = contains(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support contains function string string`() {
+        val inStr = someString()
+        val searchStr = someString()
+        val expected = ContainsExpression(inStr.toDopeType(), searchStr.toDopeType())
+
+        val actual = contains(inStr, searchStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

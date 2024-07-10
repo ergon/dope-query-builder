@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -55,5 +57,52 @@ class OrExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support or with second parameter`() {
+        val parameterValue = false
+        val expected = DopeQuery(
+            "(`booleanField` OR $1)",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = OrExpression(someBooleanField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support or function type type`() {
+        val left = someBooleanField()
+        val right = someBooleanField()
+        val expected = OrExpression(left, right)
+
+        val actual = left.or(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support or function type boolean`() {
+        val left = someBooleanField()
+        val right = someBoolean()
+        val expected = OrExpression(left, right.toDopeType())
+
+        val actual = left.or(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support or function boolean type`() {
+        val left = someBoolean()
+        val right = someBooleanField()
+        val expected = OrExpression(left.toDopeType(), right)
+
+        val actual = left.or(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

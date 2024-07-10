@@ -26,4 +26,14 @@ class IsNotNullExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support is not null function`() {
+        val field = someStringField()
+        val expected = IsNotNullExpression(field)
+
+        val actual = field.isNotNull()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

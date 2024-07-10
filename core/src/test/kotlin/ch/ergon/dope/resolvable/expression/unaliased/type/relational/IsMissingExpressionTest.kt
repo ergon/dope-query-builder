@@ -26,4 +26,14 @@ class IsMissingExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support is missing function`() {
+        val field = someStringField()
+        val expected = IsMissingExpression(field)
+
+        val actual = field.isMissing()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

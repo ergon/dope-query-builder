@@ -1,6 +1,5 @@
 package ch.ergon.dope.extensions.aggregator
 
-import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.extension.aggregator.count
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -9,224 +8,141 @@ import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountExpression
+import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CountTest {
     @Test
     fun `should support count with CMField Number`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(`CMNumberField`)",
-            parameters = emptyMap(),
-        )
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMNumberField()).toDopeQuery()
+        val actual = count(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMField Number`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(ALL `CMNumberField`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMNumberField(), ALL).toDopeQuery()
+        val actual = count(field, ALL)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count distinct with CMField Number`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(DISTINCT `CMNumberField`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMField string`() {
+        val field = someCMStringField()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMNumberField(), DISTINCT).toDopeQuery()
+        val actual = count(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count with CMField String`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(`CMStringField`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMField string and type`() {
+        val field = someCMStringField()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMStringField()).toDopeQuery()
+        val actual = count(field, ALL)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMField String`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(ALL `CMStringField`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMField boolean`() {
+        val field = someCMBooleanField()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMStringField(), ALL).toDopeQuery()
+        val actual = count(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count distinct with CMField String`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(DISTINCT `CMStringField`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMField boolean and type`() {
+        val field = someCMBooleanField()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMStringField(), DISTINCT).toDopeQuery()
+        val actual = count(field, ALL)
 
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support count with CMField Boolean`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(`CMBooleanField`)",
-            parameters = emptyMap(),
-        )
-
-        val actual = count(someCMBooleanField()).toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support count all with CMField Boolean`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(ALL `CMBooleanField`)",
-            parameters = emptyMap(),
-        )
-
-        val actual = count(someCMBooleanField(), ALL).toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support count distinct with CMField Boolean`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(DISTINCT `CMBooleanField`)",
-            parameters = emptyMap(),
-        )
-
-        val actual = count(someCMBooleanField(), DISTINCT).toDopeQuery()
-
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support count with CMList Number`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(`CMNumberList`)",
-            parameters = emptyMap(),
-        )
+        val field = someCMNumberList()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMNumberList()).toDopeQuery()
+        val actual = count(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMList Number`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(ALL `CMNumberList`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMList Number and type`() {
+        val field = someCMNumberList()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMNumberList(), ALL).toDopeQuery()
+        val actual = count(field, ALL)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count distinct with CMList Number`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(DISTINCT `CMNumberList`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMList string`() {
+        val field = someCMStringList()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMNumberList(), DISTINCT).toDopeQuery()
+        val actual = count(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count with CMList String`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(`CMStringList`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMList string and type`() {
+        val field = someCMStringList()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMStringList()).toDopeQuery()
+        val actual = count(field, ALL)
 
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support count all with CMList String`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(ALL `CMStringList`)",
-            parameters = emptyMap(),
-        )
-
-        val actual = count(someCMStringList(), ALL).toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support count distinct with CMList String`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(DISTINCT `CMStringList`)",
-            parameters = emptyMap(),
-        )
-
-        val actual = count(someCMStringList(), DISTINCT).toDopeQuery()
-
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support count with CMList Boolean`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(`CMBooleanList`)",
-            parameters = emptyMap(),
-        )
+        val field = someCMBooleanList()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMBooleanList()).toDopeQuery()
+        val actual = count(field)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMList Boolean`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(ALL `CMBooleanList`)",
-            parameters = emptyMap(),
-        )
+    fun `should support count with CMList Boolean and type`() {
+        val field = someCMBooleanList()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        val actual = count(someCMBooleanList(), ALL).toDopeQuery()
+        val actual = count(field, ALL)
 
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support count distinct with CMList Boolean`() {
-        val expected = DopeQuery(
-            queryString = "COUNT(DISTINCT `CMBooleanList`)",
-            parameters = emptyMap(),
-        )
-
-        val actual = count(someCMBooleanList(), DISTINCT).toDopeQuery()
-
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

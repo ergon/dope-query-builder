@@ -27,8 +27,7 @@ fun lpad(
     inStr: TypeExpression<StringType>,
     size: TypeExpression<NumberType>,
     prefix: TypeExpression<StringType>? = null,
-): LpadExpression =
-    LpadExpression(inStr, size, prefix)
+): LpadExpression = LpadExpression(inStr, size, prefix)
 
 fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String): LpadExpression =
     lpad(inStr, size, prefix.toDopeType())

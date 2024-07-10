@@ -54,4 +54,15 @@ class AverageExpressionTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support average function`() {
+        val field = someNumberField()
+        val quantifier = DISTINCT
+        val expected = AverageExpression(field, quantifier)
+
+        val actual = avg(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

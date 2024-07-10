@@ -2,9 +2,11 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import org.junit.Assert.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.tokens
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class TokensExpressionTest {
 
@@ -24,5 +26,26 @@ class TokensExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support tokens function`() {
+        val inStr = listOf("test1", "test2")
+        val expected = TokensExpression(inStr)
+
+        val actual = tokens(inStr)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support tokens function with options`() {
+        val inStr = listOf("test1", "test2")
+        val opt = CustomTokenOptions(name = true, specials = true)
+        val expected = TokensExpression(inStr, opt)
+
+        val actual = tokens(inStr, opt)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

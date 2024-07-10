@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantif
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ArrayAggregateExpressionTest {
@@ -53,5 +53,16 @@ class ArrayAggregateExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array aggregate function`() {
+        val field = someStringField()
+        val quantifier = DISTINCT
+        val expected = ArrayAggregateExpression(field, quantifier)
+
+        val actual = arrayAggregate(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

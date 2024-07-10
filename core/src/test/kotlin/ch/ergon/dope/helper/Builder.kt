@@ -29,6 +29,12 @@ fun someStringArrayField(name: String = "stringArrayField", bucket: Bucket = som
 fun someBooleanArrayField(name: String = "booleanArrayField", bucket: Bucket = someBucket("")) =
     Field<ArrayType<BooleanType>>(name, getBucketName(bucket))
 
+fun someNumber(value: Number = 5) = value
+
+fun someString(value: String = "someString") = value
+
+fun someBoolean(value: Boolean = true) = value
+
 private fun getBucketName(bucket: Bucket): String = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name

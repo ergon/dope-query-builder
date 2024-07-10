@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -55,5 +57,63 @@ class AdditionExpressionTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support addition with second parameters`() {
+        val parameterValue = 5
+        val expected = DopeQuery(
+            "(`numberField` + $1)",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = AdditionExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support addition function type type`() {
+        val left = someNumberField()
+        val right = someNumberField()
+        val expected = AdditionExpression(left, right)
+
+        val actual = left.add(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support addition function type number`() {
+        val left = someNumberField()
+        val right = someNumber()
+        val expected = AdditionExpression(left, right.toDopeType())
+
+        val actual = left.add(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support addition function number type`() {
+        val left = someNumber()
+        val right = someNumberField()
+        val expected = AdditionExpression(left.toDopeType(), right)
+
+        val actual = left.add(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support addition function number number`() {
+        val left = someNumber()
+        val right = someNumber()
+        val expected = AdditionExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.add(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }
