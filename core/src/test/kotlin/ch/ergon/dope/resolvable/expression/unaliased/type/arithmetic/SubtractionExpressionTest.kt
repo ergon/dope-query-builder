@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -23,7 +23,7 @@ class SubtractionExpressionTest {
             "(`numberField` - `numberField`)",
             emptyMap(),
         )
-        val underTest = SubtractionExpression(CMNumberField(), CMNumberField())
+        val underTest = SubtractionExpression(someNumberField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -37,7 +37,7 @@ class SubtractionExpressionTest {
             "($1 - `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = SubtractionExpression(parameterValue.asParameter(), CMNumberField())
+        val underTest = SubtractionExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -66,7 +66,7 @@ class SubtractionExpressionTest {
             "(`numberField` % $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ModuloExpression(CMNumberField(), parameterValue.asParameter())
+        val underTest = ModuloExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -75,8 +75,8 @@ class SubtractionExpressionTest {
 
     @Test
     fun `should support subtraction function type type`() {
-        val left = CMNumberField()
-        val right = CMNumberField()
+        val left = someNumberField()
+        val right = someNumberField()
         val expected = SubtractionExpression(left, right)
 
         val actual = left.sub(right)
@@ -86,7 +86,7 @@ class SubtractionExpressionTest {
 
     @Test
     fun `should support subtraction function type number`() {
-        val left = CMNumberField()
+        val left = someNumberField()
         val right = someNumber()
         val expected = SubtractionExpression(left, right.toDopeType())
 
@@ -98,7 +98,7 @@ class SubtractionExpressionTest {
     @Test
     fun `should support subtraction function number type`() {
         val left = someNumber()
-        val right = CMNumberField()
+        val right = someNumberField()
         val expected = SubtractionExpression(left.toDopeType(), right)
 
         val actual = left.sub(right)

@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.access
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -23,7 +23,7 @@ class ArrayAccessTest {
             "`stringArrayField`[`numberField`]",
             emptyMap(),
         )
-        val underTest = ArrayAccess(someStringArrayField(), CMNumberField())
+        val underTest = ArrayAccess(someStringArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -37,7 +37,7 @@ class ArrayAccessTest {
             "$1[`numberField`]",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayAccess(parameterValue.asParameter(), CMNumberField())
+        val underTest = ArrayAccess(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -76,7 +76,7 @@ class ArrayAccessTest {
     @Test
     fun `should support array access function`() {
         val array = someStringArrayField()
-        val index = CMNumberField()
+        val index = someNumberField()
         val expected = ArrayAccess(array, index)
 
         val actual = array.get(index)

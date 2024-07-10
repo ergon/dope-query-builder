@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -23,7 +23,7 @@ class AdditionExpressionTest {
             "(`numberField` + `numberField`)",
             emptyMap(),
         )
-        val underTest = AdditionExpression(CMNumberField(), CMNumberField())
+        val underTest = AdditionExpression(someNumberField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -37,7 +37,7 @@ class AdditionExpressionTest {
             "($1 + `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = AdditionExpression(parameterValue.asParameter(), CMNumberField())
+        val underTest = AdditionExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -66,7 +66,7 @@ class AdditionExpressionTest {
             "(`numberField` + $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = AdditionExpression(CMNumberField(), parameterValue.asParameter())
+        val underTest = AdditionExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -75,8 +75,8 @@ class AdditionExpressionTest {
 
     @Test
     fun `should support addition function type type`() {
-        val left = CMNumberField()
-        val right = CMNumberField()
+        val left = someNumberField()
+        val right = someNumberField()
         val expected = AdditionExpression(left, right)
 
         val actual = left.add(right)
@@ -86,7 +86,7 @@ class AdditionExpressionTest {
 
     @Test
     fun `should support addition function type number`() {
-        val left = CMNumberField()
+        val left = someNumberField()
         val right = someNumber()
         val expected = AdditionExpression(left, right.toDopeType())
 
@@ -98,7 +98,7 @@ class AdditionExpressionTest {
     @Test
     fun `should support addition function number type`() {
         val left = someNumber()
-        val right = CMNumberField()
+        val right = someNumberField()
         val expected = AdditionExpression(left.toDopeType(), right)
 
         val actual = left.add(right)

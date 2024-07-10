@@ -1,8 +1,8 @@
 package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.InExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.InExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -23,6 +23,18 @@ fun CMField<String>.inArray(array: TypeExpression<ArrayType<StringType>>): InExp
 @JvmName("inArrayBoolean")
 fun CMField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression<BooleanType> =
     toDopeType().inArray(array)
+
+@JvmName("inArrayNumber")
+fun TypeExpression<NumberType>.inArray(array: CMList<out Number>): InExpression<NumberType> =
+    this.inArray(array.toDopeType())
+
+@JvmName("inArrayString")
+fun TypeExpression<StringType>.inArray(array: CMList<String>): InExpression<StringType> =
+    this.inArray(array.toDopeType())
+
+@JvmName("inArrayBoolean")
+fun TypeExpression<BooleanType>.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
+    this.inArray(array.toDopeType())
 
 @JvmName("inArrayNumber")
 fun CMField<out Number>.inArray(array: CMList<out Number>): InExpression<NumberType> =

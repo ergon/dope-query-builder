@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.abs
 import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.acos
@@ -64,7 +64,7 @@ class NumberFunctionsTest {
     fun `should support ABS expression with number field`() {
         val expected = "ABS(`numberField`)"
 
-        val actual = abs(CMNumberField()).toDopeQuery().queryString
+        val actual = abs(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -82,7 +82,7 @@ class NumberFunctionsTest {
     fun `should support ACOS expression with number field`() {
         val expected = "ACOS(`numberField`)"
 
-        val actual = acos(CMNumberField()).toDopeQuery().queryString
+        val actual = acos(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -100,7 +100,7 @@ class NumberFunctionsTest {
     fun `should support ASIN expression with number field`() {
         val expected = "ASIN(`numberField`)"
 
-        val actual = asin(CMNumberField()).toDopeQuery().queryString
+        val actual = asin(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class NumberFunctionsTest {
     fun `should support ATAN expression with number field`() {
         val expected = "ATAN(`numberField`)"
 
-        val actual = atan(CMNumberField()).toDopeQuery().queryString
+        val actual = atan(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -136,7 +136,7 @@ class NumberFunctionsTest {
     fun `should support ATAN2 expression with number field as divisor`() {
         val expected = "ATAN2(`numberField`, 0.5)"
 
-        val actual = atan2(CMNumberField(), 0.5).toDopeQuery().queryString
+        val actual = atan2(someNumberField(), 0.5).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -145,7 +145,7 @@ class NumberFunctionsTest {
     fun `should support ATAN2 expression with number field as dividend`() {
         val expected = "ATAN2(0.5, `numberField`)"
 
-        val actual = atan2(0.5, CMNumberField()).toDopeQuery().queryString
+        val actual = atan2(0.5, someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -154,7 +154,7 @@ class NumberFunctionsTest {
     fun `should support ATAN2 expression with number field as divisor and dividend`() {
         val expected = "ATAN2(`numberField`, `anotherNumberField`)"
 
-        val actual = atan2(CMNumberField(), CMNumberField("anotherNumberField")).toDopeQuery().queryString
+        val actual = atan2(someNumberField(), someNumberField("anotherNumberField")).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -172,7 +172,7 @@ class NumberFunctionsTest {
     fun `should support CEIL expression with number field`() {
         val expected = "CEIL(`numberField`)"
 
-        val actual = ceil(CMNumberField()).toDopeQuery().queryString
+        val actual = ceil(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -190,7 +190,7 @@ class NumberFunctionsTest {
     fun `should support COS expression with number field`() {
         val expected = "COS(`numberField`)"
 
-        val actual = cos(CMNumberField()).toDopeQuery().queryString
+        val actual = cos(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -208,7 +208,7 @@ class NumberFunctionsTest {
     fun `should support DEGREES expression with number field`() {
         val expected = "DEGREES(`numberField`)"
 
-        val actual = degrees(CMNumberField()).toDopeQuery().queryString
+        val actual = degrees(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -235,7 +235,7 @@ class NumberFunctionsTest {
     fun `should support EXP expression with number field`() {
         val expected = "EXP(`numberField`)"
 
-        val actual = exp(CMNumberField()).toDopeQuery().queryString
+        val actual = exp(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -253,7 +253,7 @@ class NumberFunctionsTest {
     fun `should support LN expression with number field`() {
         val expected = "LN(`numberField`)"
 
-        val actual = ln(CMNumberField()).toDopeQuery().queryString
+        val actual = ln(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -271,7 +271,7 @@ class NumberFunctionsTest {
     fun `should support LOG expression with number field`() {
         val expected = "LOG(`numberField`)"
 
-        val actual = log(CMNumberField()).toDopeQuery().queryString
+        val actual = log(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -289,7 +289,7 @@ class NumberFunctionsTest {
     fun `should support FLOOR expression with number field`() {
         val expected = "FLOOR(`numberField`)"
 
-        val actual = floor(CMNumberField()).toDopeQuery().queryString
+        val actual = floor(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -316,7 +316,7 @@ class NumberFunctionsTest {
     fun `should support POWER expression with base as number field`() {
         val expected = "POWER(`numberField`, 3)"
 
-        val actual = power(CMNumberField(), 3).toDopeQuery().queryString
+        val actual = power(someNumberField(), 3).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -325,7 +325,7 @@ class NumberFunctionsTest {
     fun `should support POWER expression with exponent as number field`() {
         val expected = "POWER(3.14, `numberField`)"
 
-        val actual = power(3.14, CMNumberField()).toDopeQuery().queryString
+        val actual = power(3.14, someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -334,7 +334,7 @@ class NumberFunctionsTest {
     fun `should support POWER expression with base and exponent as number fields`() {
         val expected = "POWER(`numberField`, `anotherNumberField`)"
 
-        val actual = power(CMNumberField(), CMNumberField("anotherNumberField")).toDopeQuery().queryString
+        val actual = power(someNumberField(), someNumberField("anotherNumberField")).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -352,7 +352,7 @@ class NumberFunctionsTest {
     fun `should support RADIANS expression with number field`() {
         val expected = "RADIANS(`numberField`)"
 
-        val actual = radians(CMNumberField()).toDopeQuery().queryString
+        val actual = radians(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -379,7 +379,7 @@ class NumberFunctionsTest {
     fun `should support RANDOM expression with number field as seed`() {
         val expected = "RANDOM(`numberField`)"
 
-        val actual = random(CMNumberField()).toDopeQuery().queryString
+        val actual = random(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -397,7 +397,7 @@ class NumberFunctionsTest {
     fun `should support ROUND expression with number field`() {
         val expected = "ROUND(`numberField`)"
 
-        val actual = round(CMNumberField()).toDopeQuery().queryString
+        val actual = round(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -415,7 +415,7 @@ class NumberFunctionsTest {
     fun `should support ROUND expression with number field and digits`() {
         val expected = "ROUND(`numberField`, 1)"
 
-        val actual = round(CMNumberField(), 1).toDopeQuery().queryString
+        val actual = round(someNumberField(), 1).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -424,7 +424,7 @@ class NumberFunctionsTest {
     fun `should support ROUND expression with digits as number field`() {
         val expected = "ROUND(3.14, `numberField`)"
 
-        val actual = round(3.14, CMNumberField()).toDopeQuery().queryString
+        val actual = round(3.14, someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -433,7 +433,7 @@ class NumberFunctionsTest {
     fun `should support ROUND expression with number field and digits as number fields`() {
         val expected = "ROUND(`numberField`, `anotherNumberField`)"
 
-        val actual = round(CMNumberField(), CMNumberField("anotherNumberField")).toDopeQuery().queryString
+        val actual = round(someNumberField(), someNumberField("anotherNumberField")).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -451,7 +451,7 @@ class NumberFunctionsTest {
     fun `should support SIGN expression with number field`() {
         val expected = "SIGN(`numberField`)"
 
-        val actual = sign(CMNumberField()).toDopeQuery().queryString
+        val actual = sign(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -469,7 +469,7 @@ class NumberFunctionsTest {
     fun `should support SIN expression with number field`() {
         val expected = "SIN(`numberField`)"
 
-        val actual = sin(CMNumberField()).toDopeQuery().queryString
+        val actual = sin(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -487,7 +487,7 @@ class NumberFunctionsTest {
     fun `should support SQRT expression with number field`() {
         val expected = "SQRT(`numberField`)"
 
-        val actual = sqrt(CMNumberField()).toDopeQuery().queryString
+        val actual = sqrt(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -505,7 +505,7 @@ class NumberFunctionsTest {
     fun `should support TAN expression with number field`() {
         val expected = "TAN(`numberField`)"
 
-        val actual = tan(CMNumberField()).toDopeQuery().queryString
+        val actual = tan(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -523,7 +523,7 @@ class NumberFunctionsTest {
     fun `should support TRUNC expression with number field`() {
         val expected = "TRUNC(`numberField`)"
 
-        val actual = trunc(CMNumberField()).toDopeQuery().queryString
+        val actual = trunc(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -541,7 +541,7 @@ class NumberFunctionsTest {
     fun `should support TRUNC expression with number field and digits`() {
         val expected = "TRUNC(`numberField`, 1)"
 
-        val actual = trunc(CMNumberField(), 1).toDopeQuery().queryString
+        val actual = trunc(someNumberField(), 1).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -550,7 +550,7 @@ class NumberFunctionsTest {
     fun `should support TRUNC expression with digits as number field`() {
         val expected = "TRUNC(3.14, `numberField`)"
 
-        val actual = trunc(3.14, CMNumberField()).toDopeQuery().queryString
+        val actual = trunc(3.14, someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -559,7 +559,7 @@ class NumberFunctionsTest {
     fun `should support TRUNC expression with number field and digits as number fields`() {
         val expected = "TRUNC(`numberField`, `anotherNumberField`)"
 
-        val actual = trunc(CMNumberField(), CMNumberField("anotherNumberField")).toDopeQuery().queryString
+        val actual = trunc(someNumberField(), someNumberField("anotherNumberField")).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }

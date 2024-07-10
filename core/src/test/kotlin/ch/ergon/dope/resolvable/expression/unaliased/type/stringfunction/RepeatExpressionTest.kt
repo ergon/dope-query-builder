@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class RepeatExpressionTest {
             "REPEAT(`stringField`, `numberField`)",
             emptyMap(),
         )
-        val underTest = RepeatExpression(someStringField(), CMNumberField())
+        val underTest = RepeatExpression(someStringField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class RepeatExpressionTest {
             "REPEAT($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = RepeatExpression(parameterValue.asParameter(), CMNumberField())
+        val underTest = RepeatExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -64,7 +64,7 @@ class RepeatExpressionTest {
     @Test
     fun `should support repeat function type type`() {
         val inStr = someStringField("inStr")
-        val repeatAmount = CMNumberField("repeatAmount")
+        val repeatAmount = someNumberField("repeatAmount")
         val expected = RepeatExpression(inStr, repeatAmount)
 
         val actual = repeat(inStr, repeatAmount)
@@ -86,7 +86,7 @@ class RepeatExpressionTest {
     @Test
     fun `should support repeat function string type`() {
         val inStr = someString("inStr")
-        val repeatAmount = CMNumberField("repeatAmount")
+        val repeatAmount = someNumberField("repeatAmount")
         val expected = RepeatExpression(inStr.toDopeType(), repeatAmount)
 
         val actual = repeat(inStr, repeatAmount)

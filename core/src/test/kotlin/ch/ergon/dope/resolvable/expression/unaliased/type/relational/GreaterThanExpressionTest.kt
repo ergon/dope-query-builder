@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class GreaterThanExpressionTest {
             "`numberField` > `numberField`",
             emptyMap(),
         )
-        val underTest = GreaterThanExpression(CMNumberField(), CMNumberField())
+        val underTest = GreaterThanExpression(someNumberField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class GreaterThanExpressionTest {
             "$1 > `numberField`",
             mapOf("$1" to parameterValue),
         )
-        val underTest = GreaterThanExpression(parameterValue.asParameter(), CMNumberField())
+        val underTest = GreaterThanExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -68,7 +68,7 @@ class GreaterThanExpressionTest {
             "`numberField` > $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = GreaterThanExpression(CMNumberField(), parameterValue.asParameter())
+        val underTest = GreaterThanExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -77,8 +77,8 @@ class GreaterThanExpressionTest {
 
     @Test
     fun `should support greater function type type`() {
-        val left = CMNumberField()
-        val right = CMNumberField()
+        val left = someNumberField()
+        val right = someNumberField()
         val expected = GreaterThanExpression(left, right)
 
         val actual = left.isGreaterThan(right)
@@ -88,7 +88,7 @@ class GreaterThanExpressionTest {
 
     @Test
     fun `should support greater function type number`() {
-        val left = CMNumberField()
+        val left = someNumberField()
         val right = someNumber()
         val expected = GreaterThanExpression(left, right.toDopeType())
 
@@ -100,7 +100,7 @@ class GreaterThanExpressionTest {
     @Test
     fun `should support greater function number type`() {
         val left = someNumber()
-        val right = CMNumberField()
+        val right = someNumberField()
         val expected = GreaterThanExpression(left.toDopeType(), right)
 
         val actual = left.isGreaterThan(right)

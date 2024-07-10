@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class StandardDeviationExpressionTest {
             "STDDEV(`numberField`)",
             emptyMap(),
         )
-        val underTest = StandardDeviationExpression(CMNumberField(), null)
+        val underTest = StandardDeviationExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class StandardDeviationExpressionTest {
             "STDDEV(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = StandardDeviationExpression(CMNumberField(), ALL)
+        val underTest = StandardDeviationExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class StandardDeviationExpressionTest {
             "STDDEV(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = StandardDeviationExpression(CMNumberField(), DISTINCT)
+        val underTest = StandardDeviationExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class StandardDeviationExpressionTest {
 
     @Test
     fun `should support standard deviation function`() {
-        val field = CMNumberField()
+        val field = someNumberField()
         val quantifier = DISTINCT
         val expected = StandardDeviationExpression(field, quantifier)
 

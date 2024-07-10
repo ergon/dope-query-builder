@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.SelectClause
@@ -54,7 +54,7 @@ class SelectClauseTest {
             "SELECT `numberField`, `stringArrayField`",
             emptyMap(),
         )
-        val underTest = SelectClause(CMNumberField(), someStringArrayField())
+        val underTest = SelectClause(someNumberField(), someStringArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -67,7 +67,7 @@ class SelectClauseTest {
             "SELECT DISTINCT `numberField`",
             emptyMap(),
         )
-        val underTest = SelectDistinctClause(CMNumberField())
+        val underTest = SelectDistinctClause(someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -94,7 +94,7 @@ class SelectClauseTest {
             "SELECT DISTINCT `numberField`, `stringArrayField`",
             emptyMap(),
         )
-        val underTest = SelectDistinctClause(CMNumberField(), someStringArrayField())
+        val underTest = SelectDistinctClause(someNumberField(), someStringArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -120,7 +120,7 @@ class SelectClauseTest {
             "SELECT `numberField` AS `numberFieldAlias`, `stringArrayField`",
             emptyMap(),
         )
-        val underTest = SelectClause(CMNumberField().alias("numberFieldAlias"), someStringArrayField())
+        val underTest = SelectClause(someNumberField().alias("numberFieldAlias"), someStringArrayField())
 
         val actual = underTest.toDopeQuery()
 

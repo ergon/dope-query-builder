@@ -1,22 +1,24 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
+import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.inArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -26,6 +28,11 @@ class ArrayTest {
     @BeforeTest
     fun setup() {
         create = QueryBuilder()
+    }
+
+    @BeforeEach
+    fun reset() {
+        ParameterManager.resetCounter()
     }
 
     @Test
@@ -71,7 +78,7 @@ class ArrayTest {
                     53.toDopeType(),
                     TRUE,
                     someStringField(),
-                    CMNumberField("age", person),
+                    someNumberField("age", person),
                     someBooleanField(),
                 ).toDopeType(),
             ).from(
@@ -122,7 +129,7 @@ class ArrayTest {
                 listOf(
                     someStringField(),
                     listOf(
-                        CMNumberField("age", person),
+                        someNumberField("age", person),
                         TRUE,
                         "string".toDopeType(),
                     ).toDopeType(),
@@ -256,7 +263,7 @@ class ArrayTest {
             .select(
                 3.inArray(
                     listOf(
-                        CMNumberField(),
+                        someNumberField(),
                         23.toDopeType(),
                     ),
                 ).alias("test"),
@@ -273,7 +280,7 @@ class ArrayTest {
 
         val actual: String = create
             .select(
-                CMNumberField().inArray(
+                someNumberField().inArray(
                     listOf(
                         23.toDopeType(),
                     ),

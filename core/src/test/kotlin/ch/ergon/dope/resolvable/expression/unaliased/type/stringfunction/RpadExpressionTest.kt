@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -25,7 +25,7 @@ class RpadExpressionTest {
             "RPAD(`stringField`, `numberField`)",
             emptyMap(),
         )
-        val underTest = RpadExpression(someStringField(), CMNumberField())
+        val underTest = RpadExpression(someStringField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -39,7 +39,7 @@ class RpadExpressionTest {
             "RPAD($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = RpadExpression(parameterValue.asParameter(), CMNumberField())
+        val underTest = RpadExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -67,7 +67,7 @@ class RpadExpressionTest {
             "RPAD(`stringField`, `numberField`, `stringField`)",
             emptyMap(),
         )
-        val underTest = RpadExpression(someStringField(), CMNumberField(), someStringField())
+        val underTest = RpadExpression(someStringField(), someNumberField(), someStringField())
 
         val actual = underTest.toDopeQuery()
 
@@ -81,7 +81,7 @@ class RpadExpressionTest {
             "RPAD($1, `numberField`, `stringField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = RpadExpression(parameterValue.asParameter(), CMNumberField(), someStringField())
+        val underTest = RpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
         val actual = underTest.toDopeQuery()
 
@@ -107,7 +107,7 @@ class RpadExpressionTest {
     @Test
     fun `should support rpad function type type type`() {
         val inStr = someStringField("inStr")
-        val size = CMNumberField("size")
+        val size = someNumberField("size")
         val prefix = someStringField("prefix")
         val expected = RpadExpression(inStr, size, prefix)
 
@@ -119,7 +119,7 @@ class RpadExpressionTest {
     @Test
     fun `should support rpad function type type string`() {
         val inStr = someStringField("inStr")
-        val size = CMNumberField("size")
+        val size = someNumberField("size")
         val prefix = someString("prefix")
         val expected = RpadExpression(inStr, size, prefix.toDopeType())
 
@@ -143,7 +143,7 @@ class RpadExpressionTest {
     @Test
     fun `should support rpad function string type type`() {
         val inStr = someString("inStr")
-        val size = CMNumberField("size")
+        val size = someNumberField("size")
         val prefix = someStringField("prefix")
         val expected = RpadExpression(inStr.toDopeType(), size, prefix)
 
@@ -179,7 +179,7 @@ class RpadExpressionTest {
     @Test
     fun `should support rpad function string type`() {
         val inStr = someString("inStr")
-        val size = CMNumberField("size")
+        val size = someNumberField("size")
         val prefix = null
         val expected = RpadExpression(inStr.toDopeType(), size, prefix)
 
@@ -191,7 +191,7 @@ class RpadExpressionTest {
     @Test
     fun `should support rpad function string type string`() {
         val inStr = someString("inStr")
-        val size = CMNumberField("size")
+        val size = someNumberField("size")
         val prefix = someString("prefix")
         val expected = RpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
 

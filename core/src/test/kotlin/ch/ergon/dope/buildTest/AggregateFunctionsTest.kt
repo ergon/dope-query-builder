@@ -1,11 +1,11 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
@@ -44,7 +44,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                min(CMNumberField()),
+                min(someNumberField()),
                 min(someStringField()),
                 min(someBooleanField()),
                 min(someNumberArrayField()),
@@ -64,7 +64,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                min(CMNumberField(), ALL),
+                min(someNumberField(), ALL),
                 min(someStringField(), ALL),
                 min(someBooleanField(), ALL),
                 min(someNumberArrayField(), ALL),
@@ -84,7 +84,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                min(CMNumberField(), DISTINCT),
+                min(someNumberField(), DISTINCT),
                 min(someStringField(), DISTINCT),
                 min(someBooleanField(), DISTINCT),
                 min(someNumberArrayField(), DISTINCT),
@@ -105,7 +105,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                min(CMNumberField()).alias("number"),
+                min(someNumberField()).alias("number"),
                 min(someStringField()).alias("string"),
                 min(someBooleanField()).alias("boolean"),
                 min(someNumberArrayField()).alias("numberArray"),
@@ -125,7 +125,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                max(CMNumberField()),
+                max(someNumberField()),
                 max(someStringField()),
                 max(someBooleanField()),
                 max(someNumberArrayField()),
@@ -145,7 +145,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                max(CMNumberField(), ALL),
+                max(someNumberField(), ALL),
                 max(someStringField(), ALL),
                 max(someBooleanField(), ALL),
                 max(someNumberArrayField(), ALL),
@@ -165,7 +165,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                max(CMNumberField(), DISTINCT),
+                max(someNumberField(), DISTINCT),
                 max(someStringField(), DISTINCT),
                 max(someBooleanField(), DISTINCT),
                 max(someNumberArrayField(), DISTINCT),
@@ -186,7 +186,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                max(CMNumberField()).alias("number"),
+                max(someNumberField()).alias("number"),
                 max(someStringField()).alias("string"),
                 max(someBooleanField()).alias("boolean"),
                 max(someNumberArrayField()).alias("numberArray"),
@@ -234,7 +234,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                count(CMNumberField()),
+                count(someNumberField()),
                 count(someStringField()),
                 count(someBooleanField()),
                 count(someNumberArrayField()),
@@ -255,7 +255,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                count(CMNumberField(), ALL),
+                count(someNumberField(), ALL),
                 count(someStringField(), ALL),
                 count(someBooleanField(), ALL),
                 count(someNumberArrayField(), ALL),
@@ -276,7 +276,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                count(CMNumberField(), DISTINCT),
+                count(someNumberField(), DISTINCT),
                 count(someStringField(), DISTINCT),
                 count(someBooleanField(), DISTINCT),
                 count(someNumberArrayField(), DISTINCT),
@@ -297,7 +297,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                count(CMNumberField()).alias("number"),
+                count(someNumberField()).alias("number"),
                 count(someStringField()).alias("string"),
                 count(someBooleanField()).alias("boolean"),
                 count(someNumberArrayField()).alias("numberArray"),
@@ -317,7 +317,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                arrayAggregate(CMNumberField()),
+                arrayAggregate(someNumberField()),
                 arrayAggregate(someStringField()),
                 arrayAggregate(someBooleanField()),
                 arrayAggregate(someNumberArrayField()),
@@ -338,7 +338,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                arrayAggregate(CMNumberField(), ALL),
+                arrayAggregate(someNumberField(), ALL),
                 arrayAggregate(someStringField(), ALL),
                 arrayAggregate(someBooleanField(), ALL),
                 arrayAggregate(someNumberArrayField(), ALL),
@@ -359,7 +359,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                arrayAggregate(CMNumberField(), DISTINCT),
+                arrayAggregate(someNumberField(), DISTINCT),
                 arrayAggregate(someStringField(), DISTINCT),
                 arrayAggregate(someBooleanField(), DISTINCT),
                 arrayAggregate(someNumberArrayField(), DISTINCT),
@@ -380,7 +380,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                arrayAggregate(CMNumberField()).alias("number"),
+                arrayAggregate(someNumberField()).alias("number"),
                 arrayAggregate(someStringField()).alias("string"),
                 arrayAggregate(someBooleanField()).alias("boolean"),
                 arrayAggregate(someNumberArrayField()).alias("numberArray"),
@@ -399,7 +399,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                avg(CMNumberField()),
+                avg(someNumberField()),
             ).from(
                 person,
             ).build().queryString
@@ -413,7 +413,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                avg(CMNumberField(), ALL),
+                avg(someNumberField(), ALL),
             ).from(
                 person,
             ).build().queryString
@@ -427,7 +427,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                avg(CMNumberField(), DISTINCT),
+                avg(someNumberField(), DISTINCT),
             ).from(
                 person,
             ).build().queryString
@@ -441,7 +441,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                avg(CMNumberField()).alias("number"),
+                avg(someNumberField()).alias("number"),
             ).from(
                 person,
             ).build().queryString
@@ -455,7 +455,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                mean(CMNumberField()),
+                mean(someNumberField()),
             ).from(
                 person,
             ).build().queryString
@@ -469,7 +469,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                mean(CMNumberField(), ALL),
+                mean(someNumberField(), ALL),
             ).from(
                 person,
             ).build().queryString
@@ -483,7 +483,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                mean(CMNumberField(), DISTINCT),
+                mean(someNumberField(), DISTINCT),
             ).from(
                 person,
             ).build().queryString
@@ -497,7 +497,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                mean(CMNumberField()).alias("number"),
+                mean(someNumberField()).alias("number"),
             ).from(
                 person,
             ).build().queryString
@@ -511,7 +511,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                median(CMNumberField()),
+                median(someNumberField()),
             ).from(
                 person,
             ).build().queryString
@@ -525,7 +525,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                median(CMNumberField(), ALL),
+                median(someNumberField(), ALL),
             ).from(
                 person,
             ).build().queryString
@@ -539,7 +539,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                median(CMNumberField(), DISTINCT),
+                median(someNumberField(), DISTINCT),
             ).from(
                 person,
             ).build().queryString
@@ -553,7 +553,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                median(CMNumberField()).alias("number"),
+                median(someNumberField()).alias("number"),
             ).from(
                 person,
             ).build().queryString
@@ -567,7 +567,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                sum(CMNumberField()),
+                sum(someNumberField()),
             ).from(
                 person,
             ).build().queryString
@@ -581,7 +581,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                sum(CMNumberField(), ALL),
+                sum(someNumberField(), ALL),
             ).from(
                 person,
             ).build().queryString
@@ -595,7 +595,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                sum(CMNumberField(), DISTINCT),
+                sum(someNumberField(), DISTINCT),
             ).from(
                 person,
             ).build().queryString
@@ -609,7 +609,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                sum(CMNumberField()).alias("number"),
+                sum(someNumberField()).alias("number"),
             ).from(
                 person,
             ).build().queryString
@@ -623,7 +623,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                stdDev(CMNumberField()),
+                stdDev(someNumberField()),
             ).from(
                 person,
             ).build().queryString
@@ -637,7 +637,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                stdDev(CMNumberField(), ALL),
+                stdDev(someNumberField(), ALL),
             ).from(
                 person,
             ).build().queryString
@@ -651,7 +651,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                stdDev(CMNumberField(), DISTINCT),
+                stdDev(someNumberField(), DISTINCT),
             ).from(
                 person,
             ).build().queryString
@@ -665,7 +665,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                stdDev(CMNumberField()).alias("number"),
+                stdDev(someNumberField()).alias("number"),
             ).from(
                 person,
             ).build().queryString
@@ -679,7 +679,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                variance(CMNumberField()),
+                variance(someNumberField()),
             ).from(
                 person,
             ).build().queryString
@@ -693,7 +693,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                variance(CMNumberField(), ALL),
+                variance(someNumberField(), ALL),
             ).from(
                 person,
             ).build().queryString
@@ -707,7 +707,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                variance(CMNumberField(), DISTINCT),
+                variance(someNumberField(), DISTINCT),
             ).from(
                 person,
             ).build().queryString
@@ -721,7 +721,7 @@ class AggregateFunctionsTest {
 
         val actual: String = create
             .select(
-                variance(CMNumberField()).alias("number"),
+                variance(someNumberField()).alias("number"),
             ).from(
                 person,
             ).build().queryString

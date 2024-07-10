@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
@@ -44,7 +44,7 @@ class ParameterizedTest {
         val parameterValue = 5
         val parameter = parameterValue.asParameter(parameterName)
 
-        val parameters = create.select(parameter.isEqualTo(CMNumberField())).build().parameters
+        val parameters = create.select(parameter.isEqualTo(someNumberField())).build().parameters
 
         assertEquals(parameterValue, parameters[parameterName])
     }
@@ -54,14 +54,14 @@ class ParameterizedTest {
         val parameterValue = 2
         val parameter = parameterValue.asParameter()
 
-        val parameters = create.select(parameter.isEqualTo(CMNumberField())).build().parameters
+        val parameters = create.select(parameter.isEqualTo(someNumberField())).build().parameters
 
         assertEquals(parameterValue, parameters["$1"])
     }
 
     @Test
     fun `should get null when there is no such parameter`() {
-        val parameters = create.select(2.asParameter().isEqualTo(CMNumberField())).build().parameters
+        val parameters = create.select(2.asParameter().isEqualTo(someNumberField())).build().parameters
 
         assertEquals(null, parameters["$2"])
     }
@@ -75,7 +75,7 @@ class ParameterizedTest {
         val parameterValue3 = 80
         val parameter3 = parameterValue3.asParameter()
 
-        val parameters = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(CMNumberField())).build().parameters
+        val parameters = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build().parameters
 
         assertEquals(parameterValue1, parameters["$1"])
         assertEquals(parameterValue2, parameters["$2"])
@@ -92,7 +92,7 @@ class ParameterizedTest {
         val parameterValue3 = 80
         val parameter3 = parameterValue3.asParameter()
 
-        val parameters = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(CMNumberField())).build().parameters
+        val parameters = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build().parameters
 
         assertEquals(parameterValue1, parameters["$1"])
         assertEquals(parameterValue2, parameters["param"])

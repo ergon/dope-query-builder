@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someDeleteClause
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
@@ -25,7 +25,7 @@ class LimitClauseTest {
             "DELETE FROM `someBucket` LIMIT `numberField`",
             emptyMap(),
         )
-        val underTest = DeleteLimitClause(CMNumberField(), someDeleteClause())
+        val underTest = DeleteLimitClause(someNumberField(), someDeleteClause())
 
         val actual = underTest.toDopeQuery()
 
@@ -52,7 +52,7 @@ class LimitClauseTest {
             "SELECT * LIMIT `numberField`",
             emptyMap(),
         )
-        val underTest = SelectLimitClause(CMNumberField(), someSelectClause())
+        val underTest = SelectLimitClause(someNumberField(), someSelectClause())
 
         val actual = underTest.toDopeQuery()
 

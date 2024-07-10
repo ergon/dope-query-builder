@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class MinExpressionTest {
             "MIN(`numberField`)",
             emptyMap(),
         )
-        val underTest = MinExpression(CMNumberField(), null)
+        val underTest = MinExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class MinExpressionTest {
             "MIN(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = MinExpression(CMNumberField(), ALL)
+        val underTest = MinExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class MinExpressionTest {
             "MIN(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = MinExpression(CMNumberField(), DISTINCT)
+        val underTest = MinExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class MinExpressionTest {
 
     @Test
     fun `should support min function`() {
-        val field = CMNumberField()
+        val field = someNumberField()
         val quantifier = DISTINCT
         val expected = MinExpression(field, quantifier)
 

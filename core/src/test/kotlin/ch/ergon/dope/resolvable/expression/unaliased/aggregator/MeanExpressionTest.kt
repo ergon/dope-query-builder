@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class MeanExpressionTest {
             "MEAN(`numberField`)",
             emptyMap(),
         )
-        val underTest = MeanExpression(CMNumberField(), null)
+        val underTest = MeanExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class MeanExpressionTest {
             "MEAN(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = MeanExpression(CMNumberField(), ALL)
+        val underTest = MeanExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class MeanExpressionTest {
             "MEAN(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = MeanExpression(CMNumberField(), DISTINCT)
+        val underTest = MeanExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class MeanExpressionTest {
 
     @Test
     fun `should support mean function`() {
-        val field = CMNumberField()
+        val field = someNumberField()
         val quantifier = DISTINCT
         val expected = MeanExpression(field, quantifier)
 

@@ -1,8 +1,8 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.div
@@ -60,7 +60,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                2.add(CMNumberField()),
+                2.add(someNumberField()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -74,7 +74,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().add(2),
+                someNumberField().add(2),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -88,7 +88,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().add(5.toDopeType()),
+                someNumberField().add(5.toDopeType()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -102,7 +102,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                3.toDopeType().add(CMNumberField().add(5.toDopeType())),
+                3.toDopeType().add(someNumberField().add(5.toDopeType())),
             ).from(
                 someBucket,
             ).build().queryString
@@ -116,7 +116,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().add(5.toDopeType()).alias("something"),
+                someNumberField().add(5.toDopeType()).alias("something"),
             ).from(
                 someBucket,
             ).build().queryString
@@ -158,7 +158,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                6.sub(CMNumberField()),
+                6.sub(someNumberField()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -172,7 +172,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().sub(11),
+                someNumberField().sub(11),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -186,7 +186,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().sub(2.toDopeType()),
+                someNumberField().sub(2.toDopeType()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -200,7 +200,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toDopeType().sub(CMNumberField().sub(2.toDopeType())),
+                9.toDopeType().sub(someNumberField().sub(2.toDopeType())),
             ).from(
                 someBucket,
             ).build().queryString
@@ -214,7 +214,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().sub(5.toDopeType()).alias("something"),
+                someNumberField().sub(5.toDopeType()).alias("something"),
             ).from(
                 someBucket,
             ).build().queryString
@@ -256,7 +256,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                4.mul(CMNumberField()),
+                4.mul(someNumberField()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -270,7 +270,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().mul(7),
+                someNumberField().mul(7),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -284,7 +284,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().mul(2.toDopeType()),
+                someNumberField().mul(2.toDopeType()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -298,7 +298,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toDopeType().mul(CMNumberField().mul(2.toDopeType())),
+                9.toDopeType().mul(someNumberField().mul(2.toDopeType())),
             ).from(
                 someBucket,
             ).build().queryString
@@ -312,7 +312,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().mul(5.toDopeType()).alias("something"),
+                someNumberField().mul(5.toDopeType()).alias("something"),
             ).from(
                 someBucket,
             ).build().queryString
@@ -340,7 +340,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                14.div(CMNumberField()),
+                14.div(someNumberField()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -354,7 +354,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().div(2),
+                someNumberField().div(2),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -368,7 +368,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().div(2.toDopeType()),
+                someNumberField().div(2.toDopeType()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -382,7 +382,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toDopeType().div(CMNumberField().div(2.toDopeType())),
+                9.toDopeType().div(someNumberField().div(2.toDopeType())),
             ).from(
                 someBucket,
             ).build().queryString
@@ -396,7 +396,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().div(5.toDopeType()).alias("something"),
+                someNumberField().div(5.toDopeType()).alias("something"),
             ).from(
                 someBucket,
             ).build().queryString
@@ -438,7 +438,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                2.mod(CMNumberField()),
+                2.mod(someNumberField()),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -452,7 +452,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().mod(2),
+                someNumberField().mod(2),
             ).from(
                 someBucket(),
             ).build().queryString
@@ -466,7 +466,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().mod(2.toDopeType()),
+                someNumberField().mod(2.toDopeType()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -480,7 +480,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                9.toDopeType().mod(CMNumberField().mod(2.toDopeType())),
+                9.toDopeType().mod(someNumberField().mod(2.toDopeType())),
             ).from(
                 someBucket,
             ).build().queryString
@@ -494,7 +494,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                CMNumberField().mod(5.toDopeType()).alias("something"),
+                someNumberField().mod(5.toDopeType()).alias("something"),
             ).from(
                 someBucket,
             ).build().queryString
@@ -508,7 +508,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                neg(CMNumberField()),
+                neg(someNumberField()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -522,7 +522,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                neg(CMNumberField().mul(12.toDopeType())),
+                neg(someNumberField().mul(12.toDopeType())),
             ).from(
                 someBucket,
             ).build().queryString
@@ -536,7 +536,7 @@ class OperatorTest {
 
         val actual: String = create
             .select(
-                neg(CMNumberField()).add(6.toDopeType()),
+                neg(someNumberField()).add(6.toDopeType()),
             ).from(
                 someBucket,
             ).build().queryString
@@ -551,10 +551,10 @@ class OperatorTest {
         val actual: String = create
             .select(
                 12.toDopeType().add(
-                    neg(CMNumberField()).mod(
+                    neg(someNumberField()).mod(
                         12.toDopeType().mul(
                             neg(
-                                CMNumberField().sub(
+                                someNumberField().sub(
                                     neg(12.toDopeType()),
                                 ),
                             ),

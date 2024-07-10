@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class AverageExpressionTest {
             "AVG(`numberField`)",
             emptyMap(),
         )
-        val underTest = AverageExpression(CMNumberField(), null)
+        val underTest = AverageExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class AverageExpressionTest {
             "AVG(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = AverageExpression(CMNumberField(), ALL)
+        val underTest = AverageExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class AverageExpressionTest {
             "AVG(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = AverageExpression(CMNumberField(), DISTINCT)
+        val underTest = AverageExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class AverageExpressionTest {
 
     @Test
     fun `should support average function`() {
-        val field = CMNumberField()
+        val field = someNumberField()
         val quantifier = DISTINCT
         val expected = AverageExpression(field, quantifier)
 

@@ -16,7 +16,7 @@ import ch.ergon.dope.helper.someNumberFieldList
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringFieldList
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.InExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.InExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test

@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someDeleteClause
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
@@ -25,7 +25,7 @@ class OffsetClauseTest {
             "DELETE FROM `someBucket` OFFSET `numberField`",
             emptyMap(),
         )
-        val underTest = DeleteOffsetClause(CMNumberField(), someDeleteClause())
+        val underTest = DeleteOffsetClause(someNumberField(), someDeleteClause())
 
         val actual = underTest.toDopeQuery()
 
@@ -52,7 +52,7 @@ class OffsetClauseTest {
             "SELECT * OFFSET `numberField`",
             emptyMap(),
         )
-        val underTest = SelectOffsetClause(CMNumberField(), someSelectClause())
+        val underTest = SelectOffsetClause(someNumberField(), someSelectClause())
 
         val actual = underTest.toDopeQuery()
 

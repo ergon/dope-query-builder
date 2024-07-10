@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someDeleteClause
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.ReturningClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -36,7 +36,7 @@ class ReturningClauseTest {
             "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
         )
-        val underTest = ReturningClause(someStringField(), CMNumberField(), parentClause = someDeleteClause())
+        val underTest = ReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause())
 
         val actual = underTest.toDopeQuery()
 

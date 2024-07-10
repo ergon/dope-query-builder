@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.StringType
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
-fun CMNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
+fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
 
 fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
 

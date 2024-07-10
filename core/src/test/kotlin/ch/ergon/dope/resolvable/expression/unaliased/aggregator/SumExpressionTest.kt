@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class SumExpressionTest {
             "SUM(`numberField`)",
             emptyMap(),
         )
-        val underTest = SumExpression(CMNumberField(), null)
+        val underTest = SumExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class SumExpressionTest {
             "SUM(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = SumExpression(CMNumberField(), ALL)
+        val underTest = SumExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class SumExpressionTest {
             "SUM(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = SumExpression(CMNumberField(), DISTINCT)
+        val underTest = SumExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class SumExpressionTest {
 
     @Test
     fun `should support sum function`() {
-        val field = CMNumberField()
+        val field = someNumberField()
         val quantifier = DISTINCT
         val expected = SumExpression(field, quantifier)
 

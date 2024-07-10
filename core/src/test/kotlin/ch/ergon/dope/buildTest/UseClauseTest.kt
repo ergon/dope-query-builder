@@ -1,7 +1,8 @@
-package ch.ergon.dope
+package ch.ergon.dope.buildTest
 
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
@@ -98,7 +99,7 @@ class UseClauseTest {
                 "someId".toDopeType(),
             )
             .where(
-                CMNumberField().isEqualTo(1),
+                someNumberField().isEqualTo(1),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -195,7 +196,7 @@ class UseClauseTest {
                 "someId".toDopeType(),
             )
             .where(
-                CMNumberField().isEqualTo(1),
+                someNumberField().isEqualTo(1),
             ).build().queryString
 
         assertEquals(expected, actual)

@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
@@ -22,7 +22,7 @@ class MedianExpressionTest {
             "MEDIAN(`numberField`)",
             emptyMap(),
         )
-        val underTest = MedianExpression(CMNumberField(), null)
+        val underTest = MedianExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery()
 
@@ -35,7 +35,7 @@ class MedianExpressionTest {
             "MEDIAN(ALL `numberField`)",
             emptyMap(),
         )
-        val underTest = MedianExpression(CMNumberField(), ALL)
+        val underTest = MedianExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery()
 
@@ -48,7 +48,7 @@ class MedianExpressionTest {
             "MEDIAN(DISTINCT `numberField`)",
             emptyMap(),
         )
-        val underTest = MedianExpression(CMNumberField(), DISTINCT)
+        val underTest = MedianExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery()
 
@@ -57,7 +57,7 @@ class MedianExpressionTest {
 
     @Test
     fun `should support median function`() {
-        val field = CMNumberField()
+        val field = someNumberField()
         val quantifier = DISTINCT
         val expected = MedianExpression(field, quantifier)
 

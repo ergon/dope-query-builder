@@ -1,17 +1,19 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.CMNumberField
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.InExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -73,7 +75,7 @@ class InExpressionTest {
             "`numberField` IN $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = InExpression(CMNumberField(), parameterValue.asParameter())
+        val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -82,7 +84,7 @@ class InExpressionTest {
 
     @Test
     fun `should support in function type type`() {
-        val left = CMNumberField()
+        val left = someNumberField()
         val right = someNumberArrayField()
         val expected = InExpression(left, right)
 
@@ -93,8 +95,8 @@ class InExpressionTest {
 
     @Test
     fun `should support in function type with collection of type`() {
-        val left = CMNumberField()
-        val right = listOf(CMNumberField())
+        val left = someNumberField()
+        val right = listOf(someNumberField())
         val expected = InExpression(left, right.toDopeType())
 
         val actual = left.inArray(right)
@@ -138,7 +140,7 @@ class InExpressionTest {
     @Test
     fun `should support in function number collection of type`() {
         val left = someNumber()
-        val right = listOf(CMNumberField())
+        val right = listOf(someNumberField())
         val expected = InExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.inArray(right)
