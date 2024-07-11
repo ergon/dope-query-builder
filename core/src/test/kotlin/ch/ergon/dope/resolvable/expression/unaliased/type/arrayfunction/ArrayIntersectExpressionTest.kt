@@ -1,28 +1,26 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayUnionExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayUnion
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArrayUnionExpressionTest {
+class ArrayIntersectExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_UNION`() {
+    fun `should support ARRAY_INTERSECT`() {
         val expected = DopeQuery(
-            "ARRAY_UNION(`numberArrayField`, `numberArrayField`)",
+            "ARRAY_INTERSECT(`numberArrayField`, `numberArrayField`)",
             emptyMap(),
         )
-        val underTest = ArrayUnionExpression(someNumberArrayField(), someNumberArrayField())
+        val underTest = ArrayIntersectExpression(someNumberArrayField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -30,13 +28,13 @@ class ArrayUnionExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION with parameter`() {
+    fun `should support ARRAY_INTERSECT with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_UNION($1, `numberArrayField`)",
+            "ARRAY_INTERSECT($1, `numberArrayField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayUnionExpression(parameterValue.asParameter(), someNumberArrayField())
+        val underTest = ArrayIntersectExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -44,13 +42,13 @@ class ArrayUnionExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION with parameter as value`() {
+    fun `should support ARRAY_INTERSECT with parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_UNION(`numberArrayField`, $1)",
+            "ARRAY_INTERSECT(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter())
+        val underTest = ArrayIntersectExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -58,14 +56,14 @@ class ArrayUnionExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION with all parameters`() {
+    fun `should support ARRAY_INTERSECT with all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_UNION($1, $2)",
+            "ARRAY_INTERSECT($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
         )
-        val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
+        val underTest = ArrayIntersectExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -73,12 +71,12 @@ class ArrayUnionExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION extension`() {
+    fun `should support ARRAY_INTERSECT extension`() {
         val array = someNumberArrayField()
         val value = someNumberArrayField()
-        val expected = ArrayUnionExpression(array, value)
+        val expected = ArrayIntersectExpression(array, value)
 
-        val actual = arrayUnion(array, value)
+        val actual = arrayIntersect(array, value)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

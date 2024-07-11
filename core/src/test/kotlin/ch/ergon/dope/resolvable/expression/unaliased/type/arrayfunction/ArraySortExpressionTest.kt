@@ -1,28 +1,26 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArraySumExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arraySum
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArraySumExpressionTest {
+class ArraySortExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_SUM`() {
+    fun `should support ARRAY_SORT`() {
         val expected = DopeQuery(
-            "ARRAY_SUM(`numberArrayField`)",
+            "ARRAY_SORT(`numberArrayField`)",
             emptyMap(),
         )
-        val underTest = ArraySumExpression(someNumberArrayField())
+        val underTest = ArraySortExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -30,13 +28,13 @@ class ArraySumExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_SUM with parameter`() {
+    fun `should support ARRAY_SORT with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SUM($1)",
+            "ARRAY_SORT($1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArraySumExpression(parameterValue.asParameter())
+        val underTest = ArraySortExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -44,11 +42,11 @@ class ArraySumExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_SUM extension`() {
+    fun `should support ARRAY_SORT extension`() {
         val array = someNumberArrayField()
-        val expected = ArraySumExpression(array)
+        val expected = ArraySortExpression(array)
 
-        val actual = arraySum(array)
+        val actual = arraySort(array)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

@@ -1,11 +1,9 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayFlattenExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayFlatten
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals

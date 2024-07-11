@@ -7,11 +7,11 @@ import ch.ergon.dope.validtype.ValidType
 class ArrayPutExpression<T : ValidType>(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
-    vararg values: TypeExpression<T>,
-) : ArrayFunctionExpression<T>("ARRAY_PUT", array, value, *values)
+    vararg additionalValues: TypeExpression<T>,
+) : ArrayFunctionExpression<T>("ARRAY_PUT", array, value, *additionalValues)
 
 fun <T : ValidType> arrayPut(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
-    vararg values: TypeExpression<T>,
-) = ArrayPutExpression(array, value, *values)
+    vararg additionalValues: TypeExpression<T>,
+) = ArrayPutExpression(array, value, *additionalValues)

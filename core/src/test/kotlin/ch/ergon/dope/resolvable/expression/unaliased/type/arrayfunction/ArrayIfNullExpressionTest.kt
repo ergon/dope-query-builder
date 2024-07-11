@@ -1,28 +1,27 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayReverseExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayReverse
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArrayReverseExpressionTest {
+class ArrayIfNullExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_REVERSE`() {
+    fun `should support ARRAY_IFNULL`() {
+        val array = someNumberArrayField()
         val expected = DopeQuery(
-            "ARRAY_REVERSE(`numberArrayField`)",
+            "ARRAY_IFNULL(`numberArrayField`)",
             emptyMap(),
         )
-        val underTest = ArrayReverseExpression(someNumberArrayField())
+        val underTest = ArrayIfNullExpression(array)
 
         val actual = underTest.toDopeQuery()
 
@@ -30,13 +29,13 @@ class ArrayReverseExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REVERSE with parameter`() {
+    fun `should support ARRAY_IFNULL with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_REVERSE($1)",
+            "ARRAY_IFNULL($1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayReverseExpression(parameterValue.asParameter())
+        val underTest = ArrayIfNullExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -44,11 +43,11 @@ class ArrayReverseExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REVERSE extension`() {
+    fun `should support ARRAY_IFNULL extension`() {
         val array = someNumberArrayField()
-        val expected = ArrayReverseExpression(array)
+        val expected = ArrayIfNullExpression(array)
 
-        val actual = arrayReverse(array)
+        val actual = arrayIfNull(array)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

@@ -1,28 +1,26 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayMaxExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayMax
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArrayMaxExpressionTest {
+class ArrayDistinctExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_MAX`() {
+    fun `should support ARRAY_DISTINCT`() {
         val expected = DopeQuery(
-            "ARRAY_MAX(`numberArrayField`)",
+            "ARRAY_DISTINCT(`numberArrayField`)",
             emptyMap(),
         )
-        val underTest = ArrayMaxExpression(someNumberArrayField())
+        val underTest = ArrayDistinctExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -30,13 +28,13 @@ class ArrayMaxExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_MAX with parameter`() {
+    fun `should support ARRAY_DISTINCT with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_MAX($1)",
+            "ARRAY_DISTINCT($1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayMaxExpression(parameterValue.asParameter())
+        val underTest = ArrayDistinctExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -44,11 +42,11 @@ class ArrayMaxExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_MAX extension`() {
+    fun `should support ARRAY_DISTINCT extension`() {
         val array = someNumberArrayField()
-        val expected = ArrayMaxExpression(array)
+        val expected = ArrayDistinctExpression(array)
 
-        val actual = arrayMax(array)
+        val actual = arrayDistinct(array)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

@@ -10,19 +10,19 @@ class ArrayInsertExpression<T : ValidType>(
     array: TypeExpression<ArrayType<T>>,
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,
-    vararg values: TypeExpression<T>,
-) : ArrayFunctionExpression<T>("ARRAY_INSERT", array, position, value, *values)
+    vararg additionalValues: TypeExpression<T>,
+) : ArrayFunctionExpression<T>("ARRAY_INSERT", array, position, value, *additionalValues)
 
 fun <T : ValidType> arrayInsert(
     array: TypeExpression<ArrayType<T>>,
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,
-    vararg values: TypeExpression<T>,
-) = ArrayInsertExpression(array, position, value, *values)
+    vararg additionalValues: TypeExpression<T>,
+) = ArrayInsertExpression(array, position, value, *additionalValues)
 
 fun <T : ValidType> arrayInsert(
     array: TypeExpression<ArrayType<T>>,
     position: Number,
     value: TypeExpression<T>,
-    vararg values: TypeExpression<T>,
-) = arrayInsert(array, position.toDopeType(), value, *values)
+    vararg additionalValues: TypeExpression<T>,
+) = arrayInsert(array, position.toDopeType(), value, *additionalValues)

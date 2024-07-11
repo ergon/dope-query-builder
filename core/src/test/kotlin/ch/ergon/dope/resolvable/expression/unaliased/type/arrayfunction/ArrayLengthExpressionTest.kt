@@ -1,28 +1,26 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArraySortExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arraySort
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArraySortExpressionTest {
+class ArrayLengthExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_SORT`() {
+    fun `should support ARRAY_LENGTH`() {
         val expected = DopeQuery(
-            "ARRAY_SORT(`numberArrayField`)",
+            "ARRAY_LENGTH(`numberArrayField`)",
             emptyMap(),
         )
-        val underTest = ArraySortExpression(someNumberArrayField())
+        val underTest = ArrayLengthExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery()
 
@@ -30,13 +28,13 @@ class ArraySortExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_SORT with parameter`() {
+    fun `should support ARRAY_LENGTH with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SORT($1)",
+            "ARRAY_LENGTH($1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArraySortExpression(parameterValue.asParameter())
+        val underTest = ArrayLengthExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -44,11 +42,11 @@ class ArraySortExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_SORT extension`() {
+    fun `should support ARRAY_LENGTH extension`() {
         val array = someNumberArrayField()
-        val expected = ArraySortExpression(array)
+        val expected = ArrayLengthExpression(array)
 
-        val actual = arraySort(array)
+        val actual = arrayLength(array)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

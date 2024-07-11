@@ -1,28 +1,27 @@
-package ch.ergon.dope.function.array
+package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayConcatExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayConcat
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArrayConcatExpressionTest {
+class ArrayPutExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_CONCAT`() {
+    fun `should support ARRAY_PUT`() {
         val expected = DopeQuery(
-            "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
+            "ARRAY_PUT(`numberArrayField`, `numberField`)",
             emptyMap(),
         )
-        val underTest = ArrayConcatExpression(someNumberArrayField(), someNumberArrayField())
+        val underTest = ArrayPutExpression(someNumberArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -30,13 +29,13 @@ class ArrayConcatExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_CONCAT with parameter`() {
+    fun `should support ARRAY_PUT with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_CONCAT($1, `numberArrayField`)",
+            "ARRAY_PUT($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayConcatExpression(parameterValue.asParameter(), someNumberArrayField())
+        val underTest = ArrayPutExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -44,13 +43,13 @@ class ArrayConcatExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_CONCAT with parameter as value`() {
-        val parameterValue = listOf(1, 2, 3)
+    fun `should support ARRAY_PUT with parameter as value`() {
+        val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_CONCAT(`numberArrayField`, $1)",
+            "ARRAY_PUT(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter())
+        val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -58,14 +57,14 @@ class ArrayConcatExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_CONCAT with all parameters`() {
+    fun `should support ARRAY_PUT with all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
-        val parameterValue = listOf(4, 5, 6)
+        val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_CONCAT($1, $2)",
+            "ARRAY_PUT($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
         )
-        val underTest = ArrayConcatExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
+        val underTest = ArrayPutExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -73,12 +72,12 @@ class ArrayConcatExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_CONCAT extension`() {
+    fun `should support ARRAY_PUT extension`() {
         val array = someNumberArrayField()
-        val value = someNumberArrayField()
-        val expected = ArrayConcatExpression(array, value)
+        val value = someNumberField()
+        val expected = ArrayPutExpression(array, value)
 
-        val actual = arrayConcat(array, value)
+        val actual = arrayPut(array, value)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

@@ -9,15 +9,20 @@ import ch.ergon.dope.validtype.ValidType
 class ArrayPrependExpression<T : ValidType>(
     private val array: TypeExpression<ArrayType<T>>,
     private val value: TypeExpression<T>,
-    private vararg val values: TypeExpression<T>,
+    private vararg val additionalValues: TypeExpression<T>,
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
         val arrayDopeQuery = array.toDopeQuery()
         val valueDopeQuery = value.toDopeQuery()
-        val valuesDopeQuery = values.map { it.toDopeQuery() }
+        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery() }
         return DopeQuery(
-            queryString = toFunctionQueryString("ARRAY_PREPEND", valueDopeQuery, *valuesDopeQuery.toTypedArray(), arrayDopeQuery),
-            parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters + valuesDopeQuery.fold(
+            queryString = toFunctionQueryString(
+                "ARRAY_PREPEND",
+                valueDopeQuery,
+                *additionalValuesDopeQuery.toTypedArray(),
+                arrayDopeQuery,
+            ),
+            parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters + additionalValuesDopeQuery.fold(
                 emptyMap(),
             ) { argsParameters, field -> argsParameters + field.parameters },
         )
@@ -27,5 +32,5 @@ class ArrayPrependExpression<T : ValidType>(
 fun <T : ValidType> arrayPrepend(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
-    vararg values: TypeExpression<T>,
-) = ArrayPrependExpression(array, value, *values)
+    vararg additionalValues: TypeExpression<T>,
+) = ArrayPrependExpression(array, value, *additionalValues)
