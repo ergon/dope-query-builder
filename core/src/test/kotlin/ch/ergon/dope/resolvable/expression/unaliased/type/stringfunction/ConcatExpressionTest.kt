@@ -76,8 +76,8 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function type type`() {
-        val firstString = someStringField("separator")
-        val secondString = someStringField()
+        val firstString = someStringField("first")
+        val secondString = someStringField("second")
         val expected = ConcatExpression(firstString, secondString)
 
         val actual = concat(firstString, secondString)
@@ -87,33 +87,33 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function string type`() {
-        val separator = someString("separator")
-        val string = someStringField()
-        val expected = ConcatExpression(separator.toDopeType(), string)
+        val firstString = someString("first")
+        val secondString = someStringField("second")
+        val expected = ConcatExpression(firstString.toDopeType(), secondString)
 
-        val actual = concat(separator, string)
+        val actual = concat(firstString, secondString)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support concat function type string`() {
-        val separator = someStringField("separator")
-        val string = someString()
-        val expected = ConcatExpression(separator, string.toDopeType())
+        val firstString = someStringField("first")
+        val secondString = someString("second")
+        val expected = ConcatExpression(firstString, secondString.toDopeType())
 
-        val actual = concat(separator, string)
+        val actual = concat(firstString, secondString)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support concat function string string`() {
-        val separator = someString("separator")
-        val string = someString()
-        val expected = ConcatExpression(separator.toDopeType(), string.toDopeType())
+        val firstString = someString("first")
+        val secondString = someString("second")
+        val expected = ConcatExpression(firstString.toDopeType(), secondString.toDopeType())
 
-        val actual = concat(separator, string)
+        val actual = concat(firstString, secondString)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
