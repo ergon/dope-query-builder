@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class LikeTest {
     @Test
-    fun `should support extensions for is missing with CMField`() {
+    fun `should support extensions for is like with CMField`() {
         val someCMStringField = someCMStringField()
         val right = "%".toDopeType()
         val expected = LikeExpression(someCMStringField.toDopeType(), right)
