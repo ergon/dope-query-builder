@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CuntExpressionTest {
+class CountExpressionTest {
 
     @BeforeEach
     fun setUp() {
