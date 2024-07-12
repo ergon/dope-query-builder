@@ -1,6 +1,12 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someBoolean
+import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someString
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
@@ -125,6 +131,150 @@ class ParameterTest {
         val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
 
         val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function number`() {
+        val value = someNumber()
+        val parameterName = null
+        val expected = NumberParameter(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter().toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function number with named parameter`() {
+        val value = someNumber()
+        val parameterName = someString()
+        val expected = NumberParameter(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter(parameterName).toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function string`() {
+        val value = someString()
+        val parameterName = null
+        val expected = StringParameter(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter().toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function string with named parameter`() {
+        val value = someString()
+        val parameterName = someString()
+        val expected = StringParameter(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter(parameterName).toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function boolean`() {
+        val value = someBoolean()
+        val parameterName = null
+        val expected = BooleanParameter(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter().toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function boolean with named parameter`() {
+        val value = someBoolean()
+        val parameterName = someString()
+        val expected = BooleanParameter(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter(parameterName).toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function collection number`() {
+        val value = listOf(someNumber())
+        val parameterName = null
+        val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter().toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function collection number with named parameter`() {
+        val value = listOf(someNumber())
+        val parameterName = someString()
+        val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter(parameterName).toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function collection string`() {
+        val value = listOf(someString())
+        val parameterName = null
+        val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter().toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function collection string with named parameter`() {
+        val value = listOf(someString())
+        val parameterName = someString()
+        val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter(parameterName).toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function collection boolean`() {
+        val value = listOf(someBoolean())
+        val parameterName = null
+        val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter().toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function collection boolean with named parameter`() {
+        val value = listOf(someBoolean())
+        val parameterName = someString()
+        val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery()
+        ParameterManager.resetCounter()
+
+        val actual = value.asParameter(parameterName).toDopeQuery()
 
         assertEquals(expected, actual)
     }
