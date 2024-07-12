@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someDeleteClause
+import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.ReturningClause
@@ -41,5 +42,28 @@ class ReturningClauseTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support returning function`() {
+        val stringField = someStringField()
+        val parentClause = someDeleteClause()
+        val expected = ReturningClause(stringField, parentClause = parentClause)
+
+        val actual = parentClause.returning(stringField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support returning function with multiple fields`() {
+        val stringField = someStringField()
+        val numberArrayField = someNumberArrayField()
+        val parentClause = someDeleteClause()
+        val expected = ReturningClause(stringField, numberArrayField, parentClause = parentClause)
+
+        val actual = parentClause.returning(stringField, numberArrayField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

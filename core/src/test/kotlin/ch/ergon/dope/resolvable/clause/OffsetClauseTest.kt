@@ -47,6 +47,17 @@ class OffsetClauseTest {
     }
 
     @Test
+    fun `should support delete offset function`() {
+        val numberField = someNumberField()
+        val parentClause = someDeleteClause()
+        val expected = DeleteOffsetClause(numberField, parentClause)
+
+        val actual = parentClause.offset(numberField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support select offset`() {
         val expected = DopeQuery(
             "SELECT * OFFSET `numberField`",
@@ -86,5 +97,16 @@ class OffsetClauseTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select offset function`() {
+        val numberField = someNumberField()
+        val parentClause = someSelectClause()
+        val expected = SelectOffsetClause(numberField, parentClause)
+
+        val actual = parentClause.offset(numberField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

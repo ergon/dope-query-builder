@@ -47,6 +47,17 @@ class LimitClauseTest {
     }
 
     @Test
+    fun `should support delete limit function`() {
+        val numberField = someNumberField()
+        val parentClause = someDeleteClause()
+        val expected = DeleteLimitClause(numberField, parentClause)
+
+        val actual = parentClause.limit(numberField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support select limit`() {
         val expected = DopeQuery(
             "SELECT * LIMIT `numberField`",
@@ -86,5 +97,16 @@ class LimitClauseTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select limit function`() {
+        val numberField = someNumberField()
+        val parentClause = someSelectClause()
+        val expected = SelectLimitClause(numberField, parentClause)
+
+        val actual = parentClause.limit(numberField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

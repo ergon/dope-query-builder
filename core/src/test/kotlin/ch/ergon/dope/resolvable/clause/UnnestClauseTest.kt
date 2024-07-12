@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.someFromClause
+import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
@@ -76,5 +77,16 @@ class UnnestClauseTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support unnest function`() {
+        val field = someNumberArrayField()
+        val parentClause = someFromClause()
+        val expected = UnnestClause(field, parentClause)
+
+        val actual = parentClause.unnest(field)
+
+        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

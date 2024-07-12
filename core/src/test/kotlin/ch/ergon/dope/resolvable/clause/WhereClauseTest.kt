@@ -47,6 +47,17 @@ class WhereClauseTest {
     }
 
     @Test
+    fun `should support delete where function`() {
+        val condition = someBooleanExpression()
+        val parentClause = someDeleteClause()
+        val expected = DeleteWhereClause(condition, parentClause = parentClause)
+
+        val actual = parentClause.where(condition)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support select where`() {
         val expected = DopeQuery(
             "SELECT * WHERE TRUE",
@@ -86,5 +97,16 @@ class WhereClauseTest {
         val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select where function`() {
+        val condition = someBooleanExpression()
+        val parentClause = someSelectClause()
+        val expected = SelectWhereClause(condition, parentClause = parentClause)
+
+        val actual = parentClause.where(condition)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

@@ -33,4 +33,15 @@ class FromClauseTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support from function`() {
+        val bucket = someBucket()
+        val parentClause = someSelectClause()
+        val expected = FromClause(bucket, parentClause)
+
+        val actual = parentClause.from(bucket)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }
