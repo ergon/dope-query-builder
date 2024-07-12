@@ -1,6 +1,6 @@
 package ch.ergon.dope.validtype
 
-interface ValidType
+sealed interface ValidType
 
 interface ComparableType : ValidType
 
