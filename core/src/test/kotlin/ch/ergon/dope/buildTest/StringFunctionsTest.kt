@@ -120,7 +120,7 @@ class StringFunctionsTest {
     }
 
     @Test
-    fun `should Support Concat2 With Strings And StringType As Seperator`() {
+    fun `should Support Concat2 With Strings And StringType As separator`() {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(

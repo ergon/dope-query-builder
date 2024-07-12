@@ -76,7 +76,7 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function type type`() {
-        val separator = someStringField("seperator")
+        val separator = someStringField("separator")
         val string = someStringField()
         val expected = ConcatExpression(separator, string)
 
@@ -87,7 +87,7 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function string type`() {
-        val separator = someString("seperator")
+        val separator = someString("separator")
         val string = someStringField()
         val expected = ConcatExpression(separator.toDopeType(), string)
 
@@ -98,7 +98,7 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function type string`() {
-        val separator = someStringField("seperator")
+        val separator = someStringField("separator")
         val string = someString()
         val expected = ConcatExpression(separator, string.toDopeType())
 
@@ -109,7 +109,7 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function string string`() {
-        val separator = someString("seperator")
+        val separator = someString("separator")
         val string = someString()
         val expected = ConcatExpression(separator.toDopeType(), string.toDopeType())
 
