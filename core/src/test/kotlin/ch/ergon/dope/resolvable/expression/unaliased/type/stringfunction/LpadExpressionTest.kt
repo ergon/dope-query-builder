@@ -117,6 +117,18 @@ class LpadExpressionTest {
     }
 
     @Test
+    fun `should support lpad function type type`() {
+        val inStr = someStringField("inStr")
+        val size = someNumberField("size")
+        val prefix = null
+        val expected = LpadExpression(inStr, size, prefix)
+
+        val actual = lpad(inStr, size)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support lpad function type type string`() {
         val inStr = someStringField("inStr")
         val size = someNumberField("size")
