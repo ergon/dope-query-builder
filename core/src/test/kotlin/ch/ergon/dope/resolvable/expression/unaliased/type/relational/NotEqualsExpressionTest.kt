@@ -112,8 +112,8 @@ class NotEqualsExpressionTest {
 
     @Test
     fun `should support not equals function number number`() {
-        val left = someString()
-        val right = someString()
+        val left = someNumber()
+        val right = someNumber()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.isNotEqualTo(right)

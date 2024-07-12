@@ -34,7 +34,7 @@ class LessThanExpressionTest {
 
     @Test
     fun `should support less than with parameter`() {
-        val parameterValue = 5
+        val parameterValue = someNumber()
         val expected = DopeQuery(
             "$1 < `numberField`",
             mapOf("$1" to parameterValue),

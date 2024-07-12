@@ -110,9 +110,9 @@ class ModuloExpressionTest {
     fun `should support modulo function number number`() {
         val left = someNumber()
         val right = someNumber()
-        val expected = AdditionExpression(left.toDopeType(), right.toDopeType())
+        val expected = ModuloExpression(left.toDopeType(), right.toDopeType())
 
-        val actual = left.add(right)
+        val actual = left.mod(right)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

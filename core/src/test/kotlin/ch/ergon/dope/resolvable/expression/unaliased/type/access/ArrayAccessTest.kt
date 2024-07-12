@@ -74,7 +74,7 @@ class ArrayAccessTest {
     }
 
     @Test
-    fun `should support array access function`() {
+    fun `should support array access function type`() {
         val array = someStringArrayField()
         val index = someNumberField()
         val expected = ArrayAccess(array, index)
@@ -85,7 +85,7 @@ class ArrayAccessTest {
     }
 
     @Test
-    fun `should support array access function2`() {
+    fun `should support array access number`() {
         val array = someStringArrayField()
         val index = 1
         val expected = ArrayAccess(array, index.toDopeType())

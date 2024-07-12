@@ -63,10 +63,10 @@ class SubtractionExpressionTest {
     fun `should support subtraction with second parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "(`numberField` % $1)",
+            "(`numberField` - $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ModuloExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = SubtractionExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
