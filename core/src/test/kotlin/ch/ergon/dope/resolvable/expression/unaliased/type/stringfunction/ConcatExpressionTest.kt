@@ -76,11 +76,11 @@ class ConcatExpressionTest {
 
     @Test
     fun `should support concat function type type`() {
-        val separator = someStringField("separator")
-        val string = someStringField()
-        val expected = ConcatExpression(separator, string)
+        val firstString = someStringField("separator")
+        val secondString = someStringField()
+        val expected = ConcatExpression(firstString, secondString)
 
-        val actual = concat(separator, string)
+        val actual = concat(firstString, secondString)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
