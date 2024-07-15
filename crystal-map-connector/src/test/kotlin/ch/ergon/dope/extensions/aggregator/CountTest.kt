@@ -8,134 +8,141 @@ import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
-import org.junit.jupiter.api.Assertions.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountExpression
+import ch.ergon.dope.toDopeType
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class CountTest {
     @Test
     fun `should support count with CMField Number`() {
-        val actual: String = count(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(`someNumberField`)", actual)
+        val actual = count(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMField Number`() {
-        val actual: String = count(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support count with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(ALL `someNumberField`)", actual)
+        val actual = count(field, ALL)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count distinct with CMField Number`() {
-        val actual: String = count(someCMNumberField(), DISTINCT).toDopeQuery().queryString
+    fun `should support count with CMField string`() {
+        val field = someCMStringField()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(DISTINCT `someNumberField`)", actual)
+        val actual = count(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count with CMField String`() {
-        val actual: String = count(someCMStringField()).toDopeQuery().queryString
+    fun `should support count with CMField string and type`() {
+        val field = someCMStringField()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(`someStringField`)", actual)
+        val actual = count(field, ALL)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMField String`() {
-        val actual: String = count(someCMStringField(), ALL).toDopeQuery().queryString
+    fun `should support count with CMField boolean`() {
+        val field = someCMBooleanField()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(ALL `someStringField`)", actual)
+        val actual = count(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count distinct with CMField String`() {
-        val actual: String = count(someCMStringField(), DISTINCT).toDopeQuery().queryString
+    fun `should support count with CMField boolean and type`() {
+        val field = someCMBooleanField()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(DISTINCT `someStringField`)", actual)
-    }
+        val actual = count(field, ALL)
 
-    @Test
-    fun `should support count with CMField Boolean`() {
-        val actual: String = count(someCMBooleanField()).toDopeQuery().queryString
-
-        assertEquals("COUNT(`someBooleanField`)", actual)
-    }
-
-    @Test
-    fun `should support count all with CMField Boolean`() {
-        val actual: String = count(someCMBooleanField(), ALL).toDopeQuery().queryString
-
-        assertEquals("COUNT(ALL `someBooleanField`)", actual)
-    }
-
-    @Test
-    fun `should support count distinct with CMField Boolean`() {
-        val actual: String = count(someCMBooleanField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("COUNT(DISTINCT `someBooleanField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support count with CMList Number`() {
-        val actual: String = count(someCMNumberList()).toDopeQuery().queryString
+        val field = someCMNumberList()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(`someNumberList`)", actual)
+        val actual = count(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMList Number`() {
-        val actual: String = count(someCMNumberList(), ALL).toDopeQuery().queryString
+    fun `should support count with CMList Number and type`() {
+        val field = someCMNumberList()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(ALL `someNumberList`)", actual)
+        val actual = count(field, ALL)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count distinct with CMList Number`() {
-        val actual: String = count(someCMNumberList(), DISTINCT).toDopeQuery().queryString
+    fun `should support count with CMList string`() {
+        val field = someCMStringList()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(DISTINCT `someNumberList`)", actual)
+        val actual = count(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count with CMList String`() {
-        val actual: String = count(someCMStringList()).toDopeQuery().queryString
+    fun `should support count with CMList string and type`() {
+        val field = someCMStringList()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(`someStringList`)", actual)
-    }
+        val actual = count(field, ALL)
 
-    @Test
-    fun `should support count all with CMList String`() {
-        val actual: String = count(someCMStringList(), ALL).toDopeQuery().queryString
-
-        assertEquals("COUNT(ALL `someStringList`)", actual)
-    }
-
-    @Test
-    fun `should support count distinct with CMList String`() {
-        val actual: String = count(someCMStringList(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("COUNT(DISTINCT `someStringList`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support count with CMList Boolean`() {
-        val actual: String = count(someCMBooleanList()).toDopeQuery().queryString
+        val field = someCMBooleanList()
+        val quantifier = null
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(`someBooleanList`)", actual)
+        val actual = count(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support count all with CMList Boolean`() {
-        val actual: String = count(someCMBooleanList(), ALL).toDopeQuery().queryString
+    fun `should support count with CMList Boolean and type`() {
+        val field = someCMBooleanList()
+        val quantifier = ALL
+        val expected = CountExpression(field.toDopeType(), quantifier)
 
-        assertEquals("COUNT(ALL `someBooleanList`)", actual)
-    }
+        val actual = count(field, ALL)
 
-    @Test
-    fun `should support count distinct with CMList Boolean`() {
-        val actual: String = count(someCMBooleanList(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("COUNT(DISTINCT `someBooleanList`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

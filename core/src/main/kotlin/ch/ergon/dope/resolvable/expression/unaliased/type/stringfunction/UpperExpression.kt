@@ -20,4 +20,4 @@ class UpperExpression(
 
 fun upper(inStr: TypeExpression<StringType>) = UpperExpression(inStr)
 
-fun upper(inStr: String): UpperExpression = upper(inStr.toDopeType())
+fun upper(inStr: String) = upper(inStr.toDopeType())

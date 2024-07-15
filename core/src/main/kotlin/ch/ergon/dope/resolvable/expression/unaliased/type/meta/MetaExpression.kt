@@ -14,7 +14,7 @@ import ch.ergon.dope.validtype.ValidType
 private const val META = "META"
 
 class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery =
+    override fun toDopeQuery() =
         if (bucket == null) {
             DopeQuery(
                 queryString = "$META()",
@@ -49,7 +49,7 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
     private fun <T : ValidType> getMetaField(field: String): MetaField<T> = MetaField(field, toDopeQuery())
 
     private class MetaField<T : ValidType>(private val name: String, private val dopeQuery: DopeQuery) : Field<T>(name, "") {
-        override fun toDopeQuery(): DopeQuery = DopeQuery(
+        override fun toDopeQuery() = DopeQuery(
             queryString = "${dopeQuery.queryString}.`$name`",
             parameters = dopeQuery.parameters,
         )

@@ -31,24 +31,22 @@ import ch.ergon.dope.validtype.ValidType
 interface ISelectOffsetClause : Clause
 
 interface ISelectLimitClause : ISelectOffsetClause {
-    fun offset(numberExpression: TypeExpression<NumberType>): SelectOffsetClause = SelectOffsetClause(numberExpression, this)
-    fun offset(number: Number): SelectOffsetClause = offset(number.toDopeType())
+    fun offset(numberExpression: TypeExpression<NumberType>) = SelectOffsetClause(numberExpression, this)
+    fun offset(number: Number) = offset(number.toDopeType())
 }
 
 interface ISelectOrderByClause : ISelectLimitClause {
-    fun limit(numberExpression: TypeExpression<NumberType>): SelectLimitClause = SelectLimitClause(numberExpression, this)
-    fun limit(number: Number): SelectLimitClause = limit(number.toDopeType())
+    fun limit(numberExpression: TypeExpression<NumberType>) = SelectLimitClause(numberExpression, this)
+    fun limit(number: Number) = limit(number.toDopeType())
 }
 
 interface ISelectGroupByClause : ISelectOrderByClause {
-    fun orderBy(stringField: Field<StringType>): SelectOrderByClause = SelectOrderByClause(stringField, this)
-    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType): SelectOrderByTypeClause =
-        SelectOrderByTypeClause(stringField, orderByType, this)
+    fun orderBy(stringField: Field<StringType>) = SelectOrderByClause(stringField, this)
+    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) = SelectOrderByTypeClause(stringField, orderByType, this)
 }
 
 interface ISelectWhereClause : ISelectGroupByClause {
-    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>): GroupByClause =
-        GroupByClause(field, *fields, parentClause = this)
+    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = GroupByClause(field, *fields, parentClause = this)
 }
 
 interface ISelectUseKeysClause : ISelectWhereClause {

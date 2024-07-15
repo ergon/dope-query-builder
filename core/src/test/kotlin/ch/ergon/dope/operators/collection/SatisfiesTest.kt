@@ -33,8 +33,9 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
         )
+        val underTest = AnySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
-        val actual = AnySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -45,8 +46,9 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
             parameters = emptyMap(),
         )
+        val underTest = AnySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
-        val actual = AnySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -57,8 +59,9 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
             parameters = emptyMap(),
         )
+        val underTest = AnySatisfiesExpression(someBooleanArrayField()) { it }
 
-        val actual = AnySatisfiesExpression(someBooleanArrayField()) { it }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -133,8 +136,9 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
             parameters = emptyMap(),
         )
+        val underTest = EverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
-        val actual = EverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -145,8 +149,9 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
         )
+        val underTest = EverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
-        val actual = EverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }
@@ -157,8 +162,9 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
             parameters = emptyMap(),
         )
+        val underTest = EverySatisfiesExpression(someBooleanArrayField()) { it }
 
-        val actual = EverySatisfiesExpression(someBooleanArrayField()) { it }.toDopeQuery()
+        val actual = underTest.toDopeQuery()
 
         assertEquals(expected, actual)
     }

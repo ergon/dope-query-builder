@@ -8,134 +8,141 @@ import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
-import org.junit.jupiter.api.Assertions.assertEquals
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.ArrayAggregateExpression
+import ch.ergon.dope.toDopeType
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayAggTest {
     @Test
     fun `should support array_agg with CMField Number`() {
-        val actual: String = arrayAggregate(someCMNumberField()).toDopeQuery().queryString
+        val field = someCMNumberField()
+        val quantifier = null
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(`someNumberField`)", actual)
+        val actual = arrayAggregate(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg all with CMField Number`() {
-        val actual: String = arrayAggregate(someCMNumberField(), ALL).toDopeQuery().queryString
+    fun `should support array_agg with CMField Number and type`() {
+        val field = someCMNumberField()
+        val quantifier = ALL
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(ALL `someNumberField`)", actual)
+        val actual = arrayAggregate(field, ALL)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg distinct with CMField Number`() {
-        val actual: String = arrayAggregate(someCMNumberField(), DISTINCT).toDopeQuery().queryString
+    fun `should support array_agg with CMField string`() {
+        val field = someCMStringField()
+        val quantifier = null
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(DISTINCT `someNumberField`)", actual)
+        val actual = arrayAggregate(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg with CMField String`() {
-        val actual: String = arrayAggregate(someCMStringField()).toDopeQuery().queryString
+    fun `should support array_agg with CMField string and type`() {
+        val field = someCMStringField()
+        val quantifier = ALL
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(`someStringField`)", actual)
+        val actual = arrayAggregate(field, ALL)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg all with CMField String`() {
-        val actual: String = arrayAggregate(someCMStringField(), ALL).toDopeQuery().queryString
+    fun `should support array_agg with CMField boolean`() {
+        val field = someCMBooleanField()
+        val quantifier = null
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(ALL `someStringField`)", actual)
+        val actual = arrayAggregate(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg distinct with CMField String`() {
-        val actual: String = arrayAggregate(someCMStringField(), DISTINCT).toDopeQuery().queryString
+    fun `should support array_agg with CMField boolean and type`() {
+        val field = someCMBooleanField()
+        val quantifier = ALL
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(DISTINCT `someStringField`)", actual)
-    }
+        val actual = arrayAggregate(field, ALL)
 
-    @Test
-    fun `should support array_agg with CMField Boolean`() {
-        val actual: String = arrayAggregate(someCMBooleanField()).toDopeQuery().queryString
-
-        assertEquals("ARRAY_AGG(`someBooleanField`)", actual)
-    }
-
-    @Test
-    fun `should support array_agg all with CMField Boolean`() {
-        val actual: String = arrayAggregate(someCMBooleanField(), ALL).toDopeQuery().queryString
-
-        assertEquals("ARRAY_AGG(ALL `someBooleanField`)", actual)
-    }
-
-    @Test
-    fun `should support array_agg distinct with CMField Boolean`() {
-        val actual: String = arrayAggregate(someCMBooleanField(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("ARRAY_AGG(DISTINCT `someBooleanField`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support array_agg with CMList Number`() {
-        val actual: String = arrayAggregate(someCMNumberList()).toDopeQuery().queryString
+        val field = someCMNumberList()
+        val quantifier = null
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(`someNumberList`)", actual)
+        val actual = arrayAggregate(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg all with CMList Number`() {
-        val actual: String = arrayAggregate(someCMNumberList(), ALL).toDopeQuery().queryString
+    fun `should support array_agg with CMList Number and type`() {
+        val field = someCMNumberList()
+        val quantifier = ALL
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(ALL `someNumberList`)", actual)
+        val actual = arrayAggregate(field, ALL)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg distinct with CMList Number`() {
-        val actual: String = arrayAggregate(someCMNumberList(), DISTINCT).toDopeQuery().queryString
+    fun `should support array_agg with CMList string`() {
+        val field = someCMStringList()
+        val quantifier = null
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(DISTINCT `someNumberList`)", actual)
+        val actual = arrayAggregate(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg with CMList String`() {
-        val actual: String = arrayAggregate(someCMStringList()).toDopeQuery().queryString
+    fun `should support array_agg with CMList string and type`() {
+        val field = someCMStringList()
+        val quantifier = ALL
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(`someStringList`)", actual)
-    }
+        val actual = arrayAggregate(field, ALL)
 
-    @Test
-    fun `should support array_agg all with CMList String`() {
-        val actual: String = arrayAggregate(someCMStringList(), ALL).toDopeQuery().queryString
-
-        assertEquals("ARRAY_AGG(ALL `someStringList`)", actual)
-    }
-
-    @Test
-    fun `should support array_agg distinct with CMList String`() {
-        val actual: String = arrayAggregate(someCMStringList(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("ARRAY_AGG(DISTINCT `someStringList`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support array_agg with CMList Boolean`() {
-        val actual: String = arrayAggregate(someCMBooleanList()).toDopeQuery().queryString
+        val field = someCMBooleanList()
+        val quantifier = null
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(`someBooleanList`)", actual)
+        val actual = arrayAggregate(field)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support array_agg all with CMList Boolean`() {
-        val actual: String = arrayAggregate(someCMBooleanList(), ALL).toDopeQuery().queryString
+    fun `should support array_agg with CMList Boolean and type`() {
+        val field = someCMBooleanList()
+        val quantifier = ALL
+        val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
 
-        assertEquals("ARRAY_AGG(ALL `someBooleanList`)", actual)
-    }
+        val actual = arrayAggregate(field, ALL)
 
-    @Test
-    fun `should support array_agg distinct with CMList Boolean`() {
-        val actual: String = arrayAggregate(someCMBooleanList(), DISTINCT).toDopeQuery().queryString
-
-        assertEquals("ARRAY_AGG(DISTINCT `someBooleanList`)", actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

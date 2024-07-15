@@ -20,9 +20,9 @@ class InitCapExpression(
 
 fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
 
-fun initCap(inStr: String): InitCapExpression = initCap(inStr.toDopeType())
-
-fun title(inStr: String) = initCap(inStr)
+fun initCap(inStr: String) = initCap(inStr.toDopeType())
 
 // only an alias (defined by couchbase)
 fun title(inStr: TypeExpression<StringType>) = initCap(inStr)
+
+fun title(inStr: String) = initCap(inStr.toDopeType())

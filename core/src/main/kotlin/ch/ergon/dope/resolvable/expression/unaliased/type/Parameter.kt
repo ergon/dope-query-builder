@@ -19,9 +19,9 @@ object ParameterManager {
 
 sealed class Parameter<T : ValidType>(
     private val value: Any,
-    private val parameterName: String? = null,
+    private val parameterName: String?,
 ) : TypeExpression<T> {
-    override fun toDopeQuery(): DopeQuery = when (parameterName) {
+    override fun toDopeQuery() = when (parameterName) {
         null -> {
             val unnamedParameterCount = "\$${ParameterManager.count}"
             DopeQuery(
@@ -29,6 +29,7 @@ sealed class Parameter<T : ValidType>(
                 parameters = mapOf(unnamedParameterCount to value),
             )
         }
+
         else -> DopeQuery(
             queryString = "\$$parameterName",
             parameters = mapOf(parameterName to value),
@@ -36,13 +37,13 @@ sealed class Parameter<T : ValidType>(
     }
 }
 
-class NumberParameter(value: Number, parameterName: String?) : Parameter<NumberType>(value, parameterName)
+class NumberParameter(value: Number, parameterName: String? = null) : Parameter<NumberType>(value, parameterName)
 
-class StringParameter(value: String, parameterName: String?) : Parameter<StringType>(value, parameterName)
+class StringParameter(value: String, parameterName: String? = null) : Parameter<StringType>(value, parameterName)
 
-class BooleanParameter(value: Boolean, parameterName: String?) : Parameter<BooleanType>(value, parameterName)
+class BooleanParameter(value: Boolean, parameterName: String? = null) : Parameter<BooleanType>(value, parameterName)
 
-class ArrayParameter<T : ValidType>(value: Collection<Any>, parameterName: String?) : Parameter<ArrayType<T>>(value, parameterName)
+class ArrayParameter<T : ValidType>(value: Collection<Any>, parameterName: String? = null) : Parameter<ArrayType<T>>(value, parameterName)
 
 fun Number.asParameter(parameterName: String? = null) = NumberParameter(this, parameterName)
 

@@ -13,9 +13,9 @@ class Concat2Expression(
     private vararg val strings: TypeExpression<StringType>,
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
-        val stringsDopeQuery = strings.map { it.toDopeQuery() }
         val separatorDopeQuery = separator.toDopeQuery()
         val stringDopeQuery = string.toDopeQuery()
+        val stringsDopeQuery = strings.map { it.toDopeQuery() }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol = "CONCAT2",
@@ -33,7 +33,7 @@ class Concat2Expression(
 fun concat2(separator: TypeExpression<StringType>, string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
     Concat2Expression(separator, string, *strings)
 
-fun concat2(separator: String, string: String, vararg strings: String): Concat2Expression = concat2(
+fun concat2(separator: String, string: String, vararg strings: String) = concat2(
     separator.toDopeType(),
     string.toDopeType(),
     *wrapVarargsWithStringValueType(
@@ -41,7 +41,7 @@ fun concat2(separator: String, string: String, vararg strings: String): Concat2E
     ),
 )
 
-fun concat2(separator: TypeExpression<StringType>, string: String, vararg strings: String): Concat2Expression = concat2(
+fun concat2(separator: TypeExpression<StringType>, string: String, vararg strings: String) = concat2(
     separator,
     string.toDopeType(),
     *wrapVarargsWithStringValueType(
@@ -49,5 +49,5 @@ fun concat2(separator: TypeExpression<StringType>, string: String, vararg string
     ),
 )
 
-fun concat2(separator: String, string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>): Concat2Expression =
+fun concat2(separator: String, string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
     concat2(separator.toDopeType(), string, *strings)

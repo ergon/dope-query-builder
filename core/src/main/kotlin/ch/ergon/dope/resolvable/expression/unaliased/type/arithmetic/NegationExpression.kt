@@ -12,7 +12,6 @@ class NegationExpression(
     override fun toDopeQuery(): DopeQuery = toPrefixDopeQuery(separator = "")
 }
 
-fun neg(numberExpression: TypeExpression<NumberType>): NegationExpression =
-    NegationExpression(numberExpression)
+fun neg(numberExpression: TypeExpression<NumberType>) = NegationExpression(numberExpression)
 
 fun neg(number: Number): NegationExpression = neg(number.toDopeType())

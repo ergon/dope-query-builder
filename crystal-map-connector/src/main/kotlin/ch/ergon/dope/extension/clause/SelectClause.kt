@@ -7,27 +7,23 @@ import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
-import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
-import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 import com.schwarz.crystalapi.schema.CMType
 
-fun ISelectLimitClause.offset(numberField: CMField<Number>): SelectOffsetClause = offset(numberField.toDopeType())
+fun ISelectLimitClause.offset(numberField: CMField<Number>) = offset(numberField.toDopeType())
 
-fun ISelectOrderByClause.limit(numberField: CMField<Number>): SelectLimitClause = limit(numberField.toDopeType())
+fun ISelectOrderByClause.limit(numberField: CMField<Number>) = limit(numberField.toDopeType())
 
-fun ISelectGroupByClause.orderBy(stringField: CMField<String>): SelectOrderByClause = orderBy(stringField.toDopeType())
+fun ISelectGroupByClause.orderBy(stringField: CMField<String>) = orderBy(stringField.toDopeType())
 
-fun ISelectGroupByClause.orderBy(stringField: CMField<String>, orderByType: OrderByType): SelectOrderByClause =
+fun ISelectGroupByClause.orderBy(stringField: CMField<String>, orderByType: OrderByType) =
     orderBy(stringField.toDopeType(), orderByType)
 
-fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType): GroupByClause =
+fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType) =
     groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
 fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.toDopeType())

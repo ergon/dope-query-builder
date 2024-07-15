@@ -12,169 +12,203 @@ import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
+import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayConcatExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayContainsExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayDistinctExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayIntersectExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayLengthExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArraySumExpression
+import ch.ergon.dope.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class ArrayFunctionTest {
     @Test
     fun `should support ARRAY_CONCAT with CM Number list`() {
-        val expected = "ARRAY_CONCAT(`someNumberList`, `anotherNumberList`)"
+        val firstList = someCMNumberList("first")
+        val secondList = someCMNumberList("second")
+        val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(someCMNumberList(), someCMNumberList("anotherNumberList")).toDopeQuery().queryString
+        val actual = arrayConcat(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_CONCAT with CM String list`() {
-        val expected = "ARRAY_CONCAT(`someStringList`, `anotherStringList`)"
+        val firstList = someCMStringList("first")
+        val secondList = someCMStringList("second")
+        val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(someCMStringList(), someCMStringList("anotherStringList")).toDopeQuery().queryString
+        val actual = arrayConcat(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_CONCAT with CM Boolean list`() {
-        val expected = "ARRAY_CONCAT(`someBooleanList`, `anotherBooleanList`)"
+        val firstList = someCMBooleanList("first")
+        val secondList = someCMBooleanList("second")
+        val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(someCMBooleanList(), someCMBooleanList("anotherBooleanList")).toDopeQuery().queryString
+        val actual = arrayConcat(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_CONTAINS with CM Number list`() {
-        val expected = "ARRAY_CONTAINS(`someNumberList`, `someNumberField`)"
+        val firstList = someCMNumberList("first")
+        val secondList = someCMNumberField("second")
+        val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(someCMNumberList(), someCMNumberField()).toDopeQuery().queryString
+        val actual = arrayContains(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_CONTAINS with CM String list`() {
-        val expected = "ARRAY_CONTAINS(`someStringList`, `someStringField`)"
+        val firstList = someCMStringList("first")
+        val secondList = someCMStringField("second")
+        val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(someCMStringList(), someCMStringField()).toDopeQuery().queryString
+        val actual = arrayContains(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_CONTAINS with CM Boolean list`() {
-        val expected = "ARRAY_CONTAINS(`someBooleanList`, `someBooleanField`)"
+        val firstList = someCMBooleanList("first")
+        val secondList = someCMBooleanField("second")
+        val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(someCMBooleanList(), someCMBooleanField()).toDopeQuery().queryString
+        val actual = arrayContains(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_DISTINCT with CM Number list`() {
-        val expected = "ARRAY_DISTINCT(`someNumberList`)"
+        val cmList = someCMNumberList()
+        val expected = ArrayDistinctExpression(cmList.toDopeType())
 
-        val actual = arrayDistinct(someCMNumberList()).toDopeQuery().queryString
+        val actual = arrayDistinct(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_DISTINCT with CM String list`() {
-        val expected = "ARRAY_DISTINCT(`someStringList`)"
+        val cmList = someCMStringList()
+        val expected = ArrayDistinctExpression(cmList.toDopeType())
 
-        val actual = arrayDistinct(someCMStringList()).toDopeQuery().queryString
+        val actual = arrayDistinct(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_DISTINCT with CM Boolean list`() {
-        val expected = "ARRAY_DISTINCT(`someBooleanList`)"
+        val cmList = someCMBooleanList()
+        val expected = ArrayDistinctExpression(cmList.toDopeType())
 
-        val actual = arrayDistinct(someCMBooleanList()).toDopeQuery().queryString
+        val actual = arrayDistinct(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_INTERSECT with CM Number list`() {
-        val expected = "ARRAY_INTERSECT(`someNumberList`, `anotherNumberList`)"
+        val firstList = someCMNumberList("first")
+        val secondList = someCMNumberList("second")
+        val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(someCMNumberList(), someCMNumberList("anotherNumberList")).toDopeQuery().queryString
+        val actual = arrayIntersect(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_INTERSECT with CM String list`() {
-        val expected = "ARRAY_INTERSECT(`someStringList`, `anotherStringList`)"
+        val firstList = someCMStringList("first")
+        val secondList = someCMStringList("second")
+        val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(someCMStringList(), someCMStringList("anotherStringList")).toDopeQuery().queryString
+        val actual = arrayIntersect(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_INTERSECT with CM Boolean list`() {
-        val expected = "ARRAY_INTERSECT(`someBooleanList`, `anotherBooleanList`)"
+        val firstList = someCMBooleanList("first")
+        val secondList = someCMBooleanList("second")
+        val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(someCMBooleanList(), someCMBooleanList("anotherBooleanList")).toDopeQuery().queryString
+        val actual = arrayIntersect(firstList, secondList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_LENGTH with CM Number list`() {
-        val expected = "ARRAY_LENGTH(`someNumberList`)"
+        val cmList = someCMNumberList()
+        val expected = ArrayLengthExpression(cmList.toDopeType())
 
-        val actual = arrayLength(someCMNumberList()).toDopeQuery().queryString
+        val actual = arrayLength(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_LENGTH with CM String list`() {
-        val expected = "ARRAY_LENGTH(`someStringList`)"
+        val cmList = someCMStringList()
+        val expected = ArrayLengthExpression(cmList.toDopeType())
 
-        val actual = arrayLength(someCMStringList()).toDopeQuery().queryString
+        val actual = arrayLength(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_LENGTH with CM Boolean list`() {
-        val expected = "ARRAY_LENGTH(`someBooleanList`)"
+        val cmList = someCMBooleanList()
+        val expected = ArrayLengthExpression(cmList.toDopeType())
 
-        val actual = arrayLength(someCMBooleanList()).toDopeQuery().queryString
+        val actual = arrayLength(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_SUM with CM Number list`() {
-        val expected = "ARRAY_SUM(`someNumberList`)"
+        val cmList = someCMNumberList()
+        val expected = ArraySumExpression(cmList.toDopeType())
 
-        val actual = arraySum(someCMNumberList()).toDopeQuery().queryString
+        val actual = arraySum(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_SUM with CM String list`() {
-        val expected = "ARRAY_SUM(`someStringList`)"
+        val cmList = someCMStringList()
+        val expected = ArraySumExpression(cmList.toDopeType())
 
-        val actual = arraySum(someCMStringList()).toDopeQuery().queryString
+        val actual = arraySum(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support ARRAY_SUM with CM Boolean list`() {
-        val expected = "ARRAY_SUM(`someBooleanList`)"
+        val cmList = someCMBooleanList()
+        val expected = ArraySumExpression(cmList.toDopeType())
 
-        val actual = arraySum(someCMBooleanList()).toDopeQuery().queryString
+        val actual = arraySum(cmList)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 }

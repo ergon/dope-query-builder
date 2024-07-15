@@ -18,6 +18,6 @@ class LengthExpression(
     }
 }
 
-fun length(inStr: TypeExpression<StringType>): LengthExpression = LengthExpression(inStr)
+fun length(inStr: TypeExpression<StringType>) = LengthExpression(inStr)
 
-fun length(inStr: String): LengthExpression = length(inStr.toDopeType())
+fun length(inStr: String) = length(inStr.toDopeType())
