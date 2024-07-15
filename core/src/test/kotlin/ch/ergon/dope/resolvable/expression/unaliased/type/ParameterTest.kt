@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
@@ -8,17 +9,10 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ParameterTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class ParameterTest : ParameterDependentTest {
     @Test
     fun `should support positional number parameter`() {
         val parameterValue = 10

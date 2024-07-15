@@ -1,19 +1,12 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsMissingExpressionTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class IsMissingExpressionTest : ParameterDependentTest {
     @Test
     fun `should support is missing`() {
         val expected = DopeQuery(

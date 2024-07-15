@@ -1,22 +1,15 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NotLikeExpressionTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class NotLikeExpressionTest : ParameterDependentTest {
     @Test
     fun `should support not like`() {
         val expected = DopeQuery(

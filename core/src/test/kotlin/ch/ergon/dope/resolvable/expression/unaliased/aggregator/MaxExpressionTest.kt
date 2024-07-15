@@ -1,22 +1,15 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MaxExpressionTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class MaxExpressionTest : ParameterDependentTest {
     @Test
     fun `should support max`() {
         val expected = DopeQuery(

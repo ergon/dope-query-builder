@@ -1,23 +1,16 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.ReturningClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import junit.framework.TestCase.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
-class ReturningClauseTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class ReturningClauseTest : ParameterDependentTest {
     @Test
     fun `should support returning`() {
         val expected = DopeQuery(

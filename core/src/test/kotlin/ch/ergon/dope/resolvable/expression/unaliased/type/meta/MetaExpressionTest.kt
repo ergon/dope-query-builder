@@ -1,19 +1,12 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.meta
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MetaExpressionTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class MetaExpressionTest : ParameterDependentTest {
     @Test
     fun `should support meta`() {
         val expected = DopeQuery(

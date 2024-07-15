@@ -1,20 +1,13 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.tokens
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TokensExpressionTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class TokensExpressionTest : ParameterDependentTest {
     @Test
     fun `should support tokens`() {
         val expected = DopeQuery(

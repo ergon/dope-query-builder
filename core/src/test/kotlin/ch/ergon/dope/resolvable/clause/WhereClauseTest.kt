@@ -1,24 +1,17 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
-class WhereClauseTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class WhereClauseTest : ParameterDependentTest {
     @Test
     fun `should support delete where`() {
         val expected = DopeQuery(

@@ -1,19 +1,12 @@
 package ch.ergon.dope.resolvable.expression
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AsteriskExpressionTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class AsteriskExpressionTest : ParameterDependentTest {
     @Test
     fun `should support asterisk`() {
         val expected = DopeQuery(

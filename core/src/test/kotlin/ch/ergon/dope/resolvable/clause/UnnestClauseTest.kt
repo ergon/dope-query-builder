@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someSelectClause
@@ -8,19 +9,11 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
-class UnnestClauseTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class UnnestClauseTest : ParameterDependentTest {
     @Test
     fun `should support unnest`() {
         val expected = DopeQuery(

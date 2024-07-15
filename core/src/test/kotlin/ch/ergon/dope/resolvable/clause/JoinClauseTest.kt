@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
@@ -11,19 +12,11 @@ import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
-class JoinClauseTest {
-
-    @BeforeEach
-    fun setUp() {
-        ParameterManager.resetCounter()
-    }
-
+class JoinClauseTest : ParameterDependentTest {
     @Test
     fun `should support standard join`() {
         val expected = DopeQuery(
