@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isLessOrEqualThanNumber")
@@ -29,6 +30,14 @@ fun CMField<out Number>.isLessOrEqualThan(right: TypeExpression<NumberType>): Le
 fun CMField<out Number>.isLessOrEqualThan(right: Number): LessOrEqualThanExpression<NumberType> =
     toDopeType().isLessOrEqualThan(right.toDopeType())
 
+@JvmName("isLessOrEqualThanNumberConverter")
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isLessOrEqualThan(other: KotlinType):
+    LessOrEqualThanExpression<NumberType> = toDopeType().isLessOrEqualThan(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isLessOrEqualThanNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.isLessOrEqualThan(other: CMConverterField<KotlinType, MapType>):
+    LessOrEqualThanExpression<NumberType> = other.typeConverter.write(this)!!.isLessOrEqualThan(other.toDopeType())
+
 @JvmName("isLessOrEqualThanString")
 fun CMField<String>.isLessOrEqualThan(right: CMField<String>): LessOrEqualThanExpression<StringType> =
     toDopeType().isLessOrEqualThan(right.toDopeType())
@@ -48,3 +57,11 @@ fun CMField<String>.isLessOrEqualThan(right: TypeExpression<StringType>): LessOr
 @JvmName("isLessOrEqualThanString")
 fun CMField<String>.isLessOrEqualThan(right: String): LessOrEqualThanExpression<StringType> =
     toDopeType().isLessOrEqualThan(right.toDopeType())
+
+@JvmName("isLessOrEqualThanStringConverter")
+fun <MapType : Any> CMConverterField<MapType, String>.isLessOrEqualThan(other: MapType): LessOrEqualThanExpression<StringType> =
+    toDopeType().isLessOrEqualThan(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isLessOrEqualThanStringConverter")
+fun <KotlinType : Any> KotlinType.isLessOrEqualThan(other: CMConverterField<KotlinType, String>): LessOrEqualThanExpression<StringType> =
+    other.typeConverter.write(this)!!.isLessOrEqualThan(other.toDopeType())

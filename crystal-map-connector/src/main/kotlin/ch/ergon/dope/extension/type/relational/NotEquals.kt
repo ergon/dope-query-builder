@@ -8,6 +8,7 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isNotEqualToNumber")
@@ -30,6 +31,14 @@ fun TypeExpression<NumberType>.isNotEqualTo(right: CMField<out Number>): NotEqua
 fun CMField<out Number>.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> =
     toDopeType().isNotEqualTo(right)
 
+@JvmName("isNotEqualToNumberConverter")
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isNotEqualTo(other: KotlinType): NotEqualsExpression<NumberType> =
+    toDopeType().isNotEqualTo(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isNotEqualToNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.isNotEqualTo(other: CMConverterField<KotlinType, MapType>): NotEqualsExpression<NumberType> =
+    other.typeConverter.write(this)!!.isNotEqualTo(other.toDopeType())
+
 @JvmName("isNotEqualToString")
 fun CMField<String>.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
     toDopeType().isNotEqualTo(right.toDopeType())
@@ -50,6 +59,14 @@ fun TypeExpression<StringType>.isNotEqualTo(right: CMField<String>): NotEqualsEx
 fun CMField<String>.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsExpression<StringType> =
     toDopeType().isNotEqualTo(right)
 
+@JvmName("isNotEqualToStringConverter")
+fun <MapType : Any> CMConverterField<MapType, String>.isNotEqualTo(other: MapType): NotEqualsExpression<StringType> =
+    toDopeType().isNotEqualTo(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isNotEqualToStringConverter")
+fun <KotlinType : Any> KotlinType.isNotEqualTo(other: CMConverterField<KotlinType, String>): NotEqualsExpression<StringType> =
+    other.typeConverter.write(this)!!.isNotEqualTo(other.toDopeType())
+
 @JvmName("isNotEqualToBoolean")
 fun CMField<Boolean>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
     toDopeType().isNotEqualTo(right.toDopeType())
@@ -69,3 +86,11 @@ fun TypeExpression<BooleanType>.isNotEqualTo(right: CMField<Boolean>): NotEquals
 @JvmName("isNotEqualToBoolean")
 fun CMField<Boolean>.isNotEqualTo(right: TypeExpression<BooleanType>): NotEqualsExpression<BooleanType> =
     toDopeType().isNotEqualTo(right)
+
+@JvmName("isNotEqualToBooleanConverter")
+fun <MapType : Any> CMConverterField<MapType, Boolean>.isNotEqualTo(other: MapType): NotEqualsExpression<BooleanType> =
+    toDopeType().isNotEqualTo(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isNotEqualToBooleanConverter")
+fun <KotlinType : Any> KotlinType.isNotEqualTo(other: CMConverterField<KotlinType, Boolean>): NotEqualsExpression<BooleanType> =
+    other.typeConverter.write(this)!!.isNotEqualTo(other.toDopeType())

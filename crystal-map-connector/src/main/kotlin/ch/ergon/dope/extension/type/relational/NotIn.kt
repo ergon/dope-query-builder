@@ -9,6 +9,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
@@ -71,3 +72,15 @@ fun String.notInArray(array: CMList<String>): NotInExpression<StringType> =
 @JvmName("notInArrayBoolean")
 fun Boolean.notInArray(array: CMList<Boolean>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array.toDopeType())
+
+@JvmName("notInArrayNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.notInArray(array: CMConverterList<KotlinType, MapType>): NotInExpression<NumberType> =
+    array.typeConverter.write(this)!!.toDopeType().notInArray(array.toDopeType())
+
+@JvmName("notInArrayStringConverter")
+fun <KotlinType : Any> KotlinType.notInArray(array: CMConverterList<KotlinType, String>): NotInExpression<StringType> =
+    array.typeConverter.write(this)!!.toDopeType().notInArray(array.toDopeType())
+
+@JvmName("notInArrayBooleanConverter")
+fun <KotlinType : Any> KotlinType.notInArray(array: CMConverterList<KotlinType, Boolean>): NotInExpression<BooleanType> =
+    array.typeConverter.write(this)!!.toDopeType().notInArray(array.toDopeType())

@@ -9,6 +9,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
@@ -26,15 +27,15 @@ fun CMField<Boolean>.withinArray(array: TypeExpression<ArrayType<BooleanType>>):
 
 @JvmName("withinNumberArray")
 fun TypeExpression<NumberType>.withinArray(array: CMList<out Number>): WithinExpression<NumberType> =
-    this.withinArray(array.toDopeType())
+    withinArray(array.toDopeType())
 
 @JvmName("withinStringArray")
 fun TypeExpression<StringType>.withinArray(array: CMList<String>): WithinExpression<StringType> =
-    this.withinArray(array.toDopeType())
+    withinArray(array.toDopeType())
 
 @JvmName("withinBooleanArray")
 fun TypeExpression<BooleanType>.withinArray(array: CMList<Boolean>): WithinExpression<BooleanType> =
-    this.withinArray(array.toDopeType())
+    withinArray(array.toDopeType())
 
 @JvmName("withinNumberArray")
 fun CMField<out Number>.withinArray(array: CMList<out Number>): WithinExpression<NumberType> =
@@ -71,3 +72,15 @@ fun String.withinArray(array: CMList<String>): WithinExpression<StringType> =
 @JvmName("withinBooleanArray")
 fun Boolean.withinArray(array: CMList<Boolean>): WithinExpression<BooleanType> =
     toDopeType().withinArray(array.toDopeType())
+
+@JvmName("withinArrayNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.withinArray(array: CMConverterList<KotlinType, MapType>): WithinExpression<NumberType> =
+    array.typeConverter.write(this)!!.toDopeType().withinArray(array.toDopeType())
+
+@JvmName("withinArrayStringConverter")
+fun <KotlinType : Any> KotlinType.withinArray(array: CMConverterList<KotlinType, String>): WithinExpression<StringType> =
+    array.typeConverter.write(this)!!.toDopeType().withinArray(array.toDopeType())
+
+@JvmName("withinArrayBooleanConverter")
+fun <KotlinType : Any> KotlinType.withinArray(array: CMConverterList<KotlinType, Boolean>): WithinExpression<BooleanType> =
+    array.typeConverter.write(this)!!.toDopeType().withinArray(array.toDopeType())

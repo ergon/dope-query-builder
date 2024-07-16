@@ -8,6 +8,7 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isEqualToNumber")
@@ -30,6 +31,14 @@ fun TypeExpression<NumberType>.isEqualTo(right: CMField<out Number>): EqualsExpr
 fun CMField<out Number>.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> =
     toDopeType().isEqualTo(right)
 
+@JvmName("isEqualToNumberConverter")
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isEqualTo(other: KotlinType): EqualsExpression<NumberType> =
+    toDopeType().isEqualTo(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isEqualToNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.isEqualTo(other: CMConverterField<KotlinType, MapType>): EqualsExpression<NumberType> =
+    other.typeConverter.write(this)!!.isEqualTo(other.toDopeType())
+
 @JvmName("isEqualToString")
 fun CMField<String>.isEqualTo(right: String): EqualsExpression<StringType> =
     toDopeType().isEqualTo(right.toDopeType())
@@ -50,6 +59,14 @@ fun TypeExpression<StringType>.isEqualTo(right: CMField<String>): EqualsExpressi
 fun CMField<String>.isEqualTo(right: TypeExpression<StringType>): EqualsExpression<StringType> =
     toDopeType().isEqualTo(right)
 
+@JvmName("isEqualToStringConverter")
+fun <MapType : Any> CMConverterField<MapType, String>.isEqualTo(other: MapType): EqualsExpression<StringType> =
+    toDopeType().isEqualTo(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isEqualToStringConverter")
+fun <KotlinType : Any> KotlinType.isEqualTo(other: CMConverterField<KotlinType, String>): EqualsExpression<StringType> =
+    other.typeConverter.write(this)!!.isEqualTo(other.toDopeType())
+
 @JvmName("isEqualToBoolean")
 fun CMField<Boolean>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right.toDopeType())
@@ -69,3 +86,11 @@ fun TypeExpression<BooleanType>.isEqualTo(right: CMField<Boolean>): EqualsExpres
 @JvmName("isEqualToBoolean")
 fun CMField<Boolean>.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right)
+
+@JvmName("isEqualToBooleanConverter")
+fun <MapType : Any> CMConverterField<MapType, Boolean>.isEqualTo(other: MapType): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isEqualToBooleanConverter")
+fun <KotlinType : Any> KotlinType.isEqualTo(other: CMConverterField<KotlinType, Boolean>): EqualsExpression<BooleanType> =
+    other.typeConverter.write(this)!!.isEqualTo(other.toDopeType())

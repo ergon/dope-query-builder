@@ -9,6 +9,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 fun CMField<out Number>.add(numberExpression: TypeExpression<NumberType>) = toDopeType().add(numberExpression)
@@ -21,6 +22,9 @@ fun Number.add(number: CMField<out Number>) = toDopeType().add(number.toDopeType
 
 fun CMField<out Number>.add(number: Number) = toDopeType().add(number.toDopeType())
 
+fun <KotlinType : Any, MapType : Number> KotlinType.add(other: CMConverterField<KotlinType, MapType>) =
+    other.typeConverter.write(this)!!.toDopeType().add(other.toDopeType())
+
 fun CMField<out Number>.sub(numberExpression: TypeExpression<NumberType>) = toDopeType().sub(numberExpression)
 
 fun CMField<out Number>.sub(number: CMField<out Number>) = toDopeType().sub(number.toDopeType())
@@ -30,6 +34,9 @@ fun TypeExpression<NumberType>.sub(number: CMField<out Number>) = sub(number.toD
 fun Number.sub(number: CMField<out Number>) = toDopeType().sub(number.toDopeType())
 
 fun CMField<out Number>.sub(number: Number) = toDopeType().sub(number.toDopeType())
+
+fun <KotlinType : Any, MapType : Number> KotlinType.sub(other: CMConverterField<KotlinType, MapType>) =
+    other.typeConverter.write(this)!!.toDopeType().sub(other.toDopeType())
 
 fun CMField<out Number>.mul(numberExpression: TypeExpression<NumberType>) = toDopeType().mul(numberExpression)
 
@@ -41,6 +48,9 @@ fun Number.mul(number: CMField<out Number>) = toDopeType().mul(number.toDopeType
 
 fun CMField<out Number>.mul(number: Number) = toDopeType().mul(number.toDopeType())
 
+fun <KotlinType : Any, MapType : Number> KotlinType.mul(other: CMConverterField<KotlinType, MapType>) =
+    other.typeConverter.write(this)!!.toDopeType().mul(other.toDopeType())
+
 fun CMField<out Number>.div(numberExpression: TypeExpression<NumberType>) = toDopeType().div(numberExpression)
 
 fun CMField<out Number>.div(number: CMField<out Number>) = toDopeType().div(number.toDopeType())
@@ -51,6 +61,9 @@ fun Number.div(number: CMField<out Number>) = toDopeType().div(number.toDopeType
 
 fun CMField<out Number>.div(number: Number) = toDopeType().div(number.toDopeType())
 
+fun <KotlinType : Any, MapType : Number> KotlinType.div(other: CMConverterField<KotlinType, MapType>) =
+    other.typeConverter.write(this)!!.toDopeType().div(other.toDopeType())
+
 fun CMField<out Number>.mod(numberExpression: TypeExpression<NumberType>) = toDopeType().mod(numberExpression)
 
 fun CMField<out Number>.mod(number: CMField<out Number>) = toDopeType().mod(number.toDopeType())
@@ -60,3 +73,6 @@ fun TypeExpression<NumberType>.mod(number: CMField<out Number>) = mod(number.toD
 fun Number.mod(number: CMField<out Number>) = toDopeType().mod(number.toDopeType())
 
 fun CMField<out Number>.mod(number: Number) = toDopeType().mod(number.toDopeType())
+
+fun <KotlinType : Any, MapType : Number> KotlinType.mod(other: CMConverterField<KotlinType, MapType>) =
+    other.typeConverter.write(this)!!.toDopeType().mod(other.toDopeType())

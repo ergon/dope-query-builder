@@ -26,15 +26,15 @@ fun CMField<Boolean>.notWithinArray(array: TypeExpression<ArrayType<BooleanType>
 
 @JvmName("notWithinNumberArray")
 fun TypeExpression<NumberType>.notWithinArray(array: CMList<out Number>): NotWithinExpression<NumberType> =
-    this.notWithinArray(array.toDopeType())
+    notWithinArray(array.toDopeType())
 
 @JvmName("notWithinStringArray")
 fun TypeExpression<StringType>.notWithinArray(array: CMList<String>): NotWithinExpression<StringType> =
-    this.notWithinArray(array.toDopeType())
+    notWithinArray(array.toDopeType())
 
 @JvmName("notWithinBooleanArray")
 fun TypeExpression<BooleanType>.notWithinArray(array: CMList<Boolean>): NotWithinExpression<BooleanType> =
-    this.notWithinArray(array.toDopeType())
+    notWithinArray(array.toDopeType())
 
 @JvmName("notWithinNumberArray")
 fun CMField<out Number>.notWithinArray(array: CMList<out Number>): NotWithinExpression<NumberType> =

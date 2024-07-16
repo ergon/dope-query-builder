@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isLessThanNumber")
@@ -29,6 +30,14 @@ fun CMField<out Number>.isLessThan(right: TypeExpression<NumberType>): LessThanE
 fun CMField<out Number>.isLessThan(right: Number): LessThanExpression<NumberType> =
     toDopeType().isLessThan(right.toDopeType())
 
+@JvmName("isLessThanNumberConverter")
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isLessThan(other: KotlinType): LessThanExpression<NumberType> =
+    toDopeType().isLessThan(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isLessThanNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.isLessThan(other: CMConverterField<KotlinType, MapType>): LessThanExpression<NumberType> =
+    other.typeConverter.write(this)!!.isLessThan(other.toDopeType())
+
 @JvmName("isLessThanString")
 fun CMField<String>.isLessThan(right: CMField<String>): LessThanExpression<StringType> =
     toDopeType().isLessThan(right.toDopeType())
@@ -48,3 +57,11 @@ fun CMField<String>.isLessThan(right: TypeExpression<StringType>): LessThanExpre
 @JvmName("isLessThanString")
 fun CMField<String>.isLessThan(right: String): LessThanExpression<StringType> =
     toDopeType().isLessThan(right.toDopeType())
+
+@JvmName("isLessThanStringConverter")
+fun <MapType : Any> CMConverterField<MapType, String>.isLessThan(other: MapType): LessThanExpression<StringType> =
+    toDopeType().isLessThan(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isLessThanStringConverter")
+fun <KotlinType : Any> KotlinType.isLessThan(other: CMConverterField<KotlinType, String>): LessThanExpression<StringType> =
+    other.typeConverter.write(this)!!.isLessThan(other.toDopeType())

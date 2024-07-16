@@ -6,10 +6,14 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBooleanFieldList
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
+import ch.ergon.dope.helper.someCMConverterBooleanList
+import ch.ergon.dope.helper.someCMConverterNumberList
+import ch.ergon.dope.helper.someCMConverterStringList
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
+import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someNumberFieldList
@@ -149,6 +153,39 @@ class InTest {
         val left = someBoolean()
         val right = someCMBooleanList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support in array with date CMConverterNumberField`() {
+        val left = someDate()
+        val right = someCMConverterNumberList()
+        val expected = InExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support in array with date CMConverterStringField`() {
+        val left = someDate()
+        val right = someCMConverterStringList()
+        val expected = InExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support in array with date CMConverterBooleanField`() {
+        val left = someDate()
+        val right = someCMConverterBooleanList()
+        val expected = InExpression(true.toDopeType(), right.toDopeType())
 
         val actual = left.inArray(right)
 

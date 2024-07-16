@@ -3,9 +3,11 @@ package ch.ergon.dope.extension.type.relational
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.BetweenExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("betweenNumber")
@@ -26,15 +28,22 @@ fun CMField<out Number>.between(start: TypeExpression<NumberType>, end: TypeExpr
 
 @JvmName("betweenNumber")
 fun TypeExpression<NumberType>.between(start: CMField<out Number>, end: CMField<out Number>): BetweenExpression<NumberType> =
-    this.between(start.toDopeType(), end.toDopeType())
+    between(start.toDopeType(), end.toDopeType())
 
 @JvmName("betweenNumber")
 fun TypeExpression<NumberType>.between(start: CMField<out Number>, end: TypeExpression<NumberType>): BetweenExpression<NumberType> =
-    this.between(start.toDopeType(), end)
+    between(start.toDopeType(), end)
 
 @JvmName("betweenNumber")
 fun TypeExpression<NumberType>.between(start: TypeExpression<NumberType>, end: CMField<out Number>): BetweenExpression<NumberType> =
-    this.between(start, end.toDopeType())
+    between(start, end.toDopeType())
+
+@JvmName("betweenNumber")
+fun <KotlinType, MapType : Number> CMConverterField<KotlinType, MapType>.between(
+    start: KotlinType,
+    end: KotlinType,
+): BetweenExpression<NumberType> =
+    toDopeType().between(typeConverter.write(start)!!.toDopeType(), typeConverter.write(end)!!.toDopeType())
 
 @JvmName("betweenString")
 fun CMField<String>.between(start: CMField<String>, end: CMField<String>): BetweenExpression<StringType> =
@@ -54,12 +63,16 @@ fun CMField<String>.between(start: TypeExpression<StringType>, end: TypeExpressi
 
 @JvmName("betweenString")
 fun TypeExpression<StringType>.between(start: CMField<String>, end: CMField<String>): BetweenExpression<StringType> =
-    this.between(start.toDopeType(), end.toDopeType())
+    between(start.toDopeType(), end.toDopeType())
 
 @JvmName("betweenString")
 fun TypeExpression<StringType>.between(start: CMField<String>, end: TypeExpression<StringType>): BetweenExpression<StringType> =
-    this.between(start.toDopeType(), end)
+    between(start.toDopeType(), end)
 
 @JvmName("betweenString")
 fun TypeExpression<StringType>.between(start: TypeExpression<StringType>, end: CMField<String>): BetweenExpression<StringType> =
-    this.between(start, end.toDopeType())
+    between(start, end.toDopeType())
+
+@JvmName("betweenString")
+fun <KotlinType> CMConverterField<KotlinType, String>.between(start: KotlinType, end: KotlinType): BetweenExpression<StringType> =
+    toDopeType().between(typeConverter.write(start)!!.toDopeType(), typeConverter.write(end)!!.toDopeType())

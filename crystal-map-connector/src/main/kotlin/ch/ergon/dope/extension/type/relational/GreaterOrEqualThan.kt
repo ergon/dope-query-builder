@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMField
 
 @JvmName("isGreaterOrEqualThanNumber")
@@ -29,6 +30,14 @@ fun CMField<out Number>.isGreaterOrEqualThan(right: TypeExpression<NumberType>):
 fun CMField<out Number>.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<NumberType> =
     toDopeType().isGreaterOrEqualThan(right.toDopeType())
 
+@JvmName("isGreaterOrEqualThanNumberConverter")
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isGreaterOrEqualThan(other: KotlinType):
+    GreaterOrEqualThanExpression<NumberType> = toDopeType().isGreaterOrEqualThan(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isGreaterOrEqualThanNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.isGreaterOrEqualThan(other: CMConverterField<KotlinType, MapType>):
+    GreaterOrEqualThanExpression<NumberType> = other.typeConverter.write(this)!!.isGreaterOrEqualThan(other.toDopeType())
+
 @JvmName("isGreaterOrEqualThanString")
 fun CMField<String>.isGreaterOrEqualThan(right: CMField<String>): GreaterOrEqualThanExpression<StringType> =
     toDopeType().isGreaterOrEqualThan(right.toDopeType())
@@ -48,3 +57,11 @@ fun CMField<String>.isGreaterOrEqualThan(right: TypeExpression<StringType>): Gre
 @JvmName("isGreaterOrEqualThanString")
 fun CMField<String>.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<StringType> =
     toDopeType().isGreaterOrEqualThan(right.toDopeType())
+
+@JvmName("isGreaterOrEqualThanStringConverter")
+fun <MapType : Any> CMConverterField<MapType, String>.isGreaterOrEqualThan(other: MapType): GreaterOrEqualThanExpression<StringType> =
+    toDopeType().isGreaterOrEqualThan(typeConverter.write(other)!!.toDopeType())
+
+@JvmName("isGreaterOrEqualThanStringConverter")
+fun <KotlinType : Any> KotlinType.isGreaterOrEqualThan(other: CMConverterField<KotlinType, String>): GreaterOrEqualThanExpression<StringType> =
+    other.typeConverter.write(this)!!.isGreaterOrEqualThan(other.toDopeType())
