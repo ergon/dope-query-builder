@@ -15,19 +15,19 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArrayRemoveExpressionTest {
+class ArrayBinarySearchExpressionTest {
     @BeforeEach
     fun reset() {
         ParameterManager.resetCounter()
     }
 
     @Test
-    fun `should support ARRAY_REMOVE`() {
+    fun `should support ARRAY_BINARY_SEARCH`() {
         val expected = DopeQuery(
-            "ARRAY_REMOVE(`numberArrayField`, `numberField`)",
+            "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
             emptyMap(),
         )
-        val underTest = ArrayRemoveExpression(someNumberArrayField(), someNumberField())
+        val underTest = ArrayBinarySearchExpression(someNumberArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -35,13 +35,13 @@ class ArrayRemoveExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REMOVE with parameter`() {
+    fun `should support ARRAY_BINARY_SEARCH with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_REMOVE($1, `numberField`)",
+            "ARRAY_BINARY_SEARCH($1, `numberField`)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayRemoveExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -49,13 +49,13 @@ class ArrayRemoveExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REMOVE with parameter as value`() {
+    fun `should support ARRAY_BINARY_SEARCH with parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_REMOVE(`numberArrayField`, $1)",
+            "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter())
+        val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -63,14 +63,14 @@ class ArrayRemoveExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REMOVE with all parameters`() {
+    fun `should support ARRAY_BINARY_SEARCH with all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_REMOVE($1, $2)",
+            "ARRAY_BINARY_SEARCH($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
         )
-        val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
+        val underTest = ArrayBinarySearchExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -78,45 +78,45 @@ class ArrayRemoveExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REMOVE extension type type`() {
+    fun `should support ARRAY_BINARY_SEARCH extension type type`() {
         val array = someNumberArrayField()
         val value = someNumberField()
-        val expected = ArrayRemoveExpression(array, value)
+        val expected = ArrayBinarySearchExpression(array, value)
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayBinarySearch(array, value)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support ARRAY_REMOVE extension type string`() {
+    fun `should support ARRAY_BINARY_SEARCH extension type string`() {
         val array = someStringArrayField()
         val value = someString()
-        val expected = ArrayRemoveExpression(array, value.toDopeType())
+        val expected = ArrayBinarySearchExpression(array, value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayBinarySearch(array, value)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support ARRAY_REMOVE extension type number`() {
+    fun `should support ARRAY_BINARY_SEARCH extension type number`() {
         val array = someNumberArrayField()
         val value = someNumber()
-        val expected = ArrayRemoveExpression(array, value.toDopeType())
+        val expected = ArrayBinarySearchExpression(array, value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayBinarySearch(array, value)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support ARRAY_REMOVE extension type boolean`() {
+    fun `should support ARRAY_BINARY_SEARCH extension type boolean`() {
         val array = someBooleanArrayField()
         val value = someBoolean()
-        val expected = ArrayRemoveExpression(array, value.toDopeType())
+        val expected = ArrayBinarySearchExpression(array, value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayBinarySearch(array, value)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

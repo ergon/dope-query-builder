@@ -4,14 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier
 
 interface FunctionOperator {
-    fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery, extra: DopeQuery?) =
-        if (extra == null) {
-            toFunctionQueryString(symbol = symbol, *arguments)
-        } else {
-            toFunctionQueryString(symbol = symbol, *arguments, extra)
-        }
-
-    fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery) = arguments.joinToString(
+    fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery?) = arguments.filterNotNull().joinToString(
         ", ",
         prefix = "$symbol(",
         postfix = ")",

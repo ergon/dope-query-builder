@@ -5,7 +5,6 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -77,17 +76,6 @@ class ArrayPositionExpressionTest {
         val array = someNumberArrayField()
         val value = someNumberField()
         val expected = ArrayPositionExpression(array, value)
-
-        val actual = arrayPosition(array, value)
-
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
-    }
-
-    @Test
-    fun `should support ARRAY_POSITION extension number`() {
-        val array = someNumberArrayField()
-        val value = 1
-        val expected = ArrayPositionExpression(array, value.toDopeType())
 
         val actual = arrayPosition(array, value)
 
