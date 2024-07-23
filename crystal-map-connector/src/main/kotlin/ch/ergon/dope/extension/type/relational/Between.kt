@@ -66,7 +66,6 @@ fun TypeExpression<StringType>.between(start: CMField<String>, end: TypeExpressi
 fun TypeExpression<StringType>.between(start: TypeExpression<StringType>, end: CMField<String>): BetweenExpression<StringType> =
     this.between(start, end.toDopeType())
 
-
 @JvmName("betweenNumber")
 fun CMField<out Number>.notBetween(start: CMField<out Number>, end: CMField<out Number>): NotBetweenExpression<NumberType> =
     toDopeType().notBetween(start.toDopeType(), end.toDopeType())
