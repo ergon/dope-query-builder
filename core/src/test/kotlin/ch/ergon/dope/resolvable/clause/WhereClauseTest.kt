@@ -5,8 +5,10 @@ import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
+import ch.ergon.dope.helper.someUpdateClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
+import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
@@ -97,6 +99,44 @@ class WhereClauseTest : ParameterDependentTest {
         val condition = someBooleanExpression()
         val parentClause = someSelectClause()
         val expected = SelectWhereClause(condition, parentClause = parentClause)
+
+        val actual = parentClause.where(condition)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update where`() {
+        val expected = DopeQuery(
+            "UPDATE `someBucket` WHERE TRUE",
+            emptyMap(),
+        )
+        val underTest = UpdateWhereClause(someBooleanExpression(), someUpdateClause())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update where with positional parameter`() {
+        val parameterValue = false
+        val expected = DopeQuery(
+            "UPDATE `someBucket` WHERE $1",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = UpdateWhereClause(parameterValue.asParameter(), someUpdateClause())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update where function`() {
+        val condition = someBooleanExpression()
+        val parentClause = someUpdateClause()
+        val expected = UpdateWhereClause(condition, parentClause = parentClause)
 
         val actual = parentClause.where(condition)
 
