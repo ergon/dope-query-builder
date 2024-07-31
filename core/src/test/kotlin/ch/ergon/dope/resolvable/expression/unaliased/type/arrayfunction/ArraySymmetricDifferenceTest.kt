@@ -79,7 +79,7 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
     fun `should support ARRAY_SYMDIFF1 extension`() {
         val array = someNumberArrayField()
         val value = someNumberArrayField()
-        val expected = ArraySymmetricDifferenceExpression(array, value)
+        val expected = ArraySymmetricDifference1Expression(array, value)
 
         val actual = arraySymDiff1(array, value)
 

@@ -118,6 +118,42 @@ class ArrayRangeExpressionTest {
     }
 
     @Test
+    fun `should support ARRAY_RANGE extension type type number`() {
+        val start = someNumberField()
+        val end = someNumberField()
+        val step = someNumber()
+        val expected = ArrayRangeExpression(start, end, step.toDopeType())
+
+        val actual = arrayRange(start, end, step)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_RANGE extension type number type`() {
+        val start = someNumberField()
+        val end = someNumber()
+        val step = someNumberField()
+        val expected = ArrayRangeExpression(start, end.toDopeType(), step)
+
+        val actual = arrayRange(start, end, step)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_RANGE extension number type type`() {
+        val start = someNumber()
+        val end = someNumberField()
+        val step = someNumberField()
+        val expected = ArrayRangeExpression(start.toDopeType(), end, step)
+
+        val actual = arrayRange(start, end, step)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support ARRAY_RANGE extension type number number`() {
         val start = someNumberField()
         val end = someNumber()
@@ -137,6 +173,19 @@ class ArrayRangeExpressionTest {
         val expected = ArrayRangeExpression(start.toDopeType(), end, step.toDopeType())
 
         val actual = arrayRange(start, end, step)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_RANGE extension number number type`() {
+        val start = someNumber()
+        val end = someNumber()
+        val step = someNumberField()
+        val expected = ArrayRangeExpression(start.toDopeType(), end.toDopeType(), step)
+
+        val actual = arrayRange(start, end, step)
+        // val new = arrayRange(start, end) goht nöd :(
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

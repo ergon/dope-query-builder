@@ -26,23 +26,47 @@ class ArrayRangeExpression(
 fun arrayRange(
     start: TypeExpression<NumberType>,
     end: TypeExpression<NumberType>,
-    step: TypeExpression<NumberType>? = null,
+    step: TypeExpression<NumberType>,
 ) = ArrayRangeExpression(start, end, step)
+
+fun arrayRange(
+    start: TypeExpression<NumberType>,
+    end: TypeExpression<NumberType>,
+    step: Number? = null,
+) = ArrayRangeExpression(start, end, step?.toDopeType())
+
+fun arrayRange(
+    start: TypeExpression<NumberType>,
+    end: Number,
+    step: TypeExpression<NumberType>,
+) = arrayRange(start, end.toDopeType(), step)
+
+fun arrayRange(
+    start: Number,
+    end: TypeExpression<NumberType>,
+    step: TypeExpression<NumberType>,
+) = arrayRange(start.toDopeType(), end, step)
 
 fun arrayRange(
     start: TypeExpression<NumberType>,
     end: Number,
     step: Number? = null,
-) = arrayRange(start, end.toDopeType(), step?.toDopeType())
+) = arrayRange(start, end.toDopeType(), step)
 
 fun arrayRange(
     start: Number,
     end: TypeExpression<NumberType>,
     step: Number? = null,
-) = arrayRange(start.toDopeType(), end, step?.toDopeType())
+) = arrayRange(start.toDopeType(), end, step)
+
+fun arrayRange(
+    start: Number,
+    end: Number,
+    step: TypeExpression<NumberType>,
+) = arrayRange(start.toDopeType(), end.toDopeType(), step)
 
 fun arrayRange(
     start: Number,
     end: Number,
     step: Number? = null,
-) = arrayRange(start.toDopeType(), end.toDopeType(), step?.toDopeType())
+) = arrayRange(start.toDopeType(), end.toDopeType(), step)

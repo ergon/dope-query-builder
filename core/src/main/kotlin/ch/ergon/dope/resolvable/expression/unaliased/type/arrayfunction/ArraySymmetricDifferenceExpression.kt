@@ -16,12 +16,17 @@ fun <T : ValidType> arraySymDiff(
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
 ) = ArraySymmetricDifferenceExpression(firstArray, secondArray, *additionalArrays)
 
-// only an alias (defined by couchbase)
+class ArraySymmetricDifference1Expression<T : ValidType>(
+    firstArray: TypeExpression<ArrayType<T>>,
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) : ArrayFunctionExpression<T>("ARRAY_SYMDIFF1", firstArray, secondArray, *additionalArrays)
+
 fun <T : ValidType> arraySymDiff1(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff(firstArray, secondArray, *additionalArrays)
+) = ArraySymmetricDifference1Expression(firstArray, secondArray, *additionalArrays)
 
 class ArraySymmetricDifferenceNExpression<T : ValidType>(
     firstArray: TypeExpression<ArrayType<T>>,

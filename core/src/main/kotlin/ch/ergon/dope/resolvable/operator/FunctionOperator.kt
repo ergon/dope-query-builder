@@ -18,14 +18,8 @@ interface FunctionOperator {
         postfix = ")",
     )
 
-    fun toFunctionQueryString(symbol: String, quantifier: AggregateQuantifier?, vararg arguments: String) =
-        if (quantifier == null) {
-            toFunctionQueryString(symbol, *arguments)
-        } else {
-            arguments.joinToString(
-                ", ",
-                prefix = "$symbol($quantifier ",
-                postfix = ")",
-            )
-        }
+    fun toFunctionQueryString(symbol: String, quantifier: AggregateQuantifier?, argument: String) =
+        quantifier?.let {
+            "$symbol($quantifier $argument)"
+        } ?: toFunctionQueryString(symbol, argument)
 }
