@@ -10,7 +10,7 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
 object IteratorManager {
-    var count: Int = 1
+    private var count: Int = 1
         get() = field++
 
     fun getIteratorName() = DEFAULT_ITERATOR_VARIABLE + count
