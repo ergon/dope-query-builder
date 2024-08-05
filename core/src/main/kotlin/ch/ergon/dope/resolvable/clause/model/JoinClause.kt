@@ -21,43 +21,75 @@ private enum class JoinType(val type: String) {
 }
 
 sealed class SelectJoinClause : ISelectJoinClause {
-    private val dopeQuery: DopeQuery
+    private val joinType: JoinType
+    private val bucket: Bucket
+    private var onCondition: TypeExpression<BooleanType>? = null
+    private var onKeys: Field<out ValidType>? = null
+    private var onKey: Field<out ValidType>? = null
+    private var forBucket: Bucket? = null
+    private val parentClause: ISelectFromClause
 
     constructor(joinType: JoinType, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val bucketDopeQuery = bucket.toDopeQuery()
-        val onConditionDopeQuery = onCondition.toDopeQuery()
-        dopeQuery = DopeQuery(
-            queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
-                "ON ${onConditionDopeQuery.queryString}",
-            parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + onConditionDopeQuery.parameters,
-        )
+        this.joinType = joinType
+        this.bucket = bucket
+        this.onCondition = onCondition
+        this.parentClause = parentClause
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val bucketDopeQuery = bucket.toDopeQuery()
-        val keyDopeQuery = onKeys.toDopeQuery()
-        dopeQuery = DopeQuery(
-            queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
-                "ON KEYS ${keyDopeQuery.queryString}",
-            parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters,
-        )
+        this.joinType = joinType
+        this.bucket = bucket
+        this.onKeys = onKeys
+        this.parentClause = parentClause
+
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val bucketDopeQuery = bucket.toDopeQuery()
-        val keyDopeQuery = onKey.toDopeQuery()
-        val forBucketDopeQuery = forBucket.toDopeQuery()
-        dopeQuery = DopeQuery(
-            queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
-                "ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
-            parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters + forBucketDopeQuery.parameters,
-        )
+        this.joinType = joinType
+        this.bucket = bucket
+        this.onKey = onKey
+        this.forBucket = forBucket
+        this.parentClause = parentClause
     }
 
-    override fun toDopeQuery() = dopeQuery
+    override fun toDopeQuery(): DopeQuery =
+        when {
+            onCondition != null -> {
+                val parentDopeQuery = parentClause.toDopeQuery()
+                val bucketDopeQuery = bucket.toDopeQuery()
+                val onConditionDopeQuery = onCondition!!.toDopeQuery()
+                DopeQuery(
+                    queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
+                        "ON ${onConditionDopeQuery.queryString}",
+                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + onConditionDopeQuery.parameters,
+                )
+            }
+
+            onKeys != null -> {
+                val parentDopeQuery = parentClause.toDopeQuery()
+                val bucketDopeQuery = bucket.toDopeQuery()
+                val keyDopeQuery = onKeys!!.toDopeQuery()
+                DopeQuery(
+                    queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
+                        "ON KEYS ${keyDopeQuery.queryString}",
+                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters,
+                )
+            }
+
+            onKey != null && forBucket != null -> {
+                val parentDopeQuery = parentClause.toDopeQuery()
+                val bucketDopeQuery = bucket.toDopeQuery()
+                val keyDopeQuery = onKey!!.toDopeQuery()
+                val forBucketDopeQuery = forBucket!!.toDopeQuery()
+                DopeQuery(
+                    queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
+                        "ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
+                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters + forBucketDopeQuery.parameters,
+                )
+            }
+
+            else -> throw IllegalStateException("Unable to construct join clause")
+        }
 }
 
 class StandardJoinClause : SelectJoinClause {
