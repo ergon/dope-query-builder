@@ -41,7 +41,6 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.bucket = bucket
         this.onKeys = onKeys
         this.parentClause = parentClause
-
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
@@ -84,7 +83,8 @@ sealed class SelectJoinClause : ISelectJoinClause {
                 DopeQuery(
                     queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
                         "ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
-                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters + forBucketDopeQuery.parameters,
+                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters +
+                        forBucketDopeQuery.parameters,
                 )
             }
 
