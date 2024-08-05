@@ -24,16 +24,16 @@ import com.schwarz.crystalapi.schema.Schema
 
 sealed class SatisfiesSchemaExpression<S : Schema>(
     private val satisfiesType: SatisfiesType,
-    private val variable: String,
-    private val list: DopeSchemaArray<S>,
+    private val iteratorName: String,
+    private val arrayExpression: DopeSchemaArray<S>,
     private val predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(): DopeQuery {
-        val iteratorVariable = if (variable == DEFAULT_ITERATOR_VARIABLE) variable + IteratorManager.count else variable
-        val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, list.schema)).toDopeQuery()
+        val iteratorVariable = if (iteratorName == DEFAULT_ITERATOR_VARIABLE) iteratorName + IteratorManager.count else iteratorName
+        val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, arrayExpression.schema)).toDopeQuery()
 
         return DopeQuery(
-            queryString = "$satisfiesType `$iteratorVariable` IN ${list.name} SATISFIES ${predicateDopeQuery.queryString} END",
+            queryString = "$satisfiesType `$iteratorVariable` IN ${arrayExpression.name} SATISFIES ${predicateDopeQuery.queryString} END",
             parameters = predicateDopeQuery.parameters,
         )
     }
@@ -54,69 +54,69 @@ class SchemaIterator<S : Schema>(val variable: String, val schema: S) {
 }
 
 class AnySatisfiesSchemaExpression<S : Schema>(
-    variable: String,
-    list: DopeSchemaArray<S>,
+    iteratorName: String,
+    arrayExpression: DopeSchemaArray<S>,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) : SatisfiesSchemaExpression<S>(ANY, variable, list, predicate)
+) : SatisfiesSchemaExpression<S>(ANY, iteratorName, arrayExpression, predicate)
 
 class EverySatisfiesSchemaExpression<S : Schema>(
-    variable: String,
-    list: DopeSchemaArray<S>,
+    iteratorName: String,
+    arrayExpression: DopeSchemaArray<S>,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) : SatisfiesSchemaExpression<S>(EVERY, variable, list, predicate)
+) : SatisfiesSchemaExpression<S>(EVERY, iteratorName, arrayExpression, predicate)
 
 fun <S : Schema> DopeSchemaArray<S>.any(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) = AnySatisfiesSchemaExpression(variable, this, predicate)
+) = AnySatisfiesSchemaExpression(iteratorName, this, predicate)
 
 fun <S : Schema> CMObjectList<S>.any(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) = AnySatisfiesSchemaExpression(variable, toDopeType(), predicate)
+) = AnySatisfiesSchemaExpression(iteratorName, toDopeType(), predicate)
 
 @JvmName("anyNumber")
 fun CMList<Number>.any(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = toDopeType().any(variable, predicate)
+) = toDopeType().any(iteratorName, predicate)
 
 @JvmName("anyString")
 fun CMList<String>.any(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
-) = toDopeType().any(variable, predicate)
+) = toDopeType().any(iteratorName, predicate)
 
 @JvmName("anyBoolean")
 fun CMList<Boolean>.any(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
-) = toDopeType().any(variable, predicate)
+) = toDopeType().any(iteratorName, predicate)
 
 fun <S : Schema> DopeSchemaArray<S>.every(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) = EverySatisfiesSchemaExpression(variable, this, predicate)
+) = EverySatisfiesSchemaExpression(iteratorName, this, predicate)
 
 fun <S : Schema> CMObjectList<S>.every(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
-) = EverySatisfiesSchemaExpression(variable, toDopeType(), predicate)
+) = EverySatisfiesSchemaExpression(iteratorName, toDopeType(), predicate)
 
 @JvmName("everyNumber")
 fun CMList<Number>.every(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = toDopeType().every(variable, predicate)
+) = toDopeType().every(iteratorName, predicate)
 
 @JvmName("everyString")
 fun CMList<String>.every(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
-) = toDopeType().every(variable, predicate)
+) = toDopeType().every(iteratorName, predicate)
 
 @JvmName("everyBoolean")
 fun CMList<Boolean>.every(
-    variable: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
-) = toDopeType().every(variable, predicate)
+) = toDopeType().every(iteratorName, predicate)
