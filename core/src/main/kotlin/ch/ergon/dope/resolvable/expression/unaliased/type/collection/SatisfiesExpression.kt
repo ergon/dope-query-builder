@@ -13,6 +13,8 @@ object IteratorManager {
     var count: Int = 1
         get() = field++
 
+    fun getIteratorName() = DEFAULT_ITERATOR_VARIABLE + count
+
     fun resetCounter() {
         count = 1
     }
@@ -33,7 +35,7 @@ sealed class SatisfiesExpression<T : ValidType>(
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(): DopeQuery {
         val listDopeQuery = arrayExpression.toDopeQuery()
-        val iteratorVariable = if (iteratorName == DEFAULT_ITERATOR_VARIABLE) iteratorName + IteratorManager.count else iteratorName
+        val iteratorVariable = if (iteratorName == DEFAULT_ITERATOR_VARIABLE) IteratorManager.getIteratorName() else iteratorName
 
         val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery()
         return DopeQuery(
