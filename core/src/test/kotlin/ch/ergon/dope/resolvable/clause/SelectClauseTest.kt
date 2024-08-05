@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -21,6 +22,32 @@ class SelectClauseTest : ParameterDependentTest {
             emptyMap(),
         )
         val underTest = SelectClause(someStringField())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select with bucket`() {
+        val expected = DopeQuery(
+            "SELECT `someBucket`",
+            emptyMap(),
+        )
+        val underTest = SelectClause(someBucket())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select with aliased bucket`() {
+        val expected = DopeQuery(
+            "SELECT `alias`",
+            emptyMap(),
+        )
+        val underTest = SelectClause(someBucket().alias("alias"))
 
         val actual = underTest.toDopeQuery()
 
