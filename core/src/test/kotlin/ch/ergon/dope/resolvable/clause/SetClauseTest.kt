@@ -7,6 +7,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUpdateClause
+import ch.ergon.dope.resolvable.clause.model.SetAssignment
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
@@ -22,7 +23,8 @@ class SetClauseTest : ParameterDependentTest {
             emptyMap(),
         )
         val underTest = SetClause(
-            someStringField() to "test".toDopeType(),
+            someStringField(),
+            "test".toDopeType(),
             parentClause = someUpdateClause(),
         )
 
@@ -38,7 +40,8 @@ class SetClauseTest : ParameterDependentTest {
             emptyMap(),
         )
         val underTest = SetClause(
-            meta().expiration to 3600.toDopeType(),
+            meta().expiration,
+            3600.toDopeType(),
             parentClause = someUpdateClause(),
         )
 
@@ -54,8 +57,9 @@ class SetClauseTest : ParameterDependentTest {
             emptyMap(),
         )
         val underTest = SetClause(
-            someStringField() to "test".toDopeType(),
-            meta().expiration to 3600.toDopeType(),
+            meta().expiration,
+            3600.toDopeType(),
+            setAssignments = mutableListOf(SetAssignment(someStringField(), "test".toDopeType())),
             parentClause = someUpdateClause(),
         )
 
@@ -72,7 +76,8 @@ class SetClauseTest : ParameterDependentTest {
             mapOf("$1" to parameterValue),
         )
         val underTest = SetClause(
-            someStringField() to parameterValue.asParameter(),
+            someStringField(),
+            parameterValue.asParameter(),
             parentClause = someUpdateClause(),
         )
 
@@ -86,9 +91,9 @@ class SetClauseTest : ParameterDependentTest {
         val stringField = someStringField()
         val stringValue = someString().toDopeType()
         val parentClause = someUpdateClause()
-        val expected = SetClause(stringField to stringValue, parentClause = parentClause)
+        val expected = SetClause(stringField, stringValue, parentClause = parentClause)
 
-        val actual = parentClause.set(stringField to stringValue)
+        val actual = parentClause.set(stringField, stringValue)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -101,12 +106,13 @@ class SetClauseTest : ParameterDependentTest {
         val numberValue = someNumber().toDopeType()
         val parentClause = someUpdateClause()
         val expected = SetClause(
-            stringField to stringValue,
-            numberField to numberValue,
+            stringField,
+            stringValue,
+            setAssignments = mutableListOf(SetAssignment(numberField, numberValue)),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
+        val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

@@ -57,8 +57,12 @@ class UpdateTest : ParameterDependentTest {
             .update(
                 someBucket(),
             ).set(
-                meta().expiration to 10.toDopeType(),
-                someStringField() to "test".toDopeType(),
+                meta().expiration,
+                10.toDopeType(),
+            )
+            .set(
+                someStringField(),
+                "test".toDopeType(),
             )
             .build().queryString
 
@@ -138,8 +142,11 @@ class UpdateTest : ParameterDependentTest {
             ).useKeys(
                 "keyString".toDopeType(),
             ).set(
-                someNumberField("setThisNumberField") to 1.toDopeType(),
-                meta(someBucket().alias("sb")).expiration to 3600.toDopeType(),
+                someNumberField("setThisNumberField"),
+                1.toDopeType(),
+            ).set(
+                meta(someBucket().alias("sb")).expiration,
+                3600.toDopeType(),
             ).unset(
                 someStringField("unsetThisStringField"),
             ).where(

@@ -30,14 +30,14 @@ interface IUpdateUnsetClause : IUpdateWhereClause {
 }
 
 interface IUpdateSetClause : IUpdateUnsetClause {
-    fun unset(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = UnsetClause(field, *fields, parentClause = this)
+    fun unset(field: Field<out ValidType>) = UnsetClause(field, parentClause = this)
 }
 
 interface IUpdateUseKeysClause : IUpdateSetClause {
-    fun set(
-        fieldValuePair: Pair<Field<out ValidType>, TypeExpression<out ValidType>>,
-        vararg fieldValuePairs: Pair<Field<out ValidType>, TypeExpression<out ValidType>>,
-    ) = SetClause(fieldValuePair, *fieldValuePairs, parentClause = this)
+    fun <T : ValidType> set(
+        field: Field<T>,
+        value: TypeExpression<T>,
+    ) = SetClause(field, value, parentClause = this)
 }
 
 interface IUpdateClause : IUpdateUseKeysClause {
