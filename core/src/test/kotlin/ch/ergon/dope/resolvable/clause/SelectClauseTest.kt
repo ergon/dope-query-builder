@@ -95,6 +95,32 @@ class SelectClauseTest : ParameterDependentTest {
     }
 
     @Test
+    fun `should support select distinct with bucket`() {
+        val expected = DopeQuery(
+            "SELECT DISTINCT `someBucket`",
+            emptyMap(),
+        )
+        val underTest = SelectDistinctClause(someBucket())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select distinct with aliased bucket`() {
+        val expected = DopeQuery(
+            "SELECT DISTINCT `alias`",
+            emptyMap(),
+        )
+        val underTest = SelectDistinctClause(someBucket().alias("alias"))
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support select distinct with positional parameter`() {
         val parameterValue = "value"
         val expected = DopeQuery(
