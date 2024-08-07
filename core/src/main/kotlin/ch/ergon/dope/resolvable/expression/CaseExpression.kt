@@ -68,7 +68,7 @@ class AliasedCaseExpression(
 }
 
 fun case(
-    expression: Expression,
+    expression: Expression?,
     whenThenCondition: WhenThenCondition,
     vararg additionalWhenThenConditions: WhenThenCondition,
     elseCase: Expression? = null,
