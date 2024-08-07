@@ -1,10 +1,22 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
+import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayCountExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>) :
-    ArrayFunctionNumberExpression<T>("ARRAY_COUNT", array)
+class ArrayCountExpression<T : ValidType>(
+    private val array: TypeExpression<ArrayType<T>>,
+) : TypeExpression<NumberType>, FunctionOperator {
+    override fun toDopeQuery(): DopeQuery {
+        val arrayDopeQuery = array.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery),
+            parameters = arrayDopeQuery.parameters,
+        )
+    }
+}
 
 fun <T : ValidType> arrayCount(array: TypeExpression<ArrayType<T>>) = ArrayCountExpression(array)

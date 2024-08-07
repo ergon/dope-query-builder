@@ -2,8 +2,12 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class ArrayPrependExpression<T : ValidType>(
@@ -34,3 +38,21 @@ fun <T : ValidType> arrayPrepend(
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
 ) = ArrayPrependExpression(array, value, *additionalValues)
+
+fun arrayPrepend(
+    array: TypeExpression<ArrayType<StringType>>,
+    value: String,
+    vararg additionalValues: String,
+) = arrayPrepend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayPrepend(
+    array: TypeExpression<ArrayType<NumberType>>,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayPrepend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayPrepend(
+    array: TypeExpression<ArrayType<BooleanType>>,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayPrepend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

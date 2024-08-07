@@ -14,7 +14,7 @@ class SplitExpression(
         val inStrDopeQuery = inStr.toDopeQuery()
         val inSubstringDopeQuery = inSubstring?.toDopeQuery()
         return DopeQuery(
-            queryString = toFunctionQueryString(symbol = "SPLIT", inStrDopeQuery, extra = inSubstringDopeQuery),
+            queryString = toFunctionQueryString(symbol = "SPLIT", inStrDopeQuery, inSubstringDopeQuery),
             parameters = inStrDopeQuery.parameters + inSubstringDopeQuery?.parameters.orEmpty(),
         )
     }
