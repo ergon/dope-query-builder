@@ -20,3 +20,17 @@ class IsValuedExpression(
 }
 
 fun Field<out ValidType>.isValued() = IsValuedExpression(this)
+
+class IsNotValuedExpression(
+    private val field: Field<out ValidType>,
+) : TypeExpression<BooleanType> {
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
+        return DopeQuery(
+            queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT VALUED"),
+            parameters = fieldDopeQuery.parameters,
+        )
+    }
+}
+
+fun Field<out ValidType>.isNotValued() = IsNotValuedExpression(this)

@@ -618,7 +618,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Title`() {
-        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
+        val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(title("N1QL is awesome").alias("n1ql")).build().queryString
 
@@ -627,7 +627,7 @@ class StringFunctionsTest {
 
     @Test
     fun `should Support Title with string Type`() {
-        val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
+        val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = create.select(title("N1QL is awesome".toDopeType()).alias("n1ql")).build().queryString
 

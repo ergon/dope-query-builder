@@ -7,6 +7,7 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
@@ -916,6 +917,21 @@ class BooleanComparatorTest {
                 true.toDopeType().and(true.toDopeType().or(false)),
             )
             .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support between comparison`() {
+        val expected = "SELECT * FROM `someBucket` WHERE `numberField` BETWEEN 1 AND 10"
+
+        val actual = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                someNumberField().between(1.toDopeType(), 10.toDopeType()),
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
