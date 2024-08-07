@@ -60,7 +60,7 @@ class InitCapExpressionTest : ParameterDependentTest {
     @Test
     fun `should support title function type`() {
         val inStr = someStringField("inStr")
-        val expected = InitCapExpression(inStr)
+        val expected = TitleExpression(inStr)
 
         val actual = title(inStr)
 
@@ -70,7 +70,7 @@ class InitCapExpressionTest : ParameterDependentTest {
     @Test
     fun `should support title function string`() {
         val inStr = someString()
-        val expected = InitCapExpression(inStr.toDopeType())
+        val expected = TitleExpression(inStr.toDopeType())
 
         val actual = title(inStr)
 
