@@ -15,7 +15,7 @@ class ToNumberExpression<T : ValidType>(
         val expressionDopeQuery = expression.toDopeQuery()
         val stringExpressionDopeQuery = stringExpression?.toDopeQuery()
         return DopeQuery(
-            queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, extra = stringExpressionDopeQuery),
+            queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, stringExpressionDopeQuery),
             parameters = expressionDopeQuery.parameters + stringExpressionDopeQuery?.parameters.orEmpty(),
         )
     }
