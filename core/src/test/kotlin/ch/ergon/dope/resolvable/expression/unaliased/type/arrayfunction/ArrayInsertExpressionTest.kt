@@ -1,8 +1,13 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someBoolean
+import ch.ergon.dope.helper.someBooleanArrayField
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someString
+import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -118,11 +123,95 @@ class ArrayInsertExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_INSERT extension`() {
+    fun `should support ARRAY_INSERT extension type type type`() {
         val array = someNumberArrayField()
-        val position = 1
+        val position = someNumberField()
+        val value = someNumberField()
+        val expected = ArrayInsertExpression(array, position, value)
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type type string`() {
+        val array = someStringArrayField()
+        val position = someNumberField()
+        val value = someString()
+        val expected = ArrayInsertExpression(array, position, value.toDopeType())
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type type number`() {
+        val array = someNumberArrayField()
+        val position = someNumberField()
+        val value = someNumber()
+        val expected = ArrayInsertExpression(array, position, value.toDopeType())
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type type boolean`() {
+        val array = someBooleanArrayField()
+        val position = someNumberField()
+        val value = someBoolean()
+        val expected = ArrayInsertExpression(array, position, value.toDopeType())
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type number type`() {
+        val array = someNumberArrayField()
+        val position = someNumber()
         val value = someNumberField()
         val expected = ArrayInsertExpression(array, position.toDopeType(), value)
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type number string`() {
+        val array = someStringArrayField()
+        val position = someNumber()
+        val value = someString()
+        val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type number number`() {
+        val array = someNumberArrayField()
+        val position = someNumber()
+        val value = someNumber()
+        val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
+
+        val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension type number boolean`() {
+        val array = someBooleanArrayField()
+        val position = someNumber()
+        val value = someBoolean()
+        val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
 
         val actual = arrayInsert(array, position, value)
 

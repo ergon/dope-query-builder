@@ -22,7 +22,18 @@ fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
 
 fun initCap(inStr: String) = initCap(inStr.toDopeType())
 
-// only an alias (defined by couchbase)
-fun title(inStr: TypeExpression<StringType>) = initCap(inStr)
+class TitleExpression(
+    private val inStr: TypeExpression<StringType>,
+) : TypeExpression<StringType>, FunctionOperator {
+    override fun toDopeQuery(): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery()
+        return DopeQuery(
+            queryString = toFunctionQueryString(symbol = "TITLE", inStrDopeQuery),
+            parameters = inStrDopeQuery.parameters,
+        )
+    }
+}
 
-fun title(inStr: String) = initCap(inStr.toDopeType())
+fun title(inStr: TypeExpression<StringType>) = TitleExpression(inStr)
+
+fun title(inStr: String) = title(inStr.toDopeType())

@@ -17,7 +17,7 @@ class LpadExpression(
         val sizeDopeQuery = size.toDopeQuery()
         val prefixDopeQuery = prefix?.toDopeQuery()
         return DopeQuery(
-            queryString = toFunctionQueryString(symbol = "LPAD", inStrDopeQuery, sizeDopeQuery, extra = prefixDopeQuery),
+            queryString = toFunctionQueryString(symbol = "LPAD", inStrDopeQuery, sizeDopeQuery, prefixDopeQuery),
             parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + prefixDopeQuery?.parameters.orEmpty(),
         )
     }
