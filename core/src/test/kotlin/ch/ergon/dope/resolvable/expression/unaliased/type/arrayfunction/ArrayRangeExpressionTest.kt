@@ -185,7 +185,6 @@ class ArrayRangeExpressionTest {
         val expected = ArrayRangeExpression(start.toDopeType(), end.toDopeType(), step)
 
         val actual = arrayRange(start, end, step)
-        // val new = arrayRange(start, end) goht nöd :(
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
