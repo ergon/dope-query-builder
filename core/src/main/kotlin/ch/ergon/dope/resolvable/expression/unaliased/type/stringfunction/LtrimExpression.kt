@@ -8,25 +8,25 @@ import ch.ergon.dope.validtype.StringType
 
 class LtrimExpression(
     private val inStr: TypeExpression<StringType>,
-    private val extra: TypeExpression<StringType>? = null,
+    private val char: TypeExpression<StringType>? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
         val inStrDopeQuery = inStr.toDopeQuery()
-        val extraDopeQuery = extra?.toDopeQuery()
+        val charDopeQuery = char?.toDopeQuery()
         return DopeQuery(
-            queryString = toFunctionQueryString(symbol = "LTRIM", inStrDopeQuery, extra = extraDopeQuery),
-            parameters = inStrDopeQuery.parameters + extraDopeQuery?.parameters.orEmpty(),
+            queryString = toFunctionQueryString(symbol = "LTRIM", inStrDopeQuery, charDopeQuery),
+            parameters = inStrDopeQuery.parameters + charDopeQuery?.parameters.orEmpty(),
         )
     }
 }
 
-fun ltrim(inStr: TypeExpression<StringType>, extra: TypeExpression<StringType>? = null) =
-    LtrimExpression(inStr, extra)
+fun ltrim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) =
+    LtrimExpression(inStr, char)
 
-fun ltrim(inStr: TypeExpression<StringType>, extra: String) = ltrim(inStr, extra.toDopeType())
+fun ltrim(inStr: TypeExpression<StringType>, char: String) = ltrim(inStr, char.toDopeType())
 
-fun ltrim(inStr: String, extra: TypeExpression<StringType>) = ltrim(inStr.toDopeType(), extra)
+fun ltrim(inStr: String, char: TypeExpression<StringType>) = ltrim(inStr.toDopeType(), char)
 
-fun ltrim(inStr: String, extra: String) = ltrim(inStr.toDopeType(), extra.toDopeType())
+fun ltrim(inStr: String, char: String) = ltrim(inStr.toDopeType(), char.toDopeType())
 
 fun ltrim(inStr: String) = ltrim(inStr.toDopeType())

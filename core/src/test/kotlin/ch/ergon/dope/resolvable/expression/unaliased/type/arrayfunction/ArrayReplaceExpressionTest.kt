@@ -1,8 +1,15 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.someBoolean
+import ch.ergon.dope.helper.someBooleanArrayField
+import ch.ergon.dope.helper.someBooleanField
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someString
+import ch.ergon.dope.helper.someStringArrayField
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -118,11 +125,119 @@ class ArrayReplaceExpressionTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE extension`() {
+    fun `should support ARRAY_REPLACE extension type type type`() {
         val array = someNumberArrayField()
         val toReplace = someNumberField()
         val replaceWith = someNumberField("anotherNumberField")
         val expected = ArrayReplaceExpression(array, toReplace, replaceWith)
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type type string`() {
+        val array = someStringArrayField()
+        val toReplace = someStringField()
+        val replaceWith = someString()
+        val expected = ArrayReplaceExpression(array, toReplace, replaceWith.toDopeType())
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type string type`() {
+        val array = someStringArrayField()
+        val toReplace = someString()
+        val replaceWith = someStringField()
+        val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith)
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type string string`() {
+        val array = someStringArrayField()
+        val toReplace = someString()
+        val replaceWith = someString()
+        val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith.toDopeType())
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type type number`() {
+        val array = someNumberArrayField()
+        val toReplace = someNumberField()
+        val replaceWith = someNumber()
+        val expected = ArrayReplaceExpression(array, toReplace, replaceWith.toDopeType())
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type number type`() {
+        val array = someNumberArrayField()
+        val toReplace = someNumber()
+        val replaceWith = someNumberField()
+        val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith)
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type number number`() {
+        val array = someNumberArrayField()
+        val toReplace = someNumber()
+        val replaceWith = someNumber()
+        val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith.toDopeType())
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type type boolean`() {
+        val array = someBooleanArrayField()
+        val toReplace = someBooleanField()
+        val replaceWith = someBoolean()
+        val expected = ArrayReplaceExpression(array, toReplace, replaceWith.toDopeType())
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type boolean type`() {
+        val array = someBooleanArrayField()
+        val toReplace = someBoolean()
+        val replaceWith = someBooleanField()
+        val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith)
+
+        val actual = arrayReplace(array, toReplace, replaceWith)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE extension type boolean boolean`() {
+        val array = someBooleanArrayField()
+        val toReplace = someBoolean()
+        val replaceWith = someBoolean()
+        val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith.toDopeType())
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 

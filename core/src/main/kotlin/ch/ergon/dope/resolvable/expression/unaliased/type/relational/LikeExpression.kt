@@ -18,3 +18,14 @@ class LikeExpression(
 fun Field<out ValidType>.isLike(right: TypeExpression<StringType>) = LikeExpression(this, right)
 
 fun Field<out ValidType>.isLike(right: String) = isLike(right.toDopeType())
+
+class NotLikeExpression(
+    left: Field<out ValidType>,
+    right: TypeExpression<StringType>,
+) : TypeExpression<BooleanType>, InfixOperator(left, "NOT LIKE", right) {
+    override fun toDopeQuery() = toInfixDopeQuery()
+}
+
+fun Field<out ValidType>.isNotLike(right: TypeExpression<StringType>) = NotLikeExpression(this, right)
+
+fun Field<out ValidType>.isNotLike(right: String) = isNotLike(right.toDopeType())

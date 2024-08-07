@@ -20,3 +20,17 @@ class IsNullExpression(
 }
 
 fun Field<out ValidType>.isNull() = IsNullExpression(this)
+
+class IsNotNullExpression(
+    private val field: Field<out ValidType>,
+) : TypeExpression<BooleanType> {
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
+        return DopeQuery(
+            queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT NULL"),
+            parameters = fieldDopeQuery.parameters,
+        )
+    }
+}
+
+fun Field<out ValidType>.isNotNull() = IsNotNullExpression(this)
