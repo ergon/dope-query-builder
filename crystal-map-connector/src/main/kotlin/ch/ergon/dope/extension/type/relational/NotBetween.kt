@@ -3,7 +3,6 @@ package ch.ergon.dope.extension.type.relational
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotBetweenExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.notBetween
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -39,9 +38,9 @@ fun TypeExpression<NumberType>.notBetween(start: TypeExpression<NumberType>, end
     notBetween(start, end.toDopeType())
 
 @JvmName("notBetweenNumber")
-fun <KotlinType, MapType : Number> CMConverterField<KotlinType, MapType>.notBetween(start: KotlinType, end: KotlinType):
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.notBetween(start: KotlinType, end: KotlinType):
     NotBetweenExpression<NumberType> =
-    toDopeType().notBetween(typeConverter.write(start)!!.toDopeType(), typeConverter.write(end)!!.toDopeType())
+    toDopeType().notBetween(toDopeType(start), toDopeType(end))
 
 @JvmName("notBetweenString")
 fun CMField<String>.notBetween(start: CMField<String>, end: CMField<String>): NotBetweenExpression<StringType> =
@@ -72,5 +71,5 @@ fun TypeExpression<StringType>.notBetween(start: TypeExpression<StringType>, end
     notBetween(start, end.toDopeType())
 
 @JvmName("notBetweenString")
-fun <KotlinType> CMConverterField<KotlinType, String>.notBetween(start: KotlinType, end: KotlinType): NotBetweenExpression<StringType> =
-    toDopeType().notBetween(typeConverter.write(start)!!.toDopeType(), typeConverter.write(end)!!.toDopeType())
+fun <KotlinType : Any> CMConverterField<KotlinType, String>.notBetween(start: KotlinType, end: KotlinType): NotBetweenExpression<StringType> =
+    toDopeType().notBetween(toDopeType(start), toDopeType(end))

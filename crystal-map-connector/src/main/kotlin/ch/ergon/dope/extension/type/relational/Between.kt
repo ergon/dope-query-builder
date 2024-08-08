@@ -3,7 +3,6 @@ package ch.ergon.dope.extension.type.relational
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.BetweenExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -39,11 +38,11 @@ fun TypeExpression<NumberType>.between(start: TypeExpression<NumberType>, end: C
     between(start, end.toDopeType())
 
 @JvmName("betweenNumber")
-fun <KotlinType, MapType : Number> CMConverterField<KotlinType, MapType>.between(
+fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.between(
     start: KotlinType,
     end: KotlinType,
 ): BetweenExpression<NumberType> =
-    toDopeType().between(typeConverter.write(start)!!.toDopeType(), typeConverter.write(end)!!.toDopeType())
+    toDopeType().between(toDopeType(start), toDopeType(end))
 
 @JvmName("betweenString")
 fun CMField<String>.between(start: CMField<String>, end: CMField<String>): BetweenExpression<StringType> =
@@ -74,5 +73,5 @@ fun TypeExpression<StringType>.between(start: TypeExpression<StringType>, end: C
     between(start, end.toDopeType())
 
 @JvmName("betweenString")
-fun <KotlinType> CMConverterField<KotlinType, String>.between(start: KotlinType, end: KotlinType): BetweenExpression<StringType> =
-    toDopeType().between(typeConverter.write(start)!!.toDopeType(), typeConverter.write(end)!!.toDopeType())
+fun <KotlinType : Any> CMConverterField<KotlinType, String>.between(start: KotlinType, end: KotlinType): BetweenExpression<StringType> =
+    toDopeType().between(toDopeType(start), toDopeType(end))

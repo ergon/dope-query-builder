@@ -33,11 +33,11 @@ fun CMField<out Number>.isEqualTo(right: TypeExpression<NumberType>): EqualsExpr
 
 @JvmName("isEqualToNumberConverter")
 fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isEqualTo(other: KotlinType): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isEqualTo(toDopeType(other))
 
 @JvmName("isEqualToNumberConverter")
 fun <KotlinType : Any, MapType : Number> KotlinType.isEqualTo(other: CMConverterField<KotlinType, MapType>): EqualsExpression<NumberType> =
-    other.typeConverter.write(this)!!.isEqualTo(other.toDopeType())
+    toDopeType(other).isEqualTo(other.toDopeType())
 
 @JvmName("isEqualToString")
 fun CMField<String>.isEqualTo(right: String): EqualsExpression<StringType> =
@@ -61,11 +61,11 @@ fun CMField<String>.isEqualTo(right: TypeExpression<StringType>): EqualsExpressi
 
 @JvmName("isEqualToStringConverter")
 fun <MapType : Any> CMConverterField<MapType, String>.isEqualTo(other: MapType): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isEqualTo(toDopeType(other))
 
 @JvmName("isEqualToStringConverter")
 fun <KotlinType : Any> KotlinType.isEqualTo(other: CMConverterField<KotlinType, String>): EqualsExpression<StringType> =
-    other.typeConverter.write(this)!!.isEqualTo(other.toDopeType())
+    toDopeType(other).isEqualTo(other.toDopeType())
 
 @JvmName("isEqualToBoolean")
 fun CMField<Boolean>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
@@ -89,8 +89,8 @@ fun CMField<Boolean>.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpres
 
 @JvmName("isEqualToBooleanConverter")
 fun <MapType : Any> CMConverterField<MapType, Boolean>.isEqualTo(other: MapType): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isEqualTo(toDopeType(other))
 
 @JvmName("isEqualToBooleanConverter")
 fun <KotlinType : Any> KotlinType.isEqualTo(other: CMConverterField<KotlinType, Boolean>): EqualsExpression<BooleanType> =
-    other.typeConverter.write(this)!!.isEqualTo(other.toDopeType())
+    toDopeType(other).isEqualTo(other.toDopeType())

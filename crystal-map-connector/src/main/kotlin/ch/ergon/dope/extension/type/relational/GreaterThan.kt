@@ -32,11 +32,11 @@ fun CMField<out Number>.isGreaterThan(right: Number): GreaterThanExpression<Numb
 
 @JvmName("isGreaterThanNumberConverter")
 fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isGreaterThan(other: KotlinType):
-    GreaterThanExpression<NumberType> = toDopeType().isGreaterThan(typeConverter.write(other)!!.toDopeType())
+    GreaterThanExpression<NumberType> = toDopeType().isGreaterThan(toDopeType(other))
 
 @JvmName("isGreaterThanNumberConverter")
 fun <KotlinType : Any, MapType : Number> KotlinType.isGreaterThan(other: CMConverterField<KotlinType, MapType>):
-    GreaterThanExpression<NumberType> = other.typeConverter.write(this)!!.isGreaterThan(other.toDopeType())
+    GreaterThanExpression<NumberType> = toDopeType(other).isGreaterThan(other.toDopeType())
 
 @JvmName("isGreaterThanString")
 fun CMField<String>.isGreaterThan(right: CMField<String>): GreaterThanExpression<StringType> =
@@ -60,8 +60,8 @@ fun CMField<String>.isGreaterThan(right: String): GreaterThanExpression<StringTy
 
 @JvmName("isGreaterThanStringConverter")
 fun <MapType : Any> CMConverterField<MapType, String>.isGreaterThan(other: MapType): GreaterThanExpression<StringType> =
-    toDopeType().isGreaterThan(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isGreaterThan(toDopeType(other))
 
 @JvmName("isGreaterThanStringConverter")
 fun <KotlinType : Any> KotlinType.isGreaterThan(other: CMConverterField<KotlinType, String>): GreaterThanExpression<StringType> =
-    other.typeConverter.write(this)!!.isGreaterThan(other.toDopeType())
+    toDopeType(other).isGreaterThan(other.toDopeType())

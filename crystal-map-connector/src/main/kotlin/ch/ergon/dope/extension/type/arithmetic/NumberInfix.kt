@@ -23,7 +23,7 @@ fun Number.add(number: CMField<out Number>) = toDopeType().add(number.toDopeType
 fun CMField<out Number>.add(number: Number) = toDopeType().add(number.toDopeType())
 
 fun <KotlinType : Any, MapType : Number> KotlinType.add(other: CMConverterField<KotlinType, MapType>) =
-    other.typeConverter.write(this)!!.toDopeType().add(other.toDopeType())
+    toDopeType(other).add(other.toDopeType())
 
 fun CMField<out Number>.sub(numberExpression: TypeExpression<NumberType>) = toDopeType().sub(numberExpression)
 
@@ -36,7 +36,7 @@ fun Number.sub(number: CMField<out Number>) = toDopeType().sub(number.toDopeType
 fun CMField<out Number>.sub(number: Number) = toDopeType().sub(number.toDopeType())
 
 fun <KotlinType : Any, MapType : Number> KotlinType.sub(other: CMConverterField<KotlinType, MapType>) =
-    other.typeConverter.write(this)!!.toDopeType().sub(other.toDopeType())
+    toDopeType(other).sub(other.toDopeType())
 
 fun CMField<out Number>.mul(numberExpression: TypeExpression<NumberType>) = toDopeType().mul(numberExpression)
 
@@ -49,7 +49,7 @@ fun Number.mul(number: CMField<out Number>) = toDopeType().mul(number.toDopeType
 fun CMField<out Number>.mul(number: Number) = toDopeType().mul(number.toDopeType())
 
 fun <KotlinType : Any, MapType : Number> KotlinType.mul(other: CMConverterField<KotlinType, MapType>) =
-    other.typeConverter.write(this)!!.toDopeType().mul(other.toDopeType())
+    toDopeType(other).mul(other.toDopeType())
 
 fun CMField<out Number>.div(numberExpression: TypeExpression<NumberType>) = toDopeType().div(numberExpression)
 
@@ -62,7 +62,7 @@ fun Number.div(number: CMField<out Number>) = toDopeType().div(number.toDopeType
 fun CMField<out Number>.div(number: Number) = toDopeType().div(number.toDopeType())
 
 fun <KotlinType : Any, MapType : Number> KotlinType.div(other: CMConverterField<KotlinType, MapType>) =
-    other.typeConverter.write(this)!!.toDopeType().div(other.toDopeType())
+    toDopeType(other).div(other.toDopeType())
 
 fun CMField<out Number>.mod(numberExpression: TypeExpression<NumberType>) = toDopeType().mod(numberExpression)
 
@@ -75,4 +75,4 @@ fun Number.mod(number: CMField<out Number>) = toDopeType().mod(number.toDopeType
 fun CMField<out Number>.mod(number: Number) = toDopeType().mod(number.toDopeType())
 
 fun <KotlinType : Any, MapType : Number> KotlinType.mod(other: CMConverterField<KotlinType, MapType>) =
-    other.typeConverter.write(this)!!.toDopeType().mod(other.toDopeType())
+    toDopeType(other).mod(other.toDopeType())

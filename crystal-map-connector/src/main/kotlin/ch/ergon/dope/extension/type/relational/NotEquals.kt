@@ -33,11 +33,11 @@ fun CMField<out Number>.isNotEqualTo(right: TypeExpression<NumberType>): NotEqua
 
 @JvmName("isNotEqualToNumberConverter")
 fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isNotEqualTo(other: KotlinType): NotEqualsExpression<NumberType> =
-    toDopeType().isNotEqualTo(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isNotEqualTo(toDopeType(other))
 
 @JvmName("isNotEqualToNumberConverter")
 fun <KotlinType : Any, MapType : Number> KotlinType.isNotEqualTo(other: CMConverterField<KotlinType, MapType>): NotEqualsExpression<NumberType> =
-    other.typeConverter.write(this)!!.isNotEqualTo(other.toDopeType())
+    toDopeType(other).isNotEqualTo(other.toDopeType())
 
 @JvmName("isNotEqualToString")
 fun CMField<String>.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
@@ -61,11 +61,11 @@ fun CMField<String>.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsEx
 
 @JvmName("isNotEqualToStringConverter")
 fun <MapType : Any> CMConverterField<MapType, String>.isNotEqualTo(other: MapType): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isNotEqualTo(toDopeType(other))
 
 @JvmName("isNotEqualToStringConverter")
 fun <KotlinType : Any> KotlinType.isNotEqualTo(other: CMConverterField<KotlinType, String>): NotEqualsExpression<StringType> =
-    other.typeConverter.write(this)!!.isNotEqualTo(other.toDopeType())
+    toDopeType(other).isNotEqualTo(other.toDopeType())
 
 @JvmName("isNotEqualToBoolean")
 fun CMField<Boolean>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
@@ -89,8 +89,8 @@ fun CMField<Boolean>.isNotEqualTo(right: TypeExpression<BooleanType>): NotEquals
 
 @JvmName("isNotEqualToBooleanConverter")
 fun <MapType : Any> CMConverterField<MapType, Boolean>.isNotEqualTo(other: MapType): NotEqualsExpression<BooleanType> =
-    toDopeType().isNotEqualTo(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isNotEqualTo(toDopeType(other))
 
 @JvmName("isNotEqualToBooleanConverter")
 fun <KotlinType : Any> KotlinType.isNotEqualTo(other: CMConverterField<KotlinType, Boolean>): NotEqualsExpression<BooleanType> =
-    other.typeConverter.write(this)!!.isNotEqualTo(other.toDopeType())
+    toDopeType(other).isNotEqualTo(other.toDopeType())

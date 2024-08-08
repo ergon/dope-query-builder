@@ -75,12 +75,12 @@ fun Boolean.notInArray(array: CMList<Boolean>): NotInExpression<BooleanType> =
 
 @JvmName("notInArrayNumberConverter")
 fun <KotlinType : Any, MapType : Number> KotlinType.notInArray(array: CMConverterList<KotlinType, MapType>): NotInExpression<NumberType> =
-    array.typeConverter.write(this)!!.toDopeType().notInArray(array.toDopeType())
+    toDopeType(array).notInArray(array.toDopeType())
 
 @JvmName("notInArrayStringConverter")
 fun <KotlinType : Any> KotlinType.notInArray(array: CMConverterList<KotlinType, String>): NotInExpression<StringType> =
-    array.typeConverter.write(this)!!.toDopeType().notInArray(array.toDopeType())
+    toDopeType(array).notInArray(array.toDopeType())
 
 @JvmName("notInArrayBooleanConverter")
 fun <KotlinType : Any> KotlinType.notInArray(array: CMConverterList<KotlinType, Boolean>): NotInExpression<BooleanType> =
-    array.typeConverter.write(this)!!.toDopeType().notInArray(array.toDopeType())
+    toDopeType(array).notInArray(array.toDopeType())

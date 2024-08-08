@@ -32,11 +32,11 @@ fun CMField<out Number>.isLessOrEqualThan(right: Number): LessOrEqualThanExpress
 
 @JvmName("isLessOrEqualThanNumberConverter")
 fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.isLessOrEqualThan(other: KotlinType):
-    LessOrEqualThanExpression<NumberType> = toDopeType().isLessOrEqualThan(typeConverter.write(other)!!.toDopeType())
+    LessOrEqualThanExpression<NumberType> = toDopeType().isLessOrEqualThan(toDopeType(other))
 
 @JvmName("isLessOrEqualThanNumberConverter")
 fun <KotlinType : Any, MapType : Number> KotlinType.isLessOrEqualThan(other: CMConverterField<KotlinType, MapType>):
-    LessOrEqualThanExpression<NumberType> = other.typeConverter.write(this)!!.isLessOrEqualThan(other.toDopeType())
+    LessOrEqualThanExpression<NumberType> = toDopeType(other).isLessOrEqualThan(other.toDopeType())
 
 @JvmName("isLessOrEqualThanString")
 fun CMField<String>.isLessOrEqualThan(right: CMField<String>): LessOrEqualThanExpression<StringType> =
@@ -60,8 +60,8 @@ fun CMField<String>.isLessOrEqualThan(right: String): LessOrEqualThanExpression<
 
 @JvmName("isLessOrEqualThanStringConverter")
 fun <MapType : Any> CMConverterField<MapType, String>.isLessOrEqualThan(other: MapType): LessOrEqualThanExpression<StringType> =
-    toDopeType().isLessOrEqualThan(typeConverter.write(other)!!.toDopeType())
+    toDopeType().isLessOrEqualThan(toDopeType(other))
 
 @JvmName("isLessOrEqualThanStringConverter")
 fun <KotlinType : Any> KotlinType.isLessOrEqualThan(other: CMConverterField<KotlinType, String>): LessOrEqualThanExpression<StringType> =
-    other.typeConverter.write(this)!!.isLessOrEqualThan(other.toDopeType())
+    toDopeType(other).isLessOrEqualThan(other.toDopeType())

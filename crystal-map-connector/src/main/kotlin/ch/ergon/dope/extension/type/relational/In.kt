@@ -75,12 +75,12 @@ fun Boolean.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
 
 @JvmName("inArrayNumberConverter")
 fun <KotlinType : Any, MapType : Number> KotlinType.inArray(array: CMConverterList<KotlinType, MapType>): InExpression<NumberType> =
-    array.typeConverter.write(this)!!.toDopeType().inArray(array.toDopeType())
+    toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("inArrayStringConverter")
 fun <KotlinType : Any> KotlinType.inArray(array: CMConverterList<KotlinType, String>): InExpression<StringType> =
-    array.typeConverter.write(this)!!.toDopeType().inArray(array.toDopeType())
+    toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("inArrayBooleanConverter")
 fun <KotlinType : Any> KotlinType.inArray(array: CMConverterList<KotlinType, Boolean>): InExpression<BooleanType> =
-    array.typeConverter.write(this)!!.toDopeType().inArray(array.toDopeType())
+    toDopeType(array).inArray(array.toDopeType())
