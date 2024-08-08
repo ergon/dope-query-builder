@@ -46,13 +46,16 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
 
     val keyspace: Field<StringType> = getMetaField("keyspace")
 
-    private fun <T : ValidType> getMetaField(field: String): MetaField<T> = MetaField(field, toDopeQuery())
+    private fun <T : ValidType> getMetaField(field: String): MetaField<T> = MetaField(field) { toDopeQuery() }
 
-    private class MetaField<T : ValidType>(private val name: String, private val dopeQuery: DopeQuery) : Field<T>(name, "") {
-        override fun toDopeQuery() = DopeQuery(
-            queryString = "${dopeQuery.queryString}.`$name`",
-            parameters = dopeQuery.parameters,
-        )
+    private class MetaField<T : ValidType>(private val name: String, private val generateDopeQuery: () -> DopeQuery) : Field<T>(name, "") {
+        override fun toDopeQuery(): DopeQuery {
+            val dopeQuery = generateDopeQuery()
+            return DopeQuery(
+                queryString = "${dopeQuery.queryString}.`$name`",
+                parameters = dopeQuery.parameters,
+            )
+        }
     }
 }
 
