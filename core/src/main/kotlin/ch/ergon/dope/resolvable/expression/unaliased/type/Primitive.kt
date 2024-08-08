@@ -11,9 +11,9 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 sealed class Primitive<T : ValidType>(
-    private val dopeQuery: () -> DopeQuery,
+    private val generateDopeQuery: () -> DopeQuery,
 ) : TypeExpression<T> {
-    override fun toDopeQuery() = dopeQuery()
+    override fun toDopeQuery() = generateDopeQuery()
 }
 
 data object NULL : Primitive<NullType>({ DopeQuery("NULL", emptyMap()) })
