@@ -14,14 +14,26 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.ITypeConverter
+import com.schwarz.crystalapi.schema.CMConverterField
+import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
+import java.time.Instant
+import java.util.*
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
 fun someCMNumberField(name: String = "CMNumberField", path: String = "") = CMField<Number>(name, path)
 fun someCMStringField(name: String = "CMStringField", path: String = "") = CMField<String>(name, path)
 fun someCMBooleanField(name: String = "CMBooleanField", path: String = "") = CMField<Boolean>(name, path)
+
+fun someCMConverterNumberField(name: String = "CMConverterNumberField", path: String = "") =
+    CMConverterField(name, DateNumberConverterInstance, path)
+fun someCMConverterStringField(name: String = "CMConverterStringField", path: String = "") =
+    CMConverterField(name, DateStringConverterInstance, path)
+fun someCMConverterBooleanField(name: String = "CMConverterBooleanField", path: String = "") =
+    CMConverterField(name, DateBooleanConverterInstance, path)
 
 fun someNumberFieldList(name: String = "numberFieldList", path: String = "") = Field<ArrayType<NumberType>>(name, path)
 fun someStringFieldList(name: String = "stringFieldList", path: String = "") = Field<ArrayType<StringType>>(name, path)
@@ -30,6 +42,13 @@ fun someBooleanFieldList(name: String = "booleanFieldList", path: String = "") =
 fun someCMNumberList(name: String = "CMNumberList", path: String = "") = CMList<Number>(name, path)
 fun someCMStringList(name: String = "CMStringList", path: String = "") = CMList<String>(name, path)
 fun someCMBooleanList(name: String = "CMBooleanList", path: String = "") = CMList<Boolean>(name, path)
+
+fun someCMConverterNumberList(name: String = "CMConverterNumberList", path: String = "") =
+    CMConverterList(name, DateNumberConverterInstance, path)
+fun someCMConverterStringList(name: String = "CMConverterStringList", path: String = "") =
+    CMConverterList(name, DateStringConverterInstance, path)
+fun someCMConverterBooleanList(name: String = "CMConverterBooleanList", path: String = "") =
+    CMConverterList(name, DateBooleanConverterInstance, path)
 
 fun someSelect(exception: Expression = AsteriskExpression()) = SelectClause(exception)
 fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
@@ -42,6 +61,8 @@ fun someString(value: String = "someString") = value
 
 fun someBoolean(value: Boolean = true) = value
 
+fun someDate(value: Date = Date(1)) = value
+
 fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
 fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
 fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
@@ -49,4 +70,30 @@ fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket(
 private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
+}
+
+object DateNumberConverterInstance : DateNumberConverter()
+
+abstract class DateNumberConverter : ITypeConverter<Date, Number> {
+    override fun write(value: Date?): Number? =
+        value?.toInstant()?.epochSecond
+
+    override fun read(value: Number?): Date? = value?.toLong()?.let { Date.from(Instant.ofEpochSecond(it)) }
+}
+
+object DateStringConverterInstance : DateStringConverter()
+
+abstract class DateStringConverter : ITypeConverter<Date, String> {
+    override fun write(value: Date?): String? =
+        value?.toInstant()?.epochSecond.toString()
+
+    override fun read(value: String?): Date? = value?.toLong()?.let { Date.from(Instant.ofEpochSecond(it)) }
+}
+
+object DateBooleanConverterInstance : DateBooleanConverter()
+
+abstract class DateBooleanConverter : ITypeConverter<Date, Boolean> {
+    override fun write(value: Date?): Boolean? = value != null
+
+    override fun read(value: Boolean?): Date? = Date(1)
 }

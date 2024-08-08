@@ -11,6 +11,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
@@ -28,15 +29,15 @@ fun CMField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>): InE
 
 @JvmName("inArrayNumber")
 fun TypeExpression<NumberType>.inArray(array: CMList<out Number>): InExpression<NumberType> =
-    this.inArray(array.toDopeType())
+    inArray(array.toDopeType())
 
 @JvmName("inArrayString")
 fun TypeExpression<StringType>.inArray(array: CMList<String>): InExpression<StringType> =
-    this.inArray(array.toDopeType())
+    inArray(array.toDopeType())
 
 @JvmName("inArrayBoolean")
 fun TypeExpression<BooleanType>.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
-    this.inArray(array.toDopeType())
+    inArray(array.toDopeType())
 
 @JvmName("inArrayNumber")
 fun CMField<out Number>.inArray(array: CMList<out Number>): InExpression<NumberType> =
@@ -73,6 +74,18 @@ fun String.inArray(array: CMList<String>): InExpression<StringType> =
 @JvmName("inArrayBoolean")
 fun Boolean.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
     toDopeType().inArray(array.toDopeType())
+
+@JvmName("inArrayNumberConverter")
+fun <KotlinType : Any, MapType : Number> KotlinType.inArray(array: CMConverterList<KotlinType, MapType>): InExpression<NumberType> =
+    toDopeType(array).inArray(array.toDopeType())
+
+@JvmName("inArrayStringConverter")
+fun <KotlinType : Any> KotlinType.inArray(array: CMConverterList<KotlinType, String>): InExpression<StringType> =
+    toDopeType(array).inArray(array.toDopeType())
+
+@JvmName("inArrayBooleanConverter")
+fun <KotlinType : Any> KotlinType.inArray(array: CMConverterList<KotlinType, Boolean>): InExpression<BooleanType> =
+    toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("notInArrayNumber")
 fun CMField<out Number>.notInArray(array: TypeExpression<ArrayType<NumberType>>): NotInExpression<NumberType> =

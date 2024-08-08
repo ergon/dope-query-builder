@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:3.18.0")
+    implementation("com.github.SchwarzIT.crystal-map:crystal-map-api:4.0.1")
     implementation(kotlin("reflect"))
     implementation(project(":core"))
 

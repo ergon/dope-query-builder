@@ -5,7 +5,9 @@ import ch.ergon.dope.extension.type.arithmetic.div
 import ch.ergon.dope.extension.type.arithmetic.mod
 import ch.ergon.dope.extension.type.arithmetic.mul
 import ch.ergon.dope.extension.type.arithmetic.sub
+import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMNumberField
+import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.AdditionExpression
@@ -130,6 +132,17 @@ class NumberInfixTest {
     }
 
     @Test
+    fun `should support sub with Date CMConverterNumber`() {
+        val left = someDate()
+        val right = someCMConverterNumberField()
+        val expected = SubtractionExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+
+        val actual = left.sub(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support mul with CMField CMField`() {
         val left = someCMNumberField()
         val right = someCMNumberField()
@@ -178,6 +191,17 @@ class NumberInfixTest {
         val left = someCMNumberField()
         val right = someNumber()
         val expected = MultiplicationExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.mul(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support mul with Date CMConverterNumber`() {
+        val left = someDate()
+        val right = someCMConverterNumberField()
+        val expected = MultiplicationExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
 
         val actual = left.mul(right)
 
@@ -288,6 +312,17 @@ class NumberInfixTest {
         val left = someCMNumberField()
         val right = someNumber()
         val expected = ModuloExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.mod(right)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support mod with Date CMConverterNumber`() {
+        val left = someDate()
+        val right = someCMConverterNumberField()
+        val expected = ModuloExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
 
         val actual = left.mod(right)
 
