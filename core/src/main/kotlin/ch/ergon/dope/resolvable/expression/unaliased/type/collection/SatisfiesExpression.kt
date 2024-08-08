@@ -13,14 +13,12 @@ object IteratorManager {
     private var count: Int = 1
         get() = field++
 
-    fun getIteratorName() = DEFAULT_ITERATOR_VARIABLE + count
+    fun getIteratorName() = "iterator$count"
 
     fun resetCounter() {
         count = 1
     }
 }
-
-const val DEFAULT_ITERATOR_VARIABLE = "iterator"
 
 enum class SatisfiesType {
     ANY,
@@ -30,12 +28,12 @@ enum class SatisfiesType {
 sealed class SatisfiesExpression<T : ValidType>(
     private val satisfiesType: SatisfiesType,
     private val arrayExpression: TypeExpression<ArrayType<T>>,
-    private val iteratorName: String,
+    private val iteratorName: String? = null,
     private val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(): DopeQuery {
         val listDopeQuery = arrayExpression.toDopeQuery()
-        val iteratorVariable = if (iteratorName == DEFAULT_ITERATOR_VARIABLE) IteratorManager.getIteratorName() else iteratorName
+        val iteratorVariable = iteratorName ?: IteratorManager.getIteratorName()
 
         val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery()
         return DopeQuery(
@@ -54,32 +52,32 @@ class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> 
 
 class AnySatisfiesExpression<T : ValidType>(
     arrayExpression: TypeExpression<ArrayType<T>>,
-    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(ANY, arrayExpression, iteratorName, predicate)
 
 class EverySatisfiesExpression<T : ValidType>(
     arrayExpression: TypeExpression<ArrayType<T>>,
-    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(EVERY, arrayExpression, iteratorName, predicate)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.any(
-    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ): AnySatisfiesExpression<T> = AnySatisfiesExpression(this, iteratorName, predicate)
 
 fun <T : ValidType> Collection<TypeExpression<T>>.any(
-    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ): AnySatisfiesExpression<T> = AnySatisfiesExpression(toDopeType(), iteratorName, predicate)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.every(
-    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ): EverySatisfiesExpression<T> = EverySatisfiesExpression(this, iteratorName, predicate)
 
 fun <T : ValidType> Collection<TypeExpression<T>>.every(
-    iteratorName: String = DEFAULT_ITERATOR_VARIABLE,
+    iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ): EverySatisfiesExpression<T> = EverySatisfiesExpression(toDopeType(), iteratorName, predicate)
