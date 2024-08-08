@@ -59,12 +59,14 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.onKeys = null
     }
 
-    override fun toDopeQuery(): DopeQuery =
-        when {
+    override fun toDopeQuery(): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery()
+        val bucketDopeQuery = bucket.toDopeQuery()
+
+        return when {
             onCondition != null -> {
-                val parentDopeQuery = parentClause.toDopeQuery()
-                val bucketDopeQuery = bucket.toDopeQuery()
-                val onConditionDopeQuery = onCondition!!.toDopeQuery()
+
+                val onConditionDopeQuery = onCondition.toDopeQuery()
                 DopeQuery(
                     queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
                         "ON ${onConditionDopeQuery.queryString}",
@@ -73,9 +75,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
             }
 
             onKeys != null -> {
-                val parentDopeQuery = parentClause.toDopeQuery()
-                val bucketDopeQuery = bucket.toDopeQuery()
-                val keyDopeQuery = onKeys!!.toDopeQuery()
+                val keyDopeQuery = onKeys.toDopeQuery()
                 DopeQuery(
                     queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
                         "ON KEYS ${keyDopeQuery.queryString}",
@@ -84,10 +84,8 @@ sealed class SelectJoinClause : ISelectJoinClause {
             }
 
             onKey != null && forBucket != null -> {
-                val parentDopeQuery = parentClause.toDopeQuery()
-                val bucketDopeQuery = bucket.toDopeQuery()
-                val keyDopeQuery = onKey!!.toDopeQuery()
-                val forBucketDopeQuery = forBucket!!.toDopeQuery()
+                val keyDopeQuery = onKey.toDopeQuery()
+                val forBucketDopeQuery = forBucket.toDopeQuery()
                 DopeQuery(
                     queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
                         "ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
@@ -98,6 +96,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
 
             else -> throw IllegalStateException("Unable to construct join clause")
         }
+    }
 }
 
 class StandardJoinClause : SelectJoinClause {
