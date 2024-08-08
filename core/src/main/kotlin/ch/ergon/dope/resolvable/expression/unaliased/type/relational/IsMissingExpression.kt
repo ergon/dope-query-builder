@@ -20,3 +20,17 @@ class IsMissingExpression(
 }
 
 fun Field<out ValidType>.isMissing() = IsMissingExpression(this)
+
+class IsNotMissingExpression(
+    private val field: Field<out ValidType>,
+) : TypeExpression<BooleanType> {
+    override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
+        return DopeQuery(
+            queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT MISSING"),
+            parameters = fieldDopeQuery.parameters,
+        )
+    }
+}
+
+fun Field<out ValidType>.isNotMissing() = IsNotMissingExpression(this)
