@@ -23,10 +23,10 @@ private enum class JoinType(val type: String) {
 sealed class SelectJoinClause : ISelectJoinClause {
     private val joinType: JoinType
     private val bucket: Bucket
-    private var onCondition: TypeExpression<BooleanType>? = null
-    private var onKeys: Field<out ValidType>? = null
-    private var onKey: Field<out ValidType>? = null
-    private var forBucket: Bucket? = null
+    private val onCondition: TypeExpression<BooleanType>?
+    private val onKeys: Field<out ValidType>?
+    private val onKey: Field<out ValidType>?
+    private val forBucket: Bucket?
     private val parentClause: ISelectFromClause
 
     constructor(joinType: JoinType, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
@@ -34,6 +34,9 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.bucket = bucket
         this.onCondition = onCondition
         this.parentClause = parentClause
+        this.onKeys = null
+        this.onKey = null
+        this.forBucket = null
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) {
@@ -41,6 +44,9 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.bucket = bucket
         this.onKeys = onKeys
         this.parentClause = parentClause
+        this.onCondition = null
+        this.onKey = null
+        this.forBucket = null
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
@@ -49,6 +55,8 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.onKey = onKey
         this.forBucket = forBucket
         this.parentClause = parentClause
+        this.onCondition = null
+        this.onKeys = null
     }
 
     override fun toDopeQuery(): DopeQuery =
