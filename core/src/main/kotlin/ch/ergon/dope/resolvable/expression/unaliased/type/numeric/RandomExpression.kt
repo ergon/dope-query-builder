@@ -1,22 +1,10 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.numeric
 
-import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
 
-class RandomExpression(private val value: TypeExpression<NumberType>? = null) :
-    TypeExpression<NumberType>, FunctionOperator {
-    override fun toDopeQuery() =
-        value?.let {
-            val valueDopeQuery = value.toDopeQuery()
-            DopeQuery(
-                queryString = toFunctionQueryString("RANDOM", valueDopeQuery.queryString),
-                parameters = valueDopeQuery.parameters,
-            )
-        } ?: DopeQuery(queryString = "RANDOM()", parameters = emptyMap())
-}
+class RandomExpression(value: TypeExpression<NumberType>? = null) : NumberFunctionExpression("RANDOM", value)
 
 fun random() = RandomExpression()
 

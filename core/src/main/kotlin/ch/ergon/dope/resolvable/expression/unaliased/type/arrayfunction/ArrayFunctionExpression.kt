@@ -9,33 +9,16 @@ import ch.ergon.dope.validtype.ValidType
 sealed class ArrayFunctionExpression<T : ValidType>(
     private val symbol: String,
     private val array: TypeExpression<ArrayType<T>>,
-    private vararg val args: TypeExpression<out ValidType>,
-    private val extra: TypeExpression<out ValidType>? = null,
+    private vararg val arguments: TypeExpression<out ValidType>,
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
         val arrayDopeQuery = array.toDopeQuery()
-        val argsDopeQuery = args.map { it.toDopeQuery() }
-        val extraDopeQuery = extra?.toDopeQuery()
+        val argumentsDopeQuery = arguments.map { it.toDopeQuery() }
         return DopeQuery(
-            queryString = toFunctionQueryString(symbol, arrayDopeQuery, *argsDopeQuery.toTypedArray(), extra = extraDopeQuery),
-            parameters = arrayDopeQuery.parameters + argsDopeQuery.fold(
+            queryString = toFunctionQueryString(symbol, arrayDopeQuery, *argumentsDopeQuery.toTypedArray()),
+            parameters = arrayDopeQuery.parameters + argumentsDopeQuery.fold(
                 emptyMap(),
-            ) { argsParameters, field -> argsParameters + field.parameters } + extraDopeQuery?.parameters.orEmpty(),
-        )
-    }
-}
-
-sealed class ArrayFunctionNumberExpression<T : ValidType>(
-    private val symbol: String,
-    private val array: TypeExpression<ArrayType<T>>,
-    private val value: TypeExpression<out ValidType>? = null,
-) : TypeExpression<ValidType>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery()
-        val valueDopeQuery = value?.toDopeQuery()
-        return DopeQuery(
-            queryString = toFunctionQueryString(symbol, arrayDopeQuery, extra = valueDopeQuery),
-            parameters = arrayDopeQuery.parameters + valueDopeQuery?.parameters.orEmpty(),
+            ) { argsParameters, field -> argsParameters + field.parameters },
         )
     }
 }
