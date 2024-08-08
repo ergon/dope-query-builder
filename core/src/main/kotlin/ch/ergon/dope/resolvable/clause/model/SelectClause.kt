@@ -3,13 +3,15 @@ package ch.ergon.dope.resolvable.clause.model
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
+import ch.ergon.dope.resolvable.fromable.AliasedBucket
 
 class SelectClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
 
     override fun toDopeQuery(): DopeQuery {
-        val expressionDopeQuery = expression.toDopeQuery()
-        val expressionsDopeQuery = expressions.map { it.toDopeQuery() }
+        val expressionDopeQuery = getExpressionDopeQuery(expression)
+        val expressionsDopeQuery = expressions.map { getExpressionDopeQuery(it) }
         return DopeQuery(
             queryString = formatToQueryString(
                 "SELECT",
@@ -23,7 +25,7 @@ class SelectClause(private val expression: Expression, private vararg val expres
     }
 }
 
-class SelectRawClause(private val expression: Expression) : ISelectClause {
+class SelectRawClause(private val expression: SingleExpression) : ISelectClause {
 
     override fun toDopeQuery(): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery()
@@ -36,8 +38,8 @@ class SelectRawClause(private val expression: Expression) : ISelectClause {
 
 class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
     override fun toDopeQuery(): DopeQuery {
-        val expressionsDopeQuery = expressions.map { it.toDopeQuery() }
-        val expressionDopeQuery = expression.toDopeQuery()
+        val expressionDopeQuery = getExpressionDopeQuery(expression)
+        val expressionsDopeQuery = expressions.map { getExpressionDopeQuery(it) }
         return DopeQuery(
             queryString = formatToQueryString(
                 "SELECT DISTINCT",
@@ -50,3 +52,6 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
         )
     }
 }
+
+private fun getExpressionDopeQuery(expression: Expression) =
+    if (expression is AliasedBucket) DopeQuery("`${expression.alias}`", emptyMap()) else expression.toDopeQuery()

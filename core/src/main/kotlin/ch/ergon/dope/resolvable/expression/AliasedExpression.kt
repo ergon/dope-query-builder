@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.ValidType
 class AliasedExpression<T : ValidType>(
     private val unaliasedExpression: UnaliasedExpression<T>,
     private val alias: String,
-) : Expression {
+) : SingleExpression {
     override fun toDopeQuery(): DopeQuery {
         val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery()
         return DopeQuery(
