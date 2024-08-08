@@ -4,10 +4,12 @@ import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
-import ch.ergon.dope.resolvable.clause.model.UpdateUseKeysClause.Companion.UpdateUseKeysClause
+import ch.ergon.dope.resolvable.clause.model.UpdateUseKeys.Companion.UpdateUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
+import ch.ergon.dope.resolvable.clause.model.to
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -23,6 +25,7 @@ interface IUpdateLimitClause : IUpdateReturningClause {
 
 interface IUpdateWhereClause : IUpdateLimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>) = UpdateLimitClause(numberExpression, this)
+    fun limit(numberExpression: Number) = UpdateLimitClause(numberExpression.toDopeType(), this)
 }
 
 interface IUpdateUnsetClause : IUpdateWhereClause {
@@ -34,10 +37,7 @@ interface IUpdateSetClause : IUpdateUnsetClause {
 }
 
 interface IUpdateUseKeysClause : IUpdateSetClause {
-    fun <T : ValidType> set(
-        field: Field<T>,
-        value: TypeExpression<T>,
-    ) = SetClause(field, value, parentClause = this)
+    fun <T : ValidType> set(field: Field<T>, value: TypeExpression<T>) = SetClause(field.to(value), parentClause = this)
 }
 
 interface IUpdateClause : IUpdateUseKeysClause {

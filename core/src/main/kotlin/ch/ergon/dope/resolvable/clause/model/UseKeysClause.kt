@@ -63,22 +63,22 @@ class DeleteUseKeys private constructor(
     }
 }
 
-class UpdateUseKeysClause : IUpdateUseKeysClause {
+class UpdateUseKeys : IUpdateUseKeysClause {
     private lateinit var useKeys: TypeExpression<out ValidType>
     private lateinit var parentClause: IUpdateClause
 
     companion object {
         @JvmName("updateSingleUseKeysClauseConstructor")
-        fun UpdateUseKeysClause(key: TypeExpression<StringType>, parentClause: IUpdateClause): UpdateUseKeysClause {
-            val instance = UpdateUseKeysClause()
+        fun UpdateUseKeysClause(key: TypeExpression<StringType>, parentClause: IUpdateClause): UpdateUseKeys {
+            val instance = UpdateUseKeys()
             instance.useKeys = key
             instance.parentClause = parentClause
             return instance
         }
 
         @JvmName("updateMultipleUseKeysClauseConstructor")
-        fun UpdateUseKeysClause(keys: TypeExpression<ArrayType<StringType>>, parentClause: IUpdateClause): UpdateUseKeysClause {
-            val instance = UpdateUseKeysClause()
+        fun UpdateUseKeysClause(keys: TypeExpression<ArrayType<StringType>>, parentClause: IUpdateClause): UpdateUseKeys {
+            val instance = UpdateUseKeys()
             instance.useKeys = keys
             instance.parentClause = parentClause
             return instance

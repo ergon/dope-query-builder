@@ -6,9 +6,9 @@ import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someUpdateClause
-import ch.ergon.dope.resolvable.clause.model.DeleteUseKeysClause.Companion.DeleteUseKeysClause
-import ch.ergon.dope.resolvable.clause.model.SelectUseKeysClause.Companion.SelectUseKeysClause
-import ch.ergon.dope.resolvable.clause.model.UpdateUseKeysClause.Companion.UpdateUseKeysClause
+import ch.ergon.dope.resolvable.clause.model.DeleteUseKeys.Companion.DeleteUseKeysClause
+import ch.ergon.dope.resolvable.clause.model.SelectUseKeys.Companion.SelectUseKeysClause
+import ch.ergon.dope.resolvable.clause.model.UpdateUseKeys.Companion.UpdateUseKeysClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test

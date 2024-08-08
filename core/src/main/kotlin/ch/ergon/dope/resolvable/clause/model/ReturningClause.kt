@@ -14,8 +14,8 @@ sealed class ReturningClause(
     private val field: Field<out ValidType>,
     private vararg val fields: Field<out ValidType>,
     private val parentClause: Clause,
-) : Clause {
-    override fun toDopeQuery(): DopeQuery {
+) {
+    fun toDopeQuery(): DopeQuery {
         val fieldsDopeQuery = fields.map { it.toDopeQuery() }
         val fieldDopeQuery = field.toDopeQuery()
         val parentDopeQuery = parentClause.toDopeQuery()

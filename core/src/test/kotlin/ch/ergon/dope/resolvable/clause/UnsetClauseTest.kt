@@ -32,8 +32,8 @@ class UnsetClauseTest {
             emptyMap(),
         )
         val underTest = UnsetClause(
+            someStringField(),
             someNumberField(),
-            mutableListOf(someStringField()),
             parentClause = someUpdateClause(),
         )
 
@@ -59,8 +59,8 @@ class UnsetClauseTest {
         val numberField = someNumberField()
         val parentClause = someUpdateClause()
         val expected = UnsetClause(
+            stringField,
             numberField,
-            mutableListOf(stringField),
             parentClause = parentClause,
         )
 

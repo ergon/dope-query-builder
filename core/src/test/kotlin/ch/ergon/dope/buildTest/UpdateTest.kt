@@ -128,6 +128,7 @@ class UpdateTest : ParameterDependentTest {
 
     @Test
     fun `should support update clause as a complex query`() {
+        val bucket = someBucket().alias("sb")
         val expected = "UPDATE `someBucket` AS `sb` " +
             "USE KEYS \"keyString\" " +
             "SET `setThisNumberField` = 1, META(`sb`).`expiration` = 3600 " +
@@ -138,7 +139,7 @@ class UpdateTest : ParameterDependentTest {
 
         val actual = create
             .update(
-                someBucket().alias("sb"),
+                bucket,
             ).useKeys(
                 "keyString".toDopeType(),
             ).set(

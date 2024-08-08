@@ -7,26 +7,24 @@ import ch.ergon.dope.resolvable.formatToQueryString
 import ch.ergon.dope.validtype.ValidType
 
 class UnsetClause(
-    field: Field<out ValidType>,
-    private val fields: MutableList<Field<out ValidType>> = mutableListOf(),
+    private val field: Field<out ValidType>,
+    private vararg val fields: Field<out ValidType>,
     private val parentClause: IUpdateUnsetClause,
 ) : IUpdateUnsetClause {
-
-    init {
-        fields.add(field)
-    }
-
     override fun toDopeQuery(): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery()
         val fieldsDopeQuery = fields.map { it.toDopeQuery() }
         val parentClauseDopeQuery = parentClause.toDopeQuery()
         return DopeQuery(
             queryString = formatToQueryString(
                 "${parentClauseDopeQuery.queryString} UNSET",
+                fieldDopeQuery.queryString,
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
             parameters = parentClauseDopeQuery.parameters,
         )
     }
 
-    fun unset(field: Field<out ValidType>) = UnsetClause(field, fields = this.fields, parentClause = this.parentClause)
+    fun unset(field: Field<out ValidType>) =
+        UnsetClause(this.field, *this.fields, field, parentClause = this.parentClause)
 }

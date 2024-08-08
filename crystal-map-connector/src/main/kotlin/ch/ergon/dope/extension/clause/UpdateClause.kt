@@ -8,13 +8,13 @@ import ch.ergon.dope.resolvable.clause.IUpdateUseKeysClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
+import ch.ergon.dope.resolvable.clause.model.to
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 import com.schwarz.crystalapi.schema.CMType
@@ -36,10 +36,10 @@ fun UnsetClause.unset(field: CMType) =
 fun IUpdateSetClause.set(
     field: CMField<out Number>,
     value: CMField<out Number>,
-) = SetClause(field.toDopeType(), value.toDopeType(), parentClause = this)
+) = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = this)
 
 @JvmName("setCMNumberFieldToCMNumberField")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMField<out Number>,
     value: CMField<out Number>,
 ) = this.set(field.toDopeType(), value.toDopeType())
@@ -51,7 +51,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMStringFieldToCMStringField")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMField<String>,
     value: CMField<String>,
 ) = this.set(field.toDopeType(), value.toDopeType())
@@ -63,7 +63,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMBooleanFieldToCMBooleanField")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMField<Boolean>,
     value: CMField<Boolean>,
 ) = this.set(field.toDopeType(), value.toDopeType())
@@ -75,7 +75,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMNumberListToCMNumberList")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMList<out Number>,
     value: CMList<out Number>,
 ) = this.set(field.toDopeType(), value.toDopeType())
@@ -87,7 +87,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMStringListToCMStringList")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMList<String>,
     value: CMList<String>,
 ) = this.set(field.toDopeType(), value.toDopeType())
@@ -99,7 +99,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMBooleanListToCMBooleanList")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMList<Boolean>,
     value: CMList<Boolean>,
 ) = this.set(field.toDopeType(), value.toDopeType())
@@ -111,7 +111,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMNumberFieldToNumberTypeExpression")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMField<out Number>,
     value: TypeExpression<NumberType>,
 ) = this.set(field.toDopeType(), value)
@@ -123,7 +123,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMStringFieldToStringTypeExpression")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMField<String>,
     value: TypeExpression<StringType>,
 ) = this.set(field.toDopeType(), value)
@@ -135,7 +135,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMBooleanFieldToBooleanTypeExpression")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMField<Boolean>,
     value: TypeExpression<BooleanType>,
 ) = this.set(field.toDopeType(), value)
@@ -147,7 +147,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMNumberListToNumberArrayTypeExpression")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMList<out Number>,
     value: TypeExpression<ArrayType<NumberType>>,
 ) = this.set(field.toDopeType(), value)
@@ -159,7 +159,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMStringListToStringArrayTypeExpression")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMList<String>,
     value: TypeExpression<ArrayType<StringType>>,
 ) = this.set(field.toDopeType(), value)
@@ -171,7 +171,7 @@ fun IUpdateUseKeysClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMBooleanListToBooleanArrayTypeExpression")
-fun SetClause<out ValidType>.set(
+fun SetClause.set(
     field: CMList<Boolean>,
     value: TypeExpression<ArrayType<BooleanType>>,
 ) = this.set(field.toDopeType(), value)

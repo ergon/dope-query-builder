@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
-import ch.ergon.dope.resolvable.clause.model.DeleteUseKeysClause.Companion.DeleteUseKeysClause
+import ch.ergon.dope.resolvable.clause.model.DeleteUseKeys.Companion.DeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field

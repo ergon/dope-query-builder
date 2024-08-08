@@ -16,13 +16,13 @@ import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someUpdate
-import ch.ergon.dope.resolvable.clause.model.SetAssignment
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
-import ch.ergon.dope.resolvable.clause.model.UpdateUseKeysClause.Companion.UpdateUseKeysClause
+import ch.ergon.dope.resolvable.clause.model.UpdateUseKeys.Companion.UpdateUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
+import ch.ergon.dope.resolvable.clause.model.to
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
@@ -56,7 +56,7 @@ class UpdateClauseTest {
         val field = someCMNumberField()
         val value = someCMNumberField()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -71,9 +71,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType(),
-            numberValue.toDopeType(),
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            numberField.toDopeType().to(numberValue.toDopeType()),
             parentClause = parentClause,
         )
 
@@ -87,7 +86,7 @@ class UpdateClauseTest {
         val field = someCMStringField()
         val value = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -102,9 +101,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType(),
-            stringValue.toDopeType(),
-            setAssignments = mutableListOf(SetAssignment(numberField.toDopeType(), numberValue.toDopeType())),
+            numberField.toDopeType().to(numberValue.toDopeType()),
+            stringField.toDopeType().to(stringValue.toDopeType()),
             parentClause = parentClause,
         )
 
@@ -118,7 +116,7 @@ class UpdateClauseTest {
         val field = someCMBooleanField()
         val value = someCMBooleanField()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -133,9 +131,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            booleanField.toDopeType(),
-            booleanValue.toDopeType(),
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            booleanField.toDopeType().to(booleanValue.toDopeType()),
             parentClause = parentClause,
         )
 
@@ -149,7 +146,7 @@ class UpdateClauseTest {
         val field = someCMNumberList()
         val value = someCMNumberList()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -164,9 +161,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType(),
-            numberValue.toDopeType(),
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            numberField.toDopeType().to(numberValue.toDopeType()),
             parentClause = parentClause,
         )
 
@@ -180,7 +176,7 @@ class UpdateClauseTest {
         val field = someCMStringList()
         val value = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -195,9 +191,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType(),
-            stringValue.toDopeType(),
-            setAssignments = mutableListOf(SetAssignment(numberField.toDopeType(), numberValue.toDopeType())),
+            numberField.toDopeType().to(numberValue.toDopeType()),
+            stringField.toDopeType().to(stringValue.toDopeType()),
             parentClause = parentClause,
         )
 
@@ -211,7 +206,7 @@ class UpdateClauseTest {
         val field = someCMBooleanList()
         val value = someCMBooleanList()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -226,9 +221,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            booleanField.toDopeType(),
-            booleanValue.toDopeType(),
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            booleanField.toDopeType().to(booleanValue.toDopeType()),
             parentClause = parentClause,
         )
 
@@ -242,7 +236,7 @@ class UpdateClauseTest {
         val field = someCMNumberField()
         val value = someNumber().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -257,9 +251,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType(),
-            numberValue,
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            numberField.toDopeType().to(numberValue),
             parentClause = parentClause,
         )
 
@@ -273,7 +266,7 @@ class UpdateClauseTest {
         val field = someCMStringField()
         val value = someString().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -288,9 +281,8 @@ class UpdateClauseTest {
         val stringValue = someString().toDopeType()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType(),
-            stringValue,
-            setAssignments = mutableListOf(SetAssignment(numberField.toDopeType(), numberValue.toDopeType())),
+            numberField.toDopeType().to(numberValue.toDopeType()),
+            stringField.toDopeType().to(stringValue),
             parentClause = parentClause,
         )
 
@@ -304,7 +296,7 @@ class UpdateClauseTest {
         val field = someCMBooleanField()
         val value = someBoolean().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -319,9 +311,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            booleanField.toDopeType(),
-            booleanValue,
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            booleanField.toDopeType().to(booleanValue),
             parentClause = parentClause,
         )
 
@@ -335,7 +326,7 @@ class UpdateClauseTest {
         val field = someCMNumberList()
         val value = listOf(someNumber().toDopeType(), someNumber().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -350,9 +341,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType(),
-            numberValue,
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            numberField.toDopeType().to(numberValue),
             parentClause = parentClause,
         )
 
@@ -366,7 +356,7 @@ class UpdateClauseTest {
         val field = someCMStringList()
         val value = listOf(someString().toDopeType(), someString().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -381,9 +371,8 @@ class UpdateClauseTest {
         val stringValue = listOf(someString().toDopeType(), someString().toDopeType()).toDopeType()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType(),
-            stringValue,
-            setAssignments = mutableListOf(SetAssignment(numberField.toDopeType(), numberValue.toDopeType())),
+            numberField.toDopeType().to(numberValue.toDopeType()),
+            stringField.toDopeType().to(stringValue),
             parentClause = parentClause,
         )
 
@@ -397,7 +386,7 @@ class UpdateClauseTest {
         val field = someCMBooleanList()
         val value = listOf(someBoolean().toDopeType(), someBoolean().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType(), value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().to(value), parentClause = parentClause)
 
         val actual = parentClause.set(field, value)
 
@@ -412,9 +401,8 @@ class UpdateClauseTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            booleanField.toDopeType(),
-            booleanValue,
-            setAssignments = mutableListOf(SetAssignment(stringField.toDopeType(), stringValue.toDopeType())),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            booleanField.toDopeType().to(booleanValue),
             parentClause = parentClause,
         )
 
@@ -441,8 +429,9 @@ class UpdateClauseTest {
         val booleanField = someCMBooleanField()
         val parentClause = someUpdate()
         val expected = UnsetClause(
+            numberField.toDopeType(),
+            booleanField.toDopeType(),
             stringField.toDopeType(),
-            mutableListOf(numberField.toDopeType(), booleanField.toDopeType()),
             parentClause = parentClause,
         )
 

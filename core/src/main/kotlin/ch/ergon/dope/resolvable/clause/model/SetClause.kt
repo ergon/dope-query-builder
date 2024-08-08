@@ -7,34 +7,30 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.formatToQueryString
 import ch.ergon.dope.validtype.ValidType
 
-class SetClause<T : ValidType>(
-    field: Field<T>,
-    value: TypeExpression<T>,
-    private val setAssignments: MutableList<SetAssignment<out ValidType>> = mutableListOf(),
+class SetClause(
+    private val fieldAssignment: SetAssignment<out ValidType>,
+    private vararg val fieldAssignments: SetAssignment<out ValidType>,
     private val parentClause: IUpdateSetClause,
 ) : IUpdateSetClause {
-
-    init {
-        setAssignments.add(SetAssignment(field, value))
-    }
-
     override fun toDopeQuery(): DopeQuery {
+        val fieldAssignmentDopeQuery = fieldAssignment.toDopeQuery()
+        val fieldAssignmentsDopeQuery = fieldAssignments.map { it.toDopeQuery() }
         val parentClauseDopeQuery = parentClause.toDopeQuery()
-        val setAssignmentsDopeQuery = setAssignments.map { it.toDopeQuery() }
         return DopeQuery(
             queryString = formatToQueryString(
                 "${parentClauseDopeQuery.queryString} SET",
-                *setAssignmentsDopeQuery.map { it.queryString }.toTypedArray(),
+                fieldAssignmentDopeQuery.queryString,
+                *fieldAssignmentsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = setAssignmentsDopeQuery.fold(parentClauseDopeQuery.parameters) {
-                    setAssignmentsParameters, parent ->
-                setAssignmentsParameters + parent.parameters
-            },
+            parameters = fieldAssignmentsDopeQuery.fold(fieldAssignmentDopeQuery.parameters) {
+                    setAssignmentsParameters, field ->
+                setAssignmentsParameters + field.parameters
+            } + parentClauseDopeQuery.parameters,
         )
     }
 
     fun <T : ValidType> set(field: Field<T>, value: TypeExpression<T>) =
-        SetClause(field, value, setAssignments = this.setAssignments, parentClause = this.parentClause)
+        SetClause(this.fieldAssignment, *this.fieldAssignments, field.to(value), parentClause = this.parentClause)
 }
 
 class SetAssignment<T : ValidType>(
@@ -50,3 +46,5 @@ class SetAssignment<T : ValidType>(
         )
     }
 }
+
+fun <T : ValidType> Field<T>.to(value: TypeExpression<T>) = SetAssignment(this, value)
