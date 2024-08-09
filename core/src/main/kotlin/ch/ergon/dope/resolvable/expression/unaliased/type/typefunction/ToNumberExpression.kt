@@ -10,14 +10,14 @@ import ch.ergon.dope.validtype.ValidType
 
 class ToNumberExpression<T : ValidType>(
     private val expression: TypeExpression<T>,
-    private val stringExpression: TypeExpression<StringType>? = null,
+    private val filterChars: TypeExpression<StringType>? = null,
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery()
-        val stringExpressionDopeQuery = stringExpression?.toDopeQuery()
+        val filterCharsDopeQuery = filterChars?.toDopeQuery()
         return DopeQuery(
-            queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, stringExpressionDopeQuery),
-            parameters = expressionDopeQuery.parameters + stringExpressionDopeQuery?.parameters.orEmpty(),
+            queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, filterCharsDopeQuery),
+            parameters = expressionDopeQuery.parameters + filterCharsDopeQuery?.parameters.orEmpty(),
         )
     }
 }
@@ -28,14 +28,14 @@ fun String.toNumber() = ToNumberExpression(this.toDopeType())
 
 fun Boolean.toNumber() = ToNumberExpression(this.toDopeType())
 
-fun TypeExpression<StringType>.toNumber(stringExpression: TypeExpression<StringType>) =
-    ToNumberExpression(this, stringExpression)
+fun TypeExpression<StringType>.toNumber(filterChars: TypeExpression<StringType>) =
+    ToNumberExpression(this, filterChars)
 
-fun TypeExpression<StringType>.toNumber(stringExpression: String) =
-    ToNumberExpression(this, stringExpression.toDopeType())
+fun TypeExpression<StringType>.toNumber(filterChars: String) =
+    ToNumberExpression(this, filterChars.toDopeType())
 
-fun String.toNumber(stringExpression: TypeExpression<StringType>) =
-    ToNumberExpression(this.toDopeType(), stringExpression)
+fun String.toNumber(filterChars: TypeExpression<StringType>) =
+    ToNumberExpression(this.toDopeType(), filterChars)
 
-fun String.toNumber(stringExpression: String) =
-    ToNumberExpression(this.toDopeType(), stringExpression.toDopeType())
+fun String.toNumber(filterChars: String) =
+    ToNumberExpression(this.toDopeType(), filterChars.toDopeType())

@@ -15,19 +15,19 @@ fun CMField<out Number>.toNumber() = toDopeType().toNumber()
 fun CMField<String>.toNumber() = toDopeType().toNumber()
 
 @JvmName("stringToNumber")
-fun CMField<String>.toNumber(stringExpression: String) = toDopeType().toNumber(stringExpression.toDopeType())
+fun CMField<String>.toNumber(filterChars: String) = toDopeType().toNumber(filterChars.toDopeType())
 
 @JvmName("stringToNumber")
-fun CMField<String>.toNumber(stringExpression: TypeExpression<StringType>) = toDopeType().toNumber(stringExpression)
+fun CMField<String>.toNumber(filterChars: TypeExpression<StringType>) = toDopeType().toNumber(filterChars)
 
 @JvmName("stringToNumber")
-fun String.toNumber(stringExpression: CMField<String>) = toDopeType().toNumber(stringExpression.toDopeType())
+fun String.toNumber(filterChars: CMField<String>) = toDopeType().toNumber(filterChars.toDopeType())
 
 @JvmName("stringToNumber")
-fun TypeExpression<StringType>.toNumber(stringExpression: CMField<String>) = toNumber(stringExpression.toDopeType())
+fun TypeExpression<StringType>.toNumber(filterChars: CMField<String>) = toNumber(filterChars.toDopeType())
 
 @JvmName("stringToNumber")
-fun CMField<String>.toNumber(stringExpression: CMField<String>) = toDopeType().toNumber(stringExpression.toDopeType())
+fun CMField<String>.toNumber(filterChars: CMField<String>) = toDopeType().toNumber(filterChars.toDopeType())
 
 @JvmName("booleanToNumber")
 fun CMField<Boolean>.toNumber() = toDopeType().toNumber()

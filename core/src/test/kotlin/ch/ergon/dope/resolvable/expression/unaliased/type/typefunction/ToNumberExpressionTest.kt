@@ -69,45 +69,45 @@ class ToNumberExpressionTest : ParameterDependentTest {
     }
 
     @Test
-    fun `should support to number extension with options`() {
+    fun `should support to number extension with filterChars`() {
         val string = someStringField()
-        val options = someStringField()
-        val expected = ToNumberExpression(string, options)
+        val filterChars = someStringField()
+        val expected = ToNumberExpression(string, filterChars)
 
-        val actual = string.toNumber(options)
+        val actual = string.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support to number extension with options as string`() {
+    fun `should support to number extension with filterChars as string`() {
         val string = someStringField()
-        val options = someString()
-        val expected = ToNumberExpression(string, options.toDopeType())
+        val filterChars = someString()
+        val expected = ToNumberExpression(string, filterChars.toDopeType())
 
-        val actual = string.toNumber(options)
-
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
-    }
-
-    @Test
-    fun `should support to number extension with string and options`() {
-        val string = someString()
-        val options = someStringField()
-        val expected = ToNumberExpression(string.toDopeType(), options)
-
-        val actual = string.toNumber(options)
+        val actual = string.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support to number extension with string and options as string`() {
+    fun `should support to number extension with string and filterChars`() {
         val string = someString()
-        val options = someString()
-        val expected = ToNumberExpression(string.toDopeType(), options.toDopeType())
+        val filterChars = someStringField()
+        val expected = ToNumberExpression(string.toDopeType(), filterChars)
 
-        val actual = string.toNumber(options)
+        val actual = string.toNumber(filterChars)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support to number extension with string and filterChars as string`() {
+        val string = someString()
+        val filterChars = someString()
+        val expected = ToNumberExpression(string.toDopeType(), filterChars.toDopeType())
+
+        val actual = string.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

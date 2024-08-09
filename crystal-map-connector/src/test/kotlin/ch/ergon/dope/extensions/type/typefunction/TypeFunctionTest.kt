@@ -484,56 +484,56 @@ class TypeFunctionTest {
     }
 
     @Test
-    fun `should support toNumber with CM string field and string stringExpression`() {
+    fun `should support toNumber with CM string field and string filterChars`() {
         val expression = someCMStringField()
-        val stringExpression = someString()
-        val expected = ToNumberExpression(expression.toDopeType(), stringExpression.toDopeType())
+        val filterChars = someString()
+        val expected = ToNumberExpression(expression.toDopeType(), filterChars.toDopeType())
 
-        val actual = expression.toNumber(stringExpression)
+        val actual = expression.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support toNumber with CM string field and type stringExpression`() {
+    fun `should support toNumber with CM string field and type filterChars`() {
         val expression = someCMStringField()
-        val stringExpression = someString().toDopeType()
-        val expected = ToNumberExpression(expression.toDopeType(), stringExpression)
+        val filterChars = someString().toDopeType()
+        val expected = ToNumberExpression(expression.toDopeType(), filterChars)
 
-        val actual = expression.toNumber(stringExpression)
+        val actual = expression.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support toNumber with string and CM string field stringExpression`() {
+    fun `should support toNumber with string and CM string field filterChars`() {
         val expression = someString()
-        val stringExpression = someCMStringField()
-        val expected = ToNumberExpression(expression.toDopeType(), stringExpression.toDopeType())
+        val filterChars = someCMStringField()
+        val expected = ToNumberExpression(expression.toDopeType(), filterChars.toDopeType())
 
-        val actual = expression.toNumber(stringExpression)
+        val actual = expression.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support toNumber with type and CM string field stringExpression`() {
+    fun `should support toNumber with type and CM string field filterChars`() {
         val expression = someString().toDopeType()
-        val stringExpression = someCMStringField()
-        val expected = ToNumberExpression(expression, stringExpression.toDopeType())
+        val filterChars = someCMStringField()
+        val expected = ToNumberExpression(expression, filterChars.toDopeType())
 
-        val actual = expression.toNumber(stringExpression)
+        val actual = expression.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support toNumber with CM string field and CM string field stringExpression`() {
+    fun `should support toNumber with CM string field and CM string field filterChars`() {
         val expression = someCMStringField()
-        val stringExpression = someCMStringField()
-        val expected = ToNumberExpression(expression.toDopeType(), stringExpression.toDopeType())
+        val filterChars = someCMStringField()
+        val expected = ToNumberExpression(expression.toDopeType(), filterChars.toDopeType())
 
-        val actual = expression.toNumber(stringExpression)
+        val actual = expression.toNumber(filterChars)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
