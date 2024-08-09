@@ -41,12 +41,12 @@ fun case(
 )
 
 fun case(
-    expression: CMType? = null,
+    expression: CMType,
     whenThenCondition: WhenThenCondition,
     vararg additionalWhenThenConditions: WhenThenCondition,
     elseCase: CMType? = null,
 ) = case(
-    expression = expression?.toDopeType(),
+    expression = expression.toDopeType(),
     whenThenCondition = whenThenCondition,
     additionalWhenThenConditions = additionalWhenThenConditions,
     elseCase = elseCase?.toDopeType(),
