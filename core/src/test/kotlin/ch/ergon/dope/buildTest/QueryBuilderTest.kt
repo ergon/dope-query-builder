@@ -1,11 +1,13 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
+import ch.ergon.dope.resolvable.expression.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
 import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
@@ -22,6 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualT
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
+import ch.ergon.dope.resolvable.whenThen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -782,6 +785,23 @@ class QueryBuilderTest {
 
         val actual = create
             .select(someBucket.asterisk())
+            .from(someBucket)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support selecting case`() {
+        val someBucket = someBucket()
+        val expected = "SELECT CASE WHEN `booleanField` THEN `numberField` ELSE `numberField` END, CASE WHEN TRUE THEN `numberField` " +
+            "ELSE `numberField` END AS `alias` FROM `someBucket`"
+
+        val actual = create
+            .select(
+                case(whenThen(someBooleanField(), someNumberField())),
+                case(whenThen(someBooleanField(), someNumberField()), elseCase = someStringField()).alias("alias"),
+            )
             .from(someBucket)
             .build().queryString
 
