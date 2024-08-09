@@ -5,20 +5,20 @@ import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
-@JvmName("isNumberNumber")
-fun isNumber(field: CMField<out Number>) = isNumber(field.toDopeType())
+@JvmName("numberIsNumber")
+fun CMField<out Number>.isNumber() = toDopeType().isNumber()
 
-@JvmName("isNumberString")
-fun isNumber(field: CMField<String>) = isNumber(field.toDopeType())
+@JvmName("stringIsNumber")
+fun CMField<String>.isNumber() = toDopeType().isNumber()
 
-@JvmName("isNumberBoolean")
-fun isNumber(field: CMField<Boolean>) = isNumber(field.toDopeType())
+@JvmName("booleanIsNumber")
+fun CMField<Boolean>.isNumber() = toDopeType().isNumber()
 
-@JvmName("isNumberNumberList")
-fun isNumber(field: CMList<out Number>) = isNumber(field.toDopeType())
+@JvmName("numberListIsNumber")
+fun CMList<out Number>.isNumber() = toDopeType().isNumber()
 
-@JvmName("isNumberStringList")
-fun isNumber(field: CMList<String>) = isNumber(field.toDopeType())
+@JvmName("stringListIsNumber")
+fun CMList<String>.isNumber() = toDopeType().isNumber()
 
-@JvmName("isNumberBooleanList")
-fun isNumber(field: CMList<Boolean>) = isNumber(field.toDopeType())
+@JvmName("booleanListIsNumber")
+fun CMList<Boolean>.isNumber() = toDopeType().isNumber()

@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
@@ -18,4 +19,8 @@ class ToStringExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> toString(expression: TypeExpression<T>) = ToStringExpression(expression)
+fun <T : ValidType> TypeExpression<T>.toStr() = ToStringExpression(this)
+
+fun Number.toStr() = ToStringExpression(this.toDopeType())
+
+fun Boolean.toStr() = ToStringExpression(this.toDopeType())

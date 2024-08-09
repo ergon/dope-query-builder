@@ -18,4 +18,4 @@ class IsBooleanExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> isBoolean(expression: TypeExpression<T>) = IsBooleanExpression(expression)
+fun <T : ValidType> TypeExpression<T>.isBoolean() = IsBooleanExpression(this)

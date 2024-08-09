@@ -42,7 +42,7 @@ class ToArrayExpressionTest : ParameterDependentTest {
         val string = someString().toDopeType()
         val expected = ToArrayExpression(string)
 
-        val actual = toArray(string)
+        val actual = string.toArray()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

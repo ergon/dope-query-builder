@@ -39,10 +39,10 @@ class IsAtomExpressionTest : ParameterDependentTest {
 
     @Test
     fun `should support is atom extension`() {
-        val atom = someString()
-        val expected = IsAtomExpression(atom.toDopeType())
+        val atom = someString().toDopeType()
+        val expected = IsAtomExpression(atom)
 
-        val actual = isAtom(atom.toDopeType())
+        val actual = atom.isAtom()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

@@ -40,7 +40,7 @@ class IsArrayExpressionTest : ParameterDependentTest {
         val array = someStringArrayField()
         val expected = IsArrayExpression(array)
 
-        val actual = isArray(array)
+        val actual = array.isArray()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

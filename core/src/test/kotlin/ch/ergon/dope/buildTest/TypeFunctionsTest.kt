@@ -38,7 +38,7 @@ class TypeFunctionsTest : ParameterDependentTest {
                 someBucket(),
             )
             .where(
-                isArray(someNumberArrayField()),
+                someNumberArrayField().isArray(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -53,7 +53,7 @@ class TypeFunctionsTest : ParameterDependentTest {
                 someBucket(),
             )
             .where(
-                isAtom(someNumberField()),
+                someNumberField().isAtom(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -68,7 +68,7 @@ class TypeFunctionsTest : ParameterDependentTest {
                 someBucket(),
             )
             .where(
-                isBoolean(someBooleanField()),
+                someBooleanField().isBoolean(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -83,7 +83,7 @@ class TypeFunctionsTest : ParameterDependentTest {
                 someBucket(),
             )
             .where(
-                isNumber(someNumberField()),
+                someNumberField().isNumber(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -98,7 +98,7 @@ class TypeFunctionsTest : ParameterDependentTest {
                 someBucket(),
             )
             .where(
-                isString(someStringField()),
+                someStringField().isString(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -110,43 +110,7 @@ class TypeFunctionsTest : ParameterDependentTest {
 
         val actual = create
             .select(
-                toArray(someNumber(1).toDopeType()).get(0).add(1),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support TOARRAY from array to array`() {
-        val expected = "SELECT (TOARRAY([1, 2, 3])[0] + 1)"
-
-        val actual = create
-            .select(
-                toArray(
-                    listOf(
-                        1.toDopeType(),
-                        2.toDopeType(),
-                        3.toDopeType(),
-                    ).toDopeType(),
-                ).get(0).add(1),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support TOARRAY with nested array`() {
-        val expected = "SELECT (TOARRAY([[1], [2], [3]])[0][0] + 1)"
-
-        val actual = create
-            .select(
-                toArray(
-                    listOf(
-                        listOf(1.toDopeType()).toDopeType(),
-                        listOf(2.toDopeType()).toDopeType(),
-                        listOf(3.toDopeType()).toDopeType(),
-                    ).toDopeType(),
-                ).get(0).get(0).add(1),
+                someNumber(1).toDopeType().toArray().get(0).add(1),
             ).build().queryString
 
         assertEquals(expected, actual)

@@ -18,4 +18,4 @@ class IsAtomExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> isAtom(expression: TypeExpression<T>) = IsAtomExpression(expression)
+fun <T : ValidType> TypeExpression<T>.isAtom() = IsAtomExpression(this)

@@ -5,20 +5,20 @@ import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
-@JvmName("isAtomNumber")
-fun isAtom(field: CMField<out Number>) = isAtom(field.toDopeType())
+@JvmName("numberIsAtom")
+fun CMField<out Number>.isAtom() = toDopeType().isAtom()
 
-@JvmName("isAtomString")
-fun isAtom(field: CMField<String>) = isAtom(field.toDopeType())
+@JvmName("stringIsAtom")
+fun CMField<String>.isAtom() = toDopeType().isAtom()
 
-@JvmName("isAtomBoolean")
-fun isAtom(field: CMField<Boolean>) = isAtom(field.toDopeType())
+@JvmName("booleanIsAtom")
+fun CMField<Boolean>.isAtom() = toDopeType().isAtom()
 
-@JvmName("isAtomNumberList")
-fun isAtom(field: CMList<out Number>) = isAtom(field.toDopeType())
+@JvmName("numberListIsAtom")
+fun CMList<out Number>.isAtom() = toDopeType().isAtom()
 
-@JvmName("isAtomStringList")
-fun isAtom(field: CMList<String>) = isAtom(field.toDopeType())
+@JvmName("stringListIsAtom")
+fun CMList<String>.isAtom() = toDopeType().isAtom()
 
-@JvmName("isAtomBooleanList")
-fun isAtom(field: CMList<Boolean>) = isAtom(field.toDopeType())
+@JvmName("booleanListIsAtom")
+fun CMList<Boolean>.isAtom() = toDopeType().isAtom()

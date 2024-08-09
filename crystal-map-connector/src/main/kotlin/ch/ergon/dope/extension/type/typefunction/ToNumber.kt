@@ -8,35 +8,35 @@ import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
-@JvmName("toNumberNumber")
-fun toNumber(field: CMField<out Number>) = toNumber(field.toDopeType())
+@JvmName("numberToNumber")
+fun CMField<out Number>.toNumber() = toDopeType().toNumber()
 
-@JvmName("toNumberString")
-fun toNumber(field: CMField<String>) = toNumber(field.toDopeType())
+@JvmName("stringToNumber")
+fun CMField<String>.toNumber() = toDopeType().toNumber()
 
-@JvmName("toNumberString")
-fun toNumber(field: CMField<String>, string: String) = toNumber(field.toDopeType(), string.toDopeType())
+@JvmName("stringToNumber")
+fun CMField<String>.toNumber(stringExpression: String) = toDopeType().toNumber(stringExpression.toDopeType())
 
-@JvmName("toNumberString")
-fun toNumber(field: CMField<String>, string: TypeExpression<StringType>) = toNumber(field.toDopeType(), string)
+@JvmName("stringToNumber")
+fun CMField<String>.toNumber(stringExpression: TypeExpression<StringType>) = toDopeType().toNumber(stringExpression)
 
-@JvmName("toNumberString")
-fun toNumber(value: String, string: CMField<String>) = toNumber(value.toDopeType(), string.toDopeType())
+@JvmName("stringToNumber")
+fun String.toNumber(stringExpression: CMField<String>) = toDopeType().toNumber(stringExpression.toDopeType())
 
-@JvmName("toNumberString")
-fun toNumber(value: TypeExpression<StringType>, string: CMField<String>) = toNumber(value, string.toDopeType())
+@JvmName("stringToNumber")
+fun TypeExpression<StringType>.toNumber(stringExpression: CMField<String>) = toNumber(stringExpression.toDopeType())
 
-@JvmName("toNumberString")
-fun toNumber(field: CMField<String>, string: CMField<String>) = toNumber(field.toDopeType(), string.toDopeType())
+@JvmName("stringToNumber")
+fun CMField<String>.toNumber(stringExpression: CMField<String>) = toDopeType().toNumber(stringExpression.toDopeType())
 
-@JvmName("toNumberBoolean")
-fun toNumber(field: CMField<Boolean>) = toNumber(field.toDopeType())
+@JvmName("booleanToNumber")
+fun CMField<Boolean>.toNumber() = toDopeType().toNumber()
 
-@JvmName("toNumberNumberList")
-fun toNumber(field: CMList<out Number>) = toNumber(field.toDopeType())
+@JvmName("numberListToNumber")
+fun CMList<out Number>.toNumber() = toDopeType().toNumber()
 
-@JvmName("toNumberStringList")
-fun toNumber(field: CMList<String>) = toNumber(field.toDopeType())
+@JvmName("stringListToNumber")
+fun CMList<String>.toNumber() = toDopeType().toNumber()
 
-@JvmName("toNumberBooleanList")
-fun toNumber(field: CMList<Boolean>) = toNumber(field.toDopeType())
+@JvmName("booleanListToNumber")
+fun CMList<Boolean>.toNumber() = toDopeType().toNumber()

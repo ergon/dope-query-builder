@@ -42,7 +42,7 @@ class IsBooleanExpressionTest : ParameterDependentTest {
         val boolean = someBooleanExpression()
         val expected = IsBooleanExpression(boolean)
 
-        val actual = isBoolean(boolean)
+        val actual = boolean.isBoolean()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

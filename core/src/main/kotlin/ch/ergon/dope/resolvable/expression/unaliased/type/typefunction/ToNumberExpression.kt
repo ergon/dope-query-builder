@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -21,9 +22,20 @@ class ToNumberExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> toNumber(expression: TypeExpression<T>) = ToNumberExpression(expression)
+fun <T : ValidType> TypeExpression<T>.toNumber() = ToNumberExpression(this)
 
-fun toNumber(
-    expression: TypeExpression<StringType>,
-    stringExpression: TypeExpression<StringType>,
-) = ToNumberExpression(expression, stringExpression)
+fun String.toNumber() = ToNumberExpression(this.toDopeType())
+
+fun Boolean.toNumber() = ToNumberExpression(this.toDopeType())
+
+fun TypeExpression<StringType>.toNumber(stringExpression: TypeExpression<StringType>) =
+    ToNumberExpression(this, stringExpression)
+
+fun TypeExpression<StringType>.toNumber(stringExpression: String) =
+    ToNumberExpression(this, stringExpression.toDopeType())
+
+fun String.toNumber(stringExpression: TypeExpression<StringType>) =
+    ToNumberExpression(this.toDopeType(), stringExpression)
+
+fun String.toNumber(stringExpression: String) =
+    ToNumberExpression(this.toDopeType(), stringExpression.toDopeType())

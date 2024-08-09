@@ -18,4 +18,4 @@ class IsNumberExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> isNumber(expression: TypeExpression<T>) = IsNumberExpression(expression)
+fun <T : ValidType> TypeExpression<T>.isNumber() = IsNumberExpression(this)

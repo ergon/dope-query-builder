@@ -42,7 +42,7 @@ class IsNumberExpressionTest : ParameterDependentTest {
         val number = someNumber().toDopeType()
         val expected = IsNumberExpression(number)
 
-        val actual = isNumber(number)
+        val actual = number.isNumber()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

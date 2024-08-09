@@ -2,6 +2,9 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.helper.someBoolean
+import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -39,10 +42,30 @@ class ToStringExpressionTest : ParameterDependentTest {
 
     @Test
     fun `should support to string extension`() {
-        val string = someString()
-        val expected = ToStringExpression(string.toDopeType())
+        val number = someNumberField()
+        val expected = ToStringExpression(number)
 
-        val actual = toString(string.toDopeType())
+        val actual = number.toStr()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support to string extension with number`() {
+        val number = someNumber()
+        val expected = ToStringExpression(number.toDopeType())
+
+        val actual = number.toStr()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support to string extension with boolean`() {
+        val boolean = someBoolean()
+        val expected = ToStringExpression(boolean.toDopeType())
+
+        val actual = boolean.toStr()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

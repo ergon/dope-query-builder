@@ -18,4 +18,4 @@ class IsArrayExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> isArray(expression: TypeExpression<T>) = IsArrayExpression(expression)
+fun <T : ValidType> TypeExpression<T>.isArray() = IsArrayExpression(this)

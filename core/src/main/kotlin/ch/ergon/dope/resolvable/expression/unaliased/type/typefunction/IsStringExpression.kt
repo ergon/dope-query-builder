@@ -18,4 +18,4 @@ class IsStringExpression<T : ValidType>(
     }
 }
 
-fun <T : ValidType> isString(expression: TypeExpression<T>) = IsStringExpression(expression)
+fun <T : ValidType> TypeExpression<T>.isString() = IsStringExpression(this)

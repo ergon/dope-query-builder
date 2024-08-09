@@ -5,20 +5,20 @@ import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
-@JvmName("isArrayNumber")
-fun isArray(field: CMField<out Number>) = isArray(field.toDopeType())
+@JvmName("numberIsArray")
+fun CMField<out Number>.isArray() = toDopeType().isArray()
 
-@JvmName("isArrayString")
-fun isArray(field: CMField<String>) = isArray(field.toDopeType())
+@JvmName("stringIsArray")
+fun CMField<String>.isArray() = toDopeType().isArray()
 
-@JvmName("isArrayBoolean")
-fun isArray(field: CMField<Boolean>) = isArray(field.toDopeType())
+@JvmName("booleanIsArray")
+fun CMField<Boolean>.isArray() = toDopeType().isArray()
 
-@JvmName("isArrayNumberList")
-fun isArray(field: CMList<out Number>) = isArray(field.toDopeType())
+@JvmName("numberListIsArray")
+fun CMList<out Number>.isArray() = toDopeType().isArray()
 
-@JvmName("isArrayStringList")
-fun isArray(field: CMList<String>) = isArray(field.toDopeType())
+@JvmName("stringListIsArray")
+fun CMList<String>.isArray() = toDopeType().isArray()
 
-@JvmName("isArrayBooleanList")
-fun isArray(field: CMList<Boolean>) = isArray(field.toDopeType())
+@JvmName("booleanListIsArray")
+fun CMList<Boolean>.isArray() = toDopeType().isArray()

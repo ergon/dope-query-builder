@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -39,10 +40,30 @@ class ToBooleanExpressionTest : ParameterDependentTest {
 
     @Test
     fun `should support to boolean extension`() {
-        val boolean = someString()
-        val expected = ToBooleanExpression(boolean.toDopeType())
+        val string = someStringField()
+        val expected = ToBooleanExpression(string)
 
-        val actual = toBoolean(boolean.toDopeType())
+        val actual = string.toBool()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support to boolean extension with string`() {
+        val string = someString()
+        val expected = ToBooleanExpression(string.toDopeType())
+
+        val actual = string.toBool()
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support to boolean extension with number`() {
+        val number = someNumber()
+        val expected = ToBooleanExpression(number.toDopeType())
+
+        val actual = number.toBool()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

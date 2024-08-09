@@ -42,7 +42,7 @@ class IsStringExpressionTest : ParameterDependentTest {
         val string = someString().toDopeType()
         val expected = IsStringExpression(string)
 
-        val actual = isString(string)
+        val actual = string.isString()
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
