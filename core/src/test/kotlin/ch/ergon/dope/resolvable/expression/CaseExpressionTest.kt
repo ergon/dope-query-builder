@@ -211,7 +211,8 @@ class CaseExpressionTest {
     @Test
     fun `should support aliased case expression with multiple when then without else`() {
         val expected = DopeQuery(
-            "CASE `stringField` WHEN `booleanField` THEN `numberField` WHEN `booleanField` THEN `stringField` END AS `alias`",
+            "CASE `stringField` WHEN `booleanField` THEN `numberField` " +
+                "WHEN `booleanField` THEN `stringField` END AS `alias`",
             emptyMap(),
         )
         val underTest = AliasedCaseExpression(
@@ -393,13 +394,16 @@ class CaseExpressionTest {
     fun `should support unaliased case expression function and multiple when then and else`() {
         val whenThenCondition = whenThen(someBooleanField(), someNumberField())
         val elseCase = someStringField()
+        val additionalWhenThenConditions = listOf(whenThenCondition).toTypedArray()
         val expected = UnaliasedCaseExpression(
             whenThenCondition = whenThenCondition,
+            additionalWhenThenConditions = additionalWhenThenConditions,
             elseCase = elseCase,
         )
 
         val actual = case(
             whenThenCondition = whenThenCondition,
+            additionalWhenThenConditions = additionalWhenThenConditions,
             elseCase = elseCase,
         )
 

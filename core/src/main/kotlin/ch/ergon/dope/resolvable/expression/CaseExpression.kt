@@ -10,16 +10,17 @@ sealed class CaseExpression(
     private val elseCase: Expression? = null,
 ) : Expression {
     internal fun getCaseExpressionDopeQuery(alias: String? = null): DopeQuery {
-        val expressionDope = expression?.toDopeQuery()
+        val expressionDopeQuery = expression?.toDopeQuery()
         val whenThenConditionDopeQuery = whenThenCondition.toDopeQuery()
         val additionalWhenThenConditionsDopeQuery = additionalWhenThenConditions.map { it.toDopeQuery() }
         val elseCaseDopeQuery = elseCase?.toDopeQuery()
 
         val queryString = buildString {
             append("CASE ")
-            expressionDope?.let {
+            expressionDopeQuery?.let {
                 append(it.queryString).append(" ")
             }
+
             append(whenThenConditionDopeQuery.queryString).append(" ")
 
             if (additionalWhenThenConditionsDopeQuery.isNotEmpty()) {
@@ -38,10 +39,11 @@ sealed class CaseExpression(
         }
 
         return DopeQuery(
-            queryString,
-            expressionDope?.parameters.orEmpty() + whenThenConditionDopeQuery.parameters + additionalWhenThenConditionsDopeQuery.fold(
-                emptyMap(),
-            ) { additionalParameters, it -> additionalParameters + it.parameters } + elseCaseDopeQuery?.parameters.orEmpty(),
+            queryString = queryString,
+            parameters = expressionDopeQuery?.parameters.orEmpty() +
+                whenThenConditionDopeQuery.parameters +
+                additionalWhenThenConditionsDopeQuery.fold(emptyMap()) { additionalParameters, it -> additionalParameters + it.parameters } +
+                elseCaseDopeQuery?.parameters.orEmpty(),
         )
     }
 }
