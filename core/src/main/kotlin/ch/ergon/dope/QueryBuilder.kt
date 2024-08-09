@@ -4,6 +4,7 @@ import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
+import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
@@ -22,4 +23,6 @@ class QueryBuilder {
     fun selectFrom(fromable: Fromable) = SelectClause(AsteriskExpression()).from(fromable)
 
     fun deleteFrom(bucket: Bucket) = DeleteClause(bucket)
+
+    fun update(bucket: Bucket) = UpdateClause(bucket)
 }

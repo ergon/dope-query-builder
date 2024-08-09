@@ -216,4 +216,99 @@ class UseClauseTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support update use keys clause with string`() {
+        val expected = "UPDATE `someBucket` USE KEYS \"someId\""
+
+        val actual: String = create
+            .update(
+                someBucket(),
+            )
+            .useKeys(
+                "someId".toDopeType(),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update use keys clause with string field`() {
+        val expected = "UPDATE `someBucket` USE KEYS `stringField`"
+
+        val actual: String = create
+            .update(
+                someBucket(),
+            )
+            .useKeys(
+                someStringField(),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update use keys clause with string array`() {
+        val expected = "UPDATE `someBucket` USE KEYS [\"someId\", \"anotherId\"]"
+
+        val actual: String = create
+            .update(
+                someBucket(),
+            )
+            .useKeys(
+                listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update use keys clause with string array field`() {
+        val expected = "UPDATE `someBucket` USE KEYS `stringArrayField`"
+
+        val actual: String = create
+            .update(
+                someBucket(),
+            )
+            .useKeys(
+                someStringArrayField(),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update use keys clause with where clause`() {
+        val expected = "UPDATE `someBucket` USE KEYS \"someId\" WHERE `numberField` = 1"
+
+        val actual: String = create
+            .update(
+                someBucket(),
+            )
+            .useKeys(
+                "someId".toDopeType(),
+            )
+            .where(
+                someNumberField().isEqualTo(1),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update use keys clause with string function`() {
+        val expected = "UPDATE `someBucket` USE KEYS CONCAT(\"some\", \"Id\")"
+
+        val actual: String = create
+            .update(
+                someBucket(),
+            )
+            .useKeys(
+                concat("some", "Id"),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
 }

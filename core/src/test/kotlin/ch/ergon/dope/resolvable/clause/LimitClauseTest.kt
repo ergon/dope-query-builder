@@ -3,11 +3,15 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someDeleteClause
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelectClause
+import ch.ergon.dope.helper.someUpdateClause
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
+import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
@@ -99,6 +103,55 @@ class LimitClauseTest : ParameterDependentTest {
         val expected = SelectLimitClause(numberField, parentClause)
 
         val actual = parentClause.limit(numberField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update limit`() {
+        val expected = DopeQuery(
+            "UPDATE `someBucket` LIMIT `numberField`",
+            emptyMap(),
+        )
+        val underTest = UpdateLimitClause(someNumberField(), someUpdateClause())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update limit with positional parameter`() {
+        val parameterValue = 5
+        val expected = DopeQuery(
+            "UPDATE `someBucket` LIMIT $1",
+            mapOf("$1" to parameterValue),
+        )
+        val underTest = UpdateLimitClause(parameterValue.asParameter(), someUpdateClause())
+
+        val actual = underTest.toDopeQuery()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update limit function`() {
+        val numberField = someNumberField()
+        val parentClause = someUpdateClause()
+        val expected = UpdateLimitClause(numberField, parentClause)
+
+        val actual = parentClause.limit(numberField)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update limit function with number`() {
+        val number = someNumber()
+        val parentClause = someUpdateClause()
+        val expected = UpdateLimitClause(number.toDopeType(), parentClause)
+
+        val actual = parentClause.limit(number)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

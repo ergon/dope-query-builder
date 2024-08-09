@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.IDeleteLimitClause
 import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.ISelectLimitClause
@@ -9,30 +10,22 @@ import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.NumberType
 
-private const val OFFSET = "OFFSET"
-
-class SelectOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: ISelectLimitClause) :
-    ISelectOffsetClause {
-
-    override fun toDopeQuery(): DopeQuery {
+sealed class OffsetClause(
+    private val numberExpression: TypeExpression<NumberType>,
+    private val parentClause: Clause,
+) {
+    fun toDopeQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery()
         val numberDopeQuery = numberExpression.toDopeQuery()
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, OFFSET, numberDopeQuery.queryString),
+            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "OFFSET", numberDopeQuery.queryString),
             parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
         )
     }
 }
 
-class DeleteOffsetClause(private val numberExpression: TypeExpression<NumberType>, private val parentClause: IDeleteLimitClause) :
-    IDeleteOffsetClause {
+class SelectOffsetClause(numberExpression: TypeExpression<NumberType>, parentClause: ISelectLimitClause) :
+    ISelectOffsetClause, OffsetClause(numberExpression, parentClause)
 
-    override fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val numberDopeQuery = numberExpression.toDopeQuery()
-        return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, OFFSET, numberDopeQuery.queryString),
-            parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
-        )
-    }
-}
+class DeleteOffsetClause(numberExpression: TypeExpression<NumberType>, parentClause: IDeleteLimitClause) :
+    IDeleteOffsetClause, OffsetClause(numberExpression, parentClause)
