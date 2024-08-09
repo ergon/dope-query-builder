@@ -4,11 +4,13 @@ sealed interface ValidType
 
 interface ComparableType : ValidType
 
-interface BooleanType : ValidType
+interface AtomType : ValidType
 
-interface NumberType : ComparableType
+interface BooleanType : AtomType
 
-interface StringType : ComparableType
+interface NumberType : ComparableType, AtomType
+
+interface StringType : ComparableType, AtomType
 
 interface NullType : ValidType
 
