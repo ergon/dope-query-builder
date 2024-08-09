@@ -412,6 +412,96 @@ class UpdateClauseTest {
     }
 
     @Test
+    fun `should support update set CMField number to number`() {
+        val field = someCMNumberField()
+        val value = someNumber()
+        val parentClause = someUpdate()
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(field, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update additional set CMField number to number`() {
+        val numberField = someCMNumberField()
+        val numberValue = someNumber()
+        val stringField = someCMStringField()
+        val stringValue = someCMStringField()
+        val parentClause = someUpdate()
+        val expected = SetClause(
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            numberField.toDopeType().to(numberValue.toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update set CMField string to string`() {
+        val field = someCMStringField()
+        val value = someString()
+        val parentClause = someUpdate()
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(field, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update additional set CMField string to string`() {
+        val numberField = someCMNumberField()
+        val numberValue = someCMNumberField()
+        val stringField = someCMStringField()
+        val stringValue = someString()
+        val parentClause = someUpdate()
+        val expected = SetClause(
+            numberField.toDopeType().to(numberValue.toDopeType()),
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update set CMField boolean to boolean`() {
+        val field = someCMBooleanField()
+        val value = someBoolean()
+        val parentClause = someUpdate()
+        val expected = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(field, value)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support update additional set CMField boolean to boolean`() {
+        val booleanField = someCMBooleanField()
+        val booleanValue = someBoolean()
+        val stringField = someCMStringField()
+        val stringValue = someCMStringField()
+        val parentClause = someUpdate()
+        val expected = SetClause(
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            booleanField.toDopeType().to(booleanValue.toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support update unset with CM`() {
         val stringField = someCMStringField()
         val parentClause = someUpdate()

@@ -97,6 +97,42 @@ class SetClauseTest : ParameterDependentTest {
     }
 
     @Test
+    fun `should support set clause extension with number`() {
+        val numberField = someNumberField()
+        val numberValue = someNumber()
+        val parentClause = someUpdateClause()
+        val expected = SetClause(numberField.to(numberValue.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(numberField, numberValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support set clause extension with string`() {
+        val stringField = someStringField()
+        val stringValue = someString()
+        val parentClause = someUpdateClause()
+        val expected = SetClause(stringField.to(stringValue.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(stringField, stringValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support set clause extension with boolean`() {
+        val booleanField = someBooleanField()
+        val booleanValue = someBoolean()
+        val parentClause = someUpdateClause()
+        val expected = SetClause(booleanField.to(booleanValue.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(booleanField, booleanValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
     fun `should support set clause extension with multiple fields`() {
         val stringField = someStringField()
         val stringValue = someString().toDopeType()
@@ -113,6 +149,33 @@ class SetClauseTest : ParameterDependentTest {
         )
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue).set(booleanField, booleanValue)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support set clause extension with multiple fields with atomic types`() {
+        val field = someStringField()
+        val value = someStringField()
+        val stringField = someStringField()
+        val stringValue = someString()
+        val numberField = someNumberField()
+        val numberValue = someNumber()
+        val booleanField = someBooleanField()
+        val booleanValue = someBoolean()
+        val parentClause = someUpdateClause()
+        val expected = SetClause(
+            field.to(value),
+            stringField.to(stringValue.toDopeType()),
+            numberField.to(numberValue.toDopeType()),
+            booleanField.to(booleanValue.toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(field, value)
+            .set(stringField, stringValue)
+            .set(numberField, numberValue)
+            .set(booleanField, booleanValue)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

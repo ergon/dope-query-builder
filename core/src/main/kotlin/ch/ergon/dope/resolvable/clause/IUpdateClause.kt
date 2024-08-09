@@ -38,6 +38,9 @@ interface IUpdateSetClause : IUpdateUnsetClause {
 
 interface IUpdateUseKeysClause : IUpdateSetClause {
     fun <T : ValidType> set(field: Field<T>, value: TypeExpression<T>) = SetClause(field.to(value), parentClause = this)
+    fun set(field: Field<NumberType>, value: Number) = SetClause(field.to(value.toDopeType()), parentClause = this)
+    fun set(field: Field<StringType>, value: String) = SetClause(field.to(value.toDopeType()), parentClause = this)
+    fun set(field: Field<BooleanType>, value: Boolean) = SetClause(field.to(value.toDopeType()), parentClause = this)
 }
 
 interface IUpdateClause : IUpdateUseKeysClause {

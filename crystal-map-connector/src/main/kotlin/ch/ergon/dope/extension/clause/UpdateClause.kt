@@ -176,5 +176,41 @@ fun SetClause.set(
     value: TypeExpression<ArrayType<BooleanType>>,
 ) = this.set(field.toDopeType(), value)
 
+@JvmName("setCMNumberFieldToNumber")
+fun IUpdateUseKeysClause.set(
+    field: CMField<out Number>,
+    value: Number,
+) = set(field.toDopeType(), value)
+
+@JvmName("setCMNumberFieldToNumber")
+fun SetClause.set(
+    field: CMField<out Number>,
+    value: Number,
+) = this.set(field.toDopeType(), value)
+
+@JvmName("setCMStringFieldToString")
+fun IUpdateUseKeysClause.set(
+    field: CMField<String>,
+    value: String,
+) = set(field.toDopeType(), value)
+
+@JvmName("setCMStringFieldToString")
+fun SetClause.set(
+    field: CMField<String>,
+    value: String,
+) = this.set(field.toDopeType(), value)
+
+@JvmName("setCMBooleanFieldToBoolean")
+fun IUpdateUseKeysClause.set(
+    field: CMField<Boolean>,
+    value: Boolean,
+) = set(field.toDopeType(), value)
+
+@JvmName("setCMBooleanFieldToBoolean")
+fun SetClause.set(
+    field: CMField<Boolean>,
+    value: Boolean,
+) = this.set(field.toDopeType(), value)
+
 fun IUpdateClause.useKeys(useKeys: CMField<String>) = useKeys(useKeys.toDopeType())
 fun IUpdateClause.useKeys(useKeys: CMList<String>) = useKeys(useKeys.toDopeType())
