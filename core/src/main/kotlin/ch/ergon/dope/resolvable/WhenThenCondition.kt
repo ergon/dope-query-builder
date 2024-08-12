@@ -7,11 +7,11 @@ import ch.ergon.dope.validtype.BooleanType
 
 class WhenThenCondition(private val condition: TypeExpression<BooleanType>, private val expression: Expression) : Resolvable {
     override fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = condition.toDopeQuery()
+        val conditionDopQuery = condition.toDopeQuery()
         val expressionDopeQuery = expression.toDopeQuery()
         return DopeQuery(
-            queryString = "WHEN ${parentDopeQuery.queryString} THEN ${expressionDopeQuery.queryString}",
-            parameters = parentDopeQuery.parameters + expressionDopeQuery.parameters,
+            queryString = "WHEN ${conditionDopQuery.queryString} THEN ${expressionDopeQuery.queryString}",
+            parameters = conditionDopQuery.parameters + expressionDopeQuery.parameters,
         )
     }
 }

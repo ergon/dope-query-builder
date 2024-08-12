@@ -794,8 +794,8 @@ class QueryBuilderTest {
     @Test
     fun `should support selecting case`() {
         val someBucket = someBucket()
-        val expected = "SELECT CASE WHEN `booleanField` THEN `numberField` ELSE `numberField` END, CASE WHEN TRUE THEN `numberField` " +
-            "ELSE `numberField` END AS `alias` FROM `someBucket`"
+        val expected = "SELECT CASE WHEN `booleanField` THEN `numberField` END, " +
+            "CASE WHEN `booleanField` THEN `numberField` ELSE `stringField` END AS `alias` FROM `someBucket`"
 
         val actual = create
             .select(

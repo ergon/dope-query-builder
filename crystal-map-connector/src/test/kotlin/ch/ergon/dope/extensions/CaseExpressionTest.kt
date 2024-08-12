@@ -114,7 +114,7 @@ class CaseExpressionTest {
             elseCase = expression.toDopeType(),
         )
 
-        val actual = case(field, whenThenCondition, elseCase = expression)
+        val actual = case(field, whenThenCondition, additionalWhenThenCondition, elseCase = expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
