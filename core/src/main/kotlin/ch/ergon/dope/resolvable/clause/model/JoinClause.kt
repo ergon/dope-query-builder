@@ -62,23 +62,23 @@ sealed class SelectJoinClause : ISelectJoinClause {
     override fun toDopeQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery()
         val bucketDopeQuery = bucket.toDopeQuery()
+        val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString}"
+        val joinParameters = parentDopeQuery.parameters + bucketDopeQuery.parameters
 
         return when {
             onCondition != null -> {
                 val onConditionDopeQuery = onCondition.toDopeQuery()
                 DopeQuery(
-                    queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
-                        "ON ${onConditionDopeQuery.queryString}",
-                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + onConditionDopeQuery.parameters,
+                    queryString = "$joinQueryString ON ${onConditionDopeQuery.queryString}",
+                    parameters = joinParameters + onConditionDopeQuery.parameters,
                 )
             }
 
             onKeys != null -> {
                 val keyDopeQuery = onKeys.toDopeQuery()
                 DopeQuery(
-                    queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
-                        "ON KEYS ${keyDopeQuery.queryString}",
-                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters,
+                    queryString = "$joinQueryString ON KEYS ${keyDopeQuery.queryString}",
+                    parameters = joinParameters + keyDopeQuery.parameters,
                 )
             }
 
@@ -86,9 +86,8 @@ sealed class SelectJoinClause : ISelectJoinClause {
                 val keyDopeQuery = onKey.toDopeQuery()
                 val forBucketDopeQuery = forBucket.toDopeQuery()
                 DopeQuery(
-                    queryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString} " +
-                        "ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
-                    parameters = parentDopeQuery.parameters + bucketDopeQuery.parameters + keyDopeQuery.parameters +
+                    queryString = "$joinQueryString ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
+                    parameters = joinParameters + keyDopeQuery.parameters +
                         forBucketDopeQuery.parameters,
                 )
             }
