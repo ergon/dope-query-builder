@@ -7,6 +7,9 @@ import ch.ergon.dope.resolvable.clause.model.JoinType.INNER_JOIN
 import ch.ergon.dope.resolvable.clause.model.JoinType.JOIN
 import ch.ergon.dope.resolvable.clause.model.JoinType.LEFT_JOIN
 import ch.ergon.dope.resolvable.clause.model.JoinType.RIGHT_JOIN
+import ch.ergon.dope.resolvable.clause.model.OnType.ON
+import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEYS
+import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEY_FOR
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.Bucket
@@ -20,6 +23,12 @@ private enum class JoinType(val type: String) {
     RIGHT_JOIN("RIGHT JOIN"),
 }
 
+private enum class OnType {
+    ON,
+    ON_KEYS,
+    ON_KEY_FOR,
+}
+
 sealed class SelectJoinClause : ISelectJoinClause {
     private val joinType: JoinType
     private val bucket: Bucket
@@ -28,8 +37,10 @@ sealed class SelectJoinClause : ISelectJoinClause {
     private val onKey: Field<out ValidType>?
     private val forBucket: Bucket?
     private val parentClause: ISelectFromClause
+    private val onType: OnType
 
     constructor(joinType: JoinType, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
+        this.onType = ON
         this.joinType = joinType
         this.bucket = bucket
         this.onCondition = onCondition
@@ -40,6 +51,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) {
+        this.onType = ON_KEYS
         this.joinType = joinType
         this.bucket = bucket
         this.onKeys = onKeys
@@ -50,6 +62,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
     }
 
     constructor(joinType: JoinType, bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
+        this.onType = ON_KEY_FOR
         this.joinType = joinType
         this.bucket = bucket
         this.onKey = onKey
@@ -65,34 +78,32 @@ sealed class SelectJoinClause : ISelectJoinClause {
         val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString}"
         val joinParameters = parentDopeQuery.parameters + bucketDopeQuery.parameters
 
-        return when {
-            onCondition != null -> {
-                val onConditionDopeQuery = onCondition.toDopeQuery()
+        return when (onType) {
+            ON -> {
+                val onConditionDopeQuery = onCondition?.toDopeQuery()
                 DopeQuery(
-                    queryString = "$joinQueryString ON ${onConditionDopeQuery.queryString}",
-                    parameters = joinParameters + onConditionDopeQuery.parameters,
+                    queryString = "$joinQueryString ON ${onConditionDopeQuery?.queryString}",
+                    parameters = joinParameters + onConditionDopeQuery?.parameters.orEmpty(),
                 )
             }
 
-            onKeys != null -> {
-                val keyDopeQuery = onKeys.toDopeQuery()
+            ON_KEYS -> {
+                val keyDopeQuery = onKeys?.toDopeQuery()
                 DopeQuery(
-                    queryString = "$joinQueryString ON KEYS ${keyDopeQuery.queryString}",
-                    parameters = joinParameters + keyDopeQuery.parameters,
+                    queryString = "$joinQueryString ON KEYS ${keyDopeQuery?.queryString}",
+                    parameters = joinParameters + keyDopeQuery?.parameters.orEmpty(),
                 )
             }
 
-            onKey != null && forBucket != null -> {
-                val keyDopeQuery = onKey.toDopeQuery()
-                val forBucketDopeQuery = forBucket.toDopeQuery()
+            ON_KEY_FOR -> {
+                val keyDopeQuery = onKey?.toDopeQuery()
+                val forBucketDopeQuery = forBucket?.toDopeQuery()
                 DopeQuery(
-                    queryString = "$joinQueryString ON KEY ${keyDopeQuery.queryString} FOR ${forBucketDopeQuery.queryString}",
-                    parameters = joinParameters + keyDopeQuery.parameters +
-                        forBucketDopeQuery.parameters,
+                    queryString = "$joinQueryString ON KEY ${keyDopeQuery?.queryString} FOR ${forBucketDopeQuery?.queryString}",
+                    parameters = joinParameters + keyDopeQuery?.parameters.orEmpty() +
+                        forBucketDopeQuery?.parameters.orEmpty(),
                 )
             }
-
-            else -> throw IllegalStateException("Unable to construct join clause")
         }
     }
 }
