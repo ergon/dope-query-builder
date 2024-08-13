@@ -18,6 +18,7 @@ import com.schwarz.crystalapi.schema.CMObject
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
+import kotlin.reflect.KClass
 
 fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
     when (this) {
@@ -31,34 +32,36 @@ fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
 
 @JvmName("toDopeTypeNumber")
 fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterField<Convertable, JsonType>): TypeExpression<NumberType> =
-    other.typeConverter.write(this)!!.toDopeType()
+    requireValidConvertable(other.typeConverter.write(this), Number::class).toDopeType()
 
 @JvmName("toDopeTypeString")
 fun <Convertable : Any> Convertable.toDopeType(other: CMConverterField<Convertable, String>): TypeExpression<StringType> =
-    other.typeConverter.write(this)!!.toDopeType()
+    requireValidConvertable(other.typeConverter.write(this), String::class).toDopeType()
 
 @JvmName("toDopeTypeBoolean")
 fun <Convertable : Any> Convertable.toDopeType(other: CMConverterField<Convertable, Boolean>): TypeExpression<BooleanType> =
-    other.typeConverter.write(this)!!.toDopeType()
+    requireValidConvertable(other.typeConverter.write(this), Boolean::class).toDopeType()
 
 @JvmName("toDopeTypeListNumber")
 fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterList<Convertable, JsonType>): TypeExpression<NumberType> =
-    other.typeConverter.write(this)!!.toDopeType()
+    requireValidConvertable(other.typeConverter.write(this), Number::class).toDopeType()
 
 @JvmName("toDopeTypeListString")
 fun <Convertable : Any> Convertable.toDopeType(other: CMConverterList<Convertable, String>): TypeExpression<StringType> =
-    other.typeConverter.write(this)!!.toDopeType()
+    requireValidConvertable(other.typeConverter.write(this), String::class).toDopeType()
 
 @JvmName("toDopeTypeListBoolean")
 fun <Convertable : Any> Convertable.toDopeType(other: CMConverterList<Convertable, Boolean>): TypeExpression<BooleanType> =
-    other.typeConverter.write(this)!!.toDopeType()
+    requireValidConvertable(other.typeConverter.write(this), Boolean::class).toDopeType()
 
 fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.toDopeType(other: Convertable) =
-    typeConverter.write(other)!!.toDopeType()
+    requireValidConvertable(typeConverter.write(other), Number::class).toDopeType()
 
-fun <Convertable : Any> CMConverterField<Convertable, String>.toDopeType(other: Convertable) = typeConverter.write(other)!!.toDopeType()
+fun <Convertable : Any> CMConverterField<Convertable, String>.toDopeType(other: Convertable) =
+    requireValidConvertable(typeConverter.write(other), String::class).toDopeType()
 
-fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toDopeType(other: Convertable) = typeConverter.write(other)!!.toDopeType()
+fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toDopeType(other: Convertable) =
+    requireValidConvertable(typeConverter.write(other), Boolean::class).toDopeType()
 
 @JvmName("toDopeNumberField")
 fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, reference)
@@ -82,3 +85,9 @@ fun CMJsonList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, 
 
 // TODO: DOPE-192
 fun <T : Schema> CMObjectList<T>.toDopeType() = DopeSchemaArray(element, formatPathToQueryString(name, path))
+
+private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConvertable(jsonType: JsonType?, jsonTypeClass: KClass<JsonType>) =
+    requireNotNull(jsonType) {
+        "Conversion failed: " +
+            "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
+    }

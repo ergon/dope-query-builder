@@ -35,6 +35,9 @@ fun someCMConverterStringField(name: String = "CMConverterStringField", path: St
 fun someCMConverterBooleanField(name: String = "CMConverterBooleanField", path: String = "") =
     CMConverterField(name, path, DateBooleanConverterInstance)
 
+fun someCorruptField(name: String = "corruptField", path: String = "") =
+    CMConverterField(name, path, CorruptStringNumberConverterInstance)
+
 fun someNumberFieldList(name: String = "numberFieldList", path: String = "") = Field<ArrayType<NumberType>>(name, path)
 fun someStringFieldList(name: String = "stringFieldList", path: String = "") = Field<ArrayType<StringType>>(name, path)
 fun someBooleanFieldList(name: String = "booleanFieldList", path: String = "") = Field<ArrayType<BooleanType>>(name, path)
@@ -96,4 +99,12 @@ abstract class DateBooleanConverter : ITypeConverter<Date, Boolean> {
     override fun write(value: Date?): Boolean? = value != null
 
     override fun read(value: Boolean?): Date? = Date(1)
+}
+
+object CorruptStringNumberConverterInstance : CorruptStringNumberConverter()
+
+abstract class CorruptStringNumberConverter : ITypeConverter<String, Number> {
+    override fun write(value: String?) = null
+
+    override fun read(value: Number?) = null
 }

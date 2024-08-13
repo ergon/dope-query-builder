@@ -1,5 +1,7 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.someCorruptField
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -7,6 +9,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -63,5 +66,15 @@ class CrystalMapAdapter {
         val actual: Field<ArrayType<BooleanType>> = cmList.toDopeType()
 
         assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
+    }
+
+    @Test
+    fun `should throw exception when resolving corrupt field`() {
+        val string = someString()
+        val corruptField = someCorruptField()
+
+        assertThrows<IllegalArgumentException> {
+            string.toDopeType(corruptField)
+        }
     }
 }
