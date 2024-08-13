@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 
 class EqualsTest {
     @Test
-    fun `should support equals to with CMFieldNumber CMFieldNumber`() {
+    fun `should support equals to with CMJsonFieldNumber CMJsonFieldNumber`() {
         val left = someCMNumberField()
         val right = someCMNumberField()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -35,7 +35,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldNumber NumberType`() {
+    fun `should support equals to with CMJsonFieldNumber NumberType`() {
         val left = someCMNumberField()
         val right = someNumberField()
         val expected = EqualsExpression(left.toDopeType(), right)
@@ -46,7 +46,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with NumberType CMFieldNumer`() {
+    fun `should support equals to with NumberType CMJsonFieldNumer`() {
         val left = someNumberField()
         val right = someCMNumberField()
         val expected = EqualsExpression(left, right.toDopeType())
@@ -57,7 +57,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with Number CMFieldNumber`() {
+    fun `should support equals to with Number CMJsonFieldNumber`() {
         val left = someNumber()
         val right = someCMNumberField()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -68,7 +68,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldNumber Number`() {
+    fun `should support equals to with CMJsonFieldNumber Number`() {
         val left = someCMNumberField()
         val right = someNumber()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -79,7 +79,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldString CMFieldString`() {
+    fun `should support equals to with CMJsonFieldString CMJsonFieldString`() {
         val left = someCMStringField()
         val right = someCMStringField()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -90,7 +90,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldString StringType`() {
+    fun `should support equals to with CMJsonFieldString StringType`() {
         val left = someCMStringField()
         val right = someStringField()
         val expected = EqualsExpression(left.toDopeType(), right)
@@ -101,7 +101,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with StringType CMFieldNumer`() {
+    fun `should support equals to with StringType CMJsonFieldNumer`() {
         val left = someStringField()
         val right = someCMStringField()
         val expected = EqualsExpression(left, right.toDopeType())
@@ -112,7 +112,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with String CMFieldString`() {
+    fun `should support equals to with String CMJsonFieldString`() {
         val left = someString()
         val right = someCMStringField()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -123,7 +123,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldString String`() {
+    fun `should support equals to with CMJsonFieldString String`() {
         val left = someCMStringField()
         val right = someString()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -134,7 +134,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldBoolean CMFieldBoolean`() {
+    fun `should support equals to with CMJsonFieldBoolean CMJsonFieldBoolean`() {
         val left = someCMBooleanField()
         val right = someCMBooleanField()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -145,7 +145,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldBoolean BooleanType`() {
+    fun `should support equals to with CMJsonFieldBoolean BooleanType`() {
         val left = someCMBooleanField()
         val right = someBooleanField()
         val expected = EqualsExpression(left.toDopeType(), right)
@@ -156,7 +156,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with BooleanType CMFieldBoolean`() {
+    fun `should support equals to with BooleanType CMJsonFieldBoolean`() {
         val left = someBooleanField()
         val right = someCMBooleanField()
         val expected = EqualsExpression(left, right.toDopeType())
@@ -167,7 +167,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with Boolean CMFieldBoolean`() {
+    fun `should support equals to with Boolean CMJsonFieldBoolean`() {
         val left = someBoolean()
         val right = someCMBooleanField()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -178,7 +178,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support equals to with CMFieldBoolean Boolean`() {
+    fun `should support equals to with CMJsonFieldBoolean Boolean`() {
         val left = someCMBooleanField()
         val right = someBoolean()
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
@@ -255,7 +255,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldNumber CMFieldNumber`() {
+    fun `should support not equals to with CMJsonFieldNumber CMJsonFieldNumber`() {
         val left = someCMNumberField()
         val right = someCMNumberField()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -266,7 +266,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldNumber NumberType`() {
+    fun `should support not equals to with CMJsonFieldNumber NumberType`() {
         val left = someCMNumberField()
         val right = someNumberField()
         val expected = NotEqualsExpression(left.toDopeType(), right)
@@ -277,7 +277,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with NumberType CMFieldNumer`() {
+    fun `should support not equals to with NumberType CMJsonFieldNumer`() {
         val left = someNumberField()
         val right = someCMNumberField()
         val expected = NotEqualsExpression(left, right.toDopeType())
@@ -288,7 +288,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with Number CMFieldNumber`() {
+    fun `should support not equals to with Number CMJsonFieldNumber`() {
         val left = someNumber()
         val right = someCMNumberField()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -299,7 +299,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldNumber Number`() {
+    fun `should support not equals to with CMJsonFieldNumber Number`() {
         val left = someCMNumberField()
         val right = someNumber()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -310,7 +310,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldString CMFieldString`() {
+    fun `should support not equals to with CMJsonFieldString CMJsonFieldString`() {
         val left = someCMStringField()
         val right = someCMStringField()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -321,7 +321,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldString StringType`() {
+    fun `should support not equals to with CMJsonFieldString StringType`() {
         val left = someCMStringField()
         val right = someStringField()
         val expected = NotEqualsExpression(left.toDopeType(), right)
@@ -332,7 +332,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with StringType CMFieldNumer`() {
+    fun `should support not equals to with StringType CMJsonFieldNumer`() {
         val left = someStringField()
         val right = someCMStringField()
         val expected = NotEqualsExpression(left, right.toDopeType())
@@ -343,7 +343,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with String CMFieldString`() {
+    fun `should support not equals to with String CMJsonFieldString`() {
         val left = someString()
         val right = someCMStringField()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -354,7 +354,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldString String`() {
+    fun `should support not equals to with CMJsonFieldString String`() {
         val left = someCMStringField()
         val right = someString()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -365,7 +365,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldBoolean CMFieldBoolean`() {
+    fun `should support not equals to with CMJsonFieldBoolean CMJsonFieldBoolean`() {
         val left = someCMBooleanField()
         val right = someCMBooleanField()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -376,7 +376,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldBoolean BooleanType`() {
+    fun `should support not equals to with CMJsonFieldBoolean BooleanType`() {
         val left = someCMBooleanField()
         val right = someBooleanField()
         val expected = NotEqualsExpression(left.toDopeType(), right)
@@ -387,7 +387,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with BooleanType CMFieldBoolean`() {
+    fun `should support not equals to with BooleanType CMJsonFieldBoolean`() {
         val left = someBooleanField()
         val right = someCMBooleanField()
         val expected = NotEqualsExpression(left, right.toDopeType())
@@ -398,7 +398,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with Boolean CMFieldBoolean`() {
+    fun `should support not equals to with Boolean CMJsonFieldBoolean`() {
         val left = someBoolean()
         val right = someCMBooleanField()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
@@ -409,7 +409,7 @@ class EqualsTest {
     }
 
     @Test
-    fun `should support not equals to with CMFieldBoolean Boolean`() {
+    fun `should support not equals to with CMJsonFieldBoolean Boolean`() {
         val left = someCMBooleanField()
         val right = someBoolean()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())

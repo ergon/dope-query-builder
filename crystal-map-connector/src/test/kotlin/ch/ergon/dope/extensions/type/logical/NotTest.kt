@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class NotTest {
     @Test
-    fun `should support not with CMField CMField`() {
+    fun `should support not with CMJsonField CMJsonField`() {
         val expression = someCMBooleanField()
         val expected = NotExpression(expression.toDopeType())
 

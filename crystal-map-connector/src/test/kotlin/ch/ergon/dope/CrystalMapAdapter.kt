@@ -5,15 +5,15 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CrystalMapAdapter {
     @Test
-    fun `should convert CMField with Number`() {
-        val cmField = CMField<Number>("testName", "testPath")
+    fun `should convert CMJsonField with Number`() {
+        val cmField = CMJsonField<Number>("testName", "testPath")
 
         val actual: Field<NumberType> = cmField.toDopeType()
 
@@ -21,8 +21,8 @@ class CrystalMapAdapter {
     }
 
     @Test
-    fun `should convert CMField with String`() {
-        val cmField = CMField<String>("testName", "testPath")
+    fun `should convert CMJsonField with String`() {
+        val cmField = CMJsonField<String>("testName", "testPath")
 
         val actual: Field<StringType> = cmField.toDopeType()
 
@@ -30,8 +30,8 @@ class CrystalMapAdapter {
     }
 
     @Test
-    fun `should convert CMField with Boolean`() {
-        val cmField = CMField<Boolean>("testName", "testPath")
+    fun `should convert CMJsonField with Boolean`() {
+        val cmField = CMJsonField<Boolean>("testName", "testPath")
 
         val actual: Field<BooleanType> = cmField.toDopeType()
 
@@ -39,8 +39,8 @@ class CrystalMapAdapter {
     }
 
     @Test
-    fun `should convert CMList string`() {
-        val cmList = CMList<String>("testName", "testPath")
+    fun `should convert CMJsonList string`() {
+        val cmList = CMJsonList<String>("testName", "testPath")
 
         val actual: Field<ArrayType<StringType>> = cmList.toDopeType()
 
@@ -48,8 +48,8 @@ class CrystalMapAdapter {
     }
 
     @Test
-    fun `should convert CMList number`() {
-        val cmList = CMList<Number>("testName", "testPath")
+    fun `should convert CMJsonList number`() {
+        val cmList = CMJsonList<Number>("testName", "testPath")
 
         val actual: Field<ArrayType<NumberType>> = cmList.toDopeType()
 
@@ -57,8 +57,8 @@ class CrystalMapAdapter {
     }
 
     @Test
-    fun `should convert CMList boolean`() {
-        val cmList = CMList<Boolean>("testName", "testPath")
+    fun `should convert CMJsonList boolean`() {
+        val cmList = CMJsonList<Boolean>("testName", "testPath")
 
         val actual: Field<ArrayType<BooleanType>> = cmList.toDopeType()
 

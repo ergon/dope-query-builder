@@ -8,22 +8,22 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.power
 import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sqrt
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMJsonField
 
-fun exp(field: CMField<out Number>) = exp(field.toDopeType())
+fun exp(field: CMJsonField<out Number>) = exp(field.toDopeType())
 
-fun log(field: CMField<out Number>) = log(field.toDopeType())
+fun log(field: CMJsonField<out Number>) = log(field.toDopeType())
 
-fun ln(field: CMField<out Number>) = ln(field.toDopeType())
+fun ln(field: CMJsonField<out Number>) = ln(field.toDopeType())
 
-fun power(base: CMField<out Number>, exponent: CMField<out Number>) = power(base.toDopeType(), exponent.toDopeType())
+fun power(base: CMJsonField<out Number>, exponent: CMJsonField<out Number>) = power(base.toDopeType(), exponent.toDopeType())
 
-fun power(base: CMField<out Number>, exponent: TypeExpression<NumberType>) = power(base.toDopeType(), exponent)
+fun power(base: CMJsonField<out Number>, exponent: TypeExpression<NumberType>) = power(base.toDopeType(), exponent)
 
-fun power(base: CMField<out Number>, exponent: Number) = power(base.toDopeType(), exponent)
+fun power(base: CMJsonField<out Number>, exponent: Number) = power(base.toDopeType(), exponent)
 
-fun power(base: TypeExpression<NumberType>, exponent: CMField<out Number>) = power(base, exponent.toDopeType())
+fun power(base: TypeExpression<NumberType>, exponent: CMJsonField<out Number>) = power(base, exponent.toDopeType())
 
-fun power(base: Number, exponent: CMField<out Number>) = power(base, exponent.toDopeType())
+fun power(base: Number, exponent: CMJsonField<out Number>) = power(base, exponent.toDopeType())
 
-fun sqrt(field: CMField<out Number>) = sqrt(field.toDopeType())
+fun sqrt(field: CMJsonField<out Number>) = sqrt(field.toDopeType())

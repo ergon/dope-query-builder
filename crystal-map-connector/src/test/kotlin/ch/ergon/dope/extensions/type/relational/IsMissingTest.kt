@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 
 class IsMissingTest {
     @Test
-    fun `should support isMissing CMFieldNumber`() {
+    fun `should support isMissing CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsMissingExpression(field.toDopeType())
 
@@ -23,7 +23,7 @@ class IsMissingTest {
     }
 
     @Test
-    fun `should support isMissing CMFieldString`() {
+    fun `should support isMissing CMJsonFieldString`() {
         val field = someCMStringField()
         val expected = IsMissingExpression(field.toDopeType())
 
@@ -33,7 +33,7 @@ class IsMissingTest {
     }
 
     @Test
-    fun `should support isMissing CMFieldBoolean`() {
+    fun `should support isMissing CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
         val expected = IsMissingExpression(field.toDopeType())
 
@@ -43,7 +43,7 @@ class IsMissingTest {
     }
 
     @Test
-    fun `should support is not Missing CMFieldNumber`() {
+    fun `should support is not Missing CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsNotMissingExpression(field.toDopeType())
 
@@ -53,7 +53,7 @@ class IsMissingTest {
     }
 
     @Test
-    fun `should support is not Missing CMFieldString`() {
+    fun `should support is not Missing CMJsonFieldString`() {
         val field = someCMStringField()
         val expected = IsNotMissingExpression(field.toDopeType())
 
@@ -63,7 +63,7 @@ class IsMissingTest {
     }
 
     @Test
-    fun `should support is not Missing CMFieldBoolean`() {
+    fun `should support is not Missing CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
         val expected = IsNotMissingExpression(field.toDopeType())
 

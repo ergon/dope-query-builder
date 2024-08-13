@@ -15,7 +15,7 @@ import kotlin.test.assertEquals
 
 class CountTest {
     @Test
-    fun `should support count with CMField Number`() {
+    fun `should support count with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -26,7 +26,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMField Number and type`() {
+    fun `should support count with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -37,7 +37,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMField string`() {
+    fun `should support count with CMJsonField string`() {
         val field = someCMStringField()
         val quantifier = null
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -48,7 +48,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMField string and type`() {
+    fun `should support count with CMJsonField string and type`() {
         val field = someCMStringField()
         val quantifier = ALL
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -59,7 +59,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMField boolean`() {
+    fun `should support count with CMJsonField boolean`() {
         val field = someCMBooleanField()
         val quantifier = null
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -70,7 +70,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMField boolean and type`() {
+    fun `should support count with CMJsonField boolean and type`() {
         val field = someCMBooleanField()
         val quantifier = ALL
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -81,7 +81,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMList Number`() {
+    fun `should support count with CMJsonList Number`() {
         val field = someCMNumberList()
         val quantifier = null
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -92,7 +92,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMList Number and type`() {
+    fun `should support count with CMJsonList Number and type`() {
         val field = someCMNumberList()
         val quantifier = ALL
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -103,7 +103,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMList string`() {
+    fun `should support count with CMJsonList string`() {
         val field = someCMStringList()
         val quantifier = null
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -114,7 +114,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMList string and type`() {
+    fun `should support count with CMJsonList string and type`() {
         val field = someCMStringList()
         val quantifier = ALL
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -125,7 +125,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMList Boolean`() {
+    fun `should support count with CMJsonList Boolean`() {
         val field = someCMBooleanList()
         val quantifier = null
         val expected = CountExpression(field.toDopeType(), quantifier)
@@ -136,7 +136,7 @@ class CountTest {
     }
 
     @Test
-    fun `should support count with CMList Boolean and type`() {
+    fun `should support count with CMJsonList Boolean and type`() {
         val field = someCMBooleanList()
         val quantifier = ALL
         val expected = CountExpression(field.toDopeType(), quantifier)

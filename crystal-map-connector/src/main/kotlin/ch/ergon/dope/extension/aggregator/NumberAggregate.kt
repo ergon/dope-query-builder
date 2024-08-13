@@ -15,28 +15,28 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.sum
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.variance
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMJsonField
 
 @JvmName("avgNumber")
-fun avg(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+fun avg(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
     AverageExpression<out NumberType> = avg(field.toDopeType(), quantifier)
 
 @JvmName("meanNumber")
-fun mean(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+fun mean(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
     MeanExpression<out NumberType> = mean(field.toDopeType(), quantifier)
 
 @JvmName("medianNumber")
-fun median(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+fun median(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
     MedianExpression<out NumberType> = median(field.toDopeType(), quantifier)
 
 @JvmName("sumNumber")
-fun sum(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+fun sum(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
     SumExpression<out NumberType> = sum(field.toDopeType(), quantifier)
 
 @JvmName("stdDevNumber")
-fun stdDev(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+fun stdDev(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
     StandardDeviationExpression<out NumberType> = stdDev(field.toDopeType(), quantifier)
 
 @JvmName("varianceNumber")
-fun variance(field: CMField<out Number>, quantifier: AggregateQuantifier? = null):
+fun variance(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
     VarianceExpression<out NumberType> = variance(field.toDopeType(), quantifier)

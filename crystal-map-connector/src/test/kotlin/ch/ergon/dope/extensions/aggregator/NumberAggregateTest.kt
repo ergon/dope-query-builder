@@ -20,7 +20,7 @@ import kotlin.test.assertEquals
 
 class NumberAggregateTest {
     @Test
-    fun `should support avg with CMField Number`() {
+    fun `should support avg with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = AverageExpression(field.toDopeType(), quantifier)
@@ -31,7 +31,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support avg with CMField Number and type`() {
+    fun `should support avg with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = AverageExpression(field.toDopeType(), quantifier)
@@ -42,7 +42,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support mean with CMField Number`() {
+    fun `should support mean with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = MeanExpression(field.toDopeType(), quantifier)
@@ -53,7 +53,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support mean with CMField Number and type`() {
+    fun `should support mean with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = MeanExpression(field.toDopeType(), quantifier)
@@ -64,7 +64,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support median with CMField Number`() {
+    fun `should support median with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = MedianExpression(field.toDopeType(), quantifier)
@@ -75,7 +75,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support median with CMField Number and type`() {
+    fun `should support median with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = MedianExpression(field.toDopeType(), quantifier)
@@ -86,7 +86,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support sum with CMField Number`() {
+    fun `should support sum with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = SumExpression(field.toDopeType(), quantifier)
@@ -97,7 +97,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support sum with CMField Number and type`() {
+    fun `should support sum with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = SumExpression(field.toDopeType(), quantifier)
@@ -108,7 +108,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support stddev with CMField Number`() {
+    fun `should support stddev with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = StandardDeviationExpression(field.toDopeType(), quantifier)
@@ -119,7 +119,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support stddev with CMField Number and type`() {
+    fun `should support stddev with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = StandardDeviationExpression(field.toDopeType(), quantifier)
@@ -130,7 +130,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support variance with CMField Number`() {
+    fun `should support variance with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = VarianceExpression(field.toDopeType(), quantifier)
@@ -141,7 +141,7 @@ class NumberAggregateTest {
     }
 
     @Test
-    fun `should support variance with CMField Number and type`() {
+    fun `should support variance with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = VarianceExpression(field.toDopeType(), quantifier)

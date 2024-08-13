@@ -6,16 +6,16 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("numberArraySum")
-fun arraySum(array: CMList<Number>): ArraySumExpression<NumberType> =
+fun arraySum(array: CMJsonList<Number>): ArraySumExpression<NumberType> =
     arraySum(array.toDopeType())
 
 @JvmName("stringArraySum")
-fun arraySum(array: CMList<String>): ArraySumExpression<StringType> =
+fun arraySum(array: CMJsonList<String>): ArraySumExpression<StringType> =
     arraySum(array.toDopeType())
 
 @JvmName("booleanArraySum")
-fun arraySum(array: CMList<Boolean>): ArraySumExpression<BooleanType> =
+fun arraySum(array: CMJsonList<Boolean>): ArraySumExpression<BooleanType> =
     arraySum(array.toDopeType())

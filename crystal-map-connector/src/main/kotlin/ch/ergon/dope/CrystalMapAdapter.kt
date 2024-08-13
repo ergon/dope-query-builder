@@ -12,8 +12,8 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMConverterList
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObject
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
@@ -21,8 +21,8 @@ import com.schwarz.crystalapi.schema.Schema
 
 fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
     when (this) {
-        is CMField<*> -> this.name
-        is CMList<*> -> this.name
+        is CMJsonField<*> -> this.name
+        is CMJsonList<*> -> this.name
         is CMObjectList<*> -> this.name
         is CMObject<*> -> TODO("DOPE-216")
     },
@@ -30,55 +30,55 @@ fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
 )
 
 @JvmName("toDopeTypeNumber")
-fun <KotlinType : Any, MapType : Number> KotlinType.toDopeType(other: CMConverterField<KotlinType, MapType>): TypeExpression<NumberType> =
+fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterField<Convertable, JsonType>): TypeExpression<NumberType> =
     other.typeConverter.write(this)!!.toDopeType()
 
 @JvmName("toDopeTypeString")
-fun <KotlinType : Any> KotlinType.toDopeType(other: CMConverterField<KotlinType, String>): TypeExpression<StringType> =
+fun <Convertable : Any> Convertable.toDopeType(other: CMConverterField<Convertable, String>): TypeExpression<StringType> =
     other.typeConverter.write(this)!!.toDopeType()
 
 @JvmName("toDopeTypeBoolean")
-fun <KotlinType : Any> KotlinType.toDopeType(other: CMConverterField<KotlinType, Boolean>): TypeExpression<BooleanType> =
+fun <Convertable : Any> Convertable.toDopeType(other: CMConverterField<Convertable, Boolean>): TypeExpression<BooleanType> =
     other.typeConverter.write(this)!!.toDopeType()
 
 @JvmName("toDopeTypeListNumber")
-fun <KotlinType : Any, MapType : Number> KotlinType.toDopeType(other: CMConverterList<KotlinType, MapType>): TypeExpression<NumberType> =
+fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterList<Convertable, JsonType>): TypeExpression<NumberType> =
     other.typeConverter.write(this)!!.toDopeType()
 
 @JvmName("toDopeTypeListString")
-fun <KotlinType : Any> KotlinType.toDopeType(other: CMConverterList<KotlinType, String>): TypeExpression<StringType> =
+fun <Convertable : Any> Convertable.toDopeType(other: CMConverterList<Convertable, String>): TypeExpression<StringType> =
     other.typeConverter.write(this)!!.toDopeType()
 
 @JvmName("toDopeTypeListBoolean")
-fun <KotlinType : Any> KotlinType.toDopeType(other: CMConverterList<KotlinType, Boolean>): TypeExpression<BooleanType> =
+fun <Convertable : Any> Convertable.toDopeType(other: CMConverterList<Convertable, Boolean>): TypeExpression<BooleanType> =
     other.typeConverter.write(this)!!.toDopeType()
 
-fun <KotlinType : Any, MapType : Number> CMConverterField<KotlinType, MapType>.toDopeType(other: KotlinType) =
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.toDopeType(other: Convertable) =
     typeConverter.write(other)!!.toDopeType()
 
-fun <KotlinType : Any> CMConverterField<KotlinType, String>.toDopeType(other: KotlinType) = typeConverter.write(other)!!.toDopeType()
+fun <Convertable : Any> CMConverterField<Convertable, String>.toDopeType(other: Convertable) = typeConverter.write(other)!!.toDopeType()
 
-fun <KotlinType : Any> CMConverterField<KotlinType, Boolean>.toDopeType(other: KotlinType) = typeConverter.write(other)!!.toDopeType()
+fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toDopeType(other: Convertable) = typeConverter.write(other)!!.toDopeType()
 
 @JvmName("toDopeNumberField")
-fun CMField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, reference)
+fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, reference)
 
 @JvmName("toDopeStringField")
-fun CMField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, reference)
+fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, reference)
 
 @JvmName("toDopeBooleanField")
-fun CMField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, reference)
+fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, reference)
 
 @JvmName("toDopeNumberArrayField")
-fun CMList<out Number>.toDopeType(): Field<ArrayType<NumberType>> = Field(name, path)
+fun CMJsonList<out Number>.toDopeType(): Field<ArrayType<NumberType>> = Field(name, path)
 
 @JvmName("toDopeStringArrayField")
-fun CMList<String>.toDopeType(): Field<ArrayType<StringType>> = Field(name, path)
+fun CMJsonList<String>.toDopeType(): Field<ArrayType<StringType>> = Field(name, path)
 
 @JvmName("toDopeBooleanArrayField")
-fun CMList<Boolean>.toDopeType(): Field<ArrayType<BooleanType>> = Field(name, path)
+fun CMJsonList<Boolean>.toDopeType(): Field<ArrayType<BooleanType>> = Field(name, path)
 
-fun CMList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, path)
+fun CMJsonList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, path)
 
 // TODO: DOPE-192
 fun <T : Schema> CMObjectList<T>.toDopeType() = DopeSchemaArray(element, formatPathToQueryString(name, path))

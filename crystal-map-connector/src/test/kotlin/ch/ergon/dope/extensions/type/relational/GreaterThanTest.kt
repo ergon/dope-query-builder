@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 
 class GreaterThanTest {
     @Test
-    fun `should support greater than with CMFieldNumber CMFieldNumber`() {
+    fun `should support greater than with CMJsonFieldNumber CMJsonFieldNumber`() {
         val left = someCMNumberField()
         val right = someCMNumberField()
         val expected = GreaterThanExpression(left.toDopeType(), right.toDopeType())
@@ -29,7 +29,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with CMFieldNumber NumberType`() {
+    fun `should support greater than with CMJsonFieldNumber NumberType`() {
         val left = someCMNumberField()
         val right = someNumberField()
         val expected = GreaterThanExpression(left.toDopeType(), right)
@@ -40,7 +40,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with NumberType CMFieldNumer`() {
+    fun `should support greater than with NumberType CMJsonFieldNumer`() {
         val left = someNumberField()
         val right = someCMNumberField()
         val expected = GreaterThanExpression(left, right.toDopeType())
@@ -51,7 +51,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with Number CMFieldNumber`() {
+    fun `should support greater than with Number CMJsonFieldNumber`() {
         val left = someNumber()
         val right = someCMNumberField()
         val expected = GreaterThanExpression(left.toDopeType(), right.toDopeType())
@@ -62,7 +62,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with CMFieldNumber Number`() {
+    fun `should support greater than with CMJsonFieldNumber Number`() {
         val left = someCMNumberField()
         val right = someNumber()
         val expected = GreaterThanExpression(left.toDopeType(), right.toDopeType())
@@ -73,7 +73,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with CMFieldString CMFieldString`() {
+    fun `should support greater than with CMJsonFieldString CMJsonFieldString`() {
         val left = someCMStringField()
         val right = someCMStringField()
         val expected = GreaterThanExpression(left.toDopeType(), right.toDopeType())
@@ -84,7 +84,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with CMFieldString StringType`() {
+    fun `should support greater than with CMJsonFieldString StringType`() {
         val left = someCMStringField()
         val right = someStringField()
         val expected = GreaterThanExpression(left.toDopeType(), right)
@@ -95,7 +95,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with StringType CMFieldNumer`() {
+    fun `should support greater than with StringType CMJsonFieldNumer`() {
         val left = someStringField()
         val right = someCMStringField()
         val expected = GreaterThanExpression(left, right.toDopeType())
@@ -106,7 +106,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with String CMFieldString`() {
+    fun `should support greater than with String CMJsonFieldString`() {
         val left = someString()
         val right = someCMStringField()
         val expected = GreaterThanExpression(left.toDopeType(), right.toDopeType())
@@ -117,7 +117,7 @@ class GreaterThanTest {
     }
 
     @Test
-    fun `should support greater than with CMFieldString String`() {
+    fun `should support greater than with CMJsonFieldString String`() {
         val left = someCMStringField()
         val right = someString()
         val expected = GreaterThanExpression(left.toDopeType(), right.toDopeType())

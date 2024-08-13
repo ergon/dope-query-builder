@@ -15,8 +15,8 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.DopeSchemaArray
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObject
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
@@ -44,8 +44,8 @@ class SchemaIterator<S : Schema>(val variable: String, val schema: S) {
         val schemaAttribute = schema.getCMType()
         val newPath = if (schemaAttribute.path.isBlank()) variable else "${schemaAttribute.path}`.`$variable"
         return when (schemaAttribute) {
-            is CMField<*> -> CMField<Any>(schemaAttribute.name, newPath) as A
-            is CMList<*> -> CMList<Any>(schemaAttribute.name, newPath) as A
+            is CMJsonField<*> -> CMJsonField<Any>(schemaAttribute.name, newPath) as A
+            is CMJsonList<*> -> CMJsonList<Any>(schemaAttribute.name, newPath) as A
             is CMObject<*> -> CMObject(schemaAttribute.element, newPath) as A
             is CMObjectList<*> -> CMObjectList(schemaAttribute.element, schemaAttribute.name, newPath) as A
             else -> error("Unsupported CMType: $schemaAttribute")
@@ -76,19 +76,19 @@ fun <S : Schema> CMObjectList<S>.any(
 ) = AnySatisfiesSchemaExpression(variable, toDopeType(), predicate)
 
 @JvmName("anyNumber")
-fun CMList<Number>.any(
+fun CMJsonList<Number>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().any(variable, predicate)
 
 @JvmName("anyString")
-fun CMList<String>.any(
+fun CMJsonList<String>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().any(variable, predicate)
 
 @JvmName("anyBoolean")
-fun CMList<Boolean>.any(
+fun CMJsonList<Boolean>.any(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().any(variable, predicate)
@@ -104,19 +104,19 @@ fun <S : Schema> CMObjectList<S>.every(
 ) = EverySatisfiesSchemaExpression(variable, toDopeType(), predicate)
 
 @JvmName("everyNumber")
-fun CMList<Number>.every(
+fun CMJsonList<Number>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().every(variable, predicate)
 
 @JvmName("everyString")
-fun CMList<String>.every(
+fun CMJsonList<String>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().every(variable, predicate)
 
 @JvmName("everyBoolean")
-fun CMList<Boolean>.every(
+fun CMJsonList<Boolean>.every(
     variable: String = DEFAULT_ITERATOR_VARIABLE,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().every(variable, predicate)

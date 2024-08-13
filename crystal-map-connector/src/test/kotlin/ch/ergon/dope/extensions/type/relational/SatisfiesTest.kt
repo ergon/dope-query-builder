@@ -9,8 +9,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.collection.IteratorMan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
 import org.junit.jupiter.api.BeforeEach
@@ -20,18 +20,18 @@ import kotlin.test.assertEquals
 class SatisfiesTest {
     class Dummy(path: String = "") : Schema {
         val objectList: CMObjectList<Dummy2> = CMObjectList(Dummy2(path), "objectList", path)
-        val stringList: CMList<String> = CMList("stringList", path)
-        val numberList: CMList<Number> = CMList("numberList", path)
-        val booleanList: CMList<Boolean> = CMList("booleanList", path)
+        val stringList: CMJsonList<String> = CMJsonList("stringList", path)
+        val numberList: CMJsonList<Number> = CMJsonList("numberList", path)
+        val booleanList: CMJsonList<Boolean> = CMJsonList("booleanList", path)
     }
 
     class Dummy2(path: String = "") : Schema {
-        val type: CMField<String> = CMField("type", path)
+        val type: CMJsonField<String> = CMJsonField("type", path)
         val otherObjectList: CMObjectList<Dummy3> = CMObjectList(Dummy3(path), "otherObjectList", path)
     }
 
     class Dummy3(path: String = "") : Schema {
-        val something: CMField<Number> = CMField("something", path)
+        val something: CMJsonField<Number> = CMJsonField("something", path)
     }
 
     @BeforeEach

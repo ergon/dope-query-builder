@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class NegationTest {
     @Test
-    fun `should support neg with CMField Number`() {
+    fun `should support neg with CMJsonField Number`() {
         val field = someCMNumberField()
         val expected = NegationExpression(field.toDopeType())
 

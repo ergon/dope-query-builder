@@ -12,137 +12,137 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMConverterList
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("inArrayNumber")
-fun CMField<out Number>.inArray(array: TypeExpression<ArrayType<NumberType>>): InExpression<NumberType> =
+fun CMJsonField<out Number>.inArray(array: TypeExpression<ArrayType<NumberType>>): InExpression<NumberType> =
     toDopeType().inArray(array)
 
 @JvmName("inArrayString")
-fun CMField<String>.inArray(array: TypeExpression<ArrayType<StringType>>): InExpression<StringType> =
+fun CMJsonField<String>.inArray(array: TypeExpression<ArrayType<StringType>>): InExpression<StringType> =
     toDopeType().inArray(array)
 
 @JvmName("inArrayBoolean")
-fun CMField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression<BooleanType> =
+fun CMJsonField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression<BooleanType> =
     toDopeType().inArray(array)
 
 @JvmName("inArrayNumber")
-fun TypeExpression<NumberType>.inArray(array: CMList<out Number>): InExpression<NumberType> =
+fun TypeExpression<NumberType>.inArray(array: CMJsonList<out Number>): InExpression<NumberType> =
     inArray(array.toDopeType())
 
 @JvmName("inArrayString")
-fun TypeExpression<StringType>.inArray(array: CMList<String>): InExpression<StringType> =
+fun TypeExpression<StringType>.inArray(array: CMJsonList<String>): InExpression<StringType> =
     inArray(array.toDopeType())
 
 @JvmName("inArrayBoolean")
-fun TypeExpression<BooleanType>.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
+fun TypeExpression<BooleanType>.inArray(array: CMJsonList<Boolean>): InExpression<BooleanType> =
     inArray(array.toDopeType())
 
 @JvmName("inArrayNumber")
-fun CMField<out Number>.inArray(array: CMList<out Number>): InExpression<NumberType> =
+fun CMJsonField<out Number>.inArray(array: CMJsonList<out Number>): InExpression<NumberType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayString")
-fun CMField<String>.inArray(array: CMList<String>): InExpression<StringType> =
+fun CMJsonField<String>.inArray(array: CMJsonList<String>): InExpression<StringType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayBoolean")
-fun CMField<Boolean>.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
+fun CMJsonField<Boolean>.inArray(array: CMJsonList<Boolean>): InExpression<BooleanType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayNumber")
-fun CMField<out Number>.inArray(array: Collection<TypeExpression<NumberType>>): InExpression<NumberType> =
+fun CMJsonField<out Number>.inArray(array: Collection<TypeExpression<NumberType>>): InExpression<NumberType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayString")
-fun CMField<String>.inArray(array: Collection<TypeExpression<StringType>>): InExpression<StringType> =
+fun CMJsonField<String>.inArray(array: Collection<TypeExpression<StringType>>): InExpression<StringType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayBoolean")
-fun CMField<Boolean>.inArray(array: Collection<TypeExpression<BooleanType>>): InExpression<BooleanType> =
+fun CMJsonField<Boolean>.inArray(array: Collection<TypeExpression<BooleanType>>): InExpression<BooleanType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayNumber")
-fun Number.inArray(array: CMList<out Number>): InExpression<NumberType> =
+fun Number.inArray(array: CMJsonList<out Number>): InExpression<NumberType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayString")
-fun String.inArray(array: CMList<String>): InExpression<StringType> =
+fun String.inArray(array: CMJsonList<String>): InExpression<StringType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayBoolean")
-fun Boolean.inArray(array: CMList<Boolean>): InExpression<BooleanType> =
+fun Boolean.inArray(array: CMJsonList<Boolean>): InExpression<BooleanType> =
     toDopeType().inArray(array.toDopeType())
 
 @JvmName("inArrayNumberConverter")
-fun <KotlinType : Any, MapType : Number> KotlinType.inArray(array: CMConverterList<KotlinType, MapType>): InExpression<NumberType> =
+fun <Convertable : Any, JsonType : Number> Convertable.inArray(array: CMConverterList<Convertable, JsonType>): InExpression<NumberType> =
     toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("inArrayStringConverter")
-fun <KotlinType : Any> KotlinType.inArray(array: CMConverterList<KotlinType, String>): InExpression<StringType> =
+fun <Convertable : Any> Convertable.inArray(array: CMConverterList<Convertable, String>): InExpression<StringType> =
     toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("inArrayBooleanConverter")
-fun <KotlinType : Any> KotlinType.inArray(array: CMConverterList<KotlinType, Boolean>): InExpression<BooleanType> =
+fun <Convertable : Any> Convertable.inArray(array: CMConverterList<Convertable, Boolean>): InExpression<BooleanType> =
     toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("notInArrayNumber")
-fun CMField<out Number>.notInArray(array: TypeExpression<ArrayType<NumberType>>): NotInExpression<NumberType> =
+fun CMJsonField<out Number>.notInArray(array: TypeExpression<ArrayType<NumberType>>): NotInExpression<NumberType> =
     toDopeType().notInArray(array)
 
 @JvmName("notInArrayString")
-fun CMField<String>.notInArray(array: TypeExpression<ArrayType<StringType>>): NotInExpression<StringType> =
+fun CMJsonField<String>.notInArray(array: TypeExpression<ArrayType<StringType>>): NotInExpression<StringType> =
     toDopeType().notInArray(array)
 
 @JvmName("notInArrayBoolean")
-fun CMField<Boolean>.notInArray(array: TypeExpression<ArrayType<BooleanType>>): NotInExpression<BooleanType> =
+fun CMJsonField<Boolean>.notInArray(array: TypeExpression<ArrayType<BooleanType>>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array)
 
 @JvmName("notInArrayNumber")
-fun TypeExpression<NumberType>.notInArray(array: CMList<out Number>): NotInExpression<NumberType> =
+fun TypeExpression<NumberType>.notInArray(array: CMJsonList<out Number>): NotInExpression<NumberType> =
     this.notInArray(array.toDopeType())
 
 @JvmName("notInArrayString")
-fun TypeExpression<StringType>.notInArray(array: CMList<String>): NotInExpression<StringType> =
+fun TypeExpression<StringType>.notInArray(array: CMJsonList<String>): NotInExpression<StringType> =
     this.notInArray(array.toDopeType())
 
 @JvmName("notInArrayBoolean")
-fun TypeExpression<BooleanType>.notInArray(array: CMList<Boolean>): NotInExpression<BooleanType> =
+fun TypeExpression<BooleanType>.notInArray(array: CMJsonList<Boolean>): NotInExpression<BooleanType> =
     this.notInArray(array.toDopeType())
 
 @JvmName("notInArrayNumber")
-fun CMField<out Number>.notInArray(array: CMList<out Number>): NotInExpression<NumberType> =
+fun CMJsonField<out Number>.notInArray(array: CMJsonList<out Number>): NotInExpression<NumberType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayString")
-fun CMField<String>.notInArray(array: CMList<String>): NotInExpression<StringType> =
+fun CMJsonField<String>.notInArray(array: CMJsonList<String>): NotInExpression<StringType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayBoolean")
-fun CMField<Boolean>.notInArray(array: CMList<Boolean>): NotInExpression<BooleanType> =
+fun CMJsonField<Boolean>.notInArray(array: CMJsonList<Boolean>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayNumber")
-fun CMField<out Number>.notInArray(array: Collection<TypeExpression<NumberType>>): NotInExpression<NumberType> =
+fun CMJsonField<out Number>.notInArray(array: Collection<TypeExpression<NumberType>>): NotInExpression<NumberType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayString")
-fun CMField<String>.notInArray(array: Collection<TypeExpression<StringType>>): NotInExpression<StringType> =
+fun CMJsonField<String>.notInArray(array: Collection<TypeExpression<StringType>>): NotInExpression<StringType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayBoolean")
-fun CMField<Boolean>.notInArray(array: Collection<TypeExpression<BooleanType>>): NotInExpression<BooleanType> =
+fun CMJsonField<Boolean>.notInArray(array: Collection<TypeExpression<BooleanType>>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayNumber")
-fun Number.notInArray(array: CMList<out Number>): NotInExpression<NumberType> =
+fun Number.notInArray(array: CMJsonList<out Number>): NotInExpression<NumberType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayString")
-fun String.notInArray(array: CMList<String>): NotInExpression<StringType> =
+fun String.notInArray(array: CMJsonList<String>): NotInExpression<StringType> =
     toDopeType().notInArray(array.toDopeType())
 
 @JvmName("notInArrayBoolean")
-fun Boolean.notInArray(array: CMList<Boolean>): NotInExpression<BooleanType> =
+fun Boolean.notInArray(array: CMJsonList<Boolean>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array.toDopeType())

@@ -17,38 +17,38 @@ import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.ITypeConverter
 import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMConverterList
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import java.time.Instant
 import java.util.*
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
-fun someCMNumberField(name: String = "CMNumberField", path: String = "") = CMField<Number>(name, path)
-fun someCMStringField(name: String = "CMStringField", path: String = "") = CMField<String>(name, path)
-fun someCMBooleanField(name: String = "CMBooleanField", path: String = "") = CMField<Boolean>(name, path)
+fun someCMNumberField(name: String = "CMNumberField", path: String = "") = CMJsonField<Number>(name, path)
+fun someCMStringField(name: String = "CMStringField", path: String = "") = CMJsonField<String>(name, path)
+fun someCMBooleanField(name: String = "CMBooleanField", path: String = "") = CMJsonField<Boolean>(name, path)
 
 fun someCMConverterNumberField(name: String = "CMConverterNumberField", path: String = "") =
-    CMConverterField(name, DateNumberConverterInstance, path)
+    CMConverterField(name, path, DateNumberConverterInstance)
 fun someCMConverterStringField(name: String = "CMConverterStringField", path: String = "") =
-    CMConverterField(name, DateStringConverterInstance, path)
+    CMConverterField(name, path, DateStringConverterInstance)
 fun someCMConverterBooleanField(name: String = "CMConverterBooleanField", path: String = "") =
-    CMConverterField(name, DateBooleanConverterInstance, path)
+    CMConverterField(name, path, DateBooleanConverterInstance)
 
 fun someNumberFieldList(name: String = "numberFieldList", path: String = "") = Field<ArrayType<NumberType>>(name, path)
 fun someStringFieldList(name: String = "stringFieldList", path: String = "") = Field<ArrayType<StringType>>(name, path)
 fun someBooleanFieldList(name: String = "booleanFieldList", path: String = "") = Field<ArrayType<BooleanType>>(name, path)
 
-fun someCMNumberList(name: String = "CMNumberList", path: String = "") = CMList<Number>(name, path)
-fun someCMStringList(name: String = "CMStringList", path: String = "") = CMList<String>(name, path)
-fun someCMBooleanList(name: String = "CMBooleanList", path: String = "") = CMList<Boolean>(name, path)
+fun someCMNumberList(name: String = "CMNumberList", path: String = "") = CMJsonList<Number>(name, path)
+fun someCMStringList(name: String = "CMStringList", path: String = "") = CMJsonList<String>(name, path)
+fun someCMBooleanList(name: String = "CMBooleanList", path: String = "") = CMJsonList<Boolean>(name, path)
 
 fun someCMConverterNumberList(name: String = "CMConverterNumberList", path: String = "") =
-    CMConverterList(name, DateNumberConverterInstance, path)
+    CMConverterList(name, path, DateNumberConverterInstance)
 fun someCMConverterStringList(name: String = "CMConverterStringList", path: String = "") =
-    CMConverterList(name, DateStringConverterInstance, path)
+    CMConverterList(name, path, DateStringConverterInstance)
 fun someCMConverterBooleanList(name: String = "CMConverterBooleanList", path: String = "") =
-    CMConverterList(name, DateBooleanConverterInstance, path)
+    CMConverterList(name, path, DateBooleanConverterInstance)
 
 fun someSelect(exception: Expression = AsteriskExpression()) = SelectClause(exception)
 fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
