@@ -2,9 +2,9 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
+import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
 import ch.ergon.dope.resolvable.clause.model.DeleteUseKeys.Companion.DeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
-import ch.ergon.dope.resolvable.clause.model.ReturningClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -17,7 +17,7 @@ import ch.ergon.dope.validtype.ValidType
 interface IDeleteReturningClause : Clause
 
 interface IDeleteOffsetClause : IDeleteReturningClause {
-    fun returning(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = ReturningClause(field, *fields, parentClause = this)
+    fun returning(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = DeleteReturningClause(field, *fields, parentClause = this)
 }
 
 interface IDeleteLimitClause : IDeleteOffsetClause {

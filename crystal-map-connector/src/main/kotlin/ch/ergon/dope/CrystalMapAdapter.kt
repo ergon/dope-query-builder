@@ -15,7 +15,7 @@ import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 
-fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
+fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(
     when (this) {
         is CMField<*> -> this.name
         is CMList<*> -> this.name
@@ -43,8 +43,6 @@ fun CMList<String>.toDopeType(): Field<ArrayType<StringType>> = Field(name, path
 
 @JvmName("toDopeBooleanArrayField")
 fun CMList<Boolean>.toDopeType(): Field<ArrayType<BooleanType>> = Field(name, path)
-
-fun CMList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, path)
 
 // TODO: DOPE-192
 fun <T : Schema> CMObjectList<T>.toDopeType() = DopeSchemaArray(element, formatPathToQueryString(name, path))
