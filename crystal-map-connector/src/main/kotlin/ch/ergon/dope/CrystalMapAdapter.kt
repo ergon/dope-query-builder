@@ -20,7 +20,7 @@ import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 import kotlin.reflect.KClass
 
-fun CMType.toDopeType(reference: String = path): Field<out ValidType> = Field(
+fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(
     when (this) {
         is CMJsonField<*> -> this.name
         is CMJsonList<*> -> this.name

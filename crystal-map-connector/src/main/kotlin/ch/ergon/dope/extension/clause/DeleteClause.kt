@@ -3,9 +3,11 @@ package ch.ergon.dope.extension.clause
 import ch.ergon.dope.resolvable.clause.IDeleteClause
 import ch.ergon.dope.resolvable.clause.IDeleteLimitClause
 import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
+import ch.ergon.dope.resolvable.clause.IDeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.IDeleteWhereClause
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMType
 
 fun IDeleteOffsetClause.returning(field: CMType, vararg fields: CMType) =
@@ -15,4 +17,7 @@ fun IDeleteLimitClause.offset(numberExpression: CMJsonField<Number>) = offset(nu
 
 fun IDeleteWhereClause.limit(numberExpression: CMJsonField<Number>) = limit(numberExpression.toDopeType())
 
-fun IDeleteClause.where(booleanExpression: CMJsonField<Boolean>) = where(booleanExpression.toDopeType())
+fun IDeleteUseKeysClause.where(booleanExpression: CMJsonField<Boolean>) = where(booleanExpression.toDopeType())
+
+fun IDeleteClause.useKeys(useKeys: CMJsonField<String>) = useKeys(useKeys.toDopeType())
+fun IDeleteClause.useKeys(useKeys: CMJsonList<String>) = useKeys(useKeys.toDopeType())

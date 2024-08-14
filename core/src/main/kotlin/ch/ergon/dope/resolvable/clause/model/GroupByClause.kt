@@ -12,7 +12,6 @@ class GroupByClause(
     private vararg val fields: Field<out ValidType>,
     private val parentClause: ISelectWhereClause,
 ) : ISelectGroupByClause {
-
     override fun toDopeQuery(): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery()
         val fieldDopeQuery = field.toDopeQuery()

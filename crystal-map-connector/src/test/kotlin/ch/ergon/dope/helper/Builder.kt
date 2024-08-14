@@ -3,6 +3,7 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
+import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
@@ -53,10 +54,12 @@ fun someCMConverterStringList(name: String = "CMConverterStringList", path: Stri
 fun someCMConverterBooleanList(name: String = "CMConverterBooleanList", path: String = "") =
     CMConverterList(name, path, DateBooleanConverterInstance)
 
-fun someSelect(exception: Expression = AsteriskExpression()) = SelectClause(exception)
+fun someSelect(expression: Expression = AsteriskExpression()) = SelectClause(expression)
 fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
 
 fun someDelete(bucket: Bucket = someBucket()) = DeleteClause(bucket)
+
+fun someUpdate(bucket: Bucket = someBucket()) = UpdateClause(bucket)
 
 fun someNumber(value: Number = 5) = value
 
