@@ -5,7 +5,6 @@ import ch.ergon.dope.resolvable.clause.IDeleteClause
 import ch.ergon.dope.resolvable.fromable.Bucket
 
 class DeleteClause(private val bucket: Bucket) : IDeleteClause {
-
     override fun toDopeQuery(): DopeQuery {
         val bucketDopeQuery = bucket.toDopeQuery()
         return DopeQuery(
