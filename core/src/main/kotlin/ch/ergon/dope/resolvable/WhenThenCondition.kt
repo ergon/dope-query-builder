@@ -6,8 +6,10 @@ import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-class WhenThenCondition(private val condition: TypeExpression<BooleanType>, private val unaliasedExpression: UnaliasedExpression<out ValidType>) :
-    Resolvable {
+class WhenThenCondition(
+    private val condition: TypeExpression<BooleanType>,
+    private val unaliasedExpression: UnaliasedExpression<out ValidType>,
+) : Resolvable {
     override fun toDopeQuery(): DopeQuery {
         val conditionDopQuery = condition.toDopeQuery()
         val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery()

@@ -34,11 +34,9 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = UnaliasedCaseExpression(
-            expression = someStringField(),
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            someStringField(),
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
             elseCase = someStringField(),
         )
 
@@ -70,11 +68,9 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = UnaliasedCaseExpression(
-            expression = someStringField(),
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            someStringField(),
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -106,10 +102,9 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = UnaliasedCaseExpression(
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            expression = null,
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
             elseCase = someStringField(),
         )
 
@@ -140,10 +135,9 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = UnaliasedCaseExpression(
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            expression = null,
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -178,11 +172,9 @@ class CaseExpressionTest {
         )
         val underTest = AliasedCaseExpression(
             "alias",
-            expression = someStringField(),
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            someStringField(),
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
             elseCase = someStringField(),
         )
 
@@ -217,11 +209,9 @@ class CaseExpressionTest {
         )
         val underTest = AliasedCaseExpression(
             "alias",
-            expression = someStringField(),
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            someStringField(),
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -255,10 +245,9 @@ class CaseExpressionTest {
         )
         val underTest = AliasedCaseExpression(
             "alias",
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            expression = null,
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
             elseCase = someStringField(),
         )
 
@@ -291,10 +280,9 @@ class CaseExpressionTest {
         )
         val underTest = AliasedCaseExpression(
             "alias",
-            whenThenCondition = whenThen(someBooleanField(), someNumberField()),
-            additionalWhenThenConditions = listOf(
-                whenThen(someBooleanField(), someStringField()),
-            ).toTypedArray(),
+            expression = null,
+            whenThen(someBooleanField(), someNumberField()),
+            whenThen(someBooleanField(), someStringField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -356,15 +344,16 @@ class CaseExpressionTest {
     @Test
     fun `should support unaliased case expression function and multiple when then`() {
         val whenThenCondition = whenThen(someBooleanField(), someNumberField())
-        val additionalWhenThenConditions = listOf(whenThenCondition).toTypedArray()
+        val additionalWhenThenCondition = whenThen(someBooleanField(), someNumberField())
         val expected = UnaliasedCaseExpression(
-            whenThenCondition = whenThenCondition,
-            additionalWhenThenConditions = additionalWhenThenConditions,
+            expression = null,
+            whenThenCondition,
+            additionalWhenThenCondition,
         )
 
         val actual = case(
-            whenThenCondition = whenThenCondition,
-            additionalWhenThenConditions = additionalWhenThenConditions,
+            whenThenCondition,
+            additionalWhenThenCondition,
         )
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
@@ -374,17 +363,17 @@ class CaseExpressionTest {
     fun `should support unaliased case expression function with expression and multiple when then`() {
         val whenThenCondition = whenThen(someBooleanField(), someNumberField())
         val expression = someStringField()
-        val additionalWhenThenConditions = listOf(whenThenCondition).toTypedArray()
+        val additionalWhenThenCondition = whenThen(someBooleanField(), someNumberField())
         val expected = UnaliasedCaseExpression(
-            expression = expression,
-            whenThenCondition = whenThenCondition,
-            additionalWhenThenConditions = additionalWhenThenConditions,
+            expression,
+            whenThenCondition,
+            additionalWhenThenCondition,
         )
 
         val actual = case(
-            expression = expression,
-            whenThenCondition = whenThenCondition,
-            additionalWhenThenConditions = additionalWhenThenConditions,
+            expression,
+            whenThenCondition,
+            additionalWhenThenCondition,
         )
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
@@ -394,16 +383,17 @@ class CaseExpressionTest {
     fun `should support unaliased case expression function and multiple when then and else`() {
         val whenThenCondition = whenThen(someBooleanField(), someNumberField())
         val elseCase = someStringField()
-        val additionalWhenThenConditions = listOf(whenThenCondition).toTypedArray()
+        val additionalWhenThenCondition = whenThen(someBooleanField(), someNumberField())
         val expected = UnaliasedCaseExpression(
-            whenThenCondition = whenThenCondition,
-            additionalWhenThenConditions = additionalWhenThenConditions,
+            expression = null,
+            whenThenCondition,
+            additionalWhenThenCondition,
             elseCase = elseCase,
         )
 
         val actual = case(
-            whenThenCondition = whenThenCondition,
-            additionalWhenThenConditions = additionalWhenThenConditions,
+            whenThenCondition,
+            additionalWhenThenCondition,
             elseCase = elseCase,
         )
 
