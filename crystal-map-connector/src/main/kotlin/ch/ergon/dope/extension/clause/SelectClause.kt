@@ -6,7 +6,6 @@ import ch.ergon.dope.resolvable.clause.ISelectJoinClause
 import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
-import ch.ergon.dope.resolvable.clause.ISelectUseKeysClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.fromable.Bucket
@@ -27,10 +26,7 @@ fun ISelectGroupByClause.orderBy(stringField: CMField<String>, orderByType: Orde
 fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType) =
     groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
-fun ISelectUseKeysClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.toDopeType())
-
-fun ISelectFromClause.useKeys(useKeys: CMField<String>) = useKeys(useKeys.toDopeType())
-fun ISelectFromClause.useKeys(useKeys: CMList<String>) = useKeys(useKeys.toDopeType())
+fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.toDopeType())
 
 fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMField<out Any>) = join(bucket, onKeys.toDopeType())
 fun ISelectJoinClause.join(bucket: Bucket, onKey: CMField<out Any>, forBucket: Bucket) = join(bucket, onKey.toDopeType(), forBucket)

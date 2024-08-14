@@ -2,9 +2,9 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.clause.Clause
-import ch.ergon.dope.resolvable.clause.IDeleteUseKeysClause
+import ch.ergon.dope.resolvable.clause.IDeleteClause
 import ch.ergon.dope.resolvable.clause.IDeleteWhereClause
-import ch.ergon.dope.resolvable.clause.ISelectUseKeysClause
+import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.IUpdateUnsetClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
@@ -26,10 +26,10 @@ sealed class WhereClause(
     }
 }
 
-class SelectWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: ISelectUseKeysClause) :
+class SelectWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
     ISelectWhereClause, WhereClause(whereExpression, parentClause)
 
-class DeleteWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: IDeleteUseKeysClause) :
+class DeleteWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: IDeleteClause) :
     IDeleteWhereClause, WhereClause(whereExpression, parentClause)
 
 class UpdateWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: IUpdateUnsetClause) :

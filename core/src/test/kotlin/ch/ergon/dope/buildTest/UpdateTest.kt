@@ -5,12 +5,12 @@ import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
-import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.fromable.useKeys
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -30,20 +30,6 @@ class UpdateTest : ParameterDependentTest {
         val actual = create
             .update(
                 someBucket(),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support update clause with use keys`() {
-        val expected = "UPDATE `someBucket` USE KEYS \"someString\""
-
-        val actual = create
-            .update(
-                someBucket(),
-            ).useKeys(
-                someString().toDopeType(),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -139,9 +125,7 @@ class UpdateTest : ParameterDependentTest {
 
         val actual = create
             .update(
-                bucket,
-            ).useKeys(
-                "keyString".toDopeType(),
+                bucket.useKeys("keyString"),
             ).set(
                 someNumberField("setThisNumberField"),
                 1.toDopeType(),

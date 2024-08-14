@@ -4,7 +4,6 @@ import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.returning
 import ch.ergon.dope.extension.clause.set
 import ch.ergon.dope.extension.clause.unset
-import ch.ergon.dope.extension.clause.useKeys
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someCMBooleanField
@@ -20,7 +19,6 @@ import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
-import ch.ergon.dope.resolvable.clause.model.UpdateUseKeys.Companion.UpdateUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.to
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -29,28 +27,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class UpdateClauseTest {
-    @Test
-    fun `should support update single use keys with CM`() {
-        val useKeys = someCMStringField()
-        val parentClause = someUpdate()
-        val expected = UpdateUseKeysClause(useKeys.toDopeType(), parentClause)
-
-        val actual = parentClause.useKeys(useKeys)
-
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
-    }
-
-    @Test
-    fun `should support update list use keys with CM`() {
-        val useKeys = someCMStringList()
-        val parentClause = someUpdate()
-        val expected = UpdateUseKeysClause(useKeys.toDopeType(), parentClause)
-
-        val actual = parentClause.useKeys(useKeys)
-
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
-    }
-
     @Test
     fun `should support update set CMField number to CMField number`() {
         val field = someCMNumberField()

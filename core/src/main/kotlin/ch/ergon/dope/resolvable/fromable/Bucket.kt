@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.fromable
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 
-sealed class Bucket(open val name: String) : Fromable {
+sealed class Bucket(open val name: String) : IBucket {
     override fun toDopeQuery() = DopeQuery("`$name`", emptyMap())
 }
 

@@ -3,46 +3,21 @@ package ch.ergon.dope.extensions.clause
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.returning
-import ch.ergon.dope.extension.clause.useKeys
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
-import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someDelete
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
-import ch.ergon.dope.resolvable.clause.model.DeleteUseKeys.Companion.DeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DeleteClauseTest {
-    @Test
-    fun `should support delete single use keys with CM`() {
-        val useKeys = someCMStringField()
-        val parentClause = someDelete()
-        val expected = DeleteUseKeysClause(useKeys.toDopeType(), parentClause)
-
-        val actual = parentClause.useKeys(useKeys)
-
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
-    }
-
-    @Test
-    fun `should support delete list use keys with CM`() {
-        val useKeys = someCMStringList()
-        val parentClause = someDelete()
-        val expected = DeleteUseKeysClause(useKeys.toDopeType(), parentClause)
-
-        val actual = parentClause.useKeys(useKeys)
-
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
-    }
-
     @Test
     fun `should support delete where with CM`() {
         val field = someCMBooleanField()
