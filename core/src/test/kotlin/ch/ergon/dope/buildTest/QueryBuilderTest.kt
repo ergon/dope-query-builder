@@ -8,6 +8,7 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.case
+import ch.ergon.dope.resolvable.expression.`else`
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
 import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
@@ -23,8 +24,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.`when`
 import ch.ergon.dope.resolvable.fromable.asterisk
-import ch.ergon.dope.resolvable.whenThen
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -794,13 +795,13 @@ class QueryBuilderTest {
     @Test
     fun `should support selecting case`() {
         val someBucket = someBucket()
-        val expected = "SELECT CASE WHEN `booleanField` THEN `numberField` END, " +
-            "CASE WHEN `booleanField` THEN `numberField` ELSE `stringField` END AS `alias` FROM `someBucket`"
+        val expected = "SELECT CASE `numberField` WHEN `other` THEN `numberField` END, " +
+            "CASE WHEN `booleanField` THEN `numberField` ELSE `stringField` AS `alias` END FROM `someBucket`"
 
         val actual = create
             .select(
-                case(whenThen(someBooleanField(), someNumberField())),
-                case(whenThen(someBooleanField(), someNumberField()), elseCase = someStringField()).alias("alias"),
+                case(someNumberField()).`when`(someNumberField("other"), someNumberField()),
+                `when`(someBooleanField(), someNumberField()).`else`(someStringField()).alias("alias"),
             )
             .from(someBucket)
             .build().queryString

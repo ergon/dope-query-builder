@@ -5,7 +5,9 @@ import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
+import ch.ergon.dope.resolvable.expression.CaseClass
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
@@ -15,10 +17,14 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMType
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
+
+fun someCMType(name: String = "CMType", path: String = "") = CMField<Number>(name, path) as CMType
 
 fun someCMNumberField(name: String = "CMNumberField", path: String = "") = CMField<Number>(name, path)
 fun someCMStringField(name: String = "CMStringField", path: String = "") = CMField<String>(name, path)
@@ -53,3 +59,7 @@ private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
 }
+
+fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
+    expression,
+)

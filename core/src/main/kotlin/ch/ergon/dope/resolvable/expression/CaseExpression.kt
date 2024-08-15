@@ -1,93 +1,132 @@
 package ch.ergon.dope.resolvable.expression
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.resolvable.WhenThenCondition
+import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-sealed class CaseExpression(
-    private val unaliasedExpression: UnaliasedExpression<out ValidType>? = null,
-    private val whenThenCondition: WhenThenCondition,
-    private vararg val additionalWhenThenConditions: WhenThenCondition,
-    private val elseCase: UnaliasedExpression<out ValidType>? = null,
-) : Expression {
-    internal fun getCaseExpressionDopeQuery(alias: String? = null): DopeQuery {
-        val unaliasedExpressionDopeQuery = unaliasedExpression?.toDopeQuery()
-        val whenThenConditionDopeQuery = whenThenCondition.toDopeQuery()
-        val additionalWhenThenConditionsDopeQuery = additionalWhenThenConditions.map { it.toDopeQuery() }
-        val elseCaseDopeQuery = elseCase?.toDopeQuery()
+private const val CASE = "CASE"
+private const val WHEN = "WHEN"
+private const val THEN = "THEN"
+private const val END = "END"
+private const val ELSE = "ELSE"
 
-        val queryString = buildString {
-            append("CASE ")
-            unaliasedExpressionDopeQuery?.let {
-                append(it.queryString).append(" ")
-            }
+sealed interface CaseExpression : Expression
 
-            append(whenThenConditionDopeQuery.queryString).append(" ")
-
-            if (additionalWhenThenConditionsDopeQuery.isNotEmpty()) {
-                append(additionalWhenThenConditionsDopeQuery.joinToString(separator = " ") { it.queryString }).append(" ")
-            }
-
-            elseCaseDopeQuery?.let {
-                append("ELSE ").append(it.queryString).append(" ")
-            }
-
-            append("END")
-
-            alias?.let {
-                append(" AS `$it`")
-            }
-        }
-
-        return DopeQuery(
-            queryString = queryString,
-            parameters = unaliasedExpressionDopeQuery?.parameters.orEmpty() +
-                whenThenConditionDopeQuery.parameters +
-                additionalWhenThenConditionsDopeQuery.fold(emptyMap()) { additionalParameters, it -> additionalParameters + it.parameters } +
-                elseCaseDopeQuery?.parameters.orEmpty(),
-        )
-    }
-}
-
-class UnaliasedCaseExpression(
-    private val expression: UnaliasedExpression<out ValidType>? = null,
-    private val whenThenCondition: WhenThenCondition,
-    private vararg val additionalWhenThenConditions: WhenThenCondition,
-    private val elseCase: UnaliasedExpression<out ValidType>? = null,
-) : CaseExpression(expression, whenThenCondition, *additionalWhenThenConditions, elseCase = elseCase) {
-    override fun toDopeQuery() = getCaseExpressionDopeQuery()
-
-    fun alias(alias: String) = AliasedCaseExpression(alias, expression, whenThenCondition, *additionalWhenThenConditions, elseCase = elseCase)
+sealed interface UnaliasedCaseExpression : CaseExpression {
+    fun alias(alias: String) = AliasedCaseExpression(alias, this)
 }
 
 class AliasedCaseExpression(
     private val alias: String,
-    expression: UnaliasedExpression<out ValidType>? = null,
-    whenThenCondition: WhenThenCondition,
-    vararg additionalWhenThenConditions: WhenThenCondition,
-    elseCase: UnaliasedExpression<out ValidType>? = null,
-) : CaseExpression(expression, whenThenCondition, *additionalWhenThenConditions, elseCase = elseCase) {
-    override fun toDopeQuery() = getCaseExpressionDopeQuery(alias)
+    private val unaliasedCaseExpression: UnaliasedCaseExpression,
+) : CaseExpression {
+    override fun toDopeQuery(): DopeQuery {
+        val caseDopeQuery = unaliasedCaseExpression.toDopeQuery()
+
+        val queryString = caseDopeQuery.queryString.trimEnd()
+            .removeSuffix(END)
+            .plus("AS `$alias` $END")
+
+        return DopeQuery(queryString, caseDopeQuery.parameters)
+    }
 }
 
-fun case(
-    expression: UnaliasedExpression<out ValidType>,
-    whenThenCondition: WhenThenCondition,
-    vararg additionalWhenThenConditions: WhenThenCondition,
-    elseCase: UnaliasedExpression<out ValidType>? = null,
-) = UnaliasedCaseExpression(
-    expression = expression,
-    whenThenCondition = whenThenCondition,
-    additionalWhenThenConditions = additionalWhenThenConditions,
-    elseCase = elseCase,
-)
+class CaseClass<T : ValidType>(val case: UnaliasedExpression<T>) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery()
+        return DopeQuery("$CASE ${caseDopeQuery.queryString} $END", caseDopeQuery.parameters)
+    }
+}
 
-fun case(
-    whenThenCondition: WhenThenCondition,
-    vararg additionalWhenThenConditions: WhenThenCondition,
-    elseCase: UnaliasedExpression<out ValidType>? = null,
-) = UnaliasedCaseExpression(
-    whenThenCondition = whenThenCondition,
-    additionalWhenThenConditions = additionalWhenThenConditions,
-    elseCase = elseCase,
-)
+class SimpleCaseExpression<T : ValidType>(
+    val case: UnaliasedExpression<T>,
+    val firstWhenThen: Pair<TypeExpression<T>, UnaliasedExpression<out ValidType>>,
+    val whenThenMap: Map<TypeExpression<T>, UnaliasedExpression<out ValidType>> = emptyMap(),
+) : UnaliasedCaseExpression {
+    override fun toDopeQuery(): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery()
+        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        return DopeQuery(
+            queryString = "$CASE ${caseDopeQuery.queryString} ${dopeQueries.joinToString(" ")
+            { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" }
+            } $END",
+            parameters = emptyMap(),
+        )
+    }
+}
+
+class SimpleElseCaseExpression<T : ValidType>(
+    private val case: UnaliasedExpression<T>,
+    private val firstWhenThen: Pair<TypeExpression<T>, UnaliasedExpression<out ValidType>>,
+    private val whenThenMap: Map<TypeExpression<T>, UnaliasedExpression<out ValidType>> = emptyMap(),
+    private val elseCase: UnaliasedExpression<out ValidType>,
+) : UnaliasedCaseExpression {
+    override fun toDopeQuery(): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery()
+        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        val elseCaseDopeQuery = elseCase.toDopeQuery()
+        return DopeQuery(
+            queryString = "$CASE ${caseDopeQuery.queryString} ${dopeQueries.joinToString(" ")
+            { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" }
+            }${elseCaseDopeQuery.let { " $ELSE ${elseCaseDopeQuery.queryString}" }
+            } $END",
+            parameters = emptyMap(),
+        )
+    }
+}
+
+fun <T : ValidType> case(case: UnaliasedExpression<T>) = CaseClass(case)
+
+fun <T : ValidType> CaseClass<T>.`when`(whenCondition: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
+    SimpleCaseExpression(case, whenCondition to thenExpression)
+
+fun <T : ValidType> SimpleCaseExpression<T>.`when`(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
+    SimpleCaseExpression(case, firstWhenThen, whenThenMap + (whenExpression to thenExpression))
+
+fun <T : ValidType> SimpleCaseExpression<T>.`else`(elseCase: UnaliasedExpression<out ValidType>) =
+    SimpleElseCaseExpression(case, firstWhenThen, whenThenMap, elseCase)
+
+class SearchedCaseExpression(
+    val firstWhenThen: Pair<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>>,
+    val whenThenMap: Map<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>> = emptyMap(),
+) : UnaliasedCaseExpression {
+    override fun toDopeQuery(): DopeQuery {
+        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        return DopeQuery(
+            queryString = "$CASE ${dopeQueries.joinToString(" ")
+            { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" }
+            } $END",
+            parameters = dopeQueries.fold(emptyMap()) { parameters, it -> parameters + it.first.parameters + it.second.parameters },
+        )
+    }
+}
+
+class SearchedElseCaseExpression(
+    private val firstWhenThen: Pair<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>>,
+    private val whenThenMap: Map<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>> = emptyMap(),
+    private val elseCase: UnaliasedExpression<out ValidType>,
+) : UnaliasedCaseExpression {
+    override fun toDopeQuery(): DopeQuery {
+        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        val elseCaseDopeQuery = elseCase.toDopeQuery()
+        return DopeQuery(
+            queryString = "$CASE ${dopeQueries.joinToString(" ")
+            { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" }
+            }${elseCaseDopeQuery.let { " $ELSE ${elseCaseDopeQuery.queryString}" }
+            } $END",
+            parameters = dopeQueries.fold(emptyMap<String, Any>()) { parameters, it ->
+                parameters + it.first.parameters + it.second.parameters
+            } + elseCaseDopeQuery.parameters,
+        )
+    }
+}
+
+fun `when`(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
+    SearchedCaseExpression(whenCondition to thenExpression)
+
+fun SearchedCaseExpression.`when`(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
+    SearchedCaseExpression(firstWhenThen, whenThenMap + (whenCondition to thenExpression))
+
+fun SearchedCaseExpression.`else`(elseCase: UnaliasedExpression<out ValidType>) =
+    SearchedElseCaseExpression(firstWhenThen, whenThenMap, elseCase)
