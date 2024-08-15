@@ -29,8 +29,8 @@ fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType) =
 
 fun ISelectUseKeysClause.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
-fun ISelectFromClause.useKeys(useKeys: CMField<String>) = useKeys(useKeys.toDopeType())
-fun ISelectFromClause.useKeys(useKeys: CMList<String>) = useKeys(useKeys.toDopeType())
+fun ISelectFromClause.useKeys(useKeys: CMJsonField<String>) = useKeys(useKeys.toDopeType())
+fun ISelectFromClause.useKeys(useKeys: CMJsonList<String>) = useKeys(useKeys.toDopeType())
 
 fun ISelectJoinClause.join(bucket: Bucket, onKeys: CMJsonField<out Any>) = join(bucket, onKeys.toDopeType())
 fun ISelectJoinClause.join(bucket: Bucket, onKey: CMJsonField<out Any>, forBucket: Bucket) = join(bucket, onKey.toDopeType(), forBucket)

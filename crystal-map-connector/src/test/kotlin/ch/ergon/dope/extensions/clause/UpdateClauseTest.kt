@@ -52,7 +52,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField number to CMField number`() {
+    fun `should support update set CMJsonField number to CMJsonField number`() {
         val field = someCMNumberField()
         val value = someCMNumberField()
         val parentClause = someUpdate()
@@ -64,7 +64,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField number to CMField number`() {
+    fun `should support update additional set CMJsonField number to CMJsonField number`() {
         val numberField = someCMNumberField()
         val numberValue = someCMNumberField()
         val stringField = someCMStringField()
@@ -82,7 +82,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField string to CMField string`() {
+    fun `should support update set CMJsonField string to CMJsonField string`() {
         val field = someCMStringField()
         val value = someCMStringField()
         val parentClause = someUpdate()
@@ -94,7 +94,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField string to CMField string`() {
+    fun `should support update additional set CMJsonField string to CMJsonField string`() {
         val numberField = someCMNumberField()
         val numberValue = someCMNumberField()
         val stringField = someCMStringField()
@@ -112,7 +112,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField boolean to CMField boolean`() {
+    fun `should support update set CMJsonField boolean to CMJsonField boolean`() {
         val field = someCMBooleanField()
         val value = someCMBooleanField()
         val parentClause = someUpdate()
@@ -124,7 +124,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField boolean to CMField boolean`() {
+    fun `should support update additional set CMJsonField boolean to CMJsonField boolean`() {
         val booleanField = someCMBooleanField()
         val booleanValue = someCMBooleanField()
         val stringField = someCMStringField()
@@ -142,7 +142,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMList number to CMList number`() {
+    fun `should support update set CMJsonList number to CMJsonList number`() {
         val field = someCMNumberList()
         val value = someCMNumberList()
         val parentClause = someUpdate()
@@ -154,7 +154,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMList number to CMList number`() {
+    fun `should support update additional set CMJsonList number to CMJsonList number`() {
         val numberField = someCMNumberList()
         val numberValue = someCMNumberList()
         val stringField = someCMStringList()
@@ -172,7 +172,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMList string to CMList string`() {
+    fun `should support update set CMJsonList string to CMJsonList string`() {
         val field = someCMStringList()
         val value = someCMStringList()
         val parentClause = someUpdate()
@@ -184,7 +184,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMList string to CMList string`() {
+    fun `should support update additional set CMJsonList string to CMJsonList string`() {
         val numberField = someCMNumberList()
         val numberValue = someCMNumberList()
         val stringField = someCMStringList()
@@ -202,7 +202,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMList boolean to CMList boolean`() {
+    fun `should support update set CMJsonList boolean to CMJsonList boolean`() {
         val field = someCMBooleanList()
         val value = someCMBooleanList()
         val parentClause = someUpdate()
@@ -214,7 +214,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMList boolean to CMList boolean`() {
+    fun `should support update additional set CMJsonList boolean to CMJsonList boolean`() {
         val booleanField = someCMBooleanList()
         val booleanValue = someCMBooleanList()
         val stringField = someCMStringList()
@@ -232,7 +232,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField number to TypeExpression number`() {
+    fun `should support update set CMJsonField number to TypeExpression number`() {
         val field = someCMNumberField()
         val value = someNumber().toDopeType()
         val parentClause = someUpdate()
@@ -244,7 +244,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField number to TypeExpression number`() {
+    fun `should support update additional set CMJsonField number to TypeExpression number`() {
         val numberField = someCMNumberField()
         val numberValue = someNumber().toDopeType()
         val stringField = someCMStringField()
@@ -262,7 +262,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField string to TypeExpression string`() {
+    fun `should support update set CMJsonField string to TypeExpression string`() {
         val field = someCMStringField()
         val value = someString().toDopeType()
         val parentClause = someUpdate()
@@ -274,7 +274,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField string to TypeExpression string`() {
+    fun `should support update additional set CMJsonField string to TypeExpression string`() {
         val numberField = someCMNumberField()
         val numberValue = someCMNumberField()
         val stringField = someCMStringField()
@@ -292,7 +292,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField boolean to TypeExpression boolean`() {
+    fun `should support update set CMJsonField boolean to TypeExpression boolean`() {
         val field = someCMBooleanField()
         val value = someBoolean().toDopeType()
         val parentClause = someUpdate()
@@ -304,7 +304,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField boolean to TypeExpression boolean`() {
+    fun `should support update additional set CMJsonField boolean to TypeExpression boolean`() {
         val booleanField = someCMBooleanField()
         val booleanValue = someBoolean().toDopeType()
         val stringField = someCMStringField()
@@ -322,7 +322,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMList number to TypeExpression number`() {
+    fun `should support update set CMJsonList number to TypeExpression number`() {
         val field = someCMNumberList()
         val value = listOf(someNumber().toDopeType(), someNumber().toDopeType()).toDopeType()
         val parentClause = someUpdate()
@@ -334,7 +334,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMList number to TypeExpression number`() {
+    fun `should support update additional set CMJsonList number to TypeExpression number`() {
         val numberField = someCMNumberList()
         val numberValue = listOf(someNumber().toDopeType(), someNumber().toDopeType()).toDopeType()
         val stringField = someCMStringList()
@@ -352,7 +352,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMList string to TypeExpression string`() {
+    fun `should support update set CMJsonList string to TypeExpression string`() {
         val field = someCMStringList()
         val value = listOf(someString().toDopeType(), someString().toDopeType()).toDopeType()
         val parentClause = someUpdate()
@@ -364,7 +364,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMList string to TypeExpression string`() {
+    fun `should support update additional set CMJsonList string to TypeExpression string`() {
         val numberField = someCMNumberList()
         val numberValue = someCMNumberList()
         val stringField = someCMStringList()
@@ -382,7 +382,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMList boolean to TypeExpression boolean`() {
+    fun `should support update set CMJsonList boolean to TypeExpression boolean`() {
         val field = someCMBooleanList()
         val value = listOf(someBoolean().toDopeType(), someBoolean().toDopeType()).toDopeType()
         val parentClause = someUpdate()
@@ -394,7 +394,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMList boolean to TypeExpression boolean`() {
+    fun `should support update additional set CMJsonList boolean to TypeExpression boolean`() {
         val booleanField = someCMBooleanList()
         val booleanValue = listOf(someBoolean().toDopeType(), someBoolean().toDopeType()).toDopeType()
         val stringField = someCMStringList()
@@ -412,7 +412,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField number to number`() {
+    fun `should support update set CMJsonField number to number`() {
         val field = someCMNumberField()
         val value = someNumber()
         val parentClause = someUpdate()
@@ -424,7 +424,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField number to number`() {
+    fun `should support update additional set CMJsonField number to number`() {
         val numberField = someCMNumberField()
         val numberValue = someNumber()
         val stringField = someCMStringField()
@@ -442,7 +442,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField string to string`() {
+    fun `should support update set CMJsonField string to string`() {
         val field = someCMStringField()
         val value = someString()
         val parentClause = someUpdate()
@@ -454,7 +454,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField string to string`() {
+    fun `should support update additional set CMJsonField string to string`() {
         val numberField = someCMNumberField()
         val numberValue = someCMNumberField()
         val stringField = someCMStringField()
@@ -472,7 +472,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update set CMField boolean to boolean`() {
+    fun `should support update set CMJsonField boolean to boolean`() {
         val field = someCMBooleanField()
         val value = someBoolean()
         val parentClause = someUpdate()
@@ -484,7 +484,7 @@ class UpdateClauseTest {
     }
 
     @Test
-    fun `should support update additional set CMField boolean to boolean`() {
+    fun `should support update additional set CMJsonField boolean to boolean`() {
         val booleanField = someCMBooleanField()
         val booleanValue = someBoolean()
         val stringField = someCMStringField()
