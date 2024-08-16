@@ -78,13 +78,13 @@ class SimpleElseCaseExpression<T : ValidType>(
 
 fun <T : ValidType> case(case: UnaliasedExpression<T>) = CaseClass(case)
 
-fun <T : ValidType> CaseClass<T>.`when`(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
+fun <T : ValidType> CaseClass<T>.whenThen(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
     SimpleCaseExpression(case, whenExpression to thenExpression)
 
-fun <T : ValidType> SimpleCaseExpression<T>.`when`(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
+fun <T : ValidType> SimpleCaseExpression<T>.whenThen(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
     SimpleCaseExpression(case, firstWhenThen, *additionalWhenThen, whenExpression to thenExpression)
 
-fun <T : ValidType> SimpleCaseExpression<T>.`else`(elseCase: UnaliasedExpression<out ValidType>) =
+fun <T : ValidType> SimpleCaseExpression<T>.otherwise(elseCase: UnaliasedExpression<out ValidType>) =
     SimpleElseCaseExpression(case, firstWhenThen, *additionalWhenThen, elseCase = elseCase)
 
 class SearchedCaseExpression(
@@ -122,11 +122,11 @@ class SearchedElseCaseExpression(
     }
 }
 
-fun `when`(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
+fun whenThen(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
     SearchedCaseExpression(whenCondition to thenExpression)
 
-fun SearchedCaseExpression.`when`(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
+fun SearchedCaseExpression.whenThen(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
     SearchedCaseExpression(firstWhenThen, *additionalWhenThen, whenCondition to thenExpression)
 
-fun SearchedCaseExpression.`else`(elseCase: UnaliasedExpression<out ValidType>) =
+fun SearchedCaseExpression.otherwise(elseCase: UnaliasedExpression<out ValidType>) =
     SearchedElseCaseExpression(firstWhenThen, *additionalWhenThen, elseCase = elseCase)

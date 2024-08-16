@@ -1,8 +1,8 @@
 package ch.ergon.dope.extensions
 
 import ch.ergon.dope.extension.case
-import ch.ergon.dope.extension.`else`
-import ch.ergon.dope.extension.`when`
+import ch.ergon.dope.extension.otherwise
+import ch.ergon.dope.extension.whenThen
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBooleanFieldList
 import ch.ergon.dope.helper.someCMBooleanField
@@ -95,7 +95,7 @@ class CaseExpressionTest {
         val expression = someNumberField()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression)
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -107,7 +107,7 @@ class CaseExpressionTest {
         val expression = someNumberField()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression)
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -119,7 +119,7 @@ class CaseExpressionTest {
         val expression = someNumberField()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression)
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -131,7 +131,7 @@ class CaseExpressionTest {
         val expression = someNumberField()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression)
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -143,7 +143,7 @@ class CaseExpressionTest {
         val expression = someNumberField()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression)
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -155,7 +155,7 @@ class CaseExpressionTest {
         val expression = someNumberField()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression)
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -167,7 +167,7 @@ class CaseExpressionTest {
         val expression = someCMType()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression.toDopeType())
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -179,7 +179,7 @@ class CaseExpressionTest {
         val expression = someCMType()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression.toDopeType())
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -191,7 +191,7 @@ class CaseExpressionTest {
         val expression = someCMType()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression.toDopeType())
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -203,7 +203,7 @@ class CaseExpressionTest {
         val expression = someCMType()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression.toDopeType())
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -215,7 +215,7 @@ class CaseExpressionTest {
         val expression = someCMType()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression.toDopeType())
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -227,7 +227,7 @@ class CaseExpressionTest {
         val expression = someCMType()
         val expected = SimpleCaseExpression(case.case, field.toDopeType() to expression.toDopeType())
 
-        val actual = case.`when`(field, expression)
+        val actual = case.whenThen(field, expression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -240,7 +240,7 @@ class CaseExpressionTest {
         val typeExpression = someNumberField()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -253,7 +253,7 @@ class CaseExpressionTest {
         val typeExpression = someStringField()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -266,7 +266,7 @@ class CaseExpressionTest {
         val typeExpression = someBooleanField()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -279,7 +279,7 @@ class CaseExpressionTest {
         val typeExpression = someNumberField()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -292,7 +292,7 @@ class CaseExpressionTest {
         val typeExpression = someStringField()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -305,7 +305,7 @@ class CaseExpressionTest {
         val typeExpression = someBooleanField()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -319,7 +319,7 @@ class CaseExpressionTest {
         val expected =
             SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -333,7 +333,7 @@ class CaseExpressionTest {
         val expected =
             SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -347,7 +347,7 @@ class CaseExpressionTest {
         val expected =
             SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -361,7 +361,7 @@ class CaseExpressionTest {
         val expected =
             SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -375,7 +375,7 @@ class CaseExpressionTest {
         val expected =
             SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -389,7 +389,7 @@ class CaseExpressionTest {
         val expected =
             SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -402,7 +402,7 @@ class CaseExpressionTest {
         val typeExpression = someCMType()
         val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression to typeExpression.toDopeType())
 
-        val actual = initialExpression.`when`(whenExpression, typeExpression)
+        val actual = initialExpression.whenThen(whenExpression, typeExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -420,7 +420,7 @@ class CaseExpressionTest {
                 elseCase = elseExpression.toDopeType(),
             )
 
-        val actual = initialExpression.`else`(elseExpression)
+        val actual = initialExpression.otherwise(elseExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -431,7 +431,7 @@ class CaseExpressionTest {
         val thenExpression = someNumberField()
         val expected = SearchedCaseExpression(whenCondition.toDopeType() to thenExpression)
 
-        val actual = `when`(whenCondition, thenExpression)
+        val actual = whenThen(whenCondition, thenExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -442,7 +442,7 @@ class CaseExpressionTest {
         val thenExpression = someCMType()
         val expected = SearchedCaseExpression(whenCondition to thenExpression.toDopeType())
 
-        val actual = `when`(whenCondition, thenExpression)
+        val actual = whenThen(whenCondition, thenExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -453,7 +453,7 @@ class CaseExpressionTest {
         val thenExpression = someCMType()
         val expected = SearchedCaseExpression(whenCondition.toDopeType() to thenExpression.toDopeType())
 
-        val actual = `when`(whenCondition, thenExpression)
+        val actual = whenThen(whenCondition, thenExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -469,7 +469,7 @@ class CaseExpressionTest {
             whenCondition.toDopeType() to thenExpression,
         )
 
-        val actual = initialExpression.`when`(whenCondition, thenExpression)
+        val actual = initialExpression.whenThen(whenCondition, thenExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -485,7 +485,7 @@ class CaseExpressionTest {
             whenCondition to thenExpression.toDopeType(),
         )
 
-        val actual = initialExpression.`when`(whenCondition, thenExpression)
+        val actual = initialExpression.whenThen(whenCondition, thenExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -501,7 +501,7 @@ class CaseExpressionTest {
             whenCondition.toDopeType() to thenExpression.toDopeType(),
         )
 
-        val actual = initialExpression.`when`(whenCondition, thenExpression)
+        val actual = initialExpression.whenThen(whenCondition, thenExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -516,7 +516,7 @@ class CaseExpressionTest {
             elseCase = elseExpression.toDopeType(),
         )
 
-        val actual = initialExpression.`else`(elseExpression)
+        val actual = initialExpression.otherwise(elseExpression)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

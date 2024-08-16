@@ -8,7 +8,7 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.case
-import ch.ergon.dope.resolvable.expression.`else`
+import ch.ergon.dope.resolvable.expression.otherwise
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
 import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
@@ -24,7 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.expression.`when`
+import ch.ergon.dope.resolvable.expression.whenThen
 import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -800,8 +800,8 @@ class QueryBuilderTest {
 
         val actual = create
             .select(
-                case(someNumberField()).`when`(someNumberField("other"), someNumberField()),
-                `when`(someBooleanField(), someNumberField()).`else`(someStringField()).alias("alias"),
+                case(someNumberField()).whenThen(someNumberField("other"), someNumberField()),
+                whenThen(someBooleanField(), someNumberField()).otherwise(someStringField()).alias("alias"),
             )
             .from(someBucket)
             .build().queryString
