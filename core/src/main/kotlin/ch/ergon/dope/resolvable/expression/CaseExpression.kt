@@ -78,8 +78,8 @@ class SimpleElseCaseExpression<T : ValidType>(
 
 fun <T : ValidType> case(case: UnaliasedExpression<T>) = CaseClass(case)
 
-fun <T : ValidType> CaseClass<T>.`when`(whenCondition: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
-    SimpleCaseExpression(case, whenCondition to thenExpression)
+fun <T : ValidType> CaseClass<T>.`when`(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
+    SimpleCaseExpression(case, whenExpression to thenExpression)
 
 fun <T : ValidType> SimpleCaseExpression<T>.`when`(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
     SimpleCaseExpression(case, firstWhenThen, *additionalWhenThen, whenExpression to thenExpression)
