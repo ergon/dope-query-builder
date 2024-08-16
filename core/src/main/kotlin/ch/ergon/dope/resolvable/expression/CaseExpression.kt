@@ -35,18 +35,18 @@ class AliasedCaseExpression(
 class CaseClass<T : ValidType>(val case: UnaliasedExpression<T>) : Resolvable {
     override fun toDopeQuery(): DopeQuery {
         val caseDopeQuery = case.toDopeQuery()
-        return DopeQuery("$CASE ${caseDopeQuery.queryString} $END", caseDopeQuery.parameters)
+        return DopeQuery("$CASE ${caseDopeQuery.queryString}", caseDopeQuery.parameters)
     }
 }
 
 class SimpleCaseExpression<T : ValidType>(
     val case: UnaliasedExpression<T>,
     val firstWhenThen: Pair<TypeExpression<T>, UnaliasedExpression<out ValidType>>,
-    val whenThenMap: Map<TypeExpression<T>, UnaliasedExpression<out ValidType>> = emptyMap(),
+    vararg val additionalWhenThen: Pair<TypeExpression<T>, UnaliasedExpression<out ValidType>>,
 ) : UnaliasedCaseExpression {
     override fun toDopeQuery(): DopeQuery {
         val caseDopeQuery = case.toDopeQuery()
-        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        val dopeQueries = (mapOf(firstWhenThen) + additionalWhenThen).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
         return DopeQuery(
             queryString = "$CASE ${caseDopeQuery.queryString} ${dopeQueries.joinToString(" ")
             { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" }
@@ -59,12 +59,12 @@ class SimpleCaseExpression<T : ValidType>(
 class SimpleElseCaseExpression<T : ValidType>(
     private val case: UnaliasedExpression<T>,
     private val firstWhenThen: Pair<TypeExpression<T>, UnaliasedExpression<out ValidType>>,
-    private val whenThenMap: Map<TypeExpression<T>, UnaliasedExpression<out ValidType>> = emptyMap(),
+    private vararg val additionalWhenThen: Pair<TypeExpression<T>, UnaliasedExpression<out ValidType>>,
     private val elseCase: UnaliasedExpression<out ValidType>,
 ) : UnaliasedCaseExpression {
     override fun toDopeQuery(): DopeQuery {
         val caseDopeQuery = case.toDopeQuery()
-        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        val dopeQueries = (mapOf(firstWhenThen) + additionalWhenThen).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
         val elseCaseDopeQuery = elseCase.toDopeQuery()
         return DopeQuery(
             queryString = "$CASE ${caseDopeQuery.queryString} ${dopeQueries.joinToString(" ")
@@ -82,17 +82,17 @@ fun <T : ValidType> CaseClass<T>.`when`(whenCondition: TypeExpression<T>, thenEx
     SimpleCaseExpression(case, whenCondition to thenExpression)
 
 fun <T : ValidType> SimpleCaseExpression<T>.`when`(whenExpression: TypeExpression<T>, thenExpression: UnaliasedExpression<out ValidType>) =
-    SimpleCaseExpression(case, firstWhenThen, whenThenMap + (whenExpression to thenExpression))
+    SimpleCaseExpression(case, firstWhenThen, *additionalWhenThen, whenExpression to thenExpression)
 
 fun <T : ValidType> SimpleCaseExpression<T>.`else`(elseCase: UnaliasedExpression<out ValidType>) =
-    SimpleElseCaseExpression(case, firstWhenThen, whenThenMap, elseCase)
+    SimpleElseCaseExpression(case, firstWhenThen, *additionalWhenThen, elseCase = elseCase)
 
 class SearchedCaseExpression(
     val firstWhenThen: Pair<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>>,
-    val whenThenMap: Map<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>> = emptyMap(),
+    vararg val additionalWhenThen: Pair<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>>,
 ) : UnaliasedCaseExpression {
     override fun toDopeQuery(): DopeQuery {
-        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        val dopeQueries = (mapOf(firstWhenThen) + additionalWhenThen).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
         return DopeQuery(
             queryString = "$CASE ${dopeQueries.joinToString(" ")
             { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" }
@@ -104,11 +104,11 @@ class SearchedCaseExpression(
 
 class SearchedElseCaseExpression(
     private val firstWhenThen: Pair<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>>,
-    private val whenThenMap: Map<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>> = emptyMap(),
+    private vararg val additionalWhenThen: Pair<TypeExpression<BooleanType>, UnaliasedExpression<out ValidType>>,
     private val elseCase: UnaliasedExpression<out ValidType>,
 ) : UnaliasedCaseExpression {
     override fun toDopeQuery(): DopeQuery {
-        val dopeQueries = (mapOf(firstWhenThen) + whenThenMap).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
+        val dopeQueries = (mapOf(firstWhenThen) + additionalWhenThen).map { it.key.toDopeQuery() to it.value.toDopeQuery() }
         val elseCaseDopeQuery = elseCase.toDopeQuery()
         return DopeQuery(
             queryString = "$CASE ${dopeQueries.joinToString(" ")
@@ -126,7 +126,7 @@ fun `when`(whenCondition: TypeExpression<BooleanType>, thenExpression: Unaliased
     SearchedCaseExpression(whenCondition to thenExpression)
 
 fun SearchedCaseExpression.`when`(whenCondition: TypeExpression<BooleanType>, thenExpression: UnaliasedExpression<out ValidType>) =
-    SearchedCaseExpression(firstWhenThen, whenThenMap + (whenCondition to thenExpression))
+    SearchedCaseExpression(firstWhenThen, *additionalWhenThen, whenCondition to thenExpression)
 
 fun SearchedCaseExpression.`else`(elseCase: UnaliasedExpression<out ValidType>) =
-    SearchedElseCaseExpression(firstWhenThen, whenThenMap, elseCase)
+    SearchedElseCaseExpression(firstWhenThen, *additionalWhenThen, elseCase = elseCase)

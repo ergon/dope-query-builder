@@ -238,7 +238,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMNumberField().toDopeType() to someNumberField())
         val whenExpression = someCMNumberField()
         val typeExpression = someNumberField()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -251,7 +251,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMStringField().toDopeType() to someNumberField())
         val whenExpression = someCMStringField()
         val typeExpression = someStringField()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -264,7 +264,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMBooleanField().toDopeType() to someNumberField())
         val whenExpression = someCMBooleanField()
         val typeExpression = someBooleanField()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -277,7 +277,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMNumberList().toDopeType() to someNumberField())
         val whenExpression = someCMNumberList()
         val typeExpression = someNumberField()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -290,7 +290,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMStringList().toDopeType() to someStringField())
         val whenExpression = someCMStringList()
         val typeExpression = someStringField()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -303,7 +303,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMBooleanList().toDopeType() to someBooleanField())
         val whenExpression = someCMBooleanList()
         val typeExpression = someBooleanField()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression)
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -317,7 +317,7 @@ class CaseExpressionTest {
         val whenExpression = someCMNumberField()
         val typeExpression = someCMType()
         val expected =
-            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression.toDopeType()))
+            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -331,7 +331,7 @@ class CaseExpressionTest {
         val whenExpression = someCMStringField()
         val typeExpression = someCMType()
         val expected =
-            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression.toDopeType()))
+            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -345,7 +345,7 @@ class CaseExpressionTest {
         val whenExpression = someCMBooleanField()
         val typeExpression = someCMType()
         val expected =
-            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression.toDopeType()))
+            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -359,7 +359,7 @@ class CaseExpressionTest {
         val whenExpression = someCMNumberList()
         val typeExpression = someCMType()
         val expected =
-            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression.toDopeType()))
+            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -373,7 +373,7 @@ class CaseExpressionTest {
         val whenExpression = someCMStringList()
         val typeExpression = someCMType()
         val expected =
-            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression.toDopeType()))
+            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -387,7 +387,7 @@ class CaseExpressionTest {
         val whenExpression = someCMBooleanList()
         val typeExpression = someCMType()
         val expected =
-            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression.toDopeType() to typeExpression.toDopeType()))
+            SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression.toDopeType() to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -400,7 +400,7 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMNumberField().toDopeType() to someNumberField())
         val whenExpression = someNumberField()
         val typeExpression = someCMType()
-        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, mapOf(whenExpression to typeExpression.toDopeType()))
+        val expected = SimpleCaseExpression(case.case, initialExpression.firstWhenThen, whenExpression to typeExpression.toDopeType())
 
         val actual = initialExpression.`when`(whenExpression, typeExpression)
 
@@ -413,7 +413,12 @@ class CaseExpressionTest {
         val initialExpression = SimpleCaseExpression(case.case, someCMNumberField().toDopeType() to someNumberField())
         val elseExpression = someCMType()
         val expected =
-            SimpleElseCaseExpression(case.case, initialExpression.firstWhenThen, initialExpression.whenThenMap, elseExpression.toDopeType())
+            SimpleElseCaseExpression(
+                case.case,
+                initialExpression.firstWhenThen,
+                *initialExpression.additionalWhenThen,
+                elseCase = elseExpression.toDopeType(),
+            )
 
         val actual = initialExpression.`else`(elseExpression)
 
@@ -460,7 +465,8 @@ class CaseExpressionTest {
         val thenExpression = someNumberField()
         val expected = SearchedCaseExpression(
             initialExpression.firstWhenThen,
-            initialExpression.whenThenMap + (whenCondition.toDopeType() to thenExpression),
+            *initialExpression.additionalWhenThen,
+            whenCondition.toDopeType() to thenExpression,
         )
 
         val actual = initialExpression.`when`(whenCondition, thenExpression)
@@ -475,7 +481,8 @@ class CaseExpressionTest {
         val thenExpression = someCMType()
         val expected = SearchedCaseExpression(
             initialExpression.firstWhenThen,
-            initialExpression.whenThenMap + (whenCondition to thenExpression.toDopeType()),
+            *initialExpression.additionalWhenThen,
+            whenCondition to thenExpression.toDopeType(),
         )
 
         val actual = initialExpression.`when`(whenCondition, thenExpression)
@@ -490,7 +497,8 @@ class CaseExpressionTest {
         val thenExpression = someCMType()
         val expected = SearchedCaseExpression(
             initialExpression.firstWhenThen,
-            initialExpression.whenThenMap + (whenCondition.toDopeType() to thenExpression.toDopeType()),
+            *initialExpression.additionalWhenThen,
+            whenCondition.toDopeType() to thenExpression.toDopeType(),
         )
 
         val actual = initialExpression.`when`(whenCondition, thenExpression)
@@ -502,7 +510,11 @@ class CaseExpressionTest {
     fun `should add else condition with CMType to SearchedCaseExpression`() {
         val initialExpression = SearchedCaseExpression(someCMBooleanField().toDopeType() to someNumberField())
         val elseExpression = someCMType()
-        val expected = SearchedElseCaseExpression(initialExpression.firstWhenThen, initialExpression.whenThenMap, elseExpression.toDopeType())
+        val expected = SearchedElseCaseExpression(
+            initialExpression.firstWhenThen,
+            *initialExpression.additionalWhenThen,
+            elseCase = elseExpression.toDopeType(),
+        )
 
         val actual = initialExpression.`else`(elseExpression)
 
