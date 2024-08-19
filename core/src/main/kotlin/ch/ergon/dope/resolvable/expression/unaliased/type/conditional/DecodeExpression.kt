@@ -8,25 +8,25 @@ import ch.ergon.dope.validtype.ValidType
 
 class DecodeExpression<T : ValidType, U : ValidType>(
     private val expression: UnaliasedExpression<T>,
-    private val searchResultExpression: SearchResultExpression<T, U>,
-    private vararg val searchResultExpressions: SearchResultExpression<T, U>,
+    private val searchResult: SearchResult<T, U>,
+    private vararg val searchResults: SearchResult<T, U>,
     private val default: UnaliasedExpression<U>? = null,
 ) : TypeExpression<U>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery()
-        val searchResultExpressionDopeQuery = searchResultExpression.toDopeQuery()
-        val searchResultExpressionsDopeQuery = searchResultExpressions.map { it.toDopeQuery() }.toTypedArray()
+        val searchResultDopeQuery = searchResult.toDopeQuery()
+        val searchResultsDopeQuery = searchResults.map { it.toDopeQuery() }.toTypedArray()
         val defaultDopeQuery = default?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "DECODE",
                 expressionDopeQuery,
-                searchResultExpressionDopeQuery,
-                *searchResultExpressionsDopeQuery,
+                searchResultDopeQuery,
+                *searchResultsDopeQuery,
                 defaultDopeQuery,
             ),
             parameters = expressionDopeQuery.parameters +
-                searchResultExpressionsDopeQuery.fold(searchResultExpressionDopeQuery.parameters) {
+                searchResultsDopeQuery.fold(searchResultDopeQuery.parameters) {
                         expressionParameters, expression ->
                     expressionParameters + expression.parameters
                 } + defaultDopeQuery?.parameters.orEmpty(),
@@ -36,7 +36,7 @@ class DecodeExpression<T : ValidType, U : ValidType>(
 
 fun <T : ValidType, U : ValidType> decode(
     expression: UnaliasedExpression<T>,
-    searchResultExpression: SearchResultExpression<T, U>,
-    vararg searchResultExpressions: SearchResultExpression<T, U>,
+    searchResult: SearchResult<T, U>,
+    vararg searchResults: SearchResult<T, U>,
     default: UnaliasedExpression<U>? = null,
-) = DecodeExpression(expression, searchResultExpression, *searchResultExpressions, default = default)
+) = DecodeExpression(expression, searchResult, *searchResults, default = default)

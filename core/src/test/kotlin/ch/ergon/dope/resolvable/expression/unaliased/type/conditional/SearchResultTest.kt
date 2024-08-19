@@ -12,14 +12,14 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SearchResultExpressionTest : ParameterDependentTest {
+class SearchResultTest : ParameterDependentTest {
     @Test
     fun `should support search result expression`() {
         val expected = DopeQuery(
             "`stringField`, `numberField`",
             emptyMap(),
         )
-        val underTest = SearchResultExpression(someStringField(), someNumberField())
+        val underTest = SearchResult(someStringField(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -33,7 +33,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
             "$1, `numberField`",
             mapOf("$1" to parameterValue),
         )
-        val underTest = SearchResultExpression(parameterValue.asParameter(), someNumberField())
+        val underTest = SearchResult(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery()
 
@@ -47,7 +47,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
             "`stringField`, $1",
             mapOf("$1" to parameterValue),
         )
-        val underTest = SearchResultExpression(someStringField(), parameterValue.asParameter())
+        val underTest = SearchResult(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -62,7 +62,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
             "$1, $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
         )
-        val underTest = SearchResultExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+        val underTest = SearchResult(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery()
 
@@ -73,7 +73,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with unaliased unaliased`() {
         val searchExpression = someStringField()
         val resultExpression = someNumberField()
-        val expected = SearchResultExpression(searchExpression, resultExpression)
+        val expected = SearchResult(searchExpression, resultExpression)
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -84,7 +84,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with unaliased number`() {
         val searchExpression = someStringField()
         val resultExpression = someNumber()
-        val expected = SearchResultExpression(searchExpression, resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression, resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -95,7 +95,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with unaliased string`() {
         val searchExpression = someStringField()
         val resultExpression = someString()
-        val expected = SearchResultExpression(searchExpression, resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression, resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -106,7 +106,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with unaliased boolean`() {
         val searchExpression = someStringField()
         val resultExpression = someBoolean()
-        val expected = SearchResultExpression(searchExpression, resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression, resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -117,7 +117,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with number unaliased`() {
         val searchExpression = someNumber()
         val resultExpression = someStringField()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression)
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression)
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -128,7 +128,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with string unaliased`() {
         val searchExpression = someString()
         val resultExpression = someStringField()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression)
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression)
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -139,7 +139,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with boolean unaliased`() {
         val searchExpression = someBoolean()
         val resultExpression = someStringField()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression)
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression)
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -150,7 +150,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with number number`() {
         val searchExpression = someNumber()
         val resultExpression = someNumber()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -161,7 +161,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with number string`() {
         val searchExpression = someNumber()
         val resultExpression = someString()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -172,7 +172,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with number boolean`() {
         val searchExpression = someNumber()
         val resultExpression = someBoolean()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -183,7 +183,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with string number`() {
         val searchExpression = someString()
         val resultExpression = someNumber()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -194,7 +194,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with string string`() {
         val searchExpression = someString()
         val resultExpression = someString()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -205,7 +205,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with string boolean`() {
         val searchExpression = someString()
         val resultExpression = someBoolean()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -216,7 +216,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with boolean number`() {
         val searchExpression = someBoolean()
         val resultExpression = someNumber()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -227,7 +227,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with boolean string`() {
         val searchExpression = someBoolean()
         val resultExpression = someString()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
@@ -238,7 +238,7 @@ class SearchResultExpressionTest : ParameterDependentTest {
     fun `should support search result extension function with boolean boolean`() {
         val searchExpression = someBoolean()
         val resultExpression = someBoolean()
-        val expected = SearchResultExpression(searchExpression.toDopeType(), resultExpression.toDopeType())
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)
 
