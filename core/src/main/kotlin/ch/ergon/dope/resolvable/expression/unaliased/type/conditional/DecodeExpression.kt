@@ -7,25 +7,25 @@ import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ValidType
 
 class DecodeExpression<T : ValidType, U : ValidType>(
-    private val expression: UnaliasedExpression<T>,
+    private val decodeExpression: UnaliasedExpression<T>,
     private val searchResult: SearchResult<T, U>,
     private vararg val searchResults: SearchResult<T, U>,
     private val default: UnaliasedExpression<U>? = null,
 ) : TypeExpression<U>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
-        val expressionDopeQuery = expression.toDopeQuery()
+        val decodeExpressionDopeQuery = decodeExpression.toDopeQuery()
         val searchResultDopeQuery = searchResult.toDopeQuery()
         val searchResultsDopeQuery = searchResults.map { it.toDopeQuery() }.toTypedArray()
         val defaultDopeQuery = default?.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "DECODE",
-                expressionDopeQuery,
+                decodeExpressionDopeQuery,
                 searchResultDopeQuery,
                 *searchResultsDopeQuery,
                 defaultDopeQuery,
             ),
-            parameters = expressionDopeQuery.parameters +
+            parameters = decodeExpressionDopeQuery.parameters +
                 searchResultsDopeQuery.fold(searchResultDopeQuery.parameters) {
                         expressionParameters, expression ->
                     expressionParameters + expression.parameters
@@ -35,8 +35,8 @@ class DecodeExpression<T : ValidType, U : ValidType>(
 }
 
 fun <T : ValidType, U : ValidType> decode(
-    expression: UnaliasedExpression<T>,
+    decodeExpression: UnaliasedExpression<T>,
     searchResult: SearchResult<T, U>,
     vararg searchResults: SearchResult<T, U>,
     default: UnaliasedExpression<U>? = null,
-) = DecodeExpression(expression, searchResult, *searchResults, default = default)
+) = DecodeExpression(decodeExpression, searchResult, *searchResults, default = default)

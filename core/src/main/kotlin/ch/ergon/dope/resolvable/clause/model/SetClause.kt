@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.IUpdateSetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
@@ -64,8 +65,8 @@ class SetClause(
 class SetAssignment<T : ValidType>(
     private val field: Field<T>,
     private val value: TypeExpression<T>,
-) {
-    fun toDopeQuery(): DopeQuery {
+) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
         val fieldDopeQuery = field.toDopeQuery()
         val valueDopeQuery = value.toDopeQuery()
         return DopeQuery(

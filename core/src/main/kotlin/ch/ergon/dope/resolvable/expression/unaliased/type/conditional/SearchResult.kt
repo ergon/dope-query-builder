@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ValidType
@@ -8,8 +9,8 @@ import ch.ergon.dope.validtype.ValidType
 class SearchResult<T : ValidType, U : ValidType>(
     private val searchExpression: UnaliasedExpression<T>,
     private val resultExpression: UnaliasedExpression<U>,
-) {
-    fun toDopeQuery(): DopeQuery {
+) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
         val searchExpressionDopeQuery = searchExpression.toDopeQuery()
         val resultExpressionDopeQuery = resultExpression.toDopeQuery()
         return DopeQuery(
