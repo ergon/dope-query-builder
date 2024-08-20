@@ -22,7 +22,7 @@ import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
@@ -215,10 +215,10 @@ class SelectClauseTest {
     fun `should support select order by with type and CM`() {
         val field = someCMStringField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByTypeClause(field.toDopeType(), orderByType, parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByTypeClause(field.toDopeType(), orderType, parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

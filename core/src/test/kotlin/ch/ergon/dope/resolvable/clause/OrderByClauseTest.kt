@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -45,7 +45,7 @@ class OrderByClauseTest : ParameterDependentTest {
             "SELECT * ORDER BY `stringField` ASC",
             emptyMap(),
         )
-        val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause())
+        val underTest = SelectOrderByTypeClause(someStringField(), OrderType.ASC, someSelectClause())
 
         val actual = underTest.toDopeQuery()
 
@@ -59,7 +59,7 @@ class OrderByClauseTest : ParameterDependentTest {
             "SELECT $1 ORDER BY `stringField` ASC",
             mapOf("$1" to parameterValue),
         )
-        val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter()))
+        val underTest = SelectOrderByTypeClause(someStringField(), OrderType.ASC, someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery()
 
@@ -72,7 +72,7 @@ class OrderByClauseTest : ParameterDependentTest {
             "SELECT * ORDER BY `stringField` DESC",
             emptyMap(),
         )
-        val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause())
+        val underTest = SelectOrderByTypeClause(someStringField(), OrderType.DESC, someSelectClause())
 
         val actual = underTest.toDopeQuery()
 
@@ -86,7 +86,7 @@ class OrderByClauseTest : ParameterDependentTest {
             "SELECT $1 ORDER BY `stringField` DESC",
             mapOf("$1" to parameterValue),
         )
-        val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter()))
+        val underTest = SelectOrderByTypeClause(someStringField(), OrderType.DESC, someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery()
 
@@ -108,7 +108,7 @@ class OrderByClauseTest : ParameterDependentTest {
     fun `should support order by function with type`() {
         val stringField = someStringField()
         val parentClause = someSelectClause()
-        val orderType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByTypeClause(stringField, orderType, parentClause)
 
         val actual = parentClause.orderBy(stringField, orderType)

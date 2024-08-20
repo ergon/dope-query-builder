@@ -8,7 +8,7 @@ import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectUseKeysClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
@@ -21,8 +21,8 @@ fun ISelectOrderByClause.limit(numberField: CMField<Number>) = limit(numberField
 
 fun ISelectGroupByClause.orderBy(stringField: CMField<String>) = orderBy(stringField.toDopeType())
 
-fun ISelectGroupByClause.orderBy(stringField: CMField<String>, orderByType: OrderByType) =
-    orderBy(stringField.toDopeType(), orderByType)
+fun ISelectGroupByClause.orderBy(stringField: CMField<String>, orderType: OrderType) =
+    orderBy(stringField.toDopeType(), orderType)
 
 fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType) =
     groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())

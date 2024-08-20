@@ -1,0 +1,243 @@
+package ch.ergon.dope.resolvable.expression.windowfunction
+
+import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.clause.model.OrderType
+import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
+
+enum class FromModifier(val queryString: String) {
+    FIRST("FROM FIRST"),
+    LAST("FROM LAST"),
+}
+
+enum class NullsOrder(val queryString: String) {
+    NULLS_FIRST("NULLS FIRST"),
+    NULLS_LAST("NULLS LAST"),
+}
+
+enum class NullsModifier(val queryString: String) {
+    RESPECT("RESPECT NULLS"),
+    IGNORE("IGNORE NULLS"),
+}
+
+sealed class WindowFunction(
+    private val functionName: String,
+    private val windowFunctionArguments: WindowFunctionArguments?,
+    private val fromModifier: FromModifier?,
+    private val nullsModifier: NullsModifier?,
+    private val overClause: OverClause,
+) : Expression {
+    override fun toDopeQuery(): DopeQuery {
+        val windowFunctionArgumentsDopeQuery = windowFunctionArguments?.toDopeQuery()
+        val overClauseDopeQuery = overClause.toDopeQuery()
+        return DopeQuery(
+            queryString = functionName +
+                (windowFunctionArgumentsDopeQuery?.queryString?.let { " ($it)" } ?: " ()") +
+                (fromModifier?.let { " ${it.queryString}" } ?: "") +
+                (nullsModifier?.let { " ${it.queryString}" } ?: "") +
+                overClauseDopeQuery.queryString.let { " $it" },
+            parameters = windowFunctionArgumentsDopeQuery?.parameters.orEmpty() + overClauseDopeQuery.parameters,
+        )
+    }
+
+    fun alias(alias: String): AliasedWindowFunction = AliasedWindowFunction(this, alias)
+}
+
+class AliasedWindowFunction(private val windowFunction: WindowFunction, private val alias: String) : Expression {
+    override fun toDopeQuery(): DopeQuery {
+        val windowFunctionDopeQuery = windowFunction.toDopeQuery()
+        return DopeQuery(windowFunctionDopeQuery.queryString + " AS `$alias`", windowFunctionDopeQuery.parameters)
+    }
+}
+
+data class WindowFunctionArguments(
+    private val firstArg: UnaliasedExpression<out ValidType>? = null,
+    private val secondArg: UnaliasedExpression<out ValidType>? = null,
+    private val thirdArg: UnaliasedExpression<out ValidType>? = null,
+) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
+        val firstArgDopeQuery = firstArg?.toDopeQuery()
+        val secondArgDopeQuery = secondArg?.toDopeQuery()
+        val thirdArgDopeQuery = thirdArg?.toDopeQuery()
+        return DopeQuery(
+            queryString = (firstArgDopeQuery?.queryString ?: "") +
+                (secondArgDopeQuery?.let { "${if (firstArgDopeQuery != null) ", " else ""}${it.queryString}" } ?: "") +
+                (thirdArgDopeQuery?.let { (if (firstArgDopeQuery != null || secondArgDopeQuery != null) ", " else "") + it.queryString } ?: ""),
+            parameters = firstArgDopeQuery?.parameters.orEmpty() +
+                secondArgDopeQuery?.parameters.orEmpty() +
+                thirdArgDopeQuery?.parameters.orEmpty(),
+        )
+    }
+}
+
+class OverClause : Resolvable {
+    private val windowDefinition: WindowDefinition?
+    private val windowReference: String?
+
+    constructor() {
+        this.windowDefinition = null
+        this.windowReference = null
+    }
+
+    constructor(windowDefinition: WindowDefinition) {
+        this.windowDefinition = windowDefinition
+        this.windowReference = null
+    }
+
+    constructor(windowReference: String) {
+        this.windowDefinition = null
+        this.windowReference = windowReference
+    }
+
+    override fun toDopeQuery(): DopeQuery {
+        val windowDefinitionDopeQuery = windowDefinition?.toDopeQuery()
+        return DopeQuery(
+            queryString = "OVER ${windowDefinitionDopeQuery?.queryString?.let { "($it)" } ?: ""}${windowReference?.let { "`$it`" } ?: ""}",
+            parameters = windowDefinitionDopeQuery?.parameters.orEmpty(),
+        )
+    }
+}
+
+class WindowDefinition(
+    private val windowReference: UnaliasedExpression<StringType>? = null,
+    private val windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    private val windowOrderClause: List<OrderingTerm>? = null,
+    private val windowFrameClause: WindowFrameClause? = null,
+) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
+        val windowReferenceDopeQuery = windowReference?.toDopeQuery()
+        val windowPartitionClauseDopeQueries = windowPartitionClause?.map { it.toDopeQuery() }
+        val windowOrderClauseDopeQueries = windowOrderClause?.map { it.toDopeQuery() }
+        val windowFrameClauseDopeQuery = windowFrameClause?.toDopeQuery()
+        return DopeQuery(
+            queryString = (windowReferenceDopeQuery?.queryString?.let { " $it" } ?: "") +
+                (
+                    windowPartitionClauseDopeQueries?.joinToString(
+                        separator = ", ",
+                        prefix = "${if (windowReferenceDopeQuery != null) " " else ""}PARTITION BY ",
+                    ) { it.queryString } ?: ""
+                    ) +
+                (
+                    windowOrderClauseDopeQueries?.joinToString(
+                        separator = ", ",
+                        prefix = "${if (windowReferenceDopeQuery != null || windowPartitionClauseDopeQueries != null) " " else ""}ORDER BY ",
+                    ) { it.queryString } ?: ""
+                    ) +
+                (
+                    windowFrameClauseDopeQuery?.queryString?.let {
+                        "${
+                        if (windowReferenceDopeQuery != null ||
+                            windowPartitionClauseDopeQueries != null ||
+                            windowOrderClauseDopeQueries != null
+                        ) {
+                            " "
+                        } else {
+                            ""
+                        }
+                        }$it"
+                    } ?: ""
+                    ),
+            parameters = emptyMap(),
+        )
+    }
+}
+
+class WindowFrameClause(
+    private val windowFrameType: WindowFrameType,
+    private val windowFrameExtent: WindowFrameExtent,
+    private val windowFrameExclusion: WindowFrameExclusion? = null,
+) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
+        val windowFrameExtentDopeQuery = windowFrameExtent.toDopeQuery()
+        return DopeQuery(
+            queryString = "$windowFrameType " +
+                "${windowFrameExtentDopeQuery.queryString}${windowFrameExclusion?.let { " ${it.queryString}" } ?: ""}",
+            parameters = windowFrameExtentDopeQuery.parameters,
+        )
+    }
+}
+
+sealed class WindowFrameExtent : Resolvable {
+    data object UnboundedPreceding : WindowFrameExtent()
+    class Preceding(val offset: UnaliasedExpression<NumberType>) : WindowFrameExtent()
+    data object CurrentRow : WindowFrameExtent()
+    class Between(val between: FrameBetween, val and: FrameBetween) : WindowFrameExtent()
+
+    override fun toDopeQuery(): DopeQuery {
+        return when (this) {
+            is UnboundedPreceding -> DopeQuery("UNBOUNDED PRECEDING", emptyMap())
+            is Preceding -> {
+                val offsetDopeQuery = offset.toDopeQuery()
+                DopeQuery("${offsetDopeQuery.queryString} PRECEDING", offsetDopeQuery.parameters)
+            }
+
+            is CurrentRow -> DopeQuery("CURRENT ROW", emptyMap())
+            is Between -> {
+                val betweenDopeQuery = between.toDopeQuery()
+                val andDopeQuery = and.toDopeQuery()
+                DopeQuery(
+                    "BETWEEN ${betweenDopeQuery.queryString} AND ${andDopeQuery.queryString}",
+                    betweenDopeQuery.parameters + andDopeQuery.parameters,
+                )
+            }
+        }
+    }
+}
+
+sealed class FrameBetween : Resolvable {
+    data object UnboundedPreceding : FrameBetween()
+    data object UnboundedFollowing : FrameBetween()
+    data object CurrentRow : FrameBetween()
+    class Following(val offset: UnaliasedExpression<NumberType>) : FrameBetween()
+    class Preceding(val offset: UnaliasedExpression<NumberType>) : FrameBetween()
+
+    override fun toDopeQuery(): DopeQuery {
+        return when (this) {
+            is UnboundedPreceding -> DopeQuery("UNBOUNDED PRECEDING", emptyMap())
+            is UnboundedFollowing -> DopeQuery("UNBOUNDED FOLLOWING", emptyMap())
+            is CurrentRow -> DopeQuery("CURRENT ROW", emptyMap())
+            is Following -> {
+                val offsetDopeQuery = offset.toDopeQuery()
+                DopeQuery("${offsetDopeQuery.queryString} FOLLOWING", offsetDopeQuery.parameters)
+            }
+
+            is Preceding -> {
+                val offsetDopeQuery = offset.toDopeQuery()
+                DopeQuery("${offsetDopeQuery.queryString} PRECEDING", offsetDopeQuery.parameters)
+            }
+        }
+    }
+}
+
+enum class WindowFrameExclusion(val queryString: String) {
+    EXCLUDE_CURRENT_ROW("EXCLUDE CURRENT ROW"),
+    EXCLUDE_GROUP("EXCLUDE GROUP"),
+    EXCLUDE_TIES("EXCLUDE TIES"),
+    EXCLUDE_NO_OTHERS("EXCLUDE NO OTHERS"),
+}
+
+enum class WindowFrameType {
+    ROWS,
+    RANGE,
+    GROUPS,
+}
+
+class OrderingTerm(
+    private val expression: Expression,
+    private val orderType: OrderType? = null,
+    private val nullsOrder: NullsOrder? = null,
+) : Resolvable {
+    override fun toDopeQuery(): DopeQuery {
+        val expressionDopeQuery = expression.toDopeQuery()
+        return DopeQuery(
+            queryString = expressionDopeQuery.queryString +
+                (orderType?.let { " $it" } ?: "") +
+                (nullsOrder?.let { " ${it.queryString}" } ?: ""),
+            parameters = expressionDopeQuery.parameters,
+        )
+    }
+}

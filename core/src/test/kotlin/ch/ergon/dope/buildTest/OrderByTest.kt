@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -41,7 +41,7 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-                OrderByType.ASC,
+                OrderType.ASC,
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -57,7 +57,7 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-                OrderByType.DESC,
+                OrderType.DESC,
             ).build().queryString
 
         assertEquals(expected, actual)

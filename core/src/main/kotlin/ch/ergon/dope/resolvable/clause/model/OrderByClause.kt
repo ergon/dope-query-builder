@@ -7,7 +7,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.StringType
 
-enum class OrderByType(val type: String) {
+enum class OrderType(val type: String) {
     ASC("ASC"),
     DESC("DESC"),
 }
@@ -29,7 +29,7 @@ open class SelectOrderByClause(private val stringField: Field<StringType>, priva
 
 class SelectOrderByTypeClause(
     private val stringField: Field<StringType>,
-    private val orderByType: OrderByType,
+    private val orderType: OrderType,
     private val parentClause: ISelectGroupByClause,
 ) : SelectOrderByClause(stringField, parentClause) {
 
@@ -37,7 +37,7 @@ class SelectOrderByTypeClause(
         val parentDopeQuery = parentClause.toDopeQuery()
         val stringDopeQuery = stringField.toDopeQuery()
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
+            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderType"),
             parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
         )
     }

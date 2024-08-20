@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
@@ -42,7 +42,7 @@ interface ISelectOrderByClause : ISelectLimitClause {
 
 interface ISelectGroupByClause : ISelectOrderByClause {
     fun orderBy(stringField: Field<StringType>) = SelectOrderByClause(stringField, this)
-    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) = SelectOrderByTypeClause(stringField, orderByType, this)
+    fun orderBy(stringField: Field<StringType>, orderType: OrderType) = SelectOrderByTypeClause(stringField, orderType, this)
 }
 
 interface ISelectWhereClause : ISelectGroupByClause {
