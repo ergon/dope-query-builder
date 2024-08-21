@@ -21,7 +21,7 @@ class CountExpression(
     }
 }
 
-class CountAsteriskExpression : UnaliasedExpression<ValidType> {
+class CountAsteriskExpression : UnaliasedExpression<NumberType> {
     override fun toDopeQuery() = DopeQuery(
         queryString = "COUNT($ASTERISK_STRING)",
         parameters = emptyMap(),
