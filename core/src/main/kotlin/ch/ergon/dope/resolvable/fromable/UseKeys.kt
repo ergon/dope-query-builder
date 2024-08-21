@@ -46,5 +46,3 @@ fun Bucket.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.
 
 fun Bucket.useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
     useKeys(listOf(firstKey.toDopeType(), secondKey.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())
-
-fun Bucket.useIndex(vararg indexReference: IndexReference) = UseIndex(*indexReference, bucket = this)

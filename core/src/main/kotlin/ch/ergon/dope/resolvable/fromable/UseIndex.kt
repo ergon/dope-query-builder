@@ -69,3 +69,5 @@ class UseIndex(
         )
     }
 }
+
+fun Bucket.useIndex(vararg indexReference: IndexReference) = UseIndex(*indexReference, bucket = this)
