@@ -15,7 +15,6 @@ class LastValue : WindowFunction {
     ) : super(
         functionName = LAST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(
             WindowDefinition(
@@ -29,7 +28,6 @@ class LastValue : WindowFunction {
     constructor(expression: UnaliasedExpression<out ValidType>, nullsModifier: NullsModifier? = null, windowReference: String) : super(
         functionName = LAST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(windowReference),
     )

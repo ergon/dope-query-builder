@@ -11,17 +11,11 @@ class DenseRank : WindowFunction {
         windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
     ) : super(
         functionName = DENSE_RANK,
-        windowFunctionArguments = null,
-        fromModifier = null,
-        nullsModifier = null,
         overClause = OverClause(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
     )
 
     constructor(windowReference: String) : super(
         functionName = DENSE_RANK,
-        windowFunctionArguments = null,
-        fromModifier = null,
-        nullsModifier = null,
         overClause = OverClause(windowReference),
     )
 }

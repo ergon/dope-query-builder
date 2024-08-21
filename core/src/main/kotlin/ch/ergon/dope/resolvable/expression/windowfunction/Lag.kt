@@ -18,13 +18,11 @@ class Lag : WindowFunction {
     ) : super(
         functionName = LAG,
         windowFunctionArguments = WindowFunctionArguments(expression, offset, default),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
-                windowFrameClause = null,
             ),
         ),
     )
@@ -38,7 +36,6 @@ class Lag : WindowFunction {
     ) : super(
         functionName = LAG,
         windowFunctionArguments = WindowFunctionArguments(expression, offset, default),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(windowReference),
     )

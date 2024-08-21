@@ -18,13 +18,11 @@ class Lead : WindowFunction {
     ) : super(
         functionName = LEAD,
         windowFunctionArguments = WindowFunctionArguments(expression, offset, default),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
-                windowFrameClause = null,
             ),
         ),
     )
@@ -38,7 +36,6 @@ class Lead : WindowFunction {
     ) : super(
         functionName = LEAD,
         windowFunctionArguments = WindowFunctionArguments(expression, offset, default),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(windowReference),
     )

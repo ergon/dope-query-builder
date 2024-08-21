@@ -14,8 +14,6 @@ class RatioToReport : WindowFunction {
     ) : super(
         functionName = RATIO_TO_REPORT,
         windowFunctionArguments = WindowFunctionArguments(expression),
-        fromModifier = null,
-        nullsModifier = null,
         overClause = OverClause(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
@@ -28,7 +26,6 @@ class RatioToReport : WindowFunction {
     constructor(expression: UnaliasedExpression<out ValidType>, nullsModifier: NullsModifier? = null, windowReference: String) : super(
         functionName = RATIO_TO_REPORT,
         windowFunctionArguments = WindowFunctionArguments(expression),
-        fromModifier = null,
         nullsModifier = nullsModifier,
         overClause = OverClause(windowReference),
     )

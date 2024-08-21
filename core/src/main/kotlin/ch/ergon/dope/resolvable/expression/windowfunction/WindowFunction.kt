@@ -26,9 +26,9 @@ enum class NullsModifier(val queryString: String) {
 
 sealed class WindowFunction(
     private val functionName: String,
-    private val windowFunctionArguments: WindowFunctionArguments?,
-    private val fromModifier: FromModifier?,
-    private val nullsModifier: NullsModifier?,
+    private val windowFunctionArguments: WindowFunctionArguments? = null,
+    private val fromModifier: FromModifier? = null,
+    private val nullsModifier: NullsModifier? = null,
     private val overClause: OverClause,
 ) : Expression {
     override fun toDopeQuery(): DopeQuery {

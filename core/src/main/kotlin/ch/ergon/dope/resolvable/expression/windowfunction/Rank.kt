@@ -11,17 +11,11 @@ class Rank : WindowFunction {
         windowOrderClause: List<OrderingTerm>,
     ) : super(
         functionName = RANK,
-        windowFunctionArguments = null,
-        fromModifier = null,
-        nullsModifier = null,
         overClause = OverClause(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
     )
 
     constructor(windowReference: String) : super(
         functionName = RANK,
-        windowFunctionArguments = null,
-        fromModifier = null,
-        nullsModifier = null,
         overClause = OverClause(windowReference),
     )
 }
