@@ -78,30 +78,23 @@ data class WindowFunctionArguments(
     }
 }
 
-class OverClause : Resolvable {
-    private val windowDefinition: WindowDefinition?
-    private val windowReference: String?
+sealed interface OverClause : Resolvable
 
-    constructor() {
-        this.windowDefinition = null
-        this.windowReference = null
-    }
-
-    constructor(windowDefinition: WindowDefinition) {
-        this.windowDefinition = windowDefinition
-        this.windowReference = null
-    }
-
-    constructor(windowReference: String) {
-        this.windowDefinition = null
-        this.windowReference = windowReference
-    }
-
+class OverClauseWindowDefinition(private val windowDefinition: WindowDefinition) : OverClause {
     override fun toDopeQuery(): DopeQuery {
-        val windowDefinitionDopeQuery = windowDefinition?.toDopeQuery()
+        val windowDefinitionDopeQuery = windowDefinition.toDopeQuery()
         return DopeQuery(
-            queryString = "OVER ${windowDefinitionDopeQuery?.queryString?.let { "($it)" }.orEmpty()}${windowReference?.let { "`$it`" }.orEmpty()}",
-            parameters = windowDefinitionDopeQuery?.parameters.orEmpty(),
+            queryString = "OVER (${windowDefinitionDopeQuery.queryString})",
+            parameters = windowDefinitionDopeQuery.parameters,
+        )
+    }
+}
+
+class OverClauseWindowReference(private val windowReference: String) : OverClause {
+    override fun toDopeQuery(): DopeQuery {
+        return DopeQuery(
+            queryString = "OVER `$windowReference`",
+            parameters = emptyMap(),
         )
     }
 }

@@ -19,7 +19,7 @@ class Lead : WindowFunction {
         functionName = LEAD,
         windowFunctionArguments = WindowFunctionArguments(expression, offset, default),
         nullsModifier = nullsModifier,
-        overClause = OverClause(
+        overClause = OverClauseWindowDefinition(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
@@ -37,7 +37,7 @@ class Lead : WindowFunction {
         functionName = LEAD,
         windowFunctionArguments = WindowFunctionArguments(expression, offset, default),
         nullsModifier = nullsModifier,
-        overClause = OverClause(windowReference),
+        overClause = OverClauseWindowReference(windowReference),
     )
 }
 

@@ -11,12 +11,12 @@ class RowNumber : WindowFunction {
         windowOrderClause: List<OrderingTerm>? = null,
     ) : super(
         functionName = ROW_NUMBER,
-        overClause = OverClause(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
+        overClause = OverClauseWindowDefinition(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
     )
 
     constructor(windowReference: String) : super(
         functionName = ROW_NUMBER,
-        overClause = OverClause(windowReference),
+        overClause = OverClauseWindowReference(windowReference),
     )
 }
 

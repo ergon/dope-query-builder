@@ -14,7 +14,7 @@ class RatioToReport : WindowFunction {
     ) : super(
         functionName = RATIO_TO_REPORT,
         windowFunctionArguments = WindowFunctionArguments(expression),
-        overClause = OverClause(
+        overClause = OverClauseWindowDefinition(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
@@ -27,7 +27,7 @@ class RatioToReport : WindowFunction {
         functionName = RATIO_TO_REPORT,
         windowFunctionArguments = WindowFunctionArguments(expression),
         nullsModifier = nullsModifier,
-        overClause = OverClause(windowReference),
+        overClause = OverClauseWindowReference(windowReference),
     )
 }
 

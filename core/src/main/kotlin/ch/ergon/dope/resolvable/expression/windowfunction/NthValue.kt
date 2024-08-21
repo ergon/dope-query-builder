@@ -21,7 +21,7 @@ class NthValue : WindowFunction {
         windowFunctionArguments = WindowFunctionArguments(expression, offset),
         fromModifier = fromModifier,
         nullsModifier = nullsModifier,
-        overClause = OverClause(
+        overClause = OverClauseWindowDefinition(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
@@ -41,7 +41,7 @@ class NthValue : WindowFunction {
         windowFunctionArguments = WindowFunctionArguments(expression, offset),
         fromModifier = fromModifier,
         nullsModifier = nullsModifier,
-        overClause = OverClause(windowReference),
+        overClause = OverClauseWindowReference(windowReference),
     )
 }
 

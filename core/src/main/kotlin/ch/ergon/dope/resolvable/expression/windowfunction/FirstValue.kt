@@ -16,7 +16,7 @@ class FirstValue : WindowFunction {
         functionName = FIRST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
         nullsModifier = nullsModifier,
-        overClause = OverClause(
+        overClause = OverClauseWindowDefinition(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
@@ -29,7 +29,7 @@ class FirstValue : WindowFunction {
         functionName = FIRST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
         nullsModifier = nullsModifier,
-        overClause = OverClause(windowReference),
+        overClause = OverClauseWindowReference(windowReference),
     )
 }
 

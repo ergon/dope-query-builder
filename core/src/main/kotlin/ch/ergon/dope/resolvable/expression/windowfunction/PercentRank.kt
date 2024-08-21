@@ -11,12 +11,12 @@ class PercentRank : WindowFunction {
         windowOrderClause: List<OrderingTerm>,
     ) : super(
         functionName = PERCENT_RANK,
-        overClause = OverClause(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
+        overClause = OverClauseWindowDefinition(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
     )
 
     constructor(windowReference: String) : super(
         functionName = PERCENT_RANK,
-        overClause = OverClause(windowReference),
+        overClause = OverClauseWindowReference(windowReference),
     )
 }
 
