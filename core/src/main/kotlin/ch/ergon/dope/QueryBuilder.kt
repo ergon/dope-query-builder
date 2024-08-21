@@ -10,6 +10,7 @@ import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.fromable.Fromable
 import ch.ergon.dope.resolvable.fromable.IBucket
+import ch.ergon.dope.resolvable.fromable.Updatable
 
 class QueryBuilder {
     fun select(expression: Expression, vararg expressions: Expression) = SelectClause(expression, *expressions)
@@ -24,5 +25,5 @@ class QueryBuilder {
 
     fun deleteFrom(bucket: IBucket) = DeleteClause(bucket)
 
-    fun update(bucket: IBucket) = UpdateClause(bucket)
+    fun update(bucket: Updatable) = UpdateClause(bucket)
 }

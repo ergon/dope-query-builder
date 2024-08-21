@@ -14,7 +14,7 @@ private const val USE_KEYS = "USE KEYS"
 class UseKeysClass private constructor(
     private val useKeys: TypeExpression<out ValidType>,
     private val bucket: Bucket,
-) : IBucket {
+) : Updatable {
     companion object {
         @JvmName("selectSingleUseKeysClauseConstructor")
         fun UseKeys(key: TypeExpression<StringType>, bucket: Bucket) =
