@@ -11,6 +11,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
@@ -86,6 +87,18 @@ fun <Convertable : Any> Convertable.inArray(array: CMConverterList<Convertable, 
 @JvmName("inArrayBooleanConverter")
 fun <Convertable : Any> Convertable.inArray(array: CMConverterList<Convertable, Boolean>): InExpression<BooleanType> =
     toDopeType(array).inArray(array.toDopeType())
+
+@JvmName("inArrayNumberConverter")
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.inArray(array: Collection<Convertable>): InExpression<NumberType> =
+    toDopeType().inArray(array.map { it.toDopeType(this) }.toDopeType())
+
+@JvmName("inArrayStringConverter")
+fun <Convertable : Any> CMConverterField<Convertable, String>.inArray(array: Collection<Convertable>): InExpression<StringType> =
+    toDopeType().inArray(array.map { it.toDopeType(this) }.toDopeType())
+
+@JvmName("inArrayBooleanConverter")
+fun <Convertable : Any> CMConverterField<Convertable, Boolean>.inArray(array: Collection<Convertable>): InExpression<BooleanType> =
+    toDopeType().inArray(array.map { it.toDopeType(this) }.toDopeType())
 
 @JvmName("notInArrayNumber")
 fun CMJsonField<out Number>.notInArray(array: TypeExpression<ArrayType<NumberType>>): NotInExpression<NumberType> =
