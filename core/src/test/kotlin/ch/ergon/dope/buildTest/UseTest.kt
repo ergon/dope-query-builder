@@ -13,7 +13,7 @@ import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class UseKeysTest {
+class UseTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest

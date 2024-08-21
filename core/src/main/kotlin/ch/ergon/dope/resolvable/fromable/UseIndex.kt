@@ -39,17 +39,17 @@ class IndexReference : Resolvable {
     }
 
     override fun toDopeQuery(): DopeQuery {
-        val fromableDopeQuery = indexName?.toDopeQuery()
+        val indexNameDopeQuery = indexName?.toDopeQuery()
         val queryString = buildString {
-            if (fromableDopeQuery != null) {
-                append(fromableDopeQuery.queryString)
+            if (indexNameDopeQuery != null) {
+                append(indexNameDopeQuery.queryString)
             }
             if (indexType != null) {
                 if (isNotEmpty()) append(" ")
                 append(indexType.type)
             }
         }
-        return DopeQuery(queryString, fromableDopeQuery?.parameters.orEmpty())
+        return DopeQuery(queryString, indexNameDopeQuery?.parameters.orEmpty())
     }
 }
 
