@@ -2,12 +2,14 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.greatestOf
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
@@ -22,6 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.leastOf
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -931,6 +934,46 @@ class BooleanComparatorTest {
             )
             .where(
                 someNumberField().between(1.toDopeType(), 10.toDopeType()),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support greatest comparison`() {
+        val expected = "SELECT * FROM `someBucket` WHERE GREATEST(`numberField`, `anotherNumberField`) > 5"
+
+        val actual = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                greatestOf(
+                    someNumberField(),
+                    someNumberField("anotherNumberField"),
+                ).isGreaterThan(
+                    someNumber(),
+                ),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support least comparison`() {
+        val expected = "SELECT * FROM `someBucket` WHERE LEAST(`numberField`, `anotherNumberField`) <= 5"
+
+        val actual = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                leastOf(
+                    someNumberField(),
+                    someNumberField("anotherNumberField"),
+                ).isLessOrEqualThan(
+                    someNumber(),
+                ),
             ).build().queryString
 
         assertEquals(expected, actual)

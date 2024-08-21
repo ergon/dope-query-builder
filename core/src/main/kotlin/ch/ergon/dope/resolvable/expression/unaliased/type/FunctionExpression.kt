@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
+package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ValidType
 
-sealed class ConditionalExpression<T : ValidType>(
+open class FunctionExpression<T : ValidType>(
     private val symbol: String,
     private val firstExpression: UnaliasedExpression<T>,
     private val secondExpression: UnaliasedExpression<T>,

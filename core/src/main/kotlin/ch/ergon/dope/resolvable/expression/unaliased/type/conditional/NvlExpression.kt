@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.FunctionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -10,7 +11,7 @@ import ch.ergon.dope.validtype.ValidType
 class NvlExpression<T : ValidType>(
     initialExpression: UnaliasedExpression<T>,
     substituteExpression: UnaliasedExpression<T>,
-) : ConditionalExpression<T>("NVL", initialExpression, substituteExpression)
+) : FunctionExpression<T>("NVL", initialExpression, substituteExpression)
 
 fun <T : ValidType> nvl(initialExpression: UnaliasedExpression<T>, substituteExpression: UnaliasedExpression<T>) =
     NvlExpression(initialExpression, substituteExpression)
