@@ -14,7 +14,12 @@ class NTile : WindowFunction {
     ) : super(
         functionName = NTILE,
         windowFunctionArguments = WindowFunctionArguments(numTiles),
-        overClause = OverClauseWindowDefinition(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
+        overClause = OverClauseWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+            ),
+        ),
     )
 
     constructor(numTiles: UnaliasedExpression<NumberType>, windowReference: String) : super(

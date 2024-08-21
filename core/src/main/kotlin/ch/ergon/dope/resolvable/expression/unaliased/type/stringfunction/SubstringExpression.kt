@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.StringType
 class SubstringExpression(
     private val inStr: TypeExpression<StringType>,
     private val startPos: Int,
-    private val length: Int,
+    private val length: Int? = null,
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toDopeQuery(): DopeQuery {
         val inStrDopeQuery = inStr.toDopeQuery()
@@ -18,13 +18,13 @@ class SubstringExpression(
                 symbol = "SUBSTR",
                 inStrDopeQuery,
                 startPos.toDopeType().toDopeQuery(),
-                length.toDopeType().toDopeQuery(),
+                length?.toDopeType()?.toDopeQuery(),
             ),
             parameters = inStrDopeQuery.parameters,
         )
     }
 }
 
-fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int) = SubstringExpression(inStr, startPos, length)
+fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int? = null) = SubstringExpression(inStr, startPos, length)
 
-fun substr(inStr: String, startPos: Int, length: Int = inStr.length) = substr(inStr.toDopeType(), startPos, length)
+fun substr(inStr: String, startPos: Int, length: Int? = null) = substr(inStr.toDopeType(), startPos, length)

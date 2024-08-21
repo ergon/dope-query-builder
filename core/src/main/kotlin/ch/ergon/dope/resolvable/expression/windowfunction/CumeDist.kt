@@ -11,7 +11,12 @@ class CumeDist : WindowFunction {
         windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
     ) : super(
         functionName = CUME_DIST,
-        overClause = OverClauseWindowDefinition(WindowDefinition(windowPartitionClause = windowPartitionClause, windowOrderClause = windowOrderClause)),
+        overClause = OverClauseWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+            ),
+        ),
     )
 
     constructor(windowReference: String) : super(

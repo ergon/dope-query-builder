@@ -113,22 +113,30 @@ class WindowDefinition(
 
         return DopeQuery(
             queryString = buildString {
+                var isPreviousQueryAdded = false
+
                 windowReferenceDopeQuery?.queryString?.let {
-                    append(" $it")
+                    append(it)
+                    isPreviousQueryAdded = true
                 }
 
                 windowPartitionClauseDopeQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
-                    append(" PARTITION BY ")
+                    if (isPreviousQueryAdded) append(" ")
+                    append("PARTITION BY ")
                     append(queries.joinToString(", ") { it.queryString })
+                    isPreviousQueryAdded = true
                 }
 
                 windowOrderClauseDopeQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
-                    append(" ORDER BY ")
+                    if (isPreviousQueryAdded) append(" ")
+                    append("ORDER BY ")
                     append(queries.joinToString(", ") { it.queryString })
+                    isPreviousQueryAdded = true
                 }
 
                 windowFrameClauseDopeQuery?.queryString?.let {
-                    append(" $it")
+                    if (isPreviousQueryAdded) append(" ")
+                    append(it)
                 }
             },
             parameters = emptyMap(),
