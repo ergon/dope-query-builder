@@ -110,34 +110,27 @@ class WindowDefinition(
         val windowPartitionClauseDopeQueries = windowPartitionClause?.map { it.toDopeQuery() }
         val windowOrderClauseDopeQueries = windowOrderClause?.map { it.toDopeQuery() }
         val windowFrameClauseDopeQuery = windowFrameClause?.toDopeQuery()
+
         return DopeQuery(
-            queryString = (windowReferenceDopeQuery?.queryString?.let { " $it" }.orEmpty()) +
-                (
-                    windowPartitionClauseDopeQueries?.joinToString(
-                        separator = ", ",
-                        prefix = "${if (windowReferenceDopeQuery != null) " " else ""}PARTITION BY ",
-                    ) { it.queryString }.orEmpty()
-                    ) +
-                (
-                    windowOrderClauseDopeQueries?.joinToString(
-                        separator = ", ",
-                        prefix = "${if (windowReferenceDopeQuery != null || windowPartitionClauseDopeQueries != null) " " else ""}ORDER BY ",
-                    ) { it.queryString }.orEmpty()
-                    ) +
-                (
-                    windowFrameClauseDopeQuery?.queryString?.let {
-                        "${
-                            if (windowReferenceDopeQuery != null ||
-                                windowPartitionClauseDopeQueries != null ||
-                                windowOrderClauseDopeQueries != null
-                            ) {
-                                " "
-                            } else {
-                                ""
-                            }
-                        }$it"
-                    }.orEmpty()
-                    ),
+            queryString = buildString {
+                windowReferenceDopeQuery?.queryString?.let {
+                    append(" $it")
+                }
+
+                windowPartitionClauseDopeQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
+                    append(" PARTITION BY ")
+                    append(queries.joinToString(", ") { it.queryString })
+                }
+
+                windowOrderClauseDopeQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
+                    append(" ORDER BY ")
+                    append(queries.joinToString(", ") { it.queryString })
+                }
+
+                windowFrameClauseDopeQuery?.queryString?.let {
+                    append(" $it")
+                }
+            },
             parameters = emptyMap(),
         )
     }
