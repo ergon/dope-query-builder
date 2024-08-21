@@ -37,8 +37,8 @@ sealed class WindowFunction(
         return DopeQuery(
             queryString = functionName +
                 (windowFunctionArgumentsDopeQuery?.queryString?.let { " ($it)" } ?: " ()") +
-                (fromModifier?.let { " ${it.queryString}" } ?: "") +
-                (nullsModifier?.let { " ${it.queryString}" } ?: "") +
+                (fromModifier?.let { " ${it.queryString}" }.orEmpty()) +
+                (nullsModifier?.let { " ${it.queryString}" }.orEmpty()) +
                 overClauseDopeQuery.queryString.let { " $it" },
             parameters = windowFunctionArgumentsDopeQuery?.parameters.orEmpty() + overClauseDopeQuery.parameters,
         )
@@ -64,9 +64,13 @@ data class WindowFunctionArguments(
         val secondArgDopeQuery = secondArg?.toDopeQuery()
         val thirdArgDopeQuery = thirdArg?.toDopeQuery()
         return DopeQuery(
-            queryString = (firstArgDopeQuery?.queryString ?: "") +
-                (secondArgDopeQuery?.let { "${if (firstArgDopeQuery != null) ", " else ""}${it.queryString}" } ?: "") +
-                (thirdArgDopeQuery?.let { (if (firstArgDopeQuery != null || secondArgDopeQuery != null) ", " else "") + it.queryString } ?: ""),
+            queryString = firstArgDopeQuery?.let { first ->
+                secondArgDopeQuery?.let { second ->
+                    thirdArgDopeQuery?.let { third ->
+                        "${first.queryString}, ${second.queryString}, ${third.queryString}"
+                    } ?: "${first.queryString}, ${second.queryString}"
+                } ?: first.queryString
+            }.orEmpty(),
             parameters = firstArgDopeQuery?.parameters.orEmpty() +
                 secondArgDopeQuery?.parameters.orEmpty() +
                 thirdArgDopeQuery?.parameters.orEmpty(),
@@ -96,7 +100,7 @@ class OverClause : Resolvable {
     override fun toDopeQuery(): DopeQuery {
         val windowDefinitionDopeQuery = windowDefinition?.toDopeQuery()
         return DopeQuery(
-            queryString = "OVER ${windowDefinitionDopeQuery?.queryString?.let { "($it)" } ?: ""}${windowReference?.let { "`$it`" } ?: ""}",
+            queryString = "OVER ${windowDefinitionDopeQuery?.queryString?.let { "($it)" }.orEmpty()}${windowReference?.let { "`$it`" }.orEmpty()}",
             parameters = windowDefinitionDopeQuery?.parameters.orEmpty(),
         )
     }
@@ -114,32 +118,32 @@ class WindowDefinition(
         val windowOrderClauseDopeQueries = windowOrderClause?.map { it.toDopeQuery() }
         val windowFrameClauseDopeQuery = windowFrameClause?.toDopeQuery()
         return DopeQuery(
-            queryString = (windowReferenceDopeQuery?.queryString?.let { " $it" } ?: "") +
+            queryString = (windowReferenceDopeQuery?.queryString?.let { " $it" }.orEmpty()) +
                 (
                     windowPartitionClauseDopeQueries?.joinToString(
                         separator = ", ",
                         prefix = "${if (windowReferenceDopeQuery != null) " " else ""}PARTITION BY ",
-                    ) { it.queryString } ?: ""
+                    ) { it.queryString }.orEmpty()
                     ) +
                 (
                     windowOrderClauseDopeQueries?.joinToString(
                         separator = ", ",
                         prefix = "${if (windowReferenceDopeQuery != null || windowPartitionClauseDopeQueries != null) " " else ""}ORDER BY ",
-                    ) { it.queryString } ?: ""
+                    ) { it.queryString }.orEmpty()
                     ) +
                 (
                     windowFrameClauseDopeQuery?.queryString?.let {
                         "${
-                        if (windowReferenceDopeQuery != null ||
-                            windowPartitionClauseDopeQueries != null ||
-                            windowOrderClauseDopeQueries != null
-                        ) {
-                            " "
-                        } else {
-                            ""
-                        }
+                            if (windowReferenceDopeQuery != null ||
+                                windowPartitionClauseDopeQueries != null ||
+                                windowOrderClauseDopeQueries != null
+                            ) {
+                                " "
+                            } else {
+                                ""
+                            }
                         }$it"
-                    } ?: ""
+                    }.orEmpty()
                     ),
             parameters = emptyMap(),
         )
@@ -155,7 +159,7 @@ class WindowFrameClause(
         val windowFrameExtentDopeQuery = windowFrameExtent.toDopeQuery()
         return DopeQuery(
             queryString = "$windowFrameType " +
-                "${windowFrameExtentDopeQuery.queryString}${windowFrameExclusion?.let { " ${it.queryString}" } ?: ""}",
+                "${windowFrameExtentDopeQuery.queryString}${windowFrameExclusion?.let { " ${it.queryString}" }.orEmpty()}",
             parameters = windowFrameExtentDopeQuery.parameters,
         )
     }
@@ -235,8 +239,8 @@ class OrderingTerm(
         val expressionDopeQuery = expression.toDopeQuery()
         return DopeQuery(
             queryString = expressionDopeQuery.queryString +
-                (orderType?.let { " $it" } ?: "") +
-                (nullsOrder?.let { " ${it.queryString}" } ?: ""),
+                (orderType?.let { " $it" }.orEmpty()) +
+                (nullsOrder?.let { " ${it.queryString}" }.orEmpty()),
             parameters = expressionDopeQuery.parameters,
         )
     }
