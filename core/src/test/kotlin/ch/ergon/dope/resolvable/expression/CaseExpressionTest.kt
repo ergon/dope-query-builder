@@ -5,6 +5,15 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCaseClass
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchResult
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedElseCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleElseCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.whenThen
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -17,7 +26,7 @@ class CaseExpressionTest {
         )
         val underTest = SimpleCaseExpression(
             someNumberField(),
-            someNumberField("other") to someStringField(),
+            SearchResult(someNumberField("other"), someStringField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -33,8 +42,8 @@ class CaseExpressionTest {
         )
         val underTest = SimpleCaseExpression(
             someNumberField(),
-            someNumberField("other") to someStringField(),
-            someNumberField("other2") to someNumberField(),
+            SearchResult(someNumberField("other"), someStringField()),
+            SearchResult(someNumberField("other2"), someNumberField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -50,7 +59,7 @@ class CaseExpressionTest {
         )
         val underTest = SimpleElseCaseExpression(
             someNumberField(),
-            someNumberField("other") to someStringField(),
+            SearchResult(someNumberField("other"), someStringField()),
             elseCase = someNumberField(),
         )
 
@@ -67,28 +76,9 @@ class CaseExpressionTest {
         )
         val underTest = SimpleElseCaseExpression(
             someNumberField(),
-            someNumberField("other") to someStringField(),
-            someNumberField("other2") to someNumberField(),
+            SearchResult(someNumberField("other"), someStringField()),
+            SearchResult(someNumberField("other2"), someNumberField()),
             elseCase = someStringField(),
-        )
-
-        val actual = underTest.toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support aliased case expression with simple case`() {
-        val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` AS `alias` END",
-            emptyMap(),
-        )
-        val underTest = AliasedCaseExpression(
-            alias = "alias",
-            unaliasedCaseExpression = SimpleCaseExpression(
-                someNumberField(),
-                someNumberField("other") to someStringField(),
-            ),
         )
 
         val actual = underTest.toDopeQuery()
@@ -103,7 +93,7 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = SearchedCaseExpression(
-            someBooleanField() to someStringField(),
+            SearchResult(someBooleanField(), someStringField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -118,8 +108,8 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = SearchedCaseExpression(
-            someBooleanField("first") to someStringField(),
-            someBooleanField("second") to someNumberField(),
+            SearchResult(someBooleanField("first"), someStringField()),
+            SearchResult(someBooleanField("second"), someNumberField()),
         )
 
         val actual = underTest.toDopeQuery()
@@ -134,7 +124,7 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = SearchedElseCaseExpression(
-            someBooleanField() to someStringField(),
+            SearchResult(someBooleanField(), someStringField()),
             elseCase = someNumberField(),
         )
 
@@ -150,27 +140,9 @@ class CaseExpressionTest {
             emptyMap(),
         )
         val underTest = SearchedElseCaseExpression(
-            someBooleanField() to someStringField(),
-            someBooleanField("other2") to someNumberField(),
+            SearchResult(someBooleanField(), someStringField()),
+            SearchResult(someBooleanField("other2"), someNumberField()),
             elseCase = someStringField(),
-        )
-
-        val actual = underTest.toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support aliased case expression with searched case`() {
-        val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` AS `alias` END",
-            emptyMap(),
-        )
-        val underTest = AliasedCaseExpression(
-            alias = "alias",
-            unaliasedCaseExpression = SearchedCaseExpression(
-                someBooleanField() to someStringField(),
-            ),
         )
 
         val actual = underTest.toDopeQuery()
@@ -196,11 +168,10 @@ class CaseExpressionTest {
     fun `should support when then function with simple case`() {
         val numberField = someNumberField()
         val case = someCaseClass(numberField)
-        val whenExpression = someNumberField()
-        val thenExpression = someStringField()
-        val expected = SimpleCaseExpression(numberField, whenExpression to thenExpression)
+        val firstWhenThen = SearchResult(someNumberField(), someStringField())
+        val expected = SimpleCaseExpression(numberField, firstWhenThen)
 
-        val actual = case.whenThen(whenExpression, thenExpression)
+        val actual = case.whenThen(firstWhenThen)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -209,13 +180,11 @@ class CaseExpressionTest {
     fun `should support multiple when then function with simple case`() {
         val numberField1 = someNumberField()
         val case = someCaseClass(numberField1)
-        val whenExpression = someNumberField()
-        val thenExpression = someStringField()
-        val additionalWhen = someNumberField()
-        val additionalThen = someNumberField()
-        val expected = SimpleCaseExpression(numberField1, whenExpression to thenExpression, additionalWhen to additionalThen)
+        val firstWhenThen = SearchResult(someNumberField(), someStringField())
+        val additionalWhenThen = SearchResult(someNumberField(), someNumberField())
+        val expected = SimpleCaseExpression(numberField1, firstWhenThen, additionalWhenThen)
 
-        val actual = case.whenThen(whenExpression, thenExpression).whenThen(additionalWhen, additionalThen)
+        val actual = case.whenThen(firstWhenThen).whenThen(additionalWhenThen)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -227,9 +196,10 @@ class CaseExpressionTest {
         val whenExpression = someNumberField()
         val thenExpression = someStringField()
         val elseCase = someNumberField()
-        val expected = SimpleElseCaseExpression(numberField, whenExpression to thenExpression, elseCase = elseCase)
+        val firstWhenThen = SearchResult(whenExpression, thenExpression)
+        val expected = SimpleElseCaseExpression(numberField, firstWhenThen, elseCase = elseCase)
 
-        val actual = case.whenThen(whenExpression, thenExpression).otherwise(elseCase)
+        val actual = case.whenThen(firstWhenThen).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -238,30 +208,27 @@ class CaseExpressionTest {
     fun `should support multiple when then function with simple case and else`() {
         val numberField = someNumberField()
         val case = someCaseClass(numberField)
-        val whenExpression = someNumberField()
-        val thenExpression = someStringField()
-        val additionalWhen = someNumberField()
-        val additionalThen = someNumberField()
+        val firstWhenThen = SearchResult(someNumberField(), someStringField())
+        val additionalWhenThen = SearchResult(someNumberField(), someNumberField())
         val elseCase = someNumberField()
         val expected = SimpleElseCaseExpression(
             numberField,
-            whenExpression to thenExpression,
-            additionalWhen to additionalThen,
+            firstWhenThen,
+            additionalWhenThen,
             elseCase = elseCase,
         )
 
-        val actual = case.whenThen(whenExpression, thenExpression).whenThen(additionalWhen, additionalThen).otherwise(elseCase)
+        val actual = case.whenThen(firstWhenThen).whenThen(additionalWhenThen).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support when then function with searched case`() {
-        val whenExpression = someBooleanField()
-        val thenExpression = someStringField()
-        val expected = SearchedCaseExpression(whenExpression to thenExpression)
+        val firstWhenThen = SearchResult(someBooleanField(), someStringField())
+        val expected = SearchedCaseExpression(firstWhenThen)
 
-        val actual = whenThen(whenExpression, thenExpression)
+        val actual = whenThen(firstWhenThen)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
@@ -269,42 +236,38 @@ class CaseExpressionTest {
     @Test
     fun `should support multiple when then function with searched case`() {
         val whenExpression = someBooleanField()
-        val thenExpression = someStringField()
-        val additionalWhen = someBooleanField()
-        val additionalThen = someNumberField()
-        val expected = SearchedCaseExpression(whenExpression to thenExpression, additionalWhen to additionalThen)
+        val firstWhenThen = SearchResult(whenExpression, someStringField())
+        val additionalWhenThen = SearchResult(someBooleanField(), someNumberField())
+        val expected = SearchedCaseExpression(firstWhenThen, additionalWhenThen)
 
-        val actual = whenThen(whenExpression, thenExpression).whenThen(additionalWhen, additionalThen)
+        val actual = whenThen(firstWhenThen).whenThen(additionalWhenThen)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support when then function with searched case and else`() {
-        val whenExpression = someBooleanField()
-        val thenExpression = someStringField()
+        val firstWhenThen = SearchResult(someBooleanField(), someStringField())
         val elseCase = someNumberField()
-        val expected = SearchedElseCaseExpression(whenExpression to thenExpression, elseCase = elseCase)
+        val expected = SearchedElseCaseExpression(firstWhenThen, elseCase = elseCase)
 
-        val actual = whenThen(whenExpression, thenExpression).otherwise(elseCase)
+        val actual = whenThen(firstWhenThen).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
     fun `should support multiple when then function with searched case and else`() {
-        val whenExpression = someBooleanField()
-        val thenExpression = someStringField()
-        val additionalWhen = someBooleanField()
-        val additionalThen = someNumberField()
+        val firstWhenThen = SearchResult(someBooleanField(), someStringField())
+        val additionalWhenThen = SearchResult(someBooleanField(), someNumberField())
         val elseCase = someNumberField()
         val expected = SearchedElseCaseExpression(
-            whenExpression to thenExpression,
-            additionalWhen to additionalThen,
+            firstWhenThen,
+            additionalWhenThen,
             elseCase = elseCase,
         )
 
-        val actual = whenThen(whenExpression, thenExpression).whenThen(additionalWhen, additionalThen).otherwise(elseCase)
+        val actual = whenThen(firstWhenThen).whenThen(additionalWhenThen).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
