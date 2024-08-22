@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.fromable.IndexType.USING_FTS
 import ch.ergon.dope.resolvable.fromable.IndexType.USING_GSI
@@ -38,9 +39,12 @@ class UseIndex(
     override fun toDopeQuery(): DopeQuery {
         val bucketDopeQuery = bucket.toDopeQuery()
         val indexReferenceDopeQueries = indexReference.map { it.toDopeQuery() }
-        val indexReferences = indexReferenceDopeQueries.joinToString(", ", prefix = "(", postfix = ")") { it.queryString }
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_INDEX, indexReferences),
+            queryString = formatToQueryStringWithSymbol(
+                bucketDopeQuery.queryString,
+                USE_INDEX,
+                formatListToQueryStringWithBrackets(indexReferenceDopeQueries, ", ", "(", ")"),
+            ),
             parameters = bucketDopeQuery.parameters + indexReferenceDopeQueries.fold(emptyMap()) { indexReferenceParameters, field ->
                 indexReferenceParameters + field.parameters
             },
