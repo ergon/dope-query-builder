@@ -51,7 +51,7 @@ class UseTest : ParameterDependentTest {
         val underTest = UseIndex(
             someBucket(),
             IndexReference("index", USING_GSI),
-            IndexReference(USING_FTS),
+            IndexReference(indexType = USING_FTS),
             IndexReference("secondIndex"),
         )
 
@@ -77,7 +77,7 @@ class UseTest : ParameterDependentTest {
     }
 
     @Test
-    fun `should support use index extension function`() {
+    fun `should support use index extension function without index name`() {
         val bucket = someBucket()
         val expected = UseIndex(bucket)
 
@@ -87,24 +87,65 @@ class UseTest : ParameterDependentTest {
     }
 
     @Test
-    fun `should support use index extension function with single index reference`() {
-        val indexReference = IndexReference("index")
+    fun `should support use index extension function`() {
+        val indexName = "index"
         val bucket = someBucket()
-        val expected = UseIndex(bucket, indexReference)
+        val expected = UseIndex(bucket, IndexReference(indexName))
 
-        val actual = bucket.useIndex(indexReference)
+        val actual = bucket.useIndex(indexName)
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
     @Test
-    fun `should support use index extension function with multiple index references`() {
-        val firstIndexReference = IndexReference(USING_FTS)
-        val secondIndexReference = IndexReference("index")
+    fun `should support use gsi index extension function`() {
+        val indexName = "index"
         val bucket = someBucket()
-        val expected = UseIndex(bucket, firstIndexReference, secondIndexReference)
+        val expected = UseIndex(bucket, IndexReference(indexName, USING_GSI))
 
-        val actual = bucket.useIndex(firstIndexReference, secondIndexReference)
+        val actual = bucket.useGsiIndex(indexName)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support use fts index extension function`() {
+        val indexName = "index"
+        val bucket = someBucket()
+        val expected = UseIndex(bucket, IndexReference(indexName, USING_FTS))
+
+        val actual = bucket.useFtsIndex(indexName)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support multiple use index extension function`() {
+        val indexName = "index"
+        val indexName2 = "index"
+        val bucket = someBucket()
+        val expected = UseIndex(bucket, IndexReference(indexName), IndexReference(indexName2))
+
+        val actual = bucket.useIndex(indexName).useIndex(indexName2)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
+
+    @Test
+    fun `should support multiple different use index extension function`() {
+        val indexName = "index"
+        val indexName2 = "index"
+        val bucket = someBucket()
+        val expected = UseIndex(
+            bucket,
+            IndexReference(indexName, USING_GSI),
+            IndexReference(indexName2),
+            IndexReference(indexType = USING_FTS),
+            IndexReference(indexType = USING_GSI),
+        )
+
+        val actual = bucket.useGsiIndex(indexName).useIndex(indexName2).useFtsIndex().useGsiIndex()
+        println(actual.toDopeQuery())
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }

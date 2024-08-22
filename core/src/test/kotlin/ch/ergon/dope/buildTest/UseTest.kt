@@ -6,6 +6,8 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.fromable.useFtsIndex
+import ch.ergon.dope.resolvable.fromable.useGsiIndex
 import ch.ergon.dope.resolvable.fromable.useIndex
 import ch.ergon.dope.resolvable.fromable.useKeys
 import junit.framework.TestCase.assertEquals
@@ -248,12 +250,12 @@ class UseTest {
 
     @Test
     fun `should support select use index clause`() {
-        val expected = "SELECT * FROM `someBucket` USE INDEX ()"
+        val expected = "SELECT * FROM `someBucket` USE INDEX (`someIndex` USING FTS, `otherIndex`, `index3` USING GSI)"
 
         val actual: String = create
             .selectAsterisk()
             .from(
-                someBucket().useIndex(),
+                someBucket().useFtsIndex("someIndex").useIndex("otherIndex").useGsiIndex("index3"),
             )
             .build().queryString
 

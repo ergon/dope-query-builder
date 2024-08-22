@@ -3,6 +3,8 @@ package ch.ergon.dope.resolvable.fromable
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
+import ch.ergon.dope.resolvable.fromable.IndexType.USING_FTS
+import ch.ergon.dope.resolvable.fromable.IndexType.USING_GSI
 
 private const val USE_INDEX = "USE INDEX"
 
@@ -11,25 +13,10 @@ enum class IndexType(val type: String) {
     USING_FTS("USING FTS"),
 }
 
-class IndexReference : Resolvable {
-    private val indexName: String?
-    private val indexType: IndexType?
-
-    constructor(indexName: String, indexType: IndexType) {
-        this.indexName = indexName
-        this.indexType = indexType
-    }
-
-    constructor(indexName: String) {
-        this.indexName = indexName
-        this.indexType = null
-    }
-
-    constructor(indexType: IndexType) {
-        this.indexName = null
-        this.indexType = indexType
-    }
-
+class IndexReference(
+    private val indexName: String? = null,
+    private val indexType: IndexType? = null,
+) : Resolvable {
     override fun toDopeQuery(): DopeQuery {
         val queryString = buildString {
             if (indexName != null) {
@@ -45,8 +32,8 @@ class IndexReference : Resolvable {
 }
 
 class UseIndex(
-    private val bucket: Bucket,
-    private vararg val indexReference: IndexReference,
+    val bucket: Bucket,
+    vararg val indexReference: IndexReference,
 ) : IBucket {
     override fun toDopeQuery(): DopeQuery {
         val bucketDopeQuery = bucket.toDopeQuery()
@@ -61,4 +48,14 @@ class UseIndex(
     }
 }
 
-fun Bucket.useIndex(vararg indexReference: IndexReference) = UseIndex(this, *indexReference)
+fun UseIndex.useIndex(indexName: String) = UseIndex(bucket, *indexReference, IndexReference(indexName))
+
+fun UseIndex.useGsiIndex(indexName: String? = null) = UseIndex(bucket, *indexReference, IndexReference(indexName, USING_GSI))
+
+fun UseIndex.useFtsIndex(indexName: String? = null) = UseIndex(bucket, *indexReference, IndexReference(indexName, USING_FTS))
+
+fun Bucket.useIndex(indexName: String? = null) = UseIndex(this, IndexReference(indexName))
+
+fun Bucket.useGsiIndex(indexName: String? = null) = UseIndex(this, IndexReference(indexName, USING_GSI))
+
+fun Bucket.useFtsIndex(indexName: String? = null) = UseIndex(this, IndexReference(indexName, USING_FTS))
