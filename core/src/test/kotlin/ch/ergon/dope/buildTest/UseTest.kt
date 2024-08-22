@@ -6,7 +6,6 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.IndexReference
 import ch.ergon.dope.resolvable.fromable.useIndex
 import ch.ergon.dope.resolvable.fromable.useKeys
 import junit.framework.TestCase.assertEquals
@@ -255,22 +254,6 @@ class UseTest {
             .selectAsterisk()
             .from(
                 someBucket().useIndex(),
-            )
-            .build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support select use index clause with string function`() {
-        val expected = "SELECT * FROM `someBucket` USE INDEX (CONCAT(\"some\", \"Id\"))"
-
-        val actual: String = create
-            .selectAsterisk()
-            .from(
-                someBucket().useIndex(
-                    IndexReference(concat("some", "Id")),
-                ),
             )
             .build().queryString
 

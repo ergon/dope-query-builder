@@ -4,7 +4,6 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someString
-import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.IndexType.USING_FTS
@@ -20,7 +19,7 @@ class UseTest : ParameterDependentTest {
             "`someBucket` USE INDEX ()",
             emptyMap(),
         )
-        val underTest = UseIndex(bucket = someBucket())
+        val underTest = UseIndex(someBucket())
 
         val actual = underTest.toDopeQuery()
 
@@ -30,44 +29,12 @@ class UseTest : ParameterDependentTest {
     @Test
     fun `should support single use index with string name`() {
         val expected = DopeQuery(
-            "`someBucket` USE INDEX (\"index\")",
-            emptyMap(),
-        )
-        val underTest = UseIndex(
-            IndexReference("index"),
-            bucket = someBucket(),
-        )
-
-        val actual = underTest.toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support single use index with type name`() {
-        val expected = DopeQuery(
             "`someBucket` USE INDEX (`index`)",
             emptyMap(),
         )
         val underTest = UseIndex(
-            IndexReference(someStringField("index")),
-            bucket = someBucket(),
-        )
-
-        val actual = underTest.toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support single use index with name and type`() {
-        val expected = DopeQuery(
-            "`someBucket` USE INDEX (`index` USING GSI)",
-            emptyMap(),
-        )
-        val underTest = UseIndex(
-            IndexReference(someStringField("index"), USING_GSI),
-            bucket = someBucket(),
+            someBucket(),
+            IndexReference("index"),
         )
 
         val actual = underTest.toDopeQuery()
@@ -82,10 +49,10 @@ class UseTest : ParameterDependentTest {
             emptyMap(),
         )
         val underTest = UseIndex(
-            IndexReference(someStringField("index"), USING_GSI),
+            someBucket(),
+            IndexReference("index", USING_GSI),
             IndexReference(USING_FTS),
-            IndexReference(someStringField("secondIndex")),
-            bucket = someBucket(),
+            IndexReference("secondIndex"),
         )
 
         val actual = underTest.toDopeQuery()
@@ -96,28 +63,12 @@ class UseTest : ParameterDependentTest {
     @Test
     fun `should support single use index with parameter`() {
         val expected = DopeQuery(
-            "`someBucket` USE INDEX ($1)",
-            mapOf("$1" to "index"),
+            "`someBucket` USE INDEX (`index`)",
+            emptyMap(),
         )
         val underTest = UseIndex(
-            IndexReference("index".asParameter()),
-            bucket = someBucket(),
-        )
-
-        val actual = underTest.toDopeQuery()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support single use index with parameter with type`() {
-        val expected = DopeQuery(
-            "`someBucket` USE INDEX ($1 USING FTS)",
-            mapOf("$1" to "index"),
-        )
-        val underTest = UseIndex(
-            IndexReference("index".asParameter(), USING_FTS),
-            bucket = someBucket(),
+            someBucket(),
+            IndexReference("index"),
         )
 
         val actual = underTest.toDopeQuery()
@@ -128,7 +79,7 @@ class UseTest : ParameterDependentTest {
     @Test
     fun `should support use index extension function`() {
         val bucket = someBucket()
-        val expected = UseIndex(bucket = bucket)
+        val expected = UseIndex(bucket)
 
         val actual = bucket.useIndex()
 
@@ -139,7 +90,7 @@ class UseTest : ParameterDependentTest {
     fun `should support use index extension function with single index reference`() {
         val indexReference = IndexReference("index")
         val bucket = someBucket()
-        val expected = UseIndex(indexReference, bucket = bucket)
+        val expected = UseIndex(bucket, indexReference)
 
         val actual = bucket.useIndex(indexReference)
 
@@ -151,7 +102,7 @@ class UseTest : ParameterDependentTest {
         val firstIndexReference = IndexReference(USING_FTS)
         val secondIndexReference = IndexReference("index")
         val bucket = someBucket()
-        val expected = UseIndex(firstIndexReference, secondIndexReference, bucket = bucket)
+        val expected = UseIndex(bucket, firstIndexReference, secondIndexReference)
 
         val actual = bucket.useIndex(firstIndexReference, secondIndexReference)
 

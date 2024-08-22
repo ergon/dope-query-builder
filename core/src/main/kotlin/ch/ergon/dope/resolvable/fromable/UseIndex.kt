@@ -2,10 +2,7 @@ package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
-import ch.ergon.dope.validtype.StringType
 
 private const val USE_INDEX = "USE INDEX"
 
@@ -15,21 +12,16 @@ enum class IndexType(val type: String) {
 }
 
 class IndexReference : Resolvable {
-    private val indexName: TypeExpression<StringType>?
+    private val indexName: String?
     private val indexType: IndexType?
 
-    constructor(indexName: TypeExpression<StringType>, indexType: IndexType) {
+    constructor(indexName: String, indexType: IndexType) {
         this.indexName = indexName
         this.indexType = indexType
     }
 
-    constructor(indexName: TypeExpression<StringType>) {
-        this.indexName = indexName
-        this.indexType = null
-    }
-
     constructor(indexName: String) {
-        this.indexName = indexName.toDopeType()
+        this.indexName = indexName
         this.indexType = null
     }
 
@@ -39,23 +31,22 @@ class IndexReference : Resolvable {
     }
 
     override fun toDopeQuery(): DopeQuery {
-        val indexNameDopeQuery = indexName?.toDopeQuery()
         val queryString = buildString {
-            if (indexNameDopeQuery != null) {
-                append(indexNameDopeQuery.queryString)
+            if (indexName != null) {
+                append("`$indexName`")
             }
             if (indexType != null) {
                 if (isNotEmpty()) append(" ")
                 append(indexType.type)
             }
         }
-        return DopeQuery(queryString, indexNameDopeQuery?.parameters.orEmpty())
+        return DopeQuery(queryString, emptyMap())
     }
 }
 
 class UseIndex(
-    private vararg val indexReference: IndexReference,
     private val bucket: Bucket,
+    private vararg val indexReference: IndexReference,
 ) : IBucket {
     override fun toDopeQuery(): DopeQuery {
         val bucketDopeQuery = bucket.toDopeQuery()
@@ -70,4 +61,4 @@ class UseIndex(
     }
 }
 
-fun Bucket.useIndex(vararg indexReference: IndexReference) = UseIndex(*indexReference, bucket = this)
+fun Bucket.useIndex(vararg indexReference: IndexReference) = UseIndex(this, *indexReference)
