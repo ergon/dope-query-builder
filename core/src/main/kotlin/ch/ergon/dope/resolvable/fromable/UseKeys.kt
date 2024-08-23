@@ -16,11 +16,11 @@ class UseKeysClass private constructor(
     private val bucket: Bucket,
 ) : Updatable {
     companion object {
-        @JvmName("selectSingleUseKeysClauseConstructor")
+        @JvmName("singleUseKeysClauseConstructor")
         fun UseKeys(key: TypeExpression<StringType>, bucket: Bucket) =
             UseKeysClass(key, bucket)
 
-        @JvmName("selectMultipleUseKeysClauseConstructor")
+        @JvmName("multipleUseKeysClauseConstructor")
         fun UseKeys(keys: TypeExpression<ArrayType<StringType>>, bucket: Bucket) =
             UseKeysClass(keys, bucket)
     }
