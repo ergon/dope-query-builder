@@ -18,7 +18,6 @@ class LowerExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LOWER(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = LowerExpression(someStringField())
 
@@ -33,7 +32,6 @@ class LowerExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LOWER($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LowerExpression(parameterValue.asParameter())
 

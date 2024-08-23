@@ -10,8 +10,8 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUpdateClause
 import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ReturningClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -21,7 +21,6 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` RETURNING `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = DeleteReturningClause(someStringField(), parentClause = someDeleteClause())
 
@@ -35,7 +34,6 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = DeleteReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause())
 
@@ -72,7 +70,6 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` RETURNING `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = UpdateReturningClause(someStringField(), parentClause = someUpdateClause())
 
@@ -86,7 +83,6 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = UpdateReturningClause(someStringField(), someNumberField(), parentClause = someUpdateClause())
 

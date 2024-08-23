@@ -15,7 +15,6 @@ class ArrayMinExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_MIN", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

@@ -18,7 +18,6 @@ class BetweenExpression<T : ComparableType>(
         return DopeQuery(
             queryString = "${expressionDopeQuery.queryString} BETWEEN ${startDopeQuery.queryString} AND ${endDopeQuery.queryString}",
             parameters = expressionDopeQuery.parameters + startDopeQuery.parameters + endDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
@@ -38,7 +37,6 @@ class NotBetweenExpression<T : ComparableType>(
         return DopeQuery(
             queryString = "${expressionDopeQuery.queryString} NOT BETWEEN ${startDopeQuery.queryString} AND ${endDopeQuery.queryString}",
             parameters = expressionDopeQuery.parameters + startDopeQuery.parameters + endDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

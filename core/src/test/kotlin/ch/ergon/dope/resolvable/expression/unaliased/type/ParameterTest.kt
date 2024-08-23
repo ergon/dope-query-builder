@@ -22,7 +22,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NumberParameter(parameterValue)
 
@@ -38,7 +37,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
-            manager,
         )
         val underTest = NumberParameter(parameterValue, parameterName)
 
@@ -53,7 +51,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = StringParameter(parameterValue)
 
@@ -69,7 +66,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
-            manager,
         )
         val underTest = StringParameter(parameterValue, parameterName)
 
@@ -84,7 +80,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = BooleanParameter(parameterValue)
 
@@ -100,7 +95,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
-            manager,
         )
         val underTest = BooleanParameter(parameterValue, parameterName)
 
@@ -115,7 +109,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayParameter<ValidType>(parameterValue)
 
@@ -131,7 +124,6 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
-            manager,
         )
         val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
 

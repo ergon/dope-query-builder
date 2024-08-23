@@ -20,7 +20,6 @@ class RpadExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RPAD(`stringField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = RpadExpression(someStringField(), someNumberField())
 
@@ -35,7 +34,6 @@ class RpadExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RPAD($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), someNumberField())
 
@@ -51,7 +49,6 @@ class RpadExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RPAD($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -65,7 +62,6 @@ class RpadExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RPAD(`stringField`, `numberField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = RpadExpression(someStringField(), someNumberField(), someStringField())
 
@@ -80,7 +76,6 @@ class RpadExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RPAD($1, `numberField`, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
@@ -97,7 +92,6 @@ class RpadExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RPAD($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
-            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

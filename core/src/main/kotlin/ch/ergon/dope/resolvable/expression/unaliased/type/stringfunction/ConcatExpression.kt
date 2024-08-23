@@ -26,7 +26,6 @@ class ConcatExpression(
             parameters = firstStringDopeQuery.parameters + secondStringDopeQuery.parameters + stringTypesDopeQuery.fold(
                 emptyMap(),
             ) { stringTypeParameters, field -> stringTypeParameters + field.parameters },
-            manager = manager,
         )
     }
 }

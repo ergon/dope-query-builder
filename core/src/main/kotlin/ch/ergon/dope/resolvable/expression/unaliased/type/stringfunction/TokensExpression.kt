@@ -23,7 +23,6 @@ class TokensExpression(
                 optDopeQuery.queryString,
             ),
             parameters = optDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

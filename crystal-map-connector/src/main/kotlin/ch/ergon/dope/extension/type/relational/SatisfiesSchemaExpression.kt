@@ -30,11 +30,9 @@ sealed class SatisfiesSchemaExpression<S : Schema>(
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
         val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, arrayExpression.schema)).toDopeQuery(manager)
-
         return DopeQuery(
             queryString = "$satisfiesType `$iteratorVariable` IN ${arrayExpression.name} SATISFIES ${predicateDopeQuery.queryString} END",
             parameters = predicateDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

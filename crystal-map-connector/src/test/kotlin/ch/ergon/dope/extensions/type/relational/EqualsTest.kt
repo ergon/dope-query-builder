@@ -3,6 +3,7 @@ package ch.ergon.dope.extensions.type.relational
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isEqualTo
 import ch.ergon.dope.extension.type.relational.isNotEqualTo
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCMBooleanField
@@ -16,17 +17,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.EqualsExpre
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotEqualsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class EqualsTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class EqualsTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support equals to with CMFieldNumber CMFieldNumber`() {

@@ -2,6 +2,7 @@ package ch.ergon.dope.extensions.aggregator
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.aggregator.count
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -11,17 +12,11 @@ import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountExpression
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CountTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class CountTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support count with CMField Number`() {

@@ -21,7 +21,6 @@ sealed class OffsetClause(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "OFFSET", numberDopeQuery.queryString),
             parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

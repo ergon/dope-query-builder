@@ -18,7 +18,6 @@ class TrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TRIM(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = TrimExpression(someStringField())
 
@@ -33,7 +32,6 @@ class TrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TRIM($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = TrimExpression(parameterValue.asParameter())
 
@@ -47,7 +45,6 @@ class TrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TRIM(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = TrimExpression(someStringField(), someStringField())
 
@@ -62,7 +59,6 @@ class TrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TRIM($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = TrimExpression(parameterValue.asParameter(), someStringField())
 
@@ -78,7 +74,6 @@ class TrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TRIM($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = TrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

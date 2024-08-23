@@ -5,8 +5,8 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayExceptExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -16,7 +16,6 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -31,7 +30,6 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_EXCEPT($1, `numberArrayField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -46,7 +44,6 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_EXCEPT(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -62,7 +59,6 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_EXCEPT($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayExceptExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

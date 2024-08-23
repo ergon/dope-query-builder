@@ -18,7 +18,6 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISBOOLEAN(`booleanField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IsBooleanExpression(someBooleanField())
 
@@ -33,7 +32,6 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISBOOLEAN($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter())
 

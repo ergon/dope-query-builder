@@ -18,7 +18,6 @@ class NotExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NOT `booleanField`",
             emptyMap(),
-            manager,
         )
         val underTest = NotExpression(someBooleanField())
 
@@ -33,7 +32,6 @@ class NotExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NOT $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NotExpression(parameterValue.asParameter())
 

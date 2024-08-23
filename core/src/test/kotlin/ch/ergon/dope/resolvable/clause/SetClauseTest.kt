@@ -26,7 +26,6 @@ class SetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \"test\"",
             emptyMap(),
-            manager,
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -43,7 +42,6 @@ class SetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET META().`expiration` = 3600",
             emptyMap(),
-            manager,
         )
         val underTest = SetClause(
             meta().expiration.to(3600.toDopeType()),
@@ -60,7 +58,6 @@ class SetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
             emptyMap(),
-            manager,
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -79,7 +76,6 @@ class SetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SetClause(
             someStringField().to(parameterValue.asParameter()),

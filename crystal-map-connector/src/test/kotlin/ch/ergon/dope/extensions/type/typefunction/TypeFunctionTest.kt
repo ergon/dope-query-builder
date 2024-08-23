@@ -11,6 +11,7 @@ import ch.ergon.dope.extension.type.typefunction.toBool
 import ch.ergon.dope.extension.type.typefunction.toNumber
 import ch.ergon.dope.extension.type.typefunction.toStr
 import ch.ergon.dope.extension.type.typefunction.typeOf
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -30,17 +31,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.ToNumberE
 import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.ToStringExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.TypeOfExpression
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TypeFunctionTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class TypeFunctionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support isArray with CM number field`() {

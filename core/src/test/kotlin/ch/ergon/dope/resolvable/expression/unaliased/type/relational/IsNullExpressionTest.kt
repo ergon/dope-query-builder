@@ -15,7 +15,6 @@ class IsNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` IS NULL",
             emptyMap(),
-            manager,
         )
         val underTest = IsNullExpression(someStringField())
 

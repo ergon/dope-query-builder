@@ -18,7 +18,6 @@ class ReverseExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "REVERSE(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ReverseExpression(someStringField())
 
@@ -33,7 +32,6 @@ class ReverseExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "REVERSE($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ReverseExpression(parameterValue.asParameter())
 

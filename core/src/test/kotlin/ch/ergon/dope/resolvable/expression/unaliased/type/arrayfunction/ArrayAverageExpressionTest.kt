@@ -5,8 +5,8 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayAverageExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -16,7 +16,6 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_AVG(`numberArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayAverageExpression(someNumberArrayField())
 
@@ -31,7 +30,6 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_AVG($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayAverageExpression(parameterValue.asParameter())
 

@@ -15,7 +15,6 @@ class UpperExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "UPPER", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

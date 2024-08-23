@@ -17,7 +17,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSINGORNULL(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IfMissingOrNullExpression(someStringField(), someStringField())
 
@@ -32,7 +31,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSINGORNULL($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), someStringField())
 
@@ -47,7 +45,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSINGORNULL(`stringField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter())
 
@@ -63,7 +60,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSINGORNULL($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -88,7 +84,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COALESCE(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = CoalesceExpression(someStringField(), someStringField())
 
@@ -103,7 +98,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COALESCE($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), someStringField())
 
@@ -118,7 +112,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COALESCE(`stringField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter())
 
@@ -134,7 +127,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COALESCE($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

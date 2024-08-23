@@ -36,7 +36,6 @@ class SelectUseKeys private constructor(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
@@ -61,7 +60,6 @@ class DeleteUseKeys private constructor(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
@@ -94,7 +92,6 @@ class UpdateUseKeys : IUpdateUseKeysClause {
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

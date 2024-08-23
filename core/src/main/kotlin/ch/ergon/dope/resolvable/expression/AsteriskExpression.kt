@@ -23,5 +23,5 @@ class AsteriskExpression : Expression {
     }
 
     override fun toDopeQuery(manager: DopeQueryManager) =
-        DopeQuery(queryString = queryString, parameters = emptyMap(), manager = manager)
+        DopeQuery(queryString = queryString, parameters = emptyMap())
 }

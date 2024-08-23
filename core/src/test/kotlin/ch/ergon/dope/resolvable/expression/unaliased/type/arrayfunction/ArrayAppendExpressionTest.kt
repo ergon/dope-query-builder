@@ -12,8 +12,8 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayAppendExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -23,7 +23,6 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_APPEND(`numberArrayField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), someNumberField())
 
@@ -38,7 +37,6 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_APPEND($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(), someNumberField())
 
@@ -53,7 +51,6 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_APPEND(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -69,7 +66,6 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_APPEND($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayAppendExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

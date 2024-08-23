@@ -5,23 +5,18 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.extension.selectDistinct
 import ch.ergon.dope.extension.selectRaw
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryBuilderTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class QueryBuilderTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support select with CM`() {

@@ -17,7 +17,6 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSING(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IfMissingExpression(someStringField(), someStringField())
 
@@ -32,7 +31,6 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSING($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(), someStringField())
 
@@ -47,7 +45,6 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSING(`stringField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IfMissingExpression(someStringField(), parameterValue.asParameter())
 
@@ -63,7 +60,6 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFMISSING($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

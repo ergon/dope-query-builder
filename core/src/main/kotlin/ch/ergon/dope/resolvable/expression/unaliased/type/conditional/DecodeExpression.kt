@@ -31,7 +31,6 @@ class DecodeExpression<T : ValidType, U : ValidType>(
                         expressionParameters, expression ->
                     expressionParameters + expression.parameters
                 } + defaultDopeQuery?.parameters.orEmpty(),
-            manager = manager,
         )
     }
 }

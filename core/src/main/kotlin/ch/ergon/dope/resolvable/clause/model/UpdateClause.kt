@@ -11,7 +11,6 @@ class UpdateClause(private val bucket: Bucket) : IUpdateClause {
         return DopeQuery(
             queryString = "UPDATE ${bucketDopeQuery.queryString}",
             parameters = bucketDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

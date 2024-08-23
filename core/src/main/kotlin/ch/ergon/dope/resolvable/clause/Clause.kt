@@ -6,8 +6,6 @@ import ch.ergon.dope.resolvable.Resolvable
 
 interface Clause : Resolvable {
     fun build(): DopeQuery {
-        // ParameterManager.resetCounter()
-        // IteratorManager.resetCounter()
         return toDopeQuery(manager = DopeQueryManager())
     }
 }

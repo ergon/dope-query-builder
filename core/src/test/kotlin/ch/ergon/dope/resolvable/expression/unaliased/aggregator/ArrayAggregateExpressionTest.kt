@@ -17,7 +17,6 @@ class ArrayAggregateExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_AGG(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayAggregateExpression(someStringField(), null)
 
@@ -31,7 +30,6 @@ class ArrayAggregateExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_AGG(ALL `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayAggregateExpression(someStringField(), ALL)
 
@@ -45,7 +43,6 @@ class ArrayAggregateExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_AGG(DISTINCT `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayAggregateExpression(someStringField(), DISTINCT)
 

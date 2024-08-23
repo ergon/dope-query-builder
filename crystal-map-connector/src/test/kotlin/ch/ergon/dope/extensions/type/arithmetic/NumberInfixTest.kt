@@ -6,6 +6,7 @@ import ch.ergon.dope.extension.type.arithmetic.div
 import ch.ergon.dope.extension.type.arithmetic.mod
 import ch.ergon.dope.extension.type.arithmetic.mul
 import ch.ergon.dope.extension.type.arithmetic.sub
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -16,17 +17,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.Multiplicat
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.SubtractionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NumberInfixTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class NumberInfixTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support add with CMField CMField`() {

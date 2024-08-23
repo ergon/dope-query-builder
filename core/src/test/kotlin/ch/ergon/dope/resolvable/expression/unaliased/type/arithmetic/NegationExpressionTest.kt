@@ -18,7 +18,6 @@ class NegationExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "-`numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = NegationExpression(someNumberField())
 
@@ -33,7 +32,6 @@ class NegationExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "-$1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NegationExpression(parameterValue.asParameter())
 

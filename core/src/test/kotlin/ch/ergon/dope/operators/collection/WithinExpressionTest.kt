@@ -13,8 +13,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.WithinExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.withinArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class WithinExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -24,7 +24,6 @@ class WithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` WITHIN `numberArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = WithinExpression(someNumberField(), someNumberArrayField())
 
@@ -39,7 +38,6 @@ class WithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 WITHIN `numberArrayField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = WithinExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -54,7 +52,6 @@ class WithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` WITHIN $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = WithinExpression(someNumberField(), parameterValue.asParameter())
 
@@ -70,7 +67,6 @@ class WithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 WITHIN $2",
             mapOf("$1" to parameterValue, "$2" to parameterCollectionValue),
-            manager,
         )
         val underTest = WithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 

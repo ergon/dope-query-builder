@@ -13,8 +13,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.InExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class InExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -24,7 +24,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` IN `numberArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = InExpression(someNumberField(), someNumberArrayField())
 
@@ -39,7 +38,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 IN `numberArrayField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -54,7 +52,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` IN $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 
@@ -70,7 +67,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 IN $2",
             mapOf("$1" to parameterValue, "$2" to parameterCollectionValue),
-            manager,
         )
         val underTest = InExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 

@@ -85,7 +85,6 @@ sealed class SelectJoinClause : ISelectJoinClause {
                 DopeQuery(
                     queryString = "$joinQueryString ON ${onConditionDopeQuery?.queryString}",
                     parameters = joinParameters + onConditionDopeQuery?.parameters.orEmpty(),
-                    manager = manager,
                 )
             }
 
@@ -94,7 +93,6 @@ sealed class SelectJoinClause : ISelectJoinClause {
                 DopeQuery(
                     queryString = "$joinQueryString ON KEYS ${keyDopeQuery?.queryString}",
                     parameters = joinParameters + keyDopeQuery?.parameters.orEmpty(),
-                    manager = manager,
                 )
             }
 
@@ -105,7 +103,6 @@ sealed class SelectJoinClause : ISelectJoinClause {
                     queryString = "$joinQueryString ON KEY ${keyDopeQuery?.queryString} FOR ${forBucketDopeQuery?.queryString}",
                     parameters = joinParameters + keyDopeQuery?.parameters.orEmpty() +
                         forBucketDopeQuery?.parameters.orEmpty(),
-                    manager = manager,
                 )
             }
         }

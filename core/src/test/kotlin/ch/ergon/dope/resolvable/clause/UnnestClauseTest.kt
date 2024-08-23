@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class UnnestClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -22,7 +22,6 @@ class UnnestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
@@ -36,7 +35,6 @@ class UnnestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
             emptyMap(),
-            manager,
         )
         val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
@@ -51,7 +49,6 @@ class UnnestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
 
@@ -67,7 +64,6 @@ class UnnestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = AliasedUnnestClause(
             parameterValue2.asParameter().alias("value"),

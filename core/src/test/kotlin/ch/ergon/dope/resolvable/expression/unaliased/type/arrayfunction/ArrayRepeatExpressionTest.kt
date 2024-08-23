@@ -7,8 +7,8 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayRepeatExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -18,7 +18,6 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayRepeatExpression(someNumberField(), someNumberField())
 
@@ -33,7 +32,6 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPEAT($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), someNumberField())
 
@@ -48,7 +46,6 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter())
 
@@ -64,7 +61,6 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPEAT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

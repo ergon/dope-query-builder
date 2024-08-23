@@ -18,7 +18,6 @@ class LtrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LTRIM(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = LtrimExpression(someStringField(), someStringField())
 
@@ -33,7 +32,6 @@ class LtrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LTRIM($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LtrimExpression(parameterValue.asParameter(), someStringField())
 
@@ -49,7 +47,6 @@ class LtrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LTRIM($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = LtrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

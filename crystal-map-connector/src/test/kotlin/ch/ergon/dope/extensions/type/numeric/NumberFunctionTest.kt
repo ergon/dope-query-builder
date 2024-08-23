@@ -22,19 +22,14 @@ import ch.ergon.dope.extension.type.numberfunction.sin
 import ch.ergon.dope.extension.type.numberfunction.sqrt
 import ch.ergon.dope.extension.type.numberfunction.tan
 import ch.ergon.dope.extension.type.numberfunction.trunc
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class NumberFunctionTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class NumberFunctionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ABS number function with number CMField`() {

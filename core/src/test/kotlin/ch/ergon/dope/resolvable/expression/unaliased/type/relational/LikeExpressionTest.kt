@@ -18,7 +18,6 @@ class LikeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` LIKE `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = LikeExpression(someStringField(), someStringField())
 
@@ -33,7 +32,6 @@ class LikeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` LIKE $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter())
 

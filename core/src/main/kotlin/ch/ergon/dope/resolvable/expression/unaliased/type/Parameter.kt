@@ -24,19 +24,16 @@ sealed class Parameter<T : ValidType>(
 ) : TypeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery = when (parameterName) {
         null -> {
-            // val unnamedParameterCount = "\$${manager.parameterManager.count}"
             val unnamedParameterCount = "\$${manager.parameterManager.count}"
             DopeQuery(
                 queryString = unnamedParameterCount,
                 parameters = mapOf(unnamedParameterCount to value),
-                manager = manager,
             )
         }
 
         else -> DopeQuery(
             queryString = "\$$parameterName",
             parameters = mapOf(parameterName to value),
-            manager = manager,
         )
     }
 }

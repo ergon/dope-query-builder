@@ -18,7 +18,6 @@ class AndExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "(`booleanField` AND `booleanField`)",
             emptyMap(),
-            manager,
         )
         val underTest = AndExpression(someBooleanField(), someBooleanField())
 
@@ -33,7 +32,6 @@ class AndExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "($1 AND `booleanField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
@@ -49,7 +47,6 @@ class AndExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "($1 AND $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -64,7 +61,6 @@ class AndExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "(`booleanField` AND $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
 

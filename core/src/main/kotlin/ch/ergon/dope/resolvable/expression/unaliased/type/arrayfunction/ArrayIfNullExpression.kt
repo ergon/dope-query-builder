@@ -15,7 +15,6 @@ class ArrayIfNullExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_IFNULL", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

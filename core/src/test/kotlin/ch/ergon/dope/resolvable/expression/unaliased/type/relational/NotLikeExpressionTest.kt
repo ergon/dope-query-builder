@@ -18,7 +18,6 @@ class NotLikeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` NOT LIKE `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = NotLikeExpression(someStringField(), someStringField())
 
@@ -33,7 +32,6 @@ class NotLikeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` NOT LIKE $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter())
 

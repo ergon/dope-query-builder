@@ -17,7 +17,6 @@ class VarianceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "VARIANCE(`numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = VarianceExpression(someNumberField(), null)
 
@@ -31,7 +30,6 @@ class VarianceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "VARIANCE(ALL `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = VarianceExpression(someNumberField(), ALL)
 
@@ -45,7 +43,6 @@ class VarianceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "VARIANCE(DISTINCT `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = VarianceExpression(someNumberField(), DISTINCT)
 

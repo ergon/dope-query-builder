@@ -18,7 +18,6 @@ class LengthExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LENGTH(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = LengthExpression(someStringField())
 
@@ -33,7 +32,6 @@ class LengthExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "LENGTH($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LengthExpression(parameterValue.asParameter())
 

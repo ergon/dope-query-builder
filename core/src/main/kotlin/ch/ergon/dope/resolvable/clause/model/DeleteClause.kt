@@ -11,7 +11,6 @@ class DeleteClause(private val bucket: Bucket) : IDeleteClause {
         return DopeQuery(
             queryString = "DELETE FROM ${bucketDopeQuery.queryString}",
             parameters = bucketDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

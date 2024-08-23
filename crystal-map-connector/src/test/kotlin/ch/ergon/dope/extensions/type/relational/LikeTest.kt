@@ -3,22 +3,17 @@ package ch.ergon.dope.extensions.type.relational
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isLike
 import ch.ergon.dope.extension.type.relational.isNotLike
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.LikeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotLikeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LikeTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class LikeTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support extensions for is like with CMField`() {

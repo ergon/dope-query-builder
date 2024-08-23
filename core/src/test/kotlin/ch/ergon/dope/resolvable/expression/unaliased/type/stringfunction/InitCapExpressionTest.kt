@@ -18,7 +18,6 @@ class InitCapExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "INITCAP(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = InitCapExpression(someStringField())
 
@@ -33,7 +32,6 @@ class InitCapExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "INITCAP($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InitCapExpression(parameterValue.asParameter())
 

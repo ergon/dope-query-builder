@@ -17,7 +17,6 @@ class IfNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFNULL(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IfNullExpression(someStringField(), someStringField())
 
@@ -32,7 +31,6 @@ class IfNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFNULL($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IfNullExpression(parameterValue.asParameter(), someStringField())
 
@@ -47,7 +45,6 @@ class IfNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFNULL(`stringField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IfNullExpression(someStringField(), parameterValue.asParameter())
 
@@ -63,7 +60,6 @@ class IfNullExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "IFNULL($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = IfNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

@@ -6,8 +6,8 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayPositionExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -17,7 +17,6 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_POSITION(`numberArrayField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayPositionExpression(someNumberArrayField(), someNumberField())
 
@@ -32,7 +31,6 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_POSITION($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayPositionExpression(parameterValue.asParameter(), someNumberField())
 
@@ -47,7 +45,6 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_POSITION(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayPositionExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -63,7 +60,6 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_POSITION($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayPositionExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

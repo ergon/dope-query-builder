@@ -17,7 +17,6 @@ class AverageExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "AVG(`numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = AverageExpression(someNumberField(), null)
 
@@ -31,7 +30,6 @@ class AverageExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "AVG(ALL `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = AverageExpression(someNumberField(), ALL)
 
@@ -45,7 +43,6 @@ class AverageExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "AVG(DISTINCT `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = AverageExpression(someNumberField(), DISTINCT)
 

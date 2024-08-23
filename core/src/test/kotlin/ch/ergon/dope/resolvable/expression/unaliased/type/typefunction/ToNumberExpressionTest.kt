@@ -19,7 +19,6 @@ class ToNumberExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TONUMBER(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ToNumberExpression(someStringField())
 
@@ -34,7 +33,6 @@ class ToNumberExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TONUMBER($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ToNumberExpression(parameterValue.asParameter())
 

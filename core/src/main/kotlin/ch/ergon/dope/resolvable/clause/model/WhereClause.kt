@@ -23,7 +23,6 @@ sealed class WhereClause(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "WHERE", whereDopeQuery.queryString),
             parameters = whereDopeQuery.parameters + parentDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

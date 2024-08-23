@@ -14,8 +14,8 @@ import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class JoinClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -25,7 +25,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * JOIN `someBucket` ON TRUE",
             emptyMap(),
-            manager,
         )
         val underTest = StandardJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
@@ -40,7 +39,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = StandardJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
@@ -56,7 +54,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = StandardJoinClause(
             someBucket(),
@@ -86,7 +83,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * LEFT JOIN `someBucket` ON TRUE",
             emptyMap(),
-            manager,
         )
         val underTest = LeftJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
@@ -101,7 +97,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * LEFT JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LeftJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
@@ -117,7 +112,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 LEFT JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = LeftJoinClause(
             someBucket(),
@@ -147,7 +141,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * INNER JOIN `someBucket` ON TRUE",
             emptyMap(),
-            manager,
         )
         val underTest = InnerJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
@@ -162,7 +155,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * INNER JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InnerJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
@@ -178,7 +170,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 INNER JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = InnerJoinClause(
             someBucket(),
@@ -208,7 +199,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * RIGHT JOIN `someBucket` ON TRUE",
             emptyMap(),
-            manager,
         )
         val underTest = RightJoinClause(someBucket(), onCondition = someBooleanExpression(), someSelectClause())
 
@@ -223,7 +213,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * RIGHT JOIN `someBucket` ON $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = RightJoinClause(someBucket(), onCondition = parameterValue.asParameter(), someSelectClause())
 
@@ -239,7 +228,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 RIGHT JOIN `someBucket` ON $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = RightJoinClause(
             someBucket(),
@@ -271,7 +259,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * JOIN `someBucket` ON KEYS `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause())
 
@@ -286,7 +273,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 JOIN `someBucket` ON KEYS `stringField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = StandardJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter()))
 
@@ -312,7 +298,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * LEFT JOIN `someBucket` ON KEYS `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause())
 
@@ -327,7 +312,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 LEFT JOIN `someBucket` ON KEYS `stringField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LeftJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter()))
 
@@ -353,7 +337,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * INNER JOIN `someBucket` ON KEYS `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause())
 
@@ -368,7 +351,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 INNER JOIN `someBucket` ON KEYS `stringField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InnerJoinClause(someBucket(), onKeys = someStringField(), someSelectClause(parameterValue.asParameter()))
 
@@ -396,7 +378,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
             emptyMap(),
-            manager,
         )
         val underTest = StandardJoinClause(someBucket("bucket1"), onKey = someStringField(), someBucket("bucket2"), someSelectClause())
 
@@ -411,7 +392,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = StandardJoinClause(
             someBucket("bucket1"),
@@ -443,7 +423,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * LEFT JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
             emptyMap(),
-            manager,
         )
         val underTest = LeftJoinClause(someBucket("bucket1"), onKey = someStringField(), someBucket("bucket2"), someSelectClause())
 
@@ -458,7 +437,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 LEFT JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LeftJoinClause(
             someBucket("bucket1"),
@@ -490,7 +468,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * INNER JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
             emptyMap(),
-            manager,
         )
         val underTest = InnerJoinClause(someBucket("bucket1"), onKey = someStringField(), someBucket("bucket2"), someSelectClause())
 
@@ -505,7 +482,6 @@ class JoinClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 INNER JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InnerJoinClause(
             someBucket("bucket1"),

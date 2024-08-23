@@ -18,7 +18,6 @@ class CountExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COUNT(`numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = CountExpression(someNumberField(), null)
 
@@ -32,7 +31,6 @@ class CountExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COUNT(ALL `numberField`)",
             emptyMap(),
-            manager,
         )
         val countExpression = CountExpression(someNumberField(), ALL)
 
@@ -46,7 +44,6 @@ class CountExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "COUNT(DISTINCT `numberField`)",
             emptyMap(),
-            manager,
         )
         val countExpression = CountExpression(someNumberField(), DISTINCT)
 

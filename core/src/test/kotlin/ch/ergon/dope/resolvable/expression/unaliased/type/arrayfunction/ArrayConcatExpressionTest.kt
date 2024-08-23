@@ -5,8 +5,8 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayConcatExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -16,7 +16,6 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -31,7 +30,6 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONCAT($1, `numberArrayField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -46,7 +44,6 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONCAT(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -62,7 +59,6 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONCAT($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayConcatExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

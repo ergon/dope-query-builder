@@ -21,7 +21,6 @@ class SearchResultTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField`, `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = SearchResult(someStringField(), someNumberField())
 
@@ -36,7 +35,6 @@ class SearchResultTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1, `numberField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SearchResult(parameterValue.asParameter(), someNumberField())
 
@@ -51,7 +49,6 @@ class SearchResultTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField`, $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SearchResult(someStringField(), parameterValue.asParameter())
 
@@ -67,7 +64,6 @@ class SearchResultTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1, $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = SearchResult(parameterValue.asParameter(), parameterValue2.asParameter())
 

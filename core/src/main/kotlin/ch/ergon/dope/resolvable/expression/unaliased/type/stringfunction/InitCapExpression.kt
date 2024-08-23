@@ -15,7 +15,6 @@ class InitCapExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "INITCAP", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
@@ -32,7 +31,6 @@ class TitleExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "TITLE", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

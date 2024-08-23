@@ -21,7 +21,6 @@ class ToStringExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TOSTRING(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ToStringExpression(someStringField())
 
@@ -36,7 +35,6 @@ class ToStringExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TOSTRING($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ToStringExpression(parameterValue.asParameter())
 

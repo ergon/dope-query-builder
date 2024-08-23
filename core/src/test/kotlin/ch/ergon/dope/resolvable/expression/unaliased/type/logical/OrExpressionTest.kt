@@ -18,7 +18,6 @@ class OrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "(`booleanField` OR `booleanField`)",
             emptyMap(),
-            manager,
         )
         val underTest = OrExpression(someBooleanField(), someBooleanField())
 
@@ -33,7 +32,6 @@ class OrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "($1 OR `booleanField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = OrExpression(parameterValue.asParameter(), someBooleanField())
 
@@ -49,7 +47,6 @@ class OrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "($1 OR $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = OrExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -64,7 +61,6 @@ class OrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "(`booleanField` OR $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = OrExpression(someBooleanField(), parameterValue.asParameter())
 

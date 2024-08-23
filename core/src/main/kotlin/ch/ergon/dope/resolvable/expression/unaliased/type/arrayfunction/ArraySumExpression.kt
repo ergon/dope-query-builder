@@ -16,7 +16,6 @@ class ArraySumExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_SUM", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

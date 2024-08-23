@@ -21,7 +21,6 @@ class ArrayContainsExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_CONTAINS", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

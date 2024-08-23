@@ -18,7 +18,6 @@ class ToArrayExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TOARRAY(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ToArrayExpression(someStringField())
 
@@ -33,7 +32,6 @@ class ToArrayExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TOARRAY($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ToArrayExpression(parameterValue.asParameter())
 

@@ -18,7 +18,6 @@ class IsStringExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISSTRING(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IsStringExpression(someStringField())
 
@@ -33,7 +32,6 @@ class IsStringExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISSTRING($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IsStringExpression(parameterValue.asParameter())
 

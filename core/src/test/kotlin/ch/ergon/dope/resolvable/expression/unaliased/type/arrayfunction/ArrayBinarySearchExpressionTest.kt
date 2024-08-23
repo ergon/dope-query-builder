@@ -12,8 +12,8 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayBinarySearchExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -23,7 +23,6 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), someNumberField())
 
@@ -38,7 +37,6 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(), someNumberField())
 
@@ -53,7 +51,6 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -69,7 +66,6 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayBinarySearchExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

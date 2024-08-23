@@ -18,7 +18,6 @@ class ArrayPositionExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_POSITION", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

@@ -18,7 +18,6 @@ class NowStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NOW_STR()",
             emptyMap(),
-            manager,
         )
         val underTest = NowStrExpression()
 
@@ -32,7 +31,6 @@ class NowStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NOW_STR(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = NowStrExpression(someStringField())
 
@@ -47,7 +45,6 @@ class NowStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NOW_STR($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NowStrExpression(parameterValue.asParameter())
 

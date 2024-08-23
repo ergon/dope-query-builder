@@ -20,7 +20,6 @@ class LessThanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` < `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = LessThanExpression(someNumberField(), someNumberField())
 
@@ -35,7 +34,6 @@ class LessThanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 < `numberField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LessThanExpression(parameterValue.asParameter(), someNumberField())
 
@@ -51,7 +49,6 @@ class LessThanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 < $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = LessThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -66,7 +63,6 @@ class LessThanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` < $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = LessThanExpression(someNumberField(), parameterValue.asParameter())
 

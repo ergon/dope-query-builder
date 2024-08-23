@@ -8,8 +8,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotBetweenExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.notBetween
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class NotBetweenExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -19,7 +19,6 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "`numberField` NOT BETWEEN 1 AND 10",
             emptyMap(),
-            manager,
         )
         val underTest = NotBetweenExpression(someNumberField(), 1.toDopeType(), 10.toDopeType())
 
@@ -34,7 +33,6 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "$1 NOT BETWEEN 1 AND 10",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), 1.toDopeType(), 10.toDopeType())
 
@@ -50,7 +48,6 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "$1 NOT BETWEEN $2 AND 10",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 10.toDopeType())
 
@@ -67,7 +64,6 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "$1 NOT BETWEEN $2 AND $3",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
-            manager,
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

@@ -18,7 +18,6 @@ class ContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONTAINS(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ContainsExpression(someStringField(), someStringField())
 
@@ -33,7 +32,6 @@ class ContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONTAINS($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ContainsExpression(parameterValue.asParameter(), someStringField())
 
@@ -49,7 +47,6 @@ class ContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONTAINS($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ContainsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

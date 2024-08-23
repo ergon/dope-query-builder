@@ -20,7 +20,6 @@ class DecodeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DECODE(`stringField`, \"someString\", 5, 0)",
             emptyMap(),
-            manager,
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -39,7 +38,6 @@ class DecodeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DECODE($1, \"someString\", 5, 0)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = DecodeExpression(
             parameterValue.asParameter(),
@@ -58,7 +56,6 @@ class DecodeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DECODE(`stringField`, \"someString\", 5, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -78,7 +75,6 @@ class DecodeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DECODE($1, \"someString\", 5, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = DecodeExpression(
             parameterValue.asParameter(),

@@ -16,7 +16,6 @@ class ToStringExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("TOSTRING", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

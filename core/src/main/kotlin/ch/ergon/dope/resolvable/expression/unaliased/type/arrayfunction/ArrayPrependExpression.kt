@@ -30,7 +30,6 @@ class ArrayPrependExpression<T : ValidType>(
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters + additionalValuesDopeQuery.fold(
                 emptyMap(),
             ) { argsParameters, field -> argsParameters + field.parameters },
-            manager = manager,
         )
     }
 }

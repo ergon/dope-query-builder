@@ -18,7 +18,6 @@ class SubstringExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUBSTR(`stringField`, 3, 1)",
             emptyMap(),
-            manager,
         )
         val underTest = SubstringExpression(someStringField(), 3, 1)
 
@@ -33,7 +32,6 @@ class SubstringExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUBSTR($1, 3, 1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SubstringExpression(parameterValue.asParameter(), 3, 1)
 

@@ -5,8 +5,8 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArraySymmetricDifferenceTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -16,7 +16,6 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, `numberArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -31,7 +30,6 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF($1, `numberArrayField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -46,7 +44,6 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -62,7 +59,6 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

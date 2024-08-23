@@ -32,7 +32,6 @@ class SetClause(
                     setAssignmentsParameters, field ->
                 setAssignmentsParameters + field.parameters
             } + parentClauseDopeQuery.parameters,
-            manager = manager,
         )
     }
 
@@ -74,7 +73,6 @@ class SetAssignment<T : ValidType>(
         return DopeQuery(
             queryString = "${fieldDopeQuery.queryString} = ${valueDopeQuery.queryString}",
             parameters = fieldDopeQuery.parameters + valueDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

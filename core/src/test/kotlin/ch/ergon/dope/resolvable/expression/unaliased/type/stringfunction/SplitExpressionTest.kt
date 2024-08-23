@@ -18,7 +18,6 @@ class SplitExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SPLIT(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = SplitExpression(someStringField())
 
@@ -33,7 +32,6 @@ class SplitExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SPLIT($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SplitExpression(parameterValue.asParameter())
 
@@ -47,7 +45,6 @@ class SplitExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SPLIT(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = SplitExpression(someStringField(), someStringField())
 
@@ -62,7 +59,6 @@ class SplitExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SPLIT($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SplitExpression(parameterValue.asParameter(), someStringField())
 
@@ -78,7 +74,6 @@ class SplitExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SPLIT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = SplitExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

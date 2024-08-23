@@ -19,7 +19,6 @@ class ToNumberExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, filterCharsDopeQuery),
             parameters = expressionDopeQuery.parameters + filterCharsDopeQuery?.parameters.orEmpty(),
-            manager = manager,
         )
     }
 }

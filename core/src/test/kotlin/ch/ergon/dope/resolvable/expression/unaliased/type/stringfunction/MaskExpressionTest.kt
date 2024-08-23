@@ -19,7 +19,6 @@ class MaskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MASK(`stringField`, {\"mask\": \"*\"})",
             emptyMap(),
-            manager,
         )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
@@ -34,7 +33,6 @@ class MaskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MASK($1, {\"mask\": \"*\"})",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
 

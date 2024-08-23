@@ -24,7 +24,6 @@ open class SelectOrderByClause(private val stringField: Field<StringType>, priva
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
             parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
@@ -41,7 +40,6 @@ class SelectOrderByTypeClause(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
             parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

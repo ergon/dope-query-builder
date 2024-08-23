@@ -27,7 +27,6 @@ class Concat2Expression(
             parameters = separatorDopeQuery.parameters + stringDopeQuery.parameters + stringsDopeQuery.fold(
                 emptyMap(),
             ) { stringParameters, field -> stringParameters + field.parameters },
-            manager = manager,
         )
     }
 }

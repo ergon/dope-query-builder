@@ -27,7 +27,6 @@ class GroupByClause(
             parameters = fieldsDopeQuery.fold(fieldDopeQuery.parameters) { fieldParameters, field ->
                 fieldParameters + field.parameters
             } + parentDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

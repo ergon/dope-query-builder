@@ -18,7 +18,6 @@ class IsAtomExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISATOM(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IsAtomExpression(someStringField())
 
@@ -33,7 +32,6 @@ class IsAtomExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISATOM($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IsAtomExpression(parameterValue.asParameter())
 

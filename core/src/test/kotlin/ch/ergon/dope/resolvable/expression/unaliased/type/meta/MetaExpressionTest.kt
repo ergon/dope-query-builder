@@ -15,7 +15,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`)",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 
@@ -29,7 +28,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`).`cas`",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 
@@ -43,7 +41,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`).`expiration`",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 
@@ -57,7 +54,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`).`flags`",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 
@@ -71,7 +67,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`).`id`",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 
@@ -85,7 +80,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`).`type`",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 
@@ -99,7 +93,6 @@ class MetaExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "META(`someBucket`).`keyspace`",
             emptyMap(),
-            manager,
         )
         val underTest = MetaExpression(someBucket())
 

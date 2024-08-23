@@ -29,9 +29,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sqrt
 import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.tan
 import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.trunc
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class NumberFunctionsTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager

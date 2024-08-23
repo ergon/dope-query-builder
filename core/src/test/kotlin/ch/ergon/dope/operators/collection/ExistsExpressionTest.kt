@@ -9,8 +9,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.ExistsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ExistsExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -20,7 +20,6 @@ class ExistsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "EXISTS `numberArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = ExistsExpression(someNumberArrayField())
 
@@ -35,7 +34,6 @@ class ExistsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "EXISTS $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ExistsExpression(parameterValue.asParameter())
 

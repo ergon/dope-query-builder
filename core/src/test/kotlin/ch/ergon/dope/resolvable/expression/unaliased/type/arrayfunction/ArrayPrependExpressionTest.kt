@@ -12,8 +12,8 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayPrependExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -23,7 +23,6 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_PREPEND(`numberField`, `numberArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayPrependExpression(someNumberArrayField(), someNumberField())
 
@@ -38,7 +37,6 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_PREPEND(`numberField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayPrependExpression(parameterValue.asParameter(), someNumberField())
 
@@ -53,7 +51,6 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_PREPEND($1, `numberArrayField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayPrependExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -69,7 +66,6 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_PREPEND($2, $1)",
             mapOf("$2" to parameterValue, "$1" to parameterValueCollection),
-            manager,
         )
         val underTest = ArrayPrependExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

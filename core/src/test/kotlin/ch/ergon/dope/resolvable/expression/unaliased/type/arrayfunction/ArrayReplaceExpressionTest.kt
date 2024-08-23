@@ -14,8 +14,8 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayReplaceExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -25,7 +25,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE(`numberArrayField`, 1, 2)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), 2.toDopeType())
 
@@ -40,7 +39,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, 1, 2)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), 1.toDopeType(), 2.toDopeType())
 
@@ -55,7 +53,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE(`numberArrayField`, $1, 2)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), parameterValue.asParameter(), 2.toDopeType())
 
@@ -70,7 +67,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE(`numberArrayField`, 1, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
@@ -86,7 +82,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, $2, 2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 2.toDopeType())
 
@@ -102,7 +97,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, 1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), 1.toDopeType(), parameterValue2.asParameter())
 
@@ -119,7 +113,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
-            manager,
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

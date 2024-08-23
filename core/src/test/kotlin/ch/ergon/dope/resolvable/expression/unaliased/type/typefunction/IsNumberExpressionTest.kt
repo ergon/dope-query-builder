@@ -18,7 +18,6 @@ class IsNumberExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISNUMBER(`numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IsNumberExpression(someNumberField())
 
@@ -33,7 +32,6 @@ class IsNumberExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISNUMBER($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IsNumberExpression(parameterValue.asParameter())
 

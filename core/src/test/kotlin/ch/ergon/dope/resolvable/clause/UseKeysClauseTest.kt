@@ -23,7 +23,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * USE KEYS \"someString\"",
             emptyMap(),
-            manager,
         )
         val underTest = SelectUseKeysClause(
             "someString".toDopeType(),
@@ -40,7 +39,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * USE KEYS [\"someString\", \"anotherString\"]",
             emptyMap(),
-            manager,
         )
         val underTest = SelectUseKeysClause(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
@@ -58,7 +56,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * USE KEYS $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SelectUseKeysClause(
             parameterValue.asParameter(),
@@ -86,7 +83,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` USE KEYS \"someString\"",
             emptyMap(),
-            manager,
         )
         val underTest = DeleteUseKeysClause(
             "someString".toDopeType(),
@@ -103,7 +99,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` USE KEYS [\"someString\", \"anotherString\"]",
             emptyMap(),
-            manager,
         )
         val underTest = DeleteUseKeysClause(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
@@ -121,7 +116,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` USE KEYS $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = DeleteUseKeysClause(
             parameterValue.asParameter(),
@@ -149,7 +143,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` USE KEYS \"someString\"",
             emptyMap(),
-            manager,
         )
         val underTest = UpdateUseKeysClause(
             "someString".toDopeType(),
@@ -166,7 +159,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` USE KEYS [\"someString\", \"anotherString\"]",
             emptyMap(),
-            manager,
         )
         val underTest = UpdateUseKeysClause(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
@@ -184,7 +176,6 @@ class UseKeysClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` USE KEYS $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = UpdateUseKeysClause(
             parameterValue.asParameter(),

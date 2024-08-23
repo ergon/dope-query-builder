@@ -7,6 +7,7 @@ import ch.ergon.dope.extension.type.array.arrayDistinct
 import ch.ergon.dope.extension.type.array.arrayIntersect
 import ch.ergon.dope.extension.type.array.arrayLength
 import ch.ergon.dope.extension.type.array.arraySum
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -20,17 +21,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayInt
 import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayLengthExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArraySumExpression
 import ch.ergon.dope.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ArrayFunctionTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class ArrayFunctionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ARRAY_CONCAT with CM Number list`() {

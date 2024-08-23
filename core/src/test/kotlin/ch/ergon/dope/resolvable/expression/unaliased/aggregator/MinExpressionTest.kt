@@ -17,7 +17,6 @@ class MinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MIN(`numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = MinExpression(someNumberField(), null)
 
@@ -31,7 +30,6 @@ class MinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MIN(ALL `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = MinExpression(someNumberField(), ALL)
 
@@ -45,7 +43,6 @@ class MinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MIN(DISTINCT `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = MinExpression(someNumberField(), DISTINCT)
 

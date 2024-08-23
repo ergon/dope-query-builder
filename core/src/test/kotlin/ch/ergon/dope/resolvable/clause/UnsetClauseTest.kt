@@ -18,7 +18,6 @@ class UnsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` UNSET `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = UnsetClause(
             someStringField(),
@@ -35,7 +34,6 @@ class UnsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` UNSET `stringField`, `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = UnsetClause(
             someStringField(),

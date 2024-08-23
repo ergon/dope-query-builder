@@ -27,7 +27,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` IN `stringArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = InExpression(someStringField(), someStringArrayField())
 
@@ -42,7 +41,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 IN `stringArrayField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InExpression(parameterValue.asParameter(), someStringArrayField())
 
@@ -58,7 +56,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 IN $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = InExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -73,7 +70,6 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` IN $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 

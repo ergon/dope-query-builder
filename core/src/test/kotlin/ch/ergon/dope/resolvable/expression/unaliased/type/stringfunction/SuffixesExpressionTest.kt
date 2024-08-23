@@ -18,7 +18,6 @@ class SuffixesExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUFFIXES(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = SuffixesExpression(someStringField())
 
@@ -33,7 +32,6 @@ class SuffixesExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUFFIXES($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SuffixesExpression(parameterValue.asParameter())
 

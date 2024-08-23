@@ -16,7 +16,6 @@ class IsArrayExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISARRAY(`stringArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = IsArrayExpression(someStringArrayField())
 
@@ -31,7 +30,6 @@ class IsArrayExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ISARRAY($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = IsArrayExpression(parameterValue.asParameter())
 

@@ -10,6 +10,5 @@ open class Field<T : ValidType>(private val name: String, private val path: Stri
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = formatPathToQueryString(name, path),
         parameters = emptyMap(),
-        manager = manager,
     )
 }

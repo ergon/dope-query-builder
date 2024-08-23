@@ -13,8 +13,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotWithinExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.notWithinArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class NotWithinExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -24,7 +24,6 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` NOT WITHIN `numberArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = NotWithinExpression(someNumberField(), someNumberArrayField())
 
@@ -39,7 +38,6 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 NOT WITHIN `numberArrayField`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -54,7 +52,6 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` NOT WITHIN $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter())
 
@@ -70,7 +67,6 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 NOT WITHIN $2",
             mapOf("$1" to parameterValue, "$2" to parameterCollectionValue),
-            manager,
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 

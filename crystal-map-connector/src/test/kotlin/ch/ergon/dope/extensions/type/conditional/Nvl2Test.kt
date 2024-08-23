@@ -2,6 +2,7 @@ package ch.ergon.dope.extensions.type.conditional
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.conditional.nvl2
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBooleanFieldList
@@ -20,17 +21,11 @@ import ch.ergon.dope.helper.someStringFieldList
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.Nvl2Expression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Nvl2Test {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class Nvl2Test : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support nvl2 CMType CMNumberField CMNumberField`() {

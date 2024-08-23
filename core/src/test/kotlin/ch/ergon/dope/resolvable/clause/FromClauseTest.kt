@@ -6,8 +6,8 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class FromClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -17,7 +17,6 @@ class FromClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket`",
             emptyMap(),
-            manager,
         )
         val underTest = FromClause(someBucket(), someSelectClause())
 
@@ -31,7 +30,6 @@ class FromClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` AS `bucket`",
             emptyMap(),
-            manager,
         )
         val underTest = FromClause(someBucket().alias("bucket"), someSelectClause())
 

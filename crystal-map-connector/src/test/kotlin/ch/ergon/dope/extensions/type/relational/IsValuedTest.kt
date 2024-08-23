@@ -3,23 +3,18 @@ package ch.ergon.dope.extensions.type.relational
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isNotValued
 import ch.ergon.dope.extension.type.relational.isValued
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IsNotValuedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IsValuedExpression
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsValuedTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class IsValuedTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support  Valued CMFieldNumber`() {

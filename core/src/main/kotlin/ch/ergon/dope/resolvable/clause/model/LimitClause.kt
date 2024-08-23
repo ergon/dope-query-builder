@@ -23,7 +23,6 @@ sealed class LimitClause(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "LIMIT", numberDopeQuery.queryString),
             parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

@@ -20,7 +20,6 @@ class RepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "REPEAT(`stringField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = RepeatExpression(someStringField(), someNumberField())
 
@@ -35,7 +34,6 @@ class RepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "REPEAT($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = RepeatExpression(parameterValue.asParameter(), someNumberField())
 
@@ -51,7 +49,6 @@ class RepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "REPEAT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = RepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

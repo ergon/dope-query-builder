@@ -5,8 +5,8 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayMinExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -16,7 +16,6 @@ class ArrayMinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MIN(`numberArrayField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayMinExpression(someNumberArrayField())
 
@@ -31,7 +30,6 @@ class ArrayMinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MIN($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayMinExpression(parameterValue.asParameter())
 

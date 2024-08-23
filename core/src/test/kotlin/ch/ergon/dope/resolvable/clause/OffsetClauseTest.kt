@@ -9,8 +9,8 @@ import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class OffsetClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -20,7 +20,6 @@ class OffsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = DeleteOffsetClause(someNumberField(), someDeleteClause())
 
@@ -35,7 +34,6 @@ class OffsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause())
 
@@ -60,7 +58,6 @@ class OffsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * OFFSET `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectOffsetClause(someNumberField(), someSelectClause())
 
@@ -75,7 +72,6 @@ class OffsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT * OFFSET $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SelectOffsetClause(parameterValue.asParameter(), someSelectClause())
 
@@ -91,7 +87,6 @@ class OffsetClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1 OFFSET $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 

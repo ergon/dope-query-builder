@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class SelectClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -22,7 +22,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectClause(someStringField())
 
@@ -37,7 +36,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SelectClause(parameterValue.asParameter())
 
@@ -51,7 +49,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT `numberField`, `stringArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectClause(someNumberField(), someStringArrayField())
 
@@ -65,7 +62,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT DISTINCT `numberField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectDistinctClause(someNumberField())
 
@@ -80,7 +76,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT DISTINCT $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SelectDistinctClause(parameterValue.asParameter())
 
@@ -94,7 +89,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT DISTINCT `numberField`, `stringArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectDistinctClause(someNumberField(), someStringArrayField())
 
@@ -108,7 +102,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT `stringField` AS `stringFieldAlias`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectClause(someStringField().alias("stringFieldAlias"))
 
@@ -122,7 +115,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT `numberField` AS `numberFieldAlias`, `stringArrayField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectClause(someNumberField().alias("numberFieldAlias"), someStringArrayField())
 
@@ -136,7 +128,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT RAW `stringField`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectRawClause(someStringField())
 
@@ -151,7 +142,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT RAW $1",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = SelectRawClause(parameterValue.asParameter())
 
@@ -165,7 +155,6 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SELECT RAW `stringField` AS `stringFieldAlias`",
             emptyMap(),
-            manager,
         )
         val underTest = SelectRawClause(someStringField().alias("stringFieldAlias"))
 

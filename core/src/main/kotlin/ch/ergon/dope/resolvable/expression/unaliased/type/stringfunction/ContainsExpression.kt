@@ -18,7 +18,6 @@ class ContainsExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "CONTAINS", inStrDopeQuery, searchStrDopeQuery),
             parameters = inStrDopeQuery.parameters + searchStrDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

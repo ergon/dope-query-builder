@@ -15,7 +15,6 @@ class ArrayMaxExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_MAX", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

@@ -19,7 +19,6 @@ class ArrayRepeatExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_REPEAT", valueDopeQuery, repetitionsDopeQuery),
             parameters = valueDopeQuery.parameters + repetitionsDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

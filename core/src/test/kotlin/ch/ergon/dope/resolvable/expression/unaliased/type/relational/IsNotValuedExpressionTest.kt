@@ -15,7 +15,6 @@ class IsNotValuedExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` IS NOT VALUED",
             emptyMap(),
-            manager,
         )
         val underTest = IsNotValuedExpression(someStringField())
 

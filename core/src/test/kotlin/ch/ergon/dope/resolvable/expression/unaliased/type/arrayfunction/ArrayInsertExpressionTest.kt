@@ -12,8 +12,8 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayInsertExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -23,7 +23,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT(`numberArrayField`, 1, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), someNumberField())
 
@@ -38,7 +37,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT($1, 1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), 1.toDopeType(), someNumberField())
 
@@ -53,7 +51,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT(`numberArrayField`, $1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), parameterValue.asParameter(), someNumberField())
 
@@ -68,7 +65,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT(`numberArrayField`, 1, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
@@ -84,7 +80,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT($1, $2, `numberField`)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), parameterValue2.asParameter(), someNumberField())
 
@@ -100,7 +95,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT($1, 1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), 1.toDopeType(), parameterValue2.asParameter())
 
@@ -117,7 +111,6 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_INSERT($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
-            manager,
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

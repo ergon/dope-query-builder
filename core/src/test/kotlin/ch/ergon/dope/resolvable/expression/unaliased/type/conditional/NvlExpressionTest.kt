@@ -22,7 +22,6 @@ class NvlExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NVL(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = NvlExpression(someStringField(), someStringField())
 
@@ -37,7 +36,6 @@ class NvlExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NVL($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NvlExpression(parameterValue.asParameter(), someStringField())
 
@@ -52,7 +50,6 @@ class NvlExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NVL(`stringField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = NvlExpression(someStringField(), parameterValue.asParameter())
 
@@ -68,7 +65,6 @@ class NvlExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "NVL($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = NvlExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

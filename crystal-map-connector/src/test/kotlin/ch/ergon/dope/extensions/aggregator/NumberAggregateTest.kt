@@ -7,6 +7,7 @@ import ch.ergon.dope.extension.aggregator.median
 import ch.ergon.dope.extension.aggregator.stdDev
 import ch.ergon.dope.extension.aggregator.sum
 import ch.ergon.dope.extension.aggregator.variance
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AverageExpression
@@ -16,17 +17,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.StandardDeviatio
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.SumExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.VarianceExpression
 import ch.ergon.dope.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NumberAggregateTest {
-    private lateinit var manager: DopeQueryManager
-
-    @BeforeTest
-    fun setup() {
-        manager = DopeQueryManager()
-    }
+class NumberAggregateTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support avg with CMField Number`() {

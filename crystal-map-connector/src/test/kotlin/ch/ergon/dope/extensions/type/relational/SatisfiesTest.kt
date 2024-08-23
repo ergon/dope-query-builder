@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.any
 import ch.ergon.dope.extension.type.relational.every
 import ch.ergon.dope.extension.type.relational.isEqualTo
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
@@ -13,12 +14,11 @@ import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SatisfiesTest {
-    private lateinit var manager: DopeQueryManager
+class SatisfiesTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     class Dummy(path: String = "") : Schema {
         val objectList: CMObjectList<Dummy2> = CMObjectList(Dummy2(path), "objectList", path)
@@ -36,17 +36,11 @@ class SatisfiesTest {
         val something: CMField<Number> = CMField("something", path)
     }
 
-    @BeforeEach
-    fun setUp() {
-        manager = DopeQueryManager()
-    }
-
     @Test
     fun `should support any satisfies with schema`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `objectList` SATISFIES `iterator1`.`type` = \"some value\" END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.any { schema ->
@@ -61,7 +55,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `objectList` SATISFIES `iterator1`.`type` = \"some value\" END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.toDopeType().any { schema ->
@@ -76,7 +69,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().numberList.any { it.mod(2).isEqualTo(1) }.toDopeQuery(manager)
@@ -89,7 +81,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `stringList` SATISFIES UPPER(`iterator1`) = \"some value\" END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().stringList.any { upper(it).isEqualTo("some value") }.toDopeQuery(manager)
@@ -102,7 +93,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `booleanList` SATISFIES `iterator1` END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().booleanList.any { it }.toDopeQuery(manager)
@@ -116,7 +106,6 @@ class SatisfiesTest {
             queryString = "ANY `iterator1` IN `objectList` SATISFIES ANY `iterator2` IN `iterator1`.`otherObjectList` " +
                 "SATISFIES `iterator2`.`something` = 3 END END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.any { schema ->
@@ -131,7 +120,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `objectList` SATISFIES `iterator1`.`type` = \"some value\" END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.every { schema ->
@@ -146,7 +134,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `objectList` SATISFIES `iterator1`.`type` = \"some value\" END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.toDopeType().every { schema ->
@@ -161,7 +148,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().numberList.every { it.mod(2).isEqualTo(1) }.toDopeQuery(manager)
@@ -174,7 +160,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `stringList` SATISFIES UPPER(`iterator1`) = \"some value\" END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().stringList.every { upper(it).isEqualTo("some value") }.toDopeQuery(manager)
@@ -187,7 +172,6 @@ class SatisfiesTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `booleanList` SATISFIES `iterator1` END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().booleanList.every { it }.toDopeQuery(manager)
@@ -201,7 +185,6 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `objectList` SATISFIES EVERY `iterator2` IN `iterator1`.`otherObjectList`" +
                 " SATISFIES `iterator2`.`something` = 3 END END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.every { schema ->
@@ -217,7 +200,6 @@ class SatisfiesTest {
             queryString = "EVERY `iterator1` IN `objectList` SATISFIES ANY `iterator2` IN `iterator1`.`otherObjectList`" +
                 " SATISFIES `iterator2`.`something` = 3 END END",
             parameters = emptyMap(),
-            manager = manager,
         )
 
         val actual = Dummy().objectList.every { schema ->

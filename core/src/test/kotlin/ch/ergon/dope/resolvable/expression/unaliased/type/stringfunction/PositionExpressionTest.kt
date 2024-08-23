@@ -18,7 +18,6 @@ class PositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "POSITION(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = PositionExpression(someStringField(), someStringField())
 
@@ -33,7 +32,6 @@ class PositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "POSITION($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = PositionExpression(parameterValue.asParameter(), someStringField())
 
@@ -49,7 +47,6 @@ class PositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "POSITION($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = PositionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

@@ -18,7 +18,6 @@ class ConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONCAT(`stringField`, `stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ConcatExpression(someStringField(), someStringField())
 
@@ -33,7 +32,6 @@ class ConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONCAT($1, `stringField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField())
 
@@ -49,7 +47,6 @@ class ConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONCAT($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -65,7 +62,6 @@ class ConcatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "CONCAT($1, `stringField`, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField(), parameterValue2.asParameter())
 

@@ -17,10 +17,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertNotEquals
+import kotlin.test.assertEquals
 
 class ParameterizedQueriesTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -232,14 +231,14 @@ class ParameterizedQueriesTest : ManagerDependentTest {
 
     @Test
     fun `should use different parameter managers for parallel queries`() {
-        val parameter1 = someNumber().asParameter()
-        val parameter2 = someNumber().asParameter()
+        val parameterValue1 = someNumber()
+        val parameterValue2 = someNumber()
         val expected = create
             .selectFrom(
                 someBucket(),
             )
             .where(
-                parameter1.isEqualTo(parameter2),
+                parameterValue1.asParameter().isEqualTo(parameterValue2.asParameter()),
             ).build()
 
         val actual = create
@@ -247,11 +246,10 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                 someBucket(),
             )
             .where(
-                parameter1.isEqualTo(parameter2),
+                parameterValue1.asParameter().isEqualTo(parameterValue2.asParameter()),
             ).build()
 
         assertEquals(expected.queryString, actual.queryString)
         assertEquals(expected.parameters, actual.parameters)
-        assertNotEquals(expected.manager, actual.manager)
     }
 }

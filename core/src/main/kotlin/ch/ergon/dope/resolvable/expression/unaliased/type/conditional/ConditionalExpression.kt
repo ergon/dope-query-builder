@@ -27,7 +27,6 @@ sealed class ConditionalExpression<T : ValidType>(
             parameters = firstExpressionDopeQuery.parameters + additionalExpressionsDopeQuery.fold(
                 secondExpressionDopeQuery.parameters,
             ) { expressionParameters, expression -> expressionParameters + expression.parameters },
-            manager = manager,
         )
     }
 }

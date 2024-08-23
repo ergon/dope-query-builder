@@ -17,7 +17,6 @@ class StandardDeviationExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "STDDEV(`numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = StandardDeviationExpression(someNumberField(), null)
 
@@ -31,7 +30,6 @@ class StandardDeviationExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "STDDEV(ALL `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = StandardDeviationExpression(someNumberField(), ALL)
 
@@ -45,7 +43,6 @@ class StandardDeviationExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "STDDEV(DISTINCT `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = StandardDeviationExpression(someNumberField(), DISTINCT)
 

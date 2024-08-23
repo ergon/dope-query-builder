@@ -9,8 +9,8 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class AliasedExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -20,7 +20,6 @@ class AliasedExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` AS `test`",
             emptyMap(),
-            manager,
         )
         val underTest = AliasedExpression(someStringField(), "test")
 
@@ -35,7 +34,6 @@ class AliasedExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "$1 AS `test`",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = AliasedExpression(parameterValue.asParameter(), "test")
 

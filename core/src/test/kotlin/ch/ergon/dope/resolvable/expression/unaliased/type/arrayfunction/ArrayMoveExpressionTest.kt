@@ -6,8 +6,8 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayMoveExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -17,7 +17,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE(`numberArrayField`, 1, 2)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), 2.toDopeType())
 
@@ -32,7 +31,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE($1, 1, 2)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), 1.toDopeType(), 2.toDopeType())
 
@@ -47,7 +45,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE(`numberArrayField`, $1, 2)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), parameterValue.asParameter(), 2.toDopeType())
 
@@ -62,7 +59,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE(`numberArrayField`, 1, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
@@ -78,7 +74,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE($1, $2, 2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 2.toDopeType())
 
@@ -94,7 +89,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE($1, 1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), 1.toDopeType(), parameterValue2.asParameter())
 
@@ -111,7 +105,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MOVE($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
-            manager,
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

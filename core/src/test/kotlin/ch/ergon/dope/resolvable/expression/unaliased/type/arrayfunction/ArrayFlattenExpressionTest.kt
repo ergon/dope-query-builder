@@ -7,8 +7,8 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayFlattenExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -18,7 +18,6 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_FLATTEN(`numberArrayField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), someNumberField())
 
@@ -33,7 +32,6 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_FLATTEN($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayFlattenExpression(parameterValue.asParameter(), someNumberField())
 
@@ -48,7 +46,6 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_FLATTEN(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -64,7 +61,6 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_FLATTEN($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayFlattenExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

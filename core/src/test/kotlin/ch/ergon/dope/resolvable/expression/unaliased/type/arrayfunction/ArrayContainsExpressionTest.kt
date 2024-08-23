@@ -9,8 +9,8 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayContainsExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -20,7 +20,6 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONTAINS(`numberArrayField`, `numberField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), someNumberField())
 
@@ -35,7 +34,6 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONTAINS($1, `numberField`)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayContainsExpression(parameterValue.asParameter(), someNumberField())
 
@@ -50,7 +48,6 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONTAINS(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -66,7 +63,6 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONTAINS($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
-            manager,
         )
         val underTest = ArrayContainsExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

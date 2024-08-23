@@ -18,7 +18,6 @@ class UpperExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPPER(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = UpperExpression(someStringField())
 
@@ -33,7 +32,6 @@ class UpperExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPPER($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = UpperExpression(parameterValue.asParameter())
 

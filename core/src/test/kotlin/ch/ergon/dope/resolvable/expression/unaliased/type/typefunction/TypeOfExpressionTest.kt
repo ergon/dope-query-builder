@@ -18,7 +18,6 @@ class TypeOfExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TYPE(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = TypeOfExpression(someStringField())
 
@@ -33,7 +32,6 @@ class TypeOfExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TYPE($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = TypeOfExpression(parameterValue.asParameter())
 

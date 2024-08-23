@@ -7,8 +7,8 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayRangeExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
@@ -18,7 +18,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_RANGE(0, 10)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), 10.toDopeType())
 
@@ -32,7 +31,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_RANGE(0, 10, 2)",
             emptyMap(),
-            manager,
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), 10.toDopeType(), 2.toDopeType())
 
@@ -47,7 +45,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_RANGE($1, 10)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(), 10.toDopeType())
 
@@ -62,7 +59,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_RANGE(0, $1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), parameterValue.asParameter())
 
@@ -78,7 +74,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_RANGE($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
-            manager,
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -95,7 +90,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_RANGE($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
-            manager,
         )
         val underTest = ArrayRangeExpression(
             parameterValue.asParameter(),

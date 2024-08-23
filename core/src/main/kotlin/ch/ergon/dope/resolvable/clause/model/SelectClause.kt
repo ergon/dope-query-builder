@@ -20,7 +20,6 @@ class SelectClause(private val expression: Expression, private vararg val expres
             parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
                 expressionParameters + field.parameters
             },
-            manager = manager,
         )
     }
 }
@@ -32,7 +31,6 @@ class SelectRawClause(private val expression: Expression) : ISelectClause {
         return DopeQuery(
             formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
             expressionDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
@@ -50,7 +48,6 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
             parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
                 expressionParameters + field.parameters
             },
-            manager = manager,
         )
     }
 }

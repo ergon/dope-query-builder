@@ -19,7 +19,6 @@ class ToBooleanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TOBOOLEAN(`stringField`)",
             emptyMap(),
-            manager,
         )
         val underTest = ToBooleanExpression(someStringField())
 
@@ -34,7 +33,6 @@ class ToBooleanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "TOBOOLEAN($1)",
             mapOf("$1" to parameterValue),
-            manager,
         )
         val underTest = ToBooleanExpression(parameterValue.asParameter())
 

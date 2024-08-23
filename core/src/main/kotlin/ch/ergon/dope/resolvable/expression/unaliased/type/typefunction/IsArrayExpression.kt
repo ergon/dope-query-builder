@@ -15,7 +15,6 @@ class IsArrayExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ISARRAY", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
-            manager = manager,
         )
     }
 }

@@ -17,7 +17,6 @@ class SearchResult<T : ValidType, U : ValidType>(
         return DopeQuery(
             queryString = "${searchExpressionDopeQuery.queryString}, ${resultExpressionDopeQuery.queryString}",
             parameters = searchExpressionDopeQuery.parameters + resultExpressionDopeQuery.parameters,
-            manager = manager,
         )
     }
 }
