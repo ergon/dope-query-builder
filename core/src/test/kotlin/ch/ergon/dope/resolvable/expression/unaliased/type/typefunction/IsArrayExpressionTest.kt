@@ -4,6 +4,8 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsArrayExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isArray
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

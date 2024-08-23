@@ -5,6 +5,8 @@ import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayRepeatExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayRepeat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

@@ -4,6 +4,12 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArraySymmetricDifference1Expression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArraySymmetricDifferenceExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArraySymmetricDifferenceNExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiff
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiff1
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiffN
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

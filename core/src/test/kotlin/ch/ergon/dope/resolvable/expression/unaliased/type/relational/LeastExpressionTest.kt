@@ -5,6 +5,8 @@ import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.LeastExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.leastOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

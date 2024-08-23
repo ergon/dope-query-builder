@@ -1,6 +1,6 @@
 package ch.ergon.dope.extension.type.relational
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.greatestOf
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.greatestOf
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 

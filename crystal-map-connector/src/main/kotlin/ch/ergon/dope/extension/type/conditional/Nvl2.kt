@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.type.conditional
 
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.nvl2
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.nvl2
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType

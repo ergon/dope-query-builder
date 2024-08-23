@@ -6,10 +6,11 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.greatestOf
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.leastOf
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.greatestOf
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
@@ -24,7 +25,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.leastOf
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test

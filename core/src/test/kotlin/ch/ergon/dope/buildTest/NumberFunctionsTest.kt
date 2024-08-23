@@ -3,29 +3,23 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.abs
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.acos
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.asin
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.atan
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.atan2
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.ceil
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.cos
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.degrees
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.e
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.exp
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.floor
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.ln
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.log
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.pi
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.power
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.radians
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.random
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.round
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sign
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sin
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sqrt
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.tan
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.trunc
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.abs
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.acos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.asin
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan2
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ceil
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.cos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.pi
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.power
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.radians
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.random
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.round
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sign
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sin
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sqrt
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.tan
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.trunc
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
@@ -154,7 +148,10 @@ class NumberFunctionsTest {
     fun `should support ATAN2 expression with number field as divisor and dividend`() {
         val expected = "ATAN2(`numberField`, `anotherNumberField`)"
 
-        val actual = atan2(someNumberField(), someNumberField("anotherNumberField")).toDopeQuery().queryString
+        val actual = atan2(
+            someNumberField(),
+            someNumberField("anotherNumberField"),
+        ).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -199,7 +196,7 @@ class NumberFunctionsTest {
     fun `should support DEGREES expression`() {
         val expected = "DEGREES(-1)"
 
-        val actual = degrees(-1).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees(-1).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -208,7 +205,7 @@ class NumberFunctionsTest {
     fun `should support DEGREES expression with number field`() {
         val expected = "DEGREES(`numberField`)"
 
-        val actual = degrees(someNumberField()).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -217,7 +214,7 @@ class NumberFunctionsTest {
     fun `should support E (euler) expression`() {
         val expected = "E()"
 
-        val actual = e().toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.e().toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -226,7 +223,7 @@ class NumberFunctionsTest {
     fun `should support EXP expression`() {
         val expected = "EXP(-1)"
 
-        val actual = exp(-1).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.exp(-1).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -235,7 +232,7 @@ class NumberFunctionsTest {
     fun `should support EXP expression with number field`() {
         val expected = "EXP(`numberField`)"
 
-        val actual = exp(someNumberField()).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.exp(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -244,7 +241,7 @@ class NumberFunctionsTest {
     fun `should support LN expression`() {
         val expected = "LN(1)"
 
-        val actual = ln(1).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ln(1).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -253,7 +250,7 @@ class NumberFunctionsTest {
     fun `should support LN expression with number field`() {
         val expected = "LN(`numberField`)"
 
-        val actual = ln(someNumberField()).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ln(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -262,7 +259,7 @@ class NumberFunctionsTest {
     fun `should support LOG expression`() {
         val expected = "LOG(1)"
 
-        val actual = log(1).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.log(1).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -271,7 +268,7 @@ class NumberFunctionsTest {
     fun `should support LOG expression with number field`() {
         val expected = "LOG(`numberField`)"
 
-        val actual = log(someNumberField()).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.log(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -280,7 +277,7 @@ class NumberFunctionsTest {
     fun `should support FLOOR expression`() {
         val expected = "FLOOR(3.14)"
 
-        val actual = floor(3.14).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor(3.14).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }
@@ -289,7 +286,7 @@ class NumberFunctionsTest {
     fun `should support FLOOR expression with number field`() {
         val expected = "FLOOR(`numberField`)"
 
-        val actual = floor(someNumberField()).toDopeQuery().queryString
+        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor(someNumberField()).toDopeQuery().queryString
 
         assertEquals(expected, actual)
     }

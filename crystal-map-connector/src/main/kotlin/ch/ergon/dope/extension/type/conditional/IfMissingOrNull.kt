@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.type.conditional
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.coalesce
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.ifMissingOrNull
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.coalesce
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.ifMissingOrNull
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList

@@ -6,6 +6,8 @@ import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsBooleanExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isBoolean
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

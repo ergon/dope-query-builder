@@ -1,0 +1,25 @@
+package ch.ergon.dope.resolvable.expression.unaliased.type.function
+
+import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.operator.FunctionOperator
+import ch.ergon.dope.validtype.ValidType
+
+abstract class FunctionExpression<T : ValidType>(
+    private val symbol: String,
+    private vararg val expressions: UnaliasedExpression<T>,
+) : TypeExpression<T>, FunctionOperator {
+    override fun toDopeQuery(): DopeQuery {
+        val expressionsDopeQuery = expressions.map { it.toDopeQuery() }
+        return DopeQuery(
+            queryString = toFunctionQueryString(
+                symbol,
+                *expressionsDopeQuery.toTypedArray(),
+            ),
+            parameters = expressionsDopeQuery.fold(
+                emptyMap(),
+            ) { expressionParameters, expression -> expressionParameters + expression.parameters },
+        )
+    }
+}

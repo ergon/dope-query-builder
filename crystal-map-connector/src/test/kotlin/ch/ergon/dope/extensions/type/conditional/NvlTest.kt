@@ -10,7 +10,7 @@ import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.NvlExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.NvlExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test

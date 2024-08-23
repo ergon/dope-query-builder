@@ -3,7 +3,7 @@ package ch.ergon.dope.extensions.type.relational
 import ch.ergon.dope.extension.type.relational.leastOf
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.LeastExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.LeastExpression
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals

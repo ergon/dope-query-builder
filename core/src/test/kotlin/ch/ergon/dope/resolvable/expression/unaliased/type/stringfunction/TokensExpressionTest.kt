@@ -2,8 +2,9 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.helper.ParameterDependentTest
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.CustomTokenOptions
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.tokens
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.TokensExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.tokens
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
