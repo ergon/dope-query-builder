@@ -1,6 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someNumber
@@ -8,28 +10,24 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ArrayRemoveExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class ArrayRemoveExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ARRAY_REMOVE`() {
         val expected = DopeQuery(
             "ARRAY_REMOVE(`numberArrayField`, `numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -40,10 +38,11 @@ class ArrayRemoveExpressionTest {
         val expected = DopeQuery(
             "ARRAY_REMOVE($1, `numberField`)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -54,10 +53,11 @@ class ArrayRemoveExpressionTest {
         val expected = DopeQuery(
             "ARRAY_REMOVE(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -69,10 +69,11 @@ class ArrayRemoveExpressionTest {
         val expected = DopeQuery(
             "ARRAY_REMOVE($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
+            manager,
         )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -85,7 +86,7 @@ class ArrayRemoveExpressionTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -96,7 +97,7 @@ class ArrayRemoveExpressionTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -107,7 +108,7 @@ class ArrayRemoveExpressionTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -118,6 +119,6 @@ class ArrayRemoveExpressionTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

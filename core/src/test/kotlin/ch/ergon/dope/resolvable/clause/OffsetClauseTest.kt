@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelectClause
@@ -11,16 +12,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
-class OffsetClauseTest : ParameterDependentTest {
+class OffsetClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support delete offset`() {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET `numberField`",
             emptyMap(),
+            manager,
         )
         val underTest = DeleteOffsetClause(someNumberField(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -31,10 +35,11 @@ class OffsetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +52,7 @@ class OffsetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.offset(numberField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -55,10 +60,11 @@ class OffsetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * OFFSET `numberField`",
             emptyMap(),
+            manager,
         )
         val underTest = SelectOffsetClause(someNumberField(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -69,10 +75,11 @@ class OffsetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * OFFSET $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = SelectOffsetClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -84,10 +91,11 @@ class OffsetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT $1 OFFSET $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -100,6 +108,6 @@ class OffsetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.offset(numberField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

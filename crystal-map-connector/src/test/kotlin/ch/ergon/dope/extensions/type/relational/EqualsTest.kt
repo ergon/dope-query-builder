@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.relational
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isEqualTo
 import ch.ergon.dope.extension.type.relational.isNotEqualTo
 import ch.ergon.dope.helper.someBoolean
@@ -15,10 +16,18 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.EqualsExpre
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotEqualsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class EqualsTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support equals to with CMFieldNumber CMFieldNumber`() {
         val left = someCMNumberField()
@@ -27,7 +36,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -38,18 +47,18 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support equals to with NumberType CMFieldNumer`() {
+    fun `should support equals to with NumberType CMFieldNumber`() {
         val left = someNumberField()
         val right = someCMNumberField()
         val expected = EqualsExpression(left, right.toDopeType())
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -60,7 +69,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -71,7 +80,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -82,7 +91,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -93,18 +102,18 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support equals to with StringType CMFieldNumer`() {
+    fun `should support equals to with StringType CMFieldNumber`() {
         val left = someStringField()
         val right = someCMStringField()
         val expected = EqualsExpression(left, right.toDopeType())
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -115,7 +124,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -126,7 +135,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -137,7 +146,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -148,7 +157,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -159,7 +168,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -170,7 +179,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -181,7 +190,7 @@ class EqualsTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -192,7 +201,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -203,18 +212,18 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support not equals to with NumberType CMFieldNumer`() {
+    fun `should support not equals to with NumberType CMFieldNumber`() {
         val left = someNumberField()
         val right = someCMNumberField()
         val expected = NotEqualsExpression(left, right.toDopeType())
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -225,7 +234,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -236,7 +245,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -247,7 +256,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -258,18 +267,18 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support not equals to with StringType CMFieldNumer`() {
+    fun `should support not equals to with StringType CMFieldNumber`() {
         val left = someStringField()
         val right = someCMStringField()
         val expected = NotEqualsExpression(left, right.toDopeType())
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -280,7 +289,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -291,7 +300,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -302,7 +311,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -313,7 +322,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -324,7 +333,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -335,7 +344,7 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -346,6 +355,6 @@ class EqualsTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

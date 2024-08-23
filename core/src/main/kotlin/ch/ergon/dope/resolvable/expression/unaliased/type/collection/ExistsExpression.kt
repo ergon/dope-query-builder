@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -8,11 +9,12 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
 class ExistsExpression<T : ValidType>(private val array: TypeExpression<ArrayType<T>>) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val arrayDopeQuery = array.toDopeQuery(manager)
         return DopeQuery(
             queryString = "EXISTS ${arrayDopeQuery.queryString}",
             parameters = arrayDopeQuery.parameters,
+            manager = manager,
         )
     }
 }

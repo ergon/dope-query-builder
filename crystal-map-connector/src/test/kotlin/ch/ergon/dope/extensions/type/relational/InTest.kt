@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.relational
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.inArray
 import ch.ergon.dope.extension.type.relational.notInArray
 import ch.ergon.dope.helper.someBoolean
@@ -21,10 +22,18 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.collection.InExpressio
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotInExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class InTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support in array with CMFieldNumber ListNumber`() {
         val left = someCMNumberField()
@@ -33,7 +42,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -44,7 +53,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -55,7 +64,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,7 +75,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -77,7 +86,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -88,7 +97,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -99,7 +108,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -110,7 +119,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -121,7 +130,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -132,7 +141,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -143,7 +152,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -154,7 +163,7 @@ class InTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -165,7 +174,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -176,7 +185,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -187,7 +196,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -198,7 +207,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -209,7 +218,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -220,7 +229,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -231,7 +240,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -242,7 +251,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -253,7 +262,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -264,7 +273,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -275,7 +284,7 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -286,6 +295,6 @@ class InTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

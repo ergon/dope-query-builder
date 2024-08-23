@@ -1,22 +1,26 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class ArraySymmetricDifferenceTest : ParameterDependentTest {
+class ArraySymmetricDifferenceTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support ARRAY_SYMDIFF`() {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, `numberArrayField`)",
             emptyMap(),
+            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -27,10 +31,11 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF($1, `numberArrayField`)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -41,10 +46,11 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, $1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -56,10 +62,11 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF($1, $2)",
             mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
+            manager,
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +79,7 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
 
         val actual = arraySymDiff(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -83,7 +90,7 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
 
         val actual = arraySymDiff1(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -94,6 +101,6 @@ class ArraySymmetricDifferenceTest : ParameterDependentTest {
 
         val actual = arraySymDiffN(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

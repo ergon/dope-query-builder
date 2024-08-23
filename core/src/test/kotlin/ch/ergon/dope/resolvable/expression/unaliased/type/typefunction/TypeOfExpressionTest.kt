@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TypeOfExpressionTest : ParameterDependentTest {
+class TypeOfExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support type of expression`() {
         val expected = DopeQuery(
             "TYPE(`stringField`)",
             emptyMap(),
+            manager,
         )
         val underTest = TypeOfExpression(someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -29,10 +33,11 @@ class TypeOfExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "TYPE($1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = TypeOfExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,6 +49,6 @@ class TypeOfExpressionTest : ParameterDependentTest {
 
         val actual = typeOf(string)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

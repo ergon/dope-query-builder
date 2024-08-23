@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.IDeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.IDeleteWhereClause
@@ -16,12 +17,13 @@ sealed class WhereClause(
     private val whereExpression: TypeExpression<BooleanType>,
     private val parentClause: Clause,
 ) {
-    fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val whereDopeQuery = whereExpression.toDopeQuery()
+    fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
+        val whereDopeQuery = whereExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "WHERE", whereDopeQuery.queryString),
             parameters = whereDopeQuery.parameters + parentDopeQuery.parameters,
+            manager = manager,
         )
     }
 }

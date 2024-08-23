@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.array
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.array.arrayConcat
 import ch.ergon.dope.extension.type.array.arrayContains
 import ch.ergon.dope.extension.type.array.arrayDistinct
@@ -21,8 +22,16 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArraySum
 import ch.ergon.dope.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.BeforeTest
 
 class ArrayFunctionTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support ARRAY_CONCAT with CM Number list`() {
         val firstList = someCMNumberList("first")
@@ -31,7 +40,7 @@ class ArrayFunctionTest {
 
         val actual = arrayConcat(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -42,7 +51,7 @@ class ArrayFunctionTest {
 
         val actual = arrayConcat(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -53,7 +62,7 @@ class ArrayFunctionTest {
 
         val actual = arrayConcat(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -64,7 +73,7 @@ class ArrayFunctionTest {
 
         val actual = arrayContains(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -75,7 +84,7 @@ class ArrayFunctionTest {
 
         val actual = arrayContains(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -86,7 +95,7 @@ class ArrayFunctionTest {
 
         val actual = arrayContains(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -96,7 +105,7 @@ class ArrayFunctionTest {
 
         val actual = arrayDistinct(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -106,7 +115,7 @@ class ArrayFunctionTest {
 
         val actual = arrayDistinct(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -116,7 +125,7 @@ class ArrayFunctionTest {
 
         val actual = arrayDistinct(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -127,7 +136,7 @@ class ArrayFunctionTest {
 
         val actual = arrayIntersect(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -138,7 +147,7 @@ class ArrayFunctionTest {
 
         val actual = arrayIntersect(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -149,7 +158,7 @@ class ArrayFunctionTest {
 
         val actual = arrayIntersect(firstList, secondList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -159,7 +168,7 @@ class ArrayFunctionTest {
 
         val actual = arrayLength(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -169,7 +178,7 @@ class ArrayFunctionTest {
 
         val actual = arrayLength(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -179,7 +188,7 @@ class ArrayFunctionTest {
 
         val actual = arrayLength(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -189,7 +198,7 @@ class ArrayFunctionTest {
 
         val actual = arraySum(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -199,7 +208,7 @@ class ArrayFunctionTest {
 
         val actual = arraySum(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -209,6 +218,6 @@ class ArrayFunctionTest {
 
         val actual = arraySum(cmList)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

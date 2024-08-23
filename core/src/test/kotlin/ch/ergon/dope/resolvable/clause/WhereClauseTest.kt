@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
@@ -13,16 +14,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
-class WhereClauseTest : ParameterDependentTest {
+class WhereClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support delete where`() {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` WHERE TRUE",
             emptyMap(),
+            manager,
         )
         val underTest = DeleteWhereClause(someBooleanExpression(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -33,10 +37,11 @@ class WhereClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` WHERE $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +54,7 @@ class WhereClauseTest : ParameterDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -57,10 +62,11 @@ class WhereClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * WHERE TRUE",
             emptyMap(),
+            manager,
         )
         val underTest = SelectWhereClause(someBooleanExpression(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -71,10 +77,11 @@ class WhereClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * WHERE $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = SelectWhereClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -86,10 +93,11 @@ class WhereClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT $1 WHERE $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +110,7 @@ class WhereClauseTest : ParameterDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -110,10 +118,11 @@ class WhereClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` WHERE TRUE",
             emptyMap(),
+            manager,
         )
         val underTest = UpdateWhereClause(someBooleanExpression(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -124,10 +133,11 @@ class WhereClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` WHERE $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = UpdateWhereClause(parameterValue.asParameter(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -140,6 +150,6 @@ class WhereClauseTest : ParameterDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

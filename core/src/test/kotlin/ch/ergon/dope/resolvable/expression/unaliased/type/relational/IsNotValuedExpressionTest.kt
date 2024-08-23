@@ -1,21 +1,25 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsNotValuedExpressionTest : ParameterDependentTest {
+class IsNotValuedExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support is not valued`() {
         val expected = DopeQuery(
             "`stringField` IS NOT VALUED",
             emptyMap(),
+            manager,
         )
         val underTest = IsNotValuedExpression(someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -27,6 +31,6 @@ class IsNotValuedExpressionTest : ParameterDependentTest {
 
         val actual = field.isNotValued()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

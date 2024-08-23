@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -15,10 +16,10 @@ class ArrayPrependExpression<T : ValidType>(
     private val value: TypeExpression<T>,
     private vararg val additionalValues: TypeExpression<T>,
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery()
-        val valueDopeQuery = value.toDopeQuery()
-        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery() }
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val arrayDopeQuery = array.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
+        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "ARRAY_PREPEND",
@@ -29,6 +30,7 @@ class ArrayPrependExpression<T : ValidType>(
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters + additionalValuesDopeQuery.fold(
                 emptyMap(),
             ) { argsParameters, field -> argsParameters + field.parameters },
+            manager = manager,
         )
     }
 }

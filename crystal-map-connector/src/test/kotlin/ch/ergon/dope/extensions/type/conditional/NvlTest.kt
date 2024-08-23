@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.conditional
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.conditional.nvl
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someCMBooleanField
@@ -13,10 +14,18 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.NvlExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NvlTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support nvl CMNumberField CMNumberField`() {
         val initialExpression = someCMNumberField()
@@ -25,7 +34,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -36,7 +45,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -47,7 +56,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -58,7 +67,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -69,7 +78,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -80,7 +89,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -91,7 +100,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -102,7 +111,7 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -113,6 +122,6 @@ class NvlTest {
 
         val actual = nvl(initialExpression, substituteExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.conditional
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.conditional.coalesce
 import ch.ergon.dope.extension.type.conditional.ifMissingOrNull
 import ch.ergon.dope.helper.someCMBooleanField
@@ -11,10 +12,18 @@ import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CoalesceExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.IfMissingOrNullExpression
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class IfMissingOrNullTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support if missing or null with CMNumberField CMNumberField`() {
         val firstExpression = someCMNumberField()
@@ -23,7 +32,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -39,7 +48,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -50,7 +59,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,7 +75,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -77,7 +86,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -93,7 +102,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -104,7 +113,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -120,7 +129,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -131,7 +140,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -147,7 +156,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -158,7 +167,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -174,7 +183,7 @@ class IfMissingOrNullTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -185,7 +194,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -201,7 +210,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -212,7 +221,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -228,7 +237,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -239,7 +248,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -255,7 +264,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -266,7 +275,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -282,7 +291,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -293,7 +302,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -309,7 +318,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -320,7 +329,7 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -336,6 +345,6 @@ class IfMissingOrNullTest {
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

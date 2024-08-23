@@ -1,22 +1,27 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
-class FromClauseTest {
+class FromClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support from`() {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket`",
             emptyMap(),
+            manager,
         )
         val underTest = FromClause(someBucket(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -26,10 +31,11 @@ class FromClauseTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` AS `bucket`",
             emptyMap(),
+            manager,
         )
         val underTest = FromClause(someBucket().alias("bucket"), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -42,6 +48,6 @@ class FromClauseTest {
 
         val actual = parentClause.from(bucket)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

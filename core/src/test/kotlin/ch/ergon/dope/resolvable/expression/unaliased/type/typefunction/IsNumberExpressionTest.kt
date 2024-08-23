@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsNumberExpressionTest : ParameterDependentTest {
+class IsNumberExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support is number expression`() {
         val expected = DopeQuery(
             "ISNUMBER(`numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = IsNumberExpression(someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -29,10 +33,11 @@ class IsNumberExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "ISNUMBER($1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = IsNumberExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,6 +49,6 @@ class IsNumberExpressionTest : ParameterDependentTest {
 
         val actual = number.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

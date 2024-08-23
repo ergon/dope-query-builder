@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -12,13 +13,14 @@ class ArrayRangeExpression(
     private val end: TypeExpression<NumberType>,
     private val step: TypeExpression<NumberType>? = null,
 ) : TypeExpression<ArrayType<NumberType>>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val startDopeQuery = start.toDopeQuery()
-        val endDopeQuery = end.toDopeQuery()
-        val stepDopeQuery = step?.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val startDopeQuery = start.toDopeQuery(manager)
+        val endDopeQuery = end.toDopeQuery(manager)
+        val stepDopeQuery = step?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_RANGE", startDopeQuery, endDopeQuery, stepDopeQuery),
             parameters = startDopeQuery.parameters + endDopeQuery.parameters + stepDopeQuery?.parameters.orEmpty(),
+            manager = manager,
         )
     }
 }

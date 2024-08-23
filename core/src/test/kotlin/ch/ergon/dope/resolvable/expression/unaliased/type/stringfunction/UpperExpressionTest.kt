@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UpperExpressionTest : ParameterDependentTest {
+class UpperExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support upper`() {
         val expected = DopeQuery(
             "UPPER(`stringField`)",
             emptyMap(),
+            manager,
         )
         val underTest = UpperExpression(someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -29,10 +33,11 @@ class UpperExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPPER($1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = UpperExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +49,7 @@ class UpperExpressionTest : ParameterDependentTest {
 
         val actual = upper(inStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -54,6 +59,6 @@ class UpperExpressionTest : ParameterDependentTest {
 
         val actual = upper(inStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

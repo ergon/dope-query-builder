@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.IDeleteReturningClause
@@ -15,10 +16,10 @@ sealed class ReturningClause(
     private vararg val fields: Field<out ValidType>,
     private val parentClause: Clause,
 ) {
-    fun toDopeQuery(): DopeQuery {
-        val fieldsDopeQuery = fields.map { it.toDopeQuery() }
-        val fieldDopeQuery = field.toDopeQuery()
-        val parentDopeQuery = parentClause.toDopeQuery()
+    fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val fieldsDopeQuery = fields.map { it.toDopeQuery(manager) }
+        val fieldDopeQuery = field.toDopeQuery(manager)
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
@@ -29,6 +30,7 @@ sealed class ReturningClause(
             parameters = fieldsDopeQuery.fold(fieldDopeQuery.parameters) { fieldParameters, field ->
                 fieldParameters + field.parameters
             } + parentDopeQuery.parameters,
+            manager = manager,
         )
     }
 }

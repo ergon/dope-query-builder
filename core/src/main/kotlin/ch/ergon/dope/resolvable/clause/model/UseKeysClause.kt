@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.IDeleteClause
 import ch.ergon.dope.resolvable.clause.IDeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
@@ -29,12 +30,13 @@ class SelectUseKeys private constructor(
             SelectUseKeys(keys, parentClause)
     }
 
-    override fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val keysDopeQuery = useKeys.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
+        val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
+            manager = manager,
         )
     }
 }
@@ -53,12 +55,13 @@ class DeleteUseKeys private constructor(
             DeleteUseKeys(keys, parentClause)
     }
 
-    override fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val keysDopeQuery = useKeys.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
+        val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
+            manager = manager,
         )
     }
 }
@@ -85,12 +88,13 @@ class UpdateUseKeys : IUpdateUseKeysClause {
         }
     }
 
-    override fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val keysDopeQuery = useKeys.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
+        val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + keysDopeQuery.parameters,
+            manager = manager,
         )
     }
 }

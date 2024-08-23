@@ -1,23 +1,27 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class VarianceExpressionTest : ParameterDependentTest {
+class VarianceExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support variance`() {
         val expected = DopeQuery(
             "VARIANCE(`numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = VarianceExpression(someNumberField(), null)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -27,10 +31,11 @@ class VarianceExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "VARIANCE(ALL `numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = VarianceExpression(someNumberField(), ALL)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -40,10 +45,11 @@ class VarianceExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "VARIANCE(DISTINCT `numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = VarianceExpression(someNumberField(), DISTINCT)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -56,6 +62,6 @@ class VarianceExpressionTest : ParameterDependentTest {
 
         val actual = variance(field, quantifier)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

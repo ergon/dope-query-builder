@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
@@ -12,16 +13,19 @@ import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
-class ReturningClauseTest : ParameterDependentTest {
+class ReturningClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support delete returning`() {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` RETURNING `stringField`",
             emptyMap(),
+            manager,
         )
         val underTest = DeleteReturningClause(someStringField(), parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -31,10 +35,11 @@ class ReturningClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
+            manager,
         )
         val underTest = DeleteReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +52,7 @@ class ReturningClauseTest : ParameterDependentTest {
 
         val actual = parentClause.returning(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -59,7 +64,7 @@ class ReturningClauseTest : ParameterDependentTest {
 
         val actual = parentClause.returning(stringField, numberArrayField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -67,10 +72,11 @@ class ReturningClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` RETURNING `stringField`",
             emptyMap(),
+            manager,
         )
         val underTest = UpdateReturningClause(someStringField(), parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -80,10 +86,11 @@ class ReturningClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
+            manager,
         )
         val underTest = UpdateReturningClause(someStringField(), someNumberField(), parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -96,7 +103,7 @@ class ReturningClauseTest : ParameterDependentTest {
 
         val actual = parentClause.returning(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -108,6 +115,6 @@ class ReturningClauseTest : ParameterDependentTest {
 
         val actual = parentClause.returning(stringField, numberArrayField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someSelectClause
@@ -13,16 +14,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
-class UnnestClauseTest : ParameterDependentTest {
+class UnnestClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support unnest`() {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
             emptyMap(),
+            manager,
         )
         val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -32,10 +36,11 @@ class UnnestClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
             emptyMap(),
+            manager,
         )
         val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -46,10 +51,11 @@ class UnnestClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -61,13 +67,14 @@ class UnnestClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = AliasedUnnestClause(
             parameterValue2.asParameter().alias("value"),
             someFromClause(parent = someSelectClause(parameterValue.asParameter())),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -80,6 +87,6 @@ class UnnestClauseTest : ParameterDependentTest {
 
         val actual = parentClause.unnest(field)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
@@ -21,7 +22,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TypeFunctionsTest : ParameterDependentTest {
+class TypeFunctionsTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var create: QueryBuilder
 
     @BeforeTest

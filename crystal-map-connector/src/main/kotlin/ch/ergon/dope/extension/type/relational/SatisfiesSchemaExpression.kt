@@ -1,9 +1,9 @@
 package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.IteratorManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
@@ -27,13 +27,14 @@ sealed class SatisfiesSchemaExpression<S : Schema>(
     private val arrayExpression: DopeSchemaArray<S>,
     private val predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(): DopeQuery {
-        val iteratorVariable = iteratorName ?: IteratorManager.getIteratorName()
-        val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, arrayExpression.schema)).toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
+        val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, arrayExpression.schema)).toDopeQuery(manager)
 
         return DopeQuery(
             queryString = "$satisfiesType `$iteratorVariable` IN ${arrayExpression.name} SATISFIES ${predicateDopeQuery.queryString} END",
             parameters = predicateDopeQuery.parameters,
+            manager = manager,
         )
     }
 }

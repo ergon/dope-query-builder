@@ -1,6 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUpdateClause
@@ -8,19 +10,22 @@ import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UnsetClauseTest {
+class UnsetClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support unset clause`() {
         val expected = DopeQuery(
             "UPDATE `someBucket` UNSET `stringField`",
             emptyMap(),
+            manager,
         )
         val underTest = UnsetClause(
             someStringField(),
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -30,6 +35,7 @@ class UnsetClauseTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` UNSET `stringField`, `numberField`",
             emptyMap(),
+            manager,
         )
         val underTest = UnsetClause(
             someStringField(),
@@ -37,7 +43,7 @@ class UnsetClauseTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +56,7 @@ class UnsetClauseTest {
 
         val actual = parentClause.unset(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,6 +72,6 @@ class UnsetClauseTest {
 
         val actual = parentClause.unset(stringField).unset(numberField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -11,12 +12,15 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DecodeExpressionTest : ParameterDependentTest {
+class DecodeExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support decode expression`() {
         val expected = DopeQuery(
             "DECODE(`stringField`, \"someString\", 5, 0)",
             emptyMap(),
+            manager,
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -24,7 +28,7 @@ class DecodeExpressionTest : ParameterDependentTest {
             default = someNumber(0).toDopeType(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -35,6 +39,7 @@ class DecodeExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "DECODE($1, \"someString\", 5, 0)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = DecodeExpression(
             parameterValue.asParameter(),
@@ -42,7 +47,7 @@ class DecodeExpressionTest : ParameterDependentTest {
             default = someNumber(0).toDopeType(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -53,6 +58,7 @@ class DecodeExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "DECODE(`stringField`, \"someString\", 5, $1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -60,7 +66,7 @@ class DecodeExpressionTest : ParameterDependentTest {
             default = parameterValue.asParameter(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -72,6 +78,7 @@ class DecodeExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "DECODE($1, \"someString\", 5, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = DecodeExpression(
             parameterValue.asParameter(),
@@ -79,7 +86,7 @@ class DecodeExpressionTest : ParameterDependentTest {
             default = parameterValue2.asParameter(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -92,7 +99,7 @@ class DecodeExpressionTest : ParameterDependentTest {
 
         val actual = decode(expression, searchResult)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -104,6 +111,6 @@ class DecodeExpressionTest : ParameterDependentTest {
 
         val actual = decode(expression, searchResult, default = default)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

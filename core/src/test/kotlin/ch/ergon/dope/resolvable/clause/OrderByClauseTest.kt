@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderByType
@@ -11,16 +12,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
 
-class OrderByClauseTest : ParameterDependentTest {
+class OrderByClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support order by`() {
         val expected = DopeQuery(
             "SELECT * ORDER BY `stringField`",
             emptyMap(),
+            manager,
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -31,10 +35,11 @@ class OrderByClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField`",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,10 +49,11 @@ class OrderByClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * ORDER BY `stringField` ASC",
             emptyMap(),
+            manager,
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -58,10 +64,11 @@ class OrderByClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField` ASC",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -71,10 +78,11 @@ class OrderByClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT * ORDER BY `stringField` DESC",
             emptyMap(),
+            manager,
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -85,10 +93,11 @@ class OrderByClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField` DESC",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -101,7 +110,7 @@ class OrderByClauseTest : ParameterDependentTest {
 
         val actual = parentClause.orderBy(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -113,6 +122,6 @@ class OrderByClauseTest : ParameterDependentTest {
 
         val actual = parentClause.orderBy(stringField, orderType)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

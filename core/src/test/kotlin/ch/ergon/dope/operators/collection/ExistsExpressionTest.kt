@@ -1,32 +1,30 @@
 package ch.ergon.dope.operators.collection
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.ExistsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ExistsExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class ExistsExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support EXISTS expression`() {
         val expected = DopeQuery(
             "EXISTS `numberArrayField`",
             emptyMap(),
+            manager,
         )
         val underTest = ExistsExpression(someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -37,10 +35,11 @@ class ExistsExpressionTest {
         val expected = DopeQuery(
             "EXISTS $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ExistsExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -52,7 +51,7 @@ class ExistsExpressionTest {
 
         val actual = exists(array)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -62,6 +61,6 @@ class ExistsExpressionTest {
 
         val actual = exists(array)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

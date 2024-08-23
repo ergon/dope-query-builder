@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
@@ -11,16 +12,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RpadExpressionTest : ParameterDependentTest {
+class RpadExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support rpad`() {
         val expected = DopeQuery(
             "RPAD(`stringField`, `numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = RpadExpression(someStringField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -31,10 +35,11 @@ class RpadExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "RPAD($1, `numberField`)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -46,10 +51,11 @@ class RpadExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "RPAD($1, $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -59,10 +65,11 @@ class RpadExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "RPAD(`stringField`, `numberField`, `stringField`)",
             emptyMap(),
+            manager,
         )
         val underTest = RpadExpression(someStringField(), someNumberField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -73,10 +80,11 @@ class RpadExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "RPAD($1, `numberField`, `stringField`)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -89,10 +97,11 @@ class RpadExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "RPAD($1, $2, $3)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
+            manager,
         )
         val underTest = RpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -106,7 +115,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -118,7 +127,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -130,7 +139,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -142,7 +151,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -154,7 +163,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -166,7 +175,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -178,7 +187,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -190,7 +199,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -202,7 +211,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -214,7 +223,7 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -226,6 +235,6 @@ class RpadExpressionTest : ParameterDependentTest {
 
         val actual = rpad(inStr, size, prefix)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

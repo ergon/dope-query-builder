@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AndExpressionTest : ParameterDependentTest {
+class AndExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support and`() {
         val expected = DopeQuery(
             "(`booleanField` AND `booleanField`)",
             emptyMap(),
+            manager,
         )
         val underTest = AndExpression(someBooleanField(), someBooleanField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -29,10 +33,11 @@ class AndExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "($1 AND `booleanField`)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,10 +49,11 @@ class AndExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "($1 AND $2)",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -58,10 +64,11 @@ class AndExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "(`booleanField` AND $1)",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +81,7 @@ class AndExpressionTest : ParameterDependentTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -85,7 +92,7 @@ class AndExpressionTest : ParameterDependentTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -96,6 +103,6 @@ class AndExpressionTest : ParameterDependentTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.access
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayAccessTest : ParameterDependentTest {
+class ArrayAccessTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support array access`() {
         val expected = DopeQuery(
             "`stringArrayField`[`numberField`]",
             emptyMap(),
+            manager,
         )
         val underTest = ArrayAccess(someStringArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -29,10 +33,11 @@ class ArrayAccessTest : ParameterDependentTest {
         val expected = DopeQuery(
             "$1[`numberField`]",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ArrayAccess(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,10 +49,11 @@ class ArrayAccessTest : ParameterDependentTest {
         val expected = DopeQuery(
             "$1[$2]",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = ArrayAccess(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -58,10 +64,11 @@ class ArrayAccessTest : ParameterDependentTest {
         val expected = DopeQuery(
             "`stringArrayField`[$1]",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +81,7 @@ class ArrayAccessTest : ParameterDependentTest {
 
         val actual = array.get(index)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -85,6 +92,6 @@ class ArrayAccessTest : ParameterDependentTest {
 
         val actual = array.get(index)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

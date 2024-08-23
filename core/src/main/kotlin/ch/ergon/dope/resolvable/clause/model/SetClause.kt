@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.IUpdateSetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -17,10 +18,10 @@ class SetClause(
     private vararg val fieldAssignments: SetAssignment<out ValidType>,
     private val parentClause: IUpdateSetClause,
 ) : IUpdateSetClause {
-    override fun toDopeQuery(): DopeQuery {
-        val fieldAssignmentDopeQuery = fieldAssignment.toDopeQuery()
-        val fieldAssignmentsDopeQuery = fieldAssignments.map { it.toDopeQuery() }
-        val parentClauseDopeQuery = parentClause.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val fieldAssignmentDopeQuery = fieldAssignment.toDopeQuery(manager)
+        val fieldAssignmentsDopeQuery = fieldAssignments.map { it.toDopeQuery(manager) }
+        val parentClauseDopeQuery = parentClause.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryString(
                 "${parentClauseDopeQuery.queryString} SET",
@@ -31,6 +32,7 @@ class SetClause(
                     setAssignmentsParameters, field ->
                 setAssignmentsParameters + field.parameters
             } + parentClauseDopeQuery.parameters,
+            manager = manager,
         )
     }
 
@@ -66,12 +68,13 @@ class SetAssignment<T : ValidType>(
     private val field: Field<T>,
     private val value: TypeExpression<T>,
 ) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val fieldDopeQuery = field.toDopeQuery()
-        val valueDopeQuery = value.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val fieldDopeQuery = field.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = "${fieldDopeQuery.queryString} = ${valueDopeQuery.queryString}",
             parameters = fieldDopeQuery.parameters + valueDopeQuery.parameters,
+            manager = manager,
         )
     }
 }

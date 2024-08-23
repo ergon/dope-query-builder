@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
@@ -11,16 +12,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class GreaterThanExpressionTest : ParameterDependentTest {
+class GreaterThanExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support greater than`() {
         val expected = DopeQuery(
             "`numberField` > `numberField`",
             emptyMap(),
+            manager,
         )
         val underTest = GreaterThanExpression(someNumberField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -31,10 +35,11 @@ class GreaterThanExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "$1 > `numberField`",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = GreaterThanExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -46,10 +51,11 @@ class GreaterThanExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "$1 > $2",
             mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            manager,
         )
         val underTest = GreaterThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -60,10 +66,11 @@ class GreaterThanExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "`numberField` > $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = GreaterThanExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +83,7 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -87,7 +94,7 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -98,7 +105,7 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -109,7 +116,7 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -120,7 +127,7 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -131,7 +138,7 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -142,6 +149,6 @@ class GreaterThanExpressionTest : ParameterDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

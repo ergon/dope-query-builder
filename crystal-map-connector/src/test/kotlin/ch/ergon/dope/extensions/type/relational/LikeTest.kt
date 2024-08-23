@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.relational
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isLike
 import ch.ergon.dope.extension.type.relational.isNotLike
 import ch.ergon.dope.helper.someCMStringField
@@ -7,10 +8,18 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.LikeExpress
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.NotLikeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LikeTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support extensions for is like with CMField`() {
         val someCMStringField = someCMStringField()
@@ -19,7 +28,7 @@ class LikeTest {
 
         val actual = someCMStringField.isLike(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -30,6 +39,6 @@ class LikeTest {
 
         val actual = someCMStringField.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

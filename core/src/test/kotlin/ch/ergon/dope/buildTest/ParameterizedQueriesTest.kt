@@ -1,8 +1,11 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
@@ -17,8 +20,10 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertNotEquals
 
-class ParameterizedQueriesTest {
+class ParameterizedQueriesTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var create: QueryBuilder
 
     @BeforeTest
@@ -64,7 +69,7 @@ class ParameterizedQueriesTest {
     @Test
     fun `should Support Named Parameters With Values`() {
         val parameterActual = false.asParameter("isAwesome")
-        assertEquals(false, parameterActual.toDopeQuery().parameters["isAwesome"])
+        assertEquals(false, parameterActual.toDopeQuery(manager).parameters["isAwesome"])
     }
 
     @Test
@@ -223,5 +228,30 @@ class ParameterizedQueriesTest {
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should use different parameter managers for parallel queries`() {
+        val parameter1 = someNumber().asParameter()
+        val parameter2 = someNumber().asParameter()
+        val expected = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                parameter1.isEqualTo(parameter2),
+            ).build()
+
+        val actual = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                parameter1.isEqualTo(parameter2),
+            ).build()
+
+        assertEquals(expected.queryString, actual.queryString)
+        assertEquals(expected.parameters, actual.parameters)
+        assertNotEquals(expected.manager, actual.manager)
     }
 }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NotLikeExpressionTest : ParameterDependentTest {
+class NotLikeExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support not like`() {
         val expected = DopeQuery(
             "`stringField` NOT LIKE `stringField`",
             emptyMap(),
+            manager,
         )
         val underTest = NotLikeExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -29,10 +33,11 @@ class NotLikeExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "`stringField` NOT LIKE $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +50,7 @@ class NotLikeExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -56,6 +61,6 @@ class NotLikeExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

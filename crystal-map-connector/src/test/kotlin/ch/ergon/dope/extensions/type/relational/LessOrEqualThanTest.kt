@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.relational
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isLessOrEqualThan
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
@@ -10,10 +11,18 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.LessOrEqualThanExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LessOrEqualThanTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support less or equal than with CMFieldNumber CMFieldNumber`() {
         val left = someCMNumberField()
@@ -22,7 +31,7 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -33,18 +42,18 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support less or equal than with NumberType CMFieldNumer`() {
+    fun `should support less or equal than with NumberType CMFieldNumber`() {
         val left = someNumberField()
         val right = someCMNumberField()
         val expected = LessOrEqualThanExpression(left, right.toDopeType())
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -55,7 +64,7 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,7 +75,7 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -77,7 +86,7 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -88,18 +97,18 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support less or equal than with StringType CMFieldNumer`() {
+    fun `should support less or equal than with StringType CMFieldNumber`() {
         val left = someStringField()
         val right = someCMStringField()
         val expected = LessOrEqualThanExpression(left, right.toDopeType())
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -110,7 +119,7 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -121,6 +130,6 @@ class LessOrEqualThanTest {
 
         val actual = left.isLessOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

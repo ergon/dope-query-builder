@@ -1,23 +1,27 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayAggregateExpressionTest : ParameterDependentTest {
+class ArrayAggregateExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support array aggregate`() {
         val expected = DopeQuery(
             "ARRAY_AGG(`stringField`)",
             emptyMap(),
+            manager,
         )
         val underTest = ArrayAggregateExpression(someStringField(), null)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -27,10 +31,11 @@ class ArrayAggregateExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "ARRAY_AGG(ALL `stringField`)",
             emptyMap(),
+            manager,
         )
         val underTest = ArrayAggregateExpression(someStringField(), ALL)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -40,10 +45,11 @@ class ArrayAggregateExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "ARRAY_AGG(DISTINCT `stringField`)",
             emptyMap(),
+            manager,
         )
         val underTest = ArrayAggregateExpression(someStringField(), DISTINCT)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -56,6 +62,6 @@ class ArrayAggregateExpressionTest : ParameterDependentTest {
 
         val actual = arrayAggregate(field, quantifier)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

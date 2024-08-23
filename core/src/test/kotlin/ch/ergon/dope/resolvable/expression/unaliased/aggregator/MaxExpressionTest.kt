@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
@@ -9,16 +10,19 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantif
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MaxExpressionTest : ParameterDependentTest {
+class MaxExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support max`() {
         val expected = DopeQuery(
             "MAX(`numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = MaxExpression(someNumberField(), null)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -28,10 +32,11 @@ class MaxExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "MAX(ALL `numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = MaxExpression(someNumberField(), ALL)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -41,10 +46,11 @@ class MaxExpressionTest : ParameterDependentTest {
         val expected = DopeQuery(
             "MAX(DISTINCT `numberField`)",
             emptyMap(),
+            manager,
         )
         val underTest = MaxExpression(someNumberField(), DISTINCT)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -57,6 +63,6 @@ class MaxExpressionTest : ParameterDependentTest {
 
         val actual = max(field, quantifier)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

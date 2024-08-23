@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type.typefunction
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.typefunction.isArray
 import ch.ergon.dope.extension.type.typefunction.isAtom
 import ch.ergon.dope.extension.type.typefunction.isBoolean
@@ -29,10 +30,18 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.ToNumberE
 import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.ToStringExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.TypeOfExpression
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TypeFunctionTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support isArray with CM number field`() {
         val expression = someCMNumberField()
@@ -40,7 +49,7 @@ class TypeFunctionTest {
 
         val actual = expression.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -50,7 +59,7 @@ class TypeFunctionTest {
 
         val actual = expression.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -60,7 +69,7 @@ class TypeFunctionTest {
 
         val actual = expression.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -70,7 +79,7 @@ class TypeFunctionTest {
 
         val actual = expression.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -80,7 +89,7 @@ class TypeFunctionTest {
 
         val actual = expression.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -90,7 +99,7 @@ class TypeFunctionTest {
 
         val actual = expression.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -100,7 +109,7 @@ class TypeFunctionTest {
 
         val actual = expression.isAtom()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -110,7 +119,7 @@ class TypeFunctionTest {
 
         val actual = expression.isAtom()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -120,7 +129,7 @@ class TypeFunctionTest {
 
         val actual = expression.isAtom()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -130,7 +139,7 @@ class TypeFunctionTest {
 
         val actual = expression.isAtom()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -140,7 +149,7 @@ class TypeFunctionTest {
 
         val actual = expression.isAtom()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -150,7 +159,7 @@ class TypeFunctionTest {
 
         val actual = expression.isAtom()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -160,7 +169,7 @@ class TypeFunctionTest {
 
         val actual = expression.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -170,7 +179,7 @@ class TypeFunctionTest {
 
         val actual = expression.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -180,7 +189,7 @@ class TypeFunctionTest {
 
         val actual = expression.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -190,7 +199,7 @@ class TypeFunctionTest {
 
         val actual = expression.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -200,7 +209,7 @@ class TypeFunctionTest {
 
         val actual = expression.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -210,7 +219,7 @@ class TypeFunctionTest {
 
         val actual = expression.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -220,7 +229,7 @@ class TypeFunctionTest {
 
         val actual = expression.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -230,7 +239,7 @@ class TypeFunctionTest {
 
         val actual = expression.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -240,7 +249,7 @@ class TypeFunctionTest {
 
         val actual = expression.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -250,7 +259,7 @@ class TypeFunctionTest {
 
         val actual = expression.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -260,7 +269,7 @@ class TypeFunctionTest {
 
         val actual = expression.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -270,7 +279,7 @@ class TypeFunctionTest {
 
         val actual = expression.isNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -280,7 +289,7 @@ class TypeFunctionTest {
 
         val actual = expression.isString()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -290,7 +299,7 @@ class TypeFunctionTest {
 
         val actual = expression.isString()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -300,7 +309,7 @@ class TypeFunctionTest {
 
         val actual = expression.isString()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -310,7 +319,7 @@ class TypeFunctionTest {
 
         val actual = expression.isString()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -320,7 +329,7 @@ class TypeFunctionTest {
 
         val actual = expression.isString()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -330,7 +339,7 @@ class TypeFunctionTest {
 
         val actual = expression.isString()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -340,7 +349,7 @@ class TypeFunctionTest {
 
         val actual = expression.toArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -350,7 +359,7 @@ class TypeFunctionTest {
 
         val actual = expression.toArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -360,7 +369,7 @@ class TypeFunctionTest {
 
         val actual = expression.toArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -370,7 +379,7 @@ class TypeFunctionTest {
 
         val actual = expression.toBool()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -380,7 +389,7 @@ class TypeFunctionTest {
 
         val actual = expression.toBool()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -390,7 +399,7 @@ class TypeFunctionTest {
 
         val actual = expression.toBool()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -400,7 +409,7 @@ class TypeFunctionTest {
 
         val actual = expression.toBool()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -410,7 +419,7 @@ class TypeFunctionTest {
 
         val actual = expression.toBool()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -420,7 +429,7 @@ class TypeFunctionTest {
 
         val actual = expression.toBool()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -430,7 +439,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -440,7 +449,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -450,7 +459,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -460,7 +469,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -470,7 +479,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -480,7 +489,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -491,7 +500,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -502,7 +511,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -513,7 +522,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -524,7 +533,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -535,7 +544,7 @@ class TypeFunctionTest {
 
         val actual = expression.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -545,7 +554,7 @@ class TypeFunctionTest {
 
         val actual = expression.toStr()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -555,7 +564,7 @@ class TypeFunctionTest {
 
         val actual = expression.toStr()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -565,7 +574,7 @@ class TypeFunctionTest {
 
         val actual = expression.toStr()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -575,7 +584,7 @@ class TypeFunctionTest {
 
         val actual = expression.toStr()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -585,7 +594,7 @@ class TypeFunctionTest {
 
         val actual = expression.toStr()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -595,7 +604,7 @@ class TypeFunctionTest {
 
         val actual = expression.toStr()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -605,7 +614,7 @@ class TypeFunctionTest {
 
         val actual = typeOf(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -615,7 +624,7 @@ class TypeFunctionTest {
 
         val actual = typeOf(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -625,7 +634,7 @@ class TypeFunctionTest {
 
         val actual = typeOf(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -635,7 +644,7 @@ class TypeFunctionTest {
 
         val actual = typeOf(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -645,7 +654,7 @@ class TypeFunctionTest {
 
         val actual = typeOf(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -655,6 +664,6 @@ class TypeFunctionTest {
 
         val actual = typeOf(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

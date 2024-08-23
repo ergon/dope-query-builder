@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
@@ -17,19 +18,22 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SetClauseTest : ParameterDependentTest {
+class SetClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support set clause`() {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \"test\"",
             emptyMap(),
+            manager,
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -39,13 +43,14 @@ class SetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET META().`expiration` = 3600",
             emptyMap(),
+            manager,
         )
         val underTest = SetClause(
             meta().expiration.to(3600.toDopeType()),
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -55,6 +60,7 @@ class SetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
             emptyMap(),
+            manager,
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -62,7 +68,7 @@ class SetClauseTest : ParameterDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -73,13 +79,14 @@ class SetClauseTest : ParameterDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = $1",
             mapOf("$1" to parameterValue),
+            manager,
         )
         val underTest = SetClause(
             someStringField().to(parameterValue.asParameter()),
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +100,7 @@ class SetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -105,7 +112,7 @@ class SetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.set(numberField, numberValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -117,7 +124,7 @@ class SetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -129,7 +136,7 @@ class SetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -150,7 +157,7 @@ class SetClauseTest : ParameterDependentTest {
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue).set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -177,6 +184,6 @@ class SetClauseTest : ParameterDependentTest {
             .set(numberField, numberValue)
             .set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.clause
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.returning
@@ -17,10 +18,18 @@ import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
 import ch.ergon.dope.resolvable.clause.model.DeleteUseKeys.Companion.DeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DeleteClauseTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support delete single use keys with CM`() {
         val useKeys = someCMStringField()
@@ -29,7 +38,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -40,7 +49,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -51,7 +60,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.where(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -62,7 +71,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.limit(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -73,7 +82,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.offset(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -84,7 +93,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.returning(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -97,6 +106,6 @@ class DeleteClauseTest {
 
         val actual = parentClause.returning(field1, field2, field3)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

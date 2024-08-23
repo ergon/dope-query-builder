@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.aggregator
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.aggregator.avg
 import ch.ergon.dope.extension.aggregator.mean
 import ch.ergon.dope.extension.aggregator.median
@@ -15,10 +16,18 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.StandardDeviatio
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.SumExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.VarianceExpression
 import ch.ergon.dope.toDopeType
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NumberAggregateTest {
+    private lateinit var manager: DopeQueryManager
+
+    @BeforeTest
+    fun setup() {
+        manager = DopeQueryManager()
+    }
+
     @Test
     fun `should support avg with CMField Number`() {
         val field = someCMNumberField()
@@ -27,7 +36,7 @@ class NumberAggregateTest {
 
         val actual = avg(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -38,7 +47,7 @@ class NumberAggregateTest {
 
         val actual = avg(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -49,7 +58,7 @@ class NumberAggregateTest {
 
         val actual = mean(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -60,7 +69,7 @@ class NumberAggregateTest {
 
         val actual = mean(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -71,7 +80,7 @@ class NumberAggregateTest {
 
         val actual = median(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -82,7 +91,7 @@ class NumberAggregateTest {
 
         val actual = median(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -93,7 +102,7 @@ class NumberAggregateTest {
 
         val actual = sum(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -104,7 +113,7 @@ class NumberAggregateTest {
 
         val actual = sum(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -115,7 +124,7 @@ class NumberAggregateTest {
 
         val actual = stdDev(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -126,7 +135,7 @@ class NumberAggregateTest {
 
         val actual = stdDev(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -137,7 +146,7 @@ class NumberAggregateTest {
 
         val actual = variance(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -148,6 +157,6 @@ class NumberAggregateTest {
 
         val actual = variance(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

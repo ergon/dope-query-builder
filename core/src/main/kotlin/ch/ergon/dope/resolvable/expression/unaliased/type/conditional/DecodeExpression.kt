@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -12,11 +13,11 @@ class DecodeExpression<T : ValidType, U : ValidType>(
     private vararg val searchResults: SearchResult<T, U>,
     private val default: UnaliasedExpression<U>? = null,
 ) : TypeExpression<U>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val decodeExpressionDopeQuery = decodeExpression.toDopeQuery()
-        val searchResultDopeQuery = searchResult.toDopeQuery()
-        val searchResultsDopeQuery = searchResults.map { it.toDopeQuery() }.toTypedArray()
-        val defaultDopeQuery = default?.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val decodeExpressionDopeQuery = decodeExpression.toDopeQuery(manager)
+        val searchResultDopeQuery = searchResult.toDopeQuery(manager)
+        val searchResultsDopeQuery = searchResults.map { it.toDopeQuery(manager) }.toTypedArray()
+        val defaultDopeQuery = default?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "DECODE",
@@ -30,6 +31,7 @@ class DecodeExpression<T : ValidType, U : ValidType>(
                         expressionParameters, expression ->
                     expressionParameters + expression.parameters
                 } + defaultDopeQuery?.parameters.orEmpty(),
+            manager = manager,
         )
     }
 }
