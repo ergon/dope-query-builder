@@ -15,7 +15,7 @@ class TokensExpression(
     private val opt: CustomTokenOptions = CustomTokenOptions(),
 ) : TypeExpression<StringType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val optDopeQuery = opt.toDopeQuery(manager)
+        val optDopeQuery = opt.toDopeQuery()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol = "TOKENS",

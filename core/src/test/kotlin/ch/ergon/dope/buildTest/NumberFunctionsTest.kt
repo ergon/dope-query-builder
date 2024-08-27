@@ -12,6 +12,12 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan2
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ceil
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.cos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.e
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.exp
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ln
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.log
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.pi
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.power
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.radians
@@ -199,7 +205,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support DEGREES expression`() {
         val expected = "DEGREES(-1)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees(-1).toDopeQuery(manager).queryString
+        val actual = degrees(-1).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -208,7 +214,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support DEGREES expression with number field`() {
         val expected = "DEGREES(`numberField`)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees(someNumberField()).toDopeQuery(manager).queryString
+        val actual = degrees(someNumberField()).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -217,7 +223,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support E (euler) expression`() {
         val expected = "E()"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.e().toDopeQuery(manager).queryString
+        val actual = e().toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -226,7 +232,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support EXP expression`() {
         val expected = "EXP(-1)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.exp(-1).toDopeQuery(manager).queryString
+        val actual = exp(-1).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -235,7 +241,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support EXP expression with number field`() {
         val expected = "EXP(`numberField`)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.exp(someNumberField()).toDopeQuery(manager).queryString
+        val actual = exp(someNumberField()).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -244,7 +250,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support LN expression`() {
         val expected = "LN(1)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ln(1).toDopeQuery(manager).queryString
+        val actual = ln(1).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -253,7 +259,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support LN expression with number field`() {
         val expected = "LN(`numberField`)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ln(someNumberField()).toDopeQuery(manager).queryString
+        val actual = ln(someNumberField()).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -262,7 +268,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support LOG expression`() {
         val expected = "LOG(1)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.log(1).toDopeQuery(manager).queryString
+        val actual = log(1).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -271,7 +277,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support LOG expression with number field`() {
         val expected = "LOG(`numberField`)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.log(someNumberField()).toDopeQuery(manager).queryString
+        val actual = log(someNumberField()).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -280,7 +286,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support FLOOR expression`() {
         val expected = "FLOOR(3.14)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor(3.14).toDopeQuery(manager).queryString
+        val actual = floor(3.14).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -289,7 +295,7 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support FLOOR expression with number field`() {
         val expected = "FLOOR(`numberField`)"
 
-        val actual = ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor(someNumberField()).toDopeQuery(manager).queryString
+        val actual = floor(someNumberField()).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
