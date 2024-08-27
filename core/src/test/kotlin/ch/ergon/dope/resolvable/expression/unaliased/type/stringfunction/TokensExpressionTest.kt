@@ -1,13 +1,16 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.tokens
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TokensExpressionTest : ParameterDependentTest {
+class TokensExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support tokens`() {
         val expected = DopeQuery(
@@ -16,7 +19,7 @@ class TokensExpressionTest : ParameterDependentTest {
         )
         val underTest = TokensExpression(listOf("test", "test2"))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -28,7 +31,7 @@ class TokensExpressionTest : ParameterDependentTest {
 
         val actual = tokens(inStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -39,6 +42,6 @@ class TokensExpressionTest : ParameterDependentTest {
 
         val actual = tokens(inStr, opt)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

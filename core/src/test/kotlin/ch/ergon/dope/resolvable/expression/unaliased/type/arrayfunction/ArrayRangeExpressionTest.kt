@@ -1,20 +1,17 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ArrayRangeExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class ArrayRangeExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ARRAY_RANGE`() {
@@ -24,7 +21,7 @@ class ArrayRangeExpressionTest {
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), 10.toDopeType())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +34,7 @@ class ArrayRangeExpressionTest {
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), 10.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -51,7 +48,7 @@ class ArrayRangeExpressionTest {
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(), 10.toDopeType())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +62,7 @@ class ArrayRangeExpressionTest {
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -80,7 +77,7 @@ class ArrayRangeExpressionTest {
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -100,7 +97,7 @@ class ArrayRangeExpressionTest {
             parameterValue3.asParameter(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -114,7 +111,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -126,7 +123,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -138,7 +135,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -150,7 +147,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -162,7 +159,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -174,7 +171,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -186,7 +183,7 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -198,6 +195,6 @@ class ArrayRangeExpressionTest {
 
         val actual = arrayRange(start, end, step)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

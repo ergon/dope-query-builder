@@ -1,14 +1,17 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IfNullExpressionTest : ParameterDependentTest {
+class IfNullExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support if null`() {
         val expected = DopeQuery(
@@ -17,7 +20,7 @@ class IfNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfNullExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -31,7 +34,7 @@ class IfNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfNullExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +48,7 @@ class IfNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfNullExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +63,7 @@ class IfNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -73,6 +76,6 @@ class IfNullExpressionTest : ParameterDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,6 +1,8 @@
 package ch.ergon.dope.extensions.aggregator
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.aggregator.arrayAggregate
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -13,7 +15,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayAggTest {
+class ArrayAggTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support array_agg with CMField Number`() {
         val field = someCMNumberField()
@@ -22,7 +26,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -33,7 +37,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -44,7 +48,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -55,7 +59,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,7 +70,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -77,7 +81,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -88,7 +92,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -99,7 +103,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -110,7 +114,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -121,7 +125,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -132,7 +136,7 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -143,6 +147,6 @@ class ArrayAggTest {
 
         val actual = arrayAggregate(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

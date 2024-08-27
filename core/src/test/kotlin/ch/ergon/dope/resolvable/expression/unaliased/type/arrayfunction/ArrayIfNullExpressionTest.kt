@@ -1,18 +1,15 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ArrayIfNullExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class ArrayIfNullExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ARRAY_IFNULL`() {
@@ -23,7 +20,7 @@ class ArrayIfNullExpressionTest {
         )
         val underTest = ArrayIfNullExpression(array)
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +34,7 @@ class ArrayIfNullExpressionTest {
         )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -49,6 +46,6 @@ class ArrayIfNullExpressionTest {
 
         val actual = arrayIfNull(array)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

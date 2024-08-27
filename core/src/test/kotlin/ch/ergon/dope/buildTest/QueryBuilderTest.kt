@@ -1,6 +1,8 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -26,7 +28,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryBuilderTest {
+class QueryBuilderTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
 
@@ -708,7 +711,7 @@ class QueryBuilderTest {
 
         val actual: String = TRUE.isEqualTo(
             FALSE,
-        ).toDopeQuery().queryString
+        ).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -757,7 +760,7 @@ class QueryBuilderTest {
         val getSomething = { "something" }
         val expected = "TRUE"
 
-        val actual = (getSomething() == "something").toDopeType().toDopeQuery().queryString
+        val actual = (getSomething() == "something").toDopeType().toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,7 +10,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SplitExpressionTest : ParameterDependentTest {
+class SplitExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support split`() {
         val expected = DopeQuery(
@@ -18,7 +21,7 @@ class SplitExpressionTest : ParameterDependentTest {
         )
         val underTest = SplitExpression(someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -32,7 +35,7 @@ class SplitExpressionTest : ParameterDependentTest {
         )
         val underTest = SplitExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +48,7 @@ class SplitExpressionTest : ParameterDependentTest {
         )
         val underTest = SplitExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -59,7 +62,7 @@ class SplitExpressionTest : ParameterDependentTest {
         )
         val underTest = SplitExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +77,7 @@ class SplitExpressionTest : ParameterDependentTest {
         )
         val underTest = SplitExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -87,7 +90,7 @@ class SplitExpressionTest : ParameterDependentTest {
 
         val actual = split(inStr, inSubstring)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -98,7 +101,7 @@ class SplitExpressionTest : ParameterDependentTest {
 
         val actual = split(inStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -109,7 +112,7 @@ class SplitExpressionTest : ParameterDependentTest {
 
         val actual = split(inStr, inSubstring)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -120,7 +123,7 @@ class SplitExpressionTest : ParameterDependentTest {
 
         val actual = split(inStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -131,6 +134,6 @@ class SplitExpressionTest : ParameterDependentTest {
 
         val actual = split(inStr, inSubstring)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

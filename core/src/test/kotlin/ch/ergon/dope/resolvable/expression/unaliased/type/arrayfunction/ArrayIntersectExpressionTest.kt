@@ -1,18 +1,15 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ArrayIntersectExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class ArrayIntersectExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ARRAY_INTERSECT`() {
@@ -22,7 +19,7 @@ class ArrayIntersectExpressionTest {
         )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +33,7 @@ class ArrayIntersectExpressionTest {
         )
         val underTest = ArrayIntersectExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +47,7 @@ class ArrayIntersectExpressionTest {
         )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +62,7 @@ class ArrayIntersectExpressionTest {
         )
         val underTest = ArrayIntersectExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -78,6 +75,6 @@ class ArrayIntersectExpressionTest {
 
         val actual = arrayIntersect(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

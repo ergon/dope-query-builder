@@ -1,6 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someNumber
@@ -8,18 +10,13 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ArrayPrependExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class ArrayPrependExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support ARRAY_PREPEND`() {
@@ -29,7 +26,7 @@ class ArrayPrependExpressionTest {
         )
         val underTest = ArrayPrependExpression(someNumberArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -43,7 +40,7 @@ class ArrayPrependExpressionTest {
         )
         val underTest = ArrayPrependExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -57,7 +54,7 @@ class ArrayPrependExpressionTest {
         )
         val underTest = ArrayPrependExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +69,7 @@ class ArrayPrependExpressionTest {
         )
         val underTest = ArrayPrependExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -85,7 +82,7 @@ class ArrayPrependExpressionTest {
 
         val actual = arrayPrepend(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -96,7 +93,7 @@ class ArrayPrependExpressionTest {
 
         val actual = arrayPrepend(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -107,7 +104,7 @@ class ArrayPrependExpressionTest {
 
         val actual = arrayPrepend(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -118,6 +115,6 @@ class ArrayPrependExpressionTest {
 
         val actual = arrayPrepend(array, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

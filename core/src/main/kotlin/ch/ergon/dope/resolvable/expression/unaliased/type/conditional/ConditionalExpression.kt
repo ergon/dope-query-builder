@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -12,10 +13,10 @@ sealed class ConditionalExpression<T : ValidType>(
     private val secondExpression: UnaliasedExpression<T>,
     private vararg val additionalExpressions: UnaliasedExpression<T>,
 ) : TypeExpression<T>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val firstExpressionDopeQuery = firstExpression.toDopeQuery()
-        val secondExpressionDopeQuery = secondExpression.toDopeQuery()
-        val additionalExpressionsDopeQuery = additionalExpressions.map { it.toDopeQuery() }
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val firstExpressionDopeQuery = firstExpression.toDopeQuery(manager)
+        val secondExpressionDopeQuery = secondExpression.toDopeQuery(manager)
+        val additionalExpressionsDopeQuery = additionalExpressions.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol,

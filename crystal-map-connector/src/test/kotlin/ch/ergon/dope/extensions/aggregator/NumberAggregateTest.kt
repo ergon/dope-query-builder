@@ -1,11 +1,13 @@
 package ch.ergon.dope.extensions.aggregator
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.aggregator.avg
 import ch.ergon.dope.extension.aggregator.mean
 import ch.ergon.dope.extension.aggregator.median
 import ch.ergon.dope.extension.aggregator.stdDev
 import ch.ergon.dope.extension.aggregator.sum
 import ch.ergon.dope.extension.aggregator.variance
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AverageExpression
@@ -18,7 +20,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NumberAggregateTest {
+class NumberAggregateTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support avg with CMField Number`() {
         val field = someCMNumberField()
@@ -27,7 +31,7 @@ class NumberAggregateTest {
 
         val actual = avg(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -38,7 +42,7 @@ class NumberAggregateTest {
 
         val actual = avg(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -49,7 +53,7 @@ class NumberAggregateTest {
 
         val actual = mean(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -60,7 +64,7 @@ class NumberAggregateTest {
 
         val actual = mean(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -71,7 +75,7 @@ class NumberAggregateTest {
 
         val actual = median(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -82,7 +86,7 @@ class NumberAggregateTest {
 
         val actual = median(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -93,7 +97,7 @@ class NumberAggregateTest {
 
         val actual = sum(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -104,7 +108,7 @@ class NumberAggregateTest {
 
         val actual = sum(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -115,7 +119,7 @@ class NumberAggregateTest {
 
         val actual = stdDev(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -126,7 +130,7 @@ class NumberAggregateTest {
 
         val actual = stdDev(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -137,7 +141,7 @@ class NumberAggregateTest {
 
         val actual = variance(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -148,6 +152,6 @@ class NumberAggregateTest {
 
         val actual = variance(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

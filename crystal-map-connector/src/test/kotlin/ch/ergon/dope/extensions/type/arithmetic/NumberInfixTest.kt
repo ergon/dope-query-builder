@@ -1,10 +1,12 @@
 package ch.ergon.dope.extensions.type.arithmetic
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.arithmetic.add
 import ch.ergon.dope.extension.type.arithmetic.div
 import ch.ergon.dope.extension.type.arithmetic.mod
 import ch.ergon.dope.extension.type.arithmetic.mul
 import ch.ergon.dope.extension.type.arithmetic.sub
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -18,7 +20,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NumberInfixTest {
+class NumberInfixTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support add with CMField CMField`() {
         val left = someCMNumberField()
@@ -27,7 +31,7 @@ class NumberInfixTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -38,7 +42,7 @@ class NumberInfixTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -49,7 +53,7 @@ class NumberInfixTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -60,7 +64,7 @@ class NumberInfixTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -71,7 +75,7 @@ class NumberInfixTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -82,7 +86,7 @@ class NumberInfixTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -93,7 +97,7 @@ class NumberInfixTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -104,7 +108,7 @@ class NumberInfixTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -115,7 +119,7 @@ class NumberInfixTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -126,7 +130,7 @@ class NumberInfixTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -137,7 +141,7 @@ class NumberInfixTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -148,7 +152,7 @@ class NumberInfixTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -159,7 +163,7 @@ class NumberInfixTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -170,7 +174,7 @@ class NumberInfixTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -181,7 +185,7 @@ class NumberInfixTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -192,7 +196,7 @@ class NumberInfixTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -203,7 +207,7 @@ class NumberInfixTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -214,7 +218,7 @@ class NumberInfixTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -225,7 +229,7 @@ class NumberInfixTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -236,7 +240,7 @@ class NumberInfixTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -247,7 +251,7 @@ class NumberInfixTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -258,7 +262,7 @@ class NumberInfixTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -269,7 +273,7 @@ class NumberInfixTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -280,7 +284,7 @@ class NumberInfixTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -291,6 +295,6 @@ class NumberInfixTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

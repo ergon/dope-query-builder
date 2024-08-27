@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -10,9 +11,9 @@ class PositionExpression(
     private val inStr: TypeExpression<StringType>,
     private val searchStr: TypeExpression<StringType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toDopeQuery()
-        val searchStrDopeQuery = searchStr.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery(manager)
+        val searchStrDopeQuery = searchStr.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "POSITION", inStrDopeQuery, searchStrDopeQuery),
             parameters = inStrDopeQuery.parameters + searchStrDopeQuery.parameters,

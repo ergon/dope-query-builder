@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,7 +10,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ContainsExpressionTest : ParameterDependentTest {
+class ContainsExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support contains`() {
         val expected = DopeQuery(
@@ -18,7 +21,7 @@ class ContainsExpressionTest : ParameterDependentTest {
         )
         val underTest = ContainsExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -32,7 +35,7 @@ class ContainsExpressionTest : ParameterDependentTest {
         )
         val underTest = ContainsExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +50,7 @@ class ContainsExpressionTest : ParameterDependentTest {
         )
         val underTest = ContainsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +63,7 @@ class ContainsExpressionTest : ParameterDependentTest {
 
         val actual = contains(inStr, searchStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -71,7 +74,7 @@ class ContainsExpressionTest : ParameterDependentTest {
 
         val actual = contains(inStr, searchStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -82,7 +85,7 @@ class ContainsExpressionTest : ParameterDependentTest {
 
         val actual = contains(inStr, searchStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -93,6 +96,6 @@ class ContainsExpressionTest : ParameterDependentTest {
 
         val actual = contains(inStr, searchStr)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

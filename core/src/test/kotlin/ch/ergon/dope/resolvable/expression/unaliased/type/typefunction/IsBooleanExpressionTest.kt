@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someBooleanField
@@ -9,7 +10,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsBooleanExpressionTest : ParameterDependentTest {
+class IsBooleanExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support is boolean expression`() {
         val expected = DopeQuery(
@@ -18,7 +21,7 @@ class IsBooleanExpressionTest : ParameterDependentTest {
         )
         val underTest = IsBooleanExpression(someBooleanField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -32,7 +35,7 @@ class IsBooleanExpressionTest : ParameterDependentTest {
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,6 +47,6 @@ class IsBooleanExpressionTest : ParameterDependentTest {
 
         val actual = boolean.isBoolean()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }
