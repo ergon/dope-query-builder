@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.formatIndexToQueryString
 import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.fromable.IndexType.USING_FTS
@@ -18,18 +19,7 @@ class IndexReference(
     private val indexName: String? = null,
     private val indexType: IndexType? = null,
 ) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val queryString = buildString {
-            if (indexName != null) {
-                append("`$indexName`")
-            }
-            if (indexType != null) {
-                if (isNotEmpty()) append(" ")
-                append(indexType.type)
-            }
-        }
-        return DopeQuery(queryString, emptyMap())
-    }
+    override fun toDopeQuery() = DopeQuery(formatIndexToQueryString(indexName, indexType?.type), emptyMap())
 }
 
 class UseIndex(
