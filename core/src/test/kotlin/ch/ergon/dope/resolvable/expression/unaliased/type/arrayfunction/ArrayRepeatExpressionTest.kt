@@ -1,17 +1,20 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayRepeatExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayRepeat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ArrayRepeatExpressionTest : ParameterDependentTest {
+class ArrayRepeatExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support ARRAY_REPEAT`() {
         val expected = DopeQuery(
@@ -20,7 +23,7 @@ class ArrayRepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = ArrayRepeatExpression(someNumberField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +37,7 @@ class ArrayRepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +51,7 @@ class ArrayRepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +66,7 @@ class ArrayRepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +79,7 @@ class ArrayRepeatExpressionTest : ParameterDependentTest {
 
         val actual = arrayRepeat(value, repetitions)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -87,6 +90,6 @@ class ArrayRepeatExpressionTest : ParameterDependentTest {
 
         val actual = arrayRepeat(value, repetitions)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

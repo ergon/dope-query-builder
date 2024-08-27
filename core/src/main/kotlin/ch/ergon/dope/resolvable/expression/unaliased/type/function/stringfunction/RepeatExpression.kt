@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -11,9 +12,9 @@ class RepeatExpression(
     private val inStr: TypeExpression<StringType>,
     private val repeatAmount: TypeExpression<NumberType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val inStrDopeQuery = inStr.toDopeQuery()
-        val repeatDopeQuery = repeatAmount.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val inStrDopeQuery = inStr.toDopeQuery(manager)
+        val repeatDopeQuery = repeatAmount.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "REPEAT", inStrDopeQuery, repeatDopeQuery),
             parameters = inStrDopeQuery.parameters + repeatDopeQuery.parameters,

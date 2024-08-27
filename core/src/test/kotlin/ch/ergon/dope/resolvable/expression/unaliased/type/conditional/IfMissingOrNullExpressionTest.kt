@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -12,7 +13,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.i
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IfMissingOrNullExpressionTest : ParameterDependentTest {
+class IfMissingOrNullExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support if missing or null`() {
         val expected = DopeQuery(
@@ -21,7 +24,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingOrNullExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +38,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +52,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -64,7 +67,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +80,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -88,7 +91,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = CoalesceExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +105,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -116,7 +119,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -131,7 +134,7 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -144,6 +147,6 @@ class IfMissingOrNullExpressionTest : ParameterDependentTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

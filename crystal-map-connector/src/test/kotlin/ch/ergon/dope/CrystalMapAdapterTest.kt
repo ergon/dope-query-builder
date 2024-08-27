@@ -1,5 +1,6 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -10,14 +11,16 @@ import com.schwarz.crystalapi.schema.CMList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CrystalMapAdapter {
+class CrystalMapAdapterTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should convert CMField with Number`() {
         val cmField = CMField<Number>("testName", "testPath")
 
         val actual: Field<NumberType> = cmField.toDopeType()
 
-        assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery().queryString)
+        assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
@@ -26,7 +29,7 @@ class CrystalMapAdapter {
 
         val actual: Field<StringType> = cmField.toDopeType()
 
-        assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery().queryString)
+        assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
@@ -35,7 +38,7 @@ class CrystalMapAdapter {
 
         val actual: Field<BooleanType> = cmField.toDopeType()
 
-        assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery().queryString)
+        assertEquals("`${cmField.path}`.`${cmField.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
@@ -44,7 +47,7 @@ class CrystalMapAdapter {
 
         val actual: Field<ArrayType<StringType>> = cmList.toDopeType()
 
-        assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
+        assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
@@ -53,7 +56,7 @@ class CrystalMapAdapter {
 
         val actual: Field<ArrayType<NumberType>> = cmList.toDopeType()
 
-        assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
+        assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
@@ -62,6 +65,6 @@ class CrystalMapAdapter {
 
         val actual: Field<ArrayType<BooleanType>> = cmList.toDopeType()
 
-        assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery().queryString)
+        assertEquals("`${cmList.path}`.`${cmList.name}`", actual.toDopeQuery(manager).queryString)
     }
 }

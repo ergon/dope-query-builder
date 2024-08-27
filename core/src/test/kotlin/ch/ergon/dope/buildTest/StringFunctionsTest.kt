@@ -1,6 +1,8 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
@@ -34,8 +36,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StringFunctionsTest {
-
+class StringFunctionsTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
 
@@ -142,7 +144,7 @@ class StringFunctionsTest {
 
         val actual: String = concat2("-", "a".toDopeType()).alias(
             "c2",
-        ).toDopeQuery().queryString
+        ).toDopeQuery(manager).queryString
 
         assertEquals(unifyString(expected), actual)
     }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -10,7 +11,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.i
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IfMissingExpressionTest : ParameterDependentTest {
+class IfMissingExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support if missing`() {
         val expected = DopeQuery(
@@ -19,7 +22,7 @@ class IfMissingExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -33,7 +36,7 @@ class IfMissingExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +50,7 @@ class IfMissingExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -62,7 +65,7 @@ class IfMissingExpressionTest : ParameterDependentTest {
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -75,6 +78,6 @@ class IfMissingExpressionTest : ParameterDependentTest {
 
         val actual = ifMissing(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

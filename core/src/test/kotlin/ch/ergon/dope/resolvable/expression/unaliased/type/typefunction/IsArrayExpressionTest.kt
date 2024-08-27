@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsArrayExpression
@@ -9,7 +10,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsArrayExpressionTest : ParameterDependentTest {
+class IsArrayExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support is array expression`() {
         val expected = DopeQuery(
@@ -18,7 +21,7 @@ class IsArrayExpressionTest : ParameterDependentTest {
         )
         val underTest = IsArrayExpression(someStringArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -32,7 +35,7 @@ class IsArrayExpressionTest : ParameterDependentTest {
         )
         val underTest = IsArrayExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,6 +47,6 @@ class IsArrayExpressionTest : ParameterDependentTest {
 
         val actual = array.isArray()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

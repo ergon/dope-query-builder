@@ -1,6 +1,8 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -30,7 +32,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class BooleanComparatorTest {
+class BooleanComparatorTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
 
@@ -793,7 +796,7 @@ class BooleanComparatorTest {
     fun `should support Number isEqualTo Number`() {
         val expected = "5 = 5"
 
-        val actual: String = 5.isEqualTo(5).toDopeQuery().queryString
+        val actual: String = 5.isEqualTo(5).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -803,7 +806,7 @@ class BooleanComparatorTest {
         val numberExpression = 5.toDopeType()
         val expected = "5 = 5"
 
-        val actual: String = 5.isEqualTo(numberExpression).toDopeQuery().queryString
+        val actual: String = 5.isEqualTo(numberExpression).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -813,7 +816,7 @@ class BooleanComparatorTest {
         val numberExpression = 5.toDopeType()
         val expected = "5 = 5"
 
-        val actual: String = numberExpression.isEqualTo(5).toDopeQuery().queryString
+        val actual: String = numberExpression.isEqualTo(5).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -822,7 +825,7 @@ class BooleanComparatorTest {
     fun `should support String isEqualTo String`() {
         val expected = "\"hello\" = \"hello\""
 
-        val actual: String = "hello".isEqualTo("hello").toDopeQuery().queryString
+        val actual: String = "hello".isEqualTo("hello").toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -832,7 +835,7 @@ class BooleanComparatorTest {
         val stringExpression = "hello".toDopeType()
         val expected = "\"hello\" = \"hello\""
 
-        val actual: String = "hello".isEqualTo(stringExpression).toDopeQuery().queryString
+        val actual: String = "hello".isEqualTo(stringExpression).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -842,7 +845,7 @@ class BooleanComparatorTest {
         val stringExpression = "hello".toDopeType()
         val expected = "\"hello\" = \"hello\""
 
-        val actual: String = stringExpression.isEqualTo("hello").toDopeQuery().queryString
+        val actual: String = stringExpression.isEqualTo("hello").toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -851,7 +854,7 @@ class BooleanComparatorTest {
     fun `should support Boolean isEqualTo Boolean`() {
         val expected = "TRUE = TRUE"
 
-        val actual: String = true.isEqualTo(true).toDopeQuery().queryString
+        val actual: String = true.isEqualTo(true).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -861,7 +864,7 @@ class BooleanComparatorTest {
         val booleanExpression = true.toDopeType()
         val expected = "TRUE = TRUE"
 
-        val actual: String = true.isEqualTo(booleanExpression).toDopeQuery().queryString
+        val actual: String = true.isEqualTo(booleanExpression).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -871,7 +874,7 @@ class BooleanComparatorTest {
         val booleanExpression = true.toDopeType()
         val expected = "TRUE = TRUE"
 
-        val actual: String = booleanExpression.isEqualTo(true).toDopeQuery().queryString
+        val actual: String = booleanExpression.isEqualTo(true).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }

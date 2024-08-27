@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -12,10 +13,10 @@ class Concat2Expression(
     private val string: TypeExpression<StringType>,
     private vararg val strings: TypeExpression<StringType>,
 ) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val separatorDopeQuery = separator.toDopeQuery()
-        val stringDopeQuery = string.toDopeQuery()
-        val stringsDopeQuery = strings.map { it.toDopeQuery() }
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val separatorDopeQuery = separator.toDopeQuery(manager)
+        val stringDopeQuery = string.toDopeQuery(manager)
+        val stringsDopeQuery = strings.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol = "CONCAT2",

@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -15,10 +16,10 @@ class Nvl2Expression<T : ValidType>(
     private val valueIfExists: UnaliasedExpression<T>,
     private val valueIfNotExists: UnaliasedExpression<T>,
 ) : TypeExpression<T>, FunctionOperator {
-    override fun toDopeQuery(): DopeQuery {
-        val initialExpressionDopeQuery = initialExpression.toDopeQuery()
-        val valueIfExistsDopeQuery = valueIfExists.toDopeQuery()
-        val valueIfNotExistsDopeQuery = valueIfNotExists.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val initialExpressionDopeQuery = initialExpression.toDopeQuery(manager)
+        val valueIfExistsDopeQuery = valueIfExists.toDopeQuery(manager)
+        val valueIfNotExistsDopeQuery = valueIfNotExists.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "NVL2",

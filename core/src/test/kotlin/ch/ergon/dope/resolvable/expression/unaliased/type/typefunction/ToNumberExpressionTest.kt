@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.typefunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,7 +13,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ToNumberExpressionTest : ParameterDependentTest {
+class ToNumberExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support to number expression`() {
         val expected = DopeQuery(
@@ -21,7 +24,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
         )
         val underTest = ToNumberExpression(someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +38,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
         )
         val underTest = ToNumberExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +50,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = string.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -57,7 +60,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = string.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -67,7 +70,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = boolean.toNumber()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -78,7 +81,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = string.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -89,7 +92,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = string.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -100,7 +103,7 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = string.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -111,6 +114,6 @@ class ToNumberExpressionTest : ParameterDependentTest {
 
         val actual = string.toNumber(filterChars)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

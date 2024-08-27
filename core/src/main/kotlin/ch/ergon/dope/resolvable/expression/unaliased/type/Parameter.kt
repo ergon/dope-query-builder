@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -8,22 +9,13 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-object ParameterManager {
-    var count: Int = 1
-        get() = field++
-
-    fun resetCounter() {
-        count = 1
-    }
-}
-
 sealed class Parameter<T : ValidType>(
     private val value: Any,
     private val parameterName: String?,
 ) : TypeExpression<T> {
-    override fun toDopeQuery() = when (parameterName) {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery = when (parameterName) {
         null -> {
-            val unnamedParameterCount = "\$${ParameterManager.count}"
+            val unnamedParameterCount = "\$${manager.parameterManager.count}"
             DopeQuery(
                 queryString = unnamedParameterCount,
                 parameters = mapOf(unnamedParameterCount to value),

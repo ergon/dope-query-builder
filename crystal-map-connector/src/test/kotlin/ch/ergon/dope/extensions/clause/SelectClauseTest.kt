@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.clause
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
 import ch.ergon.dope.extension.clause.join
@@ -10,6 +11,7 @@ import ch.ergon.dope.extension.clause.orderBy
 import ch.ergon.dope.extension.clause.unnest
 import ch.ergon.dope.extension.clause.useKeys
 import ch.ergon.dope.extension.clause.where
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -35,7 +37,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SelectClauseTest {
+class SelectClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support select single use keys with CM`() {
         val useKeys = someCMStringField()
@@ -44,7 +48,7 @@ class SelectClauseTest {
 
         val actual = parentClause.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -55,7 +59,7 @@ class SelectClauseTest {
 
         val actual = parentClause.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,7 +70,7 @@ class SelectClauseTest {
 
         val actual = parentClause.where(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -77,7 +81,7 @@ class SelectClauseTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -88,7 +92,7 @@ class SelectClauseTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -99,7 +103,7 @@ class SelectClauseTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -111,7 +115,7 @@ class SelectClauseTest {
 
         val actual = parentClause.join(bucket, onKeys = field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -124,7 +128,7 @@ class SelectClauseTest {
 
         val actual = parentClause.join(bucket, onKey = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -136,7 +140,7 @@ class SelectClauseTest {
 
         val actual = parentClause.innerJoin(bucket, onKeys = field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -149,7 +153,7 @@ class SelectClauseTest {
 
         val actual = parentClause.innerJoin(bucket, onKey = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -161,7 +165,7 @@ class SelectClauseTest {
 
         val actual = parentClause.leftJoin(bucket, onKeys = field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -174,7 +178,7 @@ class SelectClauseTest {
 
         val actual = parentClause.leftJoin(bucket, onKey = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -185,7 +189,7 @@ class SelectClauseTest {
 
         val actual = parentClause.groupBy(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -197,7 +201,7 @@ class SelectClauseTest {
 
         val actual = parentClause.groupBy(field1, field2)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -208,7 +212,7 @@ class SelectClauseTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -220,7 +224,7 @@ class SelectClauseTest {
 
         val actual = parentClause.orderBy(field, orderByType)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -231,7 +235,7 @@ class SelectClauseTest {
 
         val actual = parentClause.limit(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -242,6 +246,6 @@ class SelectClauseTest {
 
         val actual = parentClause.offset(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

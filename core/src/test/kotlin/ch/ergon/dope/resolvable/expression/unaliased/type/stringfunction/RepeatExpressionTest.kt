@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
@@ -13,7 +14,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RepeatExpressionTest : ParameterDependentTest {
+class RepeatExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support repeat`() {
         val expected = DopeQuery(
@@ -22,7 +25,7 @@ class RepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = RepeatExpression(someStringField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +39,7 @@ class RepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = RepeatExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -51,7 +54,7 @@ class RepeatExpressionTest : ParameterDependentTest {
         )
         val underTest = RepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -64,7 +67,7 @@ class RepeatExpressionTest : ParameterDependentTest {
 
         val actual = repeat(inStr, repeatAmount)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -75,7 +78,7 @@ class RepeatExpressionTest : ParameterDependentTest {
 
         val actual = repeat(inStr, repeatAmount)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -86,7 +89,7 @@ class RepeatExpressionTest : ParameterDependentTest {
 
         val actual = repeat(inStr, repeatAmount)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -97,6 +100,6 @@ class RepeatExpressionTest : ParameterDependentTest {
 
         val actual = repeat(inStr, repeatAmount)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

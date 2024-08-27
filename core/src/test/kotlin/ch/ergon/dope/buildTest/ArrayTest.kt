@@ -9,7 +9,6 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
@@ -17,10 +16,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArrayTest {
     private lateinit var create: QueryBuilder
@@ -28,11 +26,6 @@ class ArrayTest {
     @BeforeTest
     fun setup() {
         create = QueryBuilder()
-    }
-
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
     }
 
     @Test
