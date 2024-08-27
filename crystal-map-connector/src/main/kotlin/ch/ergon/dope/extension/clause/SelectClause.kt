@@ -9,7 +9,7 @@ import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.IBucket
+import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
@@ -29,14 +29,16 @@ fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType) =
 
 fun ISelectFromClause.where(whereExpression: CMField<Boolean>) = where(whereExpression.toDopeType())
 
-fun ISelectJoinClause.join(bucket: IBucket, onKeys: CMField<out Any>) = join(bucket, onKeys.toDopeType())
-fun ISelectJoinClause.join(bucket: IBucket, onKey: CMField<out Any>, forBucket: Bucket) = join(bucket, onKey.toDopeType(), forBucket)
+fun ISelectJoinClause.join(joinable: Joinable, onKeys: CMField<out Any>) = join(joinable, onKeys.toDopeType())
+fun ISelectJoinClause.join(joinable: Joinable, onKey: CMField<out Any>, forBucket: Bucket) = join(joinable, onKey.toDopeType(), forBucket)
 
-fun ISelectJoinClause.innerJoin(bucket: IBucket, onKeys: CMField<out Any>) = innerJoin(bucket, onKeys.toDopeType())
-fun ISelectJoinClause.innerJoin(bucket: IBucket, onKey: CMField<out Any>, forBucket: Bucket) = innerJoin(bucket, onKey.toDopeType(), forBucket)
+fun ISelectJoinClause.innerJoin(joinable: Joinable, onKeys: CMField<out Any>) = innerJoin(joinable, onKeys.toDopeType())
+fun ISelectJoinClause.innerJoin(joinable: Joinable, onKey: CMField<out Any>, forBucket: Bucket) =
+    innerJoin(joinable, onKey.toDopeType(), forBucket)
 
-fun ISelectJoinClause.leftJoin(bucket: IBucket, onKeys: CMField<out Any>) = leftJoin(bucket, onKeys.toDopeType())
-fun ISelectJoinClause.leftJoin(bucket: IBucket, onKey: CMField<out Any>, forBucket: Bucket) = leftJoin(bucket, onKey.toDopeType(), forBucket)
+fun ISelectJoinClause.leftJoin(joinable: Joinable, onKeys: CMField<out Any>) = leftJoin(joinable, onKeys.toDopeType())
+fun ISelectJoinClause.leftJoin(joinable: Joinable, onKey: CMField<out Any>, forBucket: Bucket) =
+    leftJoin(joinable, onKey.toDopeType(), forBucket)
 
 @JvmName("unnestString")
 fun ISelectUnnestClause.unnest(arrayField: CMList<String>) = unnest(arrayField.toDopeType())

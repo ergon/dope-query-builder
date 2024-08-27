@@ -25,7 +25,7 @@ class IndexReference(
 class UseIndex(
     val bucket: Bucket,
     vararg val indexReference: IndexReference,
-) : IBucket {
+) : Joinable, Deletable, Fromable {
     override fun toDopeQuery(): DopeQuery {
         val bucketDopeQuery = bucket.toDopeQuery()
         val indexReferenceDopeQueries = indexReference.map { it.toDopeQuery() }

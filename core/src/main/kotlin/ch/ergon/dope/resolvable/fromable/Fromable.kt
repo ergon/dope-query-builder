@@ -4,6 +4,8 @@ import ch.ergon.dope.resolvable.Resolvable
 
 interface Fromable : Resolvable
 
-interface IBucket : Fromable
+interface Joinable : Resolvable
 
-interface Updatable : IBucket
+interface Deletable : Resolvable
+
+interface Updatable : Resolvable

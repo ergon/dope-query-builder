@@ -21,7 +21,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Fromable
-import ch.ergon.dope.resolvable.fromable.IBucket
+import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -54,19 +54,19 @@ interface ISelectFromClause : ISelectWhereClause {
 }
 
 interface ISelectJoinClause : ISelectFromClause {
-    fun join(bucket: IBucket, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(bucket, onCondition, this)
-    fun join(bucket: IBucket, onKeys: Field<out ValidType>) = StandardJoinClause(bucket, onKeys, this)
-    fun join(bucket: IBucket, onKey: Field<out ValidType>, forBucket: Bucket) = StandardJoinClause(bucket, onKey, forBucket, this)
+    fun join(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(joinable, onCondition, this)
+    fun join(joinable: Joinable, onKeys: Field<out ValidType>) = StandardJoinClause(joinable, onKeys, this)
+    fun join(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = StandardJoinClause(joinable, onKey, forBucket, this)
 
-    fun innerJoin(bucket: IBucket, onCondition: TypeExpression<BooleanType>) = InnerJoinClause(bucket, onCondition, this)
-    fun innerJoin(bucket: IBucket, onKeys: Field<out ValidType>) = InnerJoinClause(bucket, onKeys, this)
-    fun innerJoin(bucket: IBucket, onKey: Field<out ValidType>, forBucket: Bucket) = InnerJoinClause(bucket, onKey, forBucket, this)
+    fun innerJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = InnerJoinClause(joinable, onCondition, this)
+    fun innerJoin(joinable: Joinable, onKeys: Field<out ValidType>) = InnerJoinClause(joinable, onKeys, this)
+    fun innerJoin(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = InnerJoinClause(joinable, onKey, forBucket, this)
 
-    fun leftJoin(bucket: IBucket, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(bucket, onCondition, this)
-    fun leftJoin(bucket: IBucket, onKeys: Field<out ValidType>) = LeftJoinClause(bucket, onKeys, this)
-    fun leftJoin(bucket: IBucket, onKey: Field<out ValidType>, forBucket: Bucket) = LeftJoinClause(bucket, onKey, forBucket, this)
+    fun leftJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(joinable, onCondition, this)
+    fun leftJoin(joinable: Joinable, onKeys: Field<out ValidType>) = LeftJoinClause(joinable, onKeys, this)
+    fun leftJoin(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = LeftJoinClause(joinable, onKey, forBucket, this)
 
-    fun rightJoin(bucket: IBucket, onCondition: TypeExpression<BooleanType>) = RightJoinClause(bucket, onCondition, this)
+    fun rightJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = RightJoinClause(joinable, onCondition, this)
 
     fun alias(alias: String) = AliasedSelectClause(alias, this)
 }

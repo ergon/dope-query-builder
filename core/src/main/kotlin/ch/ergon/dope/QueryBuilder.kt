@@ -8,8 +8,8 @@ import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
+import ch.ergon.dope.resolvable.fromable.Deletable
 import ch.ergon.dope.resolvable.fromable.Fromable
-import ch.ergon.dope.resolvable.fromable.IBucket
 import ch.ergon.dope.resolvable.fromable.Updatable
 
 class QueryBuilder {
@@ -23,7 +23,7 @@ class QueryBuilder {
 
     fun selectFrom(fromable: Fromable) = SelectClause(AsteriskExpression()).from(fromable)
 
-    fun deleteFrom(bucket: IBucket) = DeleteClause(bucket)
+    fun deleteFrom(deletable: Deletable) = DeleteClause(deletable)
 
-    fun update(bucket: Updatable) = UpdateClause(bucket)
+    fun update(updatable: Updatable) = UpdateClause(updatable)
 }
