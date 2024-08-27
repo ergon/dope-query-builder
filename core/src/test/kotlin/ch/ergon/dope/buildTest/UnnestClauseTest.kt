@@ -16,9 +16,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class UnnestClauseTest {
     private lateinit var create: QueryBuilder

@@ -1,17 +1,20 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class OrderByClauseTest : ParameterDependentTest {
+class OrderByClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support order by`() {
         val expected = DopeQuery(
@@ -20,7 +23,7 @@ class OrderByClauseTest : ParameterDependentTest {
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +37,7 @@ class OrderByClauseTest : ParameterDependentTest {
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +50,7 @@ class OrderByClauseTest : ParameterDependentTest {
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +64,7 @@ class OrderByClauseTest : ParameterDependentTest {
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +77,7 @@ class OrderByClauseTest : ParameterDependentTest {
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -88,7 +91,7 @@ class OrderByClauseTest : ParameterDependentTest {
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -101,7 +104,7 @@ class OrderByClauseTest : ParameterDependentTest {
 
         val actual = parentClause.orderBy(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -113,6 +116,6 @@ class OrderByClauseTest : ParameterDependentTest {
 
         val actual = parentClause.orderBy(stringField, orderType)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -12,10 +13,12 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class LimitClauseTest : ParameterDependentTest {
+class LimitClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support delete limit`() {
         val expected = DopeQuery(
@@ -24,7 +27,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = DeleteLimitClause(someNumberField(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -38,7 +41,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = DeleteLimitClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -51,7 +54,7 @@ class LimitClauseTest : ParameterDependentTest {
 
         val actual = parentClause.limit(numberField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -62,7 +65,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = SelectLimitClause(someNumberField(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +79,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = SelectLimitClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -91,7 +94,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = SelectLimitClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -104,7 +107,7 @@ class LimitClauseTest : ParameterDependentTest {
 
         val actual = parentClause.limit(numberField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -115,7 +118,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = UpdateLimitClause(someNumberField(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -129,7 +132,7 @@ class LimitClauseTest : ParameterDependentTest {
         )
         val underTest = UpdateLimitClause(parameterValue.asParameter(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -142,7 +145,7 @@ class LimitClauseTest : ParameterDependentTest {
 
         val actual = parentClause.limit(numberField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -153,6 +156,6 @@ class LimitClauseTest : ParameterDependentTest {
 
         val actual = parentClause.limit(number)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

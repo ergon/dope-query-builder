@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -9,7 +10,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class OrExpressionTest : ParameterDependentTest {
+class OrExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support or`() {
         val expected = DopeQuery(
@@ -18,7 +21,7 @@ class OrExpressionTest : ParameterDependentTest {
         )
         val underTest = OrExpression(someBooleanField(), someBooleanField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -32,7 +35,7 @@ class OrExpressionTest : ParameterDependentTest {
         )
         val underTest = OrExpression(parameterValue.asParameter(), someBooleanField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +50,7 @@ class OrExpressionTest : ParameterDependentTest {
         )
         val underTest = OrExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +64,7 @@ class OrExpressionTest : ParameterDependentTest {
         )
         val underTest = OrExpression(someBooleanField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +77,7 @@ class OrExpressionTest : ParameterDependentTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -85,7 +88,7 @@ class OrExpressionTest : ParameterDependentTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -96,6 +99,6 @@ class OrExpressionTest : ParameterDependentTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

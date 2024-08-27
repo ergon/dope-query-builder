@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.formatIndexToQueryString
 import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
@@ -19,16 +20,16 @@ class IndexReference(
     private val indexName: String? = null,
     private val indexType: IndexType? = null,
 ) : Resolvable {
-    override fun toDopeQuery() = DopeQuery(formatIndexToQueryString(indexName, indexType?.type), emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(formatIndexToQueryString(indexName, indexType?.type), emptyMap())
 }
 
 class UseIndex(
     val bucket: Bucket,
     vararg val indexReference: IndexReference,
 ) : Joinable, Deletable, Fromable {
-    override fun toDopeQuery(): DopeQuery {
-        val bucketDopeQuery = bucket.toDopeQuery()
-        val indexReferenceDopeQueries = indexReference.map { it.toDopeQuery() }
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val bucketDopeQuery = bucket.toDopeQuery(manager)
+        val indexReferenceDopeQueries = indexReference.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 bucketDopeQuery.queryString,

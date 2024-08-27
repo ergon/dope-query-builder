@@ -22,9 +22,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.aggregator.min
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.stdDev
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.sum
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.variance
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class AggregateFunctionsTest {
     private lateinit var builder: StringBuilder

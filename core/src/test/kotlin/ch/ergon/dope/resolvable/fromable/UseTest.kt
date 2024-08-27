@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -12,7 +13,9 @@ import ch.ergon.dope.resolvable.fromable.UseKeysClass.Companion.UseKeys
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UseTest : ParameterDependentTest {
+class UseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support empty use index`() {
         val expected = DopeQuery(
@@ -21,7 +24,7 @@ class UseTest : ParameterDependentTest {
         )
         val underTest = UseIndex(someBucket())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +40,7 @@ class UseTest : ParameterDependentTest {
             IndexReference("index"),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -55,7 +58,7 @@ class UseTest : ParameterDependentTest {
             IndexReference("secondIndex"),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -71,7 +74,7 @@ class UseTest : ParameterDependentTest {
             IndexReference("index"),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -83,7 +86,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useIndex()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -94,7 +97,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useIndex(indexName)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -105,7 +108,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useGsiIndex(indexName)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -116,7 +119,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useFtsIndex(indexName)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -128,7 +131,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useIndex(indexName).useIndex(indexName2)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -145,9 +148,9 @@ class UseTest : ParameterDependentTest {
         )
 
         val actual = bucket.useGsiIndex(indexName).useIndex(indexName2).useFtsIndex().useGsiIndex()
-        println(actual.toDopeQuery())
+        println(actual.toDopeQuery(manager))
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -161,7 +164,7 @@ class UseTest : ParameterDependentTest {
             someBucket(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -177,7 +180,7 @@ class UseTest : ParameterDependentTest {
             someBucket(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -194,7 +197,7 @@ class UseTest : ParameterDependentTest {
             someBucket(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -207,7 +210,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useKeys(useKeysString)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -218,7 +221,7 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useKeys(useKeysString)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -234,6 +237,6 @@ class UseTest : ParameterDependentTest {
 
         val actual = bucket.useKeys(useKeysString1, useKeysString2, useKeysString3)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

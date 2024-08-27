@@ -1,7 +1,6 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
@@ -15,7 +14,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UpdateTest : ParameterDependentTest {
+class UpdateTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest

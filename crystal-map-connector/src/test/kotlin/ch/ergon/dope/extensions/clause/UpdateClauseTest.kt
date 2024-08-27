@@ -1,10 +1,12 @@
 package ch.ergon.dope.extensions.clause
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.returning
 import ch.ergon.dope.extension.clause.set
 import ch.ergon.dope.extension.clause.unset
 import ch.ergon.dope.extension.clause.where
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -26,7 +28,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UpdateClauseTest {
+class UpdateClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support update set CMField number to CMField number`() {
         val field = someCMNumberField()
@@ -36,7 +40,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -54,7 +58,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -66,7 +70,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -84,7 +88,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -96,7 +100,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -114,7 +118,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -126,7 +130,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -144,7 +148,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -156,7 +160,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -174,7 +178,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -186,7 +190,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -204,7 +208,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -216,7 +220,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -234,7 +238,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -246,7 +250,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -264,7 +268,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -276,7 +280,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -294,7 +298,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -306,7 +310,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -324,7 +328,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -336,7 +340,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -354,7 +358,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -366,7 +370,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -384,7 +388,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -396,7 +400,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -414,7 +418,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(numberField, numberValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -426,7 +430,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -444,7 +448,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(numberField, numberValue).set(stringField, stringValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -456,7 +460,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(field, value)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -474,7 +478,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -485,7 +489,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.unset(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -503,7 +507,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.unset(numberField).unset(booleanField).unset(stringField)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -514,7 +518,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.where(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -525,7 +529,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.limit(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -536,7 +540,7 @@ class UpdateClauseTest {
 
         val actual = parentClause.returning(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -549,6 +553,6 @@ class UpdateClauseTest {
 
         val actual = parentClause.returning(field1, field2, field3)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

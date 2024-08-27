@@ -1,17 +1,20 @@
 package ch.ergon.dope.resolvable.expression
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class AliasedExpressionTest : ParameterDependentTest {
+class AliasedExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support aliased expression`() {
         val expected = DopeQuery(
@@ -20,7 +23,7 @@ class AliasedExpressionTest : ParameterDependentTest {
         )
         val underTest = AliasedExpression(someStringField(), "test")
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +37,7 @@ class AliasedExpressionTest : ParameterDependentTest {
         )
         val underTest = AliasedExpression(parameterValue.asParameter(), "test")
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +50,7 @@ class AliasedExpressionTest : ParameterDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -58,7 +61,7 @@ class AliasedExpressionTest : ParameterDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -69,7 +72,7 @@ class AliasedExpressionTest : ParameterDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -80,6 +83,6 @@ class AliasedExpressionTest : ParameterDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

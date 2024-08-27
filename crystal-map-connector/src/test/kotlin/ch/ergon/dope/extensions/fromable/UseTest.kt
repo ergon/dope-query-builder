@@ -1,6 +1,8 @@
 package ch.ergon.dope.extensions.fromable
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.fromable.useKeys
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
@@ -9,7 +11,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UseTest {
+class UseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support single use keys with CM`() {
         val useKeys = someCMStringField()
@@ -18,7 +22,7 @@ class UseTest {
 
         val actual = bucket.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -29,7 +33,7 @@ class UseTest {
 
         val actual = bucket.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -40,6 +44,6 @@ class UseTest {
 
         val actual = bucket.useKeys(useKeys)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

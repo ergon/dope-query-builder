@@ -1,26 +1,23 @@
 package ch.ergon.dope.operators.collection
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.ParameterManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotWithinExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.notWithinArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class NotWithinExpressionTest {
-    @BeforeEach
-    fun reset() {
-        ParameterManager.resetCounter()
-    }
+class NotWithinExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support NOT WITHIN expression`() {
@@ -30,7 +27,7 @@ class NotWithinExpressionTest {
         )
         val underTest = NotWithinExpression(someNumberField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +41,7 @@ class NotWithinExpressionTest {
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -58,7 +55,7 @@ class NotWithinExpressionTest {
         )
         val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -73,7 +70,7 @@ class NotWithinExpressionTest {
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -86,7 +83,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -97,7 +94,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -108,7 +105,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -119,7 +116,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -130,7 +127,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -141,7 +138,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -152,7 +149,7 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -163,6 +160,6 @@ class NotWithinExpressionTest {
 
         val actual = value.notWithinArray(collection)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

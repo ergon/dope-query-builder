@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectJoinClause
 import ch.ergon.dope.resolvable.clause.model.JoinType.INNER_JOIN
@@ -73,15 +74,15 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.onKeys = null
     }
 
-    override fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val joinableDopeQuery = joinable.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
+        val joinableDopeQuery = joinable.toDopeQuery(manager)
         val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${joinableDopeQuery.queryString}"
         val joinParameters = parentDopeQuery.parameters + joinableDopeQuery.parameters
 
         return when (onType) {
             ON -> {
-                val onConditionDopeQuery = onCondition?.toDopeQuery()
+                val onConditionDopeQuery = onCondition?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$joinQueryString ON ${onConditionDopeQuery?.queryString}",
                     parameters = joinParameters + onConditionDopeQuery?.parameters.orEmpty(),
@@ -89,7 +90,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
             }
 
             ON_KEYS -> {
-                val keyDopeQuery = onKeys?.toDopeQuery()
+                val keyDopeQuery = onKeys?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$joinQueryString ON KEYS ${keyDopeQuery?.queryString}",
                     parameters = joinParameters + keyDopeQuery?.parameters.orEmpty(),
@@ -97,8 +98,8 @@ sealed class SelectJoinClause : ISelectJoinClause {
             }
 
             ON_KEY_FOR -> {
-                val keyDopeQuery = onKey?.toDopeQuery()
-                val forBucketDopeQuery = forBucket?.toDopeQuery()
+                val keyDopeQuery = onKey?.toDopeQuery(manager)
+                val forBucketDopeQuery = forBucket?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$joinQueryString ON KEY ${keyDopeQuery?.queryString} FOR ${forBucketDopeQuery?.queryString}",
                     parameters = joinParameters + keyDopeQuery?.parameters.orEmpty() +
