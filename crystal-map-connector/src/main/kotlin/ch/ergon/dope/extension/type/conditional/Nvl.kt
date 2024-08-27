@@ -1,6 +1,6 @@
 package ch.ergon.dope.extension.type.conditional
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.nvl
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.nvl
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList

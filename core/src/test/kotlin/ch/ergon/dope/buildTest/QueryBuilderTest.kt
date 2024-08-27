@@ -12,6 +12,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
 import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
@@ -21,7 +22,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqu
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest

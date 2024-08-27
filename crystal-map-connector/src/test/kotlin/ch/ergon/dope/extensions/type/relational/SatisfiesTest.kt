@@ -7,8 +7,8 @@ import ch.ergon.dope.extension.type.relational.every
 import ch.ergon.dope.extension.type.relational.isEqualTo
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList

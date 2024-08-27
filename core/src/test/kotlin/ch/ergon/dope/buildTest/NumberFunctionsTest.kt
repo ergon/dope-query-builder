@@ -5,29 +5,29 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.abs
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.acos
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.asin
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.atan
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.atan2
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.ceil
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.cos
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.degrees
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.e
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.exp
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.floor
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.ln
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.log
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.pi
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.power
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.radians
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.random
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.round
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sign
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sin
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sqrt
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.tan
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.trunc
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.abs
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.acos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.asin
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan2
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ceil
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.cos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.e
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.exp
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ln
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.log
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.pi
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.power
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.radians
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.random
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.round
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sign
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sin
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sqrt
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.tan
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.trunc
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -157,7 +157,10 @@ class NumberFunctionsTest : ManagerDependentTest {
     fun `should support ATAN2 expression with number field as divisor and dividend`() {
         val expected = "ATAN2(`numberField`, `anotherNumberField`)"
 
-        val actual = atan2(someNumberField(), someNumberField("anotherNumberField")).toDopeQuery(manager).queryString
+        val actual = atan2(
+            someNumberField(),
+            someNumberField("anotherNumberField"),
+        ).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }

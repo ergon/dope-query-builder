@@ -12,9 +12,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.collection.AnySatisfie
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.EverySatisfiesExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.every
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

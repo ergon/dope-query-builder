@@ -5,8 +5,8 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test

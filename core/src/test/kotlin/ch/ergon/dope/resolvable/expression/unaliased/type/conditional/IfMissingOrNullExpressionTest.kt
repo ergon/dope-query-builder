@@ -6,6 +6,10 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.CoalesceExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.IfMissingOrNullExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.coalesce
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.ifMissingOrNull
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

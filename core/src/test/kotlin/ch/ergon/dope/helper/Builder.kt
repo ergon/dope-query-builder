@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchResult
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket

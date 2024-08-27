@@ -13,8 +13,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test

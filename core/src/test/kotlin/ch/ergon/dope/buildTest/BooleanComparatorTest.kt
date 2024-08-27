@@ -4,9 +4,12 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.greatestOf
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.leastOf
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.between
@@ -934,6 +937,46 @@ class BooleanComparatorTest : ManagerDependentTest {
             )
             .where(
                 someNumberField().between(1.toDopeType(), 10.toDopeType()),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support greatest comparison`() {
+        val expected = "SELECT * FROM `someBucket` WHERE GREATEST(`numberField`, `anotherNumberField`) > 5"
+
+        val actual = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                greatestOf(
+                    someNumberField(),
+                    someNumberField("anotherNumberField"),
+                ).isGreaterThan(
+                    someNumber(),
+                ),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support least comparison`() {
+        val expected = "SELECT * FROM `someBucket` WHERE LEAST(`numberField`, `anotherNumberField`) <= 5"
+
+        val actual = create
+            .selectFrom(
+                someBucket(),
+            )
+            .where(
+                leastOf(
+                    someNumberField(),
+                    someNumberField("anotherNumberField"),
+                ).isLessOrEqualThan(
+                    someNumber(),
+                ),
             ).build().queryString
 
         assertEquals(expected, actual)

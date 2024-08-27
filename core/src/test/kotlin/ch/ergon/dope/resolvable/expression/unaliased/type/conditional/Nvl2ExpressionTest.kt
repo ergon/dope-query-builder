@@ -11,6 +11,8 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.Nvl2Expression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.nvl2
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
