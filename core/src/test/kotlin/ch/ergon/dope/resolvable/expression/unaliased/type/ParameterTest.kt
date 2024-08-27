@@ -137,9 +137,8 @@ class ParameterTest : ManagerDependentTest {
         val value = someNumber()
         val parameterName = null
         val expected = NumberParameter(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter().toDopeQuery(manager)
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -149,9 +148,8 @@ class ParameterTest : ManagerDependentTest {
         val value = someNumber()
         val parameterName = someString()
         val expected = NumberParameter(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter(parameterName).toDopeQuery(manager)
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -161,9 +159,8 @@ class ParameterTest : ManagerDependentTest {
         val value = someString()
         val parameterName = null
         val expected = StringParameter(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter().toDopeQuery(manager)
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -173,9 +170,8 @@ class ParameterTest : ManagerDependentTest {
         val value = someString()
         val parameterName = someString()
         val expected = StringParameter(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter(parameterName).toDopeQuery(manager)
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -185,9 +181,8 @@ class ParameterTest : ManagerDependentTest {
         val value = someBoolean()
         val parameterName = null
         val expected = BooleanParameter(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter().toDopeQuery(manager)
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -197,9 +192,8 @@ class ParameterTest : ManagerDependentTest {
         val value = someBoolean()
         val parameterName = someString()
         val expected = BooleanParameter(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter(parameterName).toDopeQuery(manager)
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -209,9 +203,8 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someNumber())
         val parameterName = null
         val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter().toDopeQuery(manager)
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -221,9 +214,8 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someNumber())
         val parameterName = someString()
         val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter(parameterName).toDopeQuery(manager)
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -233,9 +225,8 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someString())
         val parameterName = null
         val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter().toDopeQuery(manager)
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -245,9 +236,8 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someString())
         val parameterName = someString()
         val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter(parameterName).toDopeQuery(manager)
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -257,9 +247,8 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someBoolean())
         val parameterName = null
         val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter().toDopeQuery(manager)
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }
@@ -269,9 +258,8 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someBoolean())
         val parameterName = someString()
         val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
-        manager.parameterManager.resetCounter()
 
-        val actual = value.asParameter(parameterName).toDopeQuery(manager)
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
         assertEquals(expected, actual)
     }

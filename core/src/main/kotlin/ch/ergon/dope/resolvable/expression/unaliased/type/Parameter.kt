@@ -9,15 +9,6 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ParameterManager {
-    var count: Int = 1
-        get() = field++
-
-    fun resetCounter() {
-        count = 1
-    }
-}
-
 sealed class Parameter<T : ValidType>(
     private val value: Any,
     private val parameterName: String?,

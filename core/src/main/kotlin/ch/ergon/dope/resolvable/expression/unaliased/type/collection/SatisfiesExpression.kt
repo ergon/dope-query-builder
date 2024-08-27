@@ -10,17 +10,6 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-class IteratorManager {
-    private var count: Int = 1
-        get() = field++
-
-    fun getIteratorName() = "iterator$count"
-
-    fun resetCounter() {
-        count = 1
-    }
-}
-
 enum class SatisfiesType {
     ANY,
     EVERY,
