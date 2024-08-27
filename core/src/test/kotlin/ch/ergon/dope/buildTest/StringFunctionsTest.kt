@@ -90,7 +90,7 @@ class StringFunctionsTest {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(
-            ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat2(
+            concat2(
                 "-",
                 "a".toDopeType(),
                 "b".toDopeType(),
@@ -107,7 +107,7 @@ class StringFunctionsTest {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(
-            ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat2(
+            concat2(
                 "-",
                 "a",
                 "b",
@@ -124,7 +124,7 @@ class StringFunctionsTest {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
         val actual: String = create.select(
-            ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat2(
+            concat2(
                 "-".toDopeType(),
                 "a",
                 "b",
@@ -140,7 +140,7 @@ class StringFunctionsTest {
     fun `should Support Concat2 One Argument`() {
         val expected = "CONCAT2(\"-\", \"a\") AS `c2`"
 
-        val actual: String = ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat2("-", "a".toDopeType()).alias(
+        val actual: String = concat2("-", "a".toDopeType()).alias(
             "c2",
         ).toDopeQuery().queryString
 
