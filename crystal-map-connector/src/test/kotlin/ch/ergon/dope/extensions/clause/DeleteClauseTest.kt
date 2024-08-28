@@ -1,23 +1,52 @@
 package ch.ergon.dope.extensions.clause
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.returning
+import ch.ergon.dope.extension.clause.useKeys
 import ch.ergon.dope.extension.clause.where
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
+import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someDelete
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
+import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
+import ch.ergon.dope.resolvable.clause.model.DeleteUseKeys.Companion.DeleteUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
-import ch.ergon.dope.resolvable.clause.model.ReturningClause
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DeleteClauseTest {
+class DeleteClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
+    @Test
+    fun `should support delete single use keys with CM`() {
+        val useKeys = someCMStringField()
+        val parentClause = someDelete()
+        val expected = DeleteUseKeysClause(useKeys.toDopeType(), parentClause)
+
+        val actual = parentClause.useKeys(useKeys)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support delete list use keys with CM`() {
+        val useKeys = someCMStringList()
+        val parentClause = someDelete()
+        val expected = DeleteUseKeysClause(useKeys.toDopeType(), parentClause)
+
+        val actual = parentClause.useKeys(useKeys)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
     @Test
     fun `should support delete where with CM`() {
         val field = someCMBooleanField()
@@ -26,7 +55,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.where(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -37,7 +66,7 @@ class DeleteClauseTest {
 
         val actual = parentClause.limit(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -48,18 +77,18 @@ class DeleteClauseTest {
 
         val actual = parentClause.offset(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support delete returning with CM`() {
         val field = someCMBooleanField()
         val parentClause = someDelete()
-        val expected = ReturningClause(field.toDopeType(), parentClause = parentClause)
+        val expected = DeleteReturningClause(field.toDopeType(), parentClause = parentClause)
 
         val actual = parentClause.returning(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -68,10 +97,10 @@ class DeleteClauseTest {
         val field2 = someCMNumberList()
         val field3 = someCMStringField()
         val parentClause = someDelete()
-        val expected = ReturningClause(field1.toDopeType(), field2.toDopeType(), field3.toDopeType(), parentClause = parentClause)
+        val expected = DeleteReturningClause(field1.toDopeType(), field2.toDopeType(), field3.toDopeType(), parentClause = parentClause)
 
         val actual = parentClause.returning(field1, field2, field3)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

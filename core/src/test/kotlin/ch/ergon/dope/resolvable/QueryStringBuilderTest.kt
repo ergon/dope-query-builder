@@ -1,10 +1,14 @@
 package ch.ergon.dope.resolvable
 
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryStringBuilderTest {
+class QueryStringBuilderTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should format left and right`() {
         val left = "testLeft"
@@ -32,9 +36,9 @@ class QueryStringBuilderTest {
     fun `should format symbol with arguments`() {
         val symbol = "testsymbol"
         val arguments = arrayOf(1.toDopeType(), "hallo".toDopeType())
-        val expected = "$symbol ${arguments.joinToString(", ") { it.toDopeQuery().queryString }}"
+        val expected = "$symbol ${arguments.joinToString(", ") { it.toDopeQuery(manager).queryString }}"
 
-        val actual = formatToQueryString(symbol, *arguments.map { it.toDopeQuery().queryString }.toTypedArray())
+        val actual = formatToQueryString(symbol, *arguments.map { it.toDopeQuery(manager).queryString }.toTypedArray())
 
         assertEquals(expected, actual)
     }
@@ -55,9 +59,9 @@ class QueryStringBuilderTest {
     fun `should format symbol with arguments and brackets`() {
         val symbol = "testsymbol"
         val arguments = arrayOf(1.toDopeType(), "hallo".toDopeType())
-        val expected = "$symbol(${arguments.joinToString(", ") { it.toDopeQuery().queryString }})"
+        val expected = "$symbol(${arguments.joinToString(", ") { it.toDopeQuery(manager).queryString }})"
 
-        val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toDopeQuery().queryString }.toTypedArray())
+        val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toDopeQuery(manager).queryString }.toTypedArray())
 
         assertEquals(expected, actual)
     }

@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
@@ -8,17 +9,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
-
-object IteratorManager {
-    private var count: Int = 1
-        get() = field++
-
-    fun getIteratorName() = "iterator$count"
-
-    fun resetCounter() {
-        count = 1
-    }
-}
 
 enum class SatisfiesType {
     ANY,
@@ -31,11 +21,10 @@ sealed class SatisfiesExpression<T : ValidType>(
     private val iteratorName: String? = null,
     private val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(): DopeQuery {
-        val listDopeQuery = arrayExpression.toDopeQuery()
-        val iteratorVariable = iteratorName ?: IteratorManager.getIteratorName()
-
-        val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val listDopeQuery = arrayExpression.toDopeQuery(manager)
+        val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
+        val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery(manager)
         return DopeQuery(
             queryString = "$satisfiesType `$iteratorVariable` IN ${listDopeQuery.queryString} SATISFIES ${predicateDopeQuery.queryString} END",
             parameters = listDopeQuery.parameters + predicateDopeQuery.parameters,
@@ -44,7 +33,7 @@ sealed class SatisfiesExpression<T : ValidType>(
 }
 
 class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> {
-    override fun toDopeQuery() = DopeQuery(
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$variable`",
         parameters = emptyMap(),
     )
