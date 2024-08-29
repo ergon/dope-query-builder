@@ -2,14 +2,14 @@ package ch.ergon.dope.extension.type.conditional
 
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.ifNull
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("ifCMNumberFieldIsNull")
 fun ifNull(
-    firstExpression: CMField<out Number>,
-    secondExpression: CMField<out Number>,
-    vararg additionalExpressions: CMField<out Number>,
+    firstExpression: CMJsonField<out Number>,
+    secondExpression: CMJsonField<out Number>,
+    vararg additionalExpressions: CMJsonField<out Number>,
 ) = ifNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -18,9 +18,9 @@ fun ifNull(
 
 @JvmName("ifCMStringFieldIsNull")
 fun ifNull(
-    firstExpression: CMField<String>,
-    secondExpression: CMField<String>,
-    vararg additionalExpressions: CMField<String>,
+    firstExpression: CMJsonField<String>,
+    secondExpression: CMJsonField<String>,
+    vararg additionalExpressions: CMJsonField<String>,
 ) = ifNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -29,9 +29,9 @@ fun ifNull(
 
 @JvmName("ifCMBooleanFieldIsNull")
 fun ifNull(
-    firstExpression: CMField<Boolean>,
-    secondExpression: CMField<Boolean>,
-    vararg additionalExpressions: CMField<Boolean>,
+    firstExpression: CMJsonField<Boolean>,
+    secondExpression: CMJsonField<Boolean>,
+    vararg additionalExpressions: CMJsonField<Boolean>,
 ) = ifNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -40,9 +40,9 @@ fun ifNull(
 
 @JvmName("ifCMNumberListIsNull")
 fun ifNull(
-    firstExpression: CMList<out Number>,
-    secondExpression: CMList<out Number>,
-    vararg additionalExpressions: CMList<out Number>,
+    firstExpression: CMJsonList<out Number>,
+    secondExpression: CMJsonList<out Number>,
+    vararg additionalExpressions: CMJsonList<out Number>,
 ) = ifNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -51,9 +51,9 @@ fun ifNull(
 
 @JvmName("ifCMStringListIsNull")
 fun ifNull(
-    firstExpression: CMList<String>,
-    secondExpression: CMList<String>,
-    vararg additionalExpressions: CMList<String>,
+    firstExpression: CMJsonList<String>,
+    secondExpression: CMJsonList<String>,
+    vararg additionalExpressions: CMJsonList<String>,
 ) = ifNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -62,9 +62,9 @@ fun ifNull(
 
 @JvmName("ifCMBooleanListIsNull")
 fun ifNull(
-    firstExpression: CMList<Boolean>,
-    secondExpression: CMList<Boolean>,
-    vararg additionalExpressions: CMList<Boolean>,
+    firstExpression: CMJsonList<Boolean>,
+    secondExpression: CMJsonList<Boolean>,
+    vararg additionalExpressions: CMJsonList<Boolean>,
 ) = ifNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),

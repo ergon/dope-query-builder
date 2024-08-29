@@ -13,7 +13,7 @@ class NotTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support not with CMField CMField`() {
+    fun `should support not with CMJsonField CMJsonField`() {
         val expression = someCMBooleanField()
         val expected = NotExpression(expression.toDopeType())
 

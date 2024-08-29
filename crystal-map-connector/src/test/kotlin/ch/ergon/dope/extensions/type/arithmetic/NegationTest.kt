@@ -13,7 +13,7 @@ class NegationTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support neg with CMField Number`() {
+    fun `should support neg with CMJsonField Number`() {
         val field = someCMNumberField()
         val expected = NegationExpression(field.toDopeType())
 

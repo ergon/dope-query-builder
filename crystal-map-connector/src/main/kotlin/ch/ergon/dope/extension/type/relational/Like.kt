@@ -8,32 +8,32 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMJsonField
 
-fun Field<out ValidType>.isLike(right: CMField<String>) = isLike(right.toDopeType())
+fun Field<out ValidType>.isLike(right: CMJsonField<String>) = isLike(right.toDopeType())
 
 @JvmName("isLikeNumber")
-fun CMField<out Number>.isLike(right: String) = toDopeType().isLike(right.toDopeType())
+fun CMJsonField<out Number>.isLike(right: String) = toDopeType().isLike(right.toDopeType())
 
 @JvmName("isLikeString")
-fun CMField<String>.isLike(right: String) = toDopeType().isLike(right.toDopeType())
+fun CMJsonField<String>.isLike(right: String) = toDopeType().isLike(right.toDopeType())
 
 @JvmName("isLikeString")
-fun CMField<String>.isLike(right: TypeExpression<StringType>) = toDopeType().isLike(right)
+fun CMJsonField<String>.isLike(right: TypeExpression<StringType>) = toDopeType().isLike(right)
 
 @JvmName("isLikeBoolean")
-fun CMField<Boolean>.isLike(right: String) = toDopeType().isLike(right.toDopeType())
+fun CMJsonField<Boolean>.isLike(right: String) = toDopeType().isLike(right.toDopeType())
 
-fun Field<out ValidType>.isNotLike(right: CMField<String>) = isNotLike(right.toDopeType())
+fun Field<out ValidType>.isNotLike(right: CMJsonField<String>) = isNotLike(right.toDopeType())
 
 @JvmName("isNotLikeNumber")
-fun CMField<out Number>.isNotLike(right: String) = toDopeType().isNotLike(right.toDopeType())
+fun CMJsonField<out Number>.isNotLike(right: String) = toDopeType().isNotLike(right.toDopeType())
 
 @JvmName("isNotLikeString")
-fun CMField<String>.isNotLike(right: String) = toDopeType().isNotLike(right.toDopeType())
+fun CMJsonField<String>.isNotLike(right: String) = toDopeType().isNotLike(right.toDopeType())
 
 @JvmName("isNotLikeString")
-fun CMField<String>.isNotLike(right: TypeExpression<StringType>) = toDopeType().isNotLike(right)
+fun CMJsonField<String>.isNotLike(right: TypeExpression<StringType>) = toDopeType().isNotLike(right)
 
 @JvmName("isNotLikeBoolean")
-fun CMField<Boolean>.isNotLike(right: String) = toDopeType().isNotLike(right.toDopeType())
+fun CMJsonField<Boolean>.isNotLike(right: String) = toDopeType().isNotLike(right.toDopeType())

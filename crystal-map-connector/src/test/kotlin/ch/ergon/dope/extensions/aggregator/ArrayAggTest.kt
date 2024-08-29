@@ -19,7 +19,7 @@ class ArrayAggTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support array_agg with CMField Number`() {
+    fun `should support array_agg with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -30,7 +30,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMField Number and type`() {
+    fun `should support array_agg with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -41,7 +41,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMField string`() {
+    fun `should support array_agg with CMJsonField string`() {
         val field = someCMStringField()
         val quantifier = null
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -52,7 +52,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMField string and type`() {
+    fun `should support array_agg with CMJsonField string and type`() {
         val field = someCMStringField()
         val quantifier = ALL
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -63,7 +63,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMField boolean`() {
+    fun `should support array_agg with CMJsonField boolean`() {
         val field = someCMBooleanField()
         val quantifier = null
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -74,7 +74,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMField boolean and type`() {
+    fun `should support array_agg with CMJsonField boolean and type`() {
         val field = someCMBooleanField()
         val quantifier = ALL
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -85,7 +85,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMList Number`() {
+    fun `should support array_agg with CMJsonList Number`() {
         val field = someCMNumberList()
         val quantifier = null
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -96,7 +96,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMList Number and type`() {
+    fun `should support array_agg with CMJsonList Number and type`() {
         val field = someCMNumberList()
         val quantifier = ALL
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -107,7 +107,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMList string`() {
+    fun `should support array_agg with CMJsonList string`() {
         val field = someCMStringList()
         val quantifier = null
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -118,7 +118,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMList string and type`() {
+    fun `should support array_agg with CMJsonList string and type`() {
         val field = someCMStringList()
         val quantifier = ALL
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -129,7 +129,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMList Boolean`() {
+    fun `should support array_agg with CMJsonList Boolean`() {
         val field = someCMBooleanList()
         val quantifier = null
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)
@@ -140,7 +140,7 @@ class ArrayAggTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array_agg with CMList Boolean and type`() {
+    fun `should support array_agg with CMJsonList Boolean and type`() {
         val field = someCMBooleanList()
         val quantifier = ALL
         val expected = ArrayAggregateExpression(field.toDopeType(), quantifier)

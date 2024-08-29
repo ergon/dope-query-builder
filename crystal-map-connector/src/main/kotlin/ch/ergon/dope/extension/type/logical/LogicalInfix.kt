@@ -6,24 +6,29 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMConverterField
+import com.schwarz.crystalapi.schema.CMJsonField
 
-fun TypeExpression<BooleanType>.or(boolean: CMField<Boolean>) = or(boolean.toDopeType())
+fun TypeExpression<BooleanType>.or(boolean: CMJsonField<Boolean>) = or(boolean.toDopeType())
 
-fun CMField<Boolean>.or(booleanExpression: TypeExpression<BooleanType>) = toDopeType().or(booleanExpression)
+fun CMJsonField<Boolean>.or(booleanExpression: TypeExpression<BooleanType>) = toDopeType().or(booleanExpression)
 
-fun CMField<Boolean>.or(boolean: Boolean) = toDopeType().or(boolean.toDopeType())
+fun CMJsonField<Boolean>.or(boolean: Boolean) = toDopeType().or(boolean.toDopeType())
 
-fun CMField<Boolean>.or(boolean: CMField<Boolean>) = toDopeType().or(boolean.toDopeType())
+fun CMJsonField<Boolean>.or(boolean: CMJsonField<Boolean>) = toDopeType().or(boolean.toDopeType())
 
-fun Boolean.or(booleanExpression: CMField<Boolean>) = toDopeType().or(booleanExpression.toDopeType())
+fun Boolean.or(booleanExpression: CMJsonField<Boolean>) = toDopeType().or(booleanExpression.toDopeType())
 
-fun TypeExpression<BooleanType>.and(boolean: CMField<Boolean>) = and(boolean.toDopeType())
+fun <Convertable : Any> CMConverterField<Convertable, Boolean>.or(boolean: Convertable) = toDopeType().or(boolean.toDopeType(this))
 
-fun CMField<Boolean>.and(booleanExpression: TypeExpression<BooleanType>) = toDopeType().and(booleanExpression)
+fun TypeExpression<BooleanType>.and(boolean: CMJsonField<Boolean>) = and(boolean.toDopeType())
 
-fun CMField<Boolean>.and(boolean: Boolean) = toDopeType().and(boolean.toDopeType())
+fun CMJsonField<Boolean>.and(booleanExpression: TypeExpression<BooleanType>) = toDopeType().and(booleanExpression)
 
-fun CMField<Boolean>.and(boolean: CMField<Boolean>) = toDopeType().and(boolean.toDopeType())
+fun CMJsonField<Boolean>.and(boolean: Boolean) = toDopeType().and(boolean.toDopeType())
 
-fun Boolean.and(booleanExpression: CMField<Boolean>) = toDopeType().and(booleanExpression.toDopeType())
+fun CMJsonField<Boolean>.and(boolean: CMJsonField<Boolean>) = toDopeType().and(boolean.toDopeType())
+
+fun Boolean.and(booleanExpression: CMJsonField<Boolean>) = toDopeType().and(booleanExpression.toDopeType())
+
+fun <Convertable : Any> CMConverterField<Convertable, Boolean>.and(boolean: Convertable) = toDopeType().and(boolean.toDopeType(this))

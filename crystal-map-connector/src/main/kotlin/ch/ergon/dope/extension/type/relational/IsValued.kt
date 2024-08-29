@@ -3,22 +3,22 @@ package ch.ergon.dope.extension.type.relational
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotValued
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMJsonField
 
 @JvmName("isValuedNumber")
-fun CMField<out Number>.isValued() = toDopeType().isValued()
+fun CMJsonField<out Number>.isValued() = toDopeType().isValued()
 
 @JvmName("isValuedString")
-fun CMField<String>.isValued() = toDopeType().isValued()
+fun CMJsonField<String>.isValued() = toDopeType().isValued()
 
 @JvmName("isValuedBoolean")
-fun CMField<Boolean>.isValued() = toDopeType().isValued()
+fun CMJsonField<Boolean>.isValued() = toDopeType().isValued()
 
 @JvmName("isNotValuedNumber")
-fun CMField<out Number>.isNotValued() = toDopeType().isNotValued()
+fun CMJsonField<out Number>.isNotValued() = toDopeType().isNotValued()
 
 @JvmName("isNotValuedString")
-fun CMField<String>.isNotValued() = toDopeType().isNotValued()
+fun CMJsonField<String>.isNotValued() = toDopeType().isNotValued()
 
 @JvmName("isNotValuedBoolean")
-fun CMField<Boolean>.isNotValued() = toDopeType().isNotValued()
+fun CMJsonField<Boolean>.isNotValued() = toDopeType().isNotValued()
