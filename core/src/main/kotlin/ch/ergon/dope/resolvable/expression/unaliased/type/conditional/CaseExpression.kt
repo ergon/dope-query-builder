@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
@@ -14,8 +16,8 @@ private const val END = "END"
 private const val ELSE = "ELSE"
 
 class SimpleCaseClass<T : ValidType>(private val case: TypeExpression<T>) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery(manager)
         return DopeQuery("$CASE ${caseDopeQuery.queryString}", caseDopeQuery.parameters)
     }
 }
@@ -25,10 +27,11 @@ class SimpleCaseExpression<T : ValidType, U : ValidType>(
     val firstSearchResult: SearchResult<T, out U>,
     vararg val additionalSearchResult: SearchResult<T, out U>,
 ) : TypeExpression<U> {
-    override fun toDopeQuery(): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery()
-        val whenThenDopeQueries =
-            listOf(firstSearchResult, *additionalSearchResult).map { it.searchExpression.toDopeQuery() to it.resultExpression.toDopeQuery() }
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery(manager)
+        val whenThenDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
+            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = caseDopeQuery.queryString +
                 whenThenDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
@@ -46,11 +49,12 @@ class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
     private vararg val additionalSearchResult: SearchResult<T, out U>,
     private val elseCase: TypeExpression<out U>,
 ) : TypeExpression<U> {
-    override fun toDopeQuery(): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery()
-        val whenThenDopeQueries =
-            listOf(firstSearchResult, *additionalSearchResult).map { it.searchExpression.toDopeQuery() to it.resultExpression.toDopeQuery() }
-        val elseCaseDopeQuery = elseCase.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery(manager)
+        val whenThenDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
+            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
+        }
+        val elseCaseDopeQuery = elseCase.toDopeQuery(manager)
         return DopeQuery(
             queryString = caseDopeQuery.queryString +
                 whenThenDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
@@ -89,10 +93,11 @@ class SearchedCaseExpression<U : ValidType>(
     val firstSearchResult: SearchResult<BooleanType, out U>,
     vararg val additionalSearchResult: SearchResult<BooleanType, out U>,
 ) : TypeExpression<U> {
-    override fun toDopeQuery(): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery()
-        val whenThenDopeQueries =
-            listOf(firstSearchResult, *additionalSearchResult).map { it.searchExpression.toDopeQuery() to it.resultExpression.toDopeQuery() }
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery(manager)
+        val whenThenDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
+            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = caseDopeQuery.queryString +
                 whenThenDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
@@ -105,7 +110,7 @@ class SearchedCaseExpression<U : ValidType>(
 }
 
 class SearchedCaseClass : Resolvable {
-    override fun toDopeQuery() = DopeQuery(queryString = CASE, parameters = emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(queryString = CASE, parameters = emptyMap())
 }
 
 class SearchedElseCaseExpression<U : ValidType>(
@@ -114,11 +119,12 @@ class SearchedElseCaseExpression<U : ValidType>(
     private vararg val additionalSearchResult: SearchResult<BooleanType, out U>,
     private val elseCase: UnaliasedExpression<out U>,
 ) : TypeExpression<U> {
-    override fun toDopeQuery(): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery()
-        val whenThenDopeQueries =
-            listOf(firstSearchResult, *additionalSearchResult).map { it.searchExpression.toDopeQuery() to it.resultExpression.toDopeQuery() }
-        val elseCaseDopeQuery = elseCase.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val caseDopeQuery = case.toDopeQuery(manager)
+        val whenThenDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
+            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
+        }
+        val elseCaseDopeQuery = elseCase.toDopeQuery(manager)
         return DopeQuery(
             queryString = caseDopeQuery.queryString +
                 whenThenDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +

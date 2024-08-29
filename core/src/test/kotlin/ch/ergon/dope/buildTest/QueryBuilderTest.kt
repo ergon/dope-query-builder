@@ -1,6 +1,8 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
@@ -13,8 +15,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.whenThen
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
@@ -24,14 +27,14 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqu
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryBuilderTest {
+class QueryBuilderTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
 
@@ -713,7 +716,7 @@ class QueryBuilderTest {
 
         val actual: String = TRUE.isEqualTo(
             FALSE,
-        ).toDopeQuery().queryString
+        ).toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }
@@ -762,7 +765,7 @@ class QueryBuilderTest {
         val getSomething = { "something" }
         val expected = "TRUE"
 
-        val actual = (getSomething() == "something").toDopeType().toDopeQuery().queryString
+        val actual = (getSomething() == "something").toDopeType().toDopeQuery(manager).queryString
 
         assertEquals(expected, actual)
     }

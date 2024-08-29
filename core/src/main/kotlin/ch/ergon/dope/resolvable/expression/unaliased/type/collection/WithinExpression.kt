@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
@@ -13,7 +14,7 @@ class WithinExpression<T : ValidType>(
     value: TypeExpression<T>,
     collection: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<BooleanType>, InfixOperator(value, "WITHIN", collection) {
-    override fun toDopeQuery() = toInfixDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
 }
 
 fun <T : ValidType> TypeExpression<T>.withinArray(array: TypeExpression<ArrayType<T>>): WithinExpression<T> =
@@ -44,7 +45,7 @@ class NotWithinExpression<T : ValidType>(
     value: TypeExpression<T>,
     collection: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<BooleanType>, InfixOperator(value, "NOT WITHIN", collection) {
-    override fun toDopeQuery() = toInfixDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
 }
 
 fun <T : ValidType> TypeExpression<T>.notWithinArray(collection: TypeExpression<ArrayType<T>>) = NotWithinExpression(this, collection)

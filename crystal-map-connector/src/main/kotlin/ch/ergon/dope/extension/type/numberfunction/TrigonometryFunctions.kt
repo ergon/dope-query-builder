@@ -1,15 +1,15 @@
 package ch.ergon.dope.extension.type.numberfunction
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.acos
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.asin
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.atan
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.atan2
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.cos
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.degrees
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.radians
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.sin
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.tan
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.acos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.asin
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.atan2
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.cos
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.degrees
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.radians
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sin
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.tan
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import com.schwarz.crystalapi.schema.CMField

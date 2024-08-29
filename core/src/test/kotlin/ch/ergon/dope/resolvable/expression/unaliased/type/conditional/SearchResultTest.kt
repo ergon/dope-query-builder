@@ -1,16 +1,20 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SearchResultTest : ParameterDependentTest {
+class SearchResultTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support search result extension function with unaliased unaliased`() {
@@ -20,8 +24,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -32,8 +36,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -44,8 +48,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -56,8 +60,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -68,8 +72,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -80,8 +84,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -92,8 +96,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -104,8 +108,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -116,8 +120,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -128,8 +132,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -140,8 +144,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -152,8 +156,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -164,8 +168,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -176,8 +180,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -188,8 +192,8 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 
     @Test
@@ -200,7 +204,7 @@ class SearchResultTest : ParameterDependentTest {
 
         val actual = searchExpression.resultsIn(resultExpression)
 
-        assertEquals(expected.searchExpression.toDopeQuery(), actual.searchExpression.toDopeQuery())
-        assertEquals(expected.resultExpression.toDopeQuery(), actual.resultExpression.toDopeQuery())
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
     }
 }

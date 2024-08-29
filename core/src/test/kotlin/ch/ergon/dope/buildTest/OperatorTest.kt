@@ -11,9 +11,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mul
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.neg
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class OperatorTest {
     private lateinit var builder: StringBuilder

@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
@@ -14,7 +15,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UseKeysClauseTest : ParameterDependentTest {
+class UseKeysClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support select single use keys`() {
         val expected = DopeQuery(
@@ -26,7 +29,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -42,7 +45,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -59,7 +62,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +75,7 @@ class UseKeysClauseTest : ParameterDependentTest {
 
         val actual = parentClause.useKeys(useKeysString)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -86,7 +89,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someDeleteClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +105,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someDeleteClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -119,7 +122,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someDeleteClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -132,7 +135,7 @@ class UseKeysClauseTest : ParameterDependentTest {
 
         val actual = parentClause.useKeys(useKeysString)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -146,7 +149,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -162,7 +165,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -179,7 +182,7 @@ class UseKeysClauseTest : ParameterDependentTest {
             someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -192,6 +195,6 @@ class UseKeysClauseTest : ParameterDependentTest {
 
         val actual = parentClause.useKeys(useKeysString)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

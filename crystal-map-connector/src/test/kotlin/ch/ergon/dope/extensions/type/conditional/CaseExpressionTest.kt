@@ -1,7 +1,9 @@
 package ch.ergon.dope.extensions.type.conditional
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.conditional.case
 import ch.ergon.dope.extension.type.conditional.otherwise
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -13,13 +15,13 @@ import ch.ergon.dope.helper.someCaseClass
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedElseCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleElseCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -28,7 +30,8 @@ import ch.ergon.dope.validtype.ValidType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CaseExpressionTest {
+class CaseExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should create CaseClass from CMNumberField`() {
@@ -37,7 +40,7 @@ class CaseExpressionTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -47,7 +50,7 @@ class CaseExpressionTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -57,7 +60,7 @@ class CaseExpressionTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -67,7 +70,7 @@ class CaseExpressionTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -77,7 +80,7 @@ class CaseExpressionTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -87,7 +90,7 @@ class CaseExpressionTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -104,7 +107,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<NumberType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -121,7 +124,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -138,7 +141,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<StringType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -155,7 +158,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -172,7 +175,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<BooleanType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -189,7 +192,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -205,7 +208,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<NumberType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -221,7 +224,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -237,7 +240,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<StringType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -253,7 +256,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -269,7 +272,7 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<BooleanType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -285,6 +288,6 @@ class CaseExpressionTest {
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

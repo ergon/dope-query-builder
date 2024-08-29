@@ -1,6 +1,6 @@
 package ch.ergon.dope.extension.type.typefunction
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.toArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toArray
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMField
 
