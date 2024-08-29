@@ -65,7 +65,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support any satisfies with cmList number`() {
+    fun `should support any satisfies with CMJsonList number`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
@@ -77,7 +77,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support any satisfies with cmList string`() {
+    fun `should support any satisfies with CMJsonList string`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `stringList` SATISFIES UPPER(`iterator1`) = \"some value\" END",
             parameters = emptyMap(),
@@ -89,7 +89,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support any satisfies with cmList boolean`() {
+    fun `should support any satisfies with CMJsonList boolean`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `booleanList` SATISFIES `iterator1` END",
             parameters = emptyMap(),
@@ -144,7 +144,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support every satisfies with cmList number`() {
+    fun `should support every satisfies with CMJsonList number`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
@@ -156,7 +156,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support every satisfies with cmList string`() {
+    fun `should support every satisfies with CMJsonList string`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `stringList` SATISFIES UPPER(`iterator1`) = \"some value\" END",
             parameters = emptyMap(),
@@ -168,7 +168,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support every satisfies with cmList boolean`() {
+    fun `should support every satisfies with CMJsonList boolean`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `booleanList` SATISFIES `iterator1` END",
             parameters = emptyMap(),

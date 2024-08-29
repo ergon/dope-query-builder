@@ -11,10 +11,14 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
+import ch.ergon.dope.helper.someCMConverterBooleanField
+import ch.ergon.dope.helper.someCMConverterNumberField
+import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
+import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someUpdate
@@ -446,6 +450,36 @@ class UpdateClauseTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support update set CMConverterField number to date`() {
+        val field = someCMConverterNumberField()
+        val value = someDate()
+        val parentClause = someUpdate()
+        val expected = SetClause(field.toDopeType().to(value.toInstant().epochSecond.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(field, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update additional set CMConverterField number to date`() {
+        val dateField = someCMConverterNumberField()
+        val dateValue = someDate()
+        val stringField = someCMStringField()
+        val stringValue = someCMStringField()
+        val parentClause = someUpdate()
+        val expected = SetClause(
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            dateField.toDopeType().to(dateValue.toInstant().epochSecond.toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(stringField, stringValue).set(dateField, dateValue)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support update set CMJsonField string to string`() {
         val field = someCMStringField()
         val value = someString()
@@ -476,6 +510,36 @@ class UpdateClauseTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support update set CMConverterField string to date`() {
+        val field = someCMConverterStringField()
+        val value = someDate()
+        val parentClause = someUpdate()
+        val expected = SetClause(field.toDopeType().to(value.toInstant().epochSecond.toString().toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(field, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update additional set CMConverterField string to date`() {
+        val dateField = someCMConverterStringField()
+        val dateValue = someDate()
+        val stringField = someCMStringField()
+        val stringValue = someCMStringField()
+        val parentClause = someUpdate()
+        val expected = SetClause(
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            dateField.toDopeType().to(dateValue.toInstant().epochSecond.toString().toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(stringField, stringValue).set(dateField, dateValue)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support update set CMJsonField boolean to boolean`() {
         val field = someCMBooleanField()
         val value = someBoolean()
@@ -501,6 +565,36 @@ class UpdateClauseTest : ManagerDependentTest {
         )
 
         val actual = parentClause.set(stringField, stringValue).set(booleanField, booleanValue)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update set CMConverterField boolean to date`() {
+        val field = someCMConverterBooleanField()
+        val value = someDate()
+        val parentClause = someUpdate()
+        val expected = SetClause(field.toDopeType().to(true.toDopeType()), parentClause = parentClause)
+
+        val actual = parentClause.set(field, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update additional set CMConverterField boolean to date`() {
+        val dateField = someCMConverterBooleanField()
+        val dateValue = someDate()
+        val stringField = someCMStringField()
+        val stringValue = someCMStringField()
+        val parentClause = someUpdate()
+        val expected = SetClause(
+            stringField.toDopeType().to(stringValue.toDopeType()),
+            dateField.toDopeType().to(true.toDopeType()),
+            parentClause = parentClause,
+        )
+
+        val actual = parentClause.set(stringField, stringValue).set(dateField, dateValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

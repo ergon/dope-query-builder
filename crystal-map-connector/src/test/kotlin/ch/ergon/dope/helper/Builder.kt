@@ -67,7 +67,7 @@ fun someString(value: String = "someString") = value
 
 fun someBoolean(value: Boolean = true) = value
 
-fun someDate(value: Date = Date(1)) = value
+fun someDate(value: Date = Date(12345)) = value
 
 fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
 fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))

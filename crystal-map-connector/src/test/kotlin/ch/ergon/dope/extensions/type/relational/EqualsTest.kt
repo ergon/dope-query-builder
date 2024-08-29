@@ -200,7 +200,7 @@ class EqualsTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -211,7 +211,7 @@ class EqualsTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -222,7 +222,7 @@ class EqualsTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -233,7 +233,7 @@ class EqualsTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -244,7 +244,7 @@ class EqualsTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -255,7 +255,7 @@ class EqualsTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test

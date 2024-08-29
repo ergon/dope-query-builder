@@ -2,13 +2,13 @@ package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison.leastOf
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMJsonField
 
 @JvmName("leastOfCMNumberField")
 fun leastOf(
-    firstExpression: CMField<out Number>,
-    secondExpression: CMField<out Number>,
-    vararg additionalExpressions: CMField<out Number>,
+    firstExpression: CMJsonField<out Number>,
+    secondExpression: CMJsonField<out Number>,
+    vararg additionalExpressions: CMJsonField<out Number>,
 ) = leastOf(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -17,9 +17,9 @@ fun leastOf(
 
 @JvmName("leastOfCMStringField")
 fun leastOf(
-    firstExpression: CMField<String>,
-    secondExpression: CMField<String>,
-    vararg additionalExpressions: CMField<String>,
+    firstExpression: CMJsonField<String>,
+    secondExpression: CMJsonField<String>,
+    vararg additionalExpressions: CMJsonField<String>,
 ) = leastOf(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),

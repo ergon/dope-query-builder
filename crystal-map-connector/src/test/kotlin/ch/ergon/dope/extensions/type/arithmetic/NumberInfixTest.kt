@@ -6,8 +6,8 @@ import ch.ergon.dope.extension.type.arithmetic.div
 import ch.ergon.dope.extension.type.arithmetic.mod
 import ch.ergon.dope.extension.type.arithmetic.mul
 import ch.ergon.dope.extension.type.arithmetic.sub
-import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
@@ -143,7 +143,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -209,7 +209,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -319,7 +319,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test

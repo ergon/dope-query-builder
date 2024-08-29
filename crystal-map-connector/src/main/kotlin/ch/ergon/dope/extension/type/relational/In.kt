@@ -89,8 +89,8 @@ fun <Convertable : Any> Convertable.inArray(array: CMConverterList<Convertable, 
     toDopeType(array).inArray(array.toDopeType())
 
 @JvmName("inArrayNumberConverter")
-fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.inArray(array: Collection<Convertable>): InExpression<NumberType> =
-    toDopeType().inArray(array.map { it.toDopeType(this) }.toDopeType())
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.inArray(array: Collection<Convertable>):
+    InExpression<NumberType> = toDopeType().inArray(array.map { it.toDopeType(this) }.toDopeType())
 
 @JvmName("inArrayStringConverter")
 fun <Convertable : Any> CMConverterField<Convertable, String>.inArray(array: Collection<Convertable>): InExpression<StringType> =

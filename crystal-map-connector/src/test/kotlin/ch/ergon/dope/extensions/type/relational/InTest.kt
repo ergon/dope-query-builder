@@ -173,7 +173,7 @@ class InTest : ManagerDependentTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -184,7 +184,7 @@ class InTest : ManagerDependentTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -195,7 +195,7 @@ class InTest : ManagerDependentTest {
 
         val actual = left.inArray(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test

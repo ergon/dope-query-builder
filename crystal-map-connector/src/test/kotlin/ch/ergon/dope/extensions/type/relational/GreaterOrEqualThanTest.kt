@@ -2,9 +2,9 @@ package ch.ergon.dope.extensions.type.relational
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isGreaterOrEqualThan
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMConverterStringField
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someDate
@@ -128,7 +128,7 @@ class GreaterOrEqualThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -139,7 +139,7 @@ class GreaterOrEqualThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -150,7 +150,7 @@ class GreaterOrEqualThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -161,7 +161,7 @@ class GreaterOrEqualThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterOrEqualThan(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test

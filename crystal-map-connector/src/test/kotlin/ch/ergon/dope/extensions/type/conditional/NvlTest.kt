@@ -6,10 +6,14 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
+import ch.ergon.dope.helper.someCMConverterBooleanField
+import ch.ergon.dope.helper.someCMConverterNumberField
+import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
+import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.NvlExpression
@@ -114,6 +118,39 @@ class NvlTest : ManagerDependentTest {
         val initialExpression = someCMBooleanField()
         val substituteExpression = someBoolean()
         val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toDopeType())
+
+        val actual = nvl(initialExpression, substituteExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support nvl CMNumberField date`() {
+        val initialExpression = someCMConverterNumberField()
+        val substituteExpression = someDate()
+        val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toInstant().epochSecond.toDopeType())
+
+        val actual = nvl(initialExpression, substituteExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support nvl CMStringField date`() {
+        val initialExpression = someCMConverterStringField()
+        val substituteExpression = someDate()
+        val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toInstant().epochSecond.toString().toDopeType())
+
+        val actual = nvl(initialExpression, substituteExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support nvl CMBooleanField date`() {
+        val initialExpression = someCMConverterBooleanField()
+        val substituteExpression = someDate()
+        val expected = NvlExpression(initialExpression.toDopeType(), true.toDopeType())
 
         val actual = nvl(initialExpression, substituteExpression)
 
