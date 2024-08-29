@@ -6,10 +6,8 @@ import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
 
 class SelectClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
-
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
@@ -27,7 +25,6 @@ class SelectClause(private val expression: Expression, private vararg val expres
 }
 
 class SelectRawClause(private val expression: SingleExpression) : ISelectClause {
-
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
@@ -53,6 +50,3 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
         )
     }
 }
-
-private fun getExpressionDopeQuery(expression: Expression) =
-    if (expression is AliasedBucket) DopeQuery("`${expression.alias}`", emptyMap()) else expression.toDopeQuery()

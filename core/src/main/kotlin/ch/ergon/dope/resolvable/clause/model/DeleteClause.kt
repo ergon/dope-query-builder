@@ -2,15 +2,27 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.IDeleteClause
+import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 
-class DeleteClause(private val bucket: Bucket) : IDeleteClause {
+class DeleteClause : IDeleteClause {
+    private val resolvable: Resolvable
+
+    constructor(bucket: Bucket) {
+        this.resolvable = bucket
+    }
+
+    constructor(aliasedBucket: AliasedBucket) {
+        this.resolvable = aliasedBucket.addBucketReference()
+    }
+
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val bucketDopeQuery = bucket.toDopeQuery(manager)
+        val resolvableDopeQuery = resolvable.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "DELETE FROM ${bucketDopeQuery.queryString}",
-            parameters = bucketDopeQuery.parameters,
+            queryString = "DELETE FROM ${resolvableDopeQuery.queryString}",
+            parameters = resolvableDopeQuery.parameters,
         )
     }
 }

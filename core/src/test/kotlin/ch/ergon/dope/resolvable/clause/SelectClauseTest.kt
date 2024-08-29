@@ -39,7 +39,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someBucket())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -52,7 +52,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someBucket().alias("alias"))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -105,7 +105,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someBucket())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someBucket().alias("alias"))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
