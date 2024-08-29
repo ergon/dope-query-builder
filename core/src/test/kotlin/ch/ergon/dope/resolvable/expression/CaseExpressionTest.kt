@@ -207,7 +207,6 @@ class CaseExpressionTest {
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
 
-
     @Test
     fun `should support when then function with simple case and else`() {
         val numberField = someNumberField()

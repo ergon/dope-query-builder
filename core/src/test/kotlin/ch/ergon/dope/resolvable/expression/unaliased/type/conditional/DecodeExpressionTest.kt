@@ -106,4 +106,17 @@ class DecodeExpressionTest : ParameterDependentTest {
 
         assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
     }
+
+    @Test
+    fun `should support decode extension function with default and different types`() {
+        val expression = someStringField()
+        val searchResult = someStringSearchNumberResult()
+        val searchResult2 = SearchResult(someStringField(), someStringField())
+        val default = someNumber().toDopeType()
+        val expected = DecodeExpression(expression, searchResult, searchResult2, default = default)
+
+        val actual = decode(expression, searchResult, searchResult2, default = default)
+
+        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+    }
 }

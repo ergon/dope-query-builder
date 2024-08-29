@@ -63,4 +63,4 @@ fun <T : ValidType> decode(
     searchResult: SearchResult<T, out ValidType>,
     vararg searchResults: SearchResult<T, out ValidType>,
     default: UnaliasedExpression<out ValidType>? = null,
-) = DecodeExpression<T, ValidType>(decodeExpression, searchResult, *searchResults, default = default)
+) = DecodeExpression(decodeExpression, searchResult, *searchResults, default = default)
