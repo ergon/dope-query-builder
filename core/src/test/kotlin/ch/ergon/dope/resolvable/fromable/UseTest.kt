@@ -148,7 +148,6 @@ class UseTest : ManagerDependentTest {
         )
 
         val actual = bucket.useGsiIndex(indexName).useIndex(indexName2).useFtsIndex().useGsiIndex()
-        println(actual.toDopeQuery(manager))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
