@@ -13,10 +13,11 @@ import ch.ergon.dope.helper.someCaseClass
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchResult
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedElseCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleElseCaseExpression
 import ch.ergon.dope.toDopeType
@@ -32,7 +33,7 @@ class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMNumberField`() {
         val expression = someCMNumberField()
-        val expected = CaseClass(expression.toDopeType())
+        val expected = SimpleCaseClass(expression.toDopeType())
 
         val actual = case(expression)
 
@@ -42,7 +43,7 @@ class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMStringField`() {
         val expression = someCMStringField()
-        val expected = CaseClass(expression.toDopeType())
+        val expected = SimpleCaseClass(expression.toDopeType())
 
         val actual = case(expression)
 
@@ -52,7 +53,7 @@ class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMBooleanField`() {
         val expression = someCMBooleanField()
-        val expected = CaseClass(expression.toDopeType())
+        val expected = SimpleCaseClass(expression.toDopeType())
 
         val actual = case(expression)
 
@@ -62,7 +63,7 @@ class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMList of Number`() {
         val expression = someCMNumberList()
-        val expected = CaseClass(expression.toDopeType())
+        val expected = SimpleCaseClass(expression.toDopeType())
 
         val actual = case(expression)
 
@@ -72,7 +73,7 @@ class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMList of String`() {
         val expression = someCMStringList()
-        val expected = CaseClass(expression.toDopeType())
+        val expected = SimpleCaseClass(expression.toDopeType())
 
         val actual = case(expression)
 
@@ -82,7 +83,7 @@ class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMList of Boolean`() {
         val expression = someCMBooleanList()
-        val expected = CaseClass(expression.toDopeType())
+        val expected = SimpleCaseClass(expression.toDopeType())
 
         val actual = case(expression)
 
@@ -92,12 +93,12 @@ class CaseExpressionTest {
     @Test
     fun `should add else condition with CMNumber to SimpleCaseExpression with generic`() {
         val case = someCaseClass(someNumberField())
-        val initialExpression = SimpleCaseExpression(case.case, SearchResult(someNumberField(), someNumberField()))
+        val initialExpression = SimpleCaseExpression(case, SearchResult(someNumberField(), someNumberField()))
         val elseExpression = someCMNumberField()
         val expected = SimpleElseCaseExpression(
-            case.case,
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -109,12 +110,12 @@ class CaseExpressionTest {
     @Test
     fun `should add else condition with CMNumber to SimpleCaseExpression without generic`() {
         val case = someCaseClass(someNumberField())
-        val initialExpression = SimpleCaseExpression(case.case, SearchResult(someNumberField(), someStringField()))
+        val initialExpression = SimpleCaseExpression(case, SearchResult(someNumberField(), someStringField()))
         val elseExpression = someCMNumberField()
         val expected = SimpleElseCaseExpression(
-            case.case,
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -126,12 +127,12 @@ class CaseExpressionTest {
     @Test
     fun `should add else condition with CMString to SimpleCaseExpression with generic`() {
         val case = someCaseClass(someNumberField())
-        val initialExpression = SimpleCaseExpression(case.case, SearchResult(someNumberField(), someStringField()))
+        val initialExpression = SimpleCaseExpression(case, SearchResult(someNumberField(), someStringField()))
         val elseExpression = someCMStringField()
         val expected = SimpleElseCaseExpression(
-            case.case,
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -143,12 +144,12 @@ class CaseExpressionTest {
     @Test
     fun `should add else condition with CMString to SimpleCaseExpression without generic`() {
         val case = someCaseClass(someNumberField())
-        val initialExpression = SimpleCaseExpression(case.case, SearchResult(someNumberField(), someBooleanField()))
+        val initialExpression = SimpleCaseExpression(case, SearchResult(someNumberField(), someBooleanField()))
         val elseExpression = someCMStringField()
         val expected = SimpleElseCaseExpression(
-            case.case,
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -160,12 +161,12 @@ class CaseExpressionTest {
     @Test
     fun `should add else condition with CMBoolean to SimpleCaseExpression with generic`() {
         val case = someCaseClass(someNumberField())
-        val initialExpression = SimpleCaseExpression(case.case, SearchResult(someNumberField(), someBooleanField()))
+        val initialExpression = SimpleCaseExpression(case, SearchResult(someNumberField(), someBooleanField()))
         val elseExpression = someCMBooleanField()
         val expected = SimpleElseCaseExpression(
-            case.case,
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -177,12 +178,12 @@ class CaseExpressionTest {
     @Test
     fun `should add else condition with CMBoolean to SimpleCaseExpression without generic`() {
         val case = someCaseClass(someNumberField())
-        val initialExpression = SimpleCaseExpression(case.case, SearchResult(someNumberField(), someNumberField()))
+        val initialExpression = SimpleCaseExpression(case, SearchResult(someNumberField(), someNumberField()))
         val elseExpression = someCMBooleanField()
         val expected = SimpleElseCaseExpression(
-            case.case,
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -193,11 +194,12 @@ class CaseExpressionTest {
 
     @Test
     fun `should add else condition with CMNumber to SearchedCaseExpression with generic`() {
-        val initialExpression = SearchedCaseExpression(SearchResult(someBooleanField(), someNumberField()))
+        val initialExpression = SearchedCaseExpression(SearchedCaseClass(), SearchResult(someBooleanField(), someNumberField()))
         val elseExpression = someCMNumberField()
         val expected = SearchedElseCaseExpression(
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            SearchedCaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -208,11 +210,12 @@ class CaseExpressionTest {
 
     @Test
     fun `should add else condition with CMNumber to SearchedCaseExpression without generic`() {
-        val initialExpression = SearchedCaseExpression(SearchResult(someBooleanField(), someStringField()))
+        val initialExpression = SearchedCaseExpression(SearchedCaseClass(), SearchResult(someBooleanField(), someStringField()))
         val elseExpression = someCMNumberField()
         val expected = SearchedElseCaseExpression(
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            SearchedCaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -223,11 +226,12 @@ class CaseExpressionTest {
 
     @Test
     fun `should add else condition with CMString to SearchedCaseExpression with generic`() {
-        val initialExpression = SearchedCaseExpression(SearchResult(someBooleanField(), someStringField()))
+        val initialExpression = SearchedCaseExpression(SearchedCaseClass(), SearchResult(someBooleanField(), someStringField()))
         val elseExpression = someCMStringField()
         val expected = SearchedElseCaseExpression(
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            SearchedCaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -238,11 +242,12 @@ class CaseExpressionTest {
 
     @Test
     fun `should add else condition with CMString to SearchedCaseExpression without generic`() {
-        val initialExpression = SearchedCaseExpression(SearchResult(someBooleanField(), someBooleanField()))
+        val initialExpression = SearchedCaseExpression(SearchedCaseClass(), SearchResult(someBooleanField(), someBooleanField()))
         val elseExpression = someCMStringField()
         val expected = SearchedElseCaseExpression(
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            SearchedCaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -253,11 +258,12 @@ class CaseExpressionTest {
 
     @Test
     fun `should add else condition with CMBoolean to SearchedCaseExpression with generic`() {
-        val initialExpression = SearchedCaseExpression(SearchResult(someBooleanField(), someBooleanField()))
+        val initialExpression = SearchedCaseExpression(SearchedCaseClass(), SearchResult(someBooleanField(), someBooleanField()))
         val elseExpression = someCMBooleanField()
         val expected = SearchedElseCaseExpression(
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            SearchedCaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 
@@ -268,11 +274,12 @@ class CaseExpressionTest {
 
     @Test
     fun `should add else condition with CMBoolean to SearchedCaseExpression without generic`() {
-        val initialExpression = SearchedCaseExpression(SearchResult(someBooleanField(), someNumberField()))
+        val initialExpression = SearchedCaseExpression(SearchedCaseClass(), SearchResult(someBooleanField(), someNumberField()))
         val elseExpression = someCMBooleanField()
         val expected = SearchedElseCaseExpression(
-            initialExpression.firstWhenThen,
-            *initialExpression.additionalWhenThen,
+            SearchedCaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
             elseCase = elseExpression.toDopeType(),
         )
 

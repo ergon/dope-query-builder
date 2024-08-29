@@ -8,7 +8,7 @@ import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseClass
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Fromable
@@ -60,6 +60,6 @@ private fun getBucketName(bucket: Bucket) = when (bucket) {
     is UnaliasedBucket -> bucket.name
 }
 
-fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
+fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = SimpleCaseClass(
     expression,
 )

@@ -802,7 +802,7 @@ class QueryBuilderTest {
         val actual = create
             .select(
                 case(someNumberField()).whenThen(someNumberField("other").resultsIn(2)),
-                whenThen(someBooleanField().resultsIn(someNumberField())).otherwise(someStringField()).alias("alias"),
+                case().whenThen(someBooleanField().resultsIn(someNumberField())).otherwise(someStringField()).alias("alias"),
             )
             .from(someBucket)
             .build().queryString
