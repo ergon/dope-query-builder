@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.type.array
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayConcatExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayConcat
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayConcatExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayConcat
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

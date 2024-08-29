@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
@@ -13,7 +14,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NotEqualsExpressionTest : ParameterDependentTest {
+class NotEqualsExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support not equals`() {
         val expected = DopeQuery(
@@ -22,7 +25,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
         )
         val underTest = NotEqualsExpression(someNumberField(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +39,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
         )
         val underTest = NotEqualsExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -51,7 +54,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
         )
         val underTest = NotEqualsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +68,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
         )
         val underTest = NotEqualsExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +81,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -89,7 +92,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -100,7 +103,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -111,7 +114,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -122,7 +125,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -133,7 +136,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -144,7 +147,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -155,7 +158,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -166,7 +169,7 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -177,6 +180,6 @@ class NotEqualsExpressionTest : ParameterDependentTest {
 
         val actual = left.isNotEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

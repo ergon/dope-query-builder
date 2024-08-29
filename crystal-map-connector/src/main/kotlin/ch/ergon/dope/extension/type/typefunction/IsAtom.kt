@@ -1,6 +1,6 @@
 package ch.ergon.dope.extension.type.typefunction
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.isAtom
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isAtom
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList

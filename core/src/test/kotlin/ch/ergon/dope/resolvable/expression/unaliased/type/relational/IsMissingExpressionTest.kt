@@ -1,12 +1,15 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsMissingExpressionTest : ParameterDependentTest {
+class IsMissingExpressionTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support is missing`() {
         val expected = DopeQuery(
@@ -15,7 +18,7 @@ class IsMissingExpressionTest : ParameterDependentTest {
         )
         val underTest = IsMissingExpression(someStringField())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -27,6 +30,6 @@ class IsMissingExpressionTest : ParameterDependentTest {
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

@@ -1,41 +1,43 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat2
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.contains
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.TOKEN_CASES
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.tokens
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.initCap
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.length
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lpad
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.ltrim
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mask
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.position
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.repeat
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.reverse
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.rpad
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.rtrim
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.split
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.substr
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.suffixes
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.title
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.trim
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.concat2
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.contains
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.CustomTokenOptions
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.TOKEN_CASES
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.factory.tokens
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.initCap
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.length
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.lower
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.lpad
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.ltrim
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.mask
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.position
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.repeat
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.reverse
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.rpad
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.rtrim
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.split
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.substr
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.suffixes
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.title
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.trim
-import ch.ergon.dope.resolvable.expression.unaliased.type.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StringFunctionsTest {
-
+class StringFunctionsTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
 
@@ -140,7 +142,9 @@ class StringFunctionsTest {
     fun `should Support Concat2 One Argument`() {
         val expected = "CONCAT2(\"-\", \"a\") AS `c2`"
 
-        val actual: String = concat2("-", "a".toDopeType()).alias("c2").toDopeQuery().queryString
+        val actual: String = concat2("-", "a".toDopeType()).alias(
+            "c2",
+        ).toDopeQuery(manager).queryString
 
         assertEquals(unifyString(expected), actual)
     }

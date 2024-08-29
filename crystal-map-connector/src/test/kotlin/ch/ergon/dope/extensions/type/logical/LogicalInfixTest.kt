@@ -1,7 +1,9 @@
 package ch.ergon.dope.extensions.type.logical
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.logical.and
 import ch.ergon.dope.extension.type.logical.or
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCMBooleanField
@@ -12,7 +14,9 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LogicalInfixTest {
+class LogicalInfixTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support or with CMJsonField CMJsonField`() {
         val left = someCMBooleanField()
@@ -21,7 +25,7 @@ class LogicalInfixTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -32,7 +36,7 @@ class LogicalInfixTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -43,7 +47,7 @@ class LogicalInfixTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -54,7 +58,7 @@ class LogicalInfixTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -65,7 +69,7 @@ class LogicalInfixTest {
 
         val actual = left.or(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -76,7 +80,7 @@ class LogicalInfixTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -87,7 +91,7 @@ class LogicalInfixTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -98,7 +102,7 @@ class LogicalInfixTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -109,7 +113,7 @@ class LogicalInfixTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -120,6 +124,6 @@ class LogicalInfixTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

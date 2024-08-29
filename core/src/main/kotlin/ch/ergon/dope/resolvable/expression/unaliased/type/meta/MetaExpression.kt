@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.meta
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
@@ -14,14 +15,14 @@ import ch.ergon.dope.validtype.ValidType
 private const val META = "META"
 
 class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery() =
+    override fun toDopeQuery(manager: DopeQueryManager) =
         if (bucket == null) {
             DopeQuery(
                 queryString = "$META()",
                 parameters = emptyMap(),
             )
         } else {
-            val bucketDopeQuery = bucket.toDopeQuery()
+            val bucketDopeQuery = bucket.toDopeQuery(manager)
             DopeQuery(
                 queryString = toFunctionQueryString(
                     symbol = META,
@@ -46,13 +47,20 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
 
     val keyspace: Field<StringType> = getMetaField("keyspace")
 
-    private fun <T : ValidType> getMetaField(field: String): MetaField<T> = MetaField(field, toDopeQuery())
+    private fun <T : ValidType> getMetaField(field: String): MetaField<T> =
+        MetaField(field) { manager: DopeQueryManager -> toDopeQuery(manager) }
 
-    private class MetaField<T : ValidType>(private val name: String, private val dopeQuery: DopeQuery) : Field<T>(name, "") {
-        override fun toDopeQuery() = DopeQuery(
-            queryString = "${dopeQuery.queryString}.`$name`",
-            parameters = dopeQuery.parameters,
-        )
+    private class MetaField<T : ValidType>(
+        private val name: String,
+        private val generateDopeQuery: (DopeQueryManager) -> DopeQuery,
+    ) : Field<T>(name, "") {
+        override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+            val dopeQuery = generateDopeQuery(manager)
+            return DopeQuery(
+                queryString = "${dopeQuery.queryString}.`$name`",
+                parameters = dopeQuery.parameters,
+            )
+        }
     }
 }
 

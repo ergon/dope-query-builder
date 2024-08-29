@@ -1,10 +1,10 @@
 package ch.ergon.dope.extension.type.numberfunction
 
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.ceil
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.floor
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.round
-import ch.ergon.dope.resolvable.expression.unaliased.type.numeric.trunc
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ceil
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.floor
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.round
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.trunc
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import com.schwarz.crystalapi.schema.CMJsonField
