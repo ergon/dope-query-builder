@@ -30,12 +30,4 @@ fun formatListToQueryStringWithBrackets(dopeQueries: List<DopeQuery>, seperator:
     dopeQueries.joinToString(seperator, prefix, postfix) { it.queryString }
 
 fun formatIndexToQueryString(indexName: String?, indexType: String?) =
-    buildString {
-        if (indexName != null) {
-            append("`$indexName`")
-        }
-        if (indexType != null) {
-            if (isNotEmpty()) append(" ")
-            append(indexType)
-        }
-    }
+    listOfNotNull(indexName?.let { "`$it`" }, indexType).joinToString(separator = " ")
