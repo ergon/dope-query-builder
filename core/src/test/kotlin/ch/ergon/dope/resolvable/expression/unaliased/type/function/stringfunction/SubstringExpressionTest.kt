@@ -53,6 +53,17 @@ class SubstringExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support substring function type int`() {
+        val inStr = someStringField("inStr")
+        val startPos = 1
+        val expected = SubstringExpression(inStr, startPos)
+
+        val actual = substr(inStr, startPos)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support substring function string int int`() {
         val inStr = someString("inStr")
         val startPos = 1
