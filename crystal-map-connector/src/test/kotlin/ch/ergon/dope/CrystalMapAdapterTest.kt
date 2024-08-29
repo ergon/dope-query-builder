@@ -19,56 +19,56 @@ class CrystalMapAdapterTest : ManagerDependentTest {
 
     @Test
     fun `should convert CMJsonField with Number`() {
-        val CMJsonField = CMJsonField<Number>("testName", "testPath")
+        val cmJsonField = CMJsonField<Number>("testName", "testPath")
 
-        val actual: Field<NumberType> = CMJsonField.toDopeType()
+        val actual: Field<NumberType> = cmJsonField.toDopeType()
 
-        assertEquals("`${CMJsonField.path}`.`${CMJsonField.name}`", actual.toDopeQuery(manager).queryString)
+        assertEquals("`${cmJsonField.path}`.`${cmJsonField.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
     fun `should convert CMJsonField with String`() {
-        val CMJsonField = CMJsonField<String>("testName", "testPath")
+        val cmJsonField = CMJsonField<String>("testName", "testPath")
 
-        val actual: Field<StringType> = CMJsonField.toDopeType()
+        val actual: Field<StringType> = cmJsonField.toDopeType()
 
-        assertEquals("`${CMJsonField.path}`.`${CMJsonField.name}`", actual.toDopeQuery(manager).queryString)
+        assertEquals("`${cmJsonField.path}`.`${cmJsonField.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
     fun `should convert CMJsonField with Boolean`() {
-        val CMJsonField = CMJsonField<Boolean>("testName", "testPath")
+        val cmJsonField = CMJsonField<Boolean>("testName", "testPath")
 
-        val actual: Field<BooleanType> = CMJsonField.toDopeType()
+        val actual: Field<BooleanType> = cmJsonField.toDopeType()
 
-        assertEquals("`${CMJsonField.path}`.`${CMJsonField.name}`", actual.toDopeQuery(manager).queryString)
+        assertEquals("`${cmJsonField.path}`.`${cmJsonField.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
     fun `should convert CMJsonList string`() {
-        val CMJsonList = CMJsonList<String>("testName", "testPath")
+        val cmJsonList = CMJsonList<String>("testName", "testPath")
 
-        val actual: Field<ArrayType<StringType>> = CMJsonList.toDopeType()
+        val actual: Field<ArrayType<StringType>> = cmJsonList.toDopeType()
 
-        assertEquals("`${CMJsonList.path}`.`${CMJsonList.name}`", actual.toDopeQuery(manager).queryString)
+        assertEquals("`${cmJsonList.path}`.`${cmJsonList.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
     fun `should convert CMJsonList number`() {
-        val CMJsonList = CMJsonList<Number>("testName", "testPath")
+        val cmJsonList = CMJsonList<Number>("testName", "testPath")
 
-        val actual: Field<ArrayType<NumberType>> = CMJsonList.toDopeType()
+        val actual: Field<ArrayType<NumberType>> = cmJsonList.toDopeType()
 
-        assertEquals("`${CMJsonList.path}`.`${CMJsonList.name}`", actual.toDopeQuery(manager).queryString)
+        assertEquals("`${cmJsonList.path}`.`${cmJsonList.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
     fun `should convert CMJsonList boolean`() {
-        val CMJsonList = CMJsonList<Boolean>("testName", "testPath")
+        val cmJsonList = CMJsonList<Boolean>("testName", "testPath")
 
-        val actual: Field<ArrayType<BooleanType>> = CMJsonList.toDopeType()
+        val actual: Field<ArrayType<BooleanType>> = cmJsonList.toDopeType()
 
-        assertEquals("`${CMJsonList.path}`.`${CMJsonList.name}`", actual.toDopeQuery(manager).queryString)
+        assertEquals("`${cmJsonList.path}`.`${cmJsonList.name}`", actual.toDopeQuery(manager).queryString)
     }
 
     @Test
