@@ -12,22 +12,22 @@ data class SearchResult<T : ValidType, U : ValidType>(
 fun <T : ValidType, U : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: UnaliasedExpression<U>) =
     SearchResult(this, resultExpression)
 
-fun UnaliasedExpression<out ValidType>.resultsIn(resultExpression: Number) =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: Number) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun UnaliasedExpression<out ValidType>.resultsIn(resultExpression: String) =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: String) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun UnaliasedExpression<out ValidType>.resultsIn(resultExpression: Boolean) =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: Boolean) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun Number.resultsIn(resultExpression: UnaliasedExpression<out ValidType>) =
+fun <T : ValidType> Number.resultsIn(resultExpression: UnaliasedExpression<T>) =
     SearchResult(toDopeType(), resultExpression)
 
-fun String.resultsIn(resultExpression: UnaliasedExpression<out ValidType>) =
+fun <T : ValidType> String.resultsIn(resultExpression: UnaliasedExpression<T>) =
     SearchResult(toDopeType(), resultExpression)
 
-fun Boolean.resultsIn(resultExpression: UnaliasedExpression<out ValidType>) =
+fun <T : ValidType> Boolean.resultsIn(resultExpression: UnaliasedExpression<T>) =
     SearchResult(toDopeType(), resultExpression)
 
 fun Number.resultsIn(resultExpression: Number) =
