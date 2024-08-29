@@ -16,7 +16,7 @@ class LikeTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support extensions for is like with CMField`() {
+    fun `should support extensions for is like with CMJsonField`() {
         val someCMStringField = someCMStringField()
         val right = "%".toDopeType()
         val expected = LikeExpression(someCMStringField.toDopeType(), right)
@@ -27,7 +27,7 @@ class LikeTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support extensions for is not like with CMField`() {
+    fun `should support extensions for is not like with CMJsonField`() {
         val someCMStringField = someCMStringField()
         val right = "%".toDopeType()
         val expected = NotLikeExpression(someCMStringField.toDopeType(), right)

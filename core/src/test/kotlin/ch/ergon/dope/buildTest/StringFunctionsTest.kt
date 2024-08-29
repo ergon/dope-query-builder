@@ -599,7 +599,7 @@ class StringFunctionsTest : ManagerDependentTest {
     @Test
     fun `should Support Substring`() {
         val expected =
-            "SELECT SUBSTR(\"N1QL is awesome\", 3, 15) AS `end_of_string`, SUBSTR(\"N1QL is awesome\", 3, 1) AS" +
+            "SELECT SUBSTR(\"N1QL is awesome\", 3) AS `end_of_string`, SUBSTR(\"N1QL is awesome\", 3, 1) AS" +
                 " `single_letter`, SUBSTR(\"N1QL is awesome\", 3, 3) AS `three_letters`"
 
         val actual: String = create.select(
