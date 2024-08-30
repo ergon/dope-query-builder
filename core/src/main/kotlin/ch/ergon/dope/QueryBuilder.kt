@@ -23,13 +23,13 @@ class QueryBuilder {
 
     fun selectFrom(fromable: Fromable) = SelectClause(AsteriskExpression()).from(fromable)
 
-    fun selectFrom(bucket: AliasedBucket) = SelectClause(AsteriskExpression()).from(bucket)
+    fun selectFrom(aliasedBucket: AliasedBucket) = SelectClause(AsteriskExpression()).from(aliasedBucket)
 
     fun deleteFrom(bucket: Bucket) = DeleteClause(bucket)
 
-    fun deleteFrom(bucket: AliasedBucket) = DeleteClause(bucket)
+    fun deleteFrom(aliasedBucket: AliasedBucket) = DeleteClause(aliasedBucket)
 
     fun update(bucket: Bucket) = UpdateClause(bucket)
 
-    fun update(bucket: AliasedBucket) = UpdateClause(bucket)
+    fun update(aliasedBucket: AliasedBucket) = UpdateClause(aliasedBucket)
 }

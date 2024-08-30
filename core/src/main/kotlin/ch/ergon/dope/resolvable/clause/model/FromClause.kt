@@ -18,8 +18,8 @@ class FromClause : ISelectUnnestClause {
         this.parentClause = parentClause
     }
 
-    constructor(fromable: AliasedBucket, parentClause: ISelectClause) {
-        this.resolvable = fromable.addBucketReference()
+    constructor(aliasedBucket: AliasedBucket, parentClause: ISelectClause) {
+        this.resolvable = aliasedBucket.addBucketReference()
         this.parentClause = parentClause
     }
 

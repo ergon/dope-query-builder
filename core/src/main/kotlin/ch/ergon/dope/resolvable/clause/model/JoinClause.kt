@@ -42,7 +42,12 @@ sealed class SelectJoinClause : ISelectJoinClause {
     private val parentClause: ISelectFromClause
     private val onType: OnType
 
-    constructor(joinType: JoinType, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        bucket: Bucket,
+        onCondition: TypeExpression<BooleanType>,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON
         this.joinType = joinType
         this.resolvable = bucket
@@ -53,7 +58,12 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.forBucket = null
     }
 
-    constructor(joinType: JoinType, bucket: Bucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        bucket: Bucket,
+        onKeys: Field<out ValidType>,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON_KEYS
         this.joinType = joinType
         this.resolvable = bucket
@@ -64,7 +74,13 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.forBucket = null
     }
 
-    constructor(joinType: JoinType, bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        bucket: Bucket,
+        onKey: Field<out ValidType>,
+        forBucket: Bucket,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON_KEY_FOR
         this.joinType = joinType
         this.resolvable = bucket
@@ -75,10 +91,15 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.onKeys = null
     }
 
-    constructor(joinType: JoinType, bucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        aliasedBucket: AliasedBucket,
+        onCondition: TypeExpression<BooleanType>,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON
         this.joinType = joinType
-        this.resolvable = bucket.addBucketReference()
+        this.resolvable = aliasedBucket.addBucketReference()
         this.onCondition = onCondition
         this.parentClause = parentClause
         this.onKeys = null
@@ -86,10 +107,15 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.forBucket = null
     }
 
-    constructor(joinType: JoinType, bucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        aliasedBucket: AliasedBucket,
+        onKeys: Field<out ValidType>,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON_KEYS
         this.joinType = joinType
-        this.resolvable = bucket.addBucketReference()
+        this.resolvable = aliasedBucket.addBucketReference()
         this.onKeys = onKeys
         this.parentClause = parentClause
         this.onCondition = null
@@ -97,10 +123,16 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.forBucket = null
     }
 
-    constructor(joinType: JoinType, bucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        aliasedBucket: AliasedBucket,
+        onKey: Field<out ValidType>,
+        forBucket: Bucket,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON_KEY_FOR
         this.joinType = joinType
-        this.resolvable = bucket.addBucketReference()
+        this.resolvable = aliasedBucket.addBucketReference()
         this.onKey = onKey
         this.forBucket = forBucket
         this.parentClause = parentClause
@@ -154,14 +186,14 @@ class StandardJoinClause : SelectJoinClause {
     constructor(bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
         super(JOIN, bucket, onKey, forBucket, parentClause)
 
-    constructor(bucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
-        super(JOIN, bucket, onCondition, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
+        super(JOIN, aliasedBucket, onCondition, parentClause)
 
-    constructor(bucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) :
-        super(JOIN, bucket, onKeys, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) :
+        super(JOIN, aliasedBucket, onKeys, parentClause)
 
-    constructor(bucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
-        super(JOIN, bucket, onKey, forBucket, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
+        super(JOIN, aliasedBucket, onKey, forBucket, parentClause)
 }
 
 class LeftJoinClause : SelectJoinClause {
@@ -174,14 +206,14 @@ class LeftJoinClause : SelectJoinClause {
     constructor(bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
         super(LEFT_JOIN, bucket, onKey, forBucket, parentClause)
 
-    constructor(bucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
-        super(LEFT_JOIN, bucket, onCondition, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
+        super(LEFT_JOIN, aliasedBucket, onCondition, parentClause)
 
-    constructor(bucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) :
-        super(LEFT_JOIN, bucket, onKeys, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) :
+        super(LEFT_JOIN, aliasedBucket, onKeys, parentClause)
 
-    constructor(bucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
-        super(LEFT_JOIN, bucket, onKey, forBucket, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
+        super(LEFT_JOIN, aliasedBucket, onKey, forBucket, parentClause)
 }
 
 class InnerJoinClause : SelectJoinClause {
@@ -194,20 +226,20 @@ class InnerJoinClause : SelectJoinClause {
     constructor(bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
         super(INNER_JOIN, bucket, onKey, forBucket, parentClause)
 
-    constructor(bucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
-        super(INNER_JOIN, bucket, onCondition, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
+        super(INNER_JOIN, aliasedBucket, onCondition, parentClause)
 
-    constructor(bucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) :
-        super(INNER_JOIN, bucket, onKeys, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) :
+        super(INNER_JOIN, aliasedBucket, onKeys, parentClause)
 
-    constructor(bucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
-        super(INNER_JOIN, bucket, onKey, forBucket, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) :
+        super(INNER_JOIN, aliasedBucket, onKey, forBucket, parentClause)
 }
 
 class RightJoinClause : SelectJoinClause {
     constructor(bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
         super(RIGHT_JOIN, bucket, onCondition, parentClause)
 
-    constructor(bucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
-        super(RIGHT_JOIN, bucket, onCondition, parentClause)
+    constructor(aliasedBucket: AliasedBucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
+        super(RIGHT_JOIN, aliasedBucket, onCondition, parentClause)
 }
