@@ -13,6 +13,7 @@ import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEYS
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEY_FOR
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
@@ -40,7 +41,12 @@ sealed class SelectJoinClause : ISelectJoinClause {
     private val parentClause: ISelectFromClause
     private val onType: OnType
 
-    constructor(joinType: JoinType, bucket: Bucket, onCondition: TypeExpression<BooleanType>, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        bucket: Bucket,
+        onCondition: TypeExpression<BooleanType>,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON
         this.joinType = joinType
         this.bucket = bucket
@@ -51,7 +57,12 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.forBucket = null
     }
 
-    constructor(joinType: JoinType, bucket: Bucket, onKeys: Field<out ValidType>, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        bucket: Bucket,
+        onKeys: Field<out ValidType>,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON_KEYS
         this.joinType = joinType
         this.bucket = bucket
@@ -62,7 +73,13 @@ sealed class SelectJoinClause : ISelectJoinClause {
         this.forBucket = null
     }
 
-    constructor(joinType: JoinType, bucket: Bucket, onKey: Field<out ValidType>, forBucket: Bucket, parentClause: ISelectFromClause) {
+    constructor(
+        joinType: JoinType,
+        bucket: Bucket,
+        onKey: Field<out ValidType>,
+        forBucket: Bucket,
+        parentClause: ISelectFromClause,
+    ) {
         this.onType = ON_KEY_FOR
         this.joinType = joinType
         this.bucket = bucket
@@ -75,7 +92,10 @@ sealed class SelectJoinClause : ISelectJoinClause {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val bucketDopeQuery = bucket.toDopeQuery(manager)
+        val bucketDopeQuery = when (bucket) {
+            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(manager)
+            else -> bucket.toDopeQuery(manager)
+        }
         val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString}"
         val joinParameters = parentDopeQuery.parameters + bucketDopeQuery.parameters
 

@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -24,6 +25,32 @@ class SelectClauseTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SelectClause(someStringField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select with bucket`() {
+        val expected = DopeQuery(
+            "SELECT `someBucket`",
+            emptyMap(),
+        )
+        val underTest = SelectClause(someBucket())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select with aliased bucket`() {
+        val expected = DopeQuery(
+            "SELECT `alias`",
+            emptyMap(),
+        )
+        val underTest = SelectClause(someBucket().alias("alias"))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -64,6 +91,32 @@ class SelectClauseTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SelectDistinctClause(someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select distinct with bucket`() {
+        val expected = DopeQuery(
+            "SELECT DISTINCT `someBucket`",
+            emptyMap(),
+        )
+        val underTest = SelectDistinctClause(someBucket())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select distinct with aliased bucket`() {
+        val expected = DopeQuery(
+            "SELECT DISTINCT `alias`",
+            emptyMap(),
+        )
+        val underTest = SelectDistinctClause(someBucket().alias("alias"))
 
         val actual = underTest.toDopeQuery(manager)
 
