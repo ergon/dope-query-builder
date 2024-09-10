@@ -93,7 +93,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val bucketDopeQuery = when (bucket) {
-            is AliasedBucket -> bucket.addBucketReference().toDopeQuery(manager)
+            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(manager)
             else -> bucket.toDopeQuery(manager)
         }
         val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${bucketDopeQuery.queryString}"

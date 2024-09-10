@@ -10,7 +10,7 @@ class DeleteClause(private val bucket: Bucket) : IDeleteClause {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val bucketDopeQuery = when (bucket) {
-            is AliasedBucket -> bucket.addBucketReference().toDopeQuery(manager)
+            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(manager)
             else -> bucket.toDopeQuery(manager)
         }
         return DopeQuery(

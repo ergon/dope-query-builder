@@ -20,10 +20,10 @@ class AliasedBucket(name: String, val alias: String) : Bucket(name) {
         parameters = emptyMap(),
     )
 
-    fun addBucketReference() = ReferencedAliasedBucket(name, alias)
+    fun asBucketDefinition() = AliasedBucketDefinition(name, alias)
 }
 
-class ReferencedAliasedBucket(val name: String, val alias: String) : Resolvable {
+class AliasedBucketDefinition(val name: String, val alias: String) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$name` AS `$alias`",
         parameters = emptyMap(),

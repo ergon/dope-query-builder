@@ -13,7 +13,7 @@ class FromClause(private val fromable: Fromable, private val parentClause: ISele
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val fromableDopeQuery = when (fromable) {
-            is AliasedBucket -> fromable.addBucketReference().toDopeQuery(manager)
+            is AliasedBucket -> fromable.asBucketDefinition().toDopeQuery(manager)
             else -> fromable.toDopeQuery(manager)
         }
         return DopeQuery(
