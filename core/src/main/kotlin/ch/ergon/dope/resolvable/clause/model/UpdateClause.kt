@@ -8,13 +8,13 @@ import ch.ergon.dope.resolvable.fromable.Updatable
 
 class UpdateClause(private val updatable: Updatable) : IUpdateClause {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val resolvableDopeQuery = when (updatable) {
+        val updatableDopeQuery = when (updatable) {
             is AliasedBucket -> updatable.asBucketDefinition().toDopeQuery(manager)
             else -> updatable.toDopeQuery(manager)
         }
         return DopeQuery(
-            queryString = "UPDATE ${resolvableDopeQuery.queryString}",
-            parameters = resolvableDopeQuery.parameters,
+            queryString = "UPDATE ${updatableDopeQuery.queryString}",
+            parameters = updatableDopeQuery.parameters,
         )
     }
 }

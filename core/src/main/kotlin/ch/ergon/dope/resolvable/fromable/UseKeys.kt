@@ -27,7 +27,10 @@ class UseKeysClass private constructor(
     }
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val bucketDopeQuery = bucket.toDopeQuery(manager)
+        val bucketDopeQuery = when (bucket) {
+            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(manager)
+            else -> bucket.toDopeQuery(manager)
+        }
         val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),

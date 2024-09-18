@@ -189,7 +189,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMConverterNumberFieldToNumber")
-fun <Convertable : Any, JsonType : Number> IUpdateUseKeysClause.set(
+fun <Convertable : Any, JsonType : Number> IUpdateClause.set(
     field: CMConverterField<Convertable, JsonType>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
@@ -213,7 +213,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMConverterStringFieldToNumber")
-fun <Convertable : Any> IUpdateUseKeysClause.set(
+fun <Convertable : Any> IUpdateClause.set(
     field: CMConverterField<Convertable, String>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
@@ -237,7 +237,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMConverterBooleanFieldToNumber")
-fun <Convertable : Any> IUpdateUseKeysClause.set(
+fun <Convertable : Any> IUpdateClause.set(
     field: CMConverterField<Convertable, Boolean>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
