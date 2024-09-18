@@ -10,8 +10,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
 import kotlin.test.Test
@@ -22,18 +22,18 @@ class SatisfiesTest : ManagerDependentTest {
 
     class Dummy(path: String = "") : Schema {
         val objectList: CMObjectList<Dummy2> = CMObjectList(Dummy2(path), "objectList", path)
-        val stringList: CMList<String> = CMList("stringList", path)
-        val numberList: CMList<Number> = CMList("numberList", path)
-        val booleanList: CMList<Boolean> = CMList("booleanList", path)
+        val stringList: CMJsonList<String> = CMJsonList("stringList", path)
+        val numberList: CMJsonList<Number> = CMJsonList("numberList", path)
+        val booleanList: CMJsonList<Boolean> = CMJsonList("booleanList", path)
     }
 
     class Dummy2(path: String = "") : Schema {
-        val type: CMField<String> = CMField("type", path)
+        val type: CMJsonField<String> = CMJsonField("type", path)
         val otherObjectList: CMObjectList<Dummy3> = CMObjectList(Dummy3(path), "otherObjectList", path)
     }
 
     class Dummy3(path: String = "") : Schema {
-        val something: CMField<Number> = CMField("something", path)
+        val something: CMJsonField<Number> = CMJsonField("something", path)
     }
 
     @Test
@@ -65,7 +65,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support any satisfies with cmList number`() {
+    fun `should support any satisfies with CMJsonList number`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
@@ -77,7 +77,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support any satisfies with cmList string`() {
+    fun `should support any satisfies with CMJsonList string`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `stringList` SATISFIES UPPER(`iterator1`) = \"some value\" END",
             parameters = emptyMap(),
@@ -89,7 +89,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support any satisfies with cmList boolean`() {
+    fun `should support any satisfies with CMJsonList boolean`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `booleanList` SATISFIES `iterator1` END",
             parameters = emptyMap(),
@@ -144,7 +144,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support every satisfies with cmList number`() {
+    fun `should support every satisfies with CMJsonList number`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
@@ -156,7 +156,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support every satisfies with cmList string`() {
+    fun `should support every satisfies with CMJsonList string`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `stringList` SATISFIES UPPER(`iterator1`) = \"some value\" END",
             parameters = emptyMap(),
@@ -168,7 +168,7 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support every satisfies with cmList boolean`() {
+    fun `should support every satisfies with CMJsonList boolean`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `booleanList` SATISFIES `iterator1` END",
             parameters = emptyMap(),

@@ -4,10 +4,10 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
 
 class SelectClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
-
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
@@ -24,8 +24,7 @@ class SelectClause(private val expression: Expression, private vararg val expres
     }
 }
 
-class SelectRawClause(private val expression: Expression) : ISelectClause {
-
+class SelectRawClause(private val expression: SingleExpression) : ISelectClause {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(

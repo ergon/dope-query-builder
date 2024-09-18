@@ -3,14 +3,14 @@ package ch.ergon.dope.extension.type.conditional
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.coalesce
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.ifMissingOrNull
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("ifCMNumberFieldIsMissingOrNull")
 fun ifMissingOrNull(
-    firstExpression: CMField<out Number>,
-    secondExpression: CMField<out Number>,
-    vararg additionalExpressions: CMField<out Number>,
+    firstExpression: CMJsonField<out Number>,
+    secondExpression: CMJsonField<out Number>,
+    vararg additionalExpressions: CMJsonField<out Number>,
 ) = ifMissingOrNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -19,9 +19,9 @@ fun ifMissingOrNull(
 
 @JvmName("ifCMStringFieldIsMissingOrNull")
 fun ifMissingOrNull(
-    firstExpression: CMField<String>,
-    secondExpression: CMField<String>,
-    vararg additionalExpressions: CMField<String>,
+    firstExpression: CMJsonField<String>,
+    secondExpression: CMJsonField<String>,
+    vararg additionalExpressions: CMJsonField<String>,
 ) = ifMissingOrNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -30,9 +30,9 @@ fun ifMissingOrNull(
 
 @JvmName("ifCMBooleanFieldIsMissingOrNull")
 fun ifMissingOrNull(
-    firstExpression: CMField<Boolean>,
-    secondExpression: CMField<Boolean>,
-    vararg additionalExpressions: CMField<Boolean>,
+    firstExpression: CMJsonField<Boolean>,
+    secondExpression: CMJsonField<Boolean>,
+    vararg additionalExpressions: CMJsonField<Boolean>,
 ) = ifMissingOrNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -41,9 +41,9 @@ fun ifMissingOrNull(
 
 @JvmName("ifCMNumberListIsMissingOrNull")
 fun ifMissingOrNull(
-    firstExpression: CMList<out Number>,
-    secondExpression: CMList<out Number>,
-    vararg additionalExpressions: CMList<out Number>,
+    firstExpression: CMJsonList<out Number>,
+    secondExpression: CMJsonList<out Number>,
+    vararg additionalExpressions: CMJsonList<out Number>,
 ) = ifMissingOrNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -52,9 +52,9 @@ fun ifMissingOrNull(
 
 @JvmName("ifCMStringListIsMissingOrNull")
 fun ifMissingOrNull(
-    firstExpression: CMList<String>,
-    secondExpression: CMList<String>,
-    vararg additionalExpressions: CMList<String>,
+    firstExpression: CMJsonList<String>,
+    secondExpression: CMJsonList<String>,
+    vararg additionalExpressions: CMJsonList<String>,
 ) = ifMissingOrNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -63,9 +63,9 @@ fun ifMissingOrNull(
 
 @JvmName("ifCMBooleanListIsMissingOrNull")
 fun ifMissingOrNull(
-    firstExpression: CMList<Boolean>,
-    secondExpression: CMList<Boolean>,
-    vararg additionalExpressions: CMList<Boolean>,
+    firstExpression: CMJsonList<Boolean>,
+    secondExpression: CMJsonList<Boolean>,
+    vararg additionalExpressions: CMJsonList<Boolean>,
 ) = ifMissingOrNull(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -74,9 +74,9 @@ fun ifMissingOrNull(
 
 @JvmName("coalesceCMNumberField")
 fun coalesce(
-    firstExpression: CMField<out Number>,
-    secondExpression: CMField<out Number>,
-    vararg additionalExpressions: CMField<out Number>,
+    firstExpression: CMJsonField<out Number>,
+    secondExpression: CMJsonField<out Number>,
+    vararg additionalExpressions: CMJsonField<out Number>,
 ) = coalesce(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -85,9 +85,9 @@ fun coalesce(
 
 @JvmName("coalesceCMStringField")
 fun coalesce(
-    firstExpression: CMField<String>,
-    secondExpression: CMField<String>,
-    vararg additionalExpressions: CMField<String>,
+    firstExpression: CMJsonField<String>,
+    secondExpression: CMJsonField<String>,
+    vararg additionalExpressions: CMJsonField<String>,
 ) = coalesce(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -96,9 +96,9 @@ fun coalesce(
 
 @JvmName("coalesceCMBooleanField")
 fun coalesce(
-    firstExpression: CMField<Boolean>,
-    secondExpression: CMField<Boolean>,
-    vararg additionalExpressions: CMField<Boolean>,
+    firstExpression: CMJsonField<Boolean>,
+    secondExpression: CMJsonField<Boolean>,
+    vararg additionalExpressions: CMJsonField<Boolean>,
 ) = coalesce(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -107,9 +107,9 @@ fun coalesce(
 
 @JvmName("coalesceCMNumberList")
 fun coalesce(
-    firstExpression: CMList<out Number>,
-    secondExpression: CMList<out Number>,
-    vararg additionalExpressions: CMList<out Number>,
+    firstExpression: CMJsonList<out Number>,
+    secondExpression: CMJsonList<out Number>,
+    vararg additionalExpressions: CMJsonList<out Number>,
 ) = coalesce(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -118,9 +118,9 @@ fun coalesce(
 
 @JvmName("coalesceCMStringList")
 fun coalesce(
-    firstExpression: CMList<String>,
-    secondExpression: CMList<String>,
-    vararg additionalExpressions: CMList<String>,
+    firstExpression: CMJsonList<String>,
+    secondExpression: CMJsonList<String>,
+    vararg additionalExpressions: CMJsonList<String>,
 ) = coalesce(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
@@ -129,9 +129,9 @@ fun coalesce(
 
 @JvmName("coalesceCMBooleanField")
 fun coalesce(
-    firstExpression: CMList<Boolean>,
-    secondExpression: CMList<Boolean>,
-    vararg additionalExpressions: CMList<Boolean>,
+    firstExpression: CMJsonList<Boolean>,
+    secondExpression: CMJsonList<Boolean>,
+    vararg additionalExpressions: CMJsonList<Boolean>,
 ) = coalesce(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),
