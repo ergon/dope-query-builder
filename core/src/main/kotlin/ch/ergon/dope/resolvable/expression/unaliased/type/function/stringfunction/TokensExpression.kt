@@ -4,6 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.formatStringListToQueryStringWithBrackets
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
@@ -19,7 +20,7 @@ class TokensExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol = "TOKENS",
-                inStr.joinToString(prefix = "[\"", postfix = "\"]"),
+                formatStringListToQueryStringWithBrackets(inStr, prefix = "[\"", postfix = "\"]"),
                 optDopeQuery.queryString,
             ),
             parameters = optDopeQuery.parameters,

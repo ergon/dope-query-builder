@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 
-sealed class Bucket(open val name: String) : Fromable, Expression {
+sealed class Bucket(open val name: String) : Fromable, Joinable, Deletable, Updatable, Expression {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("`$name`", emptyMap())
 }
 

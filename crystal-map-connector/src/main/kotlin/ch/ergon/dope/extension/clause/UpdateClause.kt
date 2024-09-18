@@ -4,7 +4,6 @@ import ch.ergon.dope.resolvable.clause.IUpdateClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateSetClause
 import ch.ergon.dope.resolvable.clause.IUpdateUnsetClause
-import ch.ergon.dope.resolvable.clause.IUpdateUseKeysClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
@@ -46,7 +45,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMStringFieldToCMStringField")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<String>,
     value: CMJsonField<String>,
 ) = set(field.toDopeType(), value.toDopeType())
@@ -58,7 +57,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMBooleanFieldToCMBooleanField")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<Boolean>,
     value: CMJsonField<Boolean>,
 ) = set(field.toDopeType(), value.toDopeType())
@@ -70,7 +69,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMNumberListToCMNumberList")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonList<out Number>,
     value: CMJsonList<out Number>,
 ) = set(field.toDopeType(), value.toDopeType())
@@ -82,7 +81,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMStringListToCMStringList")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonList<String>,
     value: CMJsonList<String>,
 ) = set(field.toDopeType(), value.toDopeType())
@@ -94,7 +93,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMBooleanListToCMBooleanList")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonList<Boolean>,
     value: CMJsonList<Boolean>,
 ) = set(field.toDopeType(), value.toDopeType())
@@ -106,7 +105,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value.toDopeType())
 
 @JvmName("setCMNumberFieldToNumberTypeExpression")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<out Number>,
     value: TypeExpression<NumberType>,
 ) = set(field.toDopeType(), value)
@@ -118,7 +117,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMStringFieldToStringTypeExpression")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<String>,
     value: TypeExpression<StringType>,
 ) = set(field.toDopeType(), value)
@@ -130,7 +129,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMBooleanFieldToBooleanTypeExpression")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<Boolean>,
     value: TypeExpression<BooleanType>,
 ) = set(field.toDopeType(), value)
@@ -142,7 +141,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMNumberListToNumberArrayTypeExpression")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonList<out Number>,
     value: TypeExpression<ArrayType<NumberType>>,
 ) = set(field.toDopeType(), value)
@@ -154,7 +153,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMStringListToStringArrayTypeExpression")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonList<String>,
     value: TypeExpression<ArrayType<StringType>>,
 ) = set(field.toDopeType(), value)
@@ -166,7 +165,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMBooleanListToBooleanArrayTypeExpression")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonList<Boolean>,
     value: TypeExpression<ArrayType<BooleanType>>,
 ) = set(field.toDopeType(), value)
@@ -178,7 +177,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMNumberFieldToNumber")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<out Number>,
     value: Number,
 ) = set(field.toDopeType(), value)
@@ -190,7 +189,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMConverterNumberFieldToNumber")
-fun <Convertable : Any, JsonType : Number> IUpdateUseKeysClause.set(
+fun <Convertable : Any, JsonType : Number> IUpdateClause.set(
     field: CMConverterField<Convertable, JsonType>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
@@ -202,7 +201,7 @@ fun <Convertable : Any, JsonType : Number> SetClause.set(
 ) = set(field.toDopeType(), field.toDopeType(value))
 
 @JvmName("setCMStringFieldToString")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<String>,
     value: String,
 ) = set(field.toDopeType(), value)
@@ -214,7 +213,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMConverterStringFieldToNumber")
-fun <Convertable : Any> IUpdateUseKeysClause.set(
+fun <Convertable : Any> IUpdateClause.set(
     field: CMConverterField<Convertable, String>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
@@ -226,7 +225,7 @@ fun <Convertable : Any> SetClause.set(
 ) = set(field.toDopeType(), field.toDopeType(value))
 
 @JvmName("setCMBooleanFieldToBoolean")
-fun IUpdateUseKeysClause.set(
+fun IUpdateClause.set(
     field: CMJsonField<Boolean>,
     value: Boolean,
 ) = set(field.toDopeType(), value)
@@ -238,7 +237,7 @@ fun SetClause.set(
 ) = set(field.toDopeType(), value)
 
 @JvmName("setCMConverterBooleanFieldToNumber")
-fun <Convertable : Any> IUpdateUseKeysClause.set(
+fun <Convertable : Any> IUpdateClause.set(
     field: CMConverterField<Convertable, Boolean>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
@@ -248,6 +247,3 @@ fun <Convertable : Any> SetClause.set(
     field: CMConverterField<Convertable, Boolean>,
     value: Convertable,
 ) = set(field.toDopeType(), field.toDopeType(value))
-
-fun IUpdateClause.useKeys(useKeys: CMJsonField<String>) = useKeys(useKeys.toDopeType())
-fun IUpdateClause.useKeys(useKeys: CMJsonList<String>) = useKeys(useKeys.toDopeType())

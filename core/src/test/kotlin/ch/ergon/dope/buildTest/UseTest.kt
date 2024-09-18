@@ -2,17 +2,19 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.fromable.useFtsIndex
+import ch.ergon.dope.resolvable.fromable.useGsiIndex
+import ch.ergon.dope.resolvable.fromable.useIndex
+import ch.ergon.dope.resolvable.fromable.useKeys
+import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class UseClauseTest {
+class UseTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest
@@ -27,10 +29,7 @@ class UseClauseTest {
         val actual: String = create
             .selectAsterisk()
             .from(
-                someBucket(),
-            )
-            .useKeys(
-                "someId".toDopeType(),
+                someBucket().useKeys("someId"),
             )
             .build().queryString
 
@@ -44,10 +43,7 @@ class UseClauseTest {
         val actual: String = create
             .selectAsterisk()
             .from(
-                someBucket(),
-            )
-            .useKeys(
-                someStringField(),
+                someBucket().useKeys(someStringField()),
             )
             .build().queryString
 
@@ -61,11 +57,11 @@ class UseClauseTest {
         val actual: String = create
             .selectAsterisk()
             .from(
-                someBucket(),
+                someBucket().useKeys(
+                    listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
+                ),
             )
-            .useKeys(
-                listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -77,30 +73,11 @@ class UseClauseTest {
         val actual: String = create
             .selectAsterisk()
             .from(
-                someBucket(),
+                someBucket().useKeys(
+                    someStringArrayField(),
+                ),
             )
-            .useKeys(
-                someStringArrayField(),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support use keys clause with where clause`() {
-        val expected = "SELECT * FROM `someBucket` USE KEYS \"someId\" WHERE `numberField` = 1"
-
-        val actual: String = create
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            )
-            .useKeys(
-                "someId".toDopeType(),
-            )
-            .where(
-                someNumberField().isEqualTo(1),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -112,10 +89,9 @@ class UseClauseTest {
         val actual: String = create
             .selectAsterisk()
             .from(
-                someBucket(),
-            )
-            .useKeys(
-                concat("some", "Id"),
+                someBucket().useKeys(
+                    concat("some", "Id"),
+                ),
             )
             .build().queryString
 
@@ -128,10 +104,9 @@ class UseClauseTest {
 
         val actual: String = create
             .deleteFrom(
-                someBucket(),
-            )
-            .useKeys(
-                "someId".toDopeType(),
+                someBucket().useKeys(
+                    "someId",
+                ),
             )
             .build().queryString
 
@@ -144,10 +119,9 @@ class UseClauseTest {
 
         val actual: String = create
             .deleteFrom(
-                someBucket(),
-            )
-            .useKeys(
-                someStringField(),
+                someBucket().useKeys(
+                    someStringField(),
+                ),
             )
             .build().queryString
 
@@ -160,11 +134,11 @@ class UseClauseTest {
 
         val actual: String = create
             .deleteFrom(
-                someBucket(),
+                someBucket().useKeys(
+                    listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
+                ),
             )
-            .useKeys(
-                listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -175,29 +149,11 @@ class UseClauseTest {
 
         val actual: String = create
             .deleteFrom(
-                someBucket(),
+                someBucket().useKeys(
+                    someStringArrayField(),
+                ),
             )
-            .useKeys(
-                someStringArrayField(),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support delete use keys clause with where clause`() {
-        val expected = "DELETE FROM `someBucket` USE KEYS \"someId\" WHERE `numberField` = 1"
-
-        val actual: String = create
-            .deleteFrom(
-                someBucket(),
-            )
-            .useKeys(
-                "someId".toDopeType(),
-            )
-            .where(
-                someNumberField().isEqualTo(1),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -208,11 +164,11 @@ class UseClauseTest {
 
         val actual: String = create
             .deleteFrom(
-                someBucket(),
+                someBucket().useKeys(
+                    concat("some", "Id"),
+                ),
             )
-            .useKeys(
-                concat("some", "Id"),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -223,10 +179,9 @@ class UseClauseTest {
 
         val actual: String = create
             .update(
-                someBucket(),
-            )
-            .useKeys(
-                "someId".toDopeType(),
+                someBucket().useKeys(
+                    "someId",
+                ),
             )
             .build().queryString
 
@@ -239,10 +194,9 @@ class UseClauseTest {
 
         val actual: String = create
             .update(
-                someBucket(),
-            )
-            .useKeys(
-                someStringField(),
+                someBucket().useKeys(
+                    someStringField(),
+                ),
             )
             .build().queryString
 
@@ -255,11 +209,11 @@ class UseClauseTest {
 
         val actual: String = create
             .update(
-                someBucket(),
+                someBucket().useKeys(
+                    listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
+                ),
             )
-            .useKeys(
-                listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -270,29 +224,11 @@ class UseClauseTest {
 
         val actual: String = create
             .update(
-                someBucket(),
+                someBucket().useKeys(
+                    someStringArrayField(),
+                ),
             )
-            .useKeys(
-                someStringArrayField(),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support update use keys clause with where clause`() {
-        val expected = "UPDATE `someBucket` USE KEYS \"someId\" WHERE `numberField` = 1"
-
-        val actual: String = create
-            .update(
-                someBucket(),
-            )
-            .useKeys(
-                "someId".toDopeType(),
-            )
-            .where(
-                someNumberField().isEqualTo(1),
-            ).build().queryString
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -303,11 +239,25 @@ class UseClauseTest {
 
         val actual: String = create
             .update(
-                someBucket(),
+                someBucket().useKeys(
+                    concat("some", "Id"),
+                ),
             )
-            .useKeys(
-                concat("some", "Id"),
-            ).build().queryString
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use index clause`() {
+        val expected = "SELECT * FROM `someBucket` USE INDEX (`someIndex` USING FTS, `otherIndex`, `index3` USING GSI)"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket().useFtsIndex("someIndex").useIndex("otherIndex").useGsiIndex("index3"),
+            )
+            .build().queryString
 
         assertEquals(expected, actual)
     }
