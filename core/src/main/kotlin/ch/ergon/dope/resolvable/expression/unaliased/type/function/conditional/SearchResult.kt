@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ValidType
@@ -12,8 +13,14 @@ class SearchResult<T : ValidType, U : ValidType>(
     private val resultExpression: UnaliasedExpression<U>,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val searchExpressionDopeQuery = searchExpression.toDopeQuery(manager)
-        val resultExpressionDopeQuery = resultExpression.toDopeQuery(manager)
+        val searchExpressionDopeQuery = when (searchExpression) {
+            is ISelectOffsetClause<*> -> searchExpression.asSubQuery().toDopeQuery(manager)
+            else -> searchExpression.toDopeQuery(manager)
+        }
+        val resultExpressionDopeQuery = when (resultExpression) {
+            is ISelectOffsetClause<*> -> resultExpression.asSubQuery().toDopeQuery(manager)
+            else -> resultExpression.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = "${searchExpressionDopeQuery.queryString}, ${resultExpressionDopeQuery.queryString}",
             parameters = searchExpressionDopeQuery.parameters + resultExpressionDopeQuery.parameters,

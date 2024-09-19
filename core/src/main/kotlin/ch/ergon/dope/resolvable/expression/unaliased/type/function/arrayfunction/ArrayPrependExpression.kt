@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -17,9 +18,20 @@ class ArrayPrependExpression<T : ValidType>(
     private vararg val additionalValues: TypeExpression<T>,
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery(manager)
-        val valueDopeQuery = value.toDopeQuery(manager)
-        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery(manager) }
+        val arrayDopeQuery = when (array) {
+            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            else -> array.toDopeQuery(manager)
+        }
+        val valueDopeQuery = when (value) {
+            is ISelectOffsetClause<*> -> value.asSubQuery().toDopeQuery(manager)
+            else -> value.toDopeQuery(manager)
+        }
+        val additionalValuesDopeQuery = additionalValues.map {
+            when (it) {
+                is ISelectOffsetClause<*> -> it.asSubQuery().toDopeQuery(manager)
+                else -> it.toDopeQuery(manager)
+            }
+        }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "ARRAY_PREPEND",

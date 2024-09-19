@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
@@ -22,7 +23,10 @@ sealed class SatisfiesExpression<T : ValidType>(
     private val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val listDopeQuery = arrayExpression.toDopeQuery(manager)
+        val listDopeQuery = when (arrayExpression) {
+            is ISelectOffsetClause<*> -> arrayExpression.asSubQuery().toDopeQuery(manager)
+            else -> arrayExpression.toDopeQuery(manager)
+        }
         val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
         val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery(manager)
         return DopeQuery(

@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -16,8 +17,14 @@ class ArrayBinarySearchExpression<T : ValidType>(
     private val value: TypeExpression<T>,
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery(manager)
-        val valueDopeQuery = value.toDopeQuery(manager)
+        val arrayDopeQuery = when (array) {
+            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            else -> array.toDopeQuery(manager)
+        }
+        val valueDopeQuery = when (value) {
+            is ISelectOffsetClause<*> -> value.asSubQuery().toDopeQuery(manager)
+            else -> value.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_BINARY_SEARCH", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,

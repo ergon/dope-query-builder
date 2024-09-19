@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
@@ -31,7 +32,10 @@ class UseKeysClass private constructor(
             is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(manager)
             else -> bucket.toDopeQuery(manager)
         }
-        val keysDopeQuery = useKeys.toDopeQuery(manager)
+        val keysDopeQuery = when (useKeys) {
+            is ISelectOffsetClause<*> -> useKeys.asSubQuery().toDopeQuery(manager)
+            else -> useKeys.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = bucketDopeQuery.parameters + keysDopeQuery.parameters,

@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -17,9 +18,18 @@ class Nvl2Expression<T : ValidType>(
     private val valueIfNotExists: UnaliasedExpression<T>,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val initialExpressionDopeQuery = initialExpression.toDopeQuery(manager)
-        val valueIfExistsDopeQuery = valueIfExists.toDopeQuery(manager)
-        val valueIfNotExistsDopeQuery = valueIfNotExists.toDopeQuery(manager)
+        val initialExpressionDopeQuery = when (initialExpression) {
+            is ISelectOffsetClause<*> -> initialExpression.asSubQuery().toDopeQuery(manager)
+            else -> initialExpression.toDopeQuery(manager)
+        }
+        val valueIfExistsDopeQuery = when (valueIfExists) {
+            is ISelectOffsetClause<*> -> valueIfExists.asSubQuery().toDopeQuery(manager)
+            else -> valueIfExists.toDopeQuery(manager)
+        }
+        val valueIfNotExistsDopeQuery = when (valueIfNotExists) {
+            is ISelectOffsetClause<*> -> valueIfNotExists.asSubQuery().toDopeQuery(manager)
+            else -> valueIfNotExists.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "NVL2",

@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
@@ -9,9 +10,12 @@ import ch.ergon.dope.validtype.ValidType
 class AliasedExpression<T : ValidType>(
     private val unaliasedExpression: UnaliasedExpression<T>,
     private val alias: String,
-) : SingleExpression {
+) : SingleExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery(manager)
+        val unaliasedExpressionDopeQuery = when (unaliasedExpression) {
+            is ISelectOffsetClause<*> -> unaliasedExpression.asSubQuery().toDopeQuery(manager)
+            else -> unaliasedExpression.toDopeQuery(manager)
+        }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(unaliasedExpressionDopeQuery.queryString, "AS", "`$alias`"),
             parameters = unaliasedExpressionDopeQuery.parameters,
