@@ -127,7 +127,7 @@ fun <U : ValidType> CaseClass<BooleanType>.whenThen(whenThenCondition: SearchRes
 fun <U : ValidType> SearchedCaseExpression<U>.whenThen(whenThenCondition: SearchResult<BooleanType, U>) =
     SearchedCaseExpression(case, firstSearchResult, *additionalSearchResult, whenThenCondition)
 
-@JvmName("whenThenWithoutGeneric")
+@JvmName("whenThenWithOutGeneric")
 fun SearchedCaseExpression<out ValidType>.whenThen(whenThenCondition: SearchResult<BooleanType, out ValidType>) =
     SearchedCaseExpression(case, firstSearchResult, *additionalSearchResult, whenThenCondition)
 
@@ -135,6 +135,6 @@ fun SearchedCaseExpression<out ValidType>.whenThen(whenThenCondition: SearchResu
 fun <U : ValidType> SearchedCaseExpression<U>.otherwise(elseCase: TypeExpression<U>) =
     SearchedElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
 
-@JvmName("otherwiseWithoutGeneric")
+@JvmName("otherwiseWithOutGeneric")
 fun SearchedCaseExpression<out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
     SearchedElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
