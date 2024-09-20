@@ -3,6 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -12,6 +13,10 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
 import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.condition
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.nowStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
@@ -785,6 +790,23 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = create
             .select(someBucket.asterisk())
+            .from(someBucket)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support selecting case`() {
+        val someBucket = someBucket()
+        val expected = "SELECT CASE `numberField` WHEN `other` THEN 2 END, " +
+            "CASE WHEN `booleanField` THEN `numberField` ELSE `stringField` END AS `alias` FROM `someBucket`"
+
+        val actual = create
+            .select(
+                case(someNumberField()).condition(someNumberField("other").resultsIn(2)),
+                case().condition(someBooleanField().resultsIn(someNumberField())).otherwise(someStringField()).alias("alias"),
+            )
             .from(someBucket)
             .build().queryString
 

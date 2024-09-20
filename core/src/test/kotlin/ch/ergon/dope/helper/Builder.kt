@@ -1,9 +1,11 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
@@ -13,6 +15,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
@@ -45,6 +48,10 @@ private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
 }
+
+fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
+    expression,
+)
 
 fun someStringSearchNumberResult(
     searchExpression: UnaliasedExpression<StringType> = someString().toDopeType(),
