@@ -16,8 +16,8 @@ enum class OrderByType(val type: String) {
 
 private const val ORDER_BY = "ORDER BY"
 
-open class SelectOrderByClause<R : ValidType>(private val stringField: Field<StringType>, private val parentClause: ISelectGroupByClause<R>) :
-    ISelectOrderByClause<R> {
+open class SelectOrderByClause<T : ValidType>(private val stringField: Field<StringType>, private val parentClause: ISelectGroupByClause<T>) :
+    ISelectOrderByClause<T> {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
@@ -29,11 +29,11 @@ open class SelectOrderByClause<R : ValidType>(private val stringField: Field<Str
     }
 }
 
-class SelectOrderByTypeClause<R : ValidType>(
+class SelectOrderByTypeClause<T : ValidType>(
     private val stringField: Field<StringType>,
     private val orderByType: OrderByType,
-    private val parentClause: ISelectGroupByClause<R>,
-) : SelectOrderByClause<R>(stringField, parentClause) {
+    private val parentClause: ISelectGroupByClause<T>,
+) : SelectOrderByClause<T>(stringField, parentClause) {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)

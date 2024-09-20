@@ -34,7 +34,7 @@ class SelectClause(private val expression: Expression, private vararg val expres
     }
 }
 
-class SelectRawClause<R : ValidType>(private val expression: SingleExpression<R>) : ISelectClause<R> {
+class SelectRawClause<T : ValidType>(private val expression: SingleExpression<T>) : ISelectClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(

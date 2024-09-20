@@ -20,7 +20,7 @@ class QueryBuilder {
 
     fun selectDistinct(expression: Expression, vararg expressions: Expression) = SelectDistinctClause(expression, *expressions)
 
-    fun <R : ValidType> selectRaw(expression: SingleExpression<R>) = SelectRawClause(expression)
+    fun <T : ValidType> selectRaw(expression: SingleExpression<T>) = SelectRawClause(expression)
 
     fun selectFrom(fromable: Fromable) = SelectClause(AsteriskExpression()).from(fromable)
 

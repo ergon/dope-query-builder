@@ -28,8 +28,8 @@ sealed class LimitClause(
     }
 }
 
-class SelectLimitClause<R : ValidType>(numberExpression: TypeExpression<NumberType>, parentClause: ISelectOrderByClause<R>) :
-    ISelectLimitClause<R>, LimitClause(numberExpression, parentClause)
+class SelectLimitClause<T : ValidType>(numberExpression: TypeExpression<NumberType>, parentClause: ISelectOrderByClause<T>) :
+    ISelectLimitClause<T>, LimitClause(numberExpression, parentClause)
 
 class DeleteLimitClause(numberExpression: TypeExpression<NumberType>, parentClause: IDeleteWhereClause) :
     IDeleteLimitClause, LimitClause(numberExpression, parentClause)

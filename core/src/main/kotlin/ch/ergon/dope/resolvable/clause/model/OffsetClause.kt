@@ -26,8 +26,8 @@ sealed class OffsetClause(
     }
 }
 
-class SelectOffsetClause<R : ValidType>(numberExpression: TypeExpression<NumberType>, parentClause: ISelectLimitClause<R>) :
-    ISelectOffsetClause<R>, OffsetClause(numberExpression, parentClause)
+class SelectOffsetClause<T : ValidType>(numberExpression: TypeExpression<NumberType>, parentClause: ISelectLimitClause<T>) :
+    ISelectOffsetClause<T>, OffsetClause(numberExpression, parentClause)
 
 class DeleteOffsetClause(numberExpression: TypeExpression<NumberType>, parentClause: IDeleteLimitClause) :
     IDeleteOffsetClause, OffsetClause(numberExpression, parentClause)

@@ -28,8 +28,8 @@ sealed class WhereClause(
     }
 }
 
-class SelectWhereClause<R : ValidType>(whereExpression: TypeExpression<BooleanType>, parentClause: ISelectFromClause<R>) :
-    ISelectWhereClause<R>, WhereClause(whereExpression, parentClause)
+class SelectWhereClause<T : ValidType>(whereExpression: TypeExpression<BooleanType>, parentClause: ISelectFromClause<T>) :
+    ISelectWhereClause<T>, WhereClause(whereExpression, parentClause)
 
 class DeleteWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: IDeleteClause) :
     IDeleteWhereClause, WhereClause(whereExpression, parentClause)
