@@ -8,10 +8,8 @@ import ch.ergon.dope.helper.someCaseClass
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedElseCaseExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleElseCaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.ElseCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.condition
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
@@ -28,7 +26,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE `numberField` WHEN `other` THEN `stringField` END",
             emptyMap(),
         )
-        val underTest = SimpleCaseExpression(
+        val underTest = CaseExpression(
             CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
         )
@@ -44,7 +42,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
             emptyMap(),
         )
-        val underTest = SimpleCaseExpression(
+        val underTest = CaseExpression(
             CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
             SearchResult(someNumberField("other2"), someNumberField()),
@@ -61,7 +59,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
             emptyMap(),
         )
-        val underTest = SimpleElseCaseExpression(
+        val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
             elseCase = someNumberField(),
@@ -78,7 +76,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
             emptyMap(),
         )
-        val underTest = SimpleElseCaseExpression(
+        val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
             SearchResult(someNumberField("other2"), someNumberField()),
@@ -96,7 +94,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE WHEN `booleanField` THEN `stringField` END",
             emptyMap(),
         )
-        val underTest = SearchedCaseExpression(
+        val underTest = CaseExpression(
             CaseClass(),
             SearchResult(someBooleanField(), someStringField()),
         )
@@ -112,7 +110,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
             emptyMap(),
         )
-        val underTest = SearchedCaseExpression(
+        val underTest = CaseExpression(
             CaseClass(),
             SearchResult(someBooleanField("first"), someStringField()),
             SearchResult(someBooleanField("second"), someNumberField()),
@@ -129,7 +127,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
             emptyMap(),
         )
-        val underTest = SearchedElseCaseExpression(
+        val underTest = ElseCaseExpression(
             CaseClass(),
             SearchResult(someBooleanField(), someStringField()),
             elseCase = someNumberField(),
@@ -146,7 +144,7 @@ class CaseExpressionTest : ManagerDependentTest {
             "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
             emptyMap(),
         )
-        val underTest = SearchedElseCaseExpression(
+        val underTest = ElseCaseExpression(
             CaseClass(),
             SearchResult(someBooleanField(), someStringField()),
             SearchResult(someBooleanField("other2"), someNumberField()),
@@ -176,10 +174,10 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support when then function with simple case`() {
         val numberField = someNumberField()
         val case = someCaseClass(numberField)
-        val firstcondition = SearchResult(someNumberField(), someStringField())
-        val expected = SimpleCaseExpression(case, firstcondition)
+        val firstCondition = SearchResult(someNumberField(), someStringField())
+        val expected = CaseExpression(case, firstCondition)
 
-        val actual = case.condition(firstcondition)
+        val actual = case.condition(firstCondition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -188,11 +186,11 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support multiple when then function with simple case`() {
         val numberField1 = someNumberField()
         val case = someCaseClass(numberField1)
-        val firstcondition = SearchResult(someNumberField(), someStringField())
-        val additionalcondition = SearchResult(someNumberField(), someNumberField())
-        val expected = SimpleCaseExpression(case, firstcondition, additionalcondition)
+        val firstCondition = SearchResult(someNumberField(), someStringField())
+        val additionalCondition = SearchResult(someNumberField(), someNumberField())
+        val expected = CaseExpression(case, firstCondition, additionalCondition)
 
-        val actual = case.condition(firstcondition).condition(additionalcondition)
+        val actual = case.condition(firstCondition).condition(additionalCondition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -201,11 +199,11 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support multiple when then function with simple case same type`() {
         val numberField1 = someNumberField()
         val case = someCaseClass(numberField1)
-        val firstcondition = SearchResult(someNumberField(), someStringField())
-        val additionalcondition = SearchResult(someNumberField(), someStringField())
-        val expected = SimpleCaseExpression(case, firstcondition, additionalcondition)
+        val firstCondition = SearchResult(someNumberField(), someStringField())
+        val additionalCondition = SearchResult(someNumberField(), someStringField())
+        val expected = CaseExpression(case, firstCondition, additionalCondition)
 
-        val actual = case.condition(firstcondition).condition(additionalcondition)
+        val actual = case.condition(firstCondition).condition(additionalCondition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -217,10 +215,10 @@ class CaseExpressionTest : ManagerDependentTest {
         val whenExpression = someNumberField()
         val thenExpression = someStringField()
         val elseCase = someNumberField()
-        val firstcondition = SearchResult(whenExpression, thenExpression)
-        val expected = SimpleElseCaseExpression(case, firstcondition, elseCase = elseCase)
+        val firstCondition = SearchResult(whenExpression, thenExpression)
+        val expected = ElseCaseExpression(case, firstCondition, elseCase = elseCase)
 
-        val actual = case.condition(firstcondition).otherwise(elseCase)
+        val actual = case.condition(firstCondition).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -229,38 +227,38 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support multiple when then function with simple case and else`() {
         val numberField = someNumberField()
         val case = someCaseClass(numberField)
-        val firstcondition = SearchResult(someNumberField(), someStringField())
-        val additionalcondition = SearchResult(someNumberField(), someNumberField())
+        val firstCondition = SearchResult(someNumberField(), someStringField())
+        val additionalCondition = SearchResult(someNumberField(), someNumberField())
         val elseCase = someNumberField()
-        val expected = SimpleElseCaseExpression(
+        val expected = ElseCaseExpression(
             case,
-            firstcondition,
-            additionalcondition,
+            firstCondition,
+            additionalCondition,
             elseCase = elseCase,
         )
 
-        val actual = case.condition(firstcondition).condition(additionalcondition).otherwise(elseCase)
+        val actual = case.condition(firstCondition).condition(additionalCondition).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support when then function with searched case`() {
-        val firstcondition = SearchResult(someBooleanField(), someStringField())
-        val expected = SearchedCaseExpression(CaseClass(), firstcondition)
+        val firstCondition = SearchResult(someBooleanField(), someStringField())
+        val expected = CaseExpression(CaseClass(), firstCondition)
 
-        val actual = case().condition(firstcondition)
+        val actual = case().condition(firstCondition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support multiple when then function with searched case same type`() {
-        val firstcondition = SearchResult(someBooleanField(), someStringField())
-        val additionalcondition = SearchResult(someBooleanField(), someStringField())
-        val expected = SearchedCaseExpression(CaseClass(), firstcondition, additionalcondition)
+        val firstCondition = SearchResult(someBooleanField(), someStringField())
+        val additionalCondition = SearchResult(someBooleanField(), someStringField())
+        val expected = CaseExpression(CaseClass(), firstCondition, additionalCondition)
 
-        val actual = case().condition(firstcondition).condition(additionalcondition)
+        val actual = case().condition(firstCondition).condition(additionalCondition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -268,39 +266,39 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support multiple when then function with searched case`() {
         val whenExpression = someBooleanField()
-        val firstcondition = SearchResult(whenExpression, someStringField())
-        val additionalcondition = SearchResult(someBooleanField(), someNumberField())
-        val expected = SearchedCaseExpression(CaseClass(), firstcondition, additionalcondition)
+        val firstCondition = SearchResult(whenExpression, someStringField())
+        val additionalCondition = SearchResult(someBooleanField(), someNumberField())
+        val expected = CaseExpression(CaseClass(), firstCondition, additionalCondition)
 
-        val actual = case().condition(firstcondition).condition(additionalcondition)
+        val actual = case().condition(firstCondition).condition(additionalCondition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support when then function with searched case and else`() {
-        val firstcondition = SearchResult(someBooleanField(), someStringField())
+        val firstCondition = SearchResult(someBooleanField(), someStringField())
         val elseCase = someNumberField()
-        val expected = SearchedElseCaseExpression(CaseClass(), firstcondition, elseCase = elseCase)
+        val expected = ElseCaseExpression(CaseClass(), firstCondition, elseCase = elseCase)
 
-        val actual = case().condition(firstcondition).otherwise(elseCase)
+        val actual = case().condition(firstCondition).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support multiple when then function with searched case and else`() {
-        val firstcondition = SearchResult(someBooleanField(), someStringField())
-        val additionalcondition = SearchResult(someBooleanField(), someNumberField())
+        val firstCondition = SearchResult(someBooleanField(), someStringField())
+        val additionalCondition = SearchResult(someBooleanField(), someNumberField())
         val elseCase = someNumberField()
-        val expected = SearchedElseCaseExpression(
+        val expected = ElseCaseExpression(
             CaseClass(),
-            firstcondition,
-            additionalcondition,
+            firstCondition,
+            additionalCondition,
             elseCase = elseCase,
         )
 
-        val actual = case().condition(firstcondition).condition(additionalcondition).otherwise(elseCase)
+        val actual = case().condition(firstCondition).condition(additionalCondition).otherwise(elseCase)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

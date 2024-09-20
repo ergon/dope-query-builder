@@ -11,8 +11,8 @@ import ch.ergon.dope.validtype.ValidType
 private const val CASE = "CASE"
 private const val WHEN = "WHEN"
 private const val THEN = "THEN"
-private const val END = "END"
 private const val ELSE = "ELSE"
+private const val END = "END"
 
 class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
@@ -21,7 +21,7 @@ class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Re
     }
 }
 
-open class SimpleCaseExpression<T : ValidType, U : ValidType>(
+open class CaseExpression<T : ValidType, U : ValidType>(
     val case: CaseClass<T>,
     val firstSearchResult: SearchResult<T, out U>,
     open vararg val additionalSearchResult: SearchResult<T, out U>,
@@ -42,7 +42,7 @@ open class SimpleCaseExpression<T : ValidType, U : ValidType>(
     }
 }
 
-open class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
+open class ElseCaseExpression<T : ValidType, U : ValidType>(
     private val case: CaseClass<T>,
     private val firstSearchResult: SearchResult<T, out U>,
     private vararg val additionalSearchResult: SearchResult<T, out U>,
@@ -66,57 +66,46 @@ open class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
     }
 }
 
-fun <T : ValidType> case(case: TypeExpression<T>) = CaseClass(case)
-
-fun <T : ValidType, U : ValidType> CaseClass<T>.condition(conditionExpression: SearchResult<T, U>) =
-    SimpleCaseExpression(this, conditionExpression)
-
-@JvmName("conditionWithGeneric")
-fun <T : ValidType, U : ValidType> SimpleCaseExpression<T, U>.condition(conditionExpression: SearchResult<T, U>) =
-    SimpleCaseExpression(case, firstSearchResult, *additionalSearchResult, conditionExpression)
-
-@JvmName("conditionWithoutGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.condition(conditionExpression: SearchResult<T, out ValidType>) =
-    SimpleCaseExpression(case, firstSearchResult, *additionalSearchResult, conditionExpression)
-
-@JvmName("otherwiseWithGeneric")
-fun <T : ValidType, U : ValidType> SimpleCaseExpression<T, U>.otherwise(elseCase: TypeExpression<U>) =
-    SimpleElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
-
-@JvmName("otherwiseWithoutGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
-    SimpleElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
-
-class SearchedCaseExpression<U : ValidType>(
-    case: CaseClass<BooleanType>,
-    firstSearchResult: SearchResult<BooleanType, out U>,
-    vararg additionalSearchResult: SearchResult<BooleanType, out U>,
-) : SimpleCaseExpression<BooleanType, U>(case, firstSearchResult, *additionalSearchResult)
-
-class SearchedElseCaseExpression<U : ValidType>(
-    case: CaseClass<BooleanType>,
-    firstSearchResult: SearchResult<BooleanType, out U>,
-    vararg additionalSearchResult: SearchResult<BooleanType, out U>,
-    elseCase: TypeExpression<out U>,
-) : SimpleElseCaseExpression<BooleanType, U>(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
-
 fun case() = CaseClass<BooleanType>()
 
+fun <T : ValidType> case(case: TypeExpression<T>) = CaseClass(case)
+
+@JvmName("simpleCaseCondition")
+fun <T : ValidType, U : ValidType> CaseClass<T>.condition(conditionExpression: SearchResult<T, U>) =
+    CaseExpression(this, conditionExpression)
+
+@JvmName("simpleCaseConditionWithGeneric")
+fun <T : ValidType, U : ValidType> CaseExpression<T, U>.condition(conditionExpression: SearchResult<T, U>) =
+    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditionExpression)
+
+@JvmName("simpleCaseConditionWithOutGeneric")
+fun <T : ValidType> CaseExpression<T, out ValidType>.condition(conditionExpression: SearchResult<T, out ValidType>) =
+    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditionExpression)
+
+@JvmName("simpleCaseOtherwiseWithGeneric")
+fun <T : ValidType, U : ValidType> CaseExpression<T, U>.otherwise(elseCase: TypeExpression<U>) =
+    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+
+@JvmName("simpleCaseOtherwiseWithOutGeneric")
+fun <T : ValidType> CaseExpression<T, out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
+    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+
+@JvmName("searchedCaseCondition")
 fun <U : ValidType> CaseClass<BooleanType>.condition(conditionCondition: SearchResult<BooleanType, U>) =
-    SearchedCaseExpression(this, conditionCondition)
+    CaseExpression(this, conditionCondition)
 
-@JvmName("conditionWithGeneric")
-fun <U : ValidType> SearchedCaseExpression<U>.condition(conditionCondition: SearchResult<BooleanType, U>) =
-    SearchedCaseExpression(case, firstSearchResult, *additionalSearchResult, conditionCondition)
+@JvmName("searchedCaseConditionWithGeneric")
+fun <U : ValidType> CaseExpression<BooleanType, U>.condition(conditionCondition: SearchResult<BooleanType, U>) =
+    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditionCondition)
 
-@JvmName("conditionWithOutGeneric")
-fun SearchedCaseExpression<out ValidType>.condition(conditionCondition: SearchResult<BooleanType, out ValidType>) =
-    SearchedCaseExpression(case, firstSearchResult, *additionalSearchResult, conditionCondition)
+@JvmName("searchedCaseConditionWithOutGeneric")
+fun CaseExpression<BooleanType, out ValidType>.condition(conditionCondition: SearchResult<BooleanType, out ValidType>) =
+    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditionCondition)
 
-@JvmName("otherwiseWithGeneric")
-fun <U : ValidType> SearchedCaseExpression<U>.otherwise(elseCase: TypeExpression<U>) =
-    SearchedElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+@JvmName("searchedCaseOtherwiseWithGeneric")
+fun <U : ValidType> CaseExpression<BooleanType, U>.otherwise(elseCase: TypeExpression<U>) =
+    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
 
-@JvmName("otherwiseWithOutGeneric")
-fun SearchedCaseExpression<out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
-    SearchedElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+@JvmName("searchedCaseOtherwiseWithOutGeneric")
+fun CaseExpression<BooleanType, out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
+    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
