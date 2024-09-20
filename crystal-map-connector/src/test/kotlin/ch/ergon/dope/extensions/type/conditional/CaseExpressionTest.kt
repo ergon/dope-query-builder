@@ -63,7 +63,7 @@ class CaseExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should create CaseClass from CMList of Number`() {
+    fun `should create CaseClass from CMJsonList of Number`() {
         val expression = someCMNumberList()
         val expected = CaseClass(expression.toDopeType())
 
@@ -73,7 +73,7 @@ class CaseExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should create CaseClass from CMList of String`() {
+    fun `should create CaseClass from CMJsonList of String`() {
         val expression = someCMStringList()
         val expected = CaseClass(expression.toDopeType())
 
@@ -83,7 +83,7 @@ class CaseExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should create CaseClass from CMList of Boolean`() {
+    fun `should create CaseClass from CMJsonList of Boolean`() {
         val expression = someCMBooleanList()
         val expected = CaseClass(expression.toDopeType())
 

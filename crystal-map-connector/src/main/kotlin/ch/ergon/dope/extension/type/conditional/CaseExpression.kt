@@ -9,71 +9,71 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("caseNumberField")
-fun case(expression: CMField<out Number>) = CaseClass(expression.toDopeType())
+fun case(expression: CMJsonField<out Number>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseStringField")
-fun case(expression: CMField<String>) = CaseClass(expression.toDopeType())
+fun case(expression: CMJsonField<String>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseBooleanField")
-fun case(expression: CMField<Boolean>) = CaseClass(expression.toDopeType())
+fun case(expression: CMJsonField<Boolean>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseNumberList")
-fun case(expression: CMList<out Number>) = CaseClass(expression.toDopeType())
+fun case(expression: CMJsonList<out Number>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseStringList")
-fun case(expression: CMList<String>) = CaseClass(expression.toDopeType())
+fun case(expression: CMJsonList<String>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseBooleanList")
-fun case(expression: CMList<Boolean>) = CaseClass(expression.toDopeType())
+fun case(expression: CMJsonList<Boolean>) = CaseClass(expression.toDopeType())
 
 @JvmName("elseSearchedCMNumberWithGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, NumberType>.otherwise(elseCase: CMField<out Number>) =
+fun <T : ValidType> SimpleCaseExpression<T, NumberType>.otherwise(elseCase: CMJsonField<out Number>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMNumberWithoutGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: CMField<out Number>) =
+fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: CMJsonField<out Number>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMStringWithGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, StringType>.otherwise(elseCase: CMField<String>) =
+fun <T : ValidType> SimpleCaseExpression<T, StringType>.otherwise(elseCase: CMJsonField<String>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMStringWithoutGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: CMField<String>) =
+fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: CMJsonField<String>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMBooleanWithGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, BooleanType>.otherwise(elseCase: CMField<Boolean>) =
+fun <T : ValidType> SimpleCaseExpression<T, BooleanType>.otherwise(elseCase: CMJsonField<Boolean>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMBooleanWithoutGeneric")
-fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: CMField<Boolean>) =
+fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: CMJsonField<Boolean>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMNumberWithGeneric")
-fun <T : ValidType> SearchedCaseExpression<T>.otherwise(elseCase: CMField<out Number>) =
+fun <T : ValidType> SearchedCaseExpression<T>.otherwise(elseCase: CMJsonField<out Number>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMNumberWithoutGeneric")
-fun SearchedCaseExpression<NumberType>.otherwise(elseCase: CMField<out Number>) =
+fun SearchedCaseExpression<NumberType>.otherwise(elseCase: CMJsonField<out Number>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMStringWithGeneric")
-fun <T : ValidType> SearchedCaseExpression<T>.otherwise(elseCase: CMField<String>) =
+fun <T : ValidType> SearchedCaseExpression<T>.otherwise(elseCase: CMJsonField<String>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMStringWithoutGeneric")
-fun SearchedCaseExpression<StringType>.otherwise(elseCase: CMField<String>) =
+fun SearchedCaseExpression<StringType>.otherwise(elseCase: CMJsonField<String>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMBooleanWithGeneric")
-fun <T : ValidType> SearchedCaseExpression<T>.otherwise(elseCase: CMField<Boolean>) =
+fun <T : ValidType> SearchedCaseExpression<T>.otherwise(elseCase: CMJsonField<Boolean>) =
     otherwise(elseCase.toDopeType())
 
 @JvmName("elseSearchedCMBooleanWithoutGeneric")
-fun SearchedCaseExpression<BooleanType>.otherwise(elseCase: CMField<Boolean>) =
+fun SearchedCaseExpression<BooleanType>.otherwise(elseCase: CMJsonField<Boolean>) =
     otherwise(elseCase.toDopeType())

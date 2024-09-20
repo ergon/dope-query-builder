@@ -7,28 +7,28 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
-import com.schwarz.crystalapi.schema.CMField
+import com.schwarz.crystalapi.schema.CMJsonField
 
 @JvmName("caseNumberField")
-fun <U : ValidType> CMField<out Number>.resultsIn(resultExpression: UnaliasedExpression<U>) =
+fun <U : ValidType> CMJsonField<out Number>.resultsIn(resultExpression: UnaliasedExpression<U>) =
     SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseStringField")
-fun <U : ValidType> CMField<String>.resultsIn(resultExpression: UnaliasedExpression<U>) =
+fun <U : ValidType> CMJsonField<String>.resultsIn(resultExpression: UnaliasedExpression<U>) =
     SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseBooleanField")
-fun <U : ValidType> CMField<Boolean>.resultsIn(resultExpression: UnaliasedExpression<U>) =
+fun <U : ValidType> CMJsonField<Boolean>.resultsIn(resultExpression: UnaliasedExpression<U>) =
     SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseNumberField")
-fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMField<out Number>): SearchResult<T, NumberType> =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMJsonField<out Number>): SearchResult<T, NumberType> =
     SearchResult(this, resultField.toDopeType())
 
 @JvmName("caseStringField")
-fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMField<String>): SearchResult<T, StringType> =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMJsonField<String>): SearchResult<T, StringType> =
     SearchResult(this, resultField.toDopeType())
 
 @JvmName("caseBooleanField")
-fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMField<Boolean>): SearchResult<T, BooleanType> =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMJsonField<Boolean>): SearchResult<T, BooleanType> =
     SearchResult(this, resultField.toDopeType())
