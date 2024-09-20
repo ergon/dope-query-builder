@@ -20,11 +20,8 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
-import com.schwarz.crystalapi.schema.CMType
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
-
-fun someCMType(name: String = "CMType", path: String = "") = CMField<Number>(name, path) as CMType
 
 fun someCMNumberField(name: String = "CMNumberField", path: String = "") = CMField<Number>(name, path)
 fun someCMStringField(name: String = "CMStringField", path: String = "") = CMField<String>(name, path)
