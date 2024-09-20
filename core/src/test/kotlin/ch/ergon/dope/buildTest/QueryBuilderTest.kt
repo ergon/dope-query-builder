@@ -812,4 +812,18 @@ class QueryBuilderTest : ManagerDependentTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support select with buckets`() {
+        val expected = "SELECT `bucket1`, `alias` FROM `bucket2` AS `alias`"
+        val bucket1 = someBucket("bucket1")
+        val bucket2 = someBucket("bucket2").alias("alias")
+
+        val actual = create
+            .select(bucket1, bucket2)
+            .from(bucket2)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
 }

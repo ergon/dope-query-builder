@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.MissingType
@@ -58,7 +59,7 @@ class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>
             manager: DopeQueryManager ->
         collection.map { it.toDopeQuery(manager) }.let { dopeQueries ->
             DopeQuery(
-                queryString = dopeQueries.joinToString(", ", prefix = "[", postfix = "]") { it.queryString },
+                queryString = formatListToQueryStringWithBrackets(dopeQueries, prefix = "[", postfix = "]"),
                 parameters = dopeQueries.fold(emptyMap()) { parameters, dopeQueryElement -> parameters + dopeQueryElement.parameters },
             )
         }

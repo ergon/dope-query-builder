@@ -9,7 +9,6 @@ import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
 import ch.ergon.dope.extension.clause.unnest
-import ch.ergon.dope.extension.clause.useKeys
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
@@ -29,7 +28,6 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
-import ch.ergon.dope.resolvable.clause.model.SelectUseKeys.Companion.SelectUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
@@ -39,28 +37,6 @@ import kotlin.test.assertEquals
 
 class SelectClauseTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
-
-    @Test
-    fun `should support select single use keys with CM`() {
-        val useKeys = someCMStringField()
-        val parentClause = someSelect()
-        val expected = SelectUseKeysClause(useKeys.toDopeType(), parentClause)
-
-        val actual = parentClause.useKeys(useKeys)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
-
-    @Test
-    fun `should support select list use keys with CM`() {
-        val useKeys = someCMStringList()
-        val parentClause = someSelect()
-        val expected = SelectUseKeysClause(useKeys.toDopeType(), parentClause)
-
-        val actual = parentClause.useKeys(useKeys)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
 
     @Test
     fun `should support select where with CM`() {

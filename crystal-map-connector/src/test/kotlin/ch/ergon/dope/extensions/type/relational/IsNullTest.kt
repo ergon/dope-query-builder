@@ -17,7 +17,7 @@ class IsNullTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support is Null CMFieldNumber`() {
+    fun `should support is Null CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsNullExpression(field.toDopeType())
 
@@ -27,7 +27,7 @@ class IsNullTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is Null CMFieldString`() {
+    fun `should support is Null CMJsonFieldString`() {
         val field = someCMStringField()
         val expected = IsNullExpression(field.toDopeType())
 
@@ -37,7 +37,7 @@ class IsNullTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is Null CMFieldBoolean`() {
+    fun `should support is Null CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
         val expected = IsNullExpression(field.toDopeType())
 
@@ -47,7 +47,7 @@ class IsNullTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is not Null CMFieldNumber`() {
+    fun `should support is not Null CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsNotNullExpression(field.toDopeType())
 
@@ -57,7 +57,7 @@ class IsNullTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is not Null CMFieldString`() {
+    fun `should support is not Null CMJsonFieldString`() {
         val field = someCMStringField()
         val expected = IsNotNullExpression(field.toDopeType())
 
@@ -67,7 +67,7 @@ class IsNullTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is not Null CMFieldBoolean`() {
+    fun `should support is not Null CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
         val expected = IsNotNullExpression(field.toDopeType())
 

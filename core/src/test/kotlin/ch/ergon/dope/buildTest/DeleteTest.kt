@@ -57,10 +57,10 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with offset`() {
-        val expected = "DELETE FROM `someBucket` OFFSET 10"
+        val expected = "DELETE FROM `someBucket` AS `b` OFFSET 10"
 
         val actual: String = create
-            .deleteFrom(someBucket())
+            .deleteFrom(someBucket().alias("b"))
             .offset(10.toDopeType())
             .build().queryString
 

@@ -4,13 +4,11 @@ import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
-import ch.ergon.dope.resolvable.clause.model.UpdateUseKeys.Companion.UpdateUseKeysClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.to
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -36,18 +34,9 @@ interface IUpdateSetClause : IUpdateUnsetClause {
     fun unset(field: Field<out ValidType>) = UnsetClause(field, parentClause = this)
 }
 
-interface IUpdateUseKeysClause : IUpdateSetClause {
+interface IUpdateClause : IUpdateSetClause {
     fun <T : ValidType> set(field: Field<T>, value: TypeExpression<T>) = SetClause(field.to(value), parentClause = this)
     fun set(field: Field<NumberType>, value: Number) = SetClause(field.to(value.toDopeType()), parentClause = this)
     fun set(field: Field<StringType>, value: String) = SetClause(field.to(value.toDopeType()), parentClause = this)
     fun set(field: Field<BooleanType>, value: Boolean) = SetClause(field.to(value.toDopeType()), parentClause = this)
-}
-
-interface IUpdateClause : IUpdateUseKeysClause {
-    fun useKeys(key: TypeExpression<StringType>) = UpdateUseKeysClause(key, this)
-
-    // JvmName annotation in interfaces is currently not supported. https://youtrack.jetbrains.com/issue/KT-20068
-    @Suppress("INAPPLICABLE_JVM_NAME")
-    @JvmName("useKeysArray")
-    fun useKeys(key: TypeExpression<ArrayType<StringType>>) = UpdateUseKeysClause(key, this)
 }

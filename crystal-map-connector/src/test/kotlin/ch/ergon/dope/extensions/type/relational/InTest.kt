@@ -9,10 +9,14 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBooleanFieldList
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
+import ch.ergon.dope.helper.someCMConverterBooleanList
+import ch.ergon.dope.helper.someCMConverterNumberList
+import ch.ergon.dope.helper.someCMConverterStringList
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
+import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someNumberFieldList
@@ -30,7 +34,7 @@ class InTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support in array with CMFieldNumber ListNumber`() {
+    fun `should support in array with CMJsonFieldNumber ListNumber`() {
         val left = someCMNumberField()
         val right = someNumberFieldList()
         val expected = InExpression(left.toDopeType(), right)
@@ -41,7 +45,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldString ListString`() {
+    fun `should support in array with CMJsonFieldString ListString`() {
         val left = someCMStringField()
         val right = someStringFieldList()
         val expected = InExpression(left.toDopeType(), right)
@@ -52,7 +56,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldBoolean ListBoolean`() {
+    fun `should support in array with CMJsonFieldBoolean ListBoolean`() {
         val left = someCMBooleanField()
         val right = someBooleanFieldList()
         val expected = InExpression(left.toDopeType(), right)
@@ -63,7 +67,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldNumber CMListNumber`() {
+    fun `should support in array with CMJsonFieldNumber CMJsonListNumber`() {
         val left = someCMNumberField()
         val right = someCMNumberList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -74,7 +78,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldString CMListString`() {
+    fun `should support in array with CMJsonFieldString CMJsonListString`() {
         val left = someCMStringField()
         val right = someCMStringList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -85,7 +89,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldBoolean CMListBoolean`() {
+    fun `should support in array with CMJsonFieldBoolean CMJsonListBoolean`() {
         val left = someCMBooleanField()
         val right = someCMBooleanList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -96,7 +100,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldNumber Collection`() {
+    fun `should support in array with CMJsonFieldNumber Collection`() {
         val left = someCMNumberField()
         val right = listOf(someNumberField())
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -107,7 +111,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldString Collection`() {
+    fun `should support in array with CMJsonFieldString Collection`() {
         val left = someCMStringField()
         val right = listOf(someStringField())
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -118,7 +122,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with CMFieldBoolean Collection`() {
+    fun `should support in array with CMJsonFieldBoolean Collection`() {
         val left = someCMBooleanField()
         val right = listOf(someBooleanField())
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -129,7 +133,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with Number CMList`() {
+    fun `should support in array with Number CMJsonList`() {
         val left = someNumber()
         val right = someCMNumberList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -140,7 +144,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with String CMList`() {
+    fun `should support in array with String CMJsonList`() {
         val left = someString()
         val right = someCMStringList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -151,7 +155,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in array with Boolean CMList`() {
+    fun `should support in array with Boolean CMJsonList`() {
         val left = someBoolean()
         val right = someCMBooleanList()
         val expected = InExpression(left.toDopeType(), right.toDopeType())
@@ -162,7 +166,40 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldNumber ListNumber`() {
+    fun `should support in array with date CMConverterNumberField`() {
+        val left = someDate()
+        val right = someCMConverterNumberList()
+        val expected = InExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in array with date CMConverterStringField`() {
+        val left = someDate()
+        val right = someCMConverterStringList()
+        val expected = InExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in array with date CMConverterBooleanField`() {
+        val left = someDate()
+        val right = someCMConverterBooleanList()
+        val expected = InExpression(true.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in array with CMJsonFieldNumber ListNumber`() {
         val left = someCMNumberField()
         val right = someNumberFieldList()
         val expected = NotInExpression(left.toDopeType(), right)
@@ -173,7 +210,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldString ListString`() {
+    fun `should support not in array with CMJsonFieldString ListString`() {
         val left = someCMStringField()
         val right = someStringFieldList()
         val expected = NotInExpression(left.toDopeType(), right)
@@ -184,7 +221,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldBoolean ListBoolean`() {
+    fun `should support not in array with CMJsonFieldBoolean ListBoolean`() {
         val left = someCMBooleanField()
         val right = someBooleanFieldList()
         val expected = NotInExpression(left.toDopeType(), right)
@@ -195,7 +232,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldNumber CMListNumber`() {
+    fun `should support not in array with CMJsonFieldNumber CMJsonListNumber`() {
         val left = someCMNumberField()
         val right = someCMNumberList()
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -206,7 +243,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldString CMListString`() {
+    fun `should support not in array with CMJsonFieldString CMJsonListString`() {
         val left = someCMStringField()
         val right = someCMStringList()
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -217,7 +254,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldBoolean CMListBoolean`() {
+    fun `should support not in array with CMJsonFieldBoolean CMJsonListBoolean`() {
         val left = someCMBooleanField()
         val right = someCMBooleanList()
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -228,7 +265,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldNumber Collection`() {
+    fun `should support not in array with CMJsonFieldNumber Collection`() {
         val left = someCMNumberField()
         val right = listOf(someNumberField())
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -239,7 +276,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldString Collection`() {
+    fun `should support not in array with CMJsonFieldString Collection`() {
         val left = someCMStringField()
         val right = listOf(someStringField())
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -250,7 +287,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with CMFieldBoolean Collection`() {
+    fun `should support not in array with CMJsonFieldBoolean Collection`() {
         val left = someCMBooleanField()
         val right = listOf(someBooleanField())
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -261,7 +298,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with Number CMList`() {
+    fun `should support not in array with Number CMJsonList`() {
         val left = someNumber()
         val right = someCMNumberList()
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -272,7 +309,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with String CMList`() {
+    fun `should support not in array with String CMJsonList`() {
         val left = someString()
         val right = someCMStringList()
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
@@ -283,7 +320,7 @@ class InTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not in array with Boolean CMList`() {
+    fun `should support not in array with Boolean CMJsonList`() {
         val left = someBoolean()
         val right = someCMBooleanList()
         val expected = NotInExpression(left.toDopeType(), right.toDopeType())
