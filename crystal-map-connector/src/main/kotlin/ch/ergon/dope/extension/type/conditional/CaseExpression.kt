@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.type.conditional
 
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
 import ch.ergon.dope.toDopeType
@@ -13,22 +13,22 @@ import com.schwarz.crystalapi.schema.CMField
 import com.schwarz.crystalapi.schema.CMList
 
 @JvmName("caseNumberField")
-fun case(expression: CMField<out Number>) = SimpleCaseClass(expression.toDopeType())
+fun case(expression: CMField<out Number>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseStringField")
-fun case(expression: CMField<String>) = SimpleCaseClass(expression.toDopeType())
+fun case(expression: CMField<String>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseBooleanField")
-fun case(expression: CMField<Boolean>) = SimpleCaseClass(expression.toDopeType())
+fun case(expression: CMField<Boolean>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseNumberList")
-fun case(expression: CMList<out Number>) = SimpleCaseClass(expression.toDopeType())
+fun case(expression: CMList<out Number>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseStringList")
-fun case(expression: CMList<String>) = SimpleCaseClass(expression.toDopeType())
+fun case(expression: CMList<String>) = CaseClass(expression.toDopeType())
 
 @JvmName("caseBooleanList")
-fun case(expression: CMList<Boolean>) = SimpleCaseClass(expression.toDopeType())
+fun case(expression: CMList<Boolean>) = CaseClass(expression.toDopeType())
 
 @JvmName("elseSearchedCMNumberWithGeneric")
 fun <T : ValidType> SimpleCaseExpression<T, NumberType>.otherwise(elseCase: CMField<out Number>) =

@@ -7,10 +7,9 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCaseClass
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseClass
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SearchedElseCaseExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.SimpleElseCaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
@@ -30,7 +29,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SimpleCaseExpression(
-            SimpleCaseClass(someNumberField()),
+            CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
         )
 
@@ -46,7 +45,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SimpleCaseExpression(
-            SimpleCaseClass(someNumberField()),
+            CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
             SearchResult(someNumberField("other2"), someNumberField()),
         )
@@ -63,7 +62,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SimpleElseCaseExpression(
-            SimpleCaseClass(someNumberField()),
+            CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
             elseCase = someNumberField(),
         )
@@ -80,7 +79,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SimpleElseCaseExpression(
-            SimpleCaseClass(someNumberField()),
+            CaseClass(someNumberField()),
             SearchResult(someNumberField("other"), someStringField()),
             SearchResult(someNumberField("other2"), someNumberField()),
             elseCase = someStringField(),
@@ -98,7 +97,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SearchedCaseExpression(
-            SearchedCaseClass(),
+            CaseClass(),
             SearchResult(someBooleanField(), someStringField()),
         )
 
@@ -114,7 +113,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SearchedCaseExpression(
-            SearchedCaseClass(),
+            CaseClass(),
             SearchResult(someBooleanField("first"), someStringField()),
             SearchResult(someBooleanField("second"), someNumberField()),
         )
@@ -131,7 +130,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SearchedElseCaseExpression(
-            SearchedCaseClass(),
+            CaseClass(),
             SearchResult(someBooleanField(), someStringField()),
             elseCase = someNumberField(),
         )
@@ -148,7 +147,7 @@ class CaseExpressionTest : ManagerDependentTest {
             emptyMap(),
         )
         val underTest = SearchedElseCaseExpression(
-            SearchedCaseClass(),
+            CaseClass(),
             SearchResult(someBooleanField(), someStringField()),
             SearchResult(someBooleanField("other2"), someNumberField()),
             elseCase = someStringField(),
@@ -162,7 +161,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support case function`() {
         val numberField = someNumberField()
-        val expected = SimpleCaseClass(
+        val expected = CaseClass(
             numberField,
         )
 
@@ -248,7 +247,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support when then function with searched case`() {
         val firstWhenThen = SearchResult(someBooleanField(), someStringField())
-        val expected = SearchedCaseExpression(SearchedCaseClass(), firstWhenThen)
+        val expected = SearchedCaseExpression(CaseClass(), firstWhenThen)
 
         val actual = case().whenThen(firstWhenThen)
 
@@ -259,7 +258,7 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support multiple when then function with searched case same type`() {
         val firstWhenThen = SearchResult(someBooleanField(), someStringField())
         val additionalWhenThen = SearchResult(someBooleanField(), someStringField())
-        val expected = SearchedCaseExpression(SearchedCaseClass(), firstWhenThen, additionalWhenThen)
+        val expected = SearchedCaseExpression(CaseClass(), firstWhenThen, additionalWhenThen)
 
         val actual = case().whenThen(firstWhenThen).whenThen(additionalWhenThen)
 
@@ -271,7 +270,7 @@ class CaseExpressionTest : ManagerDependentTest {
         val whenExpression = someBooleanField()
         val firstWhenThen = SearchResult(whenExpression, someStringField())
         val additionalWhenThen = SearchResult(someBooleanField(), someNumberField())
-        val expected = SearchedCaseExpression(SearchedCaseClass(), firstWhenThen, additionalWhenThen)
+        val expected = SearchedCaseExpression(CaseClass(), firstWhenThen, additionalWhenThen)
 
         val actual = case().whenThen(firstWhenThen).whenThen(additionalWhenThen)
 
@@ -282,7 +281,7 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support when then function with searched case and else`() {
         val firstWhenThen = SearchResult(someBooleanField(), someStringField())
         val elseCase = someNumberField()
-        val expected = SearchedElseCaseExpression(SearchedCaseClass(), firstWhenThen, elseCase = elseCase)
+        val expected = SearchedElseCaseExpression(CaseClass(), firstWhenThen, elseCase = elseCase)
 
         val actual = case().whenThen(firstWhenThen).otherwise(elseCase)
 
@@ -295,7 +294,7 @@ class CaseExpressionTest : ManagerDependentTest {
         val additionalWhenThen = SearchResult(someBooleanField(), someNumberField())
         val elseCase = someNumberField()
         val expected = SearchedElseCaseExpression(
-            SearchedCaseClass(),
+            CaseClass(),
             firstWhenThen,
             additionalWhenThen,
             elseCase = elseCase,

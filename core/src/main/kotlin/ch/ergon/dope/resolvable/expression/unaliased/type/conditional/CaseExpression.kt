@@ -15,17 +15,17 @@ private const val THEN = "THEN"
 private const val END = "END"
 private const val ELSE = "ELSE"
 
-class SimpleCaseClass<T : ValidType>(private val case: TypeExpression<T>) : Resolvable {
+class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery(manager)
-        return DopeQuery("$CASE ${caseDopeQuery.queryString}", caseDopeQuery.parameters)
+        val caseDopeQuery = case?.toDopeQuery(manager)
+        return DopeQuery("$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}", caseDopeQuery?.parameters.orEmpty())
     }
 }
 
-class SimpleCaseExpression<T : ValidType, U : ValidType>(
-    val case: SimpleCaseClass<T>,
+open class SimpleCaseExpression<T : ValidType, U : ValidType>(
+    val case: CaseClass<T>,
     val firstSearchResult: SearchResult<T, out U>,
-    vararg val additionalSearchResult: SearchResult<T, out U>,
+    open vararg val additionalSearchResult: SearchResult<T, out U>,
 ) : TypeExpression<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val caseDopeQuery = case.toDopeQuery(manager)
@@ -44,7 +44,7 @@ class SimpleCaseExpression<T : ValidType, U : ValidType>(
 }
 
 class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
-    private val case: SimpleCaseClass<T>,
+    private val case: CaseClass<T>,
     private val firstSearchResult: SearchResult<T, out U>,
     private vararg val additionalSearchResult: SearchResult<T, out U>,
     private val elseCase: TypeExpression<out U>,
@@ -67,9 +67,9 @@ class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
     }
 }
 
-fun <T : ValidType> case(case: TypeExpression<T>) = SimpleCaseClass(case)
+fun <T : ValidType> case(case: TypeExpression<T>) = CaseClass(case)
 
-fun <T : ValidType, U : ValidType> SimpleCaseClass<T>.whenThen(whenThenExpression: SearchResult<T, U>) =
+fun <T : ValidType, U : ValidType> CaseClass<T>.whenThen(whenThenExpression: SearchResult<T, U>) =
     SimpleCaseExpression(this, whenThenExpression)
 
 @JvmName("whenThenWithGeneric")
@@ -89,32 +89,13 @@ fun <T : ValidType> SimpleCaseExpression<T, out ValidType>.otherwise(elseCase: T
     SimpleElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
 
 class SearchedCaseExpression<U : ValidType>(
-    val case: SearchedCaseClass,
-    val firstSearchResult: SearchResult<BooleanType, out U>,
-    vararg val additionalSearchResult: SearchResult<BooleanType, out U>,
-) : TypeExpression<U> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery(manager)
-        val whenThenDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
-            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
-        }
-        return DopeQuery(
-            queryString = caseDopeQuery.queryString +
-                whenThenDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
-                END,
-            parameters = whenThenDopeQueries.fold(emptyMap()) { parameters, query ->
-                parameters + query.first.parameters + query.second.parameters
-            },
-        )
-    }
-}
-
-class SearchedCaseClass : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(queryString = CASE, parameters = emptyMap())
-}
+    case: CaseClass<BooleanType>,
+    firstSearchResult: SearchResult<BooleanType, out U>,
+    vararg additionalSearchResult: SearchResult<BooleanType, out U>,
+) : SimpleCaseExpression<BooleanType, U>(case, firstSearchResult, *additionalSearchResult)
 
 class SearchedElseCaseExpression<U : ValidType>(
-    private val case: SearchedCaseClass,
+    private val case: CaseClass<BooleanType>,
     private val firstSearchResult: SearchResult<BooleanType, out U>,
     private vararg val additionalSearchResult: SearchResult<BooleanType, out U>,
     private val elseCase: UnaliasedExpression<out U>,
@@ -137,9 +118,9 @@ class SearchedElseCaseExpression<U : ValidType>(
     }
 }
 
-fun case() = SearchedCaseClass()
+fun case() = CaseClass<BooleanType>()
 
-fun <U : ValidType> SearchedCaseClass.whenThen(whenThenCondition: SearchResult<BooleanType, U>) =
+fun <U : ValidType> CaseClass<BooleanType>.whenThen(whenThenCondition: SearchResult<BooleanType, U>) =
     SearchedCaseExpression(this, whenThenCondition)
 
 @JvmName("whenThenWithGeneric")
