@@ -4,7 +4,6 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
@@ -43,7 +42,7 @@ open class SimpleCaseExpression<T : ValidType, U : ValidType>(
     }
 }
 
-class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
+open class SimpleElseCaseExpression<T : ValidType, U : ValidType>(
     private val case: CaseClass<T>,
     private val firstSearchResult: SearchResult<T, out U>,
     private vararg val additionalSearchResult: SearchResult<T, out U>,
@@ -95,28 +94,11 @@ class SearchedCaseExpression<U : ValidType>(
 ) : SimpleCaseExpression<BooleanType, U>(case, firstSearchResult, *additionalSearchResult)
 
 class SearchedElseCaseExpression<U : ValidType>(
-    private val case: CaseClass<BooleanType>,
-    private val firstSearchResult: SearchResult<BooleanType, out U>,
-    private vararg val additionalSearchResult: SearchResult<BooleanType, out U>,
-    private val elseCase: UnaliasedExpression<out U>,
-) : TypeExpression<U> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery(manager)
-        val conditionDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
-            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
-        }
-        val elseCaseDopeQuery = elseCase.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = caseDopeQuery.queryString +
-                conditionDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
-                "$ELSE ${elseCaseDopeQuery.queryString} " +
-                END,
-            parameters = conditionDopeQueries.fold(emptyMap<String, Any>()) { parameters, query ->
-                parameters + query.first.parameters + query.second.parameters
-            } + elseCaseDopeQuery.parameters,
-        )
-    }
-}
+    case: CaseClass<BooleanType>,
+    firstSearchResult: SearchResult<BooleanType, out U>,
+    vararg additionalSearchResult: SearchResult<BooleanType, out U>,
+    elseCase: TypeExpression<out U>,
+) : SimpleElseCaseExpression<BooleanType, U>(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
 
 fun case() = CaseClass<BooleanType>()
 
