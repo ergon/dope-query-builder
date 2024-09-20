@@ -2,9 +2,16 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint.HASH_BUILD
+import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint.HASH_PROBE
+import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint.NESTED_LOOP
+import ch.ergon.dope.resolvable.clause.model.joinHint.useIndex
+import ch.ergon.dope.resolvable.clause.model.joinHint.useKeys
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.useFtsIndex
 import ch.ergon.dope.resolvable.fromable.useGsiIndex
@@ -258,6 +265,122 @@ class UseTest {
                 someBucket().useFtsIndex("someIndex").useIndex("otherIndex").useGsiIndex("index3"),
             )
             .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use hash build hint`() {
+        val expected = "SELECT * FROM `someBucket` JOIN `anotherBucket` USE HASH (BUILD) " +
+            "ON `someBucket`.`numberField` = `anotherBucket`.`numberField`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .join(
+                someBucket("anotherBucket"),
+                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                hashOrNestedLoopHint = HASH_BUILD,
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use nl hint`() {
+        val expected = "SELECT * FROM `someBucket` JOIN `anotherBucket` USE NL " +
+            "ON `someBucket`.`numberField` = `anotherBucket`.`numberField`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .join(
+                someBucket("anotherBucket"),
+                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                hashOrNestedLoopHint = NESTED_LOOP,
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use keys hint`() {
+        val expected = "SELECT * FROM `someBucket` JOIN `anotherBucket` USE KEYS \"someID\" " +
+            "ON `someBucket`.`numberField` = `anotherBucket`.`numberField`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .join(
+                someBucket("anotherBucket"),
+                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                keysOrIndexHint = useKeys("someID"),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use index hint`() {
+        val expected = "SELECT * FROM `someBucket` JOIN `anotherBucket` USE INDEX (`someID`) " +
+            "ON `someBucket`.`numberField` = `anotherBucket`.`numberField`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .join(
+                someBucket("anotherBucket"),
+                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                keysOrIndexHint = useIndex("someID"),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use hash probe and index hint`() {
+        val expected = "SELECT * FROM `someBucket` JOIN `anotherBucket` USE HASH (PROBE) INDEX (`someID`) " +
+            "ON `someBucket`.`numberField` = `anotherBucket`.`numberField`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .join(
+                someBucket("anotherBucket"),
+                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                hashOrNestedLoopHint = HASH_PROBE,
+                keysOrIndexHint = useIndex("someID"),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select use nl and keys hint`() {
+        val expected = "SELECT * FROM `someBucket` JOIN `anotherBucket` USE NL KEYS \"someID\" " +
+            "ON `someBucket`.`numberField` = `anotherBucket`.`numberField`"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            )
+            .join(
+                someBucket("anotherBucket"),
+                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                hashOrNestedLoopHint = NESTED_LOOP,
+                keysOrIndexHint = useKeys("someID"),
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
