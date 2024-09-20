@@ -2,11 +2,14 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someSelectClause
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
+import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayLength
@@ -80,6 +83,20 @@ class SubQueryTest {
         val actual = create.select(
             someStringField().isEqualTo(create.selectRaw(someStringField()).from(someBucket()).get(0)),
         ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support sub select with multiple parameters`() {
+        val expected = "SELECT EXISTS (SELECT \$1 FROM `someBucket`) FROM (SELECT \$num FROM `other`) AS `asdf`"
+
+        val actual = create
+            .select(
+                exists(someSelectClause(someString().asParameter()).from(someBucket())),
+            ).from(
+                create.select(someNumber().asParameter("num")).from(someBucket("other")).queryAlias("asdf"),
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
