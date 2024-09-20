@@ -17,14 +17,17 @@ private const val END = "END"
 class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val caseDopeQuery = case?.toDopeQuery(manager)
-        return DopeQuery("$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}", caseDopeQuery?.parameters.orEmpty())
+        return DopeQuery(
+            queryString = "$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}",
+            parameters = caseDopeQuery?.parameters.orEmpty(),
+        )
     }
 }
 
-open class CaseExpression<T : ValidType, U : ValidType>(
+class CaseExpression<T : ValidType, U : ValidType>(
     val case: CaseClass<T>,
     val firstSearchResult: SearchResult<T, out U>,
-    open vararg val additionalSearchResult: SearchResult<T, out U>,
+    vararg val additionalSearchResult: SearchResult<T, out U>,
 ) : TypeExpression<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val caseDopeQuery = case.toDopeQuery(manager)
@@ -33,8 +36,9 @@ open class CaseExpression<T : ValidType, U : ValidType>(
         }
         return DopeQuery(
             queryString = caseDopeQuery.queryString +
-                conditionDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
-                END,
+                conditionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
+                    "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
+                } + END,
             parameters = caseDopeQuery.parameters + conditionDopeQueries.fold(emptyMap()) { parameters, query ->
                 parameters + query.first.parameters + query.second.parameters
             },
@@ -42,7 +46,7 @@ open class CaseExpression<T : ValidType, U : ValidType>(
     }
 }
 
-open class ElseCaseExpression<T : ValidType, U : ValidType>(
+class ElseCaseExpression<T : ValidType, U : ValidType>(
     private val case: CaseClass<T>,
     private val firstSearchResult: SearchResult<T, out U>,
     private vararg val additionalSearchResult: SearchResult<T, out U>,
@@ -56,8 +60,9 @@ open class ElseCaseExpression<T : ValidType, U : ValidType>(
         val elseCaseDopeQuery = elseCase.toDopeQuery(manager)
         return DopeQuery(
             queryString = caseDopeQuery.queryString +
-                conditionDopeQueries.joinToString(" ", " ", " ") { "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}" } +
-                "$ELSE ${elseCaseDopeQuery.queryString} " +
+                conditionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
+                    "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
+                } + "$ELSE ${elseCaseDopeQuery.queryString} " +
                 END,
             parameters = caseDopeQuery.parameters + conditionDopeQueries.fold(emptyMap()) { parameters, query ->
                 parameters + query.first.parameters + query.second.parameters
