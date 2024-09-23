@@ -9,7 +9,10 @@ import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
 import ch.ergon.dope.validtype.ValidType
 
-class SelectClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause<ValidType> {
+class SelectClause(
+    private val expression: Expression,
+    private vararg val expressions: Expression,
+) : ISelectClause<ValidType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = when (expression) {
             is ISelectOffsetClause<*> -> expression.asSubQuery().toDopeQuery(manager)
