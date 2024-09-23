@@ -1,77 +1,58 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ValidType
 
-class SearchResult<T : ValidType, U : ValidType>(
-    private val searchExpression: UnaliasedExpression<T>,
-    private val resultExpression: UnaliasedExpression<U>,
-) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val searchExpressionDopeQuery = when (searchExpression) {
-            is ISelectOffsetClause<*> -> searchExpression.asSubQuery().toDopeQuery(manager)
-            else -> searchExpression.toDopeQuery(manager)
-        }
-        val resultExpressionDopeQuery = when (resultExpression) {
-            is ISelectOffsetClause<*> -> resultExpression.asSubQuery().toDopeQuery(manager)
-            else -> resultExpression.toDopeQuery(manager)
-        }
-        return DopeQuery(
-            queryString = "${searchExpressionDopeQuery.queryString}, ${resultExpressionDopeQuery.queryString}",
-            parameters = searchExpressionDopeQuery.parameters + resultExpressionDopeQuery.parameters,
-        )
-    }
-}
+data class SearchResult<T : ValidType, U : ValidType>(
+    val searchExpression: UnaliasedExpression<T>,
+    val resultExpression: UnaliasedExpression<U>,
+)
 
 fun <T : ValidType, U : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: UnaliasedExpression<U>) =
     SearchResult(this, resultExpression)
 
-fun UnaliasedExpression<out ValidType>.resultsIn(resultExpression: Number) =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: Number) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun UnaliasedExpression<out ValidType>.resultsIn(resultExpression: String) =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: String) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun UnaliasedExpression<out ValidType>.resultsIn(resultExpression: Boolean) =
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: Boolean) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun Number.resultsIn(resultExpression: UnaliasedExpression<out ValidType>) =
-    SearchResult(this.toDopeType(), resultExpression)
+fun <T : ValidType> Number.resultsIn(resultExpression: UnaliasedExpression<T>) =
+    SearchResult(toDopeType(), resultExpression)
 
-fun String.resultsIn(resultExpression: UnaliasedExpression<out ValidType>) =
-    SearchResult(this.toDopeType(), resultExpression)
+fun <T : ValidType> String.resultsIn(resultExpression: UnaliasedExpression<T>) =
+    SearchResult(toDopeType(), resultExpression)
 
-fun Boolean.resultsIn(resultExpression: UnaliasedExpression<out ValidType>) =
-    SearchResult(this.toDopeType(), resultExpression)
+fun <T : ValidType> Boolean.resultsIn(resultExpression: UnaliasedExpression<T>) =
+    SearchResult(toDopeType(), resultExpression)
 
 fun Number.resultsIn(resultExpression: Number) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun Number.resultsIn(resultExpression: String) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun Number.resultsIn(resultExpression: Boolean) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun String.resultsIn(resultExpression: Number) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun String.resultsIn(resultExpression: String) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun String.resultsIn(resultExpression: Boolean) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun Boolean.resultsIn(resultExpression: Number) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun Boolean.resultsIn(resultExpression: String) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())
 
 fun Boolean.resultsIn(resultExpression: Boolean) =
-    SearchResult(this.toDopeType(), resultExpression.toDopeType())
+    SearchResult(toDopeType(), resultExpression.toDopeType())

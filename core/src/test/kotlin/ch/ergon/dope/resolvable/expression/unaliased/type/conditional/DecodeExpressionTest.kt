@@ -9,6 +9,7 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSearchNumberResult
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.DecodeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.decode
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -108,6 +109,19 @@ class DecodeExpressionTest : ManagerDependentTest {
         val expected = DecodeExpression(expression, searchResult, default = default)
 
         val actual = decode(expression, searchResult, default = default)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support decode extension function with default and different types`() {
+        val expression = someStringField()
+        val searchResult = someStringSearchNumberResult()
+        val searchResult2 = SearchResult(someStringField(), someStringField())
+        val default = someNumber().toDopeType()
+        val expected = DecodeExpression(expression, searchResult, searchResult2, default = default)
+
+        val actual = decode(expression, searchResult, searchResult2, default = default)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
