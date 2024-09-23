@@ -6,7 +6,9 @@ import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Fromable
@@ -15,13 +17,14 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.ITypeConverter
 import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 import java.time.Instant
-import java.util.*
+import java.util.Date
 
 fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
 
@@ -77,6 +80,10 @@ private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
 }
+
+fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
+    expression,
+)
 
 object DateNumberConverterInstance : DateNumberConverter()
 
