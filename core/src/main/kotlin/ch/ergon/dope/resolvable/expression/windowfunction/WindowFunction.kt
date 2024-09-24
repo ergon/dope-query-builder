@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.expression.Expression
@@ -31,9 +32,9 @@ sealed class WindowFunction(
     private val nullsModifier: NullsModifier? = null,
     private val overClause: OverClause,
 ) : Expression {
-    override fun toDopeQuery(): DopeQuery {
-        val windowFunctionArgumentsDopeQuery = windowFunctionArguments?.toDopeQuery()
-        val overClauseDopeQuery = overClause.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val windowFunctionArgumentsDopeQuery = windowFunctionArguments?.toDopeQuery(manager)
+        val overClauseDopeQuery = overClause.toDopeQuery(manager)
         return DopeQuery(
             queryString = functionName +
                 (windowFunctionArgumentsDopeQuery?.queryString?.let { " ($it)" } ?: " ()") +
@@ -48,8 +49,8 @@ sealed class WindowFunction(
 }
 
 class AliasedWindowFunction(private val windowFunction: WindowFunction, private val alias: String) : Expression {
-    override fun toDopeQuery(): DopeQuery {
-        val windowFunctionDopeQuery = windowFunction.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val windowFunctionDopeQuery = windowFunction.toDopeQuery(manager)
         return DopeQuery(windowFunctionDopeQuery.queryString + " AS `$alias`", windowFunctionDopeQuery.parameters)
     }
 }
@@ -59,18 +60,24 @@ data class WindowFunctionArguments(
     private val secondArg: UnaliasedExpression<out ValidType>? = null,
     private val thirdArg: UnaliasedExpression<out ValidType>? = null,
 ) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val firstArgDopeQuery = firstArg?.toDopeQuery()
-        val secondArgDopeQuery = secondArg?.toDopeQuery()
-        val thirdArgDopeQuery = thirdArg?.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val firstArgDopeQuery = firstArg?.toDopeQuery(manager)
+        val secondArgDopeQuery = secondArg?.toDopeQuery(manager)
+        val thirdArgDopeQuery = thirdArg?.toDopeQuery(manager)
         return DopeQuery(
-            queryString = firstArgDopeQuery?.let { first ->
-                secondArgDopeQuery?.let { second ->
-                    thirdArgDopeQuery?.let { third ->
-                        "${first.queryString}, ${second.queryString}, ${third.queryString}"
-                    } ?: "${first.queryString}, ${second.queryString}"
-                } ?: first.queryString
-            }.orEmpty(),
+            queryString = buildString {
+                if (firstArgDopeQuery != null) {
+                    append(firstArgDopeQuery.queryString)
+                }
+                if (secondArgDopeQuery != null) {
+                    if (isNotEmpty()) append(", ")
+                    append(secondArgDopeQuery.queryString)
+                }
+                if (thirdArgDopeQuery != null) {
+                    if (isNotEmpty()) append(", ")
+                    append(thirdArgDopeQuery.queryString)
+                }
+            },
             parameters = firstArgDopeQuery?.parameters.orEmpty() +
                 secondArgDopeQuery?.parameters.orEmpty() +
                 thirdArgDopeQuery?.parameters.orEmpty(),
@@ -81,8 +88,8 @@ data class WindowFunctionArguments(
 sealed interface OverClause : Resolvable
 
 class OverClauseWindowDefinition(private val windowDefinition: WindowDefinition) : OverClause {
-    override fun toDopeQuery(): DopeQuery {
-        val windowDefinitionDopeQuery = windowDefinition.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val windowDefinitionDopeQuery = windowDefinition.toDopeQuery(manager)
         return DopeQuery(
             queryString = "OVER (${windowDefinitionDopeQuery.queryString})",
             parameters = windowDefinitionDopeQuery.parameters,
@@ -91,7 +98,7 @@ class OverClauseWindowDefinition(private val windowDefinition: WindowDefinition)
 }
 
 class OverClauseWindowReference(private val windowReference: String) : OverClause {
-    override fun toDopeQuery(): DopeQuery {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         return DopeQuery(
             queryString = "OVER `$windowReference`",
             parameters = emptyMap(),
@@ -105,37 +112,32 @@ class WindowDefinition(
     private val windowOrderClause: List<OrderingTerm>? = null,
     private val windowFrameClause: WindowFrameClause? = null,
 ) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val windowReferenceDopeQuery = windowReference?.toDopeQuery()
-        val windowPartitionClauseDopeQueries = windowPartitionClause?.map { it.toDopeQuery() }
-        val windowOrderClauseDopeQueries = windowOrderClause?.map { it.toDopeQuery() }
-        val windowFrameClauseDopeQuery = windowFrameClause?.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val windowReferenceDopeQuery = windowReference?.toDopeQuery(manager)
+        val windowPartitionClauseDopeQueries = windowPartitionClause?.map { it.toDopeQuery(manager) }
+        val windowOrderClauseDopeQueries = windowOrderClause?.map { it.toDopeQuery(manager) }
+        val windowFrameClauseDopeQuery = windowFrameClause?.toDopeQuery(manager)
 
         return DopeQuery(
             queryString = buildString {
-                var isPreviousQueryAdded = false
-
                 windowReferenceDopeQuery?.queryString?.let {
                     append(it)
-                    isPreviousQueryAdded = true
                 }
 
                 windowPartitionClauseDopeQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
-                    if (isPreviousQueryAdded) append(" ")
+                    if (isNotEmpty()) append(" ")
                     append("PARTITION BY ")
                     append(queries.joinToString(", ") { it.queryString })
-                    isPreviousQueryAdded = true
                 }
 
                 windowOrderClauseDopeQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
-                    if (isPreviousQueryAdded) append(" ")
+                    if (isNotEmpty()) append(" ")
                     append("ORDER BY ")
                     append(queries.joinToString(", ") { it.queryString })
-                    isPreviousQueryAdded = true
                 }
 
                 windowFrameClauseDopeQuery?.queryString?.let {
-                    if (isPreviousQueryAdded) append(" ")
+                    if (isNotEmpty()) append(" ")
                     append(it)
                 }
             },
@@ -149,8 +151,8 @@ class WindowFrameClause(
     private val windowFrameExtent: WindowFrameExtent,
     private val windowFrameExclusion: WindowFrameExclusion? = null,
 ) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val windowFrameExtentDopeQuery = windowFrameExtent.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val windowFrameExtentDopeQuery = windowFrameExtent.toDopeQuery(manager)
         return DopeQuery(
             queryString = "$windowFrameType " +
                 "${windowFrameExtentDopeQuery.queryString}${windowFrameExclusion?.let { " ${it.queryString}" }.orEmpty()}",
@@ -159,55 +161,46 @@ class WindowFrameClause(
     }
 }
 
-sealed class WindowFrameExtent : Resolvable {
-    data object UnboundedPreceding : WindowFrameExtent()
-    class Preceding(val offset: UnaliasedExpression<NumberType>) : WindowFrameExtent()
-    data object CurrentRow : WindowFrameExtent()
-    class Between(val between: FrameBetween, val and: FrameBetween) : WindowFrameExtent()
+interface WindowFrameExtent : Resolvable
 
-    override fun toDopeQuery(): DopeQuery {
-        return when (this) {
-            is UnboundedPreceding -> DopeQuery("UNBOUNDED PRECEDING", emptyMap())
-            is Preceding -> {
-                val offsetDopeQuery = offset.toDopeQuery()
-                DopeQuery("${offsetDopeQuery.queryString} PRECEDING", offsetDopeQuery.parameters)
-            }
+interface FrameBetween : Resolvable
 
-            is CurrentRow -> DopeQuery("CURRENT ROW", emptyMap())
-            is Between -> {
-                val betweenDopeQuery = between.toDopeQuery()
-                val andDopeQuery = and.toDopeQuery()
-                DopeQuery(
-                    "BETWEEN ${betweenDopeQuery.queryString} AND ${andDopeQuery.queryString}",
-                    betweenDopeQuery.parameters + andDopeQuery.parameters,
-                )
-            }
-        }
+interface FrameAndBetween : Resolvable
+
+class Between(private val between: FrameBetween, private val and: FrameAndBetween) : WindowFrameExtent {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val betweenDopeQuery = between.toDopeQuery(manager)
+        val andDopeQuery = and.toDopeQuery(manager)
+        return DopeQuery(
+            "BETWEEN ${betweenDopeQuery.queryString} AND ${andDopeQuery.queryString}",
+            betweenDopeQuery.parameters + andDopeQuery.parameters,
+        )
     }
 }
 
-sealed class FrameBetween : Resolvable {
-    data object UnboundedPreceding : FrameBetween()
-    data object UnboundedFollowing : FrameBetween()
-    data object CurrentRow : FrameBetween()
-    class Following(val offset: UnaliasedExpression<NumberType>) : FrameBetween()
-    class Preceding(val offset: UnaliasedExpression<NumberType>) : FrameBetween()
+class UnboundedFollowing : FrameAndBetween {
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED FOLLOWING", emptyMap())
+}
 
-    override fun toDopeQuery(): DopeQuery {
-        return when (this) {
-            is UnboundedPreceding -> DopeQuery("UNBOUNDED PRECEDING", emptyMap())
-            is UnboundedFollowing -> DopeQuery("UNBOUNDED FOLLOWING", emptyMap())
-            is CurrentRow -> DopeQuery("CURRENT ROW", emptyMap())
-            is Following -> {
-                val offsetDopeQuery = offset.toDopeQuery()
-                DopeQuery("${offsetDopeQuery.queryString} FOLLOWING", offsetDopeQuery.parameters)
-            }
+class UnboundedPreceding : FrameBetween, WindowFrameExtent {
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED PRECEDING", emptyMap())
+}
 
-            is Preceding -> {
-                val offsetDopeQuery = offset.toDopeQuery()
-                DopeQuery("${offsetDopeQuery.queryString} PRECEDING", offsetDopeQuery.parameters)
-            }
-        }
+class CurrentRow : FrameBetween, FrameAndBetween, WindowFrameExtent {
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("CURRENT ROW", emptyMap())
+}
+
+class Following(val offset: UnaliasedExpression<NumberType>) : FrameBetween, FrameAndBetween {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val offsetDopeQuery = offset.toDopeQuery(manager)
+        return DopeQuery("${offsetDopeQuery.queryString} FOLLOWING", offsetDopeQuery.parameters)
+    }
+}
+
+class Preceding(val offset: UnaliasedExpression<NumberType>) : FrameBetween, FrameAndBetween, WindowFrameExtent {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val offsetDopeQuery = offset.toDopeQuery(manager)
+        return DopeQuery("${offsetDopeQuery.queryString} PRECEDING", offsetDopeQuery.parameters)
     }
 }
 
@@ -229,8 +222,8 @@ class OrderingTerm(
     private val orderType: OrderType? = null,
     private val nullsOrder: NullsOrder? = null,
 ) : Resolvable {
-    override fun toDopeQuery(): DopeQuery {
-        val expressionDopeQuery = expression.toDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
             queryString = expressionDopeQuery.queryString +
                 (orderType?.let { " $it" }.orEmpty()) +

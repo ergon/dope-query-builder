@@ -4,17 +4,18 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.OrderType
+import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.expression.windowfunction.FrameBetween
-import ch.ergon.dope.resolvable.expression.windowfunction.FromModifier
+import ch.ergon.dope.resolvable.expression.windowfunction.Between
+import ch.ergon.dope.resolvable.expression.windowfunction.CurrentRow
+import ch.ergon.dope.resolvable.expression.windowfunction.Following
+import ch.ergon.dope.resolvable.expression.windowfunction.FromModifier.LAST
 import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.IGNORE
 import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder.NULLS_FIRST
 import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder.NULLS_LAST
 import ch.ergon.dope.resolvable.expression.windowfunction.OrderingTerm
 import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExclusion.EXCLUDE_NO_OTHERS
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExtent
 import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameType.ROWS
 import ch.ergon.dope.resolvable.expression.windowfunction.cumeDist
 import ch.ergon.dope.resolvable.expression.windowfunction.denseRank
@@ -50,20 +51,20 @@ class WindowFunctionTest {
             .select(
                 rowNumber().alias("row"),
                 cumeDist("ref"),
-                denseRank(listOf(OrderingTerm(someStringField(), OrderType.ASC))),
+                denseRank(listOf(OrderingTerm(someStringField(), ASC))),
                 firstValue(
                     someStringField(),
                     windowOrderClause = listOf(OrderingTerm(someStringField(), nullsOrder = NULLS_LAST)),
                     windowFrameClause = WindowFrameClause(
                         ROWS,
-                        WindowFrameExtent.Between(FrameBetween.CurrentRow, FrameBetween.Following(1.toDopeType())),
+                        Between(CurrentRow(), Following(1.toDopeType())),
                         EXCLUDE_NO_OTHERS,
                     ),
                 ),
                 nthValue(
                     someNumberField(),
                     10.toDopeType(),
-                    fromModifier = FromModifier.LAST,
+                    fromModifier = LAST,
                     windowOrderClause = listOf(
                         OrderingTerm(
                             someStringField(),
@@ -71,7 +72,7 @@ class WindowFunctionTest {
                         ),
                     ),
                 ),
-                lag(someNumberField(), windowOrderClause = listOf(OrderingTerm(someStringField(), OrderType.ASC))),
+                lag(someNumberField(), windowOrderClause = listOf(OrderingTerm(someStringField(), ASC))),
                 lastValue(
                     someStringField("last"),
                     IGNORE,
