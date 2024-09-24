@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.helper.ParameterDependentTest
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
@@ -10,10 +11,12 @@ import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class WhereClauseTest : ParameterDependentTest {
+class WhereClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support delete where`() {
         val expected = DopeQuery(
@@ -22,7 +25,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = DeleteWhereClause(someBooleanExpression(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +39,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +52,7 @@ class WhereClauseTest : ParameterDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -60,7 +63,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = SelectWhereClause(someBooleanExpression(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +77,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = SelectWhereClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -89,7 +92,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +105,7 @@ class WhereClauseTest : ParameterDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -113,7 +116,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = UpdateWhereClause(someBooleanExpression(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -127,7 +130,7 @@ class WhereClauseTest : ParameterDependentTest {
         )
         val underTest = UpdateWhereClause(parameterValue.asParameter(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -140,6 +143,6 @@ class WhereClauseTest : ParameterDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

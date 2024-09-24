@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.InfixOperator
@@ -12,7 +13,7 @@ class LessThanExpression<T : ComparableType>(
     left: TypeExpression<T>,
     right: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, InfixOperator(left, "<", right) {
-    override fun toDopeQuery() = toInfixDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
 }
 
 fun <T : ComparableType> TypeExpression<T>.isLessThan(right: TypeExpression<T>): LessThanExpression<T> =

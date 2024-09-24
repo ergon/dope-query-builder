@@ -1,12 +1,16 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
-import junit.framework.TestCase.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class DeleteClauseTest {
+class DeleteClauseTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
     fun `should support delete`() {
         val expected = DopeQuery(
@@ -15,7 +19,7 @@ class DeleteClauseTest {
         )
         val underTest = DeleteClause(someBucket())
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -28,7 +32,7 @@ class DeleteClauseTest {
         )
         val underTest = DeleteClause(someBucket().alias("bucket"))
 
-        val actual = underTest.toDopeQuery()
+        val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }

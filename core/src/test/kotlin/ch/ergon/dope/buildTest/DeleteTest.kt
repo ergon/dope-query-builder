@@ -8,9 +8,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class DeleteTest {
     private lateinit var create: QueryBuilder
@@ -57,10 +57,10 @@ class DeleteTest {
 
     @Test
     fun `should support delete from with offset`() {
-        val expected = "DELETE FROM `someBucket` OFFSET 10"
+        val expected = "DELETE FROM `someBucket` AS `b` OFFSET 10"
 
         val actual: String = create
-            .deleteFrom(someBucket())
+            .deleteFrom(someBucket().alias("b"))
             .offset(10.toDopeType())
             .build().queryString
 

@@ -1,9 +1,9 @@
 package ch.ergon.dope.extension.type.relational
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.IteratorManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
@@ -14,8 +14,8 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.DopeSchemaArray
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObject
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
@@ -27,10 +27,9 @@ sealed class SatisfiesSchemaExpression<S : Schema>(
     private val arrayExpression: DopeSchemaArray<S>,
     private val predicate: (SchemaIterator<S>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(): DopeQuery {
-        val iteratorVariable = iteratorName ?: IteratorManager.getIteratorName()
-        val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, arrayExpression.schema)).toDopeQuery()
-
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
+        val predicateDopeQuery = predicate(SchemaIterator(iteratorVariable, arrayExpression.schema)).toDopeQuery(manager)
         return DopeQuery(
             queryString = "$satisfiesType `$iteratorVariable` IN ${arrayExpression.name} SATISFIES ${predicateDopeQuery.queryString} END",
             parameters = predicateDopeQuery.parameters,
@@ -43,8 +42,8 @@ class SchemaIterator<S : Schema>(val variable: String, val schema: S) {
         val schemaAttribute = schema.getCMType()
         val newPath = if (schemaAttribute.path.isBlank()) variable else "${schemaAttribute.path}`.`$variable"
         return when (schemaAttribute) {
-            is CMField<*> -> CMField<Any>(schemaAttribute.name, newPath) as A
-            is CMList<*> -> CMList<Any>(schemaAttribute.name, newPath) as A
+            is CMJsonField<*> -> CMJsonField<Any>(schemaAttribute.name, newPath) as A
+            is CMJsonList<*> -> CMJsonList<Any>(schemaAttribute.name, newPath) as A
             is CMObject<*> -> CMObject(schemaAttribute.element, newPath) as A
             is CMObjectList<*> -> CMObjectList(schemaAttribute.element, schemaAttribute.name, newPath) as A
             else -> error("Unsupported CMType: $schemaAttribute")
@@ -75,19 +74,19 @@ fun <S : Schema> CMObjectList<S>.any(
 ) = AnySatisfiesSchemaExpression(iteratorName, toDopeType(), predicate)
 
 @JvmName("anyNumber")
-fun CMList<Number>.any(
+fun CMJsonList<Number>.any(
     iteratorName: String? = null,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().any(iteratorName, predicate)
 
 @JvmName("anyString")
-fun CMList<String>.any(
+fun CMJsonList<String>.any(
     iteratorName: String? = null,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().any(iteratorName, predicate)
 
 @JvmName("anyBoolean")
-fun CMList<Boolean>.any(
+fun CMJsonList<Boolean>.any(
     iteratorName: String? = null,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().any(iteratorName, predicate)
@@ -103,19 +102,19 @@ fun <S : Schema> CMObjectList<S>.every(
 ) = EverySatisfiesSchemaExpression(iteratorName, toDopeType(), predicate)
 
 @JvmName("everyNumber")
-fun CMList<Number>.every(
+fun CMJsonList<Number>.every(
     iteratorName: String? = null,
     predicate: (Iterator<NumberType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().every(iteratorName, predicate)
 
 @JvmName("everyString")
-fun CMList<String>.every(
+fun CMJsonList<String>.every(
     iteratorName: String? = null,
     predicate: (Iterator<StringType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().every(iteratorName, predicate)
 
 @JvmName("everyBoolean")
-fun CMList<Boolean>.every(
+fun CMJsonList<Boolean>.every(
     iteratorName: String? = null,
     predicate: (Iterator<BooleanType>) -> TypeExpression<BooleanType>,
 ) = toDopeType().every(iteratorName, predicate)

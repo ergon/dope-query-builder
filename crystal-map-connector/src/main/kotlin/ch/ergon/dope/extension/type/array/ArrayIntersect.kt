@@ -1,18 +1,18 @@
 package ch.ergon.dope.extension.type.array
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.ArrayIntersectExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.arrayfunction.arrayIntersect
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayIntersectExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayIntersect
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("stringArrayIntersect")
 fun arrayIntersect(
-    firstArray: CMList<String>,
-    secondArray: CMList<String>,
-    vararg additionalArrays: CMList<String>,
+    firstArray: CMJsonList<String>,
+    secondArray: CMJsonList<String>,
+    vararg additionalArrays: CMJsonList<String>,
 ): ArrayIntersectExpression<StringType> = arrayIntersect(
     firstArray.toDopeType(),
     secondArray.toDopeType(),
@@ -21,9 +21,9 @@ fun arrayIntersect(
 
 @JvmName("numberArrayIntersect")
 fun arrayIntersect(
-    firstArray: CMList<Number>,
-    secondArray: CMList<Number>,
-    vararg additionalArrays: CMList<Number>,
+    firstArray: CMJsonList<Number>,
+    secondArray: CMJsonList<Number>,
+    vararg additionalArrays: CMJsonList<Number>,
 ): ArrayIntersectExpression<NumberType> = arrayIntersect(
     firstArray.toDopeType(),
     secondArray.toDopeType(),
@@ -32,9 +32,9 @@ fun arrayIntersect(
 
 @JvmName("booleanArrayIntersect")
 fun arrayIntersect(
-    firstArray: CMList<Boolean>,
-    secondArray: CMList<Boolean>,
-    vararg additionalArrays: CMList<Boolean>,
+    firstArray: CMJsonList<Boolean>,
+    secondArray: CMJsonList<Boolean>,
+    vararg additionalArrays: CMJsonList<Boolean>,
 ): ArrayIntersectExpression<BooleanType> = arrayIntersect(
     firstArray.toDopeType(),
     secondArray.toDopeType(),

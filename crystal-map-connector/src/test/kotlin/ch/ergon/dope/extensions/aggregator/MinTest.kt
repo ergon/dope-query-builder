@@ -1,6 +1,8 @@
 package ch.ergon.dope.extensions.aggregator
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.aggregator.min
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -13,136 +15,138 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MinTest {
+class MinTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
-    fun `should support min with CMField Number`() {
+    fun `should support min with CMJsonField Number`() {
         val field = someCMNumberField()
         val quantifier = null
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMField Number and type`() {
+    fun `should support min with CMJsonField Number and type`() {
         val field = someCMNumberField()
         val quantifier = ALL
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMField string`() {
+    fun `should support min with CMJsonField string`() {
         val field = someCMStringField()
         val quantifier = null
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMField string and type`() {
+    fun `should support min with CMJsonField string and type`() {
         val field = someCMStringField()
         val quantifier = ALL
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMField boolean`() {
+    fun `should support min with CMJsonField boolean`() {
         val field = someCMBooleanField()
         val quantifier = null
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMField boolean and type`() {
+    fun `should support min with CMJsonField boolean and type`() {
         val field = someCMBooleanField()
         val quantifier = ALL
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMList Number`() {
+    fun `should support min with CMJsonList Number`() {
         val field = someCMNumberList()
         val quantifier = null
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMList Number and type`() {
+    fun `should support min with CMJsonList Number and type`() {
         val field = someCMNumberList()
         val quantifier = ALL
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMList string`() {
+    fun `should support min with CMJsonList string`() {
         val field = someCMStringList()
         val quantifier = null
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMList string and type`() {
+    fun `should support min with CMJsonList string and type`() {
         val field = someCMStringList()
         val quantifier = ALL
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMList Boolean`() {
+    fun `should support min with CMJsonList Boolean`() {
         val field = someCMBooleanList()
         val quantifier = null
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support min with CMList Boolean and type`() {
+    fun `should support min with CMJsonList Boolean and type`() {
         val field = someCMBooleanList()
         val quantifier = ALL
         val expected = MinExpression(field.toDopeType(), quantifier)
 
         val actual = min(field, ALL)
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

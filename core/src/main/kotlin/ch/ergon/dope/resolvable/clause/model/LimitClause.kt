@@ -1,6 +1,7 @@
 package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.IDeleteLimitClause
 import ch.ergon.dope.resolvable.clause.IDeleteWhereClause
@@ -16,9 +17,9 @@ sealed class LimitClause(
     private val numberExpression: TypeExpression<NumberType>,
     private val parentClause: Clause,
 ) {
-    fun toDopeQuery(): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery()
-        val numberDopeQuery = numberExpression.toDopeQuery()
+    fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val parentDopeQuery = parentClause.toDopeQuery(manager)
+        val numberDopeQuery = numberExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "LIMIT", numberDopeQuery.queryString),
             parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,

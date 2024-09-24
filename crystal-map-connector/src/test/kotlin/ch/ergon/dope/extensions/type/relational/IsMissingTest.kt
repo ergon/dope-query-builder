@@ -1,7 +1,9 @@
 package ch.ergon.dope.extensions.type.relational
 
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.relational.isMissing
 import ch.ergon.dope.extension.type.relational.isNotMissing
+import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
@@ -11,64 +13,66 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsMissingTest {
+class IsMissingTest : ManagerDependentTest {
+    override lateinit var manager: DopeQueryManager
+
     @Test
-    fun `should support isMissing CMFieldNumber`() {
+    fun `should support isMissing CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsMissingExpression(field.toDopeType())
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support isMissing CMFieldString`() {
+    fun `should support isMissing CMJsonFieldString`() {
         val field = someCMStringField()
         val expected = IsMissingExpression(field.toDopeType())
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support isMissing CMFieldBoolean`() {
+    fun `should support isMissing CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
         val expected = IsMissingExpression(field.toDopeType())
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support is not Missing CMFieldNumber`() {
+    fun `should support is not Missing CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsNotMissingExpression(field.toDopeType())
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support is not Missing CMFieldString`() {
+    fun `should support is not Missing CMJsonFieldString`() {
         val field = someCMStringField()
         val expected = IsNotMissingExpression(field.toDopeType())
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support is not Missing CMFieldBoolean`() {
+    fun `should support is not Missing CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
         val expected = IsNotMissingExpression(field.toDopeType())
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(), actual.toDopeQuery())
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

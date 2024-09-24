@@ -1,7 +1,6 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.ParameterDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
@@ -10,18 +9,18 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isArray
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isAtom
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isBoolean
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isNumber
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isString
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.isArray
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.isAtom
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.isBoolean
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.isNumber
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.isString
-import ch.ergon.dope.resolvable.expression.unaliased.type.typefunction.toArray
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TypeFunctionsTest : ParameterDependentTest {
+class TypeFunctionsTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest

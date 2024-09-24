@@ -1,7 +1,9 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.MissingType
@@ -11,9 +13,9 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 sealed class Primitive<T : ValidType>(
-    private val generateDopeQuery: () -> DopeQuery,
+    private val generateDopeQuery: (DopeQueryManager) -> DopeQuery,
 ) : TypeExpression<T> {
-    override fun toDopeQuery() = generateDopeQuery()
+    override fun toDopeQuery(manager: DopeQueryManager) = generateDopeQuery(manager)
 }
 
 data object NULL : Primitive<NullType>({ DopeQuery("NULL", emptyMap()) })
@@ -41,10 +43,11 @@ class StringPrimitive(value: String) : Primitive<StringType>(
 
 class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
     {
+            manager: DopeQueryManager ->
         DopeQuery(
             queryString = when (value) {
-                true -> TRUE.toDopeQuery().queryString
-                false -> FALSE.toDopeQuery().queryString
+                true -> TRUE.toDopeQuery(manager).queryString
+                false -> FALSE.toDopeQuery(manager).queryString
             },
             parameters = emptyMap(),
         )
@@ -53,9 +56,10 @@ class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
 
 class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>(
     {
-        collection.map { it.toDopeQuery() }.let { dopeQueries ->
+            manager: DopeQueryManager ->
+        collection.map { it.toDopeQuery(manager) }.let { dopeQueries ->
             DopeQuery(
-                queryString = dopeQueries.joinToString(", ", prefix = "[", postfix = "]") { it.queryString },
+                queryString = formatListToQueryStringWithBrackets(dopeQueries, prefix = "[", postfix = "]"),
                 parameters = dopeQueries.fold(emptyMap()) { parameters, dopeQueryElement -> parameters + dopeQueryElement.parameters },
             )
         }

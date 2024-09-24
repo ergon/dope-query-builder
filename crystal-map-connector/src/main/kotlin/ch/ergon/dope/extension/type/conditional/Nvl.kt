@@ -1,42 +1,56 @@
 package ch.ergon.dope.extension.type.conditional
 
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.nvl
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.nvl
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
-import com.schwarz.crystalapi.schema.CMField
-import com.schwarz.crystalapi.schema.CMList
+import com.schwarz.crystalapi.schema.CMConverterField
+import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("nvlCMNumberField")
-fun nvl(initialExpression: CMField<out Number>, substituteExpression: CMField<out Number>) =
+fun nvl(initialExpression: CMJsonField<out Number>, substituteExpression: CMJsonField<out Number>) =
     nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMStringField")
-fun nvl(initialExpression: CMField<String>, substituteExpression: CMField<String>) =
+fun nvl(initialExpression: CMJsonField<String>, substituteExpression: CMJsonField<String>) =
     nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMBooleanField")
-fun nvl(initialExpression: CMField<Boolean>, substituteExpression: CMField<Boolean>) =
+fun nvl(initialExpression: CMJsonField<Boolean>, substituteExpression: CMJsonField<Boolean>) =
     nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMNumberList")
-fun nvl(initialExpression: CMList<out Number>, substituteExpression: CMList<out Number>) =
+fun nvl(initialExpression: CMJsonList<out Number>, substituteExpression: CMJsonList<out Number>) =
     nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMStringList")
-fun nvl(initialExpression: CMList<String>, substituteExpression: CMList<String>) =
+fun nvl(initialExpression: CMJsonList<String>, substituteExpression: CMJsonList<String>) =
     nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMBooleanList")
-fun nvl(initialExpression: CMList<Boolean>, substituteExpression: CMList<Boolean>) =
+fun nvl(initialExpression: CMJsonList<Boolean>, substituteExpression: CMJsonList<Boolean>) =
     nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMNumberFieldAndNumber")
-fun nvl(initialExpression: CMField<out Number>, substituteExpression: Number) =
-    nvl(initialExpression.toDopeType(), substituteExpression)
+fun nvl(initialExpression: CMJsonField<out Number>, substituteExpression: Number) =
+    nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMStringFieldAndString")
-fun nvl(initialExpression: CMField<String>, substituteExpression: String) =
-    nvl(initialExpression.toDopeType(), substituteExpression)
+fun nvl(initialExpression: CMJsonField<String>, substituteExpression: String) =
+    nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
 
 @JvmName("nvlCMBooleanFieldAndBoolean")
-fun nvl(initialExpression: CMField<Boolean>, substituteExpression: Boolean) =
-    nvl(initialExpression.toDopeType(), substituteExpression)
+fun nvl(initialExpression: CMJsonField<Boolean>, substituteExpression: Boolean) =
+    nvl(initialExpression.toDopeType(), substituteExpression.toDopeType())
+
+@JvmName("nvlCMConverterNumberList")
+fun <Convertable : Any, JsonType : Number> nvl(initialExpression: CMConverterField<Convertable, JsonType>, substituteExpression: Convertable) =
+    nvl(initialExpression.toDopeType(), substituteExpression.toDopeType(initialExpression))
+
+@JvmName("nvlCMConverterStringList")
+fun <Convertable : Any> nvl(initialExpression: CMConverterField<Convertable, String>, substituteExpression: Convertable) =
+    nvl(initialExpression.toDopeType(), substituteExpression.toDopeType(initialExpression))
+
+@JvmName("nvlCMConverterBooleanList")
+fun <Convertable : Any> nvl(initialExpression: CMConverterField<Convertable, Boolean>, substituteExpression: Convertable) =
+    nvl(initialExpression.toDopeType(), substituteExpression.toDopeType(initialExpression))

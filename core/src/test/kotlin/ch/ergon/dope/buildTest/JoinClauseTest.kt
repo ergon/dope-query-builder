@@ -11,6 +11,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.fromable.useIndex
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -53,12 +54,13 @@ class JoinClauseTest {
     @Test
     fun `Should support left join`() {
         val expected =
-            "SELECT * FROM `route` LEFT JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` WHERE `route`.`sourceairport` = \"SFO\""
+            "SELECT * FROM `route` USE INDEX () LEFT JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` " +
+                "WHERE `route`.`sourceairport` = \"SFO\""
 
         val actual = create
             .selectAsterisk()
             .from(
-                route,
+                route.useIndex(),
             ).leftJoin(
                 airline,
                 onCondition = someStringField("airlineid", route).isEqualTo(

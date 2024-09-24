@@ -4,9 +4,9 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType
-import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class OrderByTest {
     private lateinit var create: QueryBuilder
