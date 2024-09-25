@@ -30,16 +30,16 @@ fun Boolean.inArray(array: TypeExpression<ArrayType<BooleanType>>): InExpression
     toDopeType().inArray(array)
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: Collection<TypeExpression<T>>): InExpression<T> =
-    this.inArray(array.toDopeType())
+    inArray(array.toDopeType())
 
 fun Number.inArray(array: Collection<TypeExpression<NumberType>>): InExpression<NumberType> =
-    inArray(array.toDopeType())
+    toDopeType().inArray(array.toDopeType())
 
 fun String.inArray(array: Collection<TypeExpression<StringType>>): InExpression<StringType> =
-    inArray(array.toDopeType())
+    toDopeType().inArray(array.toDopeType())
 
 fun Boolean.inArray(array: Collection<TypeExpression<BooleanType>>): InExpression<BooleanType> =
-    inArray(array.toDopeType())
+    toDopeType().inArray(array.toDopeType())
 
 class NotInExpression<T : ValidType>(
     value: TypeExpression<T>,
