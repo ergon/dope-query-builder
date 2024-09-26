@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfuncti
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -19,7 +20,7 @@ class SubstringExpressionTest : ManagerDependentTest {
             "SUBSTR(`stringField`, 3, 1)",
             emptyMap(),
         )
-        val underTest = SubstringExpression(someStringField(), 3, 1)
+        val underTest = SubstringExpression(someStringField(), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -33,7 +34,7 @@ class SubstringExpressionTest : ManagerDependentTest {
             "SUBSTR($1, 3, 1)",
             mapOf("$1" to parameterValue),
         )
-        val underTest = SubstringExpression(parameterValue.asParameter(), 3, 1)
+        val underTest = SubstringExpression(parameterValue.asParameter(), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -41,13 +42,48 @@ class SubstringExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support substring function type type type`() {
+        val inStr = someStringField("inStr")
+        val startPos = someNumberField()
+        val length = someNumberField()
+        val expected = SubstringExpression(inStr, startPos, length)
+
+        val actual = substring(inStr, startPos, length)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support substring function type type`() {
+        val inStr = someStringField("inStr")
+        val startPos = someNumberField()
+        val expected = SubstringExpression(inStr, startPos)
+
+        val actual = substring(inStr, startPos)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support substring1 function type type int`() {
+        val inStr = someStringField("inStr")
+        val startPos = someNumberField()
+        val length = 1
+        val expected = SubstringExpression(inStr, startPos, length.toDopeType())
+
+        val actual = substring(inStr, startPos, length)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support substring function type int int`() {
         val inStr = someStringField("inStr")
         val startPos = 1
         val length = 2
-        val expected = SubstringExpression(inStr, startPos, length)
+        val expected = SubstringExpression(inStr, startPos.toDopeType(), length.toDopeType())
 
-        val actual = substr(inStr, startPos, length)
+        val actual = substring(inStr, startPos, length)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -56,9 +92,33 @@ class SubstringExpressionTest : ManagerDependentTest {
     fun `should support substring function type int`() {
         val inStr = someStringField("inStr")
         val startPos = 1
-        val expected = SubstringExpression(inStr, startPos)
+        val expected = SubstringExpression(inStr, startPos.toDopeType())
 
-        val actual = substr(inStr, startPos)
+        val actual = substring(inStr, startPos)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support substring function string type type`() {
+        val inStr = someString("inStr")
+        val startPos = someNumberField()
+        val length = someNumberField()
+        val expected = SubstringExpression(inStr.toDopeType(), startPos, length)
+
+        val actual = substring(inStr, startPos, length)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support substring function string type int`() {
+        val inStr = someString("inStr")
+        val startPos = someNumberField()
+        val length = 1
+        val expected = SubstringExpression(inStr.toDopeType(), startPos, length.toDopeType())
+
+        val actual = substring(inStr, startPos, length)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -68,9 +128,9 @@ class SubstringExpressionTest : ManagerDependentTest {
         val inStr = someString("inStr")
         val startPos = 1
         val length = 2
-        val expected = SubstringExpression(inStr.toDopeType(), startPos, length)
+        val expected = SubstringExpression(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substr(inStr, startPos, length)
+        val actual = substring(inStr, startPos, length)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -79,9 +139,9 @@ class SubstringExpressionTest : ManagerDependentTest {
     fun `should support substring function string int`() {
         val inStr = someString("inStr")
         val startPos = 1
-        val expected = SubstringExpression(inStr.toDopeType(), startPos)
+        val expected = SubstringExpression(inStr.toDopeType(), startPos.toDopeType())
 
-        val actual = substr(inStr, startPos)
+        val actual = substring(inStr, startPos)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

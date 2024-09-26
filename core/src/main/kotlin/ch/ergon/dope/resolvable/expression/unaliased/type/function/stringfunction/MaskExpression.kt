@@ -27,4 +27,4 @@ class MaskExpression(
 fun mask(inStr: TypeExpression<StringType>, options: Map<String, String> = mapOf()) =
     MaskExpression(inStr, options)
 
-fun mask(inStr: String, options: Map<String, String> = mapOf()) = mask(inStr.toDopeType(), options)
+fun mask(inStr: String, options: Map<String, String> = mapOf()) = MaskExpression(inStr.toDopeType(), options)
