@@ -20,6 +20,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_CONTAINS(`numberArrayField`, `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), someNumberField())
 
@@ -29,11 +30,12 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_CONTAINS with parameter`() {
+    fun `should support ARRAY_CONTAINS with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_CONTAINS($1, `numberField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayContainsExpression(parameterValue.asParameter(), someNumberField())
 
@@ -43,11 +45,28 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_CONTAINS with parameter as value`() {
+    fun `should support ARRAY_CONTAINS with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_CONTAINS(\$$parameterName, `numberField`)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayContainsExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_CONTAINS(`numberArrayField`, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -57,14 +76,52 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_CONTAINS with all parameters`() {
+    fun `should support ARRAY_CONTAINS with named parameter as value`() {
+        val parameterValue = 1
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_CONTAINS(`numberArrayField`, \$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayContainsExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS with positional all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_CONTAINS($1, $2)",
-            mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
+            emptyMap(),
+            listOf(parameterValueCollection, parameterValue),
         )
         val underTest = ArrayContainsExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS with named all parameters`() {
+        val parameterValueCollection = listOf(1, 2, 3)
+        val parameterValue = 1
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "ARRAY_CONTAINS(\$$parameterName1, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayContainsExpression(
+            parameterValueCollection.asParameter(parameterName1),
+            parameterValue.asParameter(parameterName2),
+        )
 
         val actual = underTest.toDopeQuery(manager)
 

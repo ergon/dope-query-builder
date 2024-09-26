@@ -18,6 +18,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayRepeatExpression(someNumberField(), someNumberField())
 
@@ -27,11 +28,12 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPEAT with parameter`() {
+    fun `should support ARRAY_REPEAT with positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ARRAY_REPEAT($1, `numberField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), someNumberField())
 
@@ -41,11 +43,12 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPEAT with parameter as value`() {
+    fun `should support ARRAY_REPEAT with positional parameter as value`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter())
 
@@ -55,14 +58,64 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPEAT with all parameters`() {
+    fun `should support ARRAY_REPEAT with all positional parameters`() {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
             "ARRAY_REPEAT($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPEAT with named parameter`() {
+        val parameterValue = someNumber()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_REPEAT(\$$parameterName, `numberField`)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayRepeatExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPEAT with named parameter as value`() {
+        val parameterValue = someNumber()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_REPEAT(`numberField`, \$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPEAT with named and positional parameters`() {
+        val parameterValue = someNumber()
+        val parameterValue2 = someNumber()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_REPEAT(\$$parameterName, $1)",
+            mapOf(parameterName to parameterValue),
+            listOf(parameterValue2),
+        )
+        val underTest = ArrayRepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 

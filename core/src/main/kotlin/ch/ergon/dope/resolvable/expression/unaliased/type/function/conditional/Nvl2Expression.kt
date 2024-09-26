@@ -29,6 +29,8 @@ class Nvl2Expression<T : ValidType>(
             ),
             parameters = initialExpressionDopeQuery.parameters + valueIfExistsDopeQuery.parameters +
                 valueIfNotExistsDopeQuery.parameters,
+            positionalParameters = initialExpressionDopeQuery.positionalParameters + valueIfExistsDopeQuery.positionalParameters +
+                valueIfNotExistsDopeQuery.positionalParameters,
         )
     }
 }

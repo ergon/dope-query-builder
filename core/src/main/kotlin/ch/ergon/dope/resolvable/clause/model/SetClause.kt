@@ -28,10 +28,12 @@ class SetClause(
                 fieldAssignmentDopeQuery.queryString,
                 *fieldAssignmentsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = fieldAssignmentsDopeQuery.fold(fieldAssignmentDopeQuery.parameters) {
-                    setAssignmentsParameters, field ->
-                setAssignmentsParameters + field.parameters
-            } + parentClauseDopeQuery.parameters,
+            parameters = parentClauseDopeQuery.parameters + fieldAssignmentsDopeQuery.fold(
+                fieldAssignmentDopeQuery.parameters,
+            ) { setAssignmentsParameters, field -> setAssignmentsParameters + field.parameters },
+            positionalParameters = parentClauseDopeQuery.positionalParameters + fieldAssignmentsDopeQuery.fold(
+                fieldAssignmentDopeQuery.positionalParameters,
+            ) { setAssignmentsParameters, field -> setAssignmentsParameters + field.positionalParameters },
         )
     }
 
@@ -73,6 +75,7 @@ class SetAssignment<T : ValidType>(
         return DopeQuery(
             queryString = "${fieldDopeQuery.queryString} = ${valueDopeQuery.queryString}",
             parameters = fieldDopeQuery.parameters + valueDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters + valueDopeQuery.positionalParameters,
         )
     }
 }

@@ -17,6 +17,7 @@ sealed class NumberFunctionExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol, valueDopeQuery, additionalValueDopeQuery),
             parameters = valueDopeQuery?.parameters.orEmpty() + additionalValueDopeQuery?.parameters.orEmpty(),
+            positionalParameters = valueDopeQuery?.positionalParameters.orEmpty() + additionalValueDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

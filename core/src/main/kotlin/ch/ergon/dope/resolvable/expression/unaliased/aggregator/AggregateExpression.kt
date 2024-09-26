@@ -17,6 +17,7 @@ sealed class AggregateExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol, quantifier, fieldDopeQuery.queryString),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }

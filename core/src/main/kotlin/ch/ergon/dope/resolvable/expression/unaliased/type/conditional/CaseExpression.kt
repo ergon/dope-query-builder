@@ -20,6 +20,7 @@ class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Re
         return DopeQuery(
             queryString = "$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}",
             parameters = caseDopeQuery?.parameters.orEmpty(),
+            positionalParameters = caseDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }
@@ -41,6 +42,9 @@ class CaseExpression<T : ValidType, U : ValidType>(
                 } + END,
             parameters = caseDopeQuery.parameters + conditionDopeQueries.fold(emptyMap()) { parameters, query ->
                 parameters + query.first.parameters + query.second.parameters
+            },
+            positionalParameters = caseDopeQuery.positionalParameters + conditionDopeQueries.fold(emptyList()) { positionalParameters, query ->
+                positionalParameters + query.first.positionalParameters + query.second.positionalParameters
             },
         )
     }
@@ -67,6 +71,9 @@ class ElseCaseExpression<T : ValidType, U : ValidType>(
             parameters = caseDopeQuery.parameters + conditionDopeQueries.fold(emptyMap()) { parameters, query ->
                 parameters + query.first.parameters + query.second.parameters
             } + elseCaseDopeQuery.parameters,
+            positionalParameters = caseDopeQuery.positionalParameters + conditionDopeQueries.fold(emptyList()) { positionalParameters, query ->
+                positionalParameters + query.first.positionalParameters + query.second.positionalParameters
+            } + elseCaseDopeQuery.positionalParameters,
         )
     }
 }

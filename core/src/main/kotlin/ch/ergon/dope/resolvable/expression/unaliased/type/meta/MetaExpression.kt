@@ -20,6 +20,7 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
             DopeQuery(
                 queryString = "$META()",
                 parameters = emptyMap(),
+                positionalParameters = emptyList(),
             )
         } else {
             val bucketDopeQuery = bucket.toDopeQuery(manager)
@@ -32,6 +33,7 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
                     },
                 ),
                 parameters = bucketDopeQuery.parameters,
+                positionalParameters = bucketDopeQuery.positionalParameters,
             )
         }
 
@@ -59,6 +61,7 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
             return DopeQuery(
                 queryString = "${dopeQuery.queryString}.`$name`",
                 parameters = dopeQuery.parameters,
+                positionalParameters = dopeQuery.positionalParameters,
             )
         }
     }

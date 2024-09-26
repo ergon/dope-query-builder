@@ -18,6 +18,7 @@ class ArrayAccess<T : ValidType>(
         return DopeQuery(
             queryString = "${arrayDopeQuery.queryString}[${indexDopeQuery.queryString}]",
             parameters = arrayDopeQuery.parameters + indexDopeQuery.parameters,
+            positionalParameters = arrayDopeQuery.positionalParameters + indexDopeQuery.positionalParameters,
         )
     }
 }

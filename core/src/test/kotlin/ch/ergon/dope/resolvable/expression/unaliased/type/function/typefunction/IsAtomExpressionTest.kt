@@ -14,10 +14,11 @@ class IsAtomExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support is atom expression`() {
+    fun `should support is atom expression with no parameters`() {
         val expected = DopeQuery(
             "ISATOM(`stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = IsAtomExpression(someStringField())
 
@@ -27,13 +28,30 @@ class IsAtomExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is atom expression with parameter`() {
+    fun `should support is atom expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
             "ISATOM($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = IsAtomExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is atom expression with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ISATOM(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = IsAtomExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

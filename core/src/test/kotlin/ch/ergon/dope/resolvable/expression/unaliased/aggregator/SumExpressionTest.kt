@@ -17,6 +17,7 @@ class SumExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUM(`numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = SumExpression(someNumberField(), null)
 
@@ -30,6 +31,7 @@ class SumExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUM(ALL `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = SumExpression(someNumberField(), ALL)
 
@@ -43,6 +45,7 @@ class SumExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "SUM(DISTINCT `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = SumExpression(someNumberField(), DISTINCT)
 

@@ -22,6 +22,7 @@ class NotEqualsExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` != `numberField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = NotEqualsExpression(someNumberField(), someNumberField())
 
@@ -31,11 +32,12 @@ class NotEqualsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not equals with parameter`() {
+    fun `should support not equals with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
             "$1 != `numberField`",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = NotEqualsExpression(parameterValue.asParameter(), someNumberField())
 
@@ -45,12 +47,13 @@ class NotEqualsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not equals with all parameters`() {
+    fun `should support not equals with all positional parameters`() {
         val parameterValue = 5
         val parameterValue2 = 6
         val expected = DopeQuery(
             "$1 != $2",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = NotEqualsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -60,13 +63,48 @@ class NotEqualsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not equals with second parameter`() {
+    fun `should support not equals with second positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "`numberField` != $1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = NotEqualsExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support not equals with named parameter`() {
+        val parameterValue = 5
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "$$parameterName != `numberField`",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = NotEqualsExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support not equals with all named parameters`() {
+        val parameterValue = 5
+        val parameterValue2 = 6
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "$$parameterName1 != $$parameterName2",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = NotEqualsExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

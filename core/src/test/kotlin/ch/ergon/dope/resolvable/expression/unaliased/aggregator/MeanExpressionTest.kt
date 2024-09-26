@@ -17,6 +17,7 @@ class MeanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MEAN(`numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = MeanExpression(someNumberField(), null)
 
@@ -30,6 +31,7 @@ class MeanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MEAN(ALL `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = MeanExpression(someNumberField(), ALL)
 
@@ -43,6 +45,7 @@ class MeanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "MEAN(DISTINCT `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = MeanExpression(someNumberField(), DISTINCT)
 

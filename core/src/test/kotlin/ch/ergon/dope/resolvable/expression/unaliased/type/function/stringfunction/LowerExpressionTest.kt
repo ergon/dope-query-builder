@@ -14,10 +14,11 @@ class LowerExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support lower`() {
+    fun `should support lower with no parameters`() {
         val expected = DopeQuery(
             "LOWER(`stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = LowerExpression(someStringField())
 
@@ -27,13 +28,30 @@ class LowerExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support lower with parameter`() {
+    fun `should support lower with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "LOWER($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = LowerExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support lower with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "LOWER(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = LowerExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

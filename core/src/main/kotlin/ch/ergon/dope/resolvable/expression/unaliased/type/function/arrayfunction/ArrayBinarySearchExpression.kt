@@ -21,6 +21,7 @@ class ArrayBinarySearchExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_BINARY_SEARCH", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
+            positionalParameters = arrayDopeQuery.positionalParameters + valueDopeQuery.positionalParameters,
         )
     }
 }

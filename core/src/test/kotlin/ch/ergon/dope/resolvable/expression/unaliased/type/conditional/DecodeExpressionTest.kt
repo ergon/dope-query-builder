@@ -23,6 +23,7 @@ class DecodeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DECODE(`stringField`, \"someString\", 5, 0)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -36,11 +37,12 @@ class DecodeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support decode expression with parameter`() {
+    fun `should support decode expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
             "DECODE($1, \"someString\", 5, 0)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = DecodeExpression(
             parameterValue.asParameter(),
@@ -54,11 +56,32 @@ class DecodeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support decode expression with second parameter`() {
+    fun `should support decode expression with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "DECODE(\$$parameterName, \"someString\", 5, 0)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = DecodeExpression(
+            parameterValue.asParameter(parameterName),
+            someStringSearchNumberResult(),
+            default = someNumber(0).toDopeType(),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support decode expression with positional second parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "DECODE(`stringField`, \"someString\", 5, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -72,17 +95,60 @@ class DecodeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support decode expression with all parameters`() {
+    fun `should support decode expression with named second parameter`() {
+        val parameterValue = someNumber()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "DECODE(`stringField`, \"someString\", 5, \$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = DecodeExpression(
+            someStringField(),
+            someStringSearchNumberResult(),
+            default = parameterValue.asParameter(parameterName),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support decode expression with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
             "DECODE($1, \"someString\", 5, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = DecodeExpression(
             parameterValue.asParameter(),
             someStringSearchNumberResult(),
             default = parameterValue2.asParameter(),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support decode expression with named all parameters`() {
+        val parameterValue = someString()
+        val parameterValue2 = someNumber()
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "DECODE(\$$parameterName1, \"someString\", 5, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = DecodeExpression(
+            parameterValue.asParameter(parameterName1),
+            someStringSearchNumberResult(),
+            default = parameterValue2.asParameter(parameterName2),
         )
 
         val actual = underTest.toDopeQuery(manager)

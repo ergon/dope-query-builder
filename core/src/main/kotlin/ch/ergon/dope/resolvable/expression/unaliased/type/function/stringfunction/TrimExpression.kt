@@ -18,6 +18,7 @@ class TrimExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "TRIM", inStrDopeQuery, charDopeQuery),
             parameters = inStrDopeQuery.parameters + charDopeQuery?.parameters.orEmpty(),
+            positionalParameters = inStrDopeQuery.positionalParameters + charDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

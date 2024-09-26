@@ -20,6 +20,8 @@ class LpadExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "LPAD", inStrDopeQuery, sizeDopeQuery, prefixDopeQuery),
             parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + prefixDopeQuery?.parameters.orEmpty(),
+            positionalParameters = inStrDopeQuery.positionalParameters + sizeDopeQuery.positionalParameters +
+                prefixDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

@@ -17,6 +17,7 @@ class LtrimExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "LTRIM", inStrDopeQuery, charDopeQuery),
             parameters = inStrDopeQuery.parameters + charDopeQuery?.parameters.orEmpty(),
+            positionalParameters = inStrDopeQuery.positionalParameters + charDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

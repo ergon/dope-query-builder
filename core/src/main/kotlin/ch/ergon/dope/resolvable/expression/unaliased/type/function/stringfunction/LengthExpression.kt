@@ -15,6 +15,7 @@ class LengthExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "LENGTH", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters,
         )
     }
 }

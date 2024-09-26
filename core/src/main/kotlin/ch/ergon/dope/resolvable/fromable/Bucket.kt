@@ -7,7 +7,11 @@ import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.Expression
 
 sealed class Bucket(open val name: String) : Fromable, Joinable, Deletable, Updatable, Expression {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("`$name`", emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
+        queryString = "`$name`",
+        parameters = emptyMap(),
+        positionalParameters = emptyList(),
+    )
 }
 
 open class UnaliasedBucket(name: String) : Bucket(name) {
@@ -18,6 +22,7 @@ class AliasedBucket(name: String, val alias: String) : Bucket(name) {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$alias`",
         parameters = emptyMap(),
+        positionalParameters = emptyList(),
     )
 
     fun asBucketDefinition() = AliasedBucketDefinition(name, alias)
@@ -27,6 +32,7 @@ class AliasedBucketDefinition(val name: String, val alias: String) : Resolvable 
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$name` AS `$alias`",
         parameters = emptyMap(),
+        positionalParameters = emptyList(),
     )
 }
 

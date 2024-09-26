@@ -18,6 +18,7 @@ class RtrimExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "RTRIM(`stringField`, `stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = RtrimExpression(someStringField(), someStringField())
 
@@ -27,11 +28,12 @@ class RtrimExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support rtrim with parameter`() {
+    fun `should support rtrim with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "RTRIM($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = RtrimExpression(parameterValue.asParameter(), someStringField())
 
@@ -41,14 +43,66 @@ class RtrimExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support rtrim with all parameters`() {
+    fun `should support rtrim with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
             "RTRIM($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = RtrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support rtrim with named parameter`() {
+        val parameterValue = "test"
+        val parameterName1 = "param1"
+        val expected = DopeQuery(
+            "RTRIM(\$$parameterName1, `stringField`)",
+            mapOf(parameterName1 to parameterValue),
+            emptyList(),
+        )
+        val underTest = RtrimExpression(parameterValue.asParameter(parameterName1), someStringField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support rtrim with all named parameters`() {
+        val parameterValue = "test"
+        val parameterValue2 = "test"
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "RTRIM(\$$parameterName1, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = RtrimExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support rtrim with mixed parameters`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val parameterValue2 = "test"
+        val expected = DopeQuery(
+            "RTRIM(\$$parameterName, $1)",
+            mapOf(parameterName to parameterValue),
+            listOf(parameterValue2),
+        )
+        val underTest = RtrimExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -14,13 +14,13 @@ class Concat2ExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support concat2`() {
+    fun `should support concat2 with no parameters`() {
         val expected = DopeQuery(
             "CONCAT2(`stringField`, `stringField`)",
             emptyMap(),
+            emptyList(),
         )
-        val underTest =
-            Concat2Expression(someStringField(), someStringField())
+        val underTest = Concat2Expression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -28,16 +28,14 @@ class Concat2ExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support concat2 with parameter`() {
+    fun `should support concat2 with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "CONCAT2($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
-        val underTest = Concat2Expression(
-            parameterValue.asParameter(),
-            someStringField(),
-        )
+        val underTest = Concat2Expression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -45,17 +43,15 @@ class Concat2ExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support concat2 with all parameters`() {
+    fun `should support concat2 with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
             "CONCAT2($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
-        val underTest = Concat2Expression(
-            parameterValue.asParameter(),
-            parameterValue2.asParameter(),
-        )
+        val underTest = Concat2Expression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -68,13 +64,28 @@ class Concat2ExpressionTest : ManagerDependentTest {
         val parameterValue2 = "test"
         val expected = DopeQuery(
             "CONCAT2($1, `stringField`, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
-        val underTest = Concat2Expression(
-            parameterValue.asParameter(),
-            someStringField(),
-            parameterValue2.asParameter(),
+        val underTest = Concat2Expression(parameterValue.asParameter(), someStringField(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support concat2 with mixed parameters (all named)`() {
+        val parameterValue = "test"
+        val parameterValue2 = "test"
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "CONCAT2(\$$parameterName1, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
         )
+        val underTest = Concat2Expression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -15,6 +15,7 @@ class LowerExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "LOWER", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters,
         )
     }
 }

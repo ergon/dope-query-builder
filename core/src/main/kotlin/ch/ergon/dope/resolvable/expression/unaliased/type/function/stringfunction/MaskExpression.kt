@@ -20,6 +20,7 @@ class MaskExpression(
                 "{${options.map { "\"${it.key}\": \"${it.value}\"" }.joinToString(", ")}}",
             ),
             parameters = inStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters,
         )
     }
 }

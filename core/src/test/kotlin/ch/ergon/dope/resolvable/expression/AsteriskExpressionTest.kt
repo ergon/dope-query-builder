@@ -15,6 +15,7 @@ class AsteriskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "*",
             emptyMap(),
+            emptyList(),
         )
         val underTest = AsteriskExpression()
 
@@ -28,6 +29,7 @@ class AsteriskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket`.*",
             emptyMap(),
+            emptyList(),
         )
         val underTest = AsteriskExpression(someBucket())
 

@@ -20,6 +20,9 @@ sealed class ArrayFunctionExpression<T : ValidType>(
             parameters = arrayDopeQuery.parameters + argumentsDopeQuery.fold(
                 emptyMap(),
             ) { argsParameters, field -> argsParameters + field.parameters },
+            positionalParameters = arrayDopeQuery.positionalParameters + argumentsDopeQuery.fold(
+                emptyList(),
+            ) { argsPositionalParameters, field -> argsPositionalParameters + field.positionalParameters },
         )
     }
 }

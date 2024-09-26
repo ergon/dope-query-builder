@@ -15,6 +15,7 @@ class NowStrExpression(
         return DopeQuery(
             queryString = toFunctionQueryString("NOW_STR", formatDopeQuery),
             parameters = formatDopeQuery?.parameters.orEmpty(),
+            positionalParameters = formatDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

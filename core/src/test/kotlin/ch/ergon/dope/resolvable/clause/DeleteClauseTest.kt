@@ -16,6 +16,7 @@ class DeleteClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = DeleteClause(someBucket())
 
@@ -29,6 +30,7 @@ class DeleteClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` AS `bucket`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = DeleteClause(someBucket().alias("bucket"))
 

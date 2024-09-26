@@ -23,6 +23,7 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_PREPEND(`numberField`, `numberArrayField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayPrependExpression(someNumberArrayField(), someNumberField())
 
@@ -32,11 +33,28 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_PREPEND with parameter`() {
+    fun `should support ARRAY_PREPEND with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_PREPEND(`numberField`, \$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayPrependExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_PREPEND(`numberField`, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayPrependExpression(parameterValue.asParameter(), someNumberField())
 
@@ -46,11 +64,28 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_PREPEND with parameter as value`() {
+    fun `should support ARRAY_PREPEND with named parameter as value`() {
+        val parameterValue = 1
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_PREPEND(\$$parameterName, `numberArrayField`)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayPrependExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_PREPEND($1, `numberArrayField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayPrependExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -60,12 +95,31 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_PREPEND with all parameters`() {
+    fun `should support ARRAY_PREPEND with all named parameters`() {
+        val parameterValueCollection = listOf(1, 2, 3)
+        val parameterValue = 1
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "ARRAY_PREPEND(\$$parameterName2, \$$parameterName1)",
+            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayPrependExpression(parameterValueCollection.asParameter(parameterName1), parameterValue.asParameter(parameterName2))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND with all positional parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_PREPEND($2, $1)",
-            mapOf("$2" to parameterValue, "$1" to parameterValueCollection),
+            emptyMap(),
+            listOf(parameterValueCollection, parameterValue),
         )
         val underTest = ArrayPrependExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

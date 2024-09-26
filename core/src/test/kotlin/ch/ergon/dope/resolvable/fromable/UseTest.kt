@@ -21,6 +21,7 @@ class UseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket` USE INDEX ()",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UseIndex(someBucket())
 
@@ -34,6 +35,7 @@ class UseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket` USE INDEX (`index`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UseIndex(
             someBucket(),
@@ -50,6 +52,7 @@ class UseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UseIndex(
             someBucket(),
@@ -68,6 +71,7 @@ class UseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket` USE INDEX (`index`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UseIndex(
             someBucket(),
@@ -157,6 +161,7 @@ class UseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket` USE KEYS \"someString\"",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UseKeys(
             "someString".toDopeType(),
@@ -173,6 +178,7 @@ class UseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`someBucket` USE KEYS [\"someString\", \"anotherString\"]",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UseKeys(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
@@ -189,7 +195,8 @@ class UseTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "`someBucket` USE KEYS $1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = UseKeys(
             parameterValue.asParameter(),

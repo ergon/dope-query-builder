@@ -19,6 +19,7 @@ class UnnestClause<T : ValidType>(private val arrayTypeField: Field<ArrayType<T>
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, UNNEST, arrayTypeDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + arrayTypeDopeQuery.parameters,
+            positionalParameters = parentDopeQuery.positionalParameters + arrayTypeDopeQuery.positionalParameters,
         )
     }
 }
@@ -33,6 +34,7 @@ class AliasedUnnestClause<T : ValidType>(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, UNNEST, aliasedExpressionDopeQuery.queryString),
             parameters = parentDopeQuery.parameters + aliasedExpressionDopeQuery.parameters,
+            positionalParameters = parentDopeQuery.positionalParameters + aliasedExpressionDopeQuery.positionalParameters,
         )
     }
 }

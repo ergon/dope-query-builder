@@ -16,6 +16,7 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_AVG(`numberArrayField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayAverageExpression(someNumberArrayField())
 
@@ -29,7 +30,8 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_AVG($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayAverageExpression(parameterValue.asParameter())
 

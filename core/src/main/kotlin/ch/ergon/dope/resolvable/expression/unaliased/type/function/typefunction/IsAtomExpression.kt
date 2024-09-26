@@ -15,6 +15,7 @@ class IsAtomExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ISATOM", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
+            positionalParameters = expressionDopeQuery.positionalParameters,
         )
     }
 }

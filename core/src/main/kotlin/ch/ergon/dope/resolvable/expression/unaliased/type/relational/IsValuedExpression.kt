@@ -16,6 +16,7 @@ class IsValuedExpression(
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS VALUED"),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }
@@ -30,6 +31,7 @@ class IsNotValuedExpression(
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT VALUED"),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }

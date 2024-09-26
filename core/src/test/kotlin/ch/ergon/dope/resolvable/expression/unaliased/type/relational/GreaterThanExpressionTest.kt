@@ -20,6 +20,7 @@ class GreaterThanExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` > `numberField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = GreaterThanExpression(someNumberField(), someNumberField())
 
@@ -29,11 +30,12 @@ class GreaterThanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support greater than with parameter`() {
+    fun `should support greater than with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
             "$1 > `numberField`",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = GreaterThanExpression(parameterValue.asParameter(), someNumberField())
 
@@ -43,12 +45,13 @@ class GreaterThanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support greater than with all parameters`() {
+    fun `should support greater than with all positional parameters`() {
         val parameterValue = 5
         val parameterValue2 = 6
         val expected = DopeQuery(
             "$1 > $2",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = GreaterThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -58,13 +61,48 @@ class GreaterThanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support greater with second parameter`() {
+    fun `should support greater than with second positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "`numberField` > $1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = GreaterThanExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support greater than with named parameter`() {
+        val parameterValue = 5
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "$$parameterName > `numberField`",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = GreaterThanExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support greater than with all named parameters`() {
+        val parameterValue = 5
+        val parameterValue2 = 6
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "$$parameterName1 > $$parameterName2",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = GreaterThanExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -14,10 +14,11 @@ class LengthExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support length`() {
+    fun `should support length with no parameters`() {
         val expected = DopeQuery(
             "LENGTH(`stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = LengthExpression(someStringField())
 
@@ -27,13 +28,30 @@ class LengthExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support length with parameter`() {
+    fun `should support length with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "LENGTH($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = LengthExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support length with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "LENGTH(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = LengthExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

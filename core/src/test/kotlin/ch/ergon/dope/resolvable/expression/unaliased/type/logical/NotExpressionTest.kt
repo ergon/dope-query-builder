@@ -14,12 +14,14 @@ class NotExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support not`() {
+    fun `should support and with positional parameter`() {
+        val parameterValue = true
         val expected = DopeQuery(
-            "NOT `booleanField`",
+            "($1 AND `booleanField`)",
             emptyMap(),
+            listOf(parameterValue),
         )
-        val underTest = NotExpression(someBooleanField())
+        val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -27,13 +29,64 @@ class NotExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not with parameter`() {
+    fun `should support and with all positional parameters`() {
         val parameterValue = true
+        val parameterValue2 = true
         val expected = DopeQuery(
-            "NOT $1",
-            mapOf("$1" to parameterValue),
+            "($1 AND $2)",
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
-        val underTest = NotExpression(parameterValue.asParameter())
+        val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and with second positional parameter`() {
+        val parameterValue = false
+        val expected = DopeQuery(
+            "(`booleanField` AND $1)",
+            emptyMap(),
+            listOf(parameterValue),
+        )
+        val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and with named parameter`() {
+        val parameterValue = true
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "($$parameterName AND `booleanField`)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = AndExpression(parameterValue.asParameter(parameterName), someBooleanField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and with all named parameters`() {
+        val parameterValue = true
+        val parameterValue2 = false
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "($$parameterName1 AND $$parameterName2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = AndExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

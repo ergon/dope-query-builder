@@ -24,6 +24,7 @@ class InExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` IN `numberArrayField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = InExpression(someNumberField(), someNumberArrayField())
 
@@ -35,9 +36,26 @@ class InExpressionTest : ManagerDependentTest {
     @Test
     fun `should support IN expression with parameter as value`() {
         val parameterValue = 1
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "\$param IN `numberArrayField`",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = InExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support IN expression with positional parameter as value`() {
+        val parameterValue = 1
         val expected = DopeQuery(
             "$1 IN `numberArrayField`",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = InExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -49,9 +67,26 @@ class InExpressionTest : ManagerDependentTest {
     @Test
     fun `should support IN expression with parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "`numberField` IN \$param",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = InExpression(someNumberField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support IN expression with positional parameter as collection`() {
+        val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "`numberField` IN $1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 
@@ -64,9 +99,28 @@ class InExpressionTest : ManagerDependentTest {
     fun `should support IN expression with parameter as value and collection`() {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
+        val parameterNameA = "paramA"
+        val parameterNameB = "paramB"
+        val expected = DopeQuery(
+            "\$paramA IN \$paramB",
+            mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue),
+            emptyList(),
+        )
+        val underTest = InExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support IN expression with positional parameter as value and collection`() {
+        val parameterValue = 1
+        val parameterCollectionValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "$1 IN $2",
-            mapOf("$1" to parameterValue, "$2" to parameterCollectionValue),
+            emptyMap(),
+            listOf(parameterValue, parameterCollectionValue),
         )
         val underTest = InExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 

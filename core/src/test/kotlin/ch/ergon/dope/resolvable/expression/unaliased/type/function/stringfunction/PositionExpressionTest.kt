@@ -18,6 +18,7 @@ class PositionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "POSITION(`stringField`, `stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = PositionExpression(someStringField(), someStringField())
 
@@ -27,11 +28,12 @@ class PositionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support position with parameter`() {
+    fun `should support position with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "POSITION($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = PositionExpression(parameterValue.asParameter(), someStringField())
 
@@ -41,14 +43,66 @@ class PositionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support position with all parameters`() {
+    fun `should support position with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
             "POSITION($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = PositionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support position with named parameter`() {
+        val parameterValue = "test"
+        val parameterName1 = "param1"
+        val expected = DopeQuery(
+            "POSITION(\$$parameterName1, `stringField`)",
+            mapOf(parameterName1 to parameterValue),
+            emptyList(),
+        )
+        val underTest = PositionExpression(parameterValue.asParameter(parameterName1), someStringField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support position with all named parameters`() {
+        val parameterValue = "test"
+        val parameterValue2 = "test"
+        val parameterName1 = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "POSITION(\$$parameterName1, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = PositionExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support position with mixed parameters`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val parameterValue2 = "test"
+        val expected = DopeQuery(
+            "POSITION(\$$parameterName, $1)",
+            mapOf(parameterName to parameterValue),
+            listOf(parameterValue2),
+        )
+        val underTest = PositionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 

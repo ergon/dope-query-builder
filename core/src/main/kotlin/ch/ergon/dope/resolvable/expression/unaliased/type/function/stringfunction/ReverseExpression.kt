@@ -15,6 +15,7 @@ class ReverseExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "REVERSE", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters,
         )
     }
 }

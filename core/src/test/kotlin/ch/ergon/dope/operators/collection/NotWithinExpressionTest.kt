@@ -24,6 +24,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`numberField` NOT WITHIN `numberArrayField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = NotWithinExpression(someNumberField(), someNumberArrayField())
 
@@ -33,11 +34,28 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with parameter as value`() {
+    fun `should support NOT WITHIN expression with named parameter as value`() {
+        val parameterValue = 1
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "\$$parameterName NOT WITHIN `numberArrayField`",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = NotWithinExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support NOT WITHIN expression with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
             "$1 NOT WITHIN `numberArrayField`",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -47,11 +65,28 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with parameter as collection`() {
+    fun `should support NOT WITHIN expression with named parameter as collection`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "`numberField` NOT WITHIN \$$parameterName",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support NOT WITHIN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "`numberField` NOT WITHIN $1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter())
 
@@ -61,12 +96,31 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with parameter as value and collection`() {
+    fun `should support NOT WITHIN expression with named parameters as value and collection`() {
+        val parameterValue = 1
+        val parameterCollectionValue = listOf(1, 2, 3)
+        val parameterNameA = "paramA"
+        val parameterNameB = "paramB"
+        val expected = DopeQuery(
+            "\$$parameterNameA NOT WITHIN \$$parameterNameB",
+            mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue),
+            emptyList(),
+        )
+        val underTest = NotWithinExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support NOT WITHIN expression with positional parameters as value and collection`() {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "$1 NOT WITHIN $2",
-            mapOf("$1" to parameterValue, "$2" to parameterCollectionValue),
+            emptyMap(),
+            listOf(parameterValue, parameterCollectionValue),
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 

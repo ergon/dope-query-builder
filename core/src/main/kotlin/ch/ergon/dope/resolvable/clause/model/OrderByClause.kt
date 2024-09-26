@@ -23,7 +23,8 @@ open class SelectOrderByClause(private val stringField: Field<StringType>, priva
         val stringDopeQuery = stringField.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
-            parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters + stringDopeQuery.parameters,
+            positionalParameters = parentDopeQuery.positionalParameters + stringDopeQuery.positionalParameters,
         )
     }
 }
@@ -40,6 +41,7 @@ class SelectOrderByTypeClause(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
             parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
+            positionalParameters = stringDopeQuery.positionalParameters + parentDopeQuery.positionalParameters,
         )
     }
 }

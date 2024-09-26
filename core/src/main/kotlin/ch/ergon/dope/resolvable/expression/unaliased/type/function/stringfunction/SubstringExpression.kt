@@ -22,6 +22,7 @@ class SubstringExpression(
                 length?.toDopeType()?.toDopeQuery(manager),
             ),
             parameters = inStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters,
         )
     }
 }

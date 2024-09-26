@@ -17,10 +17,11 @@ class ToStringExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support to string expression`() {
+    fun `should support to string expression with no parameters`() {
         val expected = DopeQuery(
             "TOSTRING(`stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ToStringExpression(someStringField())
 
@@ -30,13 +31,30 @@ class ToStringExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support to string expression with parameter`() {
+    fun `should support to string expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
             "TOSTRING($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ToStringExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support to string expression with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "TOSTRING(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ToStringExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -17,6 +17,7 @@ class PositionExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "POSITION", inStrDopeQuery, searchStrDopeQuery),
             parameters = inStrDopeQuery.parameters + searchStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters + searchStrDopeQuery.positionalParameters,
         )
     }
 }

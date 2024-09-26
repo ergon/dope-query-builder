@@ -21,6 +21,9 @@ abstract class FunctionExpression<T : ValidType>(
             parameters = expressionsDopeQuery.fold(
                 emptyMap(),
             ) { expressionParameters, expression -> expressionParameters + expression.parameters },
+            positionalParameters = expressionsDopeQuery.fold(
+                emptyList(),
+            ) { expressionPositionalParameters, expression -> expressionPositionalParameters + expression.positionalParameters },
         )
     }
 }

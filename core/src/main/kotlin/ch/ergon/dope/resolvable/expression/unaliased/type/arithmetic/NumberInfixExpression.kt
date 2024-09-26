@@ -18,6 +18,7 @@ sealed class NumberInfixExpression(
         return DopeQuery(
             queryString = formatToQueryStringWithBrackets(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
             parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
+            positionalParameters = leftDopeQuery.positionalParameters + rightDopeQuery.positionalParameters,
         )
     }
 }

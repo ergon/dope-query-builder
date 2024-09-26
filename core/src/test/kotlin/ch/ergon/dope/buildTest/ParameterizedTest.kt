@@ -54,9 +54,9 @@ class ParameterizedTest {
         val parameterValue = 2
         val parameter = parameterValue.asParameter()
 
-        val parameters = create.select(parameter.isEqualTo(someNumberField())).build().parameters
+        val parameters = create.select(parameter.isEqualTo(someNumberField())).build().positionalParameters
 
-        assertEquals(parameterValue, parameters["$1"])
+        assertEquals(parameterValue, parameters[0])
     }
 
     @Test
@@ -75,11 +75,14 @@ class ParameterizedTest {
         val parameterValue3 = 80
         val parameter3 = parameterValue3.asParameter()
 
-        val parameters = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build().parameters
+        val parameters = create
+            .select(parameter1.isEqualTo(parameter2))
+            .where(parameter3.isNotEqualTo(someNumberField()))
+            .build().positionalParameters
 
-        assertEquals(parameterValue1, parameters["$1"])
-        assertEquals(parameterValue2, parameters["$2"])
-        assertEquals(parameterValue3, parameters["$3"])
+        assertEquals(parameterValue1, parameters[0])
+        assertEquals(parameterValue2, parameters[1])
+        assertEquals(parameterValue3, parameters[2])
         assertEquals(3, parameters.size)
     }
 
@@ -91,13 +94,16 @@ class ParameterizedTest {
         val parameter2 = parameterValue2.asParameter("param")
         val parameterValue3 = 80
         val parameter3 = parameterValue3.asParameter()
+        val underTest = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build()
 
-        val parameters = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build().parameters
+        val parameters = underTest.parameters
+        val positionalParameters = underTest.positionalParameters
 
-        assertEquals(parameterValue1, parameters["$1"])
+        assertEquals(parameterValue1, positionalParameters[0])
+        assertEquals(parameterValue3, positionalParameters[1])
         assertEquals(parameterValue2, parameters["param"])
-        assertEquals(parameterValue3, parameters["$2"])
-        assertEquals(3, parameters.size)
+        assertEquals(1, parameters.size)
+        assertEquals(2, positionalParameters.size)
     }
 
     @Test
@@ -116,8 +122,7 @@ class ParameterizedTest {
         val parameterName5 = "superMagic"
         val parameter5 = value5.asParameter(parameterName5)
         val parameter6 = value6.asParameter()
-
-        val parameters = create
+        val underTest = create
             .select(
                 parameter1,
                 parameter2.or(
@@ -129,15 +134,19 @@ class ParameterizedTest {
                     parameter5,
                     parameter6,
                 ),
-            ).build().parameters
+            ).build()
 
-        assertEquals(value1, parameters["$1"])
+        val parameters = underTest.parameters
+        val positionalParameters = underTest.positionalParameters
+
+        assertEquals(value1, positionalParameters[0])
         assertEquals(value2And4, parameters[parameterName2])
-        assertEquals(value3, parameters["$2"])
+        assertEquals(value3, positionalParameters[1])
         assertEquals(value2And4, parameters[parameterName4])
         assertEquals(value5, parameters[parameterName5])
-        assertEquals(value6, parameters["$3"])
-        assertEquals(6, parameters.size)
+        assertEquals(value6, positionalParameters[2])
+        assertEquals(3, parameters.size)
+        assertEquals(3, positionalParameters.size)
     }
 
     @Test
@@ -145,9 +154,9 @@ class ParameterizedTest {
         val parameterValue = 3
         val parameter = parameterValue.asParameter()
 
-        val parameters = create.select(listOf(parameter).toDopeType()).build().parameters
+        val parameters = create.select(listOf(parameter).toDopeType()).build().positionalParameters
 
-        assertEquals(parameterValue, parameters["$1"])
+        assertEquals(parameterValue, parameters[0])
         assertEquals(1, parameters.size)
     }
 }

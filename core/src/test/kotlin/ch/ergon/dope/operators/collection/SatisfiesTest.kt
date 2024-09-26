@@ -26,6 +26,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
         val underTest = AnySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
@@ -39,6 +40,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
         val underTest = AnySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
@@ -52,6 +54,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
         val underTest = AnySatisfiesExpression(someBooleanArrayField()) { it }
 
@@ -65,6 +68,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "(`firstName` = \"Hans\" AND ANY `iterator1` IN `hobbies` SATISFIES `iterator1` = \"Football\" END)",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringField("firstName").isEqualTo("Hans")
@@ -78,6 +82,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "ANY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringArrayField("hobbies").any("hobby") { it.isEqualTo("Football") }.toDopeQuery(manager)
@@ -90,6 +95,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN [`stringField`, `stringField`] SATISFIES `iterator1` = \"something\" END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = listOf(someStringField(), someStringField()).any { it.isEqualTo("something") }.toDopeQuery(manager)
@@ -102,6 +108,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "(`firstName` = \"Hans\" AND ANY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END)",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringField("firstName").isEqualTo("Hans")
@@ -117,6 +124,7 @@ class SatisfiesTest : ManagerDependentTest {
             queryString = "ANY `iterator1` IN `stringArrayField` SATISFIES " +
                 "ANY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringArrayField().any { str1 -> someStringArrayField().any { it.isEqualTo(str1) } }.toDopeQuery(manager)
@@ -129,6 +137,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
         val underTest = EverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
@@ -142,6 +151,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
         val underTest = EverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
@@ -155,6 +165,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
         val underTest = EverySatisfiesExpression(someBooleanArrayField()) { it }
 
@@ -168,6 +179,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "EVERY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringArrayField("hobbies").every("hobby") { it.isEqualTo("Football") }.toDopeQuery(manager)
@@ -181,6 +193,7 @@ class SatisfiesTest : ManagerDependentTest {
             queryString = "(`firstName` = \"Hans\" AND EVERY `iterator1` IN `hobbies` " +
                 "SATISFIES `iterator1` = \"Football\" END)",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual =
@@ -196,6 +209,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN [`stringField`, `stringField`] SATISFIES `iterator1` = \"something\" END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = listOf(someStringField(), someStringField()).every { it.isEqualTo("something") }.toDopeQuery(manager)
@@ -208,6 +222,7 @@ class SatisfiesTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "(`firstName` = \"Hans\" AND EVERY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END)",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringField("firstName").isEqualTo("Hans")
@@ -222,6 +237,7 @@ class SatisfiesTest : ManagerDependentTest {
             queryString = "EVERY `iterator1` IN `stringArrayField` SATISFIES " +
                 "EVERY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringArrayField().every { str1 -> someStringArrayField().every { it.isEqualTo(str1) } }.toDopeQuery(manager)
@@ -235,6 +251,7 @@ class SatisfiesTest : ManagerDependentTest {
             queryString = "EVERY `iterator1` IN `stringArrayField` SATISFIES " +
                 "ANY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
             parameters = emptyMap(),
+            positionalParameters = emptyList(),
         )
 
         val actual = someStringArrayField().every { str1 -> someStringArrayField().any { it.isEqualTo(str1) } }.toDopeQuery(manager)

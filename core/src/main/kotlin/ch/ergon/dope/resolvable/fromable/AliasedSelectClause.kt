@@ -10,6 +10,7 @@ class AliasedSelectClause(private val alias: String, private val parentClause: I
         return DopeQuery(
             queryString = "(${parentClauseDopeQuery.queryString}) AS `$alias`",
             parameters = parentClauseDopeQuery.parameters,
+            positionalParameters = parentClauseDopeQuery.positionalParameters,
         )
     }
 }

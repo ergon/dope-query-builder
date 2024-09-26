@@ -16,6 +16,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_UNION(`numberArrayField`, `numberArrayField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -25,11 +26,12 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION with parameter`() {
+    fun `should support ARRAY_UNION with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_UNION($1, `numberArrayField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayUnionExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -39,11 +41,12 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION with parameter as value`() {
+    fun `should support ARRAY_UNION with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_UNION(`numberArrayField`, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -53,14 +56,82 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_UNION with all parameters`() {
+    fun `should support ARRAY_UNION with all positional parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
             "ARRAY_UNION($1, $2)",
-            mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
+            emptyMap(),
+            listOf(parameterValueCollection, parameterValue),
         )
         val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_UNION with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_UNION(\$$parameterName, `numberArrayField`)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayUnionExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_UNION with named parameter as value`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_UNION(`numberArrayField`, \$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_UNION with all named parameters`() {
+        val parameterValueCollection = listOf(1, 2, 3)
+        val parameterName1 = "param1"
+        val parameterValue = listOf(4, 5, 6)
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "ARRAY_UNION(\$$parameterName1, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(parameterName1), parameterValue.asParameter(parameterName2))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_UNION with mixed named and positional parameters`() {
+        val parameterValueCollection = listOf(1, 2, 3)
+        val parameterName = "param"
+        val parameterValue = listOf(4, 5, 6)
+        val expected = DopeQuery(
+            "ARRAY_UNION(\$$parameterName, $1)",
+            mapOf(parameterName to parameterValueCollection),
+            listOf(parameterValue),
+        )
+        val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -22,7 +22,8 @@ sealed class WhereClause(
         val whereDopeQuery = whereExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "WHERE", whereDopeQuery.queryString),
-            parameters = whereDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters + whereDopeQuery.parameters,
+            positionalParameters = parentDopeQuery.positionalParameters + whereDopeQuery.positionalParameters,
         )
     }
 }

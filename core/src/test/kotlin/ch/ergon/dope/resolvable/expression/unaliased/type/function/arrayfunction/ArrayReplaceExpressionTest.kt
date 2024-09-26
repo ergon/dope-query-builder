@@ -25,6 +25,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_REPLACE(`numberArrayField`, 1, 2)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), 2.toDopeType())
 
@@ -34,11 +35,12 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE with parameter`() {
+    fun `should support ARRAY_REPLACE with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, 1, 2)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), 1.toDopeType(), 2.toDopeType())
 
@@ -48,11 +50,12 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE with second parameter`() {
+    fun `should support ARRAY_REPLACE with second positional parameter`() {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_REPLACE(`numberArrayField`, $1, 2)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), parameterValue.asParameter(), 2.toDopeType())
 
@@ -62,11 +65,12 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE with third parameter`() {
+    fun `should support ARRAY_REPLACE with third positional parameter`() {
         val parameterValue = 2
         val expected = DopeQuery(
             "ARRAY_REPLACE(`numberArrayField`, 1, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
@@ -76,12 +80,13 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE with first and second parameter`() {
+    fun `should support ARRAY_REPLACE with first and second positional parameters`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 1
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, $2, 2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 2.toDopeType())
 
@@ -91,12 +96,13 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE with first and third parameter`() {
+    fun `should support ARRAY_REPLACE with first and third positional parameters`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 2
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, 1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2),
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), 1.toDopeType(), parameterValue2.asParameter())
 
@@ -106,15 +112,151 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_REPLACE with all parameters`() {
+    fun `should support ARRAY_REPLACE with all positional parameters`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 1
         val parameterValue3 = 2
         val expected = DopeQuery(
             "ARRAY_REPLACE($1, $2, $3)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
+            emptyMap(),
+            listOf(parameterValue, parameterValue2, parameterValue3),
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(\$$parameterName, 1, 2)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayReplaceExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), 2.toDopeType())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with second named parameter`() {
+        val parameterValue = 1
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(`numberArrayField`, \$$parameterName, 2)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayReplaceExpression(someNumberArrayField(), parameterValue.asParameter(parameterName), 2.toDopeType())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with third named parameter`() {
+        val parameterValue = 2
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(`numberArrayField`, 1, \$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with first and second named parameters`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName1 = "param1"
+        val parameterValue2 = 1
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(\$$parameterName1, \$$parameterName2, 2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = ArrayReplaceExpression(
+            parameterValue.asParameter(parameterName1),
+            parameterValue2.asParameter(parameterName2),
+            2.toDopeType(),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with first and third named parameters`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName1 = "param1"
+        val parameterValue2 = 2
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(\$$parameterName1, 1, \$$parameterName2)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
+            emptyList(),
+        )
+        val underTest = ArrayReplaceExpression(
+            parameterValue.asParameter(parameterName1),
+            1.toDopeType(),
+            parameterValue2.asParameter(parameterName2),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with all named parameters`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName1 = "param1"
+        val parameterValue2 = 1
+        val parameterName2 = "param2"
+        val parameterValue3 = 2
+        val parameterName3 = "param3"
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(\$$parameterName1, \$$parameterName2, \$$parameterName3)",
+            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2, parameterName3 to parameterValue3),
+            emptyList(),
+        )
+        val underTest = ArrayReplaceExpression(
+            parameterValue.asParameter(parameterName1),
+            parameterValue2.asParameter(parameterName2),
+            parameterValue3.asParameter(parameterName3),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_REPLACE with mixed named and positional parameters`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName1 = "param1"
+        val parameterValue2 = 1
+        val parameterValue3 = 2
+        val expected = DopeQuery(
+            "ARRAY_REPLACE(\$$parameterName1, $1, $2)",
+            mapOf(parameterName1 to parameterValue),
+            listOf(parameterValue2, parameterValue3),
+        )
+        val underTest =
+            ArrayReplaceExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(), parameterValue3.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 

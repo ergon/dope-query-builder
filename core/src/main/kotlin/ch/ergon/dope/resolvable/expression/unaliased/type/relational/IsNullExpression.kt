@@ -16,6 +16,7 @@ class IsNullExpression(
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NULL"),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }
@@ -30,6 +31,7 @@ class IsNotNullExpression(
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT NULL"),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }

@@ -15,6 +15,7 @@ class IsMissingExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` IS MISSING",
             emptyMap(),
+            emptyList(),
         )
         val underTest = IsMissingExpression(someStringField())
 

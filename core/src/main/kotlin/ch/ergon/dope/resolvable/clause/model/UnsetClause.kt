@@ -23,6 +23,7 @@ class UnsetClause(
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
             parameters = parentClauseDopeQuery.parameters,
+            positionalParameters = parentClauseDopeQuery.positionalParameters,
         )
     }
 

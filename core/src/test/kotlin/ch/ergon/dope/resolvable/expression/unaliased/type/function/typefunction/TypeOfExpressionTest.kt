@@ -14,10 +14,11 @@ class TypeOfExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support type of expression`() {
+    fun `should support type of expression with no parameters`() {
         val expected = DopeQuery(
             "TYPE(`stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = TypeOfExpression(someStringField())
 
@@ -27,13 +28,30 @@ class TypeOfExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support type of expression with parameter`() {
+    fun `should support type of expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
             "TYPE($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = TypeOfExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support type of expression with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "TYPE(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = TypeOfExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

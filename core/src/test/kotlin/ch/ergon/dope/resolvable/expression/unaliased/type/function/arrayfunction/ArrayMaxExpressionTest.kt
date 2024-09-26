@@ -16,6 +16,7 @@ class ArrayMaxExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_MAX(`numberArrayField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayMaxExpression(someNumberArrayField())
 
@@ -25,13 +26,30 @@ class ArrayMaxExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_MAX with parameter`() {
+    fun `should support ARRAY_MAX with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_MAX($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayMaxExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_MAX with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_MAX(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayMaxExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

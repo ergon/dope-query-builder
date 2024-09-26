@@ -20,6 +20,8 @@ class RpadExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "RPAD", inStrDopeQuery, sizeDopeQuery, charDopeQuery),
             parameters = inStrDopeQuery.parameters + sizeDopeQuery.parameters + charDopeQuery?.parameters.orEmpty(),
+            positionalParameters = inStrDopeQuery.positionalParameters + sizeDopeQuery.positionalParameters +
+                charDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

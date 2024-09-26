@@ -14,10 +14,11 @@ class NotLikeExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support not like`() {
+    fun `should support not like with no parameters`() {
         val expected = DopeQuery(
             "`stringField` NOT LIKE `stringField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = NotLikeExpression(someStringField(), someStringField())
 
@@ -27,13 +28,30 @@ class NotLikeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support not like with parameter`() {
+    fun `should support not like with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "`stringField` NOT LIKE $1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support not like with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "`stringField` NOT LIKE \$$parameterName",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

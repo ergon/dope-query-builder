@@ -99,6 +99,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
         }
         val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${joinableDopeQuery.queryString}"
         val joinParameters = parentDopeQuery.parameters + joinableDopeQuery.parameters
+        val joinPositionalParameters = parentDopeQuery.positionalParameters + joinableDopeQuery.positionalParameters
 
         return when (onType) {
             ON -> {
@@ -106,6 +107,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
                 DopeQuery(
                     queryString = "$joinQueryString ON ${onConditionDopeQuery?.queryString}",
                     parameters = joinParameters + onConditionDopeQuery?.parameters.orEmpty(),
+                    positionalParameters = joinPositionalParameters + onConditionDopeQuery?.positionalParameters.orEmpty(),
                 )
             }
 
@@ -114,6 +116,7 @@ sealed class SelectJoinClause : ISelectJoinClause {
                 DopeQuery(
                     queryString = "$joinQueryString ON KEYS ${keyDopeQuery?.queryString}",
                     parameters = joinParameters + keyDopeQuery?.parameters.orEmpty(),
+                    positionalParameters = joinPositionalParameters + keyDopeQuery?.positionalParameters.orEmpty(),
                 )
             }
 
@@ -124,6 +127,8 @@ sealed class SelectJoinClause : ISelectJoinClause {
                     queryString = "$joinQueryString ON KEY ${keyDopeQuery?.queryString} FOR ${forBucketDopeQuery?.queryString}",
                     parameters = joinParameters + keyDopeQuery?.parameters.orEmpty() +
                         forBucketDopeQuery?.parameters.orEmpty(),
+                    positionalParameters = joinPositionalParameters + keyDopeQuery?.positionalParameters.orEmpty() +
+                        forBucketDopeQuery?.positionalParameters.orEmpty(),
                 )
             }
         }

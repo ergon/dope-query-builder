@@ -18,6 +18,7 @@ class RepeatExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "REPEAT", inStrDopeQuery, repeatDopeQuery),
             parameters = inStrDopeQuery.parameters + repeatDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters + repeatDopeQuery.positionalParameters,
         )
     }
 }

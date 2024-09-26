@@ -18,13 +18,15 @@ sealed class Parameter<T : ValidType>(
             val unnamedParameterCount = "\$${manager.parameterManager.count}"
             DopeQuery(
                 queryString = unnamedParameterCount,
-                parameters = mapOf(unnamedParameterCount to value),
+                parameters = emptyMap(),
+                positionalParameters = listOf(value),
             )
         }
 
         else -> DopeQuery(
             queryString = "\$$parameterName",
             parameters = mapOf(parameterName to value),
+            positionalParameters = emptyList(),
         )
     }
 }

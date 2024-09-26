@@ -17,6 +17,7 @@ class ArrayAggregateExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_AGG", quantifier, fieldDopeQuery.queryString),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }

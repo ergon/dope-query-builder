@@ -18,6 +18,7 @@ class InitCapExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "INITCAP(`stringField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = InitCapExpression(someStringField())
 
@@ -27,13 +28,30 @@ class InitCapExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support init cap with parameter`() {
+    fun `should support init cap with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "INITCAP($1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = InitCapExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support init cap with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "INITCAP(\$$parameterName)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = InitCapExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

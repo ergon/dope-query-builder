@@ -15,10 +15,11 @@ class MaskExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support mask`() {
+    fun `should support mask with no parameters`() {
         val expected = DopeQuery(
             "MASK(`stringField`, {\"mask\": \"*\"})",
             emptyMap(),
+            emptyList(),
         )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
@@ -28,13 +29,46 @@ class MaskExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support mask with parameter`() {
+    fun `should support mask with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
             "MASK($1, {\"mask\": \"*\"})",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support mask with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "MASK(\$$parameterName, {\"mask\": \"*\"})",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support mask with mixed parameters`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "MASK(\$$parameterName, {\"mask\": \"*\"})",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
 
         val actual = underTest.toDopeQuery(manager)
 

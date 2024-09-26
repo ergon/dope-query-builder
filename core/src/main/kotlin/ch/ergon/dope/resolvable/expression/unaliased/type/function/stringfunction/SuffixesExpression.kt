@@ -15,6 +15,7 @@ class SuffixesExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "SUFFIXES", inStrDopeQuery),
             parameters = inStrDopeQuery.parameters,
+            positionalParameters = inStrDopeQuery.positionalParameters,
         )
     }
 }

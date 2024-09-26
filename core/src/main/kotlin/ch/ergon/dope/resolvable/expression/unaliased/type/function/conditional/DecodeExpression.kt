@@ -31,6 +31,11 @@ class DecodeExpression<T : ValidType, U : ValidType>(
                         expressionParameters, expression ->
                     expressionParameters + expression.parameters
                 } + defaultDopeQuery?.parameters.orEmpty(),
+            positionalParameters = decodeExpressionDopeQuery.positionalParameters +
+                searchResultsDopeQuery.fold(searchResultDopeQuery.positionalParameters) {
+                        expressionPositionalParameters, expression ->
+                    expressionPositionalParameters + expression.positionalParameters
+                } + defaultDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 
@@ -40,6 +45,7 @@ class DecodeExpression<T : ValidType, U : ValidType>(
         return DopeQuery(
             queryString = "${searchDopeQuery.queryString}, ${resultDopeQuery.queryString}",
             parameters = searchDopeQuery.parameters + resultDopeQuery.parameters,
+            positionalParameters = searchDopeQuery.positionalParameters + resultDopeQuery.positionalParameters,
         )
     }
 }

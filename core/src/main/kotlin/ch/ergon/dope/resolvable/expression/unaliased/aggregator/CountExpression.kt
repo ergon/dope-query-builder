@@ -18,6 +18,7 @@ class CountExpression(
         return DopeQuery(
             queryString = toFunctionQueryString("COUNT", quantifier, fieldDopeQuery.queryString),
             parameters = fieldDopeQuery.parameters,
+            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }
@@ -26,6 +27,7 @@ class CountAsteriskExpression : UnaliasedExpression<NumberType> {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "COUNT($ASTERISK_STRING)",
         parameters = emptyMap(),
+        positionalParameters = emptyList(),
     )
 }
 

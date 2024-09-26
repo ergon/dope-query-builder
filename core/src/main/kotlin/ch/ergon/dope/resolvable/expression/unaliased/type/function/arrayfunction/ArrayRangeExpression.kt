@@ -20,6 +20,8 @@ class ArrayRangeExpression(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_RANGE", startDopeQuery, endDopeQuery, stepDopeQuery),
             parameters = startDopeQuery.parameters + endDopeQuery.parameters + stepDopeQuery?.parameters.orEmpty(),
+            positionalParameters = startDopeQuery.positionalParameters +
+                endDopeQuery.positionalParameters + stepDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

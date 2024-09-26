@@ -15,6 +15,7 @@ class IsBooleanExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ISBOOLEAN", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
+            positionalParameters = expressionDopeQuery.positionalParameters,
         )
     }
 }

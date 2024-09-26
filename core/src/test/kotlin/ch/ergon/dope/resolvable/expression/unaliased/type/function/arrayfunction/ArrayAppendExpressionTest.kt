@@ -23,6 +23,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "ARRAY_APPEND(`numberArrayField`, `numberField`)",
             emptyMap(),
+            emptyList(),
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), someNumberField())
 
@@ -36,7 +37,8 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_APPEND($1, `numberField`)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(), someNumberField())
 
@@ -50,7 +52,8 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_APPEND(`numberArrayField`, $1)",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -65,9 +68,43 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_APPEND($1, $2)",
-            mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
+            emptyMap(),
+            listOf(parameterValueCollection, parameterValue),
         )
         val underTest = ArrayAppendExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_APPEND with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_APPEND(\$$parameterName, `numberField`)",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_APPEND with mixed parameters`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterValue2 = 5
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "ARRAY_APPEND(\$$parameterName, $1)",
+            mapOf(parameterName to parameterValue),
+            listOf(parameterValue2),
+        )
+        val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 

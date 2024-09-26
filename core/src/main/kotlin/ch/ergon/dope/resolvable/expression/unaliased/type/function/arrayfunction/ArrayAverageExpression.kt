@@ -15,6 +15,7 @@ class ArrayAverageExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_AVG", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
+            positionalParameters = arrayDopeQuery.positionalParameters,
         )
     }
 }

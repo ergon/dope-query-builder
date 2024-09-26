@@ -17,6 +17,7 @@ class RtrimExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "RTRIM", inStrDopeQuery, charDopeQuery),
             parameters = inStrDopeQuery.parameters + charDopeQuery?.parameters.orEmpty(),
+            positionalParameters = inStrDopeQuery.positionalParameters + charDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

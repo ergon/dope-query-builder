@@ -17,6 +17,7 @@ class SplitExpression(
         return DopeQuery(
             queryString = toFunctionQueryString(symbol = "SPLIT", inStrDopeQuery, inSubstringDopeQuery),
             parameters = inStrDopeQuery.parameters + inSubstringDopeQuery?.parameters.orEmpty(),
+            positionalParameters = inStrDopeQuery.positionalParameters + inSubstringDopeQuery?.positionalParameters.orEmpty(),
         )
     }
 }

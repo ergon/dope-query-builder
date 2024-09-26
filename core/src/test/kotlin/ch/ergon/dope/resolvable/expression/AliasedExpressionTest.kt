@@ -20,6 +20,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField` AS `test`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = AliasedExpression(someStringField(), "test")
 
@@ -29,13 +30,30 @@ class AliasedExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support aliased expression with parameter`() {
+    fun `should support aliased expression with positional parameter`() {
         val parameterValue = "testValue"
         val expected = DopeQuery(
             "$1 AS `test`",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = AliasedExpression(parameterValue.asParameter(), "test")
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aliased expression with named parameter`() {
+        val parameterValue = "testValue"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            "\$$parameterName AS `test`",
+            mapOf(parameterName to parameterValue),
+            emptyList(),
+        )
+        val underTest = AliasedExpression(parameterValue.asParameter(parameterName), "test")
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -50,7 +68,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -61,7 +79,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -72,7 +90,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -83,6 +101,6 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = unaliasedExpression.alias(alias)
 
-        kotlin.test.assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

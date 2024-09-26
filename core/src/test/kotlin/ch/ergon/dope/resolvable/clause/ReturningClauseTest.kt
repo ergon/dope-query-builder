@@ -21,6 +21,7 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` RETURNING `stringField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = DeleteReturningClause(someStringField(), parentClause = someDeleteClause())
 
@@ -34,6 +35,7 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = DeleteReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause())
 
@@ -70,6 +72,7 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` RETURNING `stringField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UpdateReturningClause(someStringField(), parentClause = someUpdateClause())
 
@@ -83,6 +86,7 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             "UPDATE `someBucket` RETURNING `stringField`, `numberField`",
             emptyMap(),
+            emptyList(),
         )
         val underTest = UpdateReturningClause(someStringField(), someNumberField(), parentClause = someUpdateClause())
 

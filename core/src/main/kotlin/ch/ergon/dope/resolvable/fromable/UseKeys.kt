@@ -35,6 +35,7 @@ class UseKeysClass private constructor(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = bucketDopeQuery.parameters + keysDopeQuery.parameters,
+            positionalParameters = bucketDopeQuery.positionalParameters + keysDopeQuery.positionalParameters,
         )
     }
 }

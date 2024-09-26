@@ -21,7 +21,8 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = 10
         val expected = DopeQuery(
             "$1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = NumberParameter(parameterValue)
 
@@ -37,6 +38,7 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
+            emptyList(),
         )
         val underTest = NumberParameter(parameterValue, parameterName)
 
@@ -50,7 +52,8 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = "testValue"
         val expected = DopeQuery(
             "$1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = StringParameter(parameterValue)
 
@@ -66,6 +69,7 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
+            emptyList(),
         )
         val underTest = StringParameter(parameterValue, parameterName)
 
@@ -79,7 +83,8 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = true
         val expected = DopeQuery(
             "$1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = BooleanParameter(parameterValue)
 
@@ -95,6 +100,7 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
+            emptyList(),
         )
         val underTest = BooleanParameter(parameterValue, parameterName)
 
@@ -108,7 +114,8 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = listOf("testValue")
         val expected = DopeQuery(
             "$1",
-            mapOf("$1" to parameterValue),
+            emptyMap(),
+            listOf(parameterValue),
         )
         val underTest = ArrayParameter<ValidType>(parameterValue)
 
@@ -124,6 +131,7 @@ class ParameterTest : ManagerDependentTest {
         val expected = DopeQuery(
             "\$$parameterName",
             mapOf(parameterName to parameterValue),
+            emptyList(),
         )
         val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
 
