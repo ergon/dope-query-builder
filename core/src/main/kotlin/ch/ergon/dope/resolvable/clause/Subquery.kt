@@ -5,9 +5,9 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.validtype.ValidType
 
-class Subquery<T : ValidType>(private val iSelectOffsetClause: ISelectOffsetClause<T>) : Resolvable {
+class Subquery<T : ValidType>(private val subClause: ISelectOffsetClause<T>) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val iSelectOffsetClauseDopeQuery = iSelectOffsetClause.toDopeQuery(manager)
-        return DopeQuery("(${iSelectOffsetClauseDopeQuery.queryString})", iSelectOffsetClauseDopeQuery.parameters)
+        val subClauseDopeQuery = subClause.toDopeQuery(manager)
+        return DopeQuery("(${subClauseDopeQuery.queryString})", subClauseDopeQuery.parameters)
     }
 }
