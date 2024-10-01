@@ -15,7 +15,7 @@ abstract class FunctionExpression<T : ValidType>(
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionsDopeQuery = expressions.map {
             when (it) {
-                is ISelectOffsetClause<*> -> it.asSubQuery().toDopeQuery(manager)
+                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
                 else -> it.toDopeQuery(manager)
             }
         }

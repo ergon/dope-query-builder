@@ -15,7 +15,7 @@ class ArrayAccess<T : ValidType>(
 ) : TypeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         val indexDopeQuery = index.toDopeQuery(manager)

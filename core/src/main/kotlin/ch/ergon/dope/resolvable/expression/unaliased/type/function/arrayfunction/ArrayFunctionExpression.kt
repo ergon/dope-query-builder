@@ -15,12 +15,12 @@ sealed class ArrayFunctionExpression<T : ValidType>(
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         val argumentsDopeQuery = arguments.map {
             when (it) {
-                is ISelectOffsetClause<*> -> it.asSubQuery().toDopeQuery(manager)
+                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
                 else -> it.toDopeQuery(manager)
             }
         }

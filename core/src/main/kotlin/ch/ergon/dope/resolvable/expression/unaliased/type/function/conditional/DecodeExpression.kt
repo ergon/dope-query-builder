@@ -16,13 +16,13 @@ class DecodeExpression<T : ValidType, U : ValidType>(
 ) : TypeExpression<U>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val decodeExpressionDopeQuery = when (decodeExpression) {
-            is ISelectOffsetClause<*> -> decodeExpression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> decodeExpression.asSelectWithParentheses().toDopeQuery(manager)
             else -> decodeExpression.toDopeQuery(manager)
         }
         val searchResultDopeQuery = getSearchResultDopeQuery(searchResult, manager)
         val searchResultsDopeQuery = searchResults.map { getSearchResultDopeQuery(it, manager) }.toTypedArray()
         val defaultDopeQuery = when (default) {
-            is ISelectOffsetClause<*> -> default.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> default.asSelectWithParentheses().toDopeQuery(manager)
             else -> default?.toDopeQuery(manager)
         }
         return DopeQuery(

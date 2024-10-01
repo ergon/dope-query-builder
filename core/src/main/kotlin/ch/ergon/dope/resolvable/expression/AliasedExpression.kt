@@ -13,7 +13,7 @@ class AliasedExpression<T : ValidType>(
 ) : SingleExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val unaliasedExpressionDopeQuery = when (unaliasedExpression) {
-            is ISelectOffsetClause<*> -> unaliasedExpression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> unaliasedExpression.asSelectWithParentheses().toDopeQuery(manager)
             else -> unaliasedExpression.toDopeQuery(manager)
         }
         return DopeQuery(

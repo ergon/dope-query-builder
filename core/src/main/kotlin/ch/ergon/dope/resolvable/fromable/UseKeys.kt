@@ -33,7 +33,7 @@ class UseKeysClass private constructor(
             else -> bucket.toDopeQuery(manager)
         }
         val keysDopeQuery = when (useKeys) {
-            is ISelectOffsetClause<*> -> useKeys.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> useKeys.asSelectWithParentheses().toDopeQuery(manager)
             else -> useKeys.toDopeQuery(manager)
         }
         return DopeQuery(

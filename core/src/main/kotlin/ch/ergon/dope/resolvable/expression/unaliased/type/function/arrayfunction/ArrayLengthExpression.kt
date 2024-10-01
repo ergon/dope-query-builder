@@ -14,7 +14,7 @@ class ArrayLengthExpression<T : ValidType>(
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         return DopeQuery(

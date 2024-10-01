@@ -13,7 +13,7 @@ class ArrayAverageExpression<T : NumberType>(
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         return DopeQuery(

@@ -14,15 +14,15 @@ class BetweenExpression<T : ComparableType>(
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
             else -> expression.toDopeQuery(manager)
         }
         val startDopeQuery = when (start) {
-            is ISelectOffsetClause<*> -> start.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> start.asSelectWithParentheses().toDopeQuery(manager)
             else -> start.toDopeQuery(manager)
         }
         val endDopeQuery = when (end) {
-            is ISelectOffsetClause<*> -> end.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> end.asSelectWithParentheses().toDopeQuery(manager)
             else -> end.toDopeQuery(manager)
         }
         return DopeQuery(
@@ -42,15 +42,15 @@ class NotBetweenExpression<T : ComparableType>(
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
             else -> expression.toDopeQuery(manager)
         }
         val startDopeQuery = when (start) {
-            is ISelectOffsetClause<*> -> start.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> start.asSelectWithParentheses().toDopeQuery(manager)
             else -> start.toDopeQuery(manager)
         }
         val endDopeQuery = when (end) {
-            is ISelectOffsetClause<*> -> end.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> end.asSelectWithParentheses().toDopeQuery(manager)
             else -> end.toDopeQuery(manager)
         }
         return DopeQuery(

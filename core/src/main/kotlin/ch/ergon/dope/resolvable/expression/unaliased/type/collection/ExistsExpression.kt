@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.ValidType
 class ExistsExpression<T : ValidType>(private val array: TypeExpression<ArrayType<T>>) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         return DopeQuery(

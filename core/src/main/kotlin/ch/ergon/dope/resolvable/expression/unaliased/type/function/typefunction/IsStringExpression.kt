@@ -13,7 +13,7 @@ class IsStringExpression<T : ValidType>(
 ) : TypeExpression<BooleanType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
             else -> expression.toDopeQuery(manager)
         }
         return DopeQuery(

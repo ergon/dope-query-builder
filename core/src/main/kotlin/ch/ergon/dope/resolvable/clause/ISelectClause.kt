@@ -30,7 +30,7 @@ import ch.ergon.dope.validtype.ValidType
 
 interface ISelectOffsetClause<T : ValidType> : Clause, TypeExpression<ArrayType<T>> {
     fun queryAlias(alias: String) = AliasedSelectClause(alias, this)
-    fun asSubQuery(): Subquery<T> = Subquery(this)
+    fun asSelectWithParentheses(): SelectWithParentheses<T> = SelectWithParentheses(this)
 }
 
 interface ISelectLimitClause<T : ValidType> : ISelectOffsetClause<T> {

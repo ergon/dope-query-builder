@@ -18,11 +18,11 @@ class ArrayBinarySearchExpression<T : ValidType>(
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
             else -> value.toDopeQuery(manager)
         }
         return DopeQuery(

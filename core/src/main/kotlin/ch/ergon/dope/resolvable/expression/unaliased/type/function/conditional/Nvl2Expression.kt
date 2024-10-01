@@ -19,15 +19,15 @@ class Nvl2Expression<T : ValidType>(
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val initialExpressionDopeQuery = when (initialExpression) {
-            is ISelectOffsetClause<*> -> initialExpression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> initialExpression.asSelectWithParentheses().toDopeQuery(manager)
             else -> initialExpression.toDopeQuery(manager)
         }
         val valueIfExistsDopeQuery = when (valueIfExists) {
-            is ISelectOffsetClause<*> -> valueIfExists.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> valueIfExists.asSelectWithParentheses().toDopeQuery(manager)
             else -> valueIfExists.toDopeQuery(manager)
         }
         val valueIfNotExistsDopeQuery = when (valueIfNotExists) {
-            is ISelectOffsetClause<*> -> valueIfNotExists.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> valueIfNotExists.asSelectWithParentheses().toDopeQuery(manager)
             else -> valueIfNotExists.toDopeQuery(manager)
         }
         return DopeQuery(

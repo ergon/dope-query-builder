@@ -15,11 +15,11 @@ open class InfixOperator(
 ) {
     fun toInfixDopeQuery(useBrackets: Boolean = false, manager: DopeQueryManager): DopeQuery {
         val leftDopeQuery = when (left) {
-            is ISelectOffsetClause<*> -> left.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> left.asSelectWithParentheses().toDopeQuery(manager)
             else -> left.toDopeQuery(manager)
         }
         val rightDopeQuery = when (right) {
-            is ISelectOffsetClause<*> -> right.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> right.asSelectWithParentheses().toDopeQuery(manager)
             else -> right.toDopeQuery(manager)
         }
         return if (useBrackets) {

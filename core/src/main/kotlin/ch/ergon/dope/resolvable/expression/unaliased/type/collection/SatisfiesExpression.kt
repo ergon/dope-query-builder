@@ -24,7 +24,7 @@ sealed class SatisfiesExpression<T : ValidType>(
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val listDopeQuery = when (arrayExpression) {
-            is ISelectOffsetClause<*> -> arrayExpression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> arrayExpression.asSelectWithParentheses().toDopeQuery(manager)
             else -> arrayExpression.toDopeQuery(manager)
         }
         val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()

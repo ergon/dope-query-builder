@@ -16,7 +16,7 @@ class ToNumberExpression<T : ValidType>(
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
             else -> expression.toDopeQuery(manager)
         }
         val filterCharsDopeQuery = filterChars?.toDopeQuery(manager)

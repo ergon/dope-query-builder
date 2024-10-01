@@ -15,12 +15,12 @@ class SelectClause(
 ) : ISelectClause<ValidType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
             else -> expression.toDopeQuery(manager)
         }
         val expressionsDopeQuery = expressions.map {
             when (it) {
-                is ISelectOffsetClause<*> -> it.asSubQuery().toDopeQuery(manager)
+                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
                 else -> it.toDopeQuery(manager)
             }
         }

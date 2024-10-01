@@ -19,16 +19,16 @@ class ArrayPrependExpression<T : ValidType>(
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
             else -> array.toDopeQuery(manager)
         }
         val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
             else -> value.toDopeQuery(manager)
         }
         val additionalValuesDopeQuery = additionalValues.map {
             when (it) {
-                is ISelectOffsetClause<*> -> it.asSubQuery().toDopeQuery(manager)
+                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
                 else -> it.toDopeQuery(manager)
             }
         }

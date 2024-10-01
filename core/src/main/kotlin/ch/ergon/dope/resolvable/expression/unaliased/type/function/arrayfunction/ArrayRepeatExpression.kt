@@ -16,7 +16,7 @@ class ArrayRepeatExpression<T : ValidType>(
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSubQuery().toDopeQuery(manager)
+            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
             else -> value.toDopeQuery(manager)
         }
         val repetitionsDopeQuery = repetitions.toDopeQuery(manager)
