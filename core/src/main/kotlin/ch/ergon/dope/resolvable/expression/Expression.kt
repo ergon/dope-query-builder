@@ -5,8 +5,8 @@ import ch.ergon.dope.validtype.ValidType
 
 interface Expression : Resolvable
 
-interface SingleExpression : Expression
+interface SingleExpression<T : ValidType> : Expression
 
-interface UnaliasedExpression<T : ValidType> : SingleExpression
+interface UnaliasedExpression<T : ValidType> : SingleExpression<T>
 
 interface TypeExpression<T : ValidType> : UnaliasedExpression<T>

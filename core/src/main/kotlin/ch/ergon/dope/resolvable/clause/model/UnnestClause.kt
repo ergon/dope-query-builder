@@ -11,8 +11,10 @@ import ch.ergon.dope.validtype.ValidType
 
 private const val UNNEST = "UNNEST"
 
-class UnnestClause<T : ValidType>(private val arrayTypeField: Field<ArrayType<T>>, private val parentClause: ISelectUnnestClause) :
-    ISelectUnnestClause {
+class UnnestClause<T : ValidType, U : ValidType>(
+    private val arrayTypeField: Field<ArrayType<T>>,
+    private val parentClause: ISelectUnnestClause<U>,
+) : ISelectUnnestClause<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val arrayTypeDopeQuery = arrayTypeField.toDopeQuery(manager)
@@ -23,10 +25,10 @@ class UnnestClause<T : ValidType>(private val arrayTypeField: Field<ArrayType<T>
     }
 }
 
-class AliasedUnnestClause<T : ValidType>(
+class AliasedUnnestClause<T : ValidType, U : ValidType>(
     private val aliasedExpression: AliasedExpression<ArrayType<T>>,
-    private val parentClause: ISelectUnnestClause,
-) : ISelectUnnestClause {
+    private val parentClause: ISelectUnnestClause<U>,
+) : ISelectUnnestClause<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val aliasedExpressionDopeQuery = aliasedExpression.toDopeQuery(manager)

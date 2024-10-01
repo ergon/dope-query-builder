@@ -28,32 +28,35 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-interface ISelectOffsetClause : Clause
+interface ISelectOffsetClause<T : ValidType> : Clause, TypeExpression<ArrayType<T>> {
+    fun queryAlias(alias: String) = AliasedSelectClause(alias, this)
+    fun asSelectWithParentheses(): SelectWithParentheses<T> = SelectWithParentheses(this)
+}
 
-interface ISelectLimitClause : ISelectOffsetClause {
+interface ISelectLimitClause<T : ValidType> : ISelectOffsetClause<T> {
     fun offset(numberExpression: TypeExpression<NumberType>) = SelectOffsetClause(numberExpression, this)
     fun offset(number: Number) = offset(number.toDopeType())
 }
 
-interface ISelectOrderByClause : ISelectLimitClause {
+interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
     fun limit(numberExpression: TypeExpression<NumberType>) = SelectLimitClause(numberExpression, this)
     fun limit(number: Number) = limit(number.toDopeType())
 }
 
-interface ISelectGroupByClause : ISelectOrderByClause {
+interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
     fun orderBy(stringField: Field<StringType>) = SelectOrderByClause(stringField, this)
     fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) = SelectOrderByTypeClause(stringField, orderByType, this)
 }
 
-interface ISelectWhereClause : ISelectGroupByClause {
+interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
     fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = GroupByClause(field, *fields, parentClause = this)
 }
 
-interface ISelectFromClause : ISelectWhereClause {
+interface ISelectFromClause<T : ValidType> : ISelectWhereClause<T> {
     fun where(whereExpression: TypeExpression<BooleanType>) = SelectWhereClause(whereExpression, this)
 }
 
-interface ISelectJoinClause : ISelectFromClause {
+interface ISelectJoinClause<T : ValidType> : ISelectFromClause<T> {
     fun join(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(joinable, onCondition, this)
     fun join(joinable: Joinable, onKeys: Field<out ValidType>) = StandardJoinClause(joinable, onKeys, this)
     fun join(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = StandardJoinClause(joinable, onKey, forBucket, this)
@@ -67,15 +70,13 @@ interface ISelectJoinClause : ISelectFromClause {
     fun leftJoin(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = LeftJoinClause(joinable, onKey, forBucket, this)
 
     fun rightJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = RightJoinClause(joinable, onCondition, this)
-
-    fun alias(alias: String) = AliasedSelectClause(alias, this)
 }
 
-interface ISelectUnnestClause : ISelectJoinClause {
+interface ISelectUnnestClause<U : ValidType> : ISelectJoinClause<U> {
     fun <T : ValidType> unnest(arrayField: Field<ArrayType<T>>) = UnnestClause(arrayField, this)
     fun <T : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<T>>) = AliasedUnnestClause(aliasedArrayExpression, this)
 }
 
-interface ISelectClause : ISelectFromClause {
+interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
     fun from(fromable: Fromable) = FromClause(fromable, this)
 }

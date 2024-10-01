@@ -8,11 +8,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
-class GroupByClause(
+class GroupByClause<T : ValidType>(
     private val field: Field<out ValidType>,
     private vararg val fields: Field<out ValidType>,
-    private val parentClause: ISelectWhereClause,
-) : ISelectGroupByClause {
+    private val parentClause: ISelectWhereClause<T>,
+) : ISelectGroupByClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val fieldDopeQuery = field.toDopeQuery(manager)
