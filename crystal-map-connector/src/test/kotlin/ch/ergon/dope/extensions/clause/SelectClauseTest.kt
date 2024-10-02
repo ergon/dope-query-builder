@@ -4,12 +4,12 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
 import ch.ergon.dope.extension.clause.join
+import ch.ergon.dope.extension.clause.keysHint
 import ch.ergon.dope.extension.clause.leftJoin
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
 import ch.ergon.dope.extension.clause.unnest
-import ch.ergon.dope.extension.clause.useKeys
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
@@ -163,7 +163,7 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select join use single key hint with CM`() {
         val bucket = someBucket()
         val field = someNumberField()
-        val keysHint = useKeys(someCMStringField())
+        val keysHint = keysHint(someCMStringField())
         val parentClause = someFrom()
         val expected = StandardJoinClause(
             bucket,
@@ -181,7 +181,7 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select join use multiple keys hint with CM`() {
         val bucket = someBucket()
         val field = someNumberField()
-        val keysHint = useKeys(someCMStringList())
+        val keysHint = keysHint(someCMStringList())
         val parentClause = someFrom()
         val expected = StandardJoinClause(
             bucket,

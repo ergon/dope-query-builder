@@ -8,8 +8,8 @@ import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseKeysOrIndexHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.toDopeType
@@ -34,43 +34,43 @@ fun ISelectFromClause.where(whereExpression: CMJsonField<Boolean>) = where(where
 fun ISelectJoinClause.join(
     joinable: Joinable,
     onKeys: CMJsonField<out Any>,
-    hashOrNestedLoopHint: UseHashOrNestedLoopHint? = null,
-    keysOrIndexHint: UseKeysOrIndexHint? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
 ) = join(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
 fun ISelectJoinClause.join(
     joinable: Joinable,
     onKey: CMJsonField<out Any>,
     forBucket: Bucket,
-    hashOrNestedLoopHint: UseHashOrNestedLoopHint? = null,
-    keysOrIndexHint: UseKeysOrIndexHint? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
 ) = join(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 fun ISelectJoinClause.innerJoin(
     joinable: Joinable,
     onKeys: CMJsonField<out Any>,
-    hashOrNestedLoopHint: UseHashOrNestedLoopHint? = null,
-    keysOrIndexHint: UseKeysOrIndexHint? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
 ) = innerJoin(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
 fun ISelectJoinClause.innerJoin(
     joinable: Joinable,
     onKey: CMJsonField<out Any>,
     forBucket: Bucket,
-    hashOrNestedLoopHint: UseHashOrNestedLoopHint? = null,
-    keysOrIndexHint: UseKeysOrIndexHint? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
 ) = innerJoin(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 fun ISelectJoinClause.leftJoin(
     joinable: Joinable,
     onKeys: CMJsonField<out Any>,
-    hashOrNestedLoopHint: UseHashOrNestedLoopHint? = null,
-    keysOrIndexHint: UseKeysOrIndexHint? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
 ) = leftJoin(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
 fun ISelectJoinClause.leftJoin(
     joinable: Joinable,
     onKey: CMJsonField<out Any>,
     forBucket: Bucket,
-    hashOrNestedLoopHint: UseHashOrNestedLoopHint? = null,
-    keysOrIndexHint: UseKeysOrIndexHint? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
 ) = leftJoin(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 @JvmName("unnestString")

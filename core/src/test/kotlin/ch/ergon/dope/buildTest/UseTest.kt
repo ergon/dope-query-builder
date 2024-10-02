@@ -5,11 +5,11 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint.HASH_BUILD
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint.HASH_PROBE
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseHashOrNestedLoopHint.NESTED_LOOP
-import ch.ergon.dope.resolvable.clause.model.joinHint.useIndex
-import ch.ergon.dope.resolvable.clause.model.joinHint.useKeys
+import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.HASH_BUILD
+import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.HASH_PROBE
+import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.NESTED_LOOP
+import ch.ergon.dope.resolvable.clause.model.joinHint.indexHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.keysHint
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -320,7 +320,7 @@ class UseTest {
             .join(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
-                keysOrIndexHint = useKeys("someID"),
+                keysOrIndexHint = keysHint("someID"),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -339,7 +339,7 @@ class UseTest {
             .join(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
-                keysOrIndexHint = useIndex("someID"),
+                keysOrIndexHint = indexHint("someID"),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -359,7 +359,7 @@ class UseTest {
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_PROBE,
-                keysOrIndexHint = useIndex("someID"),
+                keysOrIndexHint = indexHint("someID"),
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -379,7 +379,7 @@ class UseTest {
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,
-                keysOrIndexHint = useKeys("someID"),
+                keysOrIndexHint = keysHint("someID"),
             ).build().queryString
 
         assertEquals(expected, actual)

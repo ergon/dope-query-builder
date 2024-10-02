@@ -6,12 +6,12 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseIndexHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseKeysHintClass.Companion.UseKeysHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.useFtsIndex
-import ch.ergon.dope.resolvable.clause.model.joinHint.useGsiIndex
-import ch.ergon.dope.resolvable.clause.model.joinHint.useIndex
-import ch.ergon.dope.resolvable.clause.model.joinHint.useKeys
+import ch.ergon.dope.resolvable.clause.model.joinHint.IndexHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.KeysHintClass.Companion.KeysHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.ftsIndexHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.gsiIndexHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.indexHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.keysHint
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.IndexReference
 import ch.ergon.dope.resolvable.fromable.IndexType.USING_FTS
@@ -19,7 +19,7 @@ import ch.ergon.dope.resolvable.fromable.IndexType.USING_GSI
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UseKeysOrIndexHintTest : ManagerDependentTest {
+class KeysOrIndexHintTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
@@ -28,7 +28,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             queryString = "KEYS `stringField`",
             parameters = emptyMap(),
         )
-        val underTest = UseKeysHint(someStringField())
+        val underTest = KeysHint(someStringField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -41,7 +41,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             queryString = "KEYS `stringArrayField`",
             parameters = emptyMap(),
         )
-        val underTest = UseKeysHint(someStringArrayField())
+        val underTest = KeysHint(someStringArrayField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -51,9 +51,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use single key hint extension type`() {
         val key = someStringField()
-        val expected = UseKeysHint(key)
+        val expected = KeysHint(key)
 
-        val actual = useKeys(key)
+        val actual = keysHint(key)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -61,9 +61,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use single key hint extension string`() {
         val key = someString()
-        val expected = UseKeysHint(key.toDopeType())
+        val expected = KeysHint(key.toDopeType())
 
-        val actual = useKeys(key)
+        val actual = keysHint(key)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -71,9 +71,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use array keys hint extension type`() {
         val key = someStringArrayField()
-        val expected = UseKeysHint(key)
+        val expected = KeysHint(key)
 
-        val actual = useKeys(key)
+        val actual = keysHint(key)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -81,9 +81,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use array key hint extension list`() {
         val key = listOf(someString().toDopeType())
-        val expected = UseKeysHint(key.toDopeType())
+        val expected = KeysHint(key.toDopeType())
 
-        val actual = useKeys(key)
+        val actual = keysHint(key)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -92,14 +92,14 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     fun `should support use array key hint extension multiple strings`() {
         val key1 = someString()
         val key2 = someString()
-        val expected = UseKeysHint(
+        val expected = KeysHint(
             listOf(
                 key1.toDopeType(),
                 key2.toDopeType(),
             ).toDopeType(),
         )
 
-        val actual = useKeys(key1, key2)
+        val actual = keysHint(key1, key2)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -110,7 +110,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             "INDEX ()",
             parameters = emptyMap(),
         )
-        val underTest = UseIndexHint(IndexReference())
+        val underTest = IndexHint(IndexReference())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -123,7 +123,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             "INDEX (`index`)",
             parameters = emptyMap(),
         )
-        val underTest = UseIndexHint(IndexReference("index"))
+        val underTest = IndexHint(IndexReference("index"))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -136,7 +136,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             "INDEX (`index` USING GSI)",
             parameters = emptyMap(),
         )
-        val underTest = UseIndexHint(IndexReference("index", USING_GSI))
+        val underTest = IndexHint(IndexReference("index", USING_GSI))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -149,7 +149,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             "INDEX (`index` USING FTS)",
             parameters = emptyMap(),
         )
-        val underTest = UseIndexHint(IndexReference("index", USING_FTS))
+        val underTest = IndexHint(IndexReference("index", USING_FTS))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -162,7 +162,7 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
             "INDEX (`index`, `index2`, USING GSI, USING FTS)",
             parameters = emptyMap(),
         )
-        val underTest = UseIndexHint(
+        val underTest = IndexHint(
             IndexReference("index"),
             IndexReference("index2"),
             IndexReference(indexType = USING_GSI),
@@ -176,9 +176,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
 
     @Test
     fun `should support empty use index hint extension`() {
-        val expected = UseIndexHint()
+        val expected = IndexHint()
 
-        val actual = useIndex()
+        val actual = indexHint()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -186,18 +186,18 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use index hint extension`() {
         val indexName = someString()
-        val expected = UseIndexHint(IndexReference(indexName))
+        val expected = IndexHint(IndexReference(indexName))
 
-        val actual = useIndex(indexName)
+        val actual = indexHint(indexName)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support empty use index hint using gsi extension`() {
-        val expected = UseIndexHint(IndexReference(indexType = USING_GSI))
+        val expected = IndexHint(IndexReference(indexType = USING_GSI))
 
-        val actual = useGsiIndex()
+        val actual = gsiIndexHint()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -205,18 +205,18 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use index hint using gsi extension`() {
         val indexName = someString()
-        val expected = UseIndexHint(IndexReference(indexName, USING_GSI))
+        val expected = IndexHint(IndexReference(indexName, USING_GSI))
 
-        val actual = useGsiIndex(indexName)
+        val actual = gsiIndexHint(indexName)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support empty use index hint using fts extension`() {
-        val expected = UseIndexHint(IndexReference(indexType = USING_FTS))
+        val expected = IndexHint(IndexReference(indexType = USING_FTS))
 
-        val actual = useFtsIndex()
+        val actual = ftsIndexHint()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -224,9 +224,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use index hint using fts extension`() {
         val indexName = someString()
-        val expected = UseIndexHint(IndexReference(indexName, USING_FTS))
+        val expected = IndexHint(IndexReference(indexName, USING_FTS))
 
-        val actual = useFtsIndex(indexName)
+        val actual = ftsIndexHint(indexName)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -235,9 +235,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     fun `should support multiple use index hint extension`() {
         val indexName1 = someString()
         val indexName2 = someString()
-        val expected = UseIndexHint(IndexReference(indexName1), IndexReference(indexName2))
+        val expected = IndexHint(IndexReference(indexName1), IndexReference(indexName2))
 
-        val actual = useIndex(indexName1).useIndex(indexName2)
+        val actual = indexHint(indexName1).indexHint(indexName2)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -245,9 +245,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support multiple use index hint using gsi extension`() {
         val indexName = someString()
-        val expected = UseIndexHint(IndexReference(indexName), IndexReference(indexType = USING_GSI))
+        val expected = IndexHint(IndexReference(indexName), IndexReference(indexType = USING_GSI))
 
-        val actual = useIndex(indexName).useGsiIndex()
+        val actual = indexHint(indexName).gsiIndexHint()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -255,9 +255,9 @@ class UseKeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support multiple use index hint using fts extension`() {
         val indexName = someString()
-        val expected = UseIndexHint(IndexReference(indexName), IndexReference(indexType = USING_FTS))
+        val expected = IndexHint(IndexReference(indexName), IndexReference(indexType = USING_FTS))
 
-        val actual = useIndex(indexName).useFtsIndex()
+        val actual = indexHint(indexName).ftsIndexHint()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

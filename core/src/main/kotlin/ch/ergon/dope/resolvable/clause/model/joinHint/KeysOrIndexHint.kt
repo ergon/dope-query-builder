@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.clause.model.joinHint
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.clause.model.joinHint.UseKeysHintClass.Companion.UseKeysHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
@@ -15,19 +15,19 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-interface UseKeysOrIndexHint : Resolvable
+interface KeysOrIndexHint : Resolvable
 
-class UseKeysHintClass private constructor(
+class KeysHintClass private constructor(
     private val useKeys: TypeExpression<out ValidType>,
-) : UseKeysOrIndexHint {
+) : KeysOrIndexHint {
     companion object {
         @JvmName("singleUseKeysHintConstructor")
-        fun UseKeysHint(key: TypeExpression<StringType>) =
-            UseKeysHintClass(key)
+        fun KeysHint(key: TypeExpression<StringType>) =
+            KeysHintClass(key)
 
         @JvmName("multipleUseKeysHintConstructor")
-        fun UseKeysHint(keys: TypeExpression<ArrayType<StringType>>) =
-            UseKeysHintClass(keys)
+        fun KeysHint(keys: TypeExpression<ArrayType<StringType>>) =
+            KeysHintClass(keys)
     }
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
@@ -39,27 +39,21 @@ class UseKeysHintClass private constructor(
     }
 }
 
-fun useKeys(key: TypeExpression<StringType>) = UseKeysHint(key)
+fun keysHint(key: TypeExpression<StringType>) = KeysHint(key)
 
-fun useKeys(key: String) = useKeys(key.toDopeType())
+fun keysHint(key: String) = keysHint(key.toDopeType())
 
 @JvmName("useKeysHintArray")
-fun useKeys(keys: TypeExpression<ArrayType<StringType>>) = UseKeysHint(keys)
+fun keysHint(keys: TypeExpression<ArrayType<StringType>>) = KeysHint(keys)
 
-fun useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
+fun keysHint(keys: Collection<TypeExpression<StringType>>) = keysHint(keys.toDopeType())
 
-fun useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
-    useKeys(
-        listOf(
-            firstKey.toDopeType(),
-            secondKey.toDopeType(),
-            *additionalKeys.map { it.toDopeType() }.toTypedArray(),
-        ).toDopeType(),
-    )
+fun keysHint(key: String, vararg additionalKeys: String) =
+    keysHint(listOf(key.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())
 
-class UseIndexHint(
+class IndexHint(
     vararg val indexReference: IndexReference,
-) : UseKeysOrIndexHint {
+) : KeysOrIndexHint {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val indexReferenceDopeQueries = indexReference.map { it.toDopeQuery(manager) }
         return DopeQuery(
@@ -74,16 +68,16 @@ class UseIndexHint(
     }
 }
 
-fun UseIndexHint.useIndex(indexName: String) = UseIndexHint(*indexReference, IndexReference(indexName))
+fun IndexHint.indexHint(indexName: String) = IndexHint(*indexReference, IndexReference(indexName))
 
-fun UseIndexHint.useGsiIndex(indexName: String? = null) =
-    UseIndexHint(*indexReference, IndexReference(indexName, USING_GSI))
+fun IndexHint.gsiIndexHint(indexName: String? = null) =
+    IndexHint(*indexReference, IndexReference(indexName, USING_GSI))
 
-fun UseIndexHint.useFtsIndex(indexName: String? = null) =
-    UseIndexHint(*indexReference, IndexReference(indexName, USING_FTS))
+fun IndexHint.ftsIndexHint(indexName: String? = null) =
+    IndexHint(*indexReference, IndexReference(indexName, USING_FTS))
 
-fun useIndex(indexName: String? = null) = UseIndexHint(IndexReference(indexName))
+fun indexHint(indexName: String? = null) = IndexHint(IndexReference(indexName))
 
-fun useGsiIndex(indexName: String? = null) = UseIndexHint(IndexReference(indexName, USING_GSI))
+fun gsiIndexHint(indexName: String? = null) = IndexHint(IndexReference(indexName, USING_GSI))
 
-fun useFtsIndex(indexName: String? = null) = UseIndexHint(IndexReference(indexName, USING_FTS))
+fun ftsIndexHint(indexName: String? = null) = IndexHint(IndexReference(indexName, USING_FTS))
