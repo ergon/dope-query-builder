@@ -9,6 +9,7 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.MissingType
 import ch.ergon.dope.validtype.NullType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
@@ -42,8 +43,7 @@ class StringPrimitive(value: String) : Primitive<StringType>(
 )
 
 class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
-    {
-            manager: DopeQueryManager ->
+    { manager: DopeQueryManager ->
         DopeQuery(
             queryString = when (value) {
                 true -> TRUE.toDopeQuery(manager).queryString
@@ -55,8 +55,7 @@ class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
 )
 
 class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>(
-    {
-            manager: DopeQueryManager ->
+    { manager: DopeQueryManager ->
         collection.map { it.toDopeQuery(manager) }.let { dopeQueries ->
             DopeQuery(
                 queryString = formatListToQueryStringWithBrackets(dopeQueries, prefix = "[", postfix = "]"),
@@ -66,6 +65,26 @@ class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>
     },
 )
 
+class ObjectPrimitive(
+    private vararg val entries: ObjectEntry<out ValidType>,
+) : Primitive<ObjectType>(
+    { manager: DopeQueryManager ->
+        val entryDopeQueries = entries.map { it.toDopeQuery(manager) }
+        DopeQuery(
+            queryString = "{${entryDopeQueries.joinToString(", ") { it.queryString }}}",
+            parameters = entryDopeQueries.fold(emptyMap()) { parameters, it -> parameters + it.parameters },
+        )
+    },
+)
+
+fun <K, V> Map<K, V>.toDopeType(): ObjectPrimitive =
+    ObjectPrimitive(
+        *map { (key, value) ->
+            require(key is String) { "Key '$key' is not a String." }
+            key.toDopeType().to(value.toDopeType())
+        }.toTypedArray(),
+    )
+
 fun String.toDopeType() = StringPrimitive(this)
 
 fun Number.toDopeType() = NumberPrimitive(this)
@@ -73,3 +92,15 @@ fun Number.toDopeType() = NumberPrimitive(this)
 fun Boolean.toDopeType() = BooleanPrimitive(this)
 
 fun <T : ValidType> Collection<TypeExpression<out T>>.toDopeType() = ArrayPrimitive(this)
+
+@JvmName("anyListToDopeType")
+fun <T> Collection<T>.toDopeType(): ArrayPrimitive<ValidType> = map { it.toDopeType() }.toDopeType()
+
+fun <T> T.toDopeType() = when (this) {
+    is Number -> this.toDopeType()
+    is String -> this.toDopeType()
+    is Boolean -> this.toDopeType()
+    is Map<*, *> -> this.toDopeType()
+    is Collection<*> -> this.toDopeType()
+    else -> throw IllegalArgumentException("Type for value '$this' is not supported.")
+}
