@@ -19,22 +19,22 @@ fun mbSubstring1(
 ) = MBSubstring1Expression(inStr, startPos, length)
 
 fun mbSubstring1(inStr: TypeExpression<StringType>, startPos: TypeExpression<NumberType>, length: Int) =
-    MBSubstring1Expression(inStr, startPos, length.toDopeType())
+    mbSubstring1(inStr, startPos, length.toDopeType())
 
 fun mbSubstring1(inStr: TypeExpression<StringType>, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    MBSubstring1Expression(inStr, startPos.toDopeType(), length)
+    mbSubstring1(inStr, startPos.toDopeType(), length)
 
 fun mbSubstring1(inStr: String, startPos: TypeExpression<NumberType>, length: TypeExpression<NumberType>? = null) =
-    MBSubstring1Expression(inStr.toDopeType(), startPos, length)
+    mbSubstring1(inStr.toDopeType(), startPos, length)
 
 fun mbSubstring1(inStr: TypeExpression<StringType>, startPos: Int, length: Int) =
-    MBSubstring1Expression(inStr, startPos.toDopeType(), length.toDopeType())
+    mbSubstring1(inStr, startPos.toDopeType(), length.toDopeType())
 
 fun mbSubstring1(inStr: String, startPos: TypeExpression<NumberType>, length: Int) =
-    MBSubstring1Expression(inStr.toDopeType(), startPos, length.toDopeType())
+    mbSubstring1(inStr.toDopeType(), startPos, length.toDopeType())
 
 fun mbSubstring1(inStr: String, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    MBSubstring1Expression(inStr.toDopeType(), startPos.toDopeType(), length)
+    mbSubstring1(inStr.toDopeType(), startPos.toDopeType(), length)
 
 fun mbSubstring1(inStr: String, startPos: Int, length: Int) =
-    MBSubstring1Expression(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
+    mbSubstring1(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())

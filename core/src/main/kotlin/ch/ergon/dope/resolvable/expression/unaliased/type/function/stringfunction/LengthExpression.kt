@@ -10,4 +10,4 @@ class LengthExpression(inStr: TypeExpression<StringType>) : FunctionExpression<N
 
 fun length(inStr: TypeExpression<StringType>) = LengthExpression(inStr)
 
-fun length(inStr: String) = LengthExpression(inStr.toDopeType())
+fun length(inStr: String) = length(inStr.toDopeType())

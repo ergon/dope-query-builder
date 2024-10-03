@@ -19,22 +19,22 @@ fun substring(
 ) = SubstringExpression(inStr, startPos, length)
 
 fun substring(inStr: TypeExpression<StringType>, startPos: TypeExpression<NumberType>, length: Int) =
-    SubstringExpression(inStr, startPos, length.toDopeType())
+    substring(inStr, startPos, length.toDopeType())
 
 fun substring(inStr: TypeExpression<StringType>, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    SubstringExpression(inStr, startPos.toDopeType(), length)
+    substring(inStr, startPos.toDopeType(), length)
 
 fun substring(inStr: String, startPos: TypeExpression<NumberType>, length: TypeExpression<NumberType>? = null) =
-    SubstringExpression(inStr.toDopeType(), startPos, length)
+    substring(inStr.toDopeType(), startPos, length)
 
 fun substring(inStr: TypeExpression<StringType>, startPos: Int, length: Int) =
-    SubstringExpression(inStr, startPos.toDopeType(), length.toDopeType())
+    substring(inStr, startPos.toDopeType(), length.toDopeType())
 
 fun substring(inStr: String, startPos: TypeExpression<NumberType>, length: Int) =
-    SubstringExpression(inStr.toDopeType(), startPos, length.toDopeType())
+    substring(inStr.toDopeType(), startPos, length.toDopeType())
 
 fun substring(inStr: String, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    SubstringExpression(inStr.toDopeType(), startPos.toDopeType(), length)
+    substring(inStr.toDopeType(), startPos.toDopeType(), length)
 
 fun substring(inStr: String, startPos: Int, length: Int) =
-    SubstringExpression(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
+    substring(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())

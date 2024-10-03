@@ -9,10 +9,10 @@ class InitCapExpression(inStr: TypeExpression<StringType>) : FunctionExpression<
 
 fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
 
-fun initCap(inStr: String) = InitCapExpression(inStr.toDopeType())
+fun initCap(inStr: String) = initCap(inStr.toDopeType())
 
 class TitleExpression(inStr: TypeExpression<StringType>) : FunctionExpression<StringType>("TITLE", inStr)
 
 fun title(inStr: TypeExpression<StringType>) = TitleExpression(inStr)
 
-fun title(inStr: String) = TitleExpression(inStr.toDopeType())
+fun title(inStr: String) = title(inStr.toDopeType())

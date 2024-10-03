@@ -19,10 +19,10 @@ fun concat2(
 ) = Concat2Expression(separator, string, *strings)
 
 fun concat2(separator: String, string: String, vararg strings: String) =
-    Concat2Expression(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+    concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
 fun concat2(separator: TypeExpression<StringType>, string: String, vararg strings: String) =
-    Concat2Expression(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+    concat2(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
 fun concat2(separator: String, string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    Concat2Expression(separator.toDopeType(), string, *strings)
+    concat2(separator.toDopeType(), string, *strings)

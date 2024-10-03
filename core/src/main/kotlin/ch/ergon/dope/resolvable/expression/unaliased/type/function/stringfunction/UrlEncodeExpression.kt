@@ -10,4 +10,4 @@ class UrlEncodeExpression(string: TypeExpression<StringType>) :
 
 fun urlEncode(string: TypeExpression<StringType>) = UrlEncodeExpression(string)
 
-fun urlEncode(string: String) = UrlEncodeExpression(string.toDopeType())
+fun urlEncode(string: String) = urlEncode(string.toDopeType())

@@ -10,8 +10,8 @@ class RtrimExpression(inStr: TypeExpression<StringType>, char: TypeExpression<St
 
 fun rtrim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = RtrimExpression(inStr, char)
 
-fun rtrim(inStr: TypeExpression<StringType>, char: String) = RtrimExpression(inStr, char.toDopeType())
+fun rtrim(inStr: TypeExpression<StringType>, char: String) = rtrim(inStr, char.toDopeType())
 
-fun rtrim(inStr: String, char: TypeExpression<StringType>? = null) = RtrimExpression(inStr.toDopeType(), char)
+fun rtrim(inStr: String, char: TypeExpression<StringType>? = null) = rtrim(inStr.toDopeType(), char)
 
-fun rtrim(inStr: String, char: String) = RtrimExpression(inStr.toDopeType(), char.toDopeType())
+fun rtrim(inStr: String, char: String) = rtrim(inStr.toDopeType(), char.toDopeType())

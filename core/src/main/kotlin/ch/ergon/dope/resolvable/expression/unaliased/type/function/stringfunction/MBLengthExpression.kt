@@ -10,4 +10,4 @@ class MBLengthExpression(inStr: TypeExpression<StringType>) : FunctionExpression
 
 fun mbLength(inStr: TypeExpression<StringType>) = MBLengthExpression(inStr)
 
-fun mbLength(inStr: String) = MBLengthExpression(inStr.toDopeType())
+fun mbLength(inStr: String) = mbLength(inStr.toDopeType())

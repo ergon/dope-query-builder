@@ -10,4 +10,4 @@ class UrlDecodeExpression(encodedString: TypeExpression<StringType>) :
 
 fun urlDecode(encodedString: TypeExpression<StringType>) = UrlDecodeExpression(encodedString)
 
-fun urlDecode(encodedString: String) = UrlDecodeExpression(encodedString.toDopeType())
+fun urlDecode(encodedString: String) = urlDecode(encodedString.toDopeType())

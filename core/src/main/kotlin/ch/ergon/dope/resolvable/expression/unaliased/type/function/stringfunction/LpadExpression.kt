@@ -19,22 +19,22 @@ fun lpad(
 ) = LpadExpression(inStr, size, prefix)
 
 fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String) =
-    LpadExpression(inStr, size, prefix.toDopeType())
+    lpad(inStr, size, prefix.toDopeType())
 
 fun lpad(inStr: TypeExpression<StringType>, size: Number, prefix: TypeExpression<StringType>? = null) =
-    LpadExpression(inStr, size.toDopeType(), prefix)
+    lpad(inStr, size.toDopeType(), prefix)
 
 fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>? = null) =
-    LpadExpression(inStr.toDopeType(), size, prefix)
+    lpad(inStr.toDopeType(), size, prefix)
 
 fun lpad(inStr: TypeExpression<StringType>, size: Number, prefix: String) =
-    LpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
+    lpad(inStr, size.toDopeType(), prefix.toDopeType())
 
 fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    LpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
+    lpad(inStr.toDopeType(), size, prefix.toDopeType())
 
 fun lpad(inStr: String, size: Number, prefix: TypeExpression<StringType>? = null) =
-    LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
+    lpad(inStr.toDopeType(), size.toDopeType(), prefix)
 
 fun lpad(inStr: String, size: Number, prefix: String) =
-    LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())

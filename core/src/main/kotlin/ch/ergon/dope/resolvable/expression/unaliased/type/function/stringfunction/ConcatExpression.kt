@@ -18,10 +18,10 @@ fun concat(
 ) = ConcatExpression(firstString, secondString, *strings)
 
 fun concat(firstString: String, secondString: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    ConcatExpression(firstString.toDopeType(), secondString, *strings)
+    concat(firstString.toDopeType(), secondString, *strings)
 
 fun concat(firstString: TypeExpression<StringType>, secondString: String, vararg strings: String) =
-    ConcatExpression(firstString, secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+    concat(firstString, secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
 fun concat(firstString: String, secondString: String, vararg strings: String) =
-    ConcatExpression(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+    concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())

@@ -11,4 +11,4 @@ class NowStringExpression(format: TypeExpression<StringType>? = null) :
 // todo: DOPE-177
 fun nowString(format: TypeExpression<StringType>? = null) = NowStringExpression(format)
 
-fun nowString(format: String) = NowStringExpression(format.toDopeType())
+fun nowString(format: String) = nowString(format.toDopeType())

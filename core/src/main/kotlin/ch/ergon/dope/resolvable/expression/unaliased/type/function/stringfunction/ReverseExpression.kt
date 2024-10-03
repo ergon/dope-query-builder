@@ -9,4 +9,4 @@ class ReverseExpression(inStr: TypeExpression<StringType>) : FunctionExpression<
 
 fun reverse(inStr: TypeExpression<StringType>) = ReverseExpression(inStr)
 
-fun reverse(inStr: String) = ReverseExpression(inStr.toDopeType())
+fun reverse(inStr: String) = reverse(inStr.toDopeType())

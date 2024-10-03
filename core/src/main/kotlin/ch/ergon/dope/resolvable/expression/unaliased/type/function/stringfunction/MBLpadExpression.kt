@@ -19,22 +19,22 @@ fun mbLpad(
 ) = MBLpadExpression(inStr, size, prefix)
 
 fun mbLpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String) =
-    MBLpadExpression(inStr, size, prefix.toDopeType())
+    mbLpad(inStr, size, prefix.toDopeType())
 
 fun mbLpad(inStr: TypeExpression<StringType>, size: Number, prefix: TypeExpression<StringType>? = null) =
-    MBLpadExpression(inStr, size.toDopeType(), prefix)
+    mbLpad(inStr, size.toDopeType(), prefix)
 
 fun mbLpad(inStr: String, size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>? = null) =
-    MBLpadExpression(inStr.toDopeType(), size, prefix)
+    mbLpad(inStr.toDopeType(), size, prefix)
 
 fun mbLpad(inStr: TypeExpression<StringType>, size: Number, prefix: String) =
-    MBLpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
+    mbLpad(inStr, size.toDopeType(), prefix.toDopeType())
 
 fun mbLpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    MBLpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
+    mbLpad(inStr.toDopeType(), size, prefix.toDopeType())
 
 fun mbLpad(inStr: String, size: Number, prefix: TypeExpression<StringType>? = null) =
-    MBLpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
+    mbLpad(inStr.toDopeType(), size.toDopeType(), prefix)
 
 fun mbLpad(inStr: String, size: Number, prefix: String) =
-    MBLpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+    mbLpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())

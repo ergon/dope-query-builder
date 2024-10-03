@@ -10,4 +10,4 @@ class SuffixesExpression(inStr: TypeExpression<StringType>) :
 
 fun suffixes(inStr: TypeExpression<StringType>) = SuffixesExpression(inStr)
 
-fun suffixes(inStr: String) = SuffixesExpression(inStr.toDopeType())
+fun suffixes(inStr: String) = suffixes(inStr.toDopeType())

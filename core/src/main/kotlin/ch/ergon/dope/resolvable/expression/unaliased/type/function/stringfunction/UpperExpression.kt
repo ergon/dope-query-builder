@@ -9,4 +9,4 @@ class UpperExpression(inStr: TypeExpression<StringType>) : FunctionExpression<St
 
 fun upper(inStr: TypeExpression<StringType>) = UpperExpression(inStr)
 
-fun upper(inStr: String) = UpperExpression(inStr.toDopeType())
+fun upper(inStr: String) = upper(inStr.toDopeType())

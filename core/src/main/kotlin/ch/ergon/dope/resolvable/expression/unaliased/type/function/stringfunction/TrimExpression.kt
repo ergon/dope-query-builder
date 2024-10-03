@@ -13,8 +13,8 @@ class TrimExpression(
 
 fun trim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = TrimExpression(inStr, char)
 
-fun trim(inStr: TypeExpression<StringType>, char: String) = TrimExpression(inStr, char.toDopeType())
+fun trim(inStr: TypeExpression<StringType>, char: String) = trim(inStr, char.toDopeType())
 
-fun trim(inStr: String, char: TypeExpression<StringType>? = null) = TrimExpression(inStr.toDopeType(), char)
+fun trim(inStr: String, char: TypeExpression<StringType>? = null) = trim(inStr.toDopeType(), char)
 
-fun trim(inStr: String, char: String) = TrimExpression(inStr.toDopeType(), char.toDopeType())
+fun trim(inStr: String, char: String) = trim(inStr.toDopeType(), char.toDopeType())

@@ -19,22 +19,22 @@ fun mbRpad(
 ) = MBRpadExpression(inStr, size, postfix)
 
 fun mbRpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, postfix: String) =
-    MBRpadExpression(inStr, size, postfix.toDopeType())
+    mbRpad(inStr, size, postfix.toDopeType())
 
 fun mbRpad(inStr: TypeExpression<StringType>, size: Number, postfix: TypeExpression<StringType>? = null) =
-    MBRpadExpression(inStr, size.toDopeType(), postfix)
+    mbRpad(inStr, size.toDopeType(), postfix)
 
 fun mbRpad(inStr: TypeExpression<StringType>, size: Number, postfix: String) =
-    MBRpadExpression(inStr, size.toDopeType(), postfix.toDopeType())
+    mbRpad(inStr, size.toDopeType(), postfix.toDopeType())
 
 fun mbRpad(inStr: String, size: TypeExpression<NumberType>, postfix: TypeExpression<StringType>? = null) =
-    MBRpadExpression(inStr.toDopeType(), size, postfix)
+    mbRpad(inStr.toDopeType(), size, postfix)
 
 fun mbRpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    MBRpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
+    mbRpad(inStr.toDopeType(), size, prefix.toDopeType())
 
 fun mbRpad(inStr: String, size: Number, postfix: TypeExpression<StringType>? = null) =
-    MBRpadExpression(inStr.toDopeType(), size.toDopeType(), postfix)
+    mbRpad(inStr.toDopeType(), size.toDopeType(), postfix)
 
 fun mbRpad(inStr: String, size: Number, postfix: String) =
-    MBRpadExpression(inStr.toDopeType(), size.toDopeType(), postfix.toDopeType())
+    mbRpad(inStr.toDopeType(), size.toDopeType(), postfix.toDopeType())

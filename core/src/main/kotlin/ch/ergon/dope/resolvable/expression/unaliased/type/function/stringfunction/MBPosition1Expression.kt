@@ -12,10 +12,10 @@ fun mbPosition1(inStr: TypeExpression<StringType>, searchStr: TypeExpression<Str
     MBPosition1Expression(inStr, searchStr)
 
 fun mbPosition1(inStr: TypeExpression<StringType>, searchStr: String) =
-    MBPosition1Expression(inStr, searchStr.toDopeType())
+    mbPosition1(inStr, searchStr.toDopeType())
 
 fun mbPosition1(inStr: String, searchStr: TypeExpression<StringType>) =
-    MBPosition1Expression(inStr.toDopeType(), searchStr)
+    mbPosition1(inStr.toDopeType(), searchStr)
 
 fun mbPosition1(inStr: String, searchStr: String) =
-    MBPosition1Expression(inStr.toDopeType(), searchStr.toDopeType())
+    mbPosition1(inStr.toDopeType(), searchStr.toDopeType())

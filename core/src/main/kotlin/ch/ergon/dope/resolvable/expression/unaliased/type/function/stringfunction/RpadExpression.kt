@@ -19,28 +19,28 @@ fun rpad(
 ) = RpadExpression(inStr, size, char)
 
 fun rpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, char: String) =
-    RpadExpression(inStr, size, char.toDopeType())
+    rpad(inStr, size, char.toDopeType())
 
 fun rpad(inStr: TypeExpression<StringType>, size: Number, char: TypeExpression<StringType>) =
-    RpadExpression(inStr, size.toDopeType(), char)
+    rpad(inStr, size.toDopeType(), char)
 
 fun rpad(inStr: TypeExpression<StringType>, size: Number, char: String) =
-    RpadExpression(inStr, size.toDopeType(), char.toDopeType())
+    rpad(inStr, size.toDopeType(), char.toDopeType())
 
-fun rpad(inStr: TypeExpression<StringType>, size: Number) = RpadExpression(inStr, size.toDopeType())
+fun rpad(inStr: TypeExpression<StringType>, size: Number) = rpad(inStr, size.toDopeType())
 
 fun rpad(inStr: String, size: TypeExpression<NumberType>, char: TypeExpression<StringType>) =
-    RpadExpression(inStr.toDopeType(), size, char)
+    rpad(inStr.toDopeType(), size, char)
 
-fun rpad(inStr: String, size: TypeExpression<NumberType>) = RpadExpression(inStr.toDopeType(), size)
+fun rpad(inStr: String, size: TypeExpression<NumberType>) = rpad(inStr.toDopeType(), size)
 
 fun rpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    RpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
+    rpad(inStr.toDopeType(), size, prefix.toDopeType())
 
 fun rpad(inStr: String, size: Number, char: TypeExpression<StringType>) =
-    RpadExpression(inStr.toDopeType(), size.toDopeType(), char)
+    rpad(inStr.toDopeType(), size.toDopeType(), char)
 
 fun rpad(inStr: String, size: Number, char: String) =
-    RpadExpression(inStr.toDopeType(), size.toDopeType(), char.toDopeType())
+    rpad(inStr.toDopeType(), size.toDopeType(), char.toDopeType())
 
-fun rpad(inStr: String, size: Number) = RpadExpression(inStr.toDopeType(), size.toDopeType())
+fun rpad(inStr: String, size: Number) = rpad(inStr.toDopeType(), size.toDopeType())

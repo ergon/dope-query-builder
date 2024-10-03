@@ -9,4 +9,4 @@ class LowerExpression(inStr: TypeExpression<StringType>) : FunctionExpression<St
 
 fun lower(inStr: TypeExpression<StringType>) = LowerExpression(inStr)
 
-fun lower(inStr: String) = LowerExpression(inStr.toDopeType())
+fun lower(inStr: String) = lower(inStr.toDopeType())

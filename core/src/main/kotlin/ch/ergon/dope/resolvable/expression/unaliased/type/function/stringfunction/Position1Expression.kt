@@ -11,8 +11,8 @@ class Position1Expression(inStr: TypeExpression<StringType>, searchStr: TypeExpr
 fun position1(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     Position1Expression(inStr, searchStr)
 
-fun position1(inStr: TypeExpression<StringType>, searchStr: String) = Position1Expression(inStr, searchStr.toDopeType())
+fun position1(inStr: TypeExpression<StringType>, searchStr: String) = position1(inStr, searchStr.toDopeType())
 
-fun position1(inStr: String, searchStr: TypeExpression<StringType>) = Position1Expression(inStr.toDopeType(), searchStr)
+fun position1(inStr: String, searchStr: TypeExpression<StringType>) = position1(inStr.toDopeType(), searchStr)
 
-fun position1(inStr: String, searchStr: String) = Position1Expression(inStr.toDopeType(), searchStr.toDopeType())
+fun position1(inStr: String, searchStr: String) = position1(inStr.toDopeType(), searchStr.toDopeType())

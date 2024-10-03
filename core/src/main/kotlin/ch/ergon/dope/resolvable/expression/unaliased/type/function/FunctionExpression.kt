@@ -18,8 +18,7 @@ abstract class FunctionExpression<T : ValidType>(
                 symbol,
                 *expressionsDopeQuery.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(emptyMap()) {
-                    expressionParameters, expression ->
+            parameters = expressionsDopeQuery.fold(emptyMap()) { expressionParameters, expression ->
                 expressionParameters + expression?.parameters.orEmpty()
             },
         )

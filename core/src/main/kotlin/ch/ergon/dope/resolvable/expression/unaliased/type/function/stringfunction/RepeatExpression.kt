@@ -12,8 +12,8 @@ class RepeatExpression(inStr: TypeExpression<StringType>, repetitions: TypeExpre
 fun repeat(inStr: TypeExpression<StringType>, repetitions: TypeExpression<NumberType>) =
     RepeatExpression(inStr, repetitions)
 
-fun repeat(inStr: TypeExpression<StringType>, repetitions: Number) = RepeatExpression(inStr, repetitions.toDopeType())
+fun repeat(inStr: TypeExpression<StringType>, repetitions: Number) = repeat(inStr, repetitions.toDopeType())
 
-fun repeat(inStr: String, repetitions: TypeExpression<NumberType>) = RepeatExpression(inStr.toDopeType(), repetitions)
+fun repeat(inStr: String, repetitions: TypeExpression<NumberType>) = repeat(inStr.toDopeType(), repetitions)
 
-fun repeat(inStr: String, repetitions: Number) = RepeatExpression(inStr.toDopeType(), repetitions.toDopeType())
+fun repeat(inStr: String, repetitions: Number) = repeat(inStr.toDopeType(), repetitions.toDopeType())
