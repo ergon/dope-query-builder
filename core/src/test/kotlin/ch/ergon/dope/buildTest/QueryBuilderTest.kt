@@ -5,9 +5,16 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
+import ch.ergon.dope.resolvable.clause.model.setoperators.except
+import ch.ergon.dope.resolvable.clause.model.setoperators.exceptAll
+import ch.ergon.dope.resolvable.clause.model.setoperators.intersect
+import ch.ergon.dope.resolvable.clause.model.setoperators.intersectAll
+import ch.ergon.dope.resolvable.clause.model.setoperators.union
+import ch.ergon.dope.resolvable.clause.model.setoperators.unionAll
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
@@ -823,6 +830,53 @@ class QueryBuilderTest : ManagerDependentTest {
             .select(bucket1, bucket2)
             .from(bucket2)
             .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support set operator union with two selects`() {
+        val expected = "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)"
+
+        val actual = create
+            .selectFrom(someBucket("bucket1"))
+            .union(
+                create.selectFrom(someBucket("bucket2")),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support set operator except and intersect with three selects`() {
+        val expected = "(SELECT * FROM `bucket1`) EXCEPT ((SELECT * FROM `bucket2`) INTERSECT (SELECT * FROM `bucket3`))"
+
+        val actual = create
+            .selectFrom(someBucket("bucket1"))
+            .except(
+                create
+                    .selectFrom(someBucket("bucket2"))
+                    .intersect(
+                        create
+                            .selectFrom(someBucket("bucket3")),
+                    ),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support set operator intersect all and union all and except all with three selects in order`() {
+        val expected = "(((SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)) " +
+            "UNION ALL (SELECT * FROM `bucket3`)) EXCEPT ALL (SELECT * FROM `bucket4`)"
+
+        val actual = create
+            .selectFrom(someBucket("bucket1"))
+            .intersectAll(create.selectFrom(someBucket("bucket2")))
+            .unionAll(create.selectFrom(someBucket("bucket3")))
+            .exceptAll(someFromClause(someBucket("bucket4"))).build().queryString
 
         assertEquals(expected, actual)
     }
