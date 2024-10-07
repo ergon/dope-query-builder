@@ -4,7 +4,6 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.tokens
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
