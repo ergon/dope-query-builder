@@ -12,14 +12,14 @@ abstract class FunctionExpression<T : ValidType>(
     private vararg val expressions: UnaliasedExpression<out ValidType>?,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionsDopeQuery = expressions.map { it?.toDopeQuery(manager) }
+        val expressionsDopeQuery = expressions.mapNotNull { it?.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol,
                 *expressionsDopeQuery.toTypedArray(),
             ),
             parameters = expressionsDopeQuery.fold(emptyMap()) { expressionParameters, expression ->
-                expressionParameters + expression?.parameters.orEmpty()
+                expressionParameters + expression.parameters
             },
         )
     }
