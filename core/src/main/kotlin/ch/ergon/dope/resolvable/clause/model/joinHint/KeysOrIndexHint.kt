@@ -18,20 +18,20 @@ import ch.ergon.dope.validtype.ValidType
 interface KeysOrIndexHint : Resolvable
 
 class KeysHintClass private constructor(
-    private val useKeys: TypeExpression<out ValidType>,
+    private val keys: TypeExpression<out ValidType>,
 ) : KeysOrIndexHint {
     companion object {
-        @JvmName("singleUseKeysHintConstructor")
+        @JvmName("singleKeyHintConstructor")
         fun KeysHint(key: TypeExpression<StringType>) =
             KeysHintClass(key)
 
-        @JvmName("multipleUseKeysHintConstructor")
+        @JvmName("multipleKeysHintConstructor")
         fun KeysHint(keys: TypeExpression<ArrayType<StringType>>) =
             KeysHintClass(keys)
     }
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val keysDopeQuery = useKeys.toDopeQuery(manager)
+        val keysDopeQuery = keys.toDopeQuery(manager)
         return DopeQuery(
             queryString = "KEYS ${keysDopeQuery.queryString}",
             parameters = keysDopeQuery.parameters,
@@ -43,7 +43,7 @@ fun keysHint(key: TypeExpression<StringType>) = KeysHint(key)
 
 fun keysHint(key: String) = keysHint(key.toDopeType())
 
-@JvmName("useKeysHintArray")
+@JvmName("keysHintArray")
 fun keysHint(keys: TypeExpression<ArrayType<StringType>>) = KeysHint(keys)
 
 fun keysHint(keys: Collection<TypeExpression<StringType>>) = keysHint(keys.toDopeType())

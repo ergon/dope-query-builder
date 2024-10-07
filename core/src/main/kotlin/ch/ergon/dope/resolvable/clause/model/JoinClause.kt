@@ -113,9 +113,9 @@ sealed class SelectJoinClause : ISelectJoinClause {
             is AliasedBucket -> joinable.asBucketDefinition().toDopeQuery(manager)
             else -> joinable.toDopeQuery(manager)
         }
-        val hashOrNestedLoopHintDopeQuery = hashOrNestedLoopHint?.toDopeQuery(manager)
-        val keysOrIndexHintDopeQuery = keysOrIndexHint?.toDopeQuery(manager)
         val joinHintsDopeQuery = if (hashOrNestedLoopHint != null || keysOrIndexHint != null) {
+            val hashOrNestedLoopHintDopeQuery = hashOrNestedLoopHint?.toDopeQuery(manager)
+            val keysOrIndexHintDopeQuery = keysOrIndexHint?.toDopeQuery(manager)
             DopeQuery(
                 queryString = "USE" +
                     hashOrNestedLoopHint?.let { " ${hashOrNestedLoopHintDopeQuery?.queryString}" }.orEmpty() +
