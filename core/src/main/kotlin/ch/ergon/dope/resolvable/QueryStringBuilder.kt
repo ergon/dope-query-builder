@@ -23,11 +23,11 @@ fun formatPathToQueryString(name: String, path: String) =
         "`$path`.`$name`"
     }
 
-fun formatStringListToQueryStringWithBrackets(dopeQueries: List<String>, seperator: String = ", ", prefix: String = "(", postfix: String = ")") =
-    dopeQueries.joinToString(seperator, prefix, postfix)
+fun formatStringListToQueryStringWithBrackets(dopeQueries: List<String>, separator: String = ", ", prefix: String = "(", postfix: String = ")") =
+    dopeQueries.joinToString(separator, prefix, postfix)
 
-fun formatListToQueryStringWithBrackets(dopeQueries: List<DopeQuery>, seperator: String = ", ", prefix: String = "(", postfix: String = ")") =
-    dopeQueries.joinToString(seperator, prefix, postfix) { it.queryString }
+fun formatListToQueryStringWithBrackets(dopeQueries: List<DopeQuery>, separator: String = ", ", prefix: String = "(", postfix: String = ")") =
+    dopeQueries.joinToString(separator, prefix, postfix) { it.queryString }
 
 fun formatIndexToQueryString(indexName: String?, indexType: String?) =
     listOfNotNull(indexName?.let { "`$it`" }, indexType).joinToString(separator = " ")
