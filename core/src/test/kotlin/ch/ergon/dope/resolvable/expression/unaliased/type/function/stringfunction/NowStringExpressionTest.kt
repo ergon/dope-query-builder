@@ -10,7 +10,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NowStrExpressionTest : ManagerDependentTest {
+class NowStringExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
@@ -20,7 +20,7 @@ class NowStrExpressionTest : ManagerDependentTest {
             emptyMap(),
             emptyList(),
         )
-        val underTest = NowStrExpression()
+        val underTest = NowStringExpression()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -34,7 +34,7 @@ class NowStrExpressionTest : ManagerDependentTest {
             emptyMap(),
             emptyList(),
         )
-        val underTest = NowStrExpression(someStringField())
+        val underTest = NowStringExpression(someStringField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -49,7 +49,7 @@ class NowStrExpressionTest : ManagerDependentTest {
             emptyMap(),
             listOf(parameterValue),
         )
-        val underTest = NowStrExpression(parameterValue.asParameter())
+        val underTest = NowStringExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -75,9 +75,9 @@ class NowStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support now str function type`() {
         val inStr = someStringField("inStr")
-        val expected = NowStrExpression(inStr)
+        val expected = NowStringExpression(inStr)
 
-        val actual = nowStr(inStr)
+        val actual = nowString(inStr)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -85,9 +85,9 @@ class NowStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support now str function string`() {
         val inStr = someString()
-        val expected = NowStrExpression(inStr.toDopeType())
+        val expected = NowStringExpression(inStr.toDopeType())
 
-        val actual = nowStr(inStr)
+        val actual = nowString(inStr)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

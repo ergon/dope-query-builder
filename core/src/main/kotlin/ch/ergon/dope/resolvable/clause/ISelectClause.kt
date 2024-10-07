@@ -14,6 +14,8 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
+import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.expression.AliasedExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
@@ -42,11 +44,13 @@ interface ISelectOrderByClause : ISelectLimitClause {
 
 interface ISelectGroupByClause : ISelectOrderByClause {
     fun orderBy(stringField: Field<StringType>) = SelectOrderByClause(stringField, this)
-    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) = SelectOrderByTypeClause(stringField, orderByType, this)
+    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) =
+        SelectOrderByTypeClause(stringField, orderByType, this)
 }
 
 interface ISelectWhereClause : ISelectGroupByClause {
-    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>) = GroupByClause(field, *fields, parentClause = this)
+    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>) =
+        GroupByClause(field, *fields, parentClause = this)
 }
 
 interface ISelectFromClause : ISelectWhereClause {
@@ -54,26 +58,80 @@ interface ISelectFromClause : ISelectWhereClause {
 }
 
 interface ISelectJoinClause : ISelectFromClause {
-    fun join(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = StandardJoinClause(joinable, onCondition, this)
-    fun join(joinable: Joinable, onKeys: Field<out ValidType>) = StandardJoinClause(joinable, onKeys, this)
-    fun join(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = StandardJoinClause(joinable, onKey, forBucket, this)
+    fun join(
+        joinable: Joinable,
+        onCondition: TypeExpression<BooleanType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = StandardJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    fun join(
+        joinable: Joinable,
+        onKeys: Field<out ValidType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = StandardJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+    fun join(
+        joinable: Joinable,
+        onKey: Field<out ValidType>,
+        forBucket: Bucket,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = StandardJoinClause(joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, this)
 
-    fun innerJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = InnerJoinClause(joinable, onCondition, this)
-    fun innerJoin(joinable: Joinable, onKeys: Field<out ValidType>) = InnerJoinClause(joinable, onKeys, this)
-    fun innerJoin(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = InnerJoinClause(joinable, onKey, forBucket, this)
+    fun innerJoin(
+        joinable: Joinable,
+        onCondition: TypeExpression<BooleanType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = InnerJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    fun innerJoin(
+        joinable: Joinable,
+        onKeys: Field<out ValidType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = InnerJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+    fun innerJoin(
+        joinable: Joinable,
+        onKey: Field<out ValidType>,
+        forBucket: Bucket,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = InnerJoinClause(joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, this)
 
-    fun leftJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = LeftJoinClause(joinable, onCondition, this)
-    fun leftJoin(joinable: Joinable, onKeys: Field<out ValidType>) = LeftJoinClause(joinable, onKeys, this)
-    fun leftJoin(joinable: Joinable, onKey: Field<out ValidType>, forBucket: Bucket) = LeftJoinClause(joinable, onKey, forBucket, this)
+    fun leftJoin(
+        joinable: Joinable,
+        onCondition: TypeExpression<BooleanType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = LeftJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    fun leftJoin(
+        joinable: Joinable,
+        onKeys: Field<out ValidType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = LeftJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+    fun leftJoin(
+        joinable: Joinable,
+        onKey: Field<out ValidType>,
+        forBucket: Bucket,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = LeftJoinClause(joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, this)
 
-    fun rightJoin(joinable: Joinable, onCondition: TypeExpression<BooleanType>) = RightJoinClause(joinable, onCondition, this)
+    fun rightJoin(
+        joinable: Joinable,
+        onCondition: TypeExpression<BooleanType>,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = RightJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun alias(alias: String) = AliasedSelectClause(alias, this)
 }
 
 interface ISelectUnnestClause : ISelectJoinClause {
     fun <T : ValidType> unnest(arrayField: Field<ArrayType<T>>) = UnnestClause(arrayField, this)
-    fun <T : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<T>>) = AliasedUnnestClause(aliasedArrayExpression, this)
+    fun <T : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<T>>) =
+        AliasedUnnestClause(aliasedArrayExpression, this)
 }
 
 interface ISelectClause : ISelectFromClause {

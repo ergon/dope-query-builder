@@ -1,32 +1,40 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.operator.FunctionOperator
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 class SubstringExpression(
-    private val inStr: TypeExpression<StringType>,
-    private val startPos: Int,
-    private val length: Int? = null,
-) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val inStrDopeQuery = inStr.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString(
-                symbol = "SUBSTR",
-                inStrDopeQuery,
-                startPos.toDopeType().toDopeQuery(manager),
-                length?.toDopeType()?.toDopeQuery(manager),
-            ),
-            parameters = inStrDopeQuery.parameters,
-            positionalParameters = inStrDopeQuery.positionalParameters,
-        )
-    }
-}
+    inStr: TypeExpression<StringType>,
+    startPos: TypeExpression<NumberType>,
+    length: TypeExpression<NumberType>? = null,
+) : FunctionExpression<StringType>("SUBSTR", inStr, startPos, length)
 
-fun substr(inStr: TypeExpression<StringType>, startPos: Int, length: Int? = null) = SubstringExpression(inStr, startPos, length)
+fun substring(
+    inStr: TypeExpression<StringType>,
+    startPos: TypeExpression<NumberType>,
+    length: TypeExpression<NumberType>? = null,
+) = SubstringExpression(inStr, startPos, length)
 
-fun substr(inStr: String, startPos: Int, length: Int? = null) = substr(inStr.toDopeType(), startPos, length)
+fun substring(inStr: TypeExpression<StringType>, startPos: TypeExpression<NumberType>, length: Int) =
+    substring(inStr, startPos, length.toDopeType())
+
+fun substring(inStr: TypeExpression<StringType>, startPos: Int, length: TypeExpression<NumberType>? = null) =
+    substring(inStr, startPos.toDopeType(), length)
+
+fun substring(inStr: String, startPos: TypeExpression<NumberType>, length: TypeExpression<NumberType>? = null) =
+    substring(inStr.toDopeType(), startPos, length)
+
+fun substring(inStr: TypeExpression<StringType>, startPos: Int, length: Int) =
+    substring(inStr, startPos.toDopeType(), length.toDopeType())
+
+fun substring(inStr: String, startPos: TypeExpression<NumberType>, length: Int) =
+    substring(inStr.toDopeType(), startPos, length.toDopeType())
+
+fun substring(inStr: String, startPos: Int, length: TypeExpression<NumberType>? = null) =
+    substring(inStr.toDopeType(), startPos.toDopeType(), length)
+
+fun substring(inStr: String, startPos: Int, length: Int) =
+    substring(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())

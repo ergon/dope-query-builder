@@ -9,10 +9,10 @@ import ch.ergon.dope.validtype.ValidType
 
 abstract class FunctionExpression<T : ValidType>(
     private val symbol: String,
-    private vararg val expressions: UnaliasedExpression<T>,
+    private vararg val expressions: UnaliasedExpression<out ValidType>?,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
+        val expressionsDopeQuery = expressions.mapNotNull { it?.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol,

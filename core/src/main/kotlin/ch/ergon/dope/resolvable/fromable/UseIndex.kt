@@ -38,7 +38,7 @@ class UseIndex(
             queryString = formatToQueryStringWithSymbol(
                 bucketDopeQuery.queryString,
                 USE_INDEX,
-                formatListToQueryStringWithBrackets(indexReferenceDopeQueries, seperator = ", ", prefix = "(", postfix = ")"),
+                formatListToQueryStringWithBrackets(indexReferenceDopeQueries, separator = ", ", prefix = "(", postfix = ")"),
             ),
             parameters = bucketDopeQuery.parameters + indexReferenceDopeQueries.fold(emptyMap()) { indexReferenceParameters, field ->
                 indexReferenceParameters + field.parameters

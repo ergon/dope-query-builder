@@ -115,6 +115,17 @@ class SplitExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support split function type string`() {
+        val inStr = someStringField("inStr")
+        val inSubstring = someString("inSubstring")
+        val expected = SplitExpression(inStr, inSubstring.toDopeType())
+
+        val actual = split(inStr, inSubstring)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support split function type`() {
         val inStr = someStringField("inStr")
         val inSubstring = null

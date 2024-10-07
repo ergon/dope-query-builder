@@ -17,7 +17,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.condition
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.nowStr
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.nowString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
@@ -728,9 +728,9 @@ class QueryBuilderTest : ManagerDependentTest {
             "AS `short_date`"
 
         val actual = create.select(
-            nowStr().alias("full_date"),
-            nowStr("invalid date").alias("invalid_date"),
-            nowStr("1111-11-11").alias("short_date"),
+            nowString().alias("full_date"),
+            nowString("invalid date").alias("invalid_date"),
+            nowString("1111-11-11").alias("short_date"),
         ).build().queryString
 
         assertEquals(expected, actual)
