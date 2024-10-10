@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,7 @@ class MBLengthExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mbLength`() {
         val expected = DopeQuery(
-            "MB_LENGTH(`stringField`)",
-            emptyMap(),
+            queryString = "MB_LENGTH(`stringField`)",
         )
         val underTest = MBLengthExpression(someStringField())
 
@@ -27,11 +27,11 @@ class MBLengthExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support mbLength with parameter`() {
+    fun `should support mbLength with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "MB_LENGTH($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "MB_LENGTH($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MBLengthExpression(parameterValue.asParameter())
 

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,7 @@ class UpperExpressionTest : ManagerDependentTest {
     @Test
     fun `should support upper`() {
         val expected = DopeQuery(
-            "UPPER(`stringField`)",
-            emptyMap(),
+            queryString = "UPPER(`stringField`)",
         )
         val underTest = UpperExpression(someStringField())
 
@@ -27,13 +27,28 @@ class UpperExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support upper with parameter`() {
+    fun `should support upper with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "UPPER($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "UPPER($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = UpperExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support upper with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "UPPER(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = UpperExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

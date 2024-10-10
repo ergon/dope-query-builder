@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -22,10 +23,24 @@ class LimitClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete limit`() {
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` LIMIT `numberField`",
-            emptyMap(),
+            queryString = "DELETE FROM `someBucket` LIMIT `numberField`",
         )
         val underTest = DeleteLimitClause(someNumberField(), someDeleteClause())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support delete limit with named parameter`() {
+        val parameterValue = 2
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "DELETE FROM `someBucket` LIMIT \$$parameterName",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = DeleteLimitClause(parameterValue.asParameter(parameterName), someDeleteClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -36,8 +51,8 @@ class LimitClauseTest : ManagerDependentTest {
     fun `should support delete limit with positional parameter`() {
         val parameterValue = 2
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` LIMIT $1",
-            mapOf("$1" to parameterValue),
+            queryString = "DELETE FROM `someBucket` LIMIT $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DeleteLimitClause(parameterValue.asParameter(), someDeleteClause())
 
@@ -58,24 +73,11 @@ class LimitClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support select limit`() {
-        val expected = DopeQuery(
-            "SELECT * LIMIT `numberField`",
-            emptyMap(),
-        )
-        val underTest = SelectLimitClause(someNumberField(), someSelectClause())
-
-        val actual = underTest.toDopeQuery(manager)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun `should support select limit with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "SELECT * LIMIT $1",
-            mapOf("$1" to parameterValue),
+            queryString = "SELECT * LIMIT $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectLimitClause(parameterValue.asParameter(), someSelectClause())
 
@@ -85,12 +87,32 @@ class LimitClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support select limit with parameter and parent parameter`() {
+    fun `should support select limit with named parameter and named parent parameter`() {
+        val parameterName = "param1"
+        val parameterName2 = "param2"
         val parameterValue = "param"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "SELECT $1 LIMIT $2",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "SELECT \$$parameterName LIMIT \$$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = SelectLimitClause(
+            parameterValue2.asParameter(parameterName2),
+            someSelectClause(parameterValue.asParameter(parameterName)),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select limit with positional parameter and positional parent parameter`() {
+        val parameterValue = "param"
+        val parameterValue2 = 5
+        val expected = DopeQuery(
+            queryString = "SELECT $1 LIMIT $2",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SelectLimitClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
@@ -113,10 +135,24 @@ class LimitClauseTest : ManagerDependentTest {
     @Test
     fun `should support update limit`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` LIMIT `numberField`",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` LIMIT `numberField`",
         )
         val underTest = UpdateLimitClause(someNumberField(), someUpdateClause())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update limit with named parameter`() {
+        val parameterValue = 5
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "UPDATE `someBucket` LIMIT \$$parameterName",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = UpdateLimitClause(parameterValue.asParameter(parameterName), someUpdateClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -127,8 +163,8 @@ class LimitClauseTest : ManagerDependentTest {
     fun `should support update limit with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "UPDATE `someBucket` LIMIT $1",
-            mapOf("$1" to parameterValue),
+            queryString = "UPDATE `someBucket` LIMIT $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = UpdateLimitClause(parameterValue.asParameter(), someUpdateClause())
 

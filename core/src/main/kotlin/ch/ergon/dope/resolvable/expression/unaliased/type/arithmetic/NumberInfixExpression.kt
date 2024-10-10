@@ -17,7 +17,7 @@ sealed class NumberInfixExpression(
         val rightDopeQuery = right.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithBrackets(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
-            parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
+            parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
         )
     }
 }

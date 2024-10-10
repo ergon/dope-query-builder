@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -18,8 +19,7 @@ class OrderByClauseTest : ManagerDependentTest {
     @Test
     fun `should support order by`() {
         val expected = DopeQuery(
-            "SELECT * ORDER BY `stringField`",
-            emptyMap(),
+            queryString = "SELECT * ORDER BY `stringField`",
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause())
 
@@ -29,11 +29,26 @@ class OrderByClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support order by with parameter in parent`() {
+    fun `should support order by with named parameter in parent`() {
+        val parameterValue = "asdf"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "SELECT \$$parameterName ORDER BY `stringField`",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter(parameterName)))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support order by with positional parameter in parent`() {
         val parameterValue = "asdf"
         val expected = DopeQuery(
-            "SELECT $1 ORDER BY `stringField`",
-            mapOf("$1" to parameterValue),
+            queryString = "SELECT $1 ORDER BY `stringField`",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter()))
 
@@ -45,8 +60,7 @@ class OrderByClauseTest : ManagerDependentTest {
     @Test
     fun `should support order by with type ASC`() {
         val expected = DopeQuery(
-            "SELECT * ORDER BY `stringField` ASC",
-            emptyMap(),
+            queryString = "SELECT * ORDER BY `stringField` ASC",
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause())
 
@@ -56,11 +70,26 @@ class OrderByClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support order by with parameter in parent with type ASC`() {
+    fun `should support order by with named parameter in parent with type ASC`() {
+        val parameterValue = "asdf"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "SELECT \$$parameterName ORDER BY `stringField` ASC",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter(parameterName)))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support order by with positional parameter in parent with type ASC`() {
         val parameterValue = "asdf"
         val expected = DopeQuery(
-            "SELECT $1 ORDER BY `stringField` ASC",
-            mapOf("$1" to parameterValue),
+            queryString = "SELECT $1 ORDER BY `stringField` ASC",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter()))
 
@@ -72,8 +101,7 @@ class OrderByClauseTest : ManagerDependentTest {
     @Test
     fun `should support order by with type DESC`() {
         val expected = DopeQuery(
-            "SELECT * ORDER BY `stringField` DESC",
-            emptyMap(),
+            queryString = "SELECT * ORDER BY `stringField` DESC",
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause())
 
@@ -83,11 +111,26 @@ class OrderByClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support order by with parameter in parent with type DESC`() {
+    fun `should support order by with named parameter in parent with type DESC`() {
+        val parameterValue = "asdf"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "SELECT \$$parameterName ORDER BY `stringField` DESC",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter(parameterName)))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support order by with positional parameter in parent with type DESC`() {
         val parameterValue = "asdf"
         val expected = DopeQuery(
-            "SELECT $1 ORDER BY `stringField` DESC",
-            mapOf("$1" to parameterValue),
+            queryString = "SELECT $1 ORDER BY `stringField` DESC",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter()))
 

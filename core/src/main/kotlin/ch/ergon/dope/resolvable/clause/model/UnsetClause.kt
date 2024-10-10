@@ -22,7 +22,10 @@ class UnsetClause(
                 fieldDopeQuery.queryString,
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = parentClauseDopeQuery.parameters,
+            parameters = parentClauseDopeQuery.parameters.merge(
+                fieldDopeQuery.parameters,
+                *fieldsDopeQuery.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
 

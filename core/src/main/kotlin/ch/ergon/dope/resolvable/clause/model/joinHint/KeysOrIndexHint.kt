@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.clause.model.joinHint
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.model.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -61,9 +62,7 @@ class IndexHint(
                 "INDEX",
                 formatListToQueryStringWithBrackets(indexReferenceDopeQueries),
             ),
-            parameters = indexReferenceDopeQueries.fold(emptyMap()) { indexReferenceParameters, field ->
-                indexReferenceParameters + field.parameters
-            },
+            parameters = indexReferenceDopeQueries.map { it.parameters }.merge(),
         )
     }
 }

@@ -19,8 +19,7 @@ class ReturningClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete returning`() {
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` RETURNING `stringField`",
-            emptyMap(),
+            queryString = "DELETE FROM `someBucket` RETURNING `stringField`",
         )
         val underTest = DeleteReturningClause(someStringField(), parentClause = someDeleteClause())
 
@@ -32,8 +31,7 @@ class ReturningClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete returning with multiple fields`() {
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
-            emptyMap(),
+            queryString = "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`",
         )
         val underTest = DeleteReturningClause(someStringField(), someNumberField(), parentClause = someDeleteClause())
 
@@ -68,8 +66,7 @@ class ReturningClauseTest : ManagerDependentTest {
     @Test
     fun `should support update returning`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` RETURNING `stringField`",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` RETURNING `stringField`",
         )
         val underTest = UpdateReturningClause(someStringField(), parentClause = someUpdateClause())
 
@@ -81,8 +78,7 @@ class ReturningClauseTest : ManagerDependentTest {
     @Test
     fun `should support returning with multiple fields`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` RETURNING `stringField`, `numberField`",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` RETURNING `stringField`, `numberField`",
         )
         val underTest = UpdateReturningClause(someStringField(), someNumberField(), parentClause = someUpdateClause())
 

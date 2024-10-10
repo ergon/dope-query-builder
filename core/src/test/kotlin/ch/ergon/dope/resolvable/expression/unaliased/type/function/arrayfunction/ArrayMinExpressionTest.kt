@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -14,8 +15,7 @@ class ArrayMinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_MIN`() {
         val expected = DopeQuery(
-            "ARRAY_MIN(`numberArrayField`)",
-            emptyMap(),
+            queryString = "ARRAY_MIN(`numberArrayField`)",
         )
         val underTest = ArrayMinExpression(someNumberArrayField())
 
@@ -25,13 +25,28 @@ class ArrayMinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_MIN with parameter`() {
+    fun `should support ARRAY_MIN with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_MIN($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_MIN($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayMinExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_MIN with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_MIN(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayMinExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -13,8 +13,7 @@ class IsValuedExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is valued`() {
         val expected = DopeQuery(
-            "`stringField` IS VALUED",
-            emptyMap(),
+            queryString = "`stringField` IS VALUED",
         )
         val underTest = IsValuedExpression(someStringField())
 

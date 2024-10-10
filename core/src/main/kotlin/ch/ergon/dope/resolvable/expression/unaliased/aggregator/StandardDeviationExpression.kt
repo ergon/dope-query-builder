@@ -6,6 +6,6 @@ import ch.ergon.dope.validtype.NumberType
 class StandardDeviationExpression<T : NumberType>(
     number: Field<T>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression<T>(number, quantifier, "STDDEV")
+) : AggregateExpression<T>("STDDEV", number, quantifier)
 
 fun stdDev(number: Field<out NumberType>, quantifier: AggregateQuantifier? = null) = StandardDeviationExpression(number, quantifier)
