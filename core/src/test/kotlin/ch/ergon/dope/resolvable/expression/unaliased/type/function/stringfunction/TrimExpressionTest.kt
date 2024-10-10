@@ -105,10 +105,10 @@ class TrimExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support trim function type char`() {
+    fun `should support trim function type string`() {
         val inStr = someStringField("inStr")
-        val char = 'a'
-        val expected = TrimExpression(inStr, char.toString().toDopeType())
+        val char = someString()
+        val expected = TrimExpression(inStr, char.toDopeType())
 
         val actual = trim(inStr, char)
 
@@ -142,17 +142,6 @@ class TrimExpressionTest : ManagerDependentTest {
         val inStr = someString("inStr")
         val char = someString("extra")
         val expected = TrimExpression(inStr.toDopeType(), char.toDopeType())
-
-        val actual = trim(inStr, char)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
-
-    @Test
-    fun `should support trim function string char`() {
-        val inStr = someString("inStr")
-        val char = 'a'
-        val expected = TrimExpression(inStr.toDopeType(), char.toString().toDopeType())
 
         val actual = trim(inStr, char)
 
