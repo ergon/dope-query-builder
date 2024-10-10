@@ -17,7 +17,7 @@ class TypeOfExpressionTest : ManagerDependentTest {
     @Test
     fun `should support type of expression with no parameters`() {
         val expected = DopeQuery(
-            "TYPE(`stringField`)",
+            queryString = "TYPE(`stringField`)",
         )
         val underTest = TypeOfExpression(someStringField())
 
@@ -30,7 +30,7 @@ class TypeOfExpressionTest : ManagerDependentTest {
     fun `should support type of expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "TYPE($1)",
+            queryString = "TYPE($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = TypeOfExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class TypeOfExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "TYPE(\$$parameterName)",
+            queryString = "TYPE(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = TypeOfExpression(parameterValue.asParameter(parameterName))

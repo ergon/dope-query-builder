@@ -23,7 +23,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` END",
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` END",
         )
         val underTest = CaseExpression(
             CaseClass(someNumberField()),
@@ -38,7 +38,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
         )
         val underTest = CaseExpression(
             CaseClass(someNumberField()),
@@ -54,7 +54,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple else case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
@@ -70,7 +70,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple else case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
@@ -87,7 +87,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` END",
+            queryString = "CASE WHEN `booleanField` THEN `stringField` END",
         )
         val underTest = CaseExpression(
             CaseClass(),
@@ -102,7 +102,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
+            queryString = "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
         )
         val underTest = CaseExpression(
             CaseClass(),
@@ -118,7 +118,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched else case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
+            queryString = "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(),
@@ -134,7 +134,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched else case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
+            queryString = "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(),

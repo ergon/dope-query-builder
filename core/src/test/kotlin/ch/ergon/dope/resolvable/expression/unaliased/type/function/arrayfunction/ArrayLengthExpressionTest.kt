@@ -15,7 +15,7 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_LENGTH`() {
         val expected = DopeQuery(
-            "ARRAY_LENGTH(`numberArrayField`)",
+            queryString = "ARRAY_LENGTH(`numberArrayField`)",
         )
         val underTest = ArrayLengthExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_LENGTH with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_LENGTH($1)",
+            queryString = "ARRAY_LENGTH($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayLengthExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_LENGTH(\$$parameterName)",
+            queryString = "ARRAY_LENGTH(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayLengthExpression(parameterValue.asParameter(parameterName))

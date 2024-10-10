@@ -19,10 +19,10 @@ sealed class Primitive<T : ValidType>(
     override fun toDopeQuery(manager: DopeQueryManager) = generateDopeQuery(manager)
 }
 
-data object NULL : Primitive<NullType>({ DopeQuery("NULL") })
-data object MISSING : Primitive<MissingType>({ DopeQuery("MISSING") })
-data object TRUE : Primitive<BooleanType>({ DopeQuery("TRUE") })
-data object FALSE : Primitive<BooleanType>({ DopeQuery("FALSE") })
+data object NULL : Primitive<NullType>({ DopeQuery(queryString = "NULL") })
+data object MISSING : Primitive<MissingType>({ DopeQuery(queryString = "MISSING") })
+data object TRUE : Primitive<BooleanType>({ DopeQuery(queryString = "TRUE") })
+data object FALSE : Primitive<BooleanType>({ DopeQuery(queryString = "FALSE") })
 
 class NumberPrimitive(value: Number) : Primitive<NumberType>(
     {

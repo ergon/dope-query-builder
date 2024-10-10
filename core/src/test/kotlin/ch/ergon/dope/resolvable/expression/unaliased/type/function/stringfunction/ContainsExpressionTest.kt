@@ -17,7 +17,7 @@ class ContainsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support contains`() {
         val expected = DopeQuery(
-            "CONTAINS(`stringField`, `stringField`)",
+            queryString = "CONTAINS(`stringField`, `stringField`)",
         )
         val underTest = ContainsExpression(someStringField(), someStringField())
 
@@ -30,7 +30,7 @@ class ContainsExpressionTest : ManagerDependentTest {
     fun `should support contains with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "CONTAINS($1, `stringField`)",
+            queryString = "CONTAINS($1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ContainsExpression(parameterValue.asParameter(), someStringField())
@@ -45,7 +45,7 @@ class ContainsExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "CONTAINS($1, $2)",
+            queryString = "CONTAINS($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ContainsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -60,7 +60,7 @@ class ContainsExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "CONTAINS(\$$parameterName, `stringField`)",
+            queryString = "CONTAINS(\$$parameterName, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ContainsExpression(parameterValue.asParameter(parameterName), someStringField())
@@ -77,7 +77,7 @@ class ContainsExpressionTest : ManagerDependentTest {
         val parameterValue2 = "test"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "CONTAINS(\$$parameterName, \$$parameterName2)",
+            queryString = "CONTAINS(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = ContainsExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
@@ -93,7 +93,7 @@ class ContainsExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "CONTAINS(\$$parameterName, $1)",
+            queryString = "CONTAINS(\$$parameterName, $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = ContainsExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

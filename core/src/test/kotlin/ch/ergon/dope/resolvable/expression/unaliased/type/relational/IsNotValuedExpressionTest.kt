@@ -13,7 +13,7 @@ class IsNotValuedExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is not valued`() {
         val expected = DopeQuery(
-            "`stringField` IS NOT VALUED",
+            queryString = "`stringField` IS NOT VALUED",
         )
         val underTest = IsNotValuedExpression(someStringField())
 

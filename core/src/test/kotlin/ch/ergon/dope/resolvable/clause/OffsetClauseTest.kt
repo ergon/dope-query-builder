@@ -19,7 +19,7 @@ class OffsetClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete offset`() {
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` OFFSET `numberField`",
+            queryString = "DELETE FROM `someBucket` OFFSET `numberField`",
         )
         val underTest = DeleteOffsetClause(someNumberField(), someDeleteClause())
 
@@ -33,7 +33,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterValue = 2
         val parameterName = "param"
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` OFFSET \$$parameterName",
+            queryString = "DELETE FROM `someBucket` OFFSET \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DeleteOffsetClause(parameterValue.asParameter(parameterName), someDeleteClause())
@@ -47,7 +47,7 @@ class OffsetClauseTest : ManagerDependentTest {
     fun `should support delete offset with positional parameter`() {
         val parameterValue = 2
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` OFFSET $1",
+            queryString = "DELETE FROM `someBucket` OFFSET $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause())
@@ -71,7 +71,7 @@ class OffsetClauseTest : ManagerDependentTest {
     @Test
     fun `should support select offset`() {
         val expected = DopeQuery(
-            "SELECT * OFFSET `numberField`",
+            queryString = "SELECT * OFFSET `numberField`",
         )
         val underTest = SelectOffsetClause(someNumberField(), someSelectClause())
 
@@ -85,7 +85,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterValue = 5
         val parameterName = "param"
         val expected = DopeQuery(
-            "SELECT * OFFSET \$$parameterName",
+            queryString = "SELECT * OFFSET \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOffsetClause(parameterValue.asParameter(parameterName), someSelectClause())
@@ -99,7 +99,7 @@ class OffsetClauseTest : ManagerDependentTest {
     fun `should support select offset with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "SELECT * OFFSET $1",
+            queryString = "SELECT * OFFSET $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOffsetClause(parameterValue.asParameter(), someSelectClause())
@@ -116,7 +116,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "SELECT \$$parameterName OFFSET \$$parameterName2",
+            queryString = "SELECT \$$parameterName OFFSET \$$parameterName2",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = SelectOffsetClause(
@@ -134,7 +134,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterValue = "param"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "SELECT $1 OFFSET $2",
+            queryString = "SELECT $1 OFFSET $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))

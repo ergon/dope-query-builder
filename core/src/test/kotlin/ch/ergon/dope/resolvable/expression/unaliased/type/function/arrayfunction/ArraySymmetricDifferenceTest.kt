@@ -15,7 +15,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_SYMDIFF`() {
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(`numberArrayField`, `numberArrayField`)",
+            queryString = "ARRAY_SYMDIFF(`numberArrayField`, `numberArrayField`)",
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
     fun `should support ARRAY_SYMDIFF with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF($1, `numberArrayField`)",
+            queryString = "ARRAY_SYMDIFF($1, `numberArrayField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -42,7 +42,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
     fun `should support ARRAY_SYMDIFF with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(`numberArrayField`, $1)",
+            queryString = "ARRAY_SYMDIFF(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -57,7 +57,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF($1, $2)",
+            queryString = "ARRAY_SYMDIFF($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
@@ -72,7 +72,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(\$$parameterName, `numberArrayField`)",
+            queryString = "ARRAY_SYMDIFF(\$$parameterName, `numberArrayField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -87,7 +87,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_SYMDIFF(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -104,7 +104,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_SYMDIFF(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest =
@@ -121,7 +121,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterName = "param"
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(\$$parameterName, $1)",
+            queryString = "ARRAY_SYMDIFF(\$$parameterName, $1)",
 
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection), positionalParameters = listOf(parameterValue)),
         )

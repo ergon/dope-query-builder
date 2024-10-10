@@ -22,7 +22,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_INSERT`() {
         val expected = DopeQuery(
-            "ARRAY_INSERT(`numberArrayField`, 1, `numberField`)",
+            queryString = "ARRAY_INSERT(`numberArrayField`, 1, `numberField`)",
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), someNumberField())
 
@@ -35,7 +35,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_INSERT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_INSERT($1, 1, `numberField`)",
+            queryString = "ARRAY_INSERT($1, 1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), 1.toDopeType(), someNumberField())
@@ -50,7 +50,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_INSERT(\$$parameterName, 1, `numberField`)",
+            queryString = "ARRAY_INSERT(\$$parameterName, 1, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), someNumberField())
@@ -64,7 +64,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_INSERT with positional second parameter`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_INSERT(`numberArrayField`, $1, `numberField`)",
+            queryString = "ARRAY_INSERT(`numberArrayField`, $1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), parameterValue.asParameter(), someNumberField())
@@ -79,7 +79,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_INSERT(`numberArrayField`, \$$parameterName, `numberField`)",
+            queryString = "ARRAY_INSERT(`numberArrayField`, \$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), parameterValue.asParameter(parameterName), someNumberField())
@@ -93,7 +93,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_INSERT with positional third parameter`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_INSERT(`numberArrayField`, 1, $1)",
+            queryString = "ARRAY_INSERT(`numberArrayField`, 1, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
@@ -108,7 +108,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_INSERT(`numberArrayField`, 1, \$$parameterName)",
+            queryString = "ARRAY_INSERT(`numberArrayField`, 1, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter(parameterName))
@@ -123,7 +123,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 1
         val expected = DopeQuery(
-            "ARRAY_INSERT($1, $2, `numberField`)",
+            queryString = "ARRAY_INSERT($1, $2, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), parameterValue2.asParameter(), someNumberField())
@@ -140,7 +140,7 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_INSERT(\$$parameterName, \$$parameterName2, `numberField`)",
+            queryString = "ARRAY_INSERT(\$$parameterName, \$$parameterName2, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = ArrayInsertExpression(

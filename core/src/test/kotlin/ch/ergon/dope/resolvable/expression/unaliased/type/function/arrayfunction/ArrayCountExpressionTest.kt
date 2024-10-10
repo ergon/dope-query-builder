@@ -15,7 +15,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_COUNT without parameters`() {
         val expected = DopeQuery(
-            "ARRAY_COUNT(`numberArrayField`)",
+            queryString = "ARRAY_COUNT(`numberArrayField`)",
         )
         val underTest = ArrayCountExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_COUNT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_COUNT($1)",
+            queryString = "ARRAY_COUNT($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayCountExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_COUNT(\$$parameterName)",
+            queryString = "ARRAY_COUNT(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayCountExpression(parameterValue.asParameter(parameterName))

@@ -15,7 +15,7 @@ class UrlEncodeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support url encode expression`() {
         val expected = DopeQuery(
-            "URL_ENCODE(`stringField`)",
+            queryString = "URL_ENCODE(`stringField`)",
         )
         val underTest = UrlEncodeExpression(someStringField())
 

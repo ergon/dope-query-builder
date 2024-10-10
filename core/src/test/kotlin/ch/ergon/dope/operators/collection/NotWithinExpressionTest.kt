@@ -23,7 +23,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support NOT WITHIN expression`() {
         val expected = DopeQuery(
-            "`numberField` NOT WITHIN `numberArrayField`",
+            queryString = "`numberField` NOT WITHIN `numberArrayField`",
         )
         val underTest = NotWithinExpression(someNumberField(), someNumberArrayField())
 
@@ -37,7 +37,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "\$$parameterName NOT WITHIN `numberArrayField`",
+            queryString = "\$$parameterName NOT WITHIN `numberArrayField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -51,7 +51,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
     fun `should support NOT WITHIN expression with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "$1 NOT WITHIN `numberArrayField`",
+            queryString = "$1 NOT WITHIN `numberArrayField`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -66,7 +66,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "`numberField` NOT WITHIN \$$parameterName",
+            queryString = "`numberField` NOT WITHIN \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter(parameterName))
@@ -80,7 +80,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
     fun `should support NOT WITHIN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "`numberField` NOT WITHIN $1",
+            queryString = "`numberField` NOT WITHIN $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter())
@@ -97,7 +97,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val parameterNameA = "paramA"
         val parameterNameB = "paramB"
         val expected = DopeQuery(
-            "\$$parameterNameA NOT WITHIN \$$parameterNameB",
+            queryString = "\$$parameterNameA NOT WITHIN \$$parameterNameB",
             DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
@@ -112,7 +112,7 @@ class NotWithinExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "$1 NOT WITHIN $2",
+            queryString = "$1 NOT WITHIN $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
         )
         val underTest = NotWithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())

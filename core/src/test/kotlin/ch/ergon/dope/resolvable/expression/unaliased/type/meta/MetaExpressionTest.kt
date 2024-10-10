@@ -13,7 +13,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta`() {
         val expected = DopeQuery(
-            "META(`someBucket`)",
+            queryString = "META(`someBucket`)",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -25,7 +25,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field cas`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`cas`",
+            queryString = "META(`someBucket`).`cas`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -37,7 +37,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field expiration`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`expiration`",
+            queryString = "META(`someBucket`).`expiration`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -49,7 +49,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field flags`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`flags`",
+            queryString = "META(`someBucket`).`flags`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -61,7 +61,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field id`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`id`",
+            queryString = "META(`someBucket`).`id`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -73,7 +73,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field type`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`type`",
+            queryString = "META(`someBucket`).`type`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -85,7 +85,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field keyspace`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`keyspace`",
+            queryString = "META(`someBucket`).`keyspace`",
         )
         val underTest = MetaExpression(someBucket())
 

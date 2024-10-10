@@ -17,7 +17,7 @@ class NotLikeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support not like with no parameters`() {
         val expected = DopeQuery(
-            "`stringField` NOT LIKE `stringField`",
+            queryString = "`stringField` NOT LIKE `stringField`",
         )
         val underTest = NotLikeExpression(someStringField(), someStringField())
 
@@ -30,7 +30,7 @@ class NotLikeExpressionTest : ManagerDependentTest {
     fun `should support not like with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "`stringField` NOT LIKE $1",
+            queryString = "`stringField` NOT LIKE $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter())
@@ -45,7 +45,7 @@ class NotLikeExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "`stringField` NOT LIKE \$$parameterName",
+            queryString = "`stringField` NOT LIKE \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter(parameterName))

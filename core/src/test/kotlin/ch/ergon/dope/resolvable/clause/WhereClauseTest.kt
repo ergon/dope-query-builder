@@ -21,7 +21,7 @@ class WhereClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete where`() {
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` WHERE TRUE",
+            queryString = "DELETE FROM `someBucket` WHERE TRUE",
         )
         val underTest = DeleteWhereClause(someBooleanExpression(), someDeleteClause())
 
@@ -34,7 +34,7 @@ class WhereClauseTest : ManagerDependentTest {
     fun `should support delete where with positional parameter`() {
         val parameterValue = true
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` WHERE $1",
+            queryString = "DELETE FROM `someBucket` WHERE $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause())
@@ -49,7 +49,7 @@ class WhereClauseTest : ManagerDependentTest {
         val parameterValue = true
         val parameterName = "param"
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` WHERE \$$parameterName",
+            queryString = "DELETE FROM `someBucket` WHERE \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DeleteWhereClause(parameterValue.asParameter(parameterName), someDeleteClause())
@@ -73,7 +73,7 @@ class WhereClauseTest : ManagerDependentTest {
     @Test
     fun `should support select where`() {
         val expected = DopeQuery(
-            "SELECT * WHERE TRUE",
+            queryString = "SELECT * WHERE TRUE",
         )
         val underTest = SelectWhereClause(someBooleanExpression(), someSelectClause())
 
@@ -86,7 +86,7 @@ class WhereClauseTest : ManagerDependentTest {
     fun `should support select where with positional parameter`() {
         val parameterValue = false
         val expected = DopeQuery(
-            "SELECT * WHERE $1",
+            queryString = "SELECT * WHERE $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectWhereClause(parameterValue.asParameter(), someSelectClause())
@@ -101,7 +101,7 @@ class WhereClauseTest : ManagerDependentTest {
         val parameterValue = false
         val parameterName = "param"
         val expected = DopeQuery(
-            "SELECT * WHERE \$$parameterName",
+            queryString = "SELECT * WHERE \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectWhereClause(parameterValue.asParameter(parameterName), someSelectClause())
@@ -116,7 +116,7 @@ class WhereClauseTest : ManagerDependentTest {
         val parameterValue = "param"
         val parameterValue2 = false
         val expected = DopeQuery(
-            "SELECT $1 WHERE $2",
+            queryString = "SELECT $1 WHERE $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
@@ -133,7 +133,7 @@ class WhereClauseTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "SELECT \$$parameterName WHERE \$$parameterName2",
+            queryString = "SELECT \$$parameterName WHERE \$$parameterName2",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = SelectWhereClause(
@@ -160,7 +160,7 @@ class WhereClauseTest : ManagerDependentTest {
     @Test
     fun `should support update where`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` WHERE TRUE",
+            queryString = "UPDATE `someBucket` WHERE TRUE",
         )
         val underTest = UpdateWhereClause(someBooleanExpression(), someUpdateClause())
 
@@ -173,7 +173,7 @@ class WhereClauseTest : ManagerDependentTest {
     fun `should support update where with positional parameter`() {
         val parameterValue = false
         val expected = DopeQuery(
-            "UPDATE `someBucket` WHERE $1",
+            queryString = "UPDATE `someBucket` WHERE $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = UpdateWhereClause(parameterValue.asParameter(), someUpdateClause())
@@ -188,7 +188,7 @@ class WhereClauseTest : ManagerDependentTest {
         val parameterValue = false
         val parameterName = "param"
         val expected = DopeQuery(
-            "UPDATE `someBucket` WHERE \$$parameterName",
+            queryString = "UPDATE `someBucket` WHERE \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = UpdateWhereClause(parameterValue.asParameter(parameterName), someUpdateClause())

@@ -19,7 +19,7 @@ class AliasedExpressionTest : ManagerDependentTest {
     @Test
     fun `should support aliased expression`() {
         val expected = DopeQuery(
-            "`stringField` AS `test`",
+            queryString = "`stringField` AS `test`",
         )
         val underTest = AliasedExpression(someStringField(), "test")
 
@@ -32,7 +32,7 @@ class AliasedExpressionTest : ManagerDependentTest {
     fun `should support aliased expression with positional parameter`() {
         val parameterValue = "testValue"
         val expected = DopeQuery(
-            "$1 AS `test`",
+            queryString = "$1 AS `test`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AliasedExpression(parameterValue.asParameter(), "test")
@@ -47,7 +47,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         val parameterValue = "testValue"
         val parameterName = "param"
         val expected = DopeQuery(
-            "\$$parameterName AS `test`",
+            queryString = "\$$parameterName AS `test`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = AliasedExpression(parameterValue.asParameter(parameterName), "test")

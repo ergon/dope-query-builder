@@ -16,7 +16,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_MOVE`() {
         val expected = DopeQuery(
-            "ARRAY_MOVE(`numberArrayField`, 1, 2)",
+            queryString = "ARRAY_MOVE(`numberArrayField`, 1, 2)",
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), 2.toDopeType())
 
@@ -29,7 +29,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_MOVE with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_MOVE($1, 1, 2)",
+            queryString = "ARRAY_MOVE($1, 1, 2)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), 1.toDopeType(), 2.toDopeType())
@@ -44,7 +44,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_MOVE(\$$parameterName, 1, 2)",
+            queryString = "ARRAY_MOVE(\$$parameterName, 1, 2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), 2.toDopeType())
@@ -58,7 +58,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_MOVE with positional second parameter`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_MOVE(`numberArrayField`, $1, 2)",
+            queryString = "ARRAY_MOVE(`numberArrayField`, $1, 2)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), parameterValue.asParameter(), 2.toDopeType())
@@ -73,7 +73,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_MOVE(`numberArrayField`, \$$parameterName, 2)",
+            queryString = "ARRAY_MOVE(`numberArrayField`, \$$parameterName, 2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), parameterValue.asParameter(parameterName), 2.toDopeType())
@@ -87,7 +87,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_MOVE with positional third parameter`() {
         val parameterValue = 2
         val expected = DopeQuery(
-            "ARRAY_MOVE(`numberArrayField`, 1, $1)",
+            queryString = "ARRAY_MOVE(`numberArrayField`, 1, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
@@ -102,7 +102,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val parameterValue = 2
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_MOVE(`numberArrayField`, 1, \$$parameterName)",
+            queryString = "ARRAY_MOVE(`numberArrayField`, 1, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter(parameterName))
@@ -117,7 +117,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 1
         val expected = DopeQuery(
-            "ARRAY_MOVE($1, $2, 2)",
+            queryString = "ARRAY_MOVE($1, $2, 2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 2.toDopeType())
@@ -136,7 +136,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         val parameterName2 = "param2"
         val parameterName3 = "param3"
         val expected = DopeQuery(
-            "ARRAY_MOVE(\$$parameterName, \$$parameterName2, \$$parameterName3)",
+            queryString = "ARRAY_MOVE(\$$parameterName, \$$parameterName2, \$$parameterName3)",
             DopeParameters(
                 namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2, parameterName3 to parameterValue3),
             ),

@@ -25,7 +25,7 @@ class SetClauseTest : ManagerDependentTest {
     @Test
     fun `should support set clause`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = \"test\"",
+            queryString = "UPDATE `someBucket` SET `stringField` = \"test\"",
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -40,7 +40,7 @@ class SetClauseTest : ManagerDependentTest {
     @Test
     fun `should support set clause with meta expiration`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET META().`expiration` = 3600",
+            queryString = "UPDATE `someBucket` SET META().`expiration` = 3600",
         )
         val underTest = SetClause(
             meta().expiration.to(3600.toDopeType()),
@@ -55,7 +55,7 @@ class SetClauseTest : ManagerDependentTest {
     @Test
     fun `should support multiple set clauses`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
+            queryString = "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -72,7 +72,7 @@ class SetClauseTest : ManagerDependentTest {
     fun `should support set clause with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = $1",
+            queryString = "UPDATE `someBucket` SET `stringField` = $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SetClause(
@@ -90,7 +90,7 @@ class SetClauseTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = \$$parameterName",
+            queryString = "UPDATE `someBucket` SET `stringField` = \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SetClause(

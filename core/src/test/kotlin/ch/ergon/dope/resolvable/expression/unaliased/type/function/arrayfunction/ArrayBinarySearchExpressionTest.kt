@@ -22,7 +22,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_BINARY_SEARCH`() {
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
+            queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), someNumberField())
 
@@ -35,7 +35,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_BINARY_SEARCH with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH($1, `numberField`)",
+            queryString = "ARRAY_BINARY_SEARCH($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(), someNumberField())
@@ -50,7 +50,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH(\$$parameterName, `numberField`)",
+            queryString = "ARRAY_BINARY_SEARCH(\$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -64,7 +64,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_BINARY_SEARCH with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
+            queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -79,7 +79,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -94,7 +94,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH($1, $2)",
+            queryString = "ARRAY_BINARY_SEARCH($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
@@ -111,7 +111,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_BINARY_SEARCH(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(

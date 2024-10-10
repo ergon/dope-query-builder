@@ -17,7 +17,7 @@ class IsNumberExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is number expression with no parameters`() {
         val expected = DopeQuery(
-            "ISNUMBER(`numberField`)",
+            queryString = "ISNUMBER(`numberField`)",
         )
         val underTest = IsNumberExpression(someNumberField())
 
@@ -30,7 +30,7 @@ class IsNumberExpressionTest : ManagerDependentTest {
     fun `should support is number expression with positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "ISNUMBER($1)",
+            queryString = "ISNUMBER($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsNumberExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class IsNumberExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val parameterName = "param"
         val expected = DopeQuery(
-            "ISNUMBER(\$$parameterName)",
+            queryString = "ISNUMBER(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsNumberExpression(parameterValue.asParameter(parameterName))

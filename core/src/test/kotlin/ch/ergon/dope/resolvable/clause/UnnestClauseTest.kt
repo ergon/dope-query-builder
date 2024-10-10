@@ -21,7 +21,7 @@ class UnnestClauseTest : ManagerDependentTest {
     @Test
     fun `should support unnest`() {
         val expected = DopeQuery(
-            "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
+            queryString = "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
         )
         val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
@@ -33,7 +33,7 @@ class UnnestClauseTest : ManagerDependentTest {
     @Test
     fun `should support aliased unnest`() {
         val expected = DopeQuery(
-            "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
+            queryString = "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
         )
         val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
@@ -46,7 +46,7 @@ class UnnestClauseTest : ManagerDependentTest {
     fun `should support aliased unnest with positional parameter`() {
         val parameterValue = listOf("value")
         val expected = DopeQuery(
-            "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
+            queryString = "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
@@ -61,7 +61,7 @@ class UnnestClauseTest : ManagerDependentTest {
         val parameterValue = listOf("value")
         val parameterName = "param"
         val expected = DopeQuery(
-            "SELECT * FROM `someBucket` UNNEST \$$parameterName AS `value`",
+            queryString = "SELECT * FROM `someBucket` UNNEST \$$parameterName AS `value`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter(parameterName).alias("value"), someFromClause())
@@ -76,7 +76,7 @@ class UnnestClauseTest : ManagerDependentTest {
         val parameterValue = "param"
         val parameterValue2 = listOf("param")
         val expected = DopeQuery(
-            "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
+            queryString = "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = AliasedUnnestClause(
@@ -96,7 +96,7 @@ class UnnestClauseTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "SELECT \$$parameterName FROM `someBucket` UNNEST \$$parameterName2 AS `value`",
+            queryString = "SELECT \$$parameterName FROM `someBucket` UNNEST \$$parameterName2 AS `value`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = AliasedUnnestClause(

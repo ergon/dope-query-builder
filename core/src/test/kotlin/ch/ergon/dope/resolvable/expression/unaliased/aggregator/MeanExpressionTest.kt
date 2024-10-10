@@ -15,7 +15,7 @@ class MeanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mean`() {
         val expected = DopeQuery(
-            "MEAN(`numberField`)",
+            queryString = "MEAN(`numberField`)",
         )
         val underTest = MeanExpression(someNumberField(), null)
 
@@ -27,7 +27,7 @@ class MeanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mean with quantifier ALL`() {
         val expected = DopeQuery(
-            "MEAN(ALL `numberField`)",
+            queryString = "MEAN(ALL `numberField`)",
         )
         val underTest = MeanExpression(someNumberField(), ALL)
 
@@ -39,7 +39,7 @@ class MeanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mean with quantifier DISTINCT`() {
         val expected = DopeQuery(
-            "MEAN(DISTINCT `numberField`)",
+            queryString = "MEAN(DISTINCT `numberField`)",
         )
         val underTest = MeanExpression(someNumberField(), DISTINCT)
 

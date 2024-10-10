@@ -23,7 +23,7 @@ class NotInExpressionTest : ManagerDependentTest {
     @Test
     fun `should support NOT IN expression`() {
         val expected = DopeQuery(
-            "`numberField` NOT IN `numberArrayField`",
+            queryString = "`numberField` NOT IN `numberArrayField`",
         )
         val underTest = NotInExpression(someNumberField(), someNumberArrayField())
 
@@ -37,7 +37,7 @@ class NotInExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "\$$parameterName NOT IN `numberArrayField`",
+            queryString = "\$$parameterName NOT IN `numberArrayField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NotInExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -51,7 +51,7 @@ class NotInExpressionTest : ManagerDependentTest {
     fun `should support NOT IN expression with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "$1 NOT IN `numberArrayField`",
+            queryString = "$1 NOT IN `numberArrayField`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NotInExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -66,7 +66,7 @@ class NotInExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "`numberField` NOT IN \$$parameterName",
+            queryString = "`numberField` NOT IN \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NotInExpression(someNumberField(), parameterValue.asParameter(parameterName))
@@ -80,7 +80,7 @@ class NotInExpressionTest : ManagerDependentTest {
     fun `should support NOT IN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "`numberField` NOT IN $1",
+            queryString = "`numberField` NOT IN $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NotInExpression(someNumberField(), parameterValue.asParameter())
@@ -97,7 +97,7 @@ class NotInExpressionTest : ManagerDependentTest {
         val parameterNameA = "paramA"
         val parameterNameB = "paramB"
         val expected = DopeQuery(
-            "\$$parameterNameA NOT IN \$$parameterNameB",
+            queryString = "\$$parameterNameA NOT IN \$$parameterNameB",
             DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
         )
         val underTest = NotInExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
@@ -112,7 +112,7 @@ class NotInExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "$1 NOT IN $2",
+            queryString = "$1 NOT IN $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
         )
         val underTest = NotInExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())

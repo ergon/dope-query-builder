@@ -17,7 +17,7 @@ class ArrayAccessTest : ManagerDependentTest {
     @Test
     fun `should support array access`() {
         val expected = DopeQuery(
-            "`stringArrayField`[`numberField`]",
+            queryString = "`stringArrayField`[`numberField`]",
         )
         val underTest = ArrayAccess(someStringArrayField(), someNumberField())
 
@@ -30,7 +30,7 @@ class ArrayAccessTest : ManagerDependentTest {
     fun `should support array access with positional parameter`() {
         val parameterValue = listOf("value")
         val expected = DopeQuery(
-            "$1[`numberField`]",
+            queryString = "$1[`numberField`]",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayAccess(parameterValue.asParameter(), someNumberField())
@@ -45,7 +45,7 @@ class ArrayAccessTest : ManagerDependentTest {
         val parameterValue = listOf("value")
         val parameterName = "param"
         val expected = DopeQuery(
-            "\$$parameterName[`numberField`]",
+            queryString = "\$$parameterName[`numberField`]",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayAccess(parameterValue.asParameter(parameterName), someNumberField())
@@ -60,7 +60,7 @@ class ArrayAccessTest : ManagerDependentTest {
         val parameterValue = listOf("value")
         val parameterValue2 = 4
         val expected = DopeQuery(
-            "$1[$2]",
+            queryString = "$1[$2]",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ArrayAccess(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -77,7 +77,7 @@ class ArrayAccessTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "\$$parameterName[\$$parameterName2]",
+            queryString = "\$$parameterName[\$$parameterName2]",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = ArrayAccess(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
@@ -91,7 +91,7 @@ class ArrayAccessTest : ManagerDependentTest {
     fun `should support array access with positional second parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "`stringArrayField`[$1]",
+            queryString = "`stringArrayField`[$1]",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter())
@@ -106,7 +106,7 @@ class ArrayAccessTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterName = "param"
         val expected = DopeQuery(
-            "`stringArrayField`[\$$parameterName]",
+            queryString = "`stringArrayField`[\$$parameterName]",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter(parameterName))
@@ -122,7 +122,7 @@ class ArrayAccessTest : ManagerDependentTest {
         val parameterValue2 = 4
         val parameterName = "param1"
         val expected = DopeQuery(
-            "\$$parameterName[$1]",
+            queryString = "\$$parameterName[$1]",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = ArrayAccess(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

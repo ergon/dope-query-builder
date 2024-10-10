@@ -15,7 +15,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_EXCEPT`() {
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
+            queryString = "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_EXCEPT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_EXCEPT($1, `numberArrayField`)",
+            queryString = "ARRAY_EXCEPT($1, `numberArrayField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -43,7 +43,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(\$$parameterName, `numberArrayField`)",
+            queryString = "ARRAY_EXCEPT(\$$parameterName, `numberArrayField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -57,7 +57,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_EXCEPT with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(`numberArrayField`, $1)",
+            queryString = "ARRAY_EXCEPT(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -72,7 +72,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_EXCEPT(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -87,7 +87,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_EXCEPT($1, $2)",
+            queryString = "ARRAY_EXCEPT($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayExceptExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
@@ -104,7 +104,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_EXCEPT(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayExceptExpression(

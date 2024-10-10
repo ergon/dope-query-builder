@@ -15,7 +15,7 @@ class StandardDeviationExpressionTest : ManagerDependentTest {
     @Test
     fun `should support standard deviation`() {
         val expected = DopeQuery(
-            "STDDEV(`numberField`)",
+            queryString = "STDDEV(`numberField`)",
         )
         val underTest = StandardDeviationExpression(someNumberField(), null)
 
@@ -27,7 +27,7 @@ class StandardDeviationExpressionTest : ManagerDependentTest {
     @Test
     fun `should support standard deviation with quantifier ALL`() {
         val expected = DopeQuery(
-            "STDDEV(ALL `numberField`)",
+            queryString = "STDDEV(ALL `numberField`)",
         )
         val underTest = StandardDeviationExpression(someNumberField(), ALL)
 
@@ -39,7 +39,7 @@ class StandardDeviationExpressionTest : ManagerDependentTest {
     @Test
     fun `should support standard deviation with quantifier DISTINCT`() {
         val expected = DopeQuery(
-            "STDDEV(DISTINCT `numberField`)",
+            queryString = "STDDEV(DISTINCT `numberField`)",
         )
         val underTest = StandardDeviationExpression(someNumberField(), DISTINCT)
 

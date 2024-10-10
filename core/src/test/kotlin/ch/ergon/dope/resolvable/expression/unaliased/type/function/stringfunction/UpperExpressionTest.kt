@@ -17,7 +17,7 @@ class UpperExpressionTest : ManagerDependentTest {
     @Test
     fun `should support upper`() {
         val expected = DopeQuery(
-            "UPPER(`stringField`)",
+            queryString = "UPPER(`stringField`)",
         )
         val underTest = UpperExpression(someStringField())
 
@@ -30,7 +30,7 @@ class UpperExpressionTest : ManagerDependentTest {
     fun `should support upper with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "UPPER($1)",
+            queryString = "UPPER($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = UpperExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class UpperExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "UPPER(\$$parameterName)",
+            queryString = "UPPER(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = UpperExpression(parameterValue.asParameter(parameterName))

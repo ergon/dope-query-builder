@@ -17,7 +17,7 @@ class LowerExpressionTest : ManagerDependentTest {
     @Test
     fun `should support lower with no parameters`() {
         val expected = DopeQuery(
-            "LOWER(`stringField`)",
+            queryString = "LOWER(`stringField`)",
         )
         val underTest = LowerExpression(someStringField())
 
@@ -30,7 +30,7 @@ class LowerExpressionTest : ManagerDependentTest {
     fun `should support lower with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "LOWER($1)",
+            queryString = "LOWER($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LowerExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class LowerExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "LOWER(\$$parameterName)",
+            queryString = "LOWER(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LowerExpression(parameterValue.asParameter(parameterName))

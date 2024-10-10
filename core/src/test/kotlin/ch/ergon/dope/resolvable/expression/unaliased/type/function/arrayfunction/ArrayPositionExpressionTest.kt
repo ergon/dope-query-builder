@@ -16,7 +16,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_POSITION`() {
         val expected = DopeQuery(
-            "ARRAY_POSITION(`numberArrayField`, `numberField`)",
+            queryString = "ARRAY_POSITION(`numberArrayField`, `numberField`)",
         )
         val underTest = ArrayPositionExpression(someNumberArrayField(), someNumberField())
 
@@ -30,7 +30,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_POSITION(\$$parameterName, `numberField`)",
+            queryString = "ARRAY_POSITION(\$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayPositionExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -44,7 +44,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_POSITION with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_POSITION($1, `numberField`)",
+            queryString = "ARRAY_POSITION($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayPositionExpression(parameterValue.asParameter(), someNumberField())
@@ -59,7 +59,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_POSITION(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_POSITION(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayPositionExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -73,7 +73,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_POSITION with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_POSITION(`numberArrayField`, $1)",
+            queryString = "ARRAY_POSITION(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayPositionExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -90,7 +90,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_POSITION(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_POSITION(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayPositionExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
@@ -105,7 +105,7 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_POSITION($1, $2)",
+            queryString = "ARRAY_POSITION($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayPositionExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())

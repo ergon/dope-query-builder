@@ -17,7 +17,7 @@ class TrimExpressionTest : ManagerDependentTest {
     @Test
     fun `should support trim`() {
         val expected = DopeQuery(
-            "TRIM(`stringField`)",
+            queryString = "TRIM(`stringField`)",
         )
         val underTest = TrimExpression(someStringField())
 
@@ -30,7 +30,7 @@ class TrimExpressionTest : ManagerDependentTest {
     fun `should support trim with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "TRIM($1)",
+            queryString = "TRIM($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = TrimExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class TrimExpressionTest : ManagerDependentTest {
     @Test
     fun `should support trim with extra positional parameters`() {
         val expected = DopeQuery(
-            "TRIM(`stringField`, `stringField`)",
+            queryString = "TRIM(`stringField`, `stringField`)",
         )
         val underTest = TrimExpression(someStringField(), someStringField())
 
@@ -56,7 +56,7 @@ class TrimExpressionTest : ManagerDependentTest {
     fun `should support trim with extra positional parameter and named parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "TRIM($1, `stringField`)",
+            queryString = "TRIM($1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = TrimExpression(parameterValue.asParameter(), someStringField())
@@ -71,7 +71,7 @@ class TrimExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test2"
         val expected = DopeQuery(
-            "TRIM($1, $2)",
+            queryString = "TRIM($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = TrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -86,7 +86,7 @@ class TrimExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "TRIM(\$$parameterName, `stringField`)",
+            queryString = "TRIM(\$$parameterName, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = TrimExpression(parameterValue.asParameter(parameterName), someStringField())

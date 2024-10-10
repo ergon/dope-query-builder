@@ -19,7 +19,7 @@ class MBLpadExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mbLpad`() {
         val expected = DopeQuery(
-            "MB_LPAD(`stringField`, `numberField`)",
+            queryString = "MB_LPAD(`stringField`, `numberField`)",
 
         )
         val underTest = MBLpadExpression(someStringField(), someNumberField())
@@ -33,7 +33,7 @@ class MBLpadExpressionTest : ManagerDependentTest {
     fun `should support mbLpad with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "MB_LPAD($1, `numberField`)",
+            queryString = "MB_LPAD($1, `numberField`)",
 
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
@@ -49,7 +49,7 @@ class MBLpadExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "MB_LPAD($1, $2)",
+            queryString = "MB_LPAD($1, $2)",
 
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
@@ -63,7 +63,7 @@ class MBLpadExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mbLpad with extra `() {
         val expected = DopeQuery(
-            "MB_LPAD(`stringField`, `numberField`, `stringField`)",
+            queryString = "MB_LPAD(`stringField`, `numberField`, `stringField`)",
 
         )
         val underTest = MBLpadExpression(someStringField(), someNumberField(), someStringField())
@@ -77,7 +77,7 @@ class MBLpadExpressionTest : ManagerDependentTest {
     fun `should support mbLpad with extra and with parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "MB_LPAD($1, `numberField`, `stringField`)",
+            queryString = "MB_LPAD($1, `numberField`, `stringField`)",
 
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
@@ -94,7 +94,7 @@ class MBLpadExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val parameterValue3 = "extra"
         val expected = DopeQuery(
-            "MB_LPAD($1, $2, $3)",
+            queryString = "MB_LPAD($1, $2, $3)",
 
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
         )

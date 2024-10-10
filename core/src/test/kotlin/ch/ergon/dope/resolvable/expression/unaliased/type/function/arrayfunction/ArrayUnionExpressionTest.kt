@@ -15,7 +15,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_UNION`() {
         val expected = DopeQuery(
-            "ARRAY_UNION(`numberArrayField`, `numberArrayField`)",
+            queryString = "ARRAY_UNION(`numberArrayField`, `numberArrayField`)",
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_UNION with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_UNION($1, `numberArrayField`)",
+            queryString = "ARRAY_UNION($1, `numberArrayField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayUnionExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -42,7 +42,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_UNION with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_UNION(`numberArrayField`, $1)",
+            queryString = "ARRAY_UNION(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -57,7 +57,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_UNION($1, $2)",
+            queryString = "ARRAY_UNION($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
@@ -72,7 +72,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_UNION(\$$parameterName, `numberArrayField`)",
+            queryString = "ARRAY_UNION(\$$parameterName, `numberArrayField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayUnionExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -87,7 +87,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_UNION(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_UNION(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -104,7 +104,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_UNION(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_UNION(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
@@ -120,7 +120,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_UNION(\$$parameterName, $1)",
+            queryString = "ARRAY_UNION(\$$parameterName, $1)",
 
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection), positionalParameters = listOf(parameterValue)),
         )

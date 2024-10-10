@@ -17,7 +17,7 @@ class NowStringExpressionTest : ManagerDependentTest {
     @Test
     fun `should support now str`() {
         val expected = DopeQuery(
-            "NOW_STR()",
+            queryString = "NOW_STR()",
 
         )
         val underTest = NowStringExpression()
@@ -30,7 +30,7 @@ class NowStringExpressionTest : ManagerDependentTest {
     @Test
     fun `should support now str with no parameters`() {
         val expected = DopeQuery(
-            "NOW_STR(`stringField`)",
+            queryString = "NOW_STR(`stringField`)",
 
         )
         val underTest = NowStringExpression(someStringField())
@@ -44,7 +44,7 @@ class NowStringExpressionTest : ManagerDependentTest {
     fun `should support now str with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "NOW_STR($1)",
+            queryString = "NOW_STR($1)",
 
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
@@ -60,7 +60,7 @@ class NowStringExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "NOW_STR(\$$parameterName)",
+            queryString = "NOW_STR(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
 
         )

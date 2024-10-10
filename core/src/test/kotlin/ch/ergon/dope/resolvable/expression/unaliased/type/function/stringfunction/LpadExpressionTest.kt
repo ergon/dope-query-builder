@@ -19,7 +19,7 @@ class LpadExpressionTest : ManagerDependentTest {
     @Test
     fun `should support lpad`() {
         val expected = DopeQuery(
-            "LPAD(`stringField`, `numberField`)",
+            queryString = "LPAD(`stringField`, `numberField`)",
         )
         val underTest = LpadExpression(someStringField(), someNumberField())
 
@@ -32,7 +32,7 @@ class LpadExpressionTest : ManagerDependentTest {
     fun `should support lpad with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "LPAD($1, `numberField`)",
+            queryString = "LPAD($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), someNumberField())
@@ -47,7 +47,7 @@ class LpadExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "LPAD($1, $2)",
+            queryString = "LPAD($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -60,7 +60,7 @@ class LpadExpressionTest : ManagerDependentTest {
     @Test
     fun `should support lpad with extra parameters`() {
         val expected = DopeQuery(
-            "LPAD(`stringField`, `numberField`, `stringField`)",
+            queryString = "LPAD(`stringField`, `numberField`, `stringField`)",
         )
         val underTest = LpadExpression(someStringField(), someNumberField(), someStringField())
 
@@ -73,7 +73,7 @@ class LpadExpressionTest : ManagerDependentTest {
     fun `should support lpad with extra and positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "LPAD($1, `numberField`, `stringField`)",
+            queryString = "LPAD($1, `numberField`, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
@@ -89,7 +89,7 @@ class LpadExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val parameterValue3 = "extra"
         val expected = DopeQuery(
-            "LPAD($1, $2, $3)",
+            queryString = "LPAD($1, $2, $3)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())

@@ -23,7 +23,7 @@ class LimitClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete limit`() {
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` LIMIT `numberField`",
+            queryString = "DELETE FROM `someBucket` LIMIT `numberField`",
         )
         val underTest = DeleteLimitClause(someNumberField(), someDeleteClause())
 
@@ -37,7 +37,7 @@ class LimitClauseTest : ManagerDependentTest {
         val parameterValue = 2
         val parameterName = "param"
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` LIMIT \$$parameterName",
+            queryString = "DELETE FROM `someBucket` LIMIT \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DeleteLimitClause(parameterValue.asParameter(parameterName), someDeleteClause())
@@ -51,7 +51,7 @@ class LimitClauseTest : ManagerDependentTest {
     fun `should support delete limit with positional parameter`() {
         val parameterValue = 2
         val expected = DopeQuery(
-            "DELETE FROM `someBucket` LIMIT $1",
+            queryString = "DELETE FROM `someBucket` LIMIT $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DeleteLimitClause(parameterValue.asParameter(), someDeleteClause())
@@ -76,7 +76,7 @@ class LimitClauseTest : ManagerDependentTest {
     fun `should support select limit with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "SELECT * LIMIT $1",
+            queryString = "SELECT * LIMIT $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectLimitClause(parameterValue.asParameter(), someSelectClause())
@@ -93,7 +93,7 @@ class LimitClauseTest : ManagerDependentTest {
         val parameterValue = "param"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "SELECT \$$parameterName LIMIT \$$parameterName2",
+            queryString = "SELECT \$$parameterName LIMIT \$$parameterName2",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = SelectLimitClause(
@@ -111,7 +111,7 @@ class LimitClauseTest : ManagerDependentTest {
         val parameterValue = "param"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "SELECT $1 LIMIT $2",
+            queryString = "SELECT $1 LIMIT $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SelectLimitClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
@@ -135,7 +135,7 @@ class LimitClauseTest : ManagerDependentTest {
     @Test
     fun `should support update limit`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` LIMIT `numberField`",
+            queryString = "UPDATE `someBucket` LIMIT `numberField`",
         )
         val underTest = UpdateLimitClause(someNumberField(), someUpdateClause())
 
@@ -149,7 +149,7 @@ class LimitClauseTest : ManagerDependentTest {
         val parameterValue = 5
         val parameterName = "param"
         val expected = DopeQuery(
-            "UPDATE `someBucket` LIMIT \$$parameterName",
+            queryString = "UPDATE `someBucket` LIMIT \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = UpdateLimitClause(parameterValue.asParameter(parameterName), someUpdateClause())
@@ -163,7 +163,7 @@ class LimitClauseTest : ManagerDependentTest {
     fun `should support update limit with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "UPDATE `someBucket` LIMIT $1",
+            queryString = "UPDATE `someBucket` LIMIT $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = UpdateLimitClause(parameterValue.asParameter(), someUpdateClause())

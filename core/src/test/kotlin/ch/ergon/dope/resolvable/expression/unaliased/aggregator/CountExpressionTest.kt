@@ -16,7 +16,7 @@ class CountExpressionTest : ManagerDependentTest {
     @Test
     fun `should support count`() {
         val expected = DopeQuery(
-            "COUNT(`numberField`)",
+            queryString = "COUNT(`numberField`)",
         )
         val underTest = CountExpression(someNumberField(), null)
 
@@ -28,7 +28,7 @@ class CountExpressionTest : ManagerDependentTest {
     @Test
     fun `should support count with quantifier ALL`() {
         val expected = DopeQuery(
-            "COUNT(ALL `numberField`)",
+            queryString = "COUNT(ALL `numberField`)",
         )
         val countExpression = CountExpression(someNumberField(), ALL)
 
@@ -40,7 +40,7 @@ class CountExpressionTest : ManagerDependentTest {
     @Test
     fun `should support count with quantifier DISTINCT`() {
         val expected = DopeQuery(
-            "COUNT(DISTINCT `numberField`)",
+            queryString = "COUNT(DISTINCT `numberField`)",
         )
         val countExpression = CountExpression(someNumberField(), DISTINCT)
 

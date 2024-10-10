@@ -15,7 +15,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_CONCAT`() {
         val expected = DopeQuery(
-            "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
+            queryString = "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_CONCAT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_CONCAT($1, `numberArrayField`)",
+            queryString = "ARRAY_CONCAT($1, `numberArrayField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -43,7 +43,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_CONCAT(\$$parameterName, `numberArrayField`)",
+            queryString = "ARRAY_CONCAT(\$$parameterName, `numberArrayField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -57,7 +57,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_CONCAT with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_CONCAT(`numberArrayField`, $1)",
+            queryString = "ARRAY_CONCAT(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -72,7 +72,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_CONCAT(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_CONCAT(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -87,7 +87,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_CONCAT($1, $2)",
+            queryString = "ARRAY_CONCAT($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayConcatExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
@@ -104,7 +104,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_CONCAT(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_CONCAT(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayConcatExpression(

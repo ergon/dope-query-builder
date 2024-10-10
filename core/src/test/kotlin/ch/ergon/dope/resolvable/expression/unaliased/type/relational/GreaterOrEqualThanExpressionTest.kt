@@ -19,7 +19,7 @@ class GreaterOrEqualThanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support greater or equals`() {
         val expected = DopeQuery(
-            "`numberField` >= `numberField`",
+            queryString = "`numberField` >= `numberField`",
         )
         val underTest = GreaterOrEqualThanExpression(someNumberField(), someNumberField())
 
@@ -32,7 +32,7 @@ class GreaterOrEqualThanExpressionTest : ManagerDependentTest {
     fun `should support greater or equals with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "$1 >= `numberField`",
+            queryString = "$1 >= `numberField`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), someNumberField())
@@ -47,7 +47,7 @@ class GreaterOrEqualThanExpressionTest : ManagerDependentTest {
         val parameterValue = 5
         val parameterValue2 = 6
         val expected = DopeQuery(
-            "$1 >= $2",
+            queryString = "$1 >= $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -61,7 +61,7 @@ class GreaterOrEqualThanExpressionTest : ManagerDependentTest {
     fun `should support greater or equals with second positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "`numberField` >= $1",
+            queryString = "`numberField` >= $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = GreaterOrEqualThanExpression(someNumberField(), parameterValue.asParameter())
@@ -76,7 +76,7 @@ class GreaterOrEqualThanExpressionTest : ManagerDependentTest {
         val parameterValue = 5
         val parameterName = "param"
         val expected = DopeQuery(
-            "$$parameterName >= `numberField`",
+            queryString = "$$parameterName >= `numberField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -93,7 +93,7 @@ class GreaterOrEqualThanExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "$$parameterName >= $$parameterName2",
+            queryString = "$$parameterName >= $$parameterName2",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))

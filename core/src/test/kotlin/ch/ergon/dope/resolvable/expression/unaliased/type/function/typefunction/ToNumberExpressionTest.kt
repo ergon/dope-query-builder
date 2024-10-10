@@ -18,7 +18,7 @@ class ToNumberExpressionTest : ManagerDependentTest {
     @Test
     fun `should support to number expression with no parameters`() {
         val expected = DopeQuery(
-            "TONUMBER(`stringField`)",
+            queryString = "TONUMBER(`stringField`)",
         )
         val underTest = ToNumberExpression(someStringField())
 
@@ -31,7 +31,7 @@ class ToNumberExpressionTest : ManagerDependentTest {
     fun `should support to number expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "TONUMBER($1)",
+            queryString = "TONUMBER($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToNumberExpression(parameterValue.asParameter())
@@ -46,7 +46,7 @@ class ToNumberExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "TONUMBER(\$$parameterName)",
+            queryString = "TONUMBER(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ToNumberExpression(parameterValue.asParameter(parameterName))

@@ -17,7 +17,7 @@ class DivisionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support division`() {
         val expected = DopeQuery(
-            "(`numberField` / `numberField`)",
+            queryString = "(`numberField` / `numberField`)",
         )
         val underTest = DivisionExpression(someNumberField(), someNumberField())
 
@@ -30,7 +30,7 @@ class DivisionExpressionTest : ManagerDependentTest {
     fun `should support division with parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "($1 / `numberField`)",
+            queryString = "($1 / `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DivisionExpression(parameterValue.asParameter(), someNumberField())
@@ -45,7 +45,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "($1 / $2)",
+            queryString = "($1 / $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = DivisionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -59,7 +59,7 @@ class DivisionExpressionTest : ManagerDependentTest {
     fun `should support division with second parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "(`numberField` / $1)",
+            queryString = "(`numberField` / $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DivisionExpression(someNumberField(), parameterValue.asParameter())
@@ -74,7 +74,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterName = "param"
         val expected = DopeQuery(
-            "(`numberField` / \$$parameterName)",
+            queryString = "(`numberField` / \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DivisionExpression(someNumberField(), parameterValue.asParameter(parameterName))
@@ -90,7 +90,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val parameterName = "param1"
         val expected = DopeQuery(
-            "(\$$parameterName / $1)",
+            queryString = "(\$$parameterName / $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = DivisionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

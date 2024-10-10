@@ -17,7 +17,7 @@ class MBPosition1ExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mbPosition1`() {
         val expected = DopeQuery(
-            "MB_POSITION1(`stringField`, `stringField`)",
+            queryString = "MB_POSITION1(`stringField`, `stringField`)",
 
         )
         val underTest = MBPosition1Expression(someStringField(), someStringField())
@@ -31,7 +31,7 @@ class MBPosition1ExpressionTest : ManagerDependentTest {
     fun `should support mbPosition1 with parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "MB_POSITION1($1, `stringField`)",
+            queryString = "MB_POSITION1($1, `stringField`)",
 
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
@@ -47,7 +47,7 @@ class MBPosition1ExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "MB_POSITION1($1, $2)",
+            queryString = "MB_POSITION1($1, $2)",
 
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )

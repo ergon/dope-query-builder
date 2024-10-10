@@ -17,7 +17,7 @@ class NegationExpressionTest : ManagerDependentTest {
     @Test
     fun `should support negation`() {
         val expected = DopeQuery(
-            "-`numberField`",
+            queryString = "-`numberField`",
         )
         val underTest = NegationExpression(someNumberField())
 
@@ -30,7 +30,7 @@ class NegationExpressionTest : ManagerDependentTest {
     fun `should support negation with positional parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "-$1",
+            queryString = "-$1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NegationExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class NegationExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterName = "param"
         val expected = DopeQuery(
-            "-\$$parameterName",
+            queryString = "-\$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NegationExpression(parameterValue.asParameter(parameterName))

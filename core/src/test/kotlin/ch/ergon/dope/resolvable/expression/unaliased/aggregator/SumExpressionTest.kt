@@ -15,7 +15,7 @@ class SumExpressionTest : ManagerDependentTest {
     @Test
     fun `should support sum`() {
         val expected = DopeQuery(
-            "SUM(`numberField`)",
+            queryString = "SUM(`numberField`)",
         )
         val underTest = SumExpression(someNumberField(), null)
 
@@ -27,7 +27,7 @@ class SumExpressionTest : ManagerDependentTest {
     @Test
     fun `should support sum with quantifier ALL`() {
         val expected = DopeQuery(
-            "SUM(ALL `numberField`)",
+            queryString = "SUM(ALL `numberField`)",
         )
         val underTest = SumExpression(someNumberField(), ALL)
 
@@ -39,7 +39,7 @@ class SumExpressionTest : ManagerDependentTest {
     @Test
     fun `should support sum with quantifier DISTINCT`() {
         val expected = DopeQuery(
-            "SUM(DISTINCT `numberField`)",
+            queryString = "SUM(DISTINCT `numberField`)",
         )
         val underTest = SumExpression(someNumberField(), DISTINCT)
 

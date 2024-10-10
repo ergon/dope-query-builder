@@ -15,7 +15,7 @@ class ArraySumExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_SUM`() {
         val expected = DopeQuery(
-            "ARRAY_SUM(`numberArrayField`)",
+            queryString = "ARRAY_SUM(`numberArrayField`)",
         )
         val underTest = ArraySumExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArraySumExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_SUM with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SUM($1)",
+            queryString = "ARRAY_SUM($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySumExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArraySumExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_SUM(\$$parameterName)",
+            queryString = "ARRAY_SUM(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArraySumExpression(parameterValue.asParameter(parameterName))

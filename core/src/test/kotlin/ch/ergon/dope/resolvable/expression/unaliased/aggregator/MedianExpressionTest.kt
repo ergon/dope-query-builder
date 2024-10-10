@@ -15,7 +15,7 @@ class MedianExpressionTest : ManagerDependentTest {
     @Test
     fun `should support median`() {
         val expected = DopeQuery(
-            "MEDIAN(`numberField`)",
+            queryString = "MEDIAN(`numberField`)",
         )
         val underTest = MedianExpression(someNumberField(), null)
 
@@ -27,7 +27,7 @@ class MedianExpressionTest : ManagerDependentTest {
     @Test
     fun `should support median with quantifier ALL`() {
         val expected = DopeQuery(
-            "MEDIAN(ALL `numberField`)",
+            queryString = "MEDIAN(ALL `numberField`)",
         )
         val underTest = MedianExpression(someNumberField(), ALL)
 
@@ -39,7 +39,7 @@ class MedianExpressionTest : ManagerDependentTest {
     @Test
     fun `should support median with quantifier DISTINCT`() {
         val expected = DopeQuery(
-            "MEDIAN(DISTINCT `numberField`)",
+            queryString = "MEDIAN(DISTINCT `numberField`)",
         )
         val underTest = MedianExpression(someNumberField(), DISTINCT)
 

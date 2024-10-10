@@ -20,7 +20,7 @@ class UseTest : ManagerDependentTest {
     @Test
     fun `should support empty use index`() {
         val expected = DopeQuery(
-            "`someBucket` USE INDEX ()",
+            queryString = "`someBucket` USE INDEX ()",
         )
         val underTest = UseIndex(someBucket())
 
@@ -32,7 +32,7 @@ class UseTest : ManagerDependentTest {
     @Test
     fun `should support single use index with string name`() {
         val expected = DopeQuery(
-            "`someBucket` USE INDEX (`index`)",
+            queryString = "`someBucket` USE INDEX (`index`)",
         )
         val underTest = UseIndex(
             someBucket(),
@@ -47,7 +47,7 @@ class UseTest : ManagerDependentTest {
     @Test
     fun `should support multiple use index with name and type mixed`() {
         val expected = DopeQuery(
-            "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
+            queryString = "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
         )
         val underTest = UseIndex(
             someBucket(),
@@ -64,7 +64,7 @@ class UseTest : ManagerDependentTest {
     @Test
     fun `should support single use index with parameter`() {
         val expected = DopeQuery(
-            "`someBucket` USE INDEX (`index`)",
+            queryString = "`someBucket` USE INDEX (`index`)",
         )
         val underTest = UseIndex(
             someBucket(),
@@ -152,7 +152,7 @@ class UseTest : ManagerDependentTest {
     @Test
     fun `should support select single use keys`() {
         val expected = DopeQuery(
-            "`someBucket` USE KEYS \"someString\"",
+            queryString = "`someBucket` USE KEYS \"someString\"",
         )
         val underTest = UseKeys(
             "someString".toDopeType(),
@@ -167,7 +167,7 @@ class UseTest : ManagerDependentTest {
     @Test
     fun `should support select array use keys`() {
         val expected = DopeQuery(
-            "`someBucket` USE KEYS [\"someString\", \"anotherString\"]",
+            queryString = "`someBucket` USE KEYS [\"someString\", \"anotherString\"]",
         )
         val underTest = UseKeys(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
@@ -183,7 +183,7 @@ class UseTest : ManagerDependentTest {
     fun `should support use keys with parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "`someBucket` USE KEYS $1",
+            queryString = "`someBucket` USE KEYS $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = UseKeys(

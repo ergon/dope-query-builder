@@ -22,7 +22,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_PUT`() {
         val expected = DopeQuery(
-            "ARRAY_PUT(`numberArrayField`, `numberField`)",
+            queryString = "ARRAY_PUT(`numberArrayField`, `numberField`)",
         )
         val underTest = ArrayPutExpression(someNumberArrayField(), someNumberField())
 
@@ -36,7 +36,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_PUT(\$$parameterName, `numberField`)",
+            queryString = "ARRAY_PUT(\$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -50,7 +50,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_PUT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_PUT($1, `numberField`)",
+            queryString = "ARRAY_PUT($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValue.asParameter(), someNumberField())
@@ -65,7 +65,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_PUT(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_PUT(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -79,7 +79,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_PUT with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_PUT(`numberArrayField`, $1)",
+            queryString = "ARRAY_PUT(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -96,7 +96,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_PUT(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_PUT(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
@@ -111,7 +111,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_PUT($1, $2)",
+            queryString = "ARRAY_PUT($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())

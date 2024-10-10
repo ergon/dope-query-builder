@@ -18,7 +18,7 @@ class ToBooleanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support to boolean expression with no parameters`() {
         val expected = DopeQuery(
-            "TOBOOLEAN(`stringField`)",
+            queryString = "TOBOOLEAN(`stringField`)",
         )
         val underTest = ToBooleanExpression(someStringField())
 
@@ -31,7 +31,7 @@ class ToBooleanExpressionTest : ManagerDependentTest {
     fun `should support to boolean expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "TOBOOLEAN($1)",
+            queryString = "TOBOOLEAN($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToBooleanExpression(parameterValue.asParameter())
@@ -46,7 +46,7 @@ class ToBooleanExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "TOBOOLEAN(\$$parameterName)",
+            queryString = "TOBOOLEAN(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ToBooleanExpression(parameterValue.asParameter(parameterName))

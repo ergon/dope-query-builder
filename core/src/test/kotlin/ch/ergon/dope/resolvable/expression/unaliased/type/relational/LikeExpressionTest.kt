@@ -17,7 +17,7 @@ class LikeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support like with no parameters`() {
         val expected = DopeQuery(
-            "`stringField` LIKE `stringField`",
+            queryString = "`stringField` LIKE `stringField`",
         )
         val underTest = LikeExpression(someStringField(), someStringField())
 
@@ -30,7 +30,7 @@ class LikeExpressionTest : ManagerDependentTest {
     fun `should support like with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "`stringField` LIKE $1",
+            queryString = "`stringField` LIKE $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter())
@@ -45,7 +45,7 @@ class LikeExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "`stringField` LIKE \$$parameterName",
+            queryString = "`stringField` LIKE \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter(parameterName))

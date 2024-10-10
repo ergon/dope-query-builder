@@ -18,7 +18,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
     @Test
     fun `should support if missing`() {
         val expected = DopeQuery(
-            "IFMISSING(`stringField`, `stringField`)",
+            queryString = "IFMISSING(`stringField`, `stringField`)",
         )
         val underTest = IfMissingExpression(someStringField(), someStringField())
 
@@ -31,7 +31,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
     fun `should support if missing with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "IFMISSING($1, `stringField`)",
+            queryString = "IFMISSING($1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(), someStringField())
@@ -46,7 +46,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "IFMISSING(\$$parameterName, `stringField`)",
+            queryString = "IFMISSING(\$$parameterName, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(parameterName), someStringField())
@@ -60,7 +60,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
     fun `should support if missing with positional second parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "IFMISSING(`stringField`, $1)",
+            queryString = "IFMISSING(`stringField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IfMissingExpression(someStringField(), parameterValue.asParameter())
@@ -75,7 +75,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "IFMISSING(`stringField`, \$$parameterName)",
+            queryString = "IFMISSING(`stringField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IfMissingExpression(someStringField(), parameterValue.asParameter(parameterName))
@@ -90,7 +90,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterValue2 = someString()
         val expected = DopeQuery(
-            "IFMISSING($1, $2)",
+            queryString = "IFMISSING($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -107,7 +107,7 @@ class IfMissingExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "IFMISSING(\$$parameterName, \$$parameterName2)",
+            queryString = "IFMISSING(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = IfMissingExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))

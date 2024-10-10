@@ -17,7 +17,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support subtraction`() {
         val expected = DopeQuery(
-            "(`numberField` - `numberField`)",
+            queryString = "(`numberField` - `numberField`)",
         )
         val underTest = SubtractionExpression(someNumberField(), someNumberField())
 
@@ -30,7 +30,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
     fun `should support subtraction with positional parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "($1 - `numberField`)",
+            queryString = "($1 - `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SubtractionExpression(parameterValue.asParameter(), someNumberField())
@@ -45,7 +45,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterName = "param"
         val expected = DopeQuery(
-            "(\$$parameterName - `numberField`)",
+            queryString = "(\$$parameterName - `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SubtractionExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -60,7 +60,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "($1 - $2)",
+            queryString = "($1 - $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SubtractionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -77,7 +77,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "(\$$parameterName - \$$parameterName2)",
+            queryString = "(\$$parameterName - \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = SubtractionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
@@ -91,7 +91,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
     fun `should support subtraction with positional second parameter`() {
         val parameterValue = 4
         val expected = DopeQuery(
-            "(`numberField` - $1)",
+            queryString = "(`numberField` - $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SubtractionExpression(someNumberField(), parameterValue.asParameter())
@@ -106,7 +106,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val parameterName = "param"
         val expected = DopeQuery(
-            "(`numberField` - \$$parameterName)",
+            queryString = "(`numberField` - \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SubtractionExpression(someNumberField(), parameterValue.asParameter(parameterName))
@@ -122,7 +122,7 @@ class SubtractionExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val parameterName = "param1"
         val expected = DopeQuery(
-            "(\$$parameterName - $1)",
+            queryString = "(\$$parameterName - $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = SubtractionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

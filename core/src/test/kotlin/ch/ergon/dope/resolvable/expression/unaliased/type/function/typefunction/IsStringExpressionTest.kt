@@ -17,7 +17,7 @@ class IsStringExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is string expression with no parameters`() {
         val expected = DopeQuery(
-            "ISSTRING(`stringField`)",
+            queryString = "ISSTRING(`stringField`)",
         )
         val underTest = IsStringExpression(someStringField())
 
@@ -30,7 +30,7 @@ class IsStringExpressionTest : ManagerDependentTest {
     fun `should support is string expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "ISSTRING($1)",
+            queryString = "ISSTRING($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsStringExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class IsStringExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "ISSTRING(\$$parameterName)",
+            queryString = "ISSTRING(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsStringExpression(parameterValue.asParameter(parameterName))

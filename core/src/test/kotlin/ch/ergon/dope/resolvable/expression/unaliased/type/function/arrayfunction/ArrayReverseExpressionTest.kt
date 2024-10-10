@@ -15,7 +15,7 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_REVERSE`() {
         val expected = DopeQuery(
-            "ARRAY_REVERSE(`numberArrayField`)",
+            queryString = "ARRAY_REVERSE(`numberArrayField`)",
         )
         val underTest = ArrayReverseExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_REVERSE with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_REVERSE($1)",
+            queryString = "ARRAY_REVERSE($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayReverseExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_REVERSE(\$$parameterName)",
+            queryString = "ARRAY_REVERSE(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayReverseExpression(parameterValue.asParameter(parameterName))

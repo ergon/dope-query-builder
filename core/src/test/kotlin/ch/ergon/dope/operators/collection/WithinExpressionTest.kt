@@ -23,7 +23,7 @@ class WithinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support WITHIN expression`() {
         val expected = DopeQuery(
-            "`numberField` WITHIN `numberArrayField`",
+            queryString = "`numberField` WITHIN `numberArrayField`",
         )
         val underTest = WithinExpression(someNumberField(), someNumberArrayField())
 
@@ -37,7 +37,7 @@ class WithinExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "\$$parameterName WITHIN `numberArrayField`",
+            queryString = "\$$parameterName WITHIN `numberArrayField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = WithinExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
@@ -51,7 +51,7 @@ class WithinExpressionTest : ManagerDependentTest {
     fun `should support WITHIN expression with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "$1 WITHIN `numberArrayField`",
+            queryString = "$1 WITHIN `numberArrayField`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = WithinExpression(parameterValue.asParameter(), someNumberArrayField())
@@ -66,7 +66,7 @@ class WithinExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "`numberField` WITHIN \$$parameterName",
+            queryString = "`numberField` WITHIN \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = WithinExpression(someNumberField(), parameterValue.asParameter(parameterName))
@@ -80,7 +80,7 @@ class WithinExpressionTest : ManagerDependentTest {
     fun `should support WITHIN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "`numberField` WITHIN $1",
+            queryString = "`numberField` WITHIN $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = WithinExpression(someNumberField(), parameterValue.asParameter())
@@ -97,7 +97,7 @@ class WithinExpressionTest : ManagerDependentTest {
         val parameterNameA = "paramA"
         val parameterNameB = "paramB"
         val expected = DopeQuery(
-            "\$$parameterNameA WITHIN \$$parameterNameB",
+            queryString = "\$$parameterNameA WITHIN \$$parameterNameB",
             DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
         )
         val underTest = WithinExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
@@ -112,7 +112,7 @@ class WithinExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "$1 WITHIN $2",
+            queryString = "$1 WITHIN $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
         )
         val underTest = WithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())

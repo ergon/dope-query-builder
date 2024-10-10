@@ -13,7 +13,7 @@ class IsMissingExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is missing`() {
         val expected = DopeQuery(
-            "`stringField` IS MISSING",
+            queryString = "`stringField` IS MISSING",
         )
         val underTest = IsMissingExpression(someStringField())
 

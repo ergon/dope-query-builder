@@ -17,7 +17,7 @@ class PositionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support position`() {
         val expected = DopeQuery(
-            "POSITION(`stringField`, `stringField`)",
+            queryString = "POSITION(`stringField`, `stringField`)",
         )
         val underTest = PositionExpression(someStringField(), someStringField())
 
@@ -30,7 +30,7 @@ class PositionExpressionTest : ManagerDependentTest {
     fun `should support position with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "POSITION($1, `stringField`)",
+            queryString = "POSITION($1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = PositionExpression(parameterValue.asParameter(), someStringField())
@@ -45,7 +45,7 @@ class PositionExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "POSITION($1, $2)",
+            queryString = "POSITION($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = PositionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -60,7 +60,7 @@ class PositionExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param1"
         val expected = DopeQuery(
-            "POSITION(\$$parameterName, `stringField`)",
+            queryString = "POSITION(\$$parameterName, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = PositionExpression(parameterValue.asParameter(parameterName), someStringField())
@@ -77,7 +77,7 @@ class PositionExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "POSITION(\$$parameterName, \$$parameterName2)",
+            queryString = "POSITION(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = PositionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
@@ -93,7 +93,7 @@ class PositionExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "POSITION(\$$parameterName, $1)",
+            queryString = "POSITION(\$$parameterName, $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = PositionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

@@ -17,7 +17,7 @@ class MBLengthExpressionTest : ManagerDependentTest {
     @Test
     fun `should support mbLength`() {
         val expected = DopeQuery(
-            "MB_LENGTH(`stringField`)",
+            queryString = "MB_LENGTH(`stringField`)",
         )
         val underTest = MBLengthExpression(someStringField())
 
@@ -30,7 +30,7 @@ class MBLengthExpressionTest : ManagerDependentTest {
     fun `should support mbLength with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "MB_LENGTH($1)",
+            queryString = "MB_LENGTH($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MBLengthExpression(parameterValue.asParameter())

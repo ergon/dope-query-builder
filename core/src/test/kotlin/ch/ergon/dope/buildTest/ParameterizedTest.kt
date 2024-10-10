@@ -176,7 +176,7 @@ class ParameterizedTest {
         val positionalParameter2 = someBoolean()
         val positionalParameter3 = someNumber()
         val expected = DopeQuery(
-            "SELECT CONCAT($$namedParameter1name, $1) WHERE $2 LIMIT $$namedParameter2name OFFSET $3",
+            queryString = "SELECT CONCAT($$namedParameter1name, $1) WHERE $2 LIMIT $$namedParameter2name OFFSET $3",
             DopeParameters(
                 mapOf(namedParameter1name to namedParameter1, namedParameter2name to namedParameter2),
                 listOf(positionalParameter1, positionalParameter2, positionalParameter3),

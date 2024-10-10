@@ -16,7 +16,7 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_IFNULL`() {
         val array = someNumberArrayField()
         val expected = DopeQuery(
-            "ARRAY_IFNULL(`numberArrayField`)",
+            queryString = "ARRAY_IFNULL(`numberArrayField`)",
         )
         val underTest = ArrayIfNullExpression(array)
 
@@ -29,7 +29,7 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_IFNULL with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_IFNULL($1)",
+            queryString = "ARRAY_IFNULL($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter())
@@ -44,7 +44,7 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_IFNULL(\$$parameterName)",
+            queryString = "ARRAY_IFNULL(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter(parameterName))

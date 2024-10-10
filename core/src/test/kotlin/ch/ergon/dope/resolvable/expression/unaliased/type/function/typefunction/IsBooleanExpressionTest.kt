@@ -17,7 +17,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is boolean expression with no parameters`() {
         val expected = DopeQuery(
-            "ISBOOLEAN(`booleanField`)",
+            queryString = "ISBOOLEAN(`booleanField`)",
         )
         val underTest = IsBooleanExpression(someBooleanField())
 
@@ -30,7 +30,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
     fun `should support is boolean expression with positional parameter`() {
         val parameterValue = someBoolean()
         val expected = DopeQuery(
-            "ISBOOLEAN($1)",
+            queryString = "ISBOOLEAN($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         val parameterValue = someBoolean()
         val parameterName = "param"
         val expected = DopeQuery(
-            "ISBOOLEAN(\$$parameterName)",
+            queryString = "ISBOOLEAN(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter(parameterName))

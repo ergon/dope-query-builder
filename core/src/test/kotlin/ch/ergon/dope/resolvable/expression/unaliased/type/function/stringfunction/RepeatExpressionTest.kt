@@ -19,7 +19,7 @@ class RepeatExpressionTest : ManagerDependentTest {
     @Test
     fun `should support repeat`() {
         val expected = DopeQuery(
-            "REPEAT(`stringField`, `numberField`)",
+            queryString = "REPEAT(`stringField`, `numberField`)",
         )
         val underTest = RepeatExpression(someStringField(), someNumberField())
 
@@ -32,7 +32,7 @@ class RepeatExpressionTest : ManagerDependentTest {
     fun `should support repeat with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "REPEAT($1, `numberField`)",
+            queryString = "REPEAT($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = RepeatExpression(parameterValue.asParameter(), someNumberField())
@@ -47,7 +47,7 @@ class RepeatExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "REPEAT($1, $2)",
+            queryString = "REPEAT($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = RepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -62,7 +62,7 @@ class RepeatExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param1"
         val expected = DopeQuery(
-            "REPEAT(\$$parameterName, `numberField`)",
+            queryString = "REPEAT(\$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = RepeatExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -79,7 +79,7 @@ class RepeatExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "REPEAT(\$$parameterName, \$$parameterName2)",
+            queryString = "REPEAT(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = RepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
@@ -95,7 +95,7 @@ class RepeatExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val parameterValue2 = 5
         val expected = DopeQuery(
-            "REPEAT(\$$parameterName, $1)",
+            queryString = "REPEAT(\$$parameterName, $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = RepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

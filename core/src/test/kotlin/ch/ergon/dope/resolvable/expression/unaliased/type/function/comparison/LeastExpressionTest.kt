@@ -16,7 +16,7 @@ class LeastExpressionTest : ManagerDependentTest {
     @Test
     fun `should support greatest expression`() {
         val expected = DopeQuery(
-            "LEAST(`numberField`, `anotherNumberField`)",
+            queryString = "LEAST(`numberField`, `anotherNumberField`)",
         )
         val underTest = LeastExpression(someNumberField(), someNumberField("anotherNumberField"))
 
@@ -29,7 +29,7 @@ class LeastExpressionTest : ManagerDependentTest {
     fun `should support least expression with positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "LEAST($1, `numberField`)",
+            queryString = "LEAST($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(), someNumberField())
@@ -43,7 +43,7 @@ class LeastExpressionTest : ManagerDependentTest {
     fun `should support least expression with positional parameter as value`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "LEAST(`numberField`, $1)",
+            queryString = "LEAST(`numberField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeastExpression(someNumberField(), parameterValue.asParameter())
@@ -58,7 +58,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
-            "LEAST($1, $2)",
+            queryString = "LEAST($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -73,7 +73,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val parameterName = "param"
         val expected = DopeQuery(
-            "LEAST(\$$parameterName, `numberField`)",
+            queryString = "LEAST(\$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -88,7 +88,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val parameterName = "param"
         val expected = DopeQuery(
-            "LEAST(`numberField`, \$$parameterName)",
+            queryString = "LEAST(`numberField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeastExpression(someNumberField(), parameterValue.asParameter(parameterName))
@@ -105,7 +105,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue2 = someNumber()
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "LEAST(\$$parameterName, \$$parameterName2)",
+            queryString = "LEAST(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
@@ -121,7 +121,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
-            "LEAST(\$$parameterName, $1)",
+            queryString = "LEAST(\$$parameterName, $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())

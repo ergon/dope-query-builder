@@ -17,7 +17,7 @@ class ConcatExpressionTest : ManagerDependentTest {
     @Test
     fun `should support concat`() {
         val expected = DopeQuery(
-            "CONCAT(`stringField`, `stringField`)",
+            queryString = "CONCAT(`stringField`, `stringField`)",
         )
         val underTest = ConcatExpression(someStringField(), someStringField())
 
@@ -30,7 +30,7 @@ class ConcatExpressionTest : ManagerDependentTest {
     fun `should support concat with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "CONCAT($1, `stringField`)",
+            queryString = "CONCAT($1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField())
@@ -45,7 +45,7 @@ class ConcatExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "CONCAT($1, $2)",
+            queryString = "CONCAT($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -60,7 +60,7 @@ class ConcatExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "CONCAT($1, `stringField`, $2)",
+            queryString = "CONCAT($1, `stringField`, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField(), parameterValue2.asParameter())
@@ -77,7 +77,7 @@ class ConcatExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "CONCAT(\$$parameterName, \$$parameterName2)",
+            queryString = "CONCAT(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))

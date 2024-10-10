@@ -17,7 +17,7 @@ class SuffixesExpressionTest : ManagerDependentTest {
     @Test
     fun `should support split`() {
         val expected = DopeQuery(
-            "SUFFIXES(`stringField`)",
+            queryString = "SUFFIXES(`stringField`)",
         )
         val underTest = SuffixesExpression(someStringField())
 
@@ -30,7 +30,7 @@ class SuffixesExpressionTest : ManagerDependentTest {
     fun `should support suffixes with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "SUFFIXES($1)",
+            queryString = "SUFFIXES($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SuffixesExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class SuffixesExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "SUFFIXES(\$$parameterName)",
+            queryString = "SUFFIXES(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SuffixesExpression(parameterValue.asParameter(parameterName))

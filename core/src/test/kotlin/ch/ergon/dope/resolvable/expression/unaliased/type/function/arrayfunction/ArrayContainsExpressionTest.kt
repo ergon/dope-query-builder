@@ -19,7 +19,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_CONTAINS`() {
         val expected = DopeQuery(
-            "ARRAY_CONTAINS(`numberArrayField`, `numberField`)",
+            queryString = "ARRAY_CONTAINS(`numberArrayField`, `numberField`)",
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), someNumberField())
 
@@ -32,7 +32,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_CONTAINS with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_CONTAINS($1, `numberField`)",
+            queryString = "ARRAY_CONTAINS($1, `numberField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayContainsExpression(parameterValue.asParameter(), someNumberField())
@@ -47,7 +47,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_CONTAINS(\$$parameterName, `numberField`)",
+            queryString = "ARRAY_CONTAINS(\$$parameterName, `numberField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayContainsExpression(parameterValue.asParameter(parameterName), someNumberField())
@@ -61,7 +61,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_CONTAINS with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_CONTAINS(`numberArrayField`, $1)",
+            queryString = "ARRAY_CONTAINS(`numberArrayField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), parameterValue.asParameter())
@@ -76,7 +76,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_CONTAINS(`numberArrayField`, \$$parameterName)",
+            queryString = "ARRAY_CONTAINS(`numberArrayField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayContainsExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
@@ -91,7 +91,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = DopeQuery(
-            "ARRAY_CONTAINS($1, $2)",
+            queryString = "ARRAY_CONTAINS($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayContainsExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
@@ -108,7 +108,7 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_CONTAINS(\$$parameterName, \$$parameterName2)",
+            queryString = "ARRAY_CONTAINS(\$$parameterName, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayContainsExpression(

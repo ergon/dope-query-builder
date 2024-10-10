@@ -22,7 +22,7 @@ class DecodeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support decode expression`() {
         val expected = DopeQuery(
-            "DECODE(`stringField`, \"someString\", 5, 0)",
+            queryString = "DECODE(`stringField`, \"someString\", 5, 0)",
         )
         val underTest = DecodeExpression(
             someStringField(),
@@ -39,7 +39,7 @@ class DecodeExpressionTest : ManagerDependentTest {
     fun `should support decode expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "DECODE($1, \"someString\", 5, 0)",
+            queryString = "DECODE($1, \"someString\", 5, 0)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DecodeExpression(
@@ -58,7 +58,7 @@ class DecodeExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "DECODE(\$$parameterName, \"someString\", 5, 0)",
+            queryString = "DECODE(\$$parameterName, \"someString\", 5, 0)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DecodeExpression(
@@ -76,7 +76,7 @@ class DecodeExpressionTest : ManagerDependentTest {
     fun `should support decode expression with positional second parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "DECODE(`stringField`, \"someString\", 5, $1)",
+            queryString = "DECODE(`stringField`, \"someString\", 5, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DecodeExpression(
@@ -95,7 +95,7 @@ class DecodeExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val parameterName = "param"
         val expected = DopeQuery(
-            "DECODE(`stringField`, \"someString\", 5, \$$parameterName)",
+            queryString = "DECODE(`stringField`, \"someString\", 5, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DecodeExpression(
@@ -114,7 +114,7 @@ class DecodeExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
-            "DECODE($1, \"someString\", 5, $2)",
+            queryString = "DECODE($1, \"someString\", 5, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = DecodeExpression(
@@ -135,7 +135,7 @@ class DecodeExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "DECODE(\$$parameterName, \"someString\", 5, \$$parameterName2)",
+            queryString = "DECODE(\$$parameterName, \"someString\", 5, \$$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = DecodeExpression(

@@ -15,7 +15,7 @@ class ArrayMinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_MIN`() {
         val expected = DopeQuery(
-            "ARRAY_MIN(`numberArrayField`)",
+            queryString = "ARRAY_MIN(`numberArrayField`)",
         )
         val underTest = ArrayMinExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayMinExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_MIN with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_MIN($1)",
+            queryString = "ARRAY_MIN($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayMinExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArrayMinExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_MIN(\$$parameterName)",
+            queryString = "ARRAY_MIN(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayMinExpression(parameterValue.asParameter(parameterName))

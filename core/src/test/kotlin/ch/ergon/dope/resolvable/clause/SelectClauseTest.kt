@@ -22,7 +22,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select`() {
         val expected = DopeQuery(
-            "SELECT `stringField`",
+            queryString = "SELECT `stringField`",
         )
         val underTest = SelectClause(someStringField())
 
@@ -34,7 +34,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with bucket`() {
         val expected = DopeQuery(
-            "SELECT `someBucket`",
+            queryString = "SELECT `someBucket`",
         )
         val underTest = SelectClause(someBucket())
 
@@ -46,7 +46,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with aliased bucket`() {
         val expected = DopeQuery(
-            "SELECT `alias`",
+            queryString = "SELECT `alias`",
         )
         val underTest = SelectClause(someBucket().alias("alias"))
 
@@ -59,7 +59,7 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select with positional parameter`() {
         val parameterValue = "value"
         val expected = DopeQuery(
-            "SELECT $1",
+            queryString = "SELECT $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectClause(parameterValue.asParameter())
@@ -74,7 +74,7 @@ class SelectClauseTest : ManagerDependentTest {
         val parameterValue = "value"
         val parameterName = "param"
         val expected = DopeQuery(
-            "SELECT \$$parameterName",
+            queryString = "SELECT \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectClause(parameterValue.asParameter(parameterName))
@@ -87,7 +87,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with multiple fields`() {
         val expected = DopeQuery(
-            "SELECT `numberField`, `stringArrayField`",
+            queryString = "SELECT `numberField`, `stringArrayField`",
         )
         val underTest = SelectClause(someNumberField(), someStringArrayField())
 
@@ -99,7 +99,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select distinct`() {
         val expected = DopeQuery(
-            "SELECT DISTINCT `numberField`",
+            queryString = "SELECT DISTINCT `numberField`",
         )
         val underTest = SelectDistinctClause(someNumberField())
 
@@ -111,7 +111,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select distinct with bucket`() {
         val expected = DopeQuery(
-            "SELECT DISTINCT `someBucket`",
+            queryString = "SELECT DISTINCT `someBucket`",
         )
         val underTest = SelectDistinctClause(someBucket())
 
@@ -123,7 +123,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select distinct with aliased bucket`() {
         val expected = DopeQuery(
-            "SELECT DISTINCT `alias`",
+            queryString = "SELECT DISTINCT `alias`",
         )
         val underTest = SelectDistinctClause(someBucket().alias("alias"))
 
@@ -136,7 +136,7 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select distinct with positional parameter`() {
         val parameterValue = "value"
         val expected = DopeQuery(
-            "SELECT DISTINCT $1",
+            queryString = "SELECT DISTINCT $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectDistinctClause(parameterValue.asParameter())
@@ -151,7 +151,7 @@ class SelectClauseTest : ManagerDependentTest {
         val parameterValue = "value"
         val parameterName = "param"
         val expected = DopeQuery(
-            "SELECT DISTINCT \$$parameterName",
+            queryString = "SELECT DISTINCT \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectDistinctClause(parameterValue.asParameter(parameterName))
@@ -164,7 +164,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select distinct with multiple fields`() {
         val expected = DopeQuery(
-            "SELECT DISTINCT `numberField`, `stringArrayField`",
+            queryString = "SELECT DISTINCT `numberField`, `stringArrayField`",
         )
         val underTest = SelectDistinctClause(someNumberField(), someStringArrayField())
 
@@ -176,7 +176,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with alias`() {
         val expected = DopeQuery(
-            "SELECT `stringField` AS `stringFieldAlias`",
+            queryString = "SELECT `stringField` AS `stringFieldAlias`",
         )
         val underTest = SelectClause(someStringField().alias("stringFieldAlias"))
 
@@ -188,7 +188,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with mixed aliases`() {
         val expected = DopeQuery(
-            "SELECT `numberField` AS `numberFieldAlias`, `stringArrayField`",
+            queryString = "SELECT `numberField` AS `numberFieldAlias`, `stringArrayField`",
         )
         val underTest = SelectClause(someNumberField().alias("numberFieldAlias"), someStringArrayField())
 
@@ -200,7 +200,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with raw expression`() {
         val expected = DopeQuery(
-            "SELECT RAW `stringField`",
+            queryString = "SELECT RAW `stringField`",
         )
         val underTest = SelectRawClause(someStringField())
 
@@ -213,7 +213,7 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select with raw expression with positional parameter`() {
         val parameterValue = "value"
         val expected = DopeQuery(
-            "SELECT RAW $1",
+            queryString = "SELECT RAW $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectRawClause(parameterValue.asParameter())
@@ -228,7 +228,7 @@ class SelectClauseTest : ManagerDependentTest {
         val parameterValue = "value"
         val parameterName = "param"
         val expected = DopeQuery(
-            "SELECT RAW \$$parameterName",
+            queryString = "SELECT RAW \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectRawClause(parameterValue.asParameter(parameterName))
@@ -241,7 +241,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select with raw expression with alias`() {
         val expected = DopeQuery(
-            "SELECT RAW `stringField` AS `stringFieldAlias`",
+            queryString = "SELECT RAW `stringField` AS `stringFieldAlias`",
         )
         val underTest = SelectRawClause(someStringField().alias("stringFieldAlias"))
 

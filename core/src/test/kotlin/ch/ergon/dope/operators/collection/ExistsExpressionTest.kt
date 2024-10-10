@@ -19,7 +19,7 @@ class ExistsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support EXISTS expression`() {
         val expected = DopeQuery(
-            "EXISTS `numberArrayField`",
+            queryString = "EXISTS `numberArrayField`",
         )
         val underTest = ExistsExpression(someNumberArrayField())
 
@@ -33,7 +33,7 @@ class ExistsExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "EXISTS \$param",
+            queryString = "EXISTS \$param",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ExistsExpression(parameterValue.asParameter(parameterName))
@@ -47,7 +47,7 @@ class ExistsExpressionTest : ManagerDependentTest {
     fun `should support EXISTS expression with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "EXISTS $1",
+            queryString = "EXISTS $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ExistsExpression(parameterValue.asParameter())

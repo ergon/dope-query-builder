@@ -20,7 +20,7 @@ class ToStringExpressionTest : ManagerDependentTest {
     @Test
     fun `should support to string expression with no parameters`() {
         val expected = DopeQuery(
-            "TOSTRING(`stringField`)",
+            queryString = "TOSTRING(`stringField`)",
         )
         val underTest = ToStringExpression(someStringField())
 
@@ -33,7 +33,7 @@ class ToStringExpressionTest : ManagerDependentTest {
     fun `should support to string expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "TOSTRING($1)",
+            queryString = "TOSTRING($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToStringExpression(parameterValue.asParameter())
@@ -48,7 +48,7 @@ class ToStringExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "TOSTRING(\$$parameterName)",
+            queryString = "TOSTRING(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ToStringExpression(parameterValue.asParameter(parameterName))

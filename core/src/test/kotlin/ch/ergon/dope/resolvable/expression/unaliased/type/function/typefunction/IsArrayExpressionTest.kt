@@ -15,7 +15,7 @@ class IsArrayExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is array expression`() {
         val expected = DopeQuery(
-            "ISARRAY(`stringArrayField`)",
+            queryString = "ISARRAY(`stringArrayField`)",
         )
         val underTest = IsArrayExpression(someStringArrayField())
 
@@ -28,7 +28,7 @@ class IsArrayExpressionTest : ManagerDependentTest {
     fun `should support is array expression with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ISARRAY($1)",
+            queryString = "ISARRAY($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsArrayExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class IsArrayExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ISARRAY(\$$parameterName)",
+            queryString = "ISARRAY(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsArrayExpression(parameterValue.asParameter(parameterName))

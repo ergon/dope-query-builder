@@ -13,7 +13,7 @@ class AsteriskExpressionTest : ManagerDependentTest {
     @Test
     fun `should support asterisk`() {
         val expected = DopeQuery(
-            "*",
+            queryString = "*",
         )
         val underTest = AsteriskExpression()
 
@@ -25,7 +25,7 @@ class AsteriskExpressionTest : ManagerDependentTest {
     @Test
     fun `should support asterisk with bucket`() {
         val expected = DopeQuery(
-            "`someBucket`.*",
+            queryString = "`someBucket`.*",
         )
         val underTest = AsteriskExpression(someBucket())
 

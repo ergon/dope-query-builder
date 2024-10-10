@@ -18,7 +18,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
     @Test
     fun `should support sub string 1`() {
         val expected = DopeQuery(
-            "SUBSTR1(`stringField`, 3, 1)",
+            queryString = "SUBSTR1(`stringField`, 3, 1)",
         )
         val underTest = Substring1Expression(someStringField(), 3.toDopeType(), 1.toDopeType())
 
@@ -31,7 +31,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
     fun `should support sub string 1 with parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "SUBSTR1($1, 3, 1)",
+            queryString = "SUBSTR1($1, 3, 1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = Substring1Expression(parameterValue.asParameter(), 3.toDopeType(), 1.toDopeType())

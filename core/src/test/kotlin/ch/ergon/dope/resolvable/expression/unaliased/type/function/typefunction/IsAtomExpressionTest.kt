@@ -17,7 +17,7 @@ class IsAtomExpressionTest : ManagerDependentTest {
     @Test
     fun `should support is atom expression with no parameters`() {
         val expected = DopeQuery(
-            "ISATOM(`stringField`)",
+            queryString = "ISATOM(`stringField`)",
         )
         val underTest = IsAtomExpression(someStringField())
 
@@ -30,7 +30,7 @@ class IsAtomExpressionTest : ManagerDependentTest {
     fun `should support is atom expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "ISATOM($1)",
+            queryString = "ISATOM($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsAtomExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class IsAtomExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "ISATOM(\$$parameterName)",
+            queryString = "ISATOM(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsAtomExpression(parameterValue.asParameter(parameterName))

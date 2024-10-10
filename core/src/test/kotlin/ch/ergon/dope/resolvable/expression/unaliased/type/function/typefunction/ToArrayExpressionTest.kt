@@ -17,7 +17,7 @@ class ToArrayExpressionTest : ManagerDependentTest {
     @Test
     fun `should support to array expression with no parameters`() {
         val expected = DopeQuery(
-            "TOARRAY(`stringField`)",
+            queryString = "TOARRAY(`stringField`)",
         )
         val underTest = ToArrayExpression(someStringField())
 
@@ -30,7 +30,7 @@ class ToArrayExpressionTest : ManagerDependentTest {
     fun `should support to array expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "TOARRAY($1)",
+            queryString = "TOARRAY($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToArrayExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class ToArrayExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "TOARRAY(\$$parameterName)",
+            queryString = "TOARRAY(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ToArrayExpression(parameterValue.asParameter(parameterName))

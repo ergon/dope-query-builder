@@ -17,7 +17,7 @@ class ReverseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support reverse`() {
         val expected = DopeQuery(
-            "REVERSE(`stringField`)",
+            queryString = "REVERSE(`stringField`)",
         )
         val underTest = ReverseExpression(someStringField())
 
@@ -30,7 +30,7 @@ class ReverseExpressionTest : ManagerDependentTest {
     fun `should support reverse with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "REVERSE($1)",
+            queryString = "REVERSE($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ReverseExpression(parameterValue.asParameter())
@@ -45,7 +45,7 @@ class ReverseExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "REVERSE(\$$parameterName)",
+            queryString = "REVERSE(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ReverseExpression(parameterValue.asParameter(parameterName))

@@ -24,7 +24,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
     @Test
     fun `should support nvl2`() {
         val expected = DopeQuery(
-            "NVL2(`booleanField`, `stringField`, `stringField`)",
+            queryString = "NVL2(`booleanField`, `stringField`, `stringField`)",
         )
         val underTest = Nvl2Expression(someBooleanField(), someStringField(), someStringField())
 
@@ -37,7 +37,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
     fun `should support nvl2 with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "NVL2($1, `stringField`, `stringField`)",
+            queryString = "NVL2($1, `stringField`, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = Nvl2Expression(parameterValue.asParameter(), someStringField(), someStringField())
@@ -52,7 +52,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "NVL2(\$$parameterName, `stringField`, `stringField`)",
+            queryString = "NVL2(\$$parameterName, `stringField`, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = Nvl2Expression(parameterValue.asParameter(parameterName), someStringField(), someStringField())
@@ -66,7 +66,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
     fun `should support nvl2 with positional second parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "NVL2(`booleanField`, $1, `stringField`)",
+            queryString = "NVL2(`booleanField`, $1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = Nvl2Expression(someBooleanField(), parameterValue.asParameter(), someStringField())
@@ -81,7 +81,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "NVL2(`booleanField`, \$$parameterName, `stringField`)",
+            queryString = "NVL2(`booleanField`, \$$parameterName, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = Nvl2Expression(someBooleanField(), parameterValue.asParameter(parameterName), someStringField())
@@ -95,7 +95,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
     fun `should support nvl2 with positional third parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "NVL2(`booleanField`, `stringField`, $1)",
+            queryString = "NVL2(`booleanField`, `stringField`, $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = Nvl2Expression(someBooleanField(), someStringField(), parameterValue.asParameter())
@@ -110,7 +110,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val parameterName = "param"
         val expected = DopeQuery(
-            "NVL2(`booleanField`, `stringField`, \$$parameterName)",
+            queryString = "NVL2(`booleanField`, `stringField`, \$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = Nvl2Expression(someBooleanField(), someStringField(), parameterValue.asParameter(parameterName))
@@ -126,7 +126,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         val parameterValue2 = someString()
         val parameterValue3 = someString()
         val expected = DopeQuery(
-            "NVL2($1, $2, $3)",
+            queryString = "NVL2($1, $2, $3)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
         )
         val underTest = Nvl2Expression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
@@ -145,7 +145,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         val parameterName2 = "param2"
         val parameterName3 = "param3"
         val expected = DopeQuery(
-            "NVL2(\$$parameterName, \$$parameterName2, \$$parameterName3)",
+            queryString = "NVL2(\$$parameterName, \$$parameterName2, \$$parameterName3)",
             DopeParameters(
                 namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2, parameterName3 to parameterValue3),
             ),

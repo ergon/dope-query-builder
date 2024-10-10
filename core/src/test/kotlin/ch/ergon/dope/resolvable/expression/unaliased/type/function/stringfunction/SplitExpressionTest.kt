@@ -17,7 +17,7 @@ class SplitExpressionTest : ManagerDependentTest {
     @Test
     fun `should support split`() {
         val expected = DopeQuery(
-            "SPLIT(`stringField`)",
+            queryString = "SPLIT(`stringField`)",
         )
         val underTest = SplitExpression(someStringField())
 
@@ -30,7 +30,7 @@ class SplitExpressionTest : ManagerDependentTest {
     fun `should support split with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "SPLIT($1)",
+            queryString = "SPLIT($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SplitExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class SplitExpressionTest : ManagerDependentTest {
     @Test
     fun `should support split with substring`() {
         val expected = DopeQuery(
-            "SPLIT(`stringField`, `stringField`)",
+            queryString = "SPLIT(`stringField`, `stringField`)",
         )
         val underTest = SplitExpression(someStringField(), someStringField())
 
@@ -56,7 +56,7 @@ class SplitExpressionTest : ManagerDependentTest {
     fun `should support split with substring and positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "SPLIT($1, `stringField`)",
+            queryString = "SPLIT($1, `stringField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SplitExpression(parameterValue.asParameter(), someStringField())
@@ -71,7 +71,7 @@ class SplitExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "SPLIT($1, $2)",
+            queryString = "SPLIT($1, $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SplitExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -86,7 +86,7 @@ class SplitExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val expected = DopeQuery(
-            "SPLIT(\$$parameterName, `stringField`)",
+            queryString = "SPLIT(\$$parameterName, `stringField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SplitExpression(parameterValue.asParameter(parameterName), someStringField())

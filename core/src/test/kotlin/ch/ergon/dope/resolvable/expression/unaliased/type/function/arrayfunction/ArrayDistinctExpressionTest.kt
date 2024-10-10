@@ -15,7 +15,7 @@ class ArrayDistinctExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_DISTINCT`() {
         val expected = DopeQuery(
-            "ARRAY_DISTINCT(`numberArrayField`)",
+            queryString = "ARRAY_DISTINCT(`numberArrayField`)",
         )
         val underTest = ArrayDistinctExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArrayDistinctExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_DISTINCT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_DISTINCT($1)",
+            queryString = "ARRAY_DISTINCT($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayDistinctExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArrayDistinctExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_DISTINCT(\$$parameterName)",
+            queryString = "ARRAY_DISTINCT(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayDistinctExpression(parameterValue.asParameter(parameterName))

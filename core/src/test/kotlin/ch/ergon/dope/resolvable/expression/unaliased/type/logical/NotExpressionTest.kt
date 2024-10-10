@@ -18,7 +18,7 @@ class NotExpressionTest : ManagerDependentTest {
     fun `should support and with positional parameter`() {
         val parameterValue = true
         val expected = DopeQuery(
-            "($1 AND `booleanField`)",
+            queryString = "($1 AND `booleanField`)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
@@ -33,7 +33,7 @@ class NotExpressionTest : ManagerDependentTest {
         val parameterValue = true
         val parameterValue2 = true
         val expected = DopeQuery(
-            "($1 AND $2)",
+            queryString = "($1 AND $2)",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
@@ -47,7 +47,7 @@ class NotExpressionTest : ManagerDependentTest {
     fun `should support and with second positional parameter`() {
         val parameterValue = false
         val expected = DopeQuery(
-            "(`booleanField` AND $1)",
+            queryString = "(`booleanField` AND $1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
@@ -62,7 +62,7 @@ class NotExpressionTest : ManagerDependentTest {
         val parameterValue = true
         val parameterName = "param"
         val expected = DopeQuery(
-            "($$parameterName AND `booleanField`)",
+            queryString = "($$parameterName AND `booleanField`)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = AndExpression(parameterValue.asParameter(parameterName), someBooleanField())
@@ -79,7 +79,7 @@ class NotExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "($$parameterName AND $$parameterName2)",
+            queryString = "($$parameterName AND $$parameterName2)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = AndExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))

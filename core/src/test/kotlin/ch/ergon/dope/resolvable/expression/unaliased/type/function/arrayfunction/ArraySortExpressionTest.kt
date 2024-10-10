@@ -15,7 +15,7 @@ class ArraySortExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_SORT`() {
         val expected = DopeQuery(
-            "ARRAY_SORT(`numberArrayField`)",
+            queryString = "ARRAY_SORT(`numberArrayField`)",
         )
         val underTest = ArraySortExpression(someNumberArrayField())
 
@@ -28,7 +28,7 @@ class ArraySortExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_SORT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SORT($1)",
+            queryString = "ARRAY_SORT($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySortExpression(parameterValue.asParameter())
@@ -43,7 +43,7 @@ class ArraySortExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            "ARRAY_SORT(\$$parameterName)",
+            queryString = "ARRAY_SORT(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArraySortExpression(parameterValue.asParameter(parameterName))
