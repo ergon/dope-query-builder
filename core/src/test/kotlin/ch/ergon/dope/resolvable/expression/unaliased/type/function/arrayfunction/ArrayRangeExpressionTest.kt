@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_RANGE`() {
         val expected = DopeQuery(
             "ARRAY_RANGE(0, 10)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), 10.toDopeType())
 
@@ -31,8 +30,6 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_RANGE with step`() {
         val expected = DopeQuery(
             "ARRAY_RANGE(0, 10, 2)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), 10.toDopeType(), 2.toDopeType())
 
@@ -47,8 +44,7 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_RANGE(\$$parameterName, 10)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(parameterName), 10.toDopeType())
 
@@ -62,8 +58,7 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ARRAY_RANGE($1, 10)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(), 10.toDopeType())
 
@@ -78,8 +73,7 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_RANGE(0, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), parameterValue.asParameter(parameterName))
 
@@ -93,8 +87,7 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ARRAY_RANGE(0, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRangeExpression(0.toDopeType(), parameterValue.asParameter())
 
@@ -107,14 +100,13 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_RANGE with named parameters as start and end`() {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_RANGE(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "ARRAY_RANGE(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
-        val underTest = ArrayRangeExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+        val underTest = ArrayRangeExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -127,8 +119,7 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
             "ARRAY_RANGE($1, $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ArrayRangeExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -142,16 +133,17 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
         val parameterValue3 = someNumber()
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val parameterName3 = "param3"
         val expected = DopeQuery(
-            "ARRAY_RANGE(\$$parameterName1, \$$parameterName2, \$$parameterName3)",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2, parameterName3 to parameterValue3),
-            emptyList(),
+            "ARRAY_RANGE(\$$parameterName, \$$parameterName2, \$$parameterName3)",
+            DopeParameters(
+                namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2, parameterName3 to parameterValue3),
+            ),
         )
         val underTest = ArrayRangeExpression(
-            parameterValue.asParameter(parameterName1),
+            parameterValue.asParameter(parameterName),
             parameterValue2.asParameter(parameterName2),
             parameterValue3.asParameter(parameterName3),
         )
@@ -168,8 +160,7 @@ class ArrayRangeExpressionTest : ManagerDependentTest {
         val parameterValue3 = someNumber()
         val expected = DopeQuery(
             "ARRAY_RANGE($1, $2, $3)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2, parameterValue3),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
         )
         val underTest = ArrayRangeExpression(
             parameterValue.asParameter(),

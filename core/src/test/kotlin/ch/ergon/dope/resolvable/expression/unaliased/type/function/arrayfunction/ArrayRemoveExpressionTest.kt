@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -22,8 +23,6 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_REMOVE`() {
         val expected = DopeQuery(
             "ARRAY_REMOVE(`numberArrayField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), someNumberField())
 
@@ -37,8 +36,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_REMOVE($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(), someNumberField())
 
@@ -52,8 +50,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_REMOVE(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -68,8 +65,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_REMOVE($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -84,8 +80,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REMOVE(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -100,8 +95,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REMOVE(`numberArrayField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
@@ -117,8 +111,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REMOVE(\$$parameterName, $1)",
-            mapOf(parameterName to parameterValueCollection),
-            listOf(parameterValue),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection), positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 

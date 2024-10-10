@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -18,8 +19,6 @@ class ToNumberExpressionTest : ManagerDependentTest {
     fun `should support to number expression with no parameters`() {
         val expected = DopeQuery(
             "TONUMBER(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ToNumberExpression(someStringField())
 
@@ -33,8 +32,7 @@ class ToNumberExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "TONUMBER($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToNumberExpression(parameterValue.asParameter())
 
@@ -49,8 +47,7 @@ class ToNumberExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "TONUMBER(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ToNumberExpression(parameterValue.asParameter(parameterName))
 

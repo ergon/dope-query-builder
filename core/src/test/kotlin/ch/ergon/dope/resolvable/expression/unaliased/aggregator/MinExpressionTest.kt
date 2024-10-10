@@ -16,8 +16,6 @@ class MinExpressionTest : ManagerDependentTest {
     fun `should support min`() {
         val expected = DopeQuery(
             "MIN(`numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MinExpression(someNumberField(), null)
 
@@ -30,8 +28,6 @@ class MinExpressionTest : ManagerDependentTest {
     fun `should support min with quantifier ALL`() {
         val expected = DopeQuery(
             "MIN(ALL `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MinExpression(someNumberField(), ALL)
 
@@ -44,8 +40,6 @@ class MinExpressionTest : ManagerDependentTest {
     fun `should support min with quantifier DISTINCT`() {
         val expected = DopeQuery(
             "MIN(DISTINCT `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MinExpression(someNumberField(), DISTINCT)
 

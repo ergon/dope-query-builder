@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -23,8 +24,6 @@ class NvlExpressionTest : ManagerDependentTest {
     fun `should support nvl`() {
         val expected = DopeQuery(
             "NVL(`stringField`, `stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = NvlExpression(someStringField(), someStringField())
 
@@ -38,8 +37,7 @@ class NvlExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "NVL($1, `stringField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NvlExpression(parameterValue.asParameter(), someStringField())
 
@@ -54,8 +52,7 @@ class NvlExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "NVL(\$$parameterName, `stringField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NvlExpression(parameterValue.asParameter(parameterName), someStringField())
 
@@ -69,8 +66,7 @@ class NvlExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "NVL(`stringField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NvlExpression(someStringField(), parameterValue.asParameter())
 
@@ -85,8 +81,7 @@ class NvlExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "NVL(`stringField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NvlExpression(someStringField(), parameterValue.asParameter(parameterName))
 
@@ -101,8 +96,7 @@ class NvlExpressionTest : ManagerDependentTest {
         val parameterValue2 = someString()
         val expected = DopeQuery(
             "NVL($1, $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = NvlExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -115,15 +109,14 @@ class NvlExpressionTest : ManagerDependentTest {
     fun `should support nvl with named all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "NVL(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "NVL(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = NvlExpression(
-            parameterValue.asParameter(parameterName1),
+            parameterValue.asParameter(parameterName),
             parameterValue2.asParameter(parameterName2),
         )
 

@@ -16,7 +16,6 @@ class UrlDecodeExpressionTest : ManagerDependentTest {
     fun `should support url decode expression`() {
         val expected = DopeQuery(
             "URL_DECODE(`stringField`)",
-            emptyMap(),
         )
         val underTest = UrlDecodeExpression(someStringField())
 

@@ -15,7 +15,6 @@ class TypeOfExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("TYPE", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
-            positionalParameters = expressionDopeQuery.positionalParameters,
         )
     }
 }

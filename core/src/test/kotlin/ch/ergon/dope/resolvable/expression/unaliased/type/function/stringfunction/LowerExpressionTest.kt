@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class LowerExpressionTest : ManagerDependentTest {
     fun `should support lower with no parameters`() {
         val expected = DopeQuery(
             "LOWER(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LowerExpression(someStringField())
 
@@ -32,8 +31,7 @@ class LowerExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "LOWER($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LowerExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class LowerExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "LOWER(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LowerExpression(parameterValue.asParameter(parameterName))
 

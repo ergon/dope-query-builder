@@ -11,7 +11,6 @@ open class PrefixOperator(private val symbol: String, private val argument: Reso
         return DopeQuery(
             queryString = formatToQueryStringWithSeparator(symbol, separator = separator, argumentDopeQuery.queryString),
             parameters = argumentDopeQuery.parameters,
-            positionalParameters = argumentDopeQuery.positionalParameters,
         )
     }
 }

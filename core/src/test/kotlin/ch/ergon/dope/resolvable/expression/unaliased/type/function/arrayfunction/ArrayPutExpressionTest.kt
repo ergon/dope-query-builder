@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -22,8 +23,6 @@ class ArrayPutExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_PUT`() {
         val expected = DopeQuery(
             "ARRAY_PUT(`numberArrayField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayPutExpression(someNumberArrayField(), someNumberField())
 
@@ -38,8 +37,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_PUT(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -53,8 +51,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_PUT($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValue.asParameter(), someNumberField())
 
@@ -69,8 +66,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_PUT(`numberArrayField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
@@ -84,8 +80,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_PUT(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -98,14 +93,13 @@ class ArrayPutExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_PUT with all named parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_PUT(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
-            emptyList(),
+            "ARRAY_PUT(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
-        val underTest = ArrayPutExpression(parameterValueCollection.asParameter(parameterName1), parameterValue.asParameter(parameterName2))
+        val underTest = ArrayPutExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -118,8 +112,7 @@ class ArrayPutExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_PUT($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayPutExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

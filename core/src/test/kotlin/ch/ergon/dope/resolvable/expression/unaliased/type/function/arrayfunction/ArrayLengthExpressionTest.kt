@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,6 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_LENGTH`() {
         val expected = DopeQuery(
             "ARRAY_LENGTH(`numberArrayField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayLengthExpression(someNumberArrayField())
 
@@ -30,8 +29,7 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_LENGTH($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayLengthExpression(parameterValue.asParameter())
 
@@ -46,8 +44,7 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_LENGTH(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayLengthExpression(parameterValue.asParameter(parameterName))
 

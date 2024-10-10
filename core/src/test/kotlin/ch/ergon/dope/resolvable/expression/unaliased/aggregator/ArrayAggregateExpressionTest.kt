@@ -16,8 +16,6 @@ class ArrayAggregateExpressionTest : ManagerDependentTest {
     fun `should support array aggregate`() {
         val expected = DopeQuery(
             "ARRAY_AGG(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayAggregateExpression(someStringField(), null)
 
@@ -30,8 +28,6 @@ class ArrayAggregateExpressionTest : ManagerDependentTest {
     fun `should support array aggregate with quantifier ALL`() {
         val expected = DopeQuery(
             "ARRAY_AGG(ALL `stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayAggregateExpression(someStringField(), ALL)
 
@@ -44,8 +40,6 @@ class ArrayAggregateExpressionTest : ManagerDependentTest {
     fun `should support array aggregate with quantifier DISTINCT`() {
         val expected = DopeQuery(
             "ARRAY_AGG(DISTINCT `stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayAggregateExpression(someStringField(), DISTINCT)
 

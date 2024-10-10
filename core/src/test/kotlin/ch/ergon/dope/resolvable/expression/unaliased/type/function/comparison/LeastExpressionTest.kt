@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.comparison
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,6 @@ class LeastExpressionTest : ManagerDependentTest {
     fun `should support greatest expression`() {
         val expected = DopeQuery(
             "LEAST(`numberField`, `anotherNumberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LeastExpression(someNumberField(), someNumberField("anotherNumberField"))
 
@@ -31,8 +30,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "LEAST($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(), someNumberField())
 
@@ -46,8 +44,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "LEAST(`numberField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeastExpression(someNumberField(), parameterValue.asParameter())
 
@@ -62,8 +59,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
             "LEAST($1, $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -78,8 +74,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "LEAST(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -94,8 +89,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "LEAST(`numberField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeastExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
@@ -107,15 +101,14 @@ class LeastExpressionTest : ManagerDependentTest {
     @Test
     fun `should support least expression with all named parameters`() {
         val parameterValue = someNumber()
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterValue2 = someNumber()
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "LEAST(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "LEAST(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
-        val underTest = LeastExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+        val underTest = LeastExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -129,8 +122,7 @@ class LeastExpressionTest : ManagerDependentTest {
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
             "LEAST(\$$parameterName, $1)",
-            mapOf(parameterName to parameterValue),
-            listOf(parameterValue2),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = LeastExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 

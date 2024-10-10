@@ -16,7 +16,6 @@ class HashOrNestedLoopHintTest : ManagerDependentTest {
     fun `should support use hash build`() {
         val expected = DopeQuery(
             "HASH (BUILD)",
-            emptyMap(),
         )
         val underTest = HASH_BUILD
 
@@ -29,7 +28,6 @@ class HashOrNestedLoopHintTest : ManagerDependentTest {
     fun `should support use hash probe`() {
         val expected = DopeQuery(
             "HASH (PROBE)",
-            emptyMap(),
         )
         val underTest = HASH_PROBE
 
@@ -42,7 +40,6 @@ class HashOrNestedLoopHintTest : ManagerDependentTest {
     fun `should support use nested loop`() {
         val expected = DopeQuery(
             "NL",
-            emptyMap(),
         )
         val underTest = NESTED_LOOP
 

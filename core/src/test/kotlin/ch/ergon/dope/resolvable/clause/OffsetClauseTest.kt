@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,8 +20,6 @@ class OffsetClauseTest : ManagerDependentTest {
     fun `should support delete offset`() {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET `numberField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = DeleteOffsetClause(someNumberField(), someDeleteClause())
 
@@ -35,8 +34,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET \$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = DeleteOffsetClause(parameterValue.asParameter(parameterName), someDeleteClause())
 
@@ -50,8 +48,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterValue = 2
         val expected = DopeQuery(
             "DELETE FROM `someBucket` OFFSET $1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = DeleteOffsetClause(parameterValue.asParameter(), someDeleteClause())
 
@@ -75,8 +72,6 @@ class OffsetClauseTest : ManagerDependentTest {
     fun `should support select offset`() {
         val expected = DopeQuery(
             "SELECT * OFFSET `numberField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SelectOffsetClause(someNumberField(), someSelectClause())
 
@@ -91,8 +86,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SELECT * OFFSET \$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOffsetClause(parameterValue.asParameter(parameterName), someSelectClause())
 
@@ -106,8 +100,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterValue = 5
         val expected = DopeQuery(
             "SELECT * OFFSET $1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOffsetClause(parameterValue.asParameter(), someSelectClause())
 
@@ -120,16 +113,15 @@ class OffsetClauseTest : ManagerDependentTest {
     fun `should support select offset with named parameter and named parent parameter`() {
         val parameterValue = "param"
         val parameterValue2 = 5
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "SELECT \$$parameterName1 OFFSET \$$parameterName2",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "SELECT \$$parameterName OFFSET \$$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = SelectOffsetClause(
             parameterValue2.asParameter(parameterName2),
-            someSelectClause(parameterValue.asParameter(parameterName1)),
+            someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -143,8 +135,7 @@ class OffsetClauseTest : ManagerDependentTest {
         val parameterValue2 = 5
         val expected = DopeQuery(
             "SELECT $1 OFFSET $2",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = SelectOffsetClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 

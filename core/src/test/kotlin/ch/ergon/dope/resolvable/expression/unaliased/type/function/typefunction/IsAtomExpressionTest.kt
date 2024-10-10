@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class IsAtomExpressionTest : ManagerDependentTest {
     fun `should support is atom expression with no parameters`() {
         val expected = DopeQuery(
             "ISATOM(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = IsAtomExpression(someStringField())
 
@@ -32,8 +31,7 @@ class IsAtomExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "ISATOM($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsAtomExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class IsAtomExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ISATOM(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsAtomExpression(parameterValue.asParameter(parameterName))
 

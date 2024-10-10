@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_FLATTEN`() {
         val expected = DopeQuery(
             "ARRAY_FLATTEN(`numberArrayField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), someNumberField())
 
@@ -32,8 +31,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_FLATTEN($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayFlattenExpression(parameterValue.asParameter(), someNumberField())
 
@@ -48,8 +46,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_FLATTEN(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayFlattenExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -63,8 +60,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_FLATTEN(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -79,8 +75,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_FLATTEN(`numberArrayField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
@@ -95,8 +90,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_FLATTEN($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayFlattenExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -109,15 +103,14 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_FLATTEN with named all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_FLATTEN(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
-            emptyList(),
+            "ARRAY_FLATTEN(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayFlattenExpression(
-            parameterValueCollection.asParameter(parameterName1),
+            parameterValueCollection.asParameter(parameterName),
             parameterValue.asParameter(parameterName2),
         )
 

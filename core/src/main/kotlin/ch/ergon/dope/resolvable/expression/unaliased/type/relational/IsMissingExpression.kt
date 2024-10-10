@@ -16,7 +16,6 @@ class IsMissingExpression(
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS MISSING"),
             parameters = fieldDopeQuery.parameters,
-            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }
@@ -31,7 +30,6 @@ class IsNotMissingExpression(
         return DopeQuery(
             queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT MISSING"),
             parameters = fieldDopeQuery.parameters,
-            positionalParameters = fieldDopeQuery.positionalParameters,
         )
     }
 }

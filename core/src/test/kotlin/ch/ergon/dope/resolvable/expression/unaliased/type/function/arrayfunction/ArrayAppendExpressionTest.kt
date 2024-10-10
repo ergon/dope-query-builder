@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -22,8 +23,6 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_APPEND`() {
         val expected = DopeQuery(
             "ARRAY_APPEND(`numberArrayField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), someNumberField())
 
@@ -37,8 +36,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_APPEND($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(), someNumberField())
 
@@ -52,8 +50,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_APPEND(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -68,8 +65,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_APPEND($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayAppendExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -84,8 +80,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_APPEND(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -101,8 +96,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_APPEND(\$$parameterName, $1)",
-            mapOf(parameterName to parameterValue),
-            listOf(parameterValue2),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 

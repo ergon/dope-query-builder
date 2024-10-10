@@ -15,16 +15,16 @@ enum class OrderByType(val type: String) {
 
 private const val ORDER_BY = "ORDER BY"
 
-open class SelectOrderByClause(private val stringField: Field<StringType>, private val parentClause: ISelectGroupByClause) :
-    ISelectOrderByClause {
-
+open class SelectOrderByClause(
+    private val stringField: Field<StringType>,
+    private val parentClause: ISelectGroupByClause,
+) : ISelectOrderByClause {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val stringDopeQuery = stringField.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
-            parameters = parentDopeQuery.parameters + stringDopeQuery.parameters,
-            positionalParameters = parentDopeQuery.positionalParameters + stringDopeQuery.positionalParameters,
+            parameters = parentDopeQuery.parameters.merge(stringDopeQuery.parameters),
         )
     }
 }
@@ -34,14 +34,16 @@ class SelectOrderByTypeClause(
     private val orderByType: OrderByType,
     private val parentClause: ISelectGroupByClause,
 ) : SelectOrderByClause(stringField, parentClause) {
-
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val stringDopeQuery = stringField.toDopeQuery(manager)
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
-            parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
-            positionalParameters = stringDopeQuery.positionalParameters + parentDopeQuery.positionalParameters,
+            queryString = formatToQueryStringWithSymbol(
+                parentDopeQuery.queryString,
+                ORDER_BY,
+                stringDopeQuery.queryString + " $orderByType",
+            ),
+            parameters = parentDopeQuery.parameters.merge(stringDopeQuery.parameters),
         )
     }
 }

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,8 +20,6 @@ class LessThanExpressionTest : ManagerDependentTest {
     fun `should support less than`() {
         val expected = DopeQuery(
             "`numberField` < `numberField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LessThanExpression(someNumberField(), someNumberField())
 
@@ -34,8 +33,7 @@ class LessThanExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "$1 < `numberField`",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LessThanExpression(parameterValue.asParameter(), someNumberField())
 
@@ -50,8 +48,7 @@ class LessThanExpressionTest : ManagerDependentTest {
         val parameterValue2 = 6
         val expected = DopeQuery(
             "$1 < $2",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LessThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -65,8 +62,7 @@ class LessThanExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "`numberField` < $1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LessThanExpression(someNumberField(), parameterValue.asParameter())
 
@@ -81,8 +77,7 @@ class LessThanExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "$$parameterName < `numberField`",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LessThanExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -95,14 +90,13 @@ class LessThanExpressionTest : ManagerDependentTest {
     fun `should support less than with all named parameters`() {
         val parameterValue = 5
         val parameterValue2 = 6
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "$$parameterName1 < $$parameterName2",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "$$parameterName < $$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
-        val underTest = LessThanExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+        val underTest = LessThanExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

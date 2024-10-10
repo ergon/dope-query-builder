@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,7 @@ class NowStringExpressionTest : ManagerDependentTest {
     fun `should support now str`() {
         val expected = DopeQuery(
             "NOW_STR()",
-            emptyMap(),
-            emptyList(),
+
         )
         val underTest = NowStringExpression()
 
@@ -31,8 +31,7 @@ class NowStringExpressionTest : ManagerDependentTest {
     fun `should support now str with no parameters`() {
         val expected = DopeQuery(
             "NOW_STR(`stringField`)",
-            emptyMap(),
-            emptyList(),
+
         )
         val underTest = NowStringExpression(someStringField())
 
@@ -46,8 +45,8 @@ class NowStringExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "NOW_STR($1)",
-            emptyMap(),
-            listOf(parameterValue),
+
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NowStringExpression(parameterValue.asParameter())
 
@@ -62,10 +61,10 @@ class NowStringExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "NOW_STR(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+
         )
-        val underTest = NowStrExpression(parameterValue.asParameter(parameterName))
+        val underTest = NowStringExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

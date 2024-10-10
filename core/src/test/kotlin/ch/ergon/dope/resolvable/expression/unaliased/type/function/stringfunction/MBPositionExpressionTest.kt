@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,7 +18,7 @@ class MBPositionExpressionTest : ManagerDependentTest {
     fun `should support mbPosition`() {
         val expected = DopeQuery(
             "MB_POSITION(`stringField`, `stringField`)",
-            emptyMap(),
+
         )
         val underTest = MBPositionExpression(someStringField(), someStringField())
 
@@ -31,7 +32,8 @@ class MBPositionExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "MB_POSITION($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MBPositionExpression(parameterValue.asParameter(), someStringField())
 
@@ -46,7 +48,8 @@ class MBPositionExpressionTest : ManagerDependentTest {
         val parameterValue2 = "test"
         val expected = DopeQuery(
             "MB_POSITION($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+
+            DopeParameters(positionalParameters = listOf(parameterValue2, parameterValue2)),
         )
         val underTest = MBPositionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 

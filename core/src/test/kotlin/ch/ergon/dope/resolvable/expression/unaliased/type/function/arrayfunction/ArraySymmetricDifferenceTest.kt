@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,6 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
     fun `should support ARRAY_SYMDIFF`() {
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, `numberArrayField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -30,8 +29,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_SYMDIFF($1, `numberArrayField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -45,8 +43,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -61,8 +58,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
             "ARRAY_SYMDIFF($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -77,8 +73,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(\$$parameterName, `numberArrayField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
@@ -93,8 +88,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(`numberArrayField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
@@ -106,16 +100,15 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_SYMDIFF with all named parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterValue = listOf(4, 5, 6)
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_SYMDIFF(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
-            emptyList(),
+            "ARRAY_SYMDIFF(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest =
-            ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(parameterName1), parameterValue.asParameter(parameterName2))
+            ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -129,8 +122,8 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
             "ARRAY_SYMDIFF(\$$parameterName, $1)",
-            mapOf(parameterName to parameterValueCollection),
-            listOf(parameterValue),
+
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection), positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 

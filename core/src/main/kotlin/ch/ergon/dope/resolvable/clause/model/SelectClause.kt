@@ -17,12 +17,7 @@ class SelectClause(private val expression: Expression, private vararg val expres
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
-                expressionParameters + field.parameters
-            },
-            positionalParameters = expressionsDopeQuery.fold(expressionDopeQuery.positionalParameters) { expressionParameters, field ->
-                expressionParameters + field.positionalParameters
-            },
+            parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }
@@ -33,7 +28,6 @@ class SelectRawClause(private val expression: SingleExpression) : ISelectClause 
         return DopeQuery(
             queryString = formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
             parameters = expressionDopeQuery.parameters,
-            positionalParameters = expressionDopeQuery.positionalParameters,
         )
     }
 }
@@ -48,12 +42,7 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
-                expressionParameters + field.parameters
-            },
-            positionalParameters = expressionsDopeQuery.fold(expressionDopeQuery.positionalParameters) { expressionParameters, field ->
-                expressionParameters + field.positionalParameters
-            },
+            parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }

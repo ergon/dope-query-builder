@@ -15,7 +15,6 @@ class ToArrayExpression<T : AtomType>(
         return DopeQuery(
             queryString = toFunctionQueryString("TOARRAY", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
-            positionalParameters = expressionDopeQuery.positionalParameters,
         )
     }
 }

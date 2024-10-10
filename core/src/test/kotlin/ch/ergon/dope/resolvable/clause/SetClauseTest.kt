@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -25,8 +26,6 @@ class SetClauseTest : ManagerDependentTest {
     fun `should support set clause`() {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \"test\"",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -42,8 +41,6 @@ class SetClauseTest : ManagerDependentTest {
     fun `should support set clause with meta expiration`() {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET META().`expiration` = 3600",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SetClause(
             meta().expiration.to(3600.toDopeType()),
@@ -59,8 +56,6 @@ class SetClauseTest : ManagerDependentTest {
     fun `should support multiple set clauses`() {
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -78,8 +73,7 @@ class SetClauseTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = $1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SetClause(
             someStringField().to(parameterValue.asParameter()),
@@ -97,8 +91,7 @@ class SetClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "UPDATE `someBucket` SET `stringField` = \$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SetClause(
             someStringField().to(parameterValue.asParameter(parameterName)),

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -18,8 +19,6 @@ class SubstringExpressionTest : ManagerDependentTest {
     fun `should support sub string`() {
         val expected = DopeQuery(
             "SUBSTR(`stringField`, 3, 1)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SubstringExpression(someStringField(), 3.toDopeType(), 1.toDopeType())
 
@@ -33,8 +32,7 @@ class SubstringExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "SUBSTR($1, 3, 1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SubstringExpression(parameterValue.asParameter(), 3.toDopeType(), 1.toDopeType())
 
@@ -49,10 +47,9 @@ class SubstringExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SUBSTR(\$$parameterName, 3, 1)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = SubstringExpression(parameterValue.asParameter(parameterName), 3, 1)
+        val underTest = SubstringExpression(parameterValue.asParameter(parameterName), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(manager)
 

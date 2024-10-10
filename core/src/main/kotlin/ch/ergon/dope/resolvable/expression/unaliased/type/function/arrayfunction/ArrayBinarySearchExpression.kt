@@ -20,8 +20,7 @@ class ArrayBinarySearchExpression<T : ValidType>(
         val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_BINARY_SEARCH", arrayDopeQuery, valueDopeQuery),
-            parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
-            positionalParameters = arrayDopeQuery.positionalParameters + valueDopeQuery.positionalParameters,
+            parameters = arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
         )
     }
 }

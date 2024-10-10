@@ -15,7 +15,6 @@ class IsStringExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ISSTRING", expressionDopeQuery),
             parameters = expressionDopeQuery.parameters,
-            positionalParameters = expressionDopeQuery.positionalParameters,
         )
     }
 }

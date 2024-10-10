@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class InitCapExpressionTest : ManagerDependentTest {
     fun `should support init cap`() {
         val expected = DopeQuery(
             "INITCAP(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = InitCapExpression(someStringField())
 
@@ -32,8 +31,7 @@ class InitCapExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "INITCAP($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InitCapExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class InitCapExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "INITCAP(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = InitCapExpression(parameterValue.asParameter(parameterName))
 

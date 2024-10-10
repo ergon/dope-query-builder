@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class ModuloExpressionTest : ManagerDependentTest {
     fun `should support modulo`() {
         val expected = DopeQuery(
             "(`numberField` % `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ModuloExpression(someNumberField(), someNumberField())
 
@@ -32,8 +31,7 @@ class ModuloExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val expected = DopeQuery(
             "($1 % `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ModuloExpression(parameterValue.asParameter(), someNumberField())
 
@@ -48,8 +46,7 @@ class ModuloExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "(\$$parameterName % `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ModuloExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -64,8 +61,7 @@ class ModuloExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val expected = DopeQuery(
             "($1 % $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ModuloExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -78,14 +74,13 @@ class ModuloExpressionTest : ManagerDependentTest {
     fun `should support modulo with named all parameters`() {
         val parameterValue = 4
         val parameterValue2 = 5
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "(\$$parameterName1 % \$$parameterName2)",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "(\$$parameterName % \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
-        val underTest = ModuloExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+        val underTest = ModuloExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -97,8 +92,7 @@ class ModuloExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val expected = DopeQuery(
             "(`numberField` % $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ModuloExpression(someNumberField(), parameterValue.asParameter())
 
@@ -113,8 +107,7 @@ class ModuloExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "(`numberField` % \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ModuloExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
@@ -130,8 +123,7 @@ class ModuloExpressionTest : ManagerDependentTest {
         val parameterName = "param1"
         val expected = DopeQuery(
             "(\$$parameterName % $1)",
-            mapOf(parameterName to parameterValue),
-            listOf(parameterValue2),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = ModuloExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 

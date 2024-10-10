@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class IsBooleanExpressionTest : ManagerDependentTest {
     fun `should support is boolean expression with no parameters`() {
         val expected = DopeQuery(
             "ISBOOLEAN(`booleanField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = IsBooleanExpression(someBooleanField())
 
@@ -32,8 +31,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         val parameterValue = someBoolean()
         val expected = DopeQuery(
             "ISBOOLEAN($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ISBOOLEAN(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter(parameterName))
 

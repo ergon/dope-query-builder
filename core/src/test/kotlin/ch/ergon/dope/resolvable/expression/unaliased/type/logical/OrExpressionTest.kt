@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class OrExpressionTest : ManagerDependentTest {
     fun `should support or`() {
         val expected = DopeQuery(
             "(`booleanField` OR `booleanField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = OrExpression(someBooleanField(), someBooleanField())
 
@@ -32,8 +31,7 @@ class OrExpressionTest : ManagerDependentTest {
         val parameterValue = true
         val expected = DopeQuery(
             "($1 OR `booleanField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = OrExpression(parameterValue.asParameter(), someBooleanField())
 
@@ -48,8 +46,7 @@ class OrExpressionTest : ManagerDependentTest {
         val parameterValue2 = false
         val expected = DopeQuery(
             "($1 OR $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = OrExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -63,8 +60,7 @@ class OrExpressionTest : ManagerDependentTest {
         val parameterValue = false
         val expected = DopeQuery(
             "(`booleanField` OR $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = OrExpression(someBooleanField(), parameterValue.asParameter())
 
@@ -79,8 +75,7 @@ class OrExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "($$parameterName OR `booleanField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = OrExpression(parameterValue.asParameter(parameterName), someBooleanField())
 
@@ -93,14 +88,13 @@ class OrExpressionTest : ManagerDependentTest {
     fun `should support or with all named parameters`() {
         val parameterValue = true
         val parameterValue2 = false
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "($$parameterName1 OR $$parameterName2)",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "($$parameterName OR $$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
-        val underTest = OrExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+        val underTest = OrExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

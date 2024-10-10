@@ -25,8 +25,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use single key hint`() {
         val expected = DopeQuery(
-            queryString = "KEYS `stringField`",
-            parameters = emptyMap(),
+            "KEYS `stringField`",
         )
         val underTest = KeysHint(someStringField())
 
@@ -38,8 +37,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     @Test
     fun `should support use array keys hint`() {
         val expected = DopeQuery(
-            queryString = "KEYS `stringArrayField`",
-            parameters = emptyMap(),
+            "KEYS `stringArrayField`",
         )
         val underTest = KeysHint(someStringArrayField())
 
@@ -108,7 +106,6 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     fun `should support empty use index hint`() {
         val expected = DopeQuery(
             "INDEX ()",
-            parameters = emptyMap(),
         )
         val underTest = IndexHint(IndexReference())
 
@@ -121,7 +118,6 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     fun `should support use index hint`() {
         val expected = DopeQuery(
             "INDEX (`index`)",
-            parameters = emptyMap(),
         )
         val underTest = IndexHint(IndexReference("index"))
 
@@ -134,7 +130,6 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     fun `should support use index using gsi`() {
         val expected = DopeQuery(
             "INDEX (`index` USING GSI)",
-            parameters = emptyMap(),
         )
         val underTest = IndexHint(IndexReference("index", USING_GSI))
 
@@ -147,7 +142,6 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     fun `should support use index using fts`() {
         val expected = DopeQuery(
             "INDEX (`index` USING FTS)",
-            parameters = emptyMap(),
         )
         val underTest = IndexHint(IndexReference("index", USING_FTS))
 
@@ -160,7 +154,6 @@ class KeysOrIndexHintTest : ManagerDependentTest {
     fun `should support use index multiple references`() {
         val expected = DopeQuery(
             "INDEX (`index`, `index2`, USING GSI, USING FTS)",
-            parameters = emptyMap(),
         )
         val underTest = IndexHint(
             IndexReference("index"),

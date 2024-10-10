@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -18,8 +19,7 @@ class MaskExpressionTest : ManagerDependentTest {
     fun `should support mask with no parameters`() {
         val expected = DopeQuery(
             "MASK(`stringField`, {\"mask\": \"*\"})",
-            emptyMap(),
-            emptyList(),
+
         )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
@@ -33,8 +33,7 @@ class MaskExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "MASK($1, {\"mask\": \"*\"})",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
 
@@ -49,24 +48,8 @@ class MaskExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "MASK(\$$parameterName, {\"mask\": \"*\"})",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
-        )
-        val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
 
-        val actual = underTest.toDopeQuery(manager)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support mask with mixed parameters`() {
-        val parameterValue = "test"
-        val parameterName = "param"
-        val expected = DopeQuery(
-            "MASK(\$$parameterName, {\"mask\": \"*\"})",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
         )
         val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
 

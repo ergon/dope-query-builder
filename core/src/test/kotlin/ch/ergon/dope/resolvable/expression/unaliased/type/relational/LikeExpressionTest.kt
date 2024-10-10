@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class LikeExpressionTest : ManagerDependentTest {
     fun `should support like with no parameters`() {
         val expected = DopeQuery(
             "`stringField` LIKE `stringField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LikeExpression(someStringField(), someStringField())
 
@@ -32,8 +31,7 @@ class LikeExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "`stringField` LIKE $1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class LikeExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "`stringField` LIKE \$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter(parameterName))
 

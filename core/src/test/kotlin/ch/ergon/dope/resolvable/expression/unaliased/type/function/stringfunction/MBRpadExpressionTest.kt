@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,7 +20,6 @@ class MBRpadExpressionTest : ManagerDependentTest {
     fun `should support mbRpad`() {
         val expected = DopeQuery(
             "MB_RPAD(`stringField`, `numberField`)",
-            emptyMap(),
         )
         val underTest = MBRpadExpression(someStringField(), someNumberField())
 
@@ -33,7 +33,7 @@ class MBRpadExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "MB_RPAD($1, `numberField`)",
-            mapOf("$1" to parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MBRpadExpression(parameterValue.asParameter(), someNumberField())
 
@@ -48,7 +48,7 @@ class MBRpadExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val expected = DopeQuery(
             "MB_RPAD($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = MBRpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -61,7 +61,6 @@ class MBRpadExpressionTest : ManagerDependentTest {
     fun `should support mbRpad with extra `() {
         val expected = DopeQuery(
             "MB_RPAD(`stringField`, `numberField`, `stringField`)",
-            emptyMap(),
         )
         val underTest = MBRpadExpression(someStringField(), someNumberField(), someStringField())
 
@@ -75,7 +74,7 @@ class MBRpadExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "MB_RPAD($1, `numberField`, `stringField`)",
-            mapOf("$1" to parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MBRpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
@@ -91,7 +90,7 @@ class MBRpadExpressionTest : ManagerDependentTest {
         val parameterValue3 = "extra"
         val expected = DopeQuery(
             "MB_RPAD($1, $2, $3)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2, "$3" to parameterValue3),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
         )
         val underTest = MBRpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

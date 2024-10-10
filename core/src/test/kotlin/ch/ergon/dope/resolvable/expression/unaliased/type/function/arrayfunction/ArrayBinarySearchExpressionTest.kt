@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -22,8 +23,6 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_BINARY_SEARCH`() {
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), someNumberField())
 
@@ -37,8 +36,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(), someNumberField())
 
@@ -53,8 +51,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -68,8 +65,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -84,8 +80,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH(`numberArrayField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
@@ -100,8 +95,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         val parameterValue = 1
         val expected = DopeQuery(
             "ARRAY_BINARY_SEARCH($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -114,15 +108,14 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_BINARY_SEARCH with named all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_BINARY_SEARCH(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
-            emptyList(),
+            "ARRAY_BINARY_SEARCH(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayBinarySearchExpression(
-            parameterValueCollection.asParameter(parameterName1),
+            parameterValueCollection.asParameter(parameterName),
             parameterValue.asParameter(parameterName2),
         )
 

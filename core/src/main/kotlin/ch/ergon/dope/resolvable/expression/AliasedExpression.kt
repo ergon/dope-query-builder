@@ -15,7 +15,6 @@ class AliasedExpression<T : ValidType>(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(unaliasedExpressionDopeQuery.queryString, "AS", "`$alias`"),
             parameters = unaliasedExpressionDopeQuery.parameters,
-            positionalParameters = unaliasedExpressionDopeQuery.positionalParameters,
         )
     }
 }

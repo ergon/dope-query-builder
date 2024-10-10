@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,6 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_AVG`() {
         val expected = DopeQuery(
             "ARRAY_AVG(`numberArrayField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayAverageExpression(someNumberArrayField())
 
@@ -30,8 +29,7 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_AVG($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayAverageExpression(parameterValue.asParameter())
 

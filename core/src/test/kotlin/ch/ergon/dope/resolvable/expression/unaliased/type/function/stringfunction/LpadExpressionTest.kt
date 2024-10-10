@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,8 +20,6 @@ class LpadExpressionTest : ManagerDependentTest {
     fun `should support lpad`() {
         val expected = DopeQuery(
             "LPAD(`stringField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LpadExpression(someStringField(), someNumberField())
 
@@ -34,8 +33,7 @@ class LpadExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "LPAD($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), someNumberField())
 
@@ -50,8 +48,7 @@ class LpadExpressionTest : ManagerDependentTest {
         val parameterValue2 = 5
         val expected = DopeQuery(
             "LPAD($1, $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -64,8 +61,6 @@ class LpadExpressionTest : ManagerDependentTest {
     fun `should support lpad with extra parameters`() {
         val expected = DopeQuery(
             "LPAD(`stringField`, `numberField`, `stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LpadExpression(someStringField(), someNumberField(), someStringField())
 
@@ -79,8 +74,7 @@ class LpadExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "LPAD($1, `numberField`, `stringField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
@@ -96,8 +90,7 @@ class LpadExpressionTest : ManagerDependentTest {
         val parameterValue3 = "extra"
         val expected = DopeQuery(
             "LPAD($1, $2, $3)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2, parameterValue3),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
         )
         val underTest = LpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 

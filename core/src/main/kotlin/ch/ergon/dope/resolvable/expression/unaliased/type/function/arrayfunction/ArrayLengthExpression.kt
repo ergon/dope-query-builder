@@ -16,7 +16,6 @@ class ArrayLengthExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_LENGTH", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
-            positionalParameters = arrayDopeQuery.positionalParameters,
         )
     }
 }

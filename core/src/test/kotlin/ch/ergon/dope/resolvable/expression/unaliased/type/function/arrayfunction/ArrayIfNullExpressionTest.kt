@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,6 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
         val array = someNumberArrayField()
         val expected = DopeQuery(
             "ARRAY_IFNULL(`numberArrayField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayIfNullExpression(array)
 
@@ -31,8 +30,7 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_IFNULL($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter())
 
@@ -47,8 +45,7 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_IFNULL(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter(parameterName))
 

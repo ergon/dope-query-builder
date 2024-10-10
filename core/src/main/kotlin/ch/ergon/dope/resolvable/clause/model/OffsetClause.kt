@@ -20,8 +20,7 @@ sealed class OffsetClause(
         val numberDopeQuery = numberExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "OFFSET", numberDopeQuery.queryString),
-            parameters = parentDopeQuery.parameters + numberDopeQuery.parameters,
-            positionalParameters = parentDopeQuery.positionalParameters + numberDopeQuery.positionalParameters,
+            parameters = parentDopeQuery.parameters.merge(numberDopeQuery.parameters),
         )
     }
 }

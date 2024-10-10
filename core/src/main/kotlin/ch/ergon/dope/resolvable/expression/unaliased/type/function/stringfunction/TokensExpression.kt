@@ -24,7 +24,6 @@ class TokensExpression(
                 optDopeQuery.queryString,
             ),
             parameters = optDopeQuery.parameters,
-            positionalParameters = optDopeQuery.positionalParameters,
         )
     }
 }

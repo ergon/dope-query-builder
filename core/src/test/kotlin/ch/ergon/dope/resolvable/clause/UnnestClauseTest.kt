@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -21,8 +22,6 @@ class UnnestClauseTest : ManagerDependentTest {
     fun `should support unnest`() {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
@@ -35,8 +34,6 @@ class UnnestClauseTest : ManagerDependentTest {
     fun `should support aliased unnest`() {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
@@ -50,8 +47,7 @@ class UnnestClauseTest : ManagerDependentTest {
         val parameterValue = listOf("value")
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
 
@@ -66,8 +62,7 @@ class UnnestClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` UNNEST \$$parameterName AS `value`",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter(parameterName).alias("value"), someFromClause())
 
@@ -82,8 +77,7 @@ class UnnestClauseTest : ManagerDependentTest {
         val parameterValue2 = listOf("param")
         val expected = DopeQuery(
             "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = AliasedUnnestClause(
             parameterValue2.asParameter().alias("value"),
@@ -99,16 +93,15 @@ class UnnestClauseTest : ManagerDependentTest {
     fun `should support aliased unnest with named parameter and named parent parameter`() {
         val parameterValue = "param"
         val parameterValue2 = listOf("param")
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "SELECT \$$parameterName1 FROM `someBucket` UNNEST \$$parameterName2 AS `value`",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "SELECT \$$parameterName FROM `someBucket` UNNEST \$$parameterName2 AS `value`",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = AliasedUnnestClause(
             parameterValue2.asParameter(parameterName2).alias("value"),
-            someFromClause(parent = someSelectClause(parameterValue.asParameter(parameterName1))),
+            someFromClause(parent = someSelectClause(parameterValue.asParameter(parameterName))),
         )
 
         val actual = underTest.toDopeQuery(manager)

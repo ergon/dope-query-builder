@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -21,8 +22,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = 10
         val expected = DopeQuery(
             "$1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NumberParameter(parameterValue)
 
@@ -37,8 +37,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = "testName"
         val expected = DopeQuery(
             "\$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NumberParameter(parameterValue, parameterName)
 
@@ -52,8 +51,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = "testValue"
         val expected = DopeQuery(
             "$1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = StringParameter(parameterValue)
 
@@ -68,8 +66,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = "testName"
         val expected = DopeQuery(
             "\$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = StringParameter(parameterValue, parameterName)
 
@@ -83,8 +80,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = true
         val expected = DopeQuery(
             "$1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = BooleanParameter(parameterValue)
 
@@ -99,8 +95,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = "testName"
         val expected = DopeQuery(
             "\$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = BooleanParameter(parameterValue, parameterName)
 
@@ -114,8 +109,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterValue = listOf("testValue")
         val expected = DopeQuery(
             "$1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayParameter<ValidType>(parameterValue)
 
@@ -130,8 +124,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = "testName"
         val expected = DopeQuery(
             "\$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
 

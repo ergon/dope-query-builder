@@ -28,12 +28,10 @@ class SetClause(
                 fieldAssignmentDopeQuery.queryString,
                 *fieldAssignmentsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = parentClauseDopeQuery.parameters + fieldAssignmentsDopeQuery.fold(
+            parameters = parentClauseDopeQuery.parameters.merge(
                 fieldAssignmentDopeQuery.parameters,
-            ) { setAssignmentsParameters, field -> setAssignmentsParameters + field.parameters },
-            positionalParameters = parentClauseDopeQuery.positionalParameters + fieldAssignmentsDopeQuery.fold(
-                fieldAssignmentDopeQuery.positionalParameters,
-            ) { setAssignmentsParameters, field -> setAssignmentsParameters + field.positionalParameters },
+                *fieldAssignmentsDopeQuery.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
 
@@ -74,8 +72,7 @@ class SetAssignment<T : ValidType>(
         val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = "${fieldDopeQuery.queryString} = ${valueDopeQuery.queryString}",
-            parameters = fieldDopeQuery.parameters + valueDopeQuery.parameters,
-            positionalParameters = fieldDopeQuery.positionalParameters + valueDopeQuery.positionalParameters,
+            parameters = fieldDopeQuery.parameters.merge(valueDopeQuery.parameters),
         )
     }
 }

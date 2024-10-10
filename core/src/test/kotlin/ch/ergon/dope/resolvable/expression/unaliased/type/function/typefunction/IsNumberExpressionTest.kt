@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class IsNumberExpressionTest : ManagerDependentTest {
     fun `should support is number expression with no parameters`() {
         val expected = DopeQuery(
             "ISNUMBER(`numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = IsNumberExpression(someNumberField())
 
@@ -32,8 +31,7 @@ class IsNumberExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ISNUMBER($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsNumberExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class IsNumberExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ISNUMBER(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = IsNumberExpression(parameterValue.asParameter(parameterName))
 

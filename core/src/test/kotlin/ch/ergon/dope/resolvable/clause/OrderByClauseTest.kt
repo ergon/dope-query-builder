@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,8 +20,6 @@ class OrderByClauseTest : ManagerDependentTest {
     fun `should support order by`() {
         val expected = DopeQuery(
             "SELECT * ORDER BY `stringField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause())
 
@@ -35,8 +34,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SELECT \$$parameterName ORDER BY `stringField`",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter(parameterName)))
 
@@ -50,8 +48,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val parameterValue = "asdf"
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField`",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOrderByClause(someStringField(), someSelectClause(parameterValue.asParameter()))
 
@@ -64,8 +61,6 @@ class OrderByClauseTest : ManagerDependentTest {
     fun `should support order by with type ASC`() {
         val expected = DopeQuery(
             "SELECT * ORDER BY `stringField` ASC",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause())
 
@@ -80,8 +75,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SELECT \$$parameterName ORDER BY `stringField` ASC",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter(parameterName)))
 
@@ -95,8 +89,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val parameterValue = "asdf"
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField` ASC",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.ASC, someSelectClause(parameterValue.asParameter()))
 
@@ -109,8 +102,6 @@ class OrderByClauseTest : ManagerDependentTest {
     fun `should support order by with type DESC`() {
         val expected = DopeQuery(
             "SELECT * ORDER BY `stringField` DESC",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause())
 
@@ -125,8 +116,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SELECT \$$parameterName ORDER BY `stringField` DESC",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter(parameterName)))
 
@@ -140,8 +130,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val parameterValue = "asdf"
         val expected = DopeQuery(
             "SELECT $1 ORDER BY `stringField` DESC",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SelectOrderByTypeClause(someStringField(), OrderByType.DESC, someSelectClause(parameterValue.asParameter()))
 

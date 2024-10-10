@@ -19,5 +19,5 @@ data class CustomTokenOptions(var name: Boolean = false, private val specials: B
         queryString = "{\"name\": $name, \"case\": \"$case\", \"specials\": $specials}"
     }
 
-    fun toDopeQuery() = DopeQuery(queryString, emptyMap(), emptyList())
+    fun toDopeQuery() = DopeQuery(queryString)
 }

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,6 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_REVERSE`() {
         val expected = DopeQuery(
             "ARRAY_REVERSE(`numberArrayField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayReverseExpression(someNumberArrayField())
 
@@ -30,8 +29,7 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_REVERSE($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayReverseExpression(parameterValue.asParameter())
 
@@ -46,8 +44,7 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REVERSE(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayReverseExpression(parameterValue.asParameter(parameterName))
 

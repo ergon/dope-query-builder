@@ -17,12 +17,7 @@ sealed class ArrayFunctionExpression<T : ValidType>(
         val argumentsDopeQuery = arguments.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(symbol, arrayDopeQuery, *argumentsDopeQuery.toTypedArray()),
-            parameters = arrayDopeQuery.parameters + argumentsDopeQuery.fold(
-                emptyMap(),
-            ) { argsParameters, field -> argsParameters + field.parameters },
-            positionalParameters = arrayDopeQuery.positionalParameters + argumentsDopeQuery.fold(
-                emptyList(),
-            ) { argsPositionalParameters, field -> argsPositionalParameters + field.positionalParameters },
+            parameters = arrayDopeQuery.parameters.merge(*argumentsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }

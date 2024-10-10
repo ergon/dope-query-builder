@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class TypeOfExpressionTest : ManagerDependentTest {
     fun `should support type of expression with no parameters`() {
         val expected = DopeQuery(
             "TYPE(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = TypeOfExpression(someStringField())
 
@@ -32,8 +31,7 @@ class TypeOfExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "TYPE($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = TypeOfExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class TypeOfExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "TYPE(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = TypeOfExpression(parameterValue.asParameter(parameterName))
 

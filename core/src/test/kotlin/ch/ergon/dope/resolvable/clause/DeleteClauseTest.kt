@@ -15,8 +15,6 @@ class DeleteClauseTest : ManagerDependentTest {
     fun `should support delete`() {
         val expected = DopeQuery(
             "DELETE FROM `someBucket`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = DeleteClause(someBucket())
 
@@ -29,8 +27,6 @@ class DeleteClauseTest : ManagerDependentTest {
     fun `should support delete with alias bucket`() {
         val expected = DopeQuery(
             "DELETE FROM `someBucket` AS `bucket`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = DeleteClause(someBucket().alias("bucket"))
 

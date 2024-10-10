@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,6 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_CONCAT`() {
         val expected = DopeQuery(
             "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -30,8 +29,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_CONCAT($1, `numberArrayField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -46,8 +44,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_CONCAT(\$$parameterName, `numberArrayField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
@@ -61,8 +58,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
             "ARRAY_CONCAT(`numberArrayField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -77,8 +73,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_CONCAT(`numberArrayField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
@@ -93,8 +88,7 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
             "ARRAY_CONCAT($1, $2)",
-            emptyMap(),
-            listOf(parameterValueCollection, parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayConcatExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -107,15 +101,14 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_CONCAT with named all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "ARRAY_CONCAT(\$$parameterName1, \$$parameterName2)",
-            mapOf(parameterName1 to parameterValueCollection, parameterName2 to parameterValue),
-            emptyList(),
+            "ARRAY_CONCAT(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
         )
         val underTest = ArrayConcatExpression(
-            parameterValueCollection.asParameter(parameterName1),
+            parameterValueCollection.asParameter(parameterName),
             parameterValue.asParameter(parameterName2),
         )
 

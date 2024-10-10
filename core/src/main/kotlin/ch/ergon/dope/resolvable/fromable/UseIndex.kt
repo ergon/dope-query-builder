@@ -22,8 +22,6 @@ class IndexReference(
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = formatIndexToQueryString(indexName, indexType?.type),
-        parameters = emptyMap(),
-        positionalParameters = emptyList(),
     )
 }
 
@@ -40,10 +38,7 @@ class UseIndex(
                 USE_INDEX,
                 formatListToQueryStringWithBrackets(indexReferenceDopeQueries, separator = ", ", prefix = "(", postfix = ")"),
             ),
-            parameters = bucketDopeQuery.parameters + indexReferenceDopeQueries.fold(emptyMap()) { indexReferenceParameters, field ->
-                indexReferenceParameters + field.parameters
-            },
-            positionalParameters = bucketDopeQuery.positionalParameters + indexReferenceDopeQueries.flatMap { it.positionalParameters },
+            parameters = bucketDopeQuery.parameters.merge(*indexReferenceDopeQueries.map { it.parameters }.toTypedArray()),
         )
     }
 }

@@ -18,8 +18,7 @@ class ToNumberExpression<T : ValidType>(
         val filterCharsDopeQuery = filterChars?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, filterCharsDopeQuery),
-            parameters = expressionDopeQuery.parameters + filterCharsDopeQuery?.parameters.orEmpty(),
-            positionalParameters = expressionDopeQuery.positionalParameters + filterCharsDopeQuery?.positionalParameters.orEmpty(),
+            parameters = expressionDopeQuery.parameters.merge(filterCharsDopeQuery?.parameters),
         )
     }
 }

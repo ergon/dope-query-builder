@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class SuffixesExpressionTest : ManagerDependentTest {
     fun `should support split`() {
         val expected = DopeQuery(
             "SUFFIXES(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = SuffixesExpression(someStringField())
 
@@ -32,8 +31,7 @@ class SuffixesExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "SUFFIXES($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SuffixesExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class SuffixesExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "SUFFIXES(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SuffixesExpression(parameterValue.asParameter(parameterName))
 

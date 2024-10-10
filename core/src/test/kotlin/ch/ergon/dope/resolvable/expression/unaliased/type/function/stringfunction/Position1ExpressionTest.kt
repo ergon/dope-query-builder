@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,7 +18,6 @@ class Position1ExpressionTest : ManagerDependentTest {
     fun `should support position1`() {
         val expected = DopeQuery(
             "POSITION1(`stringField`, `stringField`)",
-            emptyMap(),
         )
         val underTest = Position1Expression(someStringField(), someStringField())
 
@@ -31,7 +31,7 @@ class Position1ExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "POSITION1($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = Position1Expression(parameterValue.asParameter(), someStringField())
 
@@ -46,7 +46,7 @@ class Position1ExpressionTest : ManagerDependentTest {
         val parameterValue2 = "test"
         val expected = DopeQuery(
             "POSITION1($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = Position1Expression(parameterValue.asParameter(), parameterValue2.asParameter())
 

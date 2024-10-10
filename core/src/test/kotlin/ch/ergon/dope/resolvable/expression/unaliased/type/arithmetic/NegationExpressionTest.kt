@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class NegationExpressionTest : ManagerDependentTest {
     fun `should support negation`() {
         val expected = DopeQuery(
             "-`numberField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = NegationExpression(someNumberField())
 
@@ -32,8 +31,7 @@ class NegationExpressionTest : ManagerDependentTest {
         val parameterValue = 4
         val expected = DopeQuery(
             "-$1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NegationExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class NegationExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "-\$$parameterName",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = NegationExpression(parameterValue.asParameter(parameterName))
 

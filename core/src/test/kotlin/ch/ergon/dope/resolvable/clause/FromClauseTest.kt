@@ -16,8 +16,6 @@ class FromClauseTest : ManagerDependentTest {
     fun `should support from`() {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = FromClause(someBucket(), someSelectClause())
 
@@ -30,8 +28,6 @@ class FromClauseTest : ManagerDependentTest {
     fun `should support from with alias bucket`() {
         val expected = DopeQuery(
             "SELECT * FROM `someBucket` AS `bucket`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = FromClause(someBucket().alias("bucket"), someSelectClause())
 

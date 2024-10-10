@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_REPEAT`() {
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, `numberField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ArrayRepeatExpression(someNumberField(), someNumberField())
 
@@ -32,8 +31,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ARRAY_REPEAT($1, `numberField`)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), someNumberField())
 
@@ -47,8 +45,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val parameterValue = someNumber()
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, $1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter())
 
@@ -63,8 +60,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val parameterValue2 = someNumber()
         val expected = DopeQuery(
             "ARRAY_REPEAT($1, $2)",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -79,8 +75,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REPEAT(\$$parameterName, `numberField`)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(parameterName), someNumberField())
 
@@ -95,8 +90,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REPEAT(`numberField`, \$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
@@ -112,8 +106,7 @@ class ArrayRepeatExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "ARRAY_REPEAT(\$$parameterName, $1)",
-            mapOf(parameterName to parameterValue),
-            listOf(parameterValue2),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
         )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 

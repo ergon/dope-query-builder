@@ -34,8 +34,7 @@ class UseKeysClass private constructor(
         val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
-            parameters = bucketDopeQuery.parameters + keysDopeQuery.parameters,
-            positionalParameters = bucketDopeQuery.positionalParameters + keysDopeQuery.positionalParameters,
+            parameters = bucketDopeQuery.parameters.merge(keysDopeQuery.parameters),
         )
     }
 }

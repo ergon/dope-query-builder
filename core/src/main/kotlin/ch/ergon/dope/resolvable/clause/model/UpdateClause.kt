@@ -15,7 +15,6 @@ class UpdateClause(private val updatable: Updatable) : IUpdateClause {
         return DopeQuery(
             queryString = "UPDATE ${updatableDopeQuery.queryString}",
             parameters = updatableDopeQuery.parameters,
-            positionalParameters = updatableDopeQuery.positionalParameters,
         )
     }
 }

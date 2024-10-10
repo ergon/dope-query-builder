@@ -14,8 +14,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta`() {
         val expected = DopeQuery(
             "META(`someBucket`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 
@@ -28,8 +26,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta field cas`() {
         val expected = DopeQuery(
             "META(`someBucket`).`cas`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 
@@ -42,8 +38,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta field expiration`() {
         val expected = DopeQuery(
             "META(`someBucket`).`expiration`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 
@@ -56,8 +50,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta field flags`() {
         val expected = DopeQuery(
             "META(`someBucket`).`flags`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 
@@ -70,8 +62,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta field id`() {
         val expected = DopeQuery(
             "META(`someBucket`).`id`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 
@@ -84,8 +74,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta field type`() {
         val expected = DopeQuery(
             "META(`someBucket`).`type`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 
@@ -98,8 +86,6 @@ class MetaExpressionTest : ManagerDependentTest {
     fun `should support meta field keyspace`() {
         val expected = DopeQuery(
             "META(`someBucket`).`keyspace`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = MetaExpression(someBucket())
 

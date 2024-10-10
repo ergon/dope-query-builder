@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,8 +18,6 @@ class LengthExpressionTest : ManagerDependentTest {
     fun `should support length with no parameters`() {
         val expected = DopeQuery(
             "LENGTH(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = LengthExpression(someStringField())
 
@@ -32,8 +31,7 @@ class LengthExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "LENGTH($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LengthExpression(parameterValue.asParameter())
 
@@ -48,8 +46,7 @@ class LengthExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "LENGTH(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LengthExpression(parameterValue.asParameter(parameterName))
 

@@ -16,7 +16,6 @@ class ArrayCountExpression<T : ValidType>(
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
-            positionalParameters = arrayDopeQuery.positionalParameters,
         )
     }
 }

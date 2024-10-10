@@ -19,20 +19,18 @@ class ArrayPrependExpression<T : ValidType>(
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val arrayDopeQuery = array.toDopeQuery(manager)
         val valueDopeQuery = value.toDopeQuery(manager)
-        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery(manager) }
+        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery(manager) }.toTypedArray()
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "ARRAY_PREPEND",
                 valueDopeQuery,
-                *additionalValuesDopeQuery.toTypedArray(),
+                *additionalValuesDopeQuery,
                 arrayDopeQuery,
             ),
-            parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters + additionalValuesDopeQuery.fold(
-                emptyMap(),
-            ) { argsParameters, field -> argsParameters + field.parameters },
-            positionalParameters = arrayDopeQuery.positionalParameters + valueDopeQuery.positionalParameters + additionalValuesDopeQuery.fold(
-                emptyList(),
-            ) { argsPositionalParameters, field -> argsPositionalParameters + field.positionalParameters },
+            parameters = arrayDopeQuery.parameters.merge(
+                valueDopeQuery.parameters,
+                *additionalValuesDopeQuery.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
 }

@@ -14,7 +14,6 @@ class ExistsExpression<T : ValidType>(private val array: TypeExpression<ArrayTyp
         return DopeQuery(
             queryString = "EXISTS ${arrayDopeQuery.queryString}",
             parameters = arrayDopeQuery.parameters,
-            positionalParameters = arrayDopeQuery.positionalParameters,
         )
     }
 }

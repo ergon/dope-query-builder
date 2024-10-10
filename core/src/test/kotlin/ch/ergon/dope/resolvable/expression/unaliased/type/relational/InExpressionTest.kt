@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -26,8 +27,6 @@ class InExpressionTest : ManagerDependentTest {
     fun `should support in`() {
         val expected = DopeQuery(
             "`stringField` IN `stringArrayField`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = InExpression(someStringField(), someStringArrayField())
 
@@ -41,8 +40,7 @@ class InExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val expected = DopeQuery(
             "$1 IN `stringArrayField`",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InExpression(parameterValue.asParameter(), someStringArrayField())
 
@@ -57,8 +55,7 @@ class InExpressionTest : ManagerDependentTest {
         val parameterValue2 = listOf("test")
         val expected = DopeQuery(
             "$1 IN $2",
-            emptyMap(),
-            listOf(parameterValue, parameterValue2),
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = InExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -72,8 +69,7 @@ class InExpressionTest : ManagerDependentTest {
         val parameterValue = listOf(5)
         val expected = DopeQuery(
             "`numberField` IN $1",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 
@@ -88,8 +84,7 @@ class InExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "$$parameterName IN `stringArrayField`",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = InExpression(parameterValue.asParameter(parameterName), someStringArrayField())
 
@@ -102,14 +97,13 @@ class InExpressionTest : ManagerDependentTest {
     fun `should support in with all named parameters`() {
         val parameterValue = "test"
         val parameterValue2 = listOf("test")
-        val parameterName1 = "param1"
+        val parameterName = "param1"
         val parameterName2 = "param2"
         val expected = DopeQuery(
-            "$$parameterName1 IN $$parameterName2",
-            mapOf(parameterName1 to parameterValue, parameterName2 to parameterValue2),
-            emptyList(),
+            "$$parameterName IN $$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
-        val underTest = InExpression(parameterValue.asParameter(parameterName1), parameterValue2.asParameter(parameterName2))
+        val underTest = InExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

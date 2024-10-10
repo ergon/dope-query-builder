@@ -15,8 +15,6 @@ class UpdateClauseTest : ManagerDependentTest {
     fun `should support update clause`() {
         val expected = DopeQuery(
             "UPDATE `someBucket`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = UpdateClause(someBucket())
 
@@ -29,8 +27,6 @@ class UpdateClauseTest : ManagerDependentTest {
     fun `should support update clause with an alias bucket`() {
         val expected = DopeQuery(
             "UPDATE `someBucket` AS `bucket`",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = UpdateClause(someBucket().alias("bucket"))
 

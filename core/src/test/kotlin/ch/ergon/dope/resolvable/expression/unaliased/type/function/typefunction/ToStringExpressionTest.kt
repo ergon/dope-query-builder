@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -20,8 +21,6 @@ class ToStringExpressionTest : ManagerDependentTest {
     fun `should support to string expression with no parameters`() {
         val expected = DopeQuery(
             "TOSTRING(`stringField`)",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ToStringExpression(someStringField())
 
@@ -35,8 +34,7 @@ class ToStringExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "TOSTRING($1)",
-            emptyMap(),
-            listOf(parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToStringExpression(parameterValue.asParameter())
 
@@ -51,8 +49,7 @@ class ToStringExpressionTest : ManagerDependentTest {
         val parameterName = "param"
         val expected = DopeQuery(
             "TOSTRING(\$$parameterName)",
-            mapOf(parameterName to parameterValue),
-            emptyList(),
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ToStringExpression(parameterValue.asParameter(parameterName))
 

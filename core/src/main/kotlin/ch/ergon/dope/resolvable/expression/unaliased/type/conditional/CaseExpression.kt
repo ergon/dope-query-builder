@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
@@ -19,8 +20,7 @@ class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Re
         val caseDopeQuery = case?.toDopeQuery(manager)
         return DopeQuery(
             queryString = "$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}",
-            parameters = caseDopeQuery?.parameters.orEmpty(),
-            positionalParameters = caseDopeQuery?.positionalParameters.orEmpty(),
+            parameters = caseDopeQuery?.parameters ?: DopeParameters(),
         )
     }
 }
@@ -40,12 +40,9 @@ class CaseExpression<T : ValidType, U : ValidType>(
                 conditionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
                     "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
                 } + END,
-            parameters = caseDopeQuery.parameters + conditionDopeQueries.fold(emptyMap()) { parameters, query ->
-                parameters + query.first.parameters + query.second.parameters
-            },
-            positionalParameters = caseDopeQuery.positionalParameters + conditionDopeQueries.fold(emptyList()) { positionalParameters, query ->
-                positionalParameters + query.first.positionalParameters + query.second.positionalParameters
-            },
+            parameters = caseDopeQuery.parameters.merge(
+                *conditionDopeQueries.map { it.first.parameters; it.second.parameters }.toTypedArray(),
+            ),
         )
     }
 }
@@ -68,12 +65,9 @@ class ElseCaseExpression<T : ValidType, U : ValidType>(
                     "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
                 } + "$ELSE ${elseCaseDopeQuery.queryString} " +
                 END,
-            parameters = caseDopeQuery.parameters + conditionDopeQueries.fold(emptyMap()) { parameters, query ->
-                parameters + query.first.parameters + query.second.parameters
-            } + elseCaseDopeQuery.parameters,
-            positionalParameters = caseDopeQuery.positionalParameters + conditionDopeQueries.fold(emptyList()) { positionalParameters, query ->
-                positionalParameters + query.first.positionalParameters + query.second.positionalParameters
-            } + elseCaseDopeQuery.positionalParameters,
+            parameters = caseDopeQuery.parameters.merge(
+                *conditionDopeQueries.map { it.first.parameters; it.second.parameters }.toTypedArray(),
+            ),
         )
     }
 }

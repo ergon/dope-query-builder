@@ -18,14 +18,12 @@ open class InfixOperator(
         return if (useBrackets) {
             DopeQuery(
                 queryString = formatToQueryStringWithBrackets(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
-                parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
-                positionalParameters = leftDopeQuery.positionalParameters + rightDopeQuery.positionalParameters,
+                parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
             )
         } else {
             DopeQuery(
                 queryString = formatToQueryStringWithSymbol(leftDopeQuery.queryString, symbol, rightDopeQuery.queryString),
-                parameters = leftDopeQuery.parameters + rightDopeQuery.parameters,
-                positionalParameters = leftDopeQuery.positionalParameters + rightDopeQuery.positionalParameters,
+                parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
             )
         }
     }

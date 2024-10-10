@@ -24,8 +24,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support simple case expression with single when then`() {
         val expected = DopeQuery(
             "CASE `numberField` WHEN `other` THEN `stringField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = CaseExpression(
             CaseClass(someNumberField()),
@@ -41,8 +39,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support simple case expression with multiple when then`() {
         val expected = DopeQuery(
             "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = CaseExpression(
             CaseClass(someNumberField()),
@@ -59,8 +55,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support simple else case expression with single when then`() {
         val expected = DopeQuery(
             "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
@@ -77,8 +71,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support simple else case expression with multiple when then`() {
         val expected = DopeQuery(
             "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
@@ -96,8 +88,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support searched case expression with single when then`() {
         val expected = DopeQuery(
             "CASE WHEN `booleanField` THEN `stringField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = CaseExpression(
             CaseClass(),
@@ -113,8 +103,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support searched case expression with multiple when then`() {
         val expected = DopeQuery(
             "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = CaseExpression(
             CaseClass(),
@@ -131,8 +119,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support searched else case expression with single when then`() {
         val expected = DopeQuery(
             "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ElseCaseExpression(
             CaseClass(),
@@ -149,8 +135,6 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should support searched else case expression with multiple when then`() {
         val expected = DopeQuery(
             "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
-            emptyMap(),
-            emptyList(),
         )
         val underTest = ElseCaseExpression(
             CaseClass(),
