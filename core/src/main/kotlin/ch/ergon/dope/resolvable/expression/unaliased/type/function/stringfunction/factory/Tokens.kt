@@ -1,7 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.TokensExpression
 
 enum class TOKEN_CASES { LOWER, UPPER }
 
@@ -22,5 +21,3 @@ data class CustomTokenOptions(var name: Boolean = false, private val specials: B
 
     fun toDopeQuery() = DopeQuery(queryString, emptyMap())
 }
-
-fun tokens(inStr: List<String>, opt: CustomTokenOptions = CustomTokenOptions()) = TokensExpression(inStr, opt)

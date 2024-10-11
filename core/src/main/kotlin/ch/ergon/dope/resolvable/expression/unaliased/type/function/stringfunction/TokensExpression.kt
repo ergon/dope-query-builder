@@ -27,3 +27,5 @@ class TokensExpression(
         )
     }
 }
+
+fun tokens(inStr: List<String>, opt: CustomTokenOptions = CustomTokenOptions()) = TokensExpression(inStr, opt)

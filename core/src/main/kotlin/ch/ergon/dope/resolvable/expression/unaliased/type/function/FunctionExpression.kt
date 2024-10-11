@@ -10,13 +10,13 @@ import ch.ergon.dope.validtype.ValidType
 
 abstract class FunctionExpression<T : ValidType>(
     private val symbol: String,
-    private vararg val expressions: UnaliasedExpression<T>,
+    private vararg val expressions: UnaliasedExpression<out ValidType>?,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionsDopeQuery = expressions.map {
+        val expressionsDopeQuery = expressions.mapNotNull {
             when (it) {
                 is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
-                else -> it.toDopeQuery(manager)
+                else -> it?.toDopeQuery(manager)
             }
         }
         return DopeQuery(
@@ -24,9 +24,9 @@ abstract class FunctionExpression<T : ValidType>(
                 symbol,
                 *expressionsDopeQuery.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(
-                emptyMap(),
-            ) { expressionParameters, expression -> expressionParameters + expression.parameters },
+            parameters = expressionsDopeQuery.fold(emptyMap()) { expressionParameters, expression ->
+                expressionParameters + expression.parameters
+            },
         )
     }
 }
