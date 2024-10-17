@@ -2,7 +2,6 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -13,12 +12,7 @@ abstract class FunctionExpression<T : ValidType>(
     private vararg val expressions: UnaliasedExpression<out ValidType>?,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionsDopeQuery = expressions.mapNotNull {
-            when (it) {
-                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
-                else -> it?.toDopeQuery(manager)
-            }
-        }
+        val expressionsDopeQuery = expressions.mapNotNull { it?.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 symbol,

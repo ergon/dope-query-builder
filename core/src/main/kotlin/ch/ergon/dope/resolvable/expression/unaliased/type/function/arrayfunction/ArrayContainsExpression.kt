@@ -17,14 +17,8 @@ class ArrayContainsExpression<T : ValidType>(
     private val value: TypeExpression<T>,
 ) : TypeExpression<BooleanType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
-        val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
-            else -> value.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_CONTAINS", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
@@ -43,3 +37,15 @@ fun arrayContains(array: TypeExpression<ArrayType<NumberType>>, value: Number) =
 
 fun arrayContains(array: TypeExpression<ArrayType<BooleanType>>, value: Boolean) =
     arrayContains(array, value.toDopeType())
+
+fun <T : ValidType> arrayContains(array: ISelectOffsetClause<T>, value: TypeExpression<T>) =
+    arrayContains(array.asExpression(), value)
+
+fun arrayContains(array: ISelectOffsetClause<StringType>, value: String) =
+    arrayContains(array.asExpression(), value.toDopeType())
+
+fun arrayContains(array: ISelectOffsetClause<NumberType>, value: Number) =
+    arrayContains(array.asExpression(), value.toDopeType())
+
+fun arrayContains(array: ISelectOffsetClause<BooleanType>, value: Boolean) =
+    arrayContains(array.asExpression(), value.toDopeType())

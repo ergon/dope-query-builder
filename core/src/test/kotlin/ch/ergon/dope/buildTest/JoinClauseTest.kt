@@ -249,7 +249,7 @@ class JoinClauseTest {
                 create
                     .select(someStringField("destinationairport"), someStringField("sourceairport"))
                     .from(route)
-                    .queryAlias("subquery"),
+                    .alias("subquery"),
                 onCondition = someStringField("faa", airport).isEqualTo(someStringField("sourceairport", someBucket("subquery"))),
             )
             .where(someStringField("city", airport).isEqualTo("San Francisco"))

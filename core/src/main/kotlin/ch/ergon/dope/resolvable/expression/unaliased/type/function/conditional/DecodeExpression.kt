@@ -2,7 +2,6 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -15,16 +14,10 @@ class DecodeExpression<T : ValidType, U : ValidType>(
     private val default: UnaliasedExpression<out U>? = null,
 ) : TypeExpression<U>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val decodeExpressionDopeQuery = when (decodeExpression) {
-            is ISelectOffsetClause<*> -> decodeExpression.asSelectWithParentheses().toDopeQuery(manager)
-            else -> decodeExpression.toDopeQuery(manager)
-        }
+        val decodeExpressionDopeQuery = decodeExpression.toDopeQuery(manager)
         val searchResultDopeQuery = getSearchResultDopeQuery(searchResult, manager)
         val searchResultsDopeQuery = searchResults.map { getSearchResultDopeQuery(it, manager) }.toTypedArray()
-        val defaultDopeQuery = when (default) {
-            is ISelectOffsetClause<*> -> default.asSelectWithParentheses().toDopeQuery(manager)
-            else -> default?.toDopeQuery(manager)
-        }
+        val defaultDopeQuery = default?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "DECODE",

@@ -3,7 +3,6 @@ package ch.ergon.dope.resolvable.clause.model
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectClause
-import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
@@ -14,16 +13,8 @@ class SelectClause(
     private vararg val expressions: Expression,
 ) : ISelectClause<ValidType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
-            else -> expression.toDopeQuery(manager)
-        }
-        val expressionsDopeQuery = expressions.map {
-            when (it) {
-                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
-                else -> it.toDopeQuery(manager)
-            }
-        }
+        val expressionDopeQuery = expression.toDopeQuery(manager)
+        val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = formatToQueryString(
                 "SELECT",

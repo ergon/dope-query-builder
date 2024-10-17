@@ -249,4 +249,4 @@ class RightJoinClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : SelectJoinClause(RIGHT_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
+) : SelectJoinClause<T>(RIGHT_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)

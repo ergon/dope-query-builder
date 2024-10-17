@@ -5,10 +5,14 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
+import ch.ergon.dope.helper.someBooleanSelectRawClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.WithinExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.withinArray
@@ -157,6 +161,50 @@ class WithinExpressionTest : ManagerDependentTest {
         val value = true
         val collection = listOf(someBooleanField(), someBooleanField())
         val expected = WithinExpression(value.toDopeType(), collection.toDopeType())
+
+        val actual = value.withinArray(collection)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support WITHIN extension type select`() {
+        val value = someStringField()
+        val collection = someSelectRawClause()
+        val expected = WithinExpression(value, collection.asExpression())
+
+        val actual = value.withinArray(collection)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support WITHIN extension number select`() {
+        val value = 1
+        val collection = someNumberSelectRawClause()
+        val expected = WithinExpression(value.toDopeType(), collection.asExpression())
+
+        val actual = value.withinArray(collection)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support WITHIN extension string select`() {
+        val value = "s"
+        val collection = someStringSelectRawClause()
+        val expected = WithinExpression(value.toDopeType(), collection.asExpression())
+
+        val actual = value.withinArray(collection)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support WITHIN extension boolean select`() {
+        val value = true
+        val collection = someBooleanSelectRawClause()
+        val expected = WithinExpression(value.toDopeType(), collection.asExpression())
 
         val actual = value.withinArray(collection)
 

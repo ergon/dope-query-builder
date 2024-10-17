@@ -12,10 +12,7 @@ class ArrayMinExpression<T : ValidType>(
     private val array: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_MIN", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
@@ -24,3 +21,5 @@ class ArrayMinExpression<T : ValidType>(
 }
 
 fun <T : ValidType> arrayMin(array: TypeExpression<ArrayType<T>>) = ArrayMinExpression(array)
+
+fun <T : ValidType> arrayMin(array: ISelectOffsetClause<T>) = arrayMin(array.asExpression())

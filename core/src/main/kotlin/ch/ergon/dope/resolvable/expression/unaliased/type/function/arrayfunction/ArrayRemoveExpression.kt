@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -37,3 +38,27 @@ fun arrayRemove(
     value: Boolean,
     vararg additionalValues: Boolean,
 ) = arrayRemove(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun <T : ValidType> arrayRemove(
+    array: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+    vararg additionalValues: TypeExpression<T>,
+) = arrayRemove(array.asExpression(), value, *additionalValues)
+
+fun arrayRemove(
+    array: ISelectOffsetClause<StringType>,
+    value: String,
+    vararg additionalValues: String,
+) = arrayRemove(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayRemove(
+    array: ISelectOffsetClause<NumberType>,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayRemove(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayRemove(
+    array: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayRemove(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

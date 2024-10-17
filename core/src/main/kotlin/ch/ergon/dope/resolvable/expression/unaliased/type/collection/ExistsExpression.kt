@@ -11,10 +11,7 @@ import ch.ergon.dope.validtype.ValidType
 
 class ExistsExpression<T : ValidType>(private val array: TypeExpression<ArrayType<T>>) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
         return DopeQuery(
             queryString = "EXISTS ${arrayDopeQuery.queryString}",
             parameters = arrayDopeQuery.parameters,
@@ -25,3 +22,5 @@ class ExistsExpression<T : ValidType>(private val array: TypeExpression<ArrayTyp
 fun <T : ValidType> exists(array: TypeExpression<ArrayType<T>>) = ExistsExpression(array)
 
 fun <T : ValidType> exists(array: Collection<TypeExpression<T>>) = exists(array.toDopeType())
+
+fun <T : ValidType> exists(array: ISelectOffsetClause<T>) = exists(array.asExpression())

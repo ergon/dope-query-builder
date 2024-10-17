@@ -2,7 +2,6 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -15,10 +14,7 @@ class ArrayRepeatExpression<T : ValidType>(
     private val repetitions: TypeExpression<NumberType>,
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
-            else -> value.toDopeQuery(manager)
-        }
+        val valueDopeQuery = value.toDopeQuery(manager)
         val repetitionsDopeQuery = repetitions.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_REPEAT", valueDopeQuery, repetitionsDopeQuery),

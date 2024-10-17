@@ -36,7 +36,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StringFunctionsTestExpression : ManagerDependentTest {
+class StringFunctionsTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
     private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder

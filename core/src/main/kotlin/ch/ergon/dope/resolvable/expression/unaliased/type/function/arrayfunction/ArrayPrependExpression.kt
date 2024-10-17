@@ -18,20 +18,9 @@ class ArrayPrependExpression<T : ValidType>(
     private vararg val additionalValues: TypeExpression<T>,
 ) : TypeExpression<ArrayType<T>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
-        val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
-            else -> value.toDopeQuery(manager)
-        }
-        val additionalValuesDopeQuery = additionalValues.map {
-            when (it) {
-                is ISelectOffsetClause<*> -> it.asSelectWithParentheses().toDopeQuery(manager)
-                else -> it.toDopeQuery(manager)
-            }
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
+        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = toFunctionQueryString(
                 "ARRAY_PREPEND",
@@ -69,3 +58,27 @@ fun arrayPrepend(
     value: Boolean,
     vararg additionalValues: Boolean,
 ) = arrayPrepend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun <T : ValidType> arrayPrepend(
+    array: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+    vararg additionalValues: TypeExpression<T>,
+) = arrayPrepend(array.asExpression(), value, *additionalValues)
+
+fun arrayPrepend(
+    array: ISelectOffsetClause<StringType>,
+    value: String,
+    vararg additionalValues: String,
+) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayPrepend(
+    array: ISelectOffsetClause<NumberType>,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayPrepend(
+    array: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

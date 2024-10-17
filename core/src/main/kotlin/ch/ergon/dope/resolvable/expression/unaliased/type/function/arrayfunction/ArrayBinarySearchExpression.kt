@@ -17,14 +17,8 @@ class ArrayBinarySearchExpression<T : ValidType>(
     private val value: TypeExpression<T>,
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
-        val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
-            else -> value.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_BINARY_SEARCH", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
@@ -51,3 +45,23 @@ fun arrayBinarySearch(
     array: TypeExpression<ArrayType<BooleanType>>,
     value: Boolean,
 ) = arrayBinarySearch(array, value.toDopeType())
+
+fun <T : ValidType> arrayBinarySearch(
+    array: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+) = arrayBinarySearch(array.asExpression(), value)
+
+fun arrayBinarySearch(
+    array: ISelectOffsetClause<StringType>,
+    value: String,
+) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+
+fun arrayBinarySearch(
+    array: ISelectOffsetClause<NumberType>,
+    value: Number,
+) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+
+fun arrayBinarySearch(
+    array: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+) = arrayBinarySearch(array.asExpression(), value.toDopeType())

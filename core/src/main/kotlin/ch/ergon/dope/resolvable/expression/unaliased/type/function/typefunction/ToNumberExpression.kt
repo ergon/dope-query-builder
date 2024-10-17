@@ -2,7 +2,6 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -15,10 +14,7 @@ class ToNumberExpression<T : ValidType>(
     private val filterChars: TypeExpression<StringType>? = null,
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionDopeQuery = when (expression) {
-            is ISelectOffsetClause<*> -> expression.asSelectWithParentheses().toDopeQuery(manager)
-            else -> expression.toDopeQuery(manager)
-        }
+        val expressionDopeQuery = expression.toDopeQuery(manager)
         val filterCharsDopeQuery = filterChars?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, filterCharsDopeQuery),
@@ -29,18 +25,15 @@ class ToNumberExpression<T : ValidType>(
 
 fun <T : ValidType> TypeExpression<T>.toNumber() = ToNumberExpression(this)
 
-fun String.toNumber() = ToNumberExpression(this.toDopeType())
+fun String.toNumber() = toDopeType().toNumber()
 
-fun Boolean.toNumber() = ToNumberExpression(this.toDopeType())
+fun Boolean.toNumber() = toDopeType().toNumber()
 
 fun TypeExpression<StringType>.toNumber(filterChars: TypeExpression<StringType>) =
     ToNumberExpression(this, filterChars)
 
-fun TypeExpression<StringType>.toNumber(filterChars: String) =
-    ToNumberExpression(this, filterChars.toDopeType())
+fun TypeExpression<StringType>.toNumber(filterChars: String) = toNumber(filterChars.toDopeType())
 
-fun String.toNumber(filterChars: TypeExpression<StringType>) =
-    ToNumberExpression(this.toDopeType(), filterChars)
+fun String.toNumber(filterChars: TypeExpression<StringType>) = toDopeType().toNumber(filterChars)
 
-fun String.toNumber(filterChars: String) =
-    ToNumberExpression(this.toDopeType(), filterChars.toDopeType())
+fun String.toNumber(filterChars: String) = toDopeType().toNumber(filterChars.toDopeType())

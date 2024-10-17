@@ -1,5 +1,6 @@
 package ch.ergon.dope.extension.type.relational
 
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotWithinExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.WithinExpression
@@ -26,6 +27,18 @@ fun CMJsonField<String>.withinArray(array: TypeExpression<ArrayType<StringType>>
 @JvmName("withinBooleanArray")
 fun CMJsonField<Boolean>.withinArray(array: TypeExpression<ArrayType<BooleanType>>): WithinExpression<BooleanType> =
     toDopeType().withinArray(array)
+
+@JvmName("withinNumberArray")
+fun CMJsonField<out Number>.withinArray(array: ISelectOffsetClause<NumberType>): WithinExpression<NumberType> =
+    toDopeType().withinArray(array.asExpression())
+
+@JvmName("withinStringArray")
+fun CMJsonField<String>.withinArray(array: ISelectOffsetClause<StringType>): WithinExpression<StringType> =
+    toDopeType().withinArray(array.asExpression())
+
+@JvmName("withinBooleanArray")
+fun CMJsonField<Boolean>.withinArray(array: ISelectOffsetClause<BooleanType>): WithinExpression<BooleanType> =
+    toDopeType().withinArray(array.asExpression())
 
 @JvmName("withinNumberArray")
 fun TypeExpression<NumberType>.withinArray(array: CMJsonList<out Number>): WithinExpression<NumberType> =
@@ -97,6 +110,18 @@ fun CMJsonField<String>.notWithinArray(array: TypeExpression<ArrayType<StringTyp
 
 @JvmName("notWithinBooleanArray")
 fun CMJsonField<Boolean>.notWithinArray(array: TypeExpression<ArrayType<BooleanType>>): NotWithinExpression<BooleanType> =
+    toDopeType().notWithinArray(array)
+
+@JvmName("notWithinNumberArray")
+fun CMJsonField<out Number>.notWithinArray(array: ISelectOffsetClause<NumberType>): NotWithinExpression<NumberType> =
+    toDopeType().notWithinArray(array.asExpression())
+
+@JvmName("notWithinStringArray")
+fun CMJsonField<String>.notWithinArray(array: ISelectOffsetClause<StringType>): NotWithinExpression<StringType> =
+    toDopeType().notWithinArray(array)
+
+@JvmName("notWithinBooleanArray")
+fun CMJsonField<Boolean>.notWithinArray(array: ISelectOffsetClause<BooleanType>): NotWithinExpression<BooleanType> =
     toDopeType().notWithinArray(array)
 
 @JvmName("notWithinNumberArray")

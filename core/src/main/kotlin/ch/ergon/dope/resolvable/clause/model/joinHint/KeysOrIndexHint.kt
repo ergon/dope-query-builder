@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.clause.model.joinHint
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -45,6 +46,8 @@ fun keysHint(key: String) = keysHint(key.toDopeType())
 
 @JvmName("keysHintArray")
 fun keysHint(keys: TypeExpression<ArrayType<StringType>>) = KeysHint(keys)
+
+fun keysHint(keys: ISelectOffsetClause<StringType>) = KeysHint(keys.asExpression())
 
 fun keysHint(keys: Collection<TypeExpression<StringType>>) = keysHint(keys.toDopeType())
 

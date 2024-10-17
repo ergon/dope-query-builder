@@ -32,10 +32,7 @@ class UseKeysClass private constructor(
             is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(manager)
             else -> bucket.toDopeQuery(manager)
         }
-        val keysDopeQuery = when (useKeys) {
-            is ISelectOffsetClause<*> -> useKeys.asSelectWithParentheses().toDopeQuery(manager)
-            else -> useKeys.toDopeQuery(manager)
-        }
+        val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
             parameters = bucketDopeQuery.parameters + keysDopeQuery.parameters,
@@ -49,6 +46,8 @@ fun Bucket.useKeys(key: String) = useKeys(key.toDopeType())
 
 @JvmName("useKeysArray")
 fun Bucket.useKeys(keys: TypeExpression<ArrayType<StringType>>) = UseKeys(keys, this)
+
+fun Bucket.useKeys(keys: ISelectOffsetClause<StringType>) = UseKeys(keys.asExpression(), this)
 
 fun Bucket.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
 

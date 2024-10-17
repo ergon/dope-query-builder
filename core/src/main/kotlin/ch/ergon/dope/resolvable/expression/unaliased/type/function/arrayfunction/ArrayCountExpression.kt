@@ -13,10 +13,7 @@ class ArrayCountExpression<T : ValidType>(
     private val array: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
@@ -25,3 +22,5 @@ class ArrayCountExpression<T : ValidType>(
 }
 
 fun <T : ValidType> arrayCount(array: TypeExpression<ArrayType<T>>) = ArrayCountExpression(array)
+
+fun <T : ValidType> arrayCount(array: ISelectOffsetClause<T>) = arrayCount(array.asExpression())

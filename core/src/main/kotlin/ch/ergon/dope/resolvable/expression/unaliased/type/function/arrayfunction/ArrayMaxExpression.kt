@@ -12,10 +12,7 @@ class ArrayMaxExpression<T : ValidType>(
     private val array: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_MAX", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
@@ -24,3 +21,5 @@ class ArrayMaxExpression<T : ValidType>(
 }
 
 fun <T : ValidType> arrayMax(array: TypeExpression<ArrayType<T>>) = ArrayMaxExpression(array)
+
+fun <T : ValidType> arrayMax(array: ISelectOffsetClause<T>) = arrayMax(array.asExpression())

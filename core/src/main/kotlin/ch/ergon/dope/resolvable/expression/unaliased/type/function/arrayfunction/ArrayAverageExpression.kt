@@ -12,10 +12,7 @@ class ArrayAverageExpression<T : NumberType>(
     private val array: TypeExpression<ArrayType<T>>,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_AVG", arrayDopeQuery),
             parameters = arrayDopeQuery.parameters,
@@ -24,3 +21,5 @@ class ArrayAverageExpression<T : NumberType>(
 }
 
 fun <T : NumberType> arrayAverage(array: TypeExpression<ArrayType<T>>) = ArrayAverageExpression(array)
+
+fun <T : NumberType> arrayAverage(array: ISelectOffsetClause<T>) = arrayAverage(array.asExpression())

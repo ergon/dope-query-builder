@@ -4,6 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -85,6 +86,28 @@ class ArrayAccessTest : ManagerDependentTest {
         val array = someStringArrayField()
         val index = 1
         val expected = ArrayAccess(array, index.toDopeType())
+
+        val actual = array.get(index)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support array access select type`() {
+        val array = someSelectRawClause()
+        val index = someNumberField()
+        val expected = ArrayAccess(array.asExpression(), index)
+
+        val actual = array.get(index)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support array access select number`() {
+        val array = someSelectRawClause()
+        val index = 1
+        val expected = ArrayAccess(array.asExpression(), index.toDopeType())
 
         val actual = array.get(index)
 

@@ -14,14 +14,8 @@ class ArrayPositionExpression<T : ValidType>(
     private val value: TypeExpression<T>,
 ) : TypeExpression<NumberType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = when (array) {
-            is ISelectOffsetClause<*> -> array.asSelectWithParentheses().toDopeQuery(manager)
-            else -> array.toDopeQuery(manager)
-        }
-        val valueDopeQuery = when (value) {
-            is ISelectOffsetClause<*> -> value.asSelectWithParentheses().toDopeQuery(manager)
-            else -> value.toDopeQuery(manager)
-        }
+        val arrayDopeQuery = array.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_POSITION", arrayDopeQuery, valueDopeQuery),
             parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
@@ -31,3 +25,6 @@ class ArrayPositionExpression<T : ValidType>(
 
 fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
     ArrayPositionExpression(array, value)
+
+fun <T : ValidType> arrayPosition(array: ISelectOffsetClause<T>, value: TypeExpression<T>) =
+    arrayPosition(array.asExpression(), value)

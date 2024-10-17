@@ -30,9 +30,9 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-interface ISelectOffsetClause<T : ValidType> : Clause, TypeExpression<ArrayType<T>> {
-    fun queryAlias(alias: String) = AliasedSelectClause(alias, this)
-    fun asSelectWithParentheses(): SelectWithParentheses<T> = SelectWithParentheses(this)
+interface ISelectOffsetClause<T : ValidType> : Clause {
+    fun alias(alias: String) = AliasedSelectClause(alias, this)
+    fun asExpression(): SelectExpression<T> = SelectExpression(this)
 }
 
 interface ISelectLimitClause<T : ValidType> : ISelectOffsetClause<T> {
@@ -129,9 +129,9 @@ interface ISelectJoinClause<T : ValidType> : ISelectFromClause<T> {
     ) = RightJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
 }
 
-interface ISelectUnnestClause<U : ValidType> : ISelectJoinClause<U> {
-    fun <T : ValidType> unnest(arrayField: Field<ArrayType<T>>) = UnnestClause(arrayField, this)
-    fun <T : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<T>>) =
+interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
+    fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
+    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
 }
 

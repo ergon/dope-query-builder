@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.ExistsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
@@ -56,6 +57,16 @@ class ExistsExpressionTest : ManagerDependentTest {
     fun `should support EXISTS extension collection`() {
         val array = listOf(someNumberField(), someNumberField())
         val expected = ExistsExpression(array.toDopeType())
+
+        val actual = exists(array)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support EXISTS extension select`() {
+        val array = someSelectRawClause()
+        val expected = ExistsExpression(array.asExpression())
 
         val actual = exists(array)
 
