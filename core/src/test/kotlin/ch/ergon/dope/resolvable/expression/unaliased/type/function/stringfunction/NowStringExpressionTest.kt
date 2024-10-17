@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,8 @@ class NowStringExpressionTest : ManagerDependentTest {
     @Test
     fun `should support now str`() {
         val expected = DopeQuery(
-            "NOW_STR()",
-            emptyMap(),
+            queryString = "NOW_STR()",
+
         )
         val underTest = NowStringExpression()
 
@@ -27,10 +28,10 @@ class NowStringExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support now str with format`() {
+    fun `should support now str with no parameters`() {
         val expected = DopeQuery(
-            "NOW_STR(`stringField`)",
-            emptyMap(),
+            queryString = "NOW_STR(`stringField`)",
+
         )
         val underTest = NowStringExpression(someStringField())
 
@@ -40,13 +41,30 @@ class NowStringExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support now str with parameter`() {
+    fun `should support now str with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "NOW_STR($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "NOW_STR($1)",
+
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = NowStringExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support now str with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "NOW_STR(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+
+        )
+        val underTest = NowStringExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -18,13 +19,13 @@ sealed class Parameter<T : ValidType>(
             val unnamedParameterCount = "\$${manager.parameterManager.count}"
             DopeQuery(
                 queryString = unnamedParameterCount,
-                parameters = mapOf(unnamedParameterCount to value),
+                parameters = DopeParameters(positionalParameters = listOf(value)),
             )
         }
 
         else -> DopeQuery(
             queryString = "\$$parameterName",
-            parameters = mapOf(parameterName to value),
+            parameters = DopeParameters(namedParameters = mapOf(parameterName to value)),
         )
     }
 }

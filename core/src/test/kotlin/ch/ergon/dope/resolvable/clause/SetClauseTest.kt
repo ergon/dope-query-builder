@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -24,8 +25,7 @@ class SetClauseTest : ManagerDependentTest {
     @Test
     fun `should support set clause`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = \"test\"",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` SET `stringField` = \"test\"",
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -40,8 +40,7 @@ class SetClauseTest : ManagerDependentTest {
     @Test
     fun `should support set clause with meta expiration`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET META().`expiration` = 3600",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` SET META().`expiration` = 3600",
         )
         val underTest = SetClause(
             meta().expiration.to(3600.toDopeType()),
@@ -56,8 +55,7 @@ class SetClauseTest : ManagerDependentTest {
     @Test
     fun `should support multiple set clauses`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
         )
         val underTest = SetClause(
             someStringField().to("test".toDopeType()),
@@ -71,14 +69,32 @@ class SetClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support set clause with parameter`() {
+    fun `should support set clause with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "UPDATE `someBucket` SET `stringField` = $1",
-            mapOf("$1" to parameterValue),
+            queryString = "UPDATE `someBucket` SET `stringField` = $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SetClause(
             someStringField().to(parameterValue.asParameter()),
+            parentClause = someUpdateClause(),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support set clause with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "UPDATE `someBucket` SET `stringField` = \$$parameterName",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = SetClause(
+            someStringField().to(parameterValue.asParameter(parameterName)),
             parentClause = someUpdateClause(),
         )
 

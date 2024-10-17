@@ -18,7 +18,7 @@ class ArrayRepeatExpression<T : ValidType>(
         val repetitionsDopeQuery = repetitions.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_REPEAT", valueDopeQuery, repetitionsDopeQuery),
-            parameters = valueDopeQuery.parameters + repetitionsDopeQuery.parameters,
+            parameters = valueDopeQuery.parameters.merge(repetitionsDopeQuery.parameters),
         )
     }
 }

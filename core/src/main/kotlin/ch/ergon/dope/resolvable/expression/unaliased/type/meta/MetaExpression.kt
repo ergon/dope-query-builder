@@ -19,7 +19,6 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
         if (bucket == null) {
             DopeQuery(
                 queryString = "$META()",
-                parameters = emptyMap(),
             )
         } else {
             val bucketDopeQuery = bucket.toDopeQuery(manager)

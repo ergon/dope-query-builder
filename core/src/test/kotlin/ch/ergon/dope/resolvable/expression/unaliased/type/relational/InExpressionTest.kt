@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -25,8 +26,7 @@ class InExpressionTest : ManagerDependentTest {
     @Test
     fun `should support in`() {
         val expected = DopeQuery(
-            "`stringField` IN `stringArrayField`",
-            emptyMap(),
+            queryString = "`stringField` IN `stringArrayField`",
         )
         val underTest = InExpression(someStringField(), someStringArrayField())
 
@@ -36,11 +36,11 @@ class InExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in with parameter`() {
+    fun `should support in with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "$1 IN `stringArrayField`",
-            mapOf("$1" to parameterValue),
+            queryString = "$1 IN `stringArrayField`",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InExpression(parameterValue.asParameter(), someStringArrayField())
 
@@ -50,12 +50,12 @@ class InExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in with all parameters`() {
+    fun `should support in with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = listOf("test")
         val expected = DopeQuery(
-            "$1 IN $2",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "$1 IN $2",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = InExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -65,13 +65,45 @@ class InExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support in with second parameter`() {
+    fun `should support in with second positional parameter`() {
         val parameterValue = listOf(5)
         val expected = DopeQuery(
-            "`numberField` IN $1",
-            mapOf("$1" to parameterValue),
+            queryString = "`numberField` IN $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "$$parameterName IN `stringArrayField`",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = InExpression(parameterValue.asParameter(parameterName), someStringArrayField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support in with all named parameters`() {
+        val parameterValue = "test"
+        val parameterValue2 = listOf("test")
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "$$parameterName IN $$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = InExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

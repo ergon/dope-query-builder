@@ -68,7 +68,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
     @Test
     fun `should Support Named Parameters With Values`() {
         val parameterActual = false.asParameter("isAwesome")
-        assertEquals(false, parameterActual.toDopeQuery(manager).parameters["isAwesome"])
+        assertEquals(false, parameterActual.toDopeQuery(manager).parameters.namedParameters["isAwesome"])
     }
 
     @Test
@@ -250,6 +250,6 @@ class ParameterizedQueriesTest : ManagerDependentTest {
             ).build()
 
         assertEquals(expected.queryString, actual.queryString)
-        assertEquals(expected.parameters, actual.parameters)
+        assertEquals(expected.parameters.positionalParameters, actual.parameters.positionalParameters)
     }
 }

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -14,10 +15,9 @@ class IsBooleanExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support is boolean expression`() {
+    fun `should support is boolean expression with no parameters`() {
         val expected = DopeQuery(
-            "ISBOOLEAN(`booleanField`)",
-            emptyMap(),
+            queryString = "ISBOOLEAN(`booleanField`)",
         )
         val underTest = IsBooleanExpression(someBooleanField())
 
@@ -27,13 +27,28 @@ class IsBooleanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support is boolean expression with parameter`() {
+    fun `should support is boolean expression with positional parameter`() {
         val parameterValue = someBoolean()
         val expected = DopeQuery(
-            "ISBOOLEAN($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ISBOOLEAN($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support is boolean expression with named parameter`() {
+        val parameterValue = someBoolean()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ISBOOLEAN(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = IsBooleanExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

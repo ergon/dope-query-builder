@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -14,10 +15,9 @@ class TypeOfExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support type of expression`() {
+    fun `should support type of expression with no parameters`() {
         val expected = DopeQuery(
-            "TYPE(`stringField`)",
-            emptyMap(),
+            queryString = "TYPE(`stringField`)",
         )
         val underTest = TypeOfExpression(someStringField())
 
@@ -27,13 +27,28 @@ class TypeOfExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support type of expression with parameter`() {
+    fun `should support type of expression with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "TYPE($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "TYPE($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = TypeOfExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support type of expression with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "TYPE(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = TypeOfExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

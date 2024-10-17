@@ -1,12 +1,17 @@
 package ch.ergon.dope.resolvable.expression
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCaseClass
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.ElseCaseExpression
@@ -23,8 +28,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` END",
-            emptyMap(),
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` END",
         )
         val underTest = CaseExpression(
             CaseClass(someNumberField()),
@@ -39,8 +43,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
-            emptyMap(),
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
         )
         val underTest = CaseExpression(
             CaseClass(someNumberField()),
@@ -54,10 +57,35 @@ class CaseExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support simple case expression with multiple when then all parameters`() {
+        val positionalParameter1 = someNumber()
+        val positionalParameter2 = someNumber()
+        val namedParameter1 = someBoolean()
+        val namedParameter2 = someBoolean()
+        val parameterName1 = someString("booleanTrue")
+        val parameterName2 = someString("booleanFalse")
+        val expected = DopeQuery(
+            queryString = "CASE `numberField` WHEN $1 THEN \$booleanTrue WHEN $2 THEN \$booleanFalse END",
+            parameters = DopeParameters(
+                namedParameters = mapOf(parameterName1 to namedParameter1, parameterName2 to namedParameter2),
+                positionalParameters = listOf(positionalParameter1, positionalParameter2),
+            ),
+        )
+        val underTest = CaseExpression(
+            CaseClass(someNumberField()),
+            SearchResult(positionalParameter1.asParameter(), namedParameter1.asParameter(parameterName1)),
+            SearchResult(positionalParameter2.asParameter(), namedParameter2.asParameter(parameterName2)),
+        )
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support simple else case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
-            emptyMap(),
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
@@ -73,8 +101,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support simple else case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
-            emptyMap(),
+            queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(someNumberField()),
@@ -91,8 +118,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` END",
-            emptyMap(),
+            queryString = "CASE WHEN `booleanField` THEN `stringField` END",
         )
         val underTest = CaseExpression(
             CaseClass(),
@@ -107,8 +133,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
-            emptyMap(),
+            queryString = "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
         )
         val underTest = CaseExpression(
             CaseClass(),
@@ -124,8 +149,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched else case expression with single when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
-            emptyMap(),
+            queryString = "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(),
@@ -141,8 +165,7 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support searched else case expression with multiple when then`() {
         val expected = DopeQuery(
-            "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
-            emptyMap(),
+            queryString = "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
         )
         val underTest = ElseCaseExpression(
             CaseClass(),

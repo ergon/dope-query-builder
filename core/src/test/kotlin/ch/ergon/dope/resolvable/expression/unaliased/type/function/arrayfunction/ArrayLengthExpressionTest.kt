@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -14,8 +15,7 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_LENGTH`() {
         val expected = DopeQuery(
-            "ARRAY_LENGTH(`numberArrayField`)",
-            emptyMap(),
+            queryString = "ARRAY_LENGTH(`numberArrayField`)",
         )
         val underTest = ArrayLengthExpression(someNumberArrayField())
 
@@ -25,13 +25,28 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_LENGTH with parameter`() {
+    fun `should support ARRAY_LENGTH with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_LENGTH($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_LENGTH($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayLengthExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_LENGTH with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_LENGTH(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayLengthExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 
