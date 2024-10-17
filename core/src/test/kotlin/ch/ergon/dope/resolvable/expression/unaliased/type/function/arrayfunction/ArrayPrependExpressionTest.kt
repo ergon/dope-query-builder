@@ -5,11 +5,14 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
+import ch.ergon.dope.helper.someBooleanSelectRawClause
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -112,6 +115,50 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
         val array = someBooleanArrayField()
         val value = someBoolean()
         val expected = ArrayPrependExpression(array, value.toDopeType())
+
+        val actual = arrayPrepend(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND extension select type`() {
+        val array = someNumberSelectRawClause()
+        val value = someNumberField()
+        val expected = ArrayPrependExpression(array.asExpression(), value)
+
+        val actual = arrayPrepend(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND extension select string`() {
+        val array = someStringSelectRawClause()
+        val value = someString()
+        val expected = ArrayPrependExpression(array.asExpression(), value.toDopeType())
+
+        val actual = arrayPrepend(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND extension select number`() {
+        val array = someNumberSelectRawClause()
+        val value = someNumber()
+        val expected = ArrayPrependExpression(array.asExpression(), value.toDopeType())
+
+        val actual = arrayPrepend(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_PREPEND extension select boolean`() {
+        val array = someBooleanSelectRawClause()
+        val value = someBoolean()
+        val expected = ArrayPrependExpression(array.asExpression(), value.toDopeType())
 
         val actual = arrayPrepend(array, value)
 

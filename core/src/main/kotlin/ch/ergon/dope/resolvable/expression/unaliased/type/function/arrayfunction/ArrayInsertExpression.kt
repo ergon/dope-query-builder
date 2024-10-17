@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -70,3 +71,59 @@ fun arrayInsert(
     value: Boolean,
     vararg additionalValues: Boolean,
 ) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun <T : ValidType> arrayInsert(
+    array: ISelectOffsetClause<T>,
+    position: TypeExpression<NumberType>,
+    value: TypeExpression<T>,
+    vararg additionalValues: TypeExpression<T>,
+) = ArrayInsertExpression(array.asExpression(), position, value, *additionalValues)
+
+fun arrayInsert(
+    array: ISelectOffsetClause<StringType>,
+    position: TypeExpression<NumberType>,
+    value: String,
+    vararg additionalValues: String,
+) = arrayInsert(array.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayInsert(
+    array: ISelectOffsetClause<NumberType>,
+    position: TypeExpression<NumberType>,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayInsert(array.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayInsert(
+    array: ISelectOffsetClause<BooleanType>,
+    position: TypeExpression<NumberType>,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayInsert(array.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun <T : ValidType> arrayInsert(
+    array: ISelectOffsetClause<T>,
+    position: Number,
+    value: TypeExpression<T>,
+    vararg additionalValues: TypeExpression<T>,
+) = arrayInsert(array.asExpression(), position.toDopeType(), value, *additionalValues)
+
+fun arrayInsert(
+    array: ISelectOffsetClause<StringType>,
+    position: Number,
+    value: String,
+    vararg additionalValues: String,
+) = arrayInsert(array.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayInsert(
+    array: ISelectOffsetClause<NumberType>,
+    position: Number,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayInsert(array.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayInsert(
+    array: ISelectOffsetClause<BooleanType>,
+    position: Number,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayInsert(array.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

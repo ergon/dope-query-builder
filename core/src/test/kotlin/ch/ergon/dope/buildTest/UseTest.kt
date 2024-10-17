@@ -90,6 +90,22 @@ class UseTest {
     }
 
     @Test
+    fun `should support use keys clause with string array subquery`() {
+        val expected = "SELECT * FROM `someBucket` USE KEYS (SELECT RAW `stringField`)"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket().useKeys(
+                    create.selectRaw(someStringField()),
+                ),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support use keys clause with string function`() {
         val expected = "SELECT * FROM `someBucket` USE KEYS CONCAT(\"some\", \"Id\")"
 

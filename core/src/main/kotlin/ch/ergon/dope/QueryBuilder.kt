@@ -11,6 +11,7 @@ import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.fromable.Deletable
 import ch.ergon.dope.resolvable.fromable.Fromable
 import ch.ergon.dope.resolvable.fromable.Updatable
+import ch.ergon.dope.validtype.ValidType
 
 class QueryBuilder {
     fun select(expression: Expression, vararg expressions: Expression) = SelectClause(expression, *expressions)
@@ -19,7 +20,7 @@ class QueryBuilder {
 
     fun selectDistinct(expression: Expression, vararg expressions: Expression) = SelectDistinctClause(expression, *expressions)
 
-    fun selectRaw(expression: SingleExpression) = SelectRawClause(expression)
+    fun <T : ValidType> selectRaw(expression: SingleExpression<T>) = SelectRawClause(expression)
 
     fun selectFrom(fromable: Fromable) = SelectClause(AsteriskExpression()).from(fromable)
 

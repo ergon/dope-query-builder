@@ -4,6 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -68,12 +69,145 @@ class ArrayConcatExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_CONCAT extension`() {
-        val array = someNumberArrayField()
-        val value = someNumberArrayField()
-        val expected = ArrayConcatExpression(array, value)
+    fun `should support ARRAY_CONCAT extension type type`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberArrayField()
+        val expected = ArrayConcatExpression(firstArray, secondArray)
 
-        val actual = arrayConcat(array, value)
+        val actual = arrayConcat(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension select type`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberArrayField()
+        val expected = ArrayConcatExpression(firstArray.asExpression(), secondArray)
+
+        val actual = arrayConcat(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension type select`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberSelectRawClause()
+        val expected = ArrayConcatExpression(firstArray, secondArray.asExpression())
+
+        val actual = arrayConcat(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension select select`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberSelectRawClause()
+        val expected = ArrayConcatExpression(firstArray.asExpression(), secondArray.asExpression())
+
+        val actual = arrayConcat(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension type type type`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberArrayField()
+        val thirdArray = someNumberArrayField()
+        val expected = ArrayConcatExpression(firstArray, secondArray, thirdArray)
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension select type type`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberArrayField()
+        val thirdArray = someNumberArrayField()
+        val expected = ArrayConcatExpression(firstArray.asExpression(), secondArray, thirdArray)
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension type select type`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberSelectRawClause()
+        val thirdArray = someNumberArrayField()
+        val expected = ArrayConcatExpression(firstArray, secondArray.asExpression(), thirdArray)
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension type type select`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberArrayField()
+        val thirdArray = someNumberSelectRawClause()
+        val expected = ArrayConcatExpression(firstArray, secondArray, thirdArray.asExpression())
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension select select type`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberSelectRawClause()
+        val thirdArray = someNumberArrayField()
+        val expected = ArrayConcatExpression(firstArray.asExpression(), secondArray.asExpression(), thirdArray)
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension select type select`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberArrayField()
+        val thirdArray = someNumberSelectRawClause()
+        val expected = ArrayConcatExpression(firstArray.asExpression(), secondArray, thirdArray.asExpression())
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension type select select`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberSelectRawClause()
+        val thirdArray = someNumberSelectRawClause()
+        val expected = ArrayConcatExpression(firstArray, secondArray.asExpression(), thirdArray.asExpression())
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONCAT extension select select select`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberSelectRawClause()
+        val thirdArray = someNumberSelectRawClause()
+        val expected = ArrayConcatExpression(
+            firstArray.asExpression(),
+            secondArray.asExpression(),
+            thirdArray.asExpression(),
+        )
+
+        val actual = arrayConcat(firstArray, secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

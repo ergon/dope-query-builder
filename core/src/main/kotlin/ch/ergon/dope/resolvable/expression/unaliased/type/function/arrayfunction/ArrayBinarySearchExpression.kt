@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -44,3 +45,23 @@ fun arrayBinarySearch(
     array: TypeExpression<ArrayType<BooleanType>>,
     value: Boolean,
 ) = arrayBinarySearch(array, value.toDopeType())
+
+fun <T : ValidType> arrayBinarySearch(
+    array: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+) = arrayBinarySearch(array.asExpression(), value)
+
+fun arrayBinarySearch(
+    array: ISelectOffsetClause<StringType>,
+    value: String,
+) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+
+fun arrayBinarySearch(
+    array: ISelectOffsetClause<NumberType>,
+    value: Number,
+) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+
+fun arrayBinarySearch(
+    array: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+) = arrayBinarySearch(array.asExpression(), value.toDopeType())

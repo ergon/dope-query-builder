@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -36,3 +37,15 @@ fun arrayContains(array: TypeExpression<ArrayType<NumberType>>, value: Number) =
 
 fun arrayContains(array: TypeExpression<ArrayType<BooleanType>>, value: Boolean) =
     arrayContains(array, value.toDopeType())
+
+fun <T : ValidType> arrayContains(array: ISelectOffsetClause<T>, value: TypeExpression<T>) =
+    arrayContains(array.asExpression(), value)
+
+fun arrayContains(array: ISelectOffsetClause<StringType>, value: String) =
+    arrayContains(array.asExpression(), value.toDopeType())
+
+fun arrayContains(array: ISelectOffsetClause<NumberType>, value: Number) =
+    arrayContains(array.asExpression(), value.toDopeType())
+
+fun arrayContains(array: ISelectOffsetClause<BooleanType>, value: Boolean) =
+    arrayContains(array.asExpression(), value.toDopeType())

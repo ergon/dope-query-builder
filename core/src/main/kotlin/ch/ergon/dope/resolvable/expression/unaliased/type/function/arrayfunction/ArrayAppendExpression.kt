@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -37,3 +38,27 @@ fun arrayAppend(
     value: Boolean,
     vararg additionalValues: Boolean,
 ) = arrayAppend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun <T : ValidType> arrayAppend(
+    array: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+    vararg additionalValues: TypeExpression<T>,
+) = arrayAppend(array.asExpression(), value, *additionalValues)
+
+fun arrayAppend(
+    array: ISelectOffsetClause<StringType>,
+    value: String,
+    vararg additionalValues: String,
+) = arrayAppend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayAppend(
+    array: ISelectOffsetClause<NumberType>,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayAppend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayAppend(
+    array: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayAppend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

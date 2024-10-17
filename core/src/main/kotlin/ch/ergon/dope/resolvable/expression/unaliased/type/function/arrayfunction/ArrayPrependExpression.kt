@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -57,3 +58,27 @@ fun arrayPrepend(
     value: Boolean,
     vararg additionalValues: Boolean,
 ) = arrayPrepend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun <T : ValidType> arrayPrepend(
+    array: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+    vararg additionalValues: TypeExpression<T>,
+) = arrayPrepend(array.asExpression(), value, *additionalValues)
+
+fun arrayPrepend(
+    array: ISelectOffsetClause<StringType>,
+    value: String,
+    vararg additionalValues: String,
+) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayPrepend(
+    array: ISelectOffsetClause<NumberType>,
+    value: Number,
+    vararg additionalValues: Number,
+) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+
+fun arrayPrepend(
+    array: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+    vararg additionalValues: Boolean,
+) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

@@ -42,8 +42,7 @@ class StringPrimitive(value: String) : Primitive<StringType>(
 )
 
 class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
-    {
-            manager: DopeQueryManager ->
+    { manager: DopeQueryManager ->
         DopeQuery(
             queryString = when (value) {
                 true -> TRUE.toDopeQuery(manager).queryString
@@ -55,8 +54,7 @@ class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
 )
 
 class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>(
-    {
-            manager: DopeQueryManager ->
+    { manager: DopeQueryManager ->
         collection.map { it.toDopeQuery(manager) }.let { dopeQueries ->
             DopeQuery(
                 queryString = formatListToQueryStringWithBrackets(dopeQueries, prefix = "[", postfix = "]"),

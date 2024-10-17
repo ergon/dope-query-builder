@@ -22,6 +22,6 @@ class ToBooleanExpression<T : ValidType>(
 
 fun <T : ValidType> TypeExpression<T>.toBool() = ToBooleanExpression(this)
 
-fun Number.toBool() = ToBooleanExpression(this.toDopeType())
+fun Number.toBool() = toDopeType().toBool()
 
-fun String.toBool() = ToBooleanExpression(this.toDopeType())
+fun String.toBool() = toDopeType().toBool()

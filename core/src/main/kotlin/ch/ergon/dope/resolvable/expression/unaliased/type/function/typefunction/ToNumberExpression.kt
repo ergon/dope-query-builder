@@ -25,18 +25,15 @@ class ToNumberExpression<T : ValidType>(
 
 fun <T : ValidType> TypeExpression<T>.toNumber() = ToNumberExpression(this)
 
-fun String.toNumber() = ToNumberExpression(this.toDopeType())
+fun String.toNumber() = toDopeType().toNumber()
 
-fun Boolean.toNumber() = ToNumberExpression(this.toDopeType())
+fun Boolean.toNumber() = toDopeType().toNumber()
 
 fun TypeExpression<StringType>.toNumber(filterChars: TypeExpression<StringType>) =
     ToNumberExpression(this, filterChars)
 
-fun TypeExpression<StringType>.toNumber(filterChars: String) =
-    ToNumberExpression(this, filterChars.toDopeType())
+fun TypeExpression<StringType>.toNumber(filterChars: String) = toNumber(filterChars.toDopeType())
 
-fun String.toNumber(filterChars: TypeExpression<StringType>) =
-    ToNumberExpression(this.toDopeType(), filterChars)
+fun String.toNumber(filterChars: TypeExpression<StringType>) = toDopeType().toNumber(filterChars)
 
-fun String.toNumber(filterChars: String) =
-    ToNumberExpression(this.toDopeType(), filterChars.toDopeType())
+fun String.toNumber(filterChars: String) = toDopeType().toNumber(filterChars.toDopeType())
