@@ -26,7 +26,7 @@ class SetOperator(
             queryString = "(${leftSelectDopeQuery.queryString}) $setOperatorType " +
                 (if (duplicatesAllowed) "ALL " else "") +
                 "(${rightSelectDopeQuery.queryString})",
-            parameters = leftSelectDopeQuery.parameters + rightSelectDopeQuery.parameters,
+            parameters = leftSelectDopeQuery.parameters.merge(rightSelectDopeQuery.parameters),
         )
     }
 }
