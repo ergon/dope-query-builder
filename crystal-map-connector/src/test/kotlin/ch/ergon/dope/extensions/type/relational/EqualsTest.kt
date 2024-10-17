@@ -11,10 +11,13 @@ import ch.ergon.dope.helper.someCMConverterBooleanField
 import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCMNumberField
+import ch.ergon.dope.helper.someCMObjectField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someObject
+import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.EqualsExpression
@@ -193,6 +196,61 @@ class EqualsTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support equals to with CMJsonFieldObject CMJsonFieldObject`() {
+        val left = someCMObjectField()
+        val right = someCMObjectField()
+        val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support equals to with CMJsonFieldObject ObjectType`() {
+        val left = someCMObjectField()
+        val right = someObjectField()
+        val expected = EqualsExpression(left.toDopeType(), right)
+
+        val actual = left.isEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support equals to with ObjectType CMJsonFieldObject`() {
+        val left = someObjectField()
+        val right = someCMObjectField()
+        val expected = EqualsExpression(left, right.toDopeType())
+
+        val actual = left.isEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support equals to with Object CMJsonFieldObject`() {
+        val left = someObject()
+        val right = someCMObjectField()
+        val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support equals to with CMJsonFieldObject Object`() {
+        val left = someCMObjectField()
+        val right = someObject()
+        val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support equals to with CMConverterNumberField date`() {
         val left = someCMConverterNumberField()
         val right = someDate()
@@ -314,6 +372,28 @@ class EqualsTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support not equals to with CMConverterNumberField date`() {
+        val left = someCMConverterNumberField()
+        val right = someDate()
+        val expected = NotEqualsExpression(left.toDopeType(), right.toInstant().epochSecond.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with date CMConverterNumberField`() {
+        val left = someDate()
+        val right = someCMConverterNumberField()
+        val expected = NotEqualsExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support not equals to with CMJsonFieldString CMJsonFieldString`() {
         val left = someCMStringField()
         val right = someCMStringField()
@@ -369,6 +449,28 @@ class EqualsTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support not equals to with CMConverterStringField date`() {
+        val left = someCMConverterStringField()
+        val right = someDate()
+        val expected = NotEqualsExpression(left.toDopeType(), right.toInstant().epochSecond.toString().toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with date CMConverterStringField`() {
+        val left = someDate()
+        val right = someCMConverterStringField()
+        val expected = NotEqualsExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support not equals to with CMJsonFieldBoolean CMJsonFieldBoolean`() {
         val left = someCMBooleanField()
         val right = someCMBooleanField()
@@ -416,6 +518,83 @@ class EqualsTest : ManagerDependentTest {
     fun `should support not equals to with CMJsonFieldBoolean Boolean`() {
         val left = someCMBooleanField()
         val right = someBoolean()
+        val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with CMConverterBooleanField date`() {
+        val left = someCMConverterBooleanField()
+        val right = someDate()
+        val expected = NotEqualsExpression(left.toDopeType(), true.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with date CMConverterBooleanField`() {
+        val left = someDate()
+        val right = someCMConverterBooleanField()
+        val expected = NotEqualsExpression(true.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with CMJsonFieldObject CMJsonFieldObject`() {
+        val left = someCMObjectField()
+        val right = someCMObjectField()
+        val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with CMJsonFieldObject ObjectType`() {
+        val left = someCMObjectField()
+        val right = someObjectField()
+        val expected = NotEqualsExpression(left.toDopeType(), right)
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with ObjectType CMJsonFieldObject`() {
+        val left = someObjectField()
+        val right = someCMObjectField()
+        val expected = NotEqualsExpression(left, right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with Object CMJsonFieldObject`() {
+        val left = someObject()
+        val right = someCMObjectField()
+        val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotEqualTo(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not equals to with CMJsonFieldObject Object`() {
+        val left = someCMObjectField()
+        val right = someObject()
         val expected = NotEqualsExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.isNotEqualTo(right)
