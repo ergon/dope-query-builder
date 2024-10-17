@@ -41,7 +41,7 @@ class CaseExpression<T : ValidType, U : ValidType>(
                     "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
                 } + END,
             parameters = caseDopeQuery.parameters.merge(
-                *conditionDopeQueries.map { it.first.parameters; it.second.parameters }.toTypedArray(),
+                *conditionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }.toTypedArray(),
             ),
         )
     }
@@ -66,7 +66,7 @@ class ElseCaseExpression<T : ValidType, U : ValidType>(
                 } + "$ELSE ${elseCaseDopeQuery.queryString} " +
                 END,
             parameters = caseDopeQuery.parameters.merge(
-                *conditionDopeQueries.map { it.first.parameters; it.second.parameters }.toTypedArray(),
+                *conditionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }.toTypedArray(),
             ),
         )
     }
