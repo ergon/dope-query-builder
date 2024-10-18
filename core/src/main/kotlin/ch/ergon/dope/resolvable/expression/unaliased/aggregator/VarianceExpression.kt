@@ -6,6 +6,6 @@ import ch.ergon.dope.validtype.NumberType
 class VarianceExpression<T : NumberType>(
     number: Field<T>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression<T>(number, quantifier, "VARIANCE")
+) : AggregateExpression<T>("VARIANCE", number, quantifier)
 
 fun variance(number: Field<out NumberType>, quantifier: AggregateQuantifier? = null) = VarianceExpression(number, quantifier)

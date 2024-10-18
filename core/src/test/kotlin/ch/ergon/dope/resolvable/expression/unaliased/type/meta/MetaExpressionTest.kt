@@ -13,8 +13,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta`() {
         val expected = DopeQuery(
-            "META(`someBucket`)",
-            emptyMap(),
+            queryString = "META(`someBucket`)",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -26,8 +25,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field cas`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`cas`",
-            emptyMap(),
+            queryString = "META(`someBucket`).`cas`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -39,8 +37,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field expiration`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`expiration`",
-            emptyMap(),
+            queryString = "META(`someBucket`).`expiration`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -52,8 +49,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field flags`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`flags`",
-            emptyMap(),
+            queryString = "META(`someBucket`).`flags`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -65,8 +61,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field id`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`id`",
-            emptyMap(),
+            queryString = "META(`someBucket`).`id`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -78,8 +73,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field type`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`type`",
-            emptyMap(),
+            queryString = "META(`someBucket`).`type`",
         )
         val underTest = MetaExpression(someBucket())
 
@@ -91,8 +85,7 @@ class MetaExpressionTest : ManagerDependentTest {
     @Test
     fun `should support meta field keyspace`() {
         val expected = DopeQuery(
-            "META(`someBucket`).`keyspace`",
-            emptyMap(),
+            queryString = "META(`someBucket`).`keyspace`",
         )
         val underTest = MetaExpression(someBucket())
 

@@ -17,7 +17,7 @@ class ArrayAccess<T : ValidType>(
         val indexDopeQuery = index.toDopeQuery(manager)
         return DopeQuery(
             queryString = "${arrayDopeQuery.queryString}[${indexDopeQuery.queryString}]",
-            parameters = arrayDopeQuery.parameters + indexDopeQuery.parameters,
+            parameters = arrayDopeQuery.parameters.merge(indexDopeQuery.parameters),
         )
     }
 }

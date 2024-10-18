@@ -27,9 +27,10 @@ sealed class ReturningClause(
                 fieldDopeQuery.queryString,
                 *fieldsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = fieldsDopeQuery.fold(fieldDopeQuery.parameters) { fieldParameters, field ->
-                fieldParameters + field.parameters
-            } + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(
+                fieldDopeQuery.parameters,
+                *fieldsDopeQuery.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
 }

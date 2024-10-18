@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,7 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
     fun `should support ARRAY_IFNULL`() {
         val array = someNumberArrayField()
         val expected = DopeQuery(
-            "ARRAY_IFNULL(`numberArrayField`)",
-            emptyMap(),
+            queryString = "ARRAY_IFNULL(`numberArrayField`)",
         )
         val underTest = ArrayIfNullExpression(array)
 
@@ -26,13 +26,28 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_IFNULL with parameter`() {
+    fun `should support ARRAY_IFNULL with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_IFNULL($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_IFNULL($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_IFNULL with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_IFNULL(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayIfNullExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ArrayType
@@ -18,16 +19,15 @@ sealed class Primitive<T : ValidType>(
     override fun toDopeQuery(manager: DopeQueryManager) = generateDopeQuery(manager)
 }
 
-data object NULL : Primitive<NullType>({ DopeQuery("NULL", emptyMap()) })
-data object MISSING : Primitive<MissingType>({ DopeQuery("MISSING", emptyMap()) })
-data object TRUE : Primitive<BooleanType>({ DopeQuery("TRUE", emptyMap()) })
-data object FALSE : Primitive<BooleanType>({ DopeQuery("FALSE", emptyMap()) })
+data object NULL : Primitive<NullType>({ DopeQuery(queryString = "NULL") })
+data object MISSING : Primitive<MissingType>({ DopeQuery(queryString = "MISSING") })
+data object TRUE : Primitive<BooleanType>({ DopeQuery(queryString = "TRUE") })
+data object FALSE : Primitive<BooleanType>({ DopeQuery(queryString = "FALSE") })
 
 class NumberPrimitive(value: Number) : Primitive<NumberType>(
     {
         DopeQuery(
             queryString = "$value",
-            parameters = emptyMap(),
         )
     },
 )
@@ -36,31 +36,27 @@ class StringPrimitive(value: String) : Primitive<StringType>(
     {
         DopeQuery(
             queryString = "\"$value\"",
-            parameters = emptyMap(),
         )
     },
 )
 
 class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
-    {
-            manager: DopeQueryManager ->
+    { manager: DopeQueryManager ->
         DopeQuery(
             queryString = when (value) {
                 true -> TRUE.toDopeQuery(manager).queryString
                 false -> FALSE.toDopeQuery(manager).queryString
             },
-            parameters = emptyMap(),
         )
     },
 )
 
 class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>(
-    {
-            manager: DopeQueryManager ->
+    { manager: DopeQueryManager ->
         collection.map { it.toDopeQuery(manager) }.let { dopeQueries ->
             DopeQuery(
                 queryString = formatListToQueryStringWithBrackets(dopeQueries, prefix = "[", postfix = "]"),
-                parameters = dopeQueries.fold(emptyMap()) { parameters, dopeQueryElement -> parameters + dopeQueryElement.parameters },
+                parameters = dopeQueries.map { it.parameters }.merge(),
             )
         }
     },
