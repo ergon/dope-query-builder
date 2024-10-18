@@ -175,44 +175,44 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_BINARY_SEARCH extension select type`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val value = someStringField()
-        val expected = ArrayBinarySearchExpression(array.asExpression(), value)
+        val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value)
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = arrayBinarySearch(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_BINARY_SEARCH extension select string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val value = someString()
-        val expected = ArrayBinarySearchExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = arrayBinarySearch(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_BINARY_SEARCH extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumber()
-        val expected = ArrayBinarySearchExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = arrayBinarySearch(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_BINARY_SEARCH extension select boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val value = someBoolean()
-        val expected = ArrayBinarySearchExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = arrayBinarySearch(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

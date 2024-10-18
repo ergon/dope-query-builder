@@ -47,21 +47,21 @@ fun arrayBinarySearch(
 ) = arrayBinarySearch(array, value.toDopeType())
 
 fun <T : ValidType> arrayBinarySearch(
-    array: ISelectOffsetClause<T>,
+    selectClause: ISelectOffsetClause<T>,
     value: TypeExpression<T>,
-) = arrayBinarySearch(array.asExpression(), value)
+) = arrayBinarySearch(selectClause.asExpression(), value)
 
 fun arrayBinarySearch(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     value: String,
-) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
 
 fun arrayBinarySearch(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     value: Number,
-) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
 
 fun arrayBinarySearch(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     value: Boolean,
-) = arrayBinarySearch(array.asExpression(), value.toDopeType())
+) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())

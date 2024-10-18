@@ -22,4 +22,4 @@ class ArrayAverageExpression<T : NumberType>(
 
 fun <T : NumberType> arrayAverage(array: TypeExpression<ArrayType<T>>) = ArrayAverageExpression(array)
 
-fun <T : NumberType> arrayAverage(array: ISelectOffsetClause<T>) = arrayAverage(array.asExpression())
+fun <T : NumberType> arrayAverage(selectClause: ISelectOffsetClause<T>) = arrayAverage(selectClause.asExpression())

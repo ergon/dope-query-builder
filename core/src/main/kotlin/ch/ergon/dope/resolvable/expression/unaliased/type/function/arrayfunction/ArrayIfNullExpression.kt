@@ -22,4 +22,4 @@ class ArrayIfNullExpression<T : ValidType>(
 
 fun <T : ValidType> arrayIfNull(array: TypeExpression<ArrayType<T>>) = ArrayIfNullExpression(array)
 
-fun <T : ValidType> arrayIfNull(array: ISelectOffsetClause<T>) = arrayIfNull(array.asExpression())
+fun <T : ValidType> arrayIfNull(selectClause: ISelectOffsetClause<T>) = arrayIfNull(selectClause.asExpression())

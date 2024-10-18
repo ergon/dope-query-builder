@@ -203,48 +203,48 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_MOVE extension select type type`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val from = 1.toDopeType()
         val to = 2.toDopeType()
-        val expected = ArrayMoveExpression(array.asExpression(), from, to)
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from, to)
 
-        val actual = arrayMove(array, from, to)
+        val actual = arrayMove(selectClause, from, to)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_MOVE extension select type number`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val from = 1.toDopeType()
         val to = 2
-        val expected = ArrayMoveExpression(array.asExpression(), from, to.toDopeType())
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from, to.toDopeType())
 
-        val actual = arrayMove(array, from, to)
+        val actual = arrayMove(selectClause, from, to)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_MOVE extension select number type`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val from = 1
         val to = 2.toDopeType()
-        val expected = ArrayMoveExpression(array.asExpression(), from.toDopeType(), to)
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from.toDopeType(), to)
 
-        val actual = arrayMove(array, from, to)
+        val actual = arrayMove(selectClause, from, to)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_MOVE extension select number number`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val from = 1
         val to = 2
-        val expected = ArrayMoveExpression(array.asExpression(), from.toDopeType(), to.toDopeType())
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from.toDopeType(), to.toDopeType())
 
-        val actual = arrayMove(array, from, to)
+        val actual = arrayMove(selectClause, from, to)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

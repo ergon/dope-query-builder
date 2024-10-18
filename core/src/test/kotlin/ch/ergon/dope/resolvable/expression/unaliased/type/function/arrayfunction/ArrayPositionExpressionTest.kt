@@ -129,11 +129,11 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_POSITION extension select`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumberField()
-        val expected = ArrayPositionExpression(array.asExpression(), value)
+        val expected = ArrayPositionExpression(selectClause.asExpression(), value)
 
-        val actual = arrayPosition(array, value)
+        val actual = arrayPosition(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

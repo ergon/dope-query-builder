@@ -66,10 +66,10 @@ class ArrayReverseExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_REVERSE extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArrayReverseExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArrayReverseExpression(selectClause.asExpression())
 
-        val actual = arrayReverse(array)
+        val actual = arrayReverse(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

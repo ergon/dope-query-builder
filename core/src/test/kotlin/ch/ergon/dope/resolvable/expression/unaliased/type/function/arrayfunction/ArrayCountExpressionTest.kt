@@ -66,10 +66,10 @@ class ArrayCountExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_COUNT extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArrayCountExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArrayCountExpression(selectClause.asExpression())
 
-        val actual = arrayCount(array)
+        val actual = arrayCount(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

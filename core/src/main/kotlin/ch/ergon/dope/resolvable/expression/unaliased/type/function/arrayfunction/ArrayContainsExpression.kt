@@ -38,14 +38,14 @@ fun arrayContains(array: TypeExpression<ArrayType<NumberType>>, value: Number) =
 fun arrayContains(array: TypeExpression<ArrayType<BooleanType>>, value: Boolean) =
     arrayContains(array, value.toDopeType())
 
-fun <T : ValidType> arrayContains(array: ISelectOffsetClause<T>, value: TypeExpression<T>) =
-    arrayContains(array.asExpression(), value)
+fun <T : ValidType> arrayContains(selectClause: ISelectOffsetClause<T>, value: TypeExpression<T>) =
+    arrayContains(selectClause.asExpression(), value)
 
-fun arrayContains(array: ISelectOffsetClause<StringType>, value: String) =
-    arrayContains(array.asExpression(), value.toDopeType())
+fun arrayContains(selectClause: ISelectOffsetClause<StringType>, value: String) =
+    arrayContains(selectClause.asExpression(), value.toDopeType())
 
-fun arrayContains(array: ISelectOffsetClause<NumberType>, value: Number) =
-    arrayContains(array.asExpression(), value.toDopeType())
+fun arrayContains(selectClause: ISelectOffsetClause<NumberType>, value: Number) =
+    arrayContains(selectClause.asExpression(), value.toDopeType())
 
-fun arrayContains(array: ISelectOffsetClause<BooleanType>, value: Boolean) =
-    arrayContains(array.asExpression(), value.toDopeType())
+fun arrayContains(selectClause: ISelectOffsetClause<BooleanType>, value: Boolean) =
+    arrayContains(selectClause.asExpression(), value.toDopeType())

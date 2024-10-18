@@ -157,22 +157,22 @@ class ArrayAccessTest : ManagerDependentTest {
 
     @Test
     fun `should support array access select type`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val index = someNumberField()
-        val expected = ArrayAccess(array.asExpression(), index)
+        val expected = ArrayAccess(selectClause.asExpression(), index)
 
-        val actual = array.get(index)
+        val actual = selectClause.get(index)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support array access select number`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val index = 1
-        val expected = ArrayAccess(array.asExpression(), index.toDopeType())
+        val expected = ArrayAccess(selectClause.asExpression(), index.toDopeType())
 
-        val actual = array.get(index)
+        val actual = selectClause.get(index)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

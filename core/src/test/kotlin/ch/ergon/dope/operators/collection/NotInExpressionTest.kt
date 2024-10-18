@@ -217,10 +217,10 @@ class NotInExpressionTest : ManagerDependentTest {
     @Test
     fun `should support IN extension type select`() {
         val value = someStringField()
-        val collection = someSelectRawClause()
-        val expected = NotInExpression(value, collection.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = NotInExpression(value, selectClause.asExpression())
 
-        val actual = value.notInArray(collection)
+        val actual = value.notInArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -228,10 +228,10 @@ class NotInExpressionTest : ManagerDependentTest {
     @Test
     fun `should support IN extension number select`() {
         val value = 1
-        val collection = someNumberSelectRawClause()
-        val expected = NotInExpression(value.toDopeType(), collection.asExpression())
+        val selectClause = someNumberSelectRawClause()
+        val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.notInArray(collection)
+        val actual = value.notInArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -239,10 +239,10 @@ class NotInExpressionTest : ManagerDependentTest {
     @Test
     fun `should support IN extension string select`() {
         val value = "s"
-        val collection = someStringSelectRawClause()
-        val expected = NotInExpression(value.toDopeType(), collection.asExpression())
+        val selectClause = someStringSelectRawClause()
+        val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.notInArray(collection)
+        val actual = value.notInArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -250,10 +250,10 @@ class NotInExpressionTest : ManagerDependentTest {
     @Test
     fun `should support IN extension boolean boolean`() {
         val value = true
-        val collection = someBooleanSelectRawClause()
-        val expected = NotInExpression(value.toDopeType(), collection.asExpression())
+        val selectClause = someBooleanSelectRawClause()
+        val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.notInArray(collection)
+        val actual = value.notInArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

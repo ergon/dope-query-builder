@@ -11,11 +11,11 @@ class ArrayExceptExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>, 
 fun <T : ValidType> arrayExcept(array: TypeExpression<ArrayType<T>>, except: TypeExpression<ArrayType<T>>) =
     ArrayExceptExpression(array, except)
 
-fun <T : ValidType> arrayExcept(array: ISelectOffsetClause<T>, except: TypeExpression<ArrayType<T>>) =
-    arrayExcept(array.asExpression(), except)
+fun <T : ValidType> arrayExcept(selectClause: ISelectOffsetClause<T>, except: TypeExpression<ArrayType<T>>) =
+    arrayExcept(selectClause.asExpression(), except)
 
 fun <T : ValidType> arrayExcept(array: TypeExpression<ArrayType<T>>, except: ISelectOffsetClause<T>) =
     arrayExcept(array, except.asExpression())
 
-fun <T : ValidType> arrayExcept(array: ISelectOffsetClause<T>, except: ISelectOffsetClause<T>) =
-    arrayExcept(array.asExpression(), except.asExpression())
+fun <T : ValidType> arrayExcept(selectClause: ISelectOffsetClause<T>, except: ISelectOffsetClause<T>) =
+    arrayExcept(selectClause.asExpression(), except.asExpression())

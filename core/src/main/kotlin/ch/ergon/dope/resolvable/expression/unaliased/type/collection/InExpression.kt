@@ -34,13 +34,17 @@ fun String.inArray(array: Collection<TypeExpression<StringType>>) = inArray(arra
 
 fun Boolean.inArray(array: Collection<TypeExpression<BooleanType>>) = inArray(array.toDopeType())
 
-fun <T : ValidType> TypeExpression<T>.inArray(array: ISelectOffsetClause<T>) = inArray(array.asExpression())
+fun <T : ValidType> TypeExpression<T>.inArray(selectClause: ISelectOffsetClause<T>) =
+    inArray(selectClause.asExpression())
 
-fun Number.inArray(array: ISelectOffsetClause<NumberType>) = toDopeType().inArray(array.asExpression())
+fun Number.inArray(selectClause: ISelectOffsetClause<NumberType>) =
+    toDopeType().inArray(selectClause.asExpression())
 
-fun String.inArray(array: ISelectOffsetClause<StringType>) = toDopeType().inArray(array.asExpression())
+fun String.inArray(selectClause: ISelectOffsetClause<StringType>) =
+    toDopeType().inArray(selectClause.asExpression())
 
-fun Boolean.inArray(array: ISelectOffsetClause<BooleanType>) = toDopeType().inArray(array.asExpression())
+fun Boolean.inArray(selectClause: ISelectOffsetClause<BooleanType>) =
+    toDopeType().inArray(selectClause.asExpression())
 
 class NotInExpression<T : ValidType>(
     value: TypeExpression<T>,
@@ -65,10 +69,14 @@ fun String.notInArray(array: Collection<TypeExpression<StringType>>) = notInArra
 
 fun Boolean.notInArray(array: Collection<TypeExpression<BooleanType>>) = notInArray(array.toDopeType())
 
-fun <T : ValidType> TypeExpression<T>.notInArray(array: ISelectOffsetClause<T>) = notInArray(array.asExpression())
+fun <T : ValidType> TypeExpression<T>.notInArray(selectClause: ISelectOffsetClause<T>) =
+    notInArray(selectClause.asExpression())
 
-fun Number.notInArray(array: ISelectOffsetClause<NumberType>) = toDopeType().notInArray(array.asExpression())
+fun Number.notInArray(selectClause: ISelectOffsetClause<NumberType>) =
+    toDopeType().notInArray(selectClause.asExpression())
 
-fun String.notInArray(array: ISelectOffsetClause<StringType>) = toDopeType().notInArray(array.asExpression())
+fun String.notInArray(selectClause: ISelectOffsetClause<StringType>) =
+    toDopeType().notInArray(selectClause.asExpression())
 
-fun Boolean.notInArray(array: ISelectOffsetClause<BooleanType>) = toDopeType().notInArray(array.asExpression())
+fun Boolean.notInArray(selectClause: ISelectOffsetClause<BooleanType>) =
+    toDopeType().notInArray(selectClause.asExpression())

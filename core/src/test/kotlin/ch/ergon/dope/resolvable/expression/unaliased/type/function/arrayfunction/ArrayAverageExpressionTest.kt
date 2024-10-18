@@ -51,10 +51,10 @@ class ArrayAverageExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_AVG extension select`() {
-        val array = someNumberSelectRawClause()
-        val expected = ArrayAverageExpression(array.asExpression())
+        val selectClause = someNumberSelectRawClause()
+        val expected = ArrayAverageExpression(selectClause.asExpression())
 
-        val actual = arrayAverage(array)
+        val actual = arrayAverage(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -169,44 +169,44 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_REMOVE extension select type`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumberField()
-        val expected = ArrayRemoveExpression(array.asExpression(), value)
+        val expected = ArrayRemoveExpression(selectClause.asExpression(), value)
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayRemove(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REMOVE extension select string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val value = someString()
-        val expected = ArrayRemoveExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayRemoveExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayRemove(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REMOVE extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumber()
-        val expected = ArrayRemoveExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayRemoveExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayRemove(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REMOVE extension select boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val value = someBoolean()
-        val expected = ArrayRemoveExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayRemoveExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = arrayRemove(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

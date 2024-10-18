@@ -172,44 +172,44 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_CONTAINS extension select`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val value = someStringField()
-        val expected = ArrayContainsExpression(array.asExpression(), value)
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value)
 
-        val actual = arrayContains(array, value)
+        val actual = arrayContains(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_CONTAINS extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = 1
-        val expected = ArrayContainsExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayContains(array, value)
+        val actual = arrayContains(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_CONTAINS extension select string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val value = "s"
-        val expected = ArrayContainsExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayContains(array, value)
+        val actual = arrayContains(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_CONTAINS extension select boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val value = true
-        val expected = ArrayContainsExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayContains(array, value)
+        val actual = arrayContains(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

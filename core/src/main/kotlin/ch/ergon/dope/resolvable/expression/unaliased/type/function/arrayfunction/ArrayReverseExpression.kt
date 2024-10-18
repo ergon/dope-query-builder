@@ -10,4 +10,4 @@ class ArrayReverseExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>)
 
 fun <T : ValidType> arrayReverse(array: TypeExpression<ArrayType<T>>) = ArrayReverseExpression(array)
 
-fun <T : ValidType> arrayReverse(array: ISelectOffsetClause<T>) = arrayReverse(array.asExpression())
+fun <T : ValidType> arrayReverse(selectClause: ISelectOffsetClause<T>) = arrayReverse(selectClause.asExpression())

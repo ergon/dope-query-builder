@@ -6,13 +6,9 @@ import ch.ergon.dope.resolvable.fromable.Bucket
 
 const val ASTERISK_STRING = "*"
 
-class AsteriskExpression : Expression {
-    private val queryString: String
-
-    constructor(bucket: Bucket) {
-        queryString = when (bucket) {
-            is AliasedBucket -> "`${bucket.alias}`"
-            is UnaliasedBucket -> "`${bucket.name}`"
-        } + ".$ASTERISK_STRING"
+class AsteriskExpression(private val bucket: Bucket? = null) : Expression {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val queryString = bucket?.toDopeQuery(manager)?.queryString?.let { "$it.$ASTERISK_STRING" } ?: ASTERISK_STRING
+        return DopeQuery(queryString = queryString)
     }
 }

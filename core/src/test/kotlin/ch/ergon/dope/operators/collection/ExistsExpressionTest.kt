@@ -80,10 +80,10 @@ class ExistsExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support EXISTS extension select`() {
-        val array = someSelectRawClause()
-        val expected = ExistsExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ExistsExpression(selectClause.asExpression())
 
-        val actual = exists(array)
+        val actual = exists(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

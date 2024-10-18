@@ -66,10 +66,10 @@ class ArrayMinExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_MIN extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArrayMinExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArrayMinExpression(selectClause.asExpression())
 
-        val actual = arrayMin(array)
+        val actual = arrayMin(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

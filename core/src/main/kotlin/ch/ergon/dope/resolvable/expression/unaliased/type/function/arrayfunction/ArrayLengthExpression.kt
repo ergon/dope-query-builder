@@ -23,4 +23,4 @@ class ArrayLengthExpression<T : ValidType>(
 
 fun <T : ValidType> arrayLength(array: TypeExpression<ArrayType<T>>) = ArrayLengthExpression(array)
 
-fun <T : ValidType> arrayLength(array: ISelectOffsetClause<T>) = arrayLength(array.asExpression())
+fun <T : ValidType> arrayLength(selectClause: ISelectOffsetClause<T>) = arrayLength(selectClause.asExpression())

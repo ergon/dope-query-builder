@@ -29,16 +29,16 @@ fun CMJsonField<Boolean>.withinArray(array: TypeExpression<ArrayType<BooleanType
     toDopeType().withinArray(array)
 
 @JvmName("withinNumberArray")
-fun CMJsonField<out Number>.withinArray(array: ISelectOffsetClause<NumberType>): WithinExpression<NumberType> =
-    toDopeType().withinArray(array.asExpression())
+fun CMJsonField<out Number>.withinArray(selectClause: ISelectOffsetClause<NumberType>): WithinExpression<NumberType> =
+    toDopeType().withinArray(selectClause.asExpression())
 
 @JvmName("withinStringArray")
-fun CMJsonField<String>.withinArray(array: ISelectOffsetClause<StringType>): WithinExpression<StringType> =
-    toDopeType().withinArray(array.asExpression())
+fun CMJsonField<String>.withinArray(selectClause: ISelectOffsetClause<StringType>): WithinExpression<StringType> =
+    toDopeType().withinArray(selectClause.asExpression())
 
 @JvmName("withinBooleanArray")
-fun CMJsonField<Boolean>.withinArray(array: ISelectOffsetClause<BooleanType>): WithinExpression<BooleanType> =
-    toDopeType().withinArray(array.asExpression())
+fun CMJsonField<Boolean>.withinArray(selectClause: ISelectOffsetClause<BooleanType>): WithinExpression<BooleanType> =
+    toDopeType().withinArray(selectClause.asExpression())
 
 @JvmName("withinNumberArray")
 fun TypeExpression<NumberType>.withinArray(array: CMJsonList<out Number>): WithinExpression<NumberType> =
@@ -113,16 +113,16 @@ fun CMJsonField<Boolean>.notWithinArray(array: TypeExpression<ArrayType<BooleanT
     toDopeType().notWithinArray(array)
 
 @JvmName("notWithinNumberArray")
-fun CMJsonField<out Number>.notWithinArray(array: ISelectOffsetClause<NumberType>): NotWithinExpression<NumberType> =
-    toDopeType().notWithinArray(array.asExpression())
+fun CMJsonField<out Number>.notWithinArray(selectClause: ISelectOffsetClause<NumberType>): NotWithinExpression<NumberType> =
+    toDopeType().notWithinArray(selectClause.asExpression())
 
 @JvmName("notWithinStringArray")
-fun CMJsonField<String>.notWithinArray(array: ISelectOffsetClause<StringType>): NotWithinExpression<StringType> =
-    toDopeType().notWithinArray(array)
+fun CMJsonField<String>.notWithinArray(selectClause: ISelectOffsetClause<StringType>): NotWithinExpression<StringType> =
+    toDopeType().notWithinArray(selectClause.asExpression())
 
 @JvmName("notWithinBooleanArray")
-fun CMJsonField<Boolean>.notWithinArray(array: ISelectOffsetClause<BooleanType>): NotWithinExpression<BooleanType> =
-    toDopeType().notWithinArray(array)
+fun CMJsonField<Boolean>.notWithinArray(selectClause: ISelectOffsetClause<BooleanType>): NotWithinExpression<BooleanType> =
+    toDopeType().notWithinArray(selectClause.asExpression())
 
 @JvmName("notWithinNumberArray")
 fun TypeExpression<NumberType>.notWithinArray(array: CMJsonList<out Number>): NotWithinExpression<NumberType> =

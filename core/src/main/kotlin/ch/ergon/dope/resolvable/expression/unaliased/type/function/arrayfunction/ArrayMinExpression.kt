@@ -22,4 +22,4 @@ class ArrayMinExpression<T : ValidType>(
 
 fun <T : ValidType> arrayMin(array: TypeExpression<ArrayType<T>>) = ArrayMinExpression(array)
 
-fun <T : ValidType> arrayMin(array: ISelectOffsetClause<T>) = arrayMin(array.asExpression())
+fun <T : ValidType> arrayMin(selectClause: ISelectOffsetClause<T>) = arrayMin(selectClause.asExpression())

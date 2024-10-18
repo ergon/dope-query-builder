@@ -26,5 +26,5 @@ class ArrayPositionExpression<T : ValidType>(
 fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
     ArrayPositionExpression(array, value)
 
-fun <T : ValidType> arrayPosition(array: ISelectOffsetClause<T>, value: TypeExpression<T>) =
-    arrayPosition(array.asExpression(), value)
+fun <T : ValidType> arrayPosition(selectClause: ISelectOffsetClause<T>, value: TypeExpression<T>) =
+    arrayPosition(selectClause.asExpression(), value)

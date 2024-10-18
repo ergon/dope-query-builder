@@ -96,7 +96,6 @@ class SatisfiesTest : ManagerDependentTest {
     fun `should support any satisfies with select`() {
         val expected = DopeQuery(
             queryString = "ANY `iterator1` IN (SELECT RAW `stringField`) SATISFIES `iterator1` = \"something\" END",
-            parameters = emptyMap(),
         )
 
         val actual = someStringSelectRawClause().any { it.isEqualTo("something") }.toDopeQuery(manager)
@@ -169,7 +168,6 @@ class SatisfiesTest : ManagerDependentTest {
     fun `should support every satisfies with select`() {
         val expected = DopeQuery(
             queryString = "EVERY `iterator1` IN (SELECT RAW `stringField`) SATISFIES `iterator1` = \"something\" END",
-            parameters = emptyMap(),
         )
 
         val actual = someStringSelectRawClause().every { it.isEqualTo("something") }.toDopeQuery(manager)

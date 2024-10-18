@@ -22,4 +22,4 @@ class ArrayMaxExpression<T : ValidType>(
 
 fun <T : ValidType> arrayMax(array: TypeExpression<ArrayType<T>>) = ArrayMaxExpression(array)
 
-fun <T : ValidType> arrayMax(array: ISelectOffsetClause<T>) = arrayMax(array.asExpression())
+fun <T : ValidType> arrayMax(selectClause: ISelectOffsetClause<T>) = arrayMax(selectClause.asExpression())

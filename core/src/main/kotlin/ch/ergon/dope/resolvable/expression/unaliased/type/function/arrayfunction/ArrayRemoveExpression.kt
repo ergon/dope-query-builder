@@ -40,25 +40,25 @@ fun arrayRemove(
 ) = arrayRemove(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun <T : ValidType> arrayRemove(
-    array: ISelectOffsetClause<T>,
+    selectClause: ISelectOffsetClause<T>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayRemove(array.asExpression(), value, *additionalValues)
+) = arrayRemove(selectClause.asExpression(), value, *additionalValues)
 
 fun arrayRemove(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     value: String,
     vararg additionalValues: String,
-) = arrayRemove(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayRemove(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun arrayRemove(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     value: Number,
     vararg additionalValues: Number,
-) = arrayRemove(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayRemove(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun arrayRemove(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayRemove(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayRemove(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

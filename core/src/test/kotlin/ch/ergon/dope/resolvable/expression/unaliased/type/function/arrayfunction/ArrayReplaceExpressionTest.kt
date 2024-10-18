@@ -393,133 +393,133 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_REPLACE extension select type type`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val toReplace = someNumberField()
         val replaceWith = someNumberField("anotherNumberField")
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace, replaceWith)
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select type string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val toReplace = someStringField()
         val replaceWith = someString()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace, replaceWith.toDopeType())
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select string type`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val toReplace = someString()
         val replaceWith = someStringField()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace.toDopeType(), replaceWith)
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select string string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val toReplace = someString()
         val replaceWith = someString()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select type number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val toReplace = someNumberField()
         val replaceWith = someNumber()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace, replaceWith.toDopeType())
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select number type`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val toReplace = someNumber()
         val replaceWith = someNumberField()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace.toDopeType(), replaceWith)
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select number number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val toReplace = someNumber()
         val replaceWith = someNumber()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select type boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val toReplace = someBooleanField()
         val replaceWith = someBoolean()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace, replaceWith.toDopeType())
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select boolean type`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val toReplace = someBoolean()
         val replaceWith = someBooleanField()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace.toDopeType(), replaceWith)
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select boolean boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val toReplace = someBoolean()
         val replaceWith = someBoolean()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_REPLACE extension select with max`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val toReplace = someNumberField()
         val replaceWith = someNumberField("anotherNumberField")
         val max = 1.toDopeType()
-        val expected = ArrayReplaceExpression(array.asExpression(), toReplace, replaceWith, max)
+        val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith, max)
 
-        val actual = arrayReplace(array, toReplace, replaceWith, max)
+        val actual = arrayReplace(selectClause, toReplace, replaceWith, max)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

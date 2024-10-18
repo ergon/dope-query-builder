@@ -23,4 +23,4 @@ fun <T : ValidType> exists(array: TypeExpression<ArrayType<T>>) = ExistsExpressi
 
 fun <T : ValidType> exists(array: Collection<TypeExpression<T>>) = exists(array.toDopeType())
 
-fun <T : ValidType> exists(array: ISelectOffsetClause<T>) = exists(array.asExpression())
+fun <T : ValidType> exists(selectClause: ISelectOffsetClause<T>) = exists(selectClause.asExpression())

@@ -1,5 +1,6 @@
 package ch.ergon.dope.buildTest
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
@@ -97,7 +98,10 @@ class SubQueryTest {
     fun `should support sub select with multiple parameters`() {
         val expected = DopeQuery(
             "SELECT EXISTS (SELECT \$1 FROM `someBucket`) FROM (SELECT \$num FROM `other`) AS `asdf`",
-            mapOf("\$1" to "someString", "num" to 5),
+            DopeParameters(
+                namedParameters = mapOf("num" to 5),
+                positionalParameters = listOf("someString"),
+            ),
         )
 
         val actual = create

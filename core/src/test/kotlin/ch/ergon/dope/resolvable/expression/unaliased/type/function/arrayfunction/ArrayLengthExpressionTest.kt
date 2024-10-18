@@ -66,10 +66,10 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_LENGTH extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArrayLengthExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArrayLengthExpression(selectClause.asExpression())
 
-        val actual = arrayLength(array)
+        val actual = arrayLength(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -156,44 +156,44 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_APPEND extension select type`() {
-        val array = someSelectRawClause()
+        val selectClause = someSelectRawClause()
         val value = someStringField()
-        val expected = ArrayAppendExpression(array.asExpression(), value)
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value)
 
-        val actual = arrayAppend(array, value)
+        val actual = arrayAppend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_APPEND extension select string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val value = someString()
-        val expected = ArrayAppendExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayAppend(array, value)
+        val actual = arrayAppend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_APPEND extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumber()
-        val expected = ArrayAppendExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayAppend(array, value)
+        val actual = arrayAppend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_APPEND extension select boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val value = someBoolean()
-        val expected = ArrayAppendExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayAppend(array, value)
+        val actual = arrayAppend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

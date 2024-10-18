@@ -23,4 +23,4 @@ class ArraySumExpression<T : ValidType>(
 
 fun <T : ValidType> arraySum(array: TypeExpression<ArrayType<T>>) = ArraySumExpression(array)
 
-fun <T : ValidType> arraySum(array: ISelectOffsetClause<T>) = arraySum(array.asExpression())
+fun <T : ValidType> arraySum(selectClause: ISelectOffsetClause<T>) = arraySum(selectClause.asExpression())

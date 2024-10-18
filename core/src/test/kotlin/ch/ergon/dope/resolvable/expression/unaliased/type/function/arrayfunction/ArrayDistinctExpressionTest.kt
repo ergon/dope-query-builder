@@ -66,10 +66,10 @@ class ArrayDistinctExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_DISTINCT extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArrayDistinctExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArrayDistinctExpression(selectClause.asExpression())
 
-        val actual = arrayDistinct(array)
+        val actual = arrayDistinct(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

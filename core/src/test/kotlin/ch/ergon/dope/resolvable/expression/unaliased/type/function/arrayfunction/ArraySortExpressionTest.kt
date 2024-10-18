@@ -66,10 +66,10 @@ class ArraySortExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_SORT extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArraySortExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArraySortExpression(selectClause.asExpression())
 
-        val actual = arraySort(array)
+        val actual = arraySort(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

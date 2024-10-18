@@ -87,71 +87,71 @@ fun arrayReplace(
 ) = arrayReplace(array, toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())
 
 fun <T : ValidType> arrayReplace(
-    array: ISelectOffsetClause<T>,
+    selectClause: ISelectOffsetClause<T>,
     toReplace: TypeExpression<T>,
     replaceWith: TypeExpression<T>,
     max: TypeExpression<NumberType>? = null,
-) = arrayReplace(array.asExpression(), toReplace, replaceWith, max)
+) = arrayReplace(selectClause.asExpression(), toReplace, replaceWith, max)
 
 fun arrayReplace(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     toReplace: TypeExpression<StringType>,
     replaceWith: String,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace, replaceWith.toDopeType(), max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace, replaceWith.toDopeType(), max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     toReplace: String,
     replaceWith: TypeExpression<StringType>,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace.toDopeType(), replaceWith, max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace.toDopeType(), replaceWith, max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     toReplace: String,
     replaceWith: String,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     toReplace: TypeExpression<NumberType>,
     replaceWith: Number,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace, replaceWith.toDopeType(), max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace, replaceWith.toDopeType(), max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     toReplace: Number,
     replaceWith: TypeExpression<NumberType>,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace.toDopeType(), replaceWith, max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace.toDopeType(), replaceWith, max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     toReplace: Number,
     replaceWith: Number,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     toReplace: TypeExpression<BooleanType>,
     replaceWith: Boolean,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace, replaceWith.toDopeType(), max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace, replaceWith.toDopeType(), max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     toReplace: Boolean,
     replaceWith: TypeExpression<BooleanType>,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace.toDopeType(), replaceWith, max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace.toDopeType(), replaceWith, max?.toDopeType())
 
 fun arrayReplace(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     toReplace: Boolean,
     replaceWith: Boolean,
     max: Number? = null,
-) = arrayReplace(array.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())
+) = arrayReplace(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType(), max?.toDopeType())

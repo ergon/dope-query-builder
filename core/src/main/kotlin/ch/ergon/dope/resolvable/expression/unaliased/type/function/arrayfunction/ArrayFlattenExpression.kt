@@ -16,8 +16,8 @@ fun <T : ValidType> arrayFlatten(array: TypeExpression<ArrayType<T>>, depth: Typ
 fun <T : ValidType> arrayFlatten(array: TypeExpression<ArrayType<T>>, depth: Number) =
     arrayFlatten(array, depth.toDopeType())
 
-fun <T : ValidType> arrayFlatten(array: ISelectOffsetClause<T>, depth: TypeExpression<NumberType>) =
-    arrayFlatten(array.asExpression(), depth)
+fun <T : ValidType> arrayFlatten(selectClause: ISelectOffsetClause<T>, depth: TypeExpression<NumberType>) =
+    arrayFlatten(selectClause.asExpression(), depth)
 
-fun <T : ValidType> arrayFlatten(array: ISelectOffsetClause<T>, depth: Number) =
-    arrayFlatten(array.asExpression(), depth.toDopeType())
+fun <T : ValidType> arrayFlatten(selectClause: ISelectOffsetClause<T>, depth: Number) =
+    arrayFlatten(selectClause.asExpression(), depth.toDopeType())

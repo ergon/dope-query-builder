@@ -66,10 +66,10 @@ class ArraySumExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_SUM extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArraySumExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArraySumExpression(selectClause.asExpression())
 
-        val actual = arraySum(array)
+        val actual = arraySum(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

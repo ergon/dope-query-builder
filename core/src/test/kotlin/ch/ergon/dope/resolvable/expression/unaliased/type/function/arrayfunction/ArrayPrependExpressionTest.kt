@@ -170,44 +170,44 @@ class ArrayPrependExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_PREPEND extension select type`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumberField()
-        val expected = ArrayPrependExpression(array.asExpression(), value)
+        val expected = ArrayPrependExpression(selectClause.asExpression(), value)
 
-        val actual = arrayPrepend(array, value)
+        val actual = arrayPrepend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_PREPEND extension select string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val value = someString()
-        val expected = ArrayPrependExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayPrependExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPrepend(array, value)
+        val actual = arrayPrepend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_PREPEND extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumber()
-        val expected = ArrayPrependExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayPrependExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPrepend(array, value)
+        val actual = arrayPrepend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_PREPEND extension select boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val value = someBoolean()
-        val expected = ArrayPrependExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayPrependExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPrepend(array, value)
+        val actual = arrayPrepend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -40,25 +40,25 @@ fun arrayAppend(
 ) = arrayAppend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun <T : ValidType> arrayAppend(
-    array: ISelectOffsetClause<T>,
+    selectClause: ISelectOffsetClause<T>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayAppend(array.asExpression(), value, *additionalValues)
+) = arrayAppend(selectClause.asExpression(), value, *additionalValues)
 
 fun arrayAppend(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     value: String,
     vararg additionalValues: String,
-) = arrayAppend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayAppend(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun arrayAppend(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     value: Number,
     vararg additionalValues: Number,
-) = arrayAppend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayAppend(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun arrayAppend(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayAppend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayAppend(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

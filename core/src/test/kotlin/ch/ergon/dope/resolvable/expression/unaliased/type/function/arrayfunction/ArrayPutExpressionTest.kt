@@ -170,44 +170,44 @@ class ArrayPutExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_PUT extension select type`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumberField()
-        val expected = ArrayPutExpression(array.asExpression(), value)
+        val expected = ArrayPutExpression(selectClause.asExpression(), value)
 
-        val actual = arrayPut(array, value)
+        val actual = arrayPut(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_PUT extension select string`() {
-        val array = someStringSelectRawClause()
+        val selectClause = someStringSelectRawClause()
         val value = someString()
-        val expected = ArrayPutExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayPutExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPut(array, value)
+        val actual = arrayPut(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_PUT extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val value = someNumber()
-        val expected = ArrayPutExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayPutExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPut(array, value)
+        val actual = arrayPut(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_PUT extension select boolean`() {
-        val array = someBooleanSelectRawClause()
+        val selectClause = someBooleanSelectRawClause()
         val value = someBoolean()
-        val expected = ArrayPutExpression(array.asExpression(), value.toDopeType())
+        val expected = ArrayPutExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPut(array, value)
+        val actual = arrayPut(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

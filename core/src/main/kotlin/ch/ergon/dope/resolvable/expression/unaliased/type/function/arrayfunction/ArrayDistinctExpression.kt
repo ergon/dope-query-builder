@@ -10,4 +10,4 @@ class ArrayDistinctExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>
 
 fun <T : ValidType> arrayDistinct(array: TypeExpression<ArrayType<T>>) = ArrayDistinctExpression(array)
 
-fun <T : ValidType> arrayDistinct(array: ISelectOffsetClause<T>) = arrayDistinct(array.asExpression())
+fun <T : ValidType> arrayDistinct(selectClause: ISelectOffsetClause<T>) = arrayDistinct(selectClause.asExpression())

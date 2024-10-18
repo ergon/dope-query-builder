@@ -23,4 +23,4 @@ class ArrayCountExpression<T : ValidType>(
 
 fun <T : ValidType> arrayCount(array: TypeExpression<ArrayType<T>>) = ArrayCountExpression(array)
 
-fun <T : ValidType> arrayCount(array: ISelectOffsetClause<T>) = arrayCount(array.asExpression())
+fun <T : ValidType> arrayCount(selectClause: ISelectOffsetClause<T>) = arrayCount(selectClause.asExpression())

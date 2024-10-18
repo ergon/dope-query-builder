@@ -61,25 +61,25 @@ fun arrayPrepend(
 ) = arrayPrepend(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun <T : ValidType> arrayPrepend(
-    array: ISelectOffsetClause<T>,
+    selectClause: ISelectOffsetClause<T>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayPrepend(array.asExpression(), value, *additionalValues)
+) = arrayPrepend(selectClause.asExpression(), value, *additionalValues)
 
 fun arrayPrepend(
-    array: ISelectOffsetClause<StringType>,
+    selectClause: ISelectOffsetClause<StringType>,
     value: String,
     vararg additionalValues: String,
-) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayPrepend(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun arrayPrepend(
-    array: ISelectOffsetClause<NumberType>,
+    selectClause: ISelectOffsetClause<NumberType>,
     value: Number,
     vararg additionalValues: Number,
-) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayPrepend(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
 fun arrayPrepend(
-    array: ISelectOffsetClause<BooleanType>,
+    selectClause: ISelectOffsetClause<BooleanType>,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayPrepend(array.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = arrayPrepend(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

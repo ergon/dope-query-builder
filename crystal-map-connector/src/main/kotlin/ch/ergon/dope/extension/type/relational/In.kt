@@ -30,16 +30,16 @@ fun CMJsonField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>):
     toDopeType().inArray(array)
 
 @JvmName("inArrayNumber")
-fun CMJsonField<out Number>.inArray(array: ISelectOffsetClause<NumberType>): InExpression<NumberType> =
-    toDopeType().inArray(array.asExpression())
+fun CMJsonField<out Number>.inArray(selectClause: ISelectOffsetClause<NumberType>): InExpression<NumberType> =
+    toDopeType().inArray(selectClause.asExpression())
 
 @JvmName("inArrayString")
-fun CMJsonField<String>.inArray(array: ISelectOffsetClause<StringType>): InExpression<StringType> =
-    toDopeType().inArray(array.asExpression())
+fun CMJsonField<String>.inArray(selectClause: ISelectOffsetClause<StringType>): InExpression<StringType> =
+    toDopeType().inArray(selectClause.asExpression())
 
 @JvmName("inArrayBoolean")
-fun CMJsonField<Boolean>.inArray(array: ISelectOffsetClause<BooleanType>): InExpression<BooleanType> =
-    toDopeType().inArray(array.asExpression())
+fun CMJsonField<Boolean>.inArray(selectClause: ISelectOffsetClause<BooleanType>): InExpression<BooleanType> =
+    toDopeType().inArray(selectClause.asExpression())
 
 @JvmName("inArrayNumber")
 fun TypeExpression<NumberType>.inArray(array: CMJsonList<out Number>): InExpression<NumberType> =
@@ -126,16 +126,16 @@ fun CMJsonField<Boolean>.notInArray(array: TypeExpression<ArrayType<BooleanType>
     toDopeType().notInArray(array)
 
 @JvmName("inArrayNumber")
-fun CMJsonField<out Number>.notInArray(array: ISelectOffsetClause<NumberType>): NotInExpression<NumberType> =
-    toDopeType().notInArray(array.asExpression())
+fun CMJsonField<out Number>.notInArray(selectClause: ISelectOffsetClause<NumberType>): NotInExpression<NumberType> =
+    toDopeType().notInArray(selectClause.asExpression())
 
 @JvmName("inArrayString")
-fun CMJsonField<String>.notInArray(array: ISelectOffsetClause<StringType>): NotInExpression<StringType> =
-    toDopeType().notInArray(array.asExpression())
+fun CMJsonField<String>.notInArray(selectClause: ISelectOffsetClause<StringType>): NotInExpression<StringType> =
+    toDopeType().notInArray(selectClause.asExpression())
 
 @JvmName("inArrayBoolean")
-fun CMJsonField<Boolean>.notInArray(array: ISelectOffsetClause<BooleanType>): NotInExpression<BooleanType> =
-    toDopeType().notInArray(array.asExpression())
+fun CMJsonField<Boolean>.notInArray(selectClause: ISelectOffsetClause<BooleanType>): NotInExpression<BooleanType> =
+    toDopeType().notInArray(selectClause.asExpression())
 
 @JvmName("notInArrayNumber")
 fun TypeExpression<NumberType>.notInArray(array: CMJsonList<out Number>): NotInExpression<NumberType> =

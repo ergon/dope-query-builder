@@ -217,10 +217,10 @@ class WithinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support WITHIN extension type select`() {
         val value = someStringField()
-        val collection = someSelectRawClause()
-        val expected = WithinExpression(value, collection.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = WithinExpression(value, selectClause.asExpression())
 
-        val actual = value.withinArray(collection)
+        val actual = value.withinArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -228,10 +228,10 @@ class WithinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support WITHIN extension number select`() {
         val value = 1
-        val collection = someNumberSelectRawClause()
-        val expected = WithinExpression(value.toDopeType(), collection.asExpression())
+        val selectClause = someNumberSelectRawClause()
+        val expected = WithinExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.withinArray(collection)
+        val actual = value.withinArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -239,10 +239,10 @@ class WithinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support WITHIN extension string select`() {
         val value = "s"
-        val collection = someStringSelectRawClause()
-        val expected = WithinExpression(value.toDopeType(), collection.asExpression())
+        val selectClause = someStringSelectRawClause()
+        val expected = WithinExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.withinArray(collection)
+        val actual = value.withinArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -250,10 +250,10 @@ class WithinExpressionTest : ManagerDependentTest {
     @Test
     fun `should support WITHIN extension boolean select`() {
         val value = true
-        val collection = someBooleanSelectRawClause()
-        val expected = WithinExpression(value.toDopeType(), collection.asExpression())
+        val selectClause = someBooleanSelectRawClause()
+        val expected = WithinExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.withinArray(collection)
+        val actual = value.withinArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

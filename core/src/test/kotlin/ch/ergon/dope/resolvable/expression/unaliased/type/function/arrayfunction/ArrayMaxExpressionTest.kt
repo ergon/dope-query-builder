@@ -66,10 +66,10 @@ class ArrayMaxExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_MAX extension select`() {
-        val array = someSelectRawClause()
-        val expected = ArrayMaxExpression(array.asExpression())
+        val selectClause = someSelectRawClause()
+        val expected = ArrayMaxExpression(selectClause.asExpression())
 
-        val actual = arrayMax(array)
+        val actual = arrayMax(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

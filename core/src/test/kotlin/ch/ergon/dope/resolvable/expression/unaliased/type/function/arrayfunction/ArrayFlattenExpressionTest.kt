@@ -144,22 +144,22 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_FLATTEN extension select type`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val depth = someNumberField()
-        val expected = ArrayFlattenExpression(array.asExpression(), depth)
+        val expected = ArrayFlattenExpression(selectClause.asExpression(), depth)
 
-        val actual = arrayFlatten(array, depth)
+        val actual = arrayFlatten(selectClause, depth)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_FLATTEN extension select number`() {
-        val array = someNumberSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val depth = 1
-        val expected = ArrayFlattenExpression(array.asExpression(), depth.toDopeType())
+        val expected = ArrayFlattenExpression(selectClause.asExpression(), depth.toDopeType())
 
-        val actual = arrayFlatten(array, depth)
+        val actual = arrayFlatten(selectClause, depth)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

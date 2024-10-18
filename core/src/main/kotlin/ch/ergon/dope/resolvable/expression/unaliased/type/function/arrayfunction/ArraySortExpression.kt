@@ -10,4 +10,4 @@ class ArraySortExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>) :
 
 fun <T : ValidType> arraySort(array: TypeExpression<ArrayType<T>>) = ArraySortExpression(array)
 
-fun <T : ValidType> arraySort(array: ISelectOffsetClause<T>) = arraySort(array.asExpression())
+fun <T : ValidType> arraySort(selectClause: ISelectOffsetClause<T>) = arraySort(selectClause.asExpression())
