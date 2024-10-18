@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -54,11 +55,21 @@ class ArrayLengthExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_LENGTH extension`() {
+    fun `should support ARRAY_LENGTH extension type`() {
         val array = someNumberArrayField()
         val expected = ArrayLengthExpression(array)
 
         val actual = arrayLength(array)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_LENGTH extension select`() {
+        val selectClause = someSelectRawClause()
+        val expected = ArrayLengthExpression(selectClause.asExpression())
+
+        val actual = arrayLength(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -6,6 +6,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -120,7 +121,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_FLATTEN extension`() {
+    fun `should support ARRAY_FLATTEN extension type`() {
         val array = someNumberArrayField()
         val depth = someNumberField()
         val expected = ArrayFlattenExpression(array, depth)
@@ -131,12 +132,34 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_FLATTEN extension with number`() {
+    fun `should support ARRAY_FLATTEN extension number`() {
         val array = someNumberArrayField()
         val depth = 1
         val expected = ArrayFlattenExpression(array, depth.toDopeType())
 
         val actual = arrayFlatten(array, depth)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_FLATTEN extension select type`() {
+        val selectClause = someNumberSelectRawClause()
+        val depth = someNumberField()
+        val expected = ArrayFlattenExpression(selectClause.asExpression(), depth)
+
+        val actual = arrayFlatten(selectClause, depth)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_FLATTEN extension select number`() {
+        val selectClause = someNumberSelectRawClause()
+        val depth = 1
+        val expected = ArrayFlattenExpression(selectClause.asExpression(), depth.toDopeType())
+
+        val actual = arrayFlatten(selectClause, depth)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

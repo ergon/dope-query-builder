@@ -6,6 +6,7 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.clause.model.joinHint.IndexHint
 import ch.ergon.dope.resolvable.clause.model.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.resolvable.clause.model.joinHint.ftsIndexHint
@@ -72,6 +73,16 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         val expected = KeysHint(key)
 
         val actual = keysHint(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support use array keys hint extension select expression`() {
+        val keys = someStringSelectRawClause()
+        val expected = KeysHint(keys.asExpression())
+
+        val actual = keysHint(keys)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

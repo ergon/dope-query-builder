@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
@@ -45,6 +46,8 @@ fun Bucket.useKeys(key: String) = useKeys(key.toDopeType())
 
 @JvmName("useKeysArray")
 fun Bucket.useKeys(keys: TypeExpression<ArrayType<StringType>>) = UseKeys(keys, this)
+
+fun Bucket.useKeys(keys: ISelectOffsetClause<StringType>) = UseKeys(keys.asExpression(), this)
 
 fun Bucket.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
 

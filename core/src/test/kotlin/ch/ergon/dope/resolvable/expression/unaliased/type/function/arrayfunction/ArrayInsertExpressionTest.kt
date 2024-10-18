@@ -6,11 +6,14 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
+import ch.ergon.dope.helper.someBooleanSelectRawClause
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -246,6 +249,102 @@ class ArrayInsertExpressionTest : ManagerDependentTest {
         val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
 
         val actual = arrayInsert(array, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select type type`() {
+        val selectClause = someNumberSelectRawClause()
+        val position = someNumberField()
+        val value = someNumberField()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position, value)
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select type string`() {
+        val selectClause = someStringSelectRawClause()
+        val position = someNumberField()
+        val value = someString()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position, value.toDopeType())
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select type number`() {
+        val selectClause = someNumberSelectRawClause()
+        val position = someNumberField()
+        val value = someNumber()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position, value.toDopeType())
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select type boolean`() {
+        val selectClause = someBooleanSelectRawClause()
+        val position = someNumberField()
+        val value = someBoolean()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position, value.toDopeType())
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select number type`() {
+        val selectClause = someNumberSelectRawClause()
+        val position = someNumber()
+        val value = someNumberField()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value)
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select number string`() {
+        val selectClause = someStringSelectRawClause()
+        val position = someNumber()
+        val value = someString()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value.toDopeType())
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select number number`() {
+        val selectClause = someNumberSelectRawClause()
+        val position = someNumber()
+        val value = someNumber()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value.toDopeType())
+
+        val actual = arrayInsert(selectClause, position, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_INSERT extension select number boolean`() {
+        val selectClause = someBooleanSelectRawClause()
+        val position = someNumber()
+        val value = someBoolean()
+        val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value.toDopeType())
+
+        val actual = arrayInsert(selectClause, position, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

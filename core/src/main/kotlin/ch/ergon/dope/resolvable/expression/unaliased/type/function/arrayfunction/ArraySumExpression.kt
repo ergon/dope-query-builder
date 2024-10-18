@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ArrayType
@@ -21,3 +22,5 @@ class ArraySumExpression<T : ValidType>(
 }
 
 fun <T : ValidType> arraySum(array: TypeExpression<ArrayType<T>>) = ArraySumExpression(array)
+
+fun <T : ValidType> arraySum(selectClause: ISelectOffsetClause<T>) = arraySum(selectClause.asExpression())

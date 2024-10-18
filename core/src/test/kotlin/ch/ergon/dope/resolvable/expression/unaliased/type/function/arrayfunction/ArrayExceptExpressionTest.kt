@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -118,12 +119,45 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_EXCEPT extension`() {
-        val array = someNumberArrayField()
-        val value = someNumberArrayField()
-        val expected = ArrayExceptExpression(array, value)
+    fun `should support ARRAY_EXCEPT extension type type`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberArrayField()
+        val expected = ArrayExceptExpression(firstArray, secondArray)
 
-        val actual = arrayExcept(array, value)
+        val actual = arrayExcept(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension select type`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberArrayField()
+        val expected = ArrayExceptExpression(firstArray.asExpression(), secondArray)
+
+        val actual = arrayExcept(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension type select`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberSelectRawClause()
+        val expected = ArrayExceptExpression(firstArray, secondArray.asExpression())
+
+        val actual = arrayExcept(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension select select`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberSelectRawClause()
+        val expected = ArrayExceptExpression(firstArray.asExpression(), secondArray.asExpression())
+
+        val actual = arrayExcept(firstArray, secondArray)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

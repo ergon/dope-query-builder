@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.access
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -24,4 +25,8 @@ class ArrayAccess<T : ValidType>(
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.get(index: TypeExpression<NumberType>) = ArrayAccess(this, index)
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.get(index: Number) = this.get(index.toDopeType())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.get(index: Number) = get(index.toDopeType())
+
+fun <T : ValidType> ISelectOffsetClause<T>.get(index: TypeExpression<NumberType>) = asExpression().get(index)
+
+fun <T : ValidType> ISelectOffsetClause<T>.get(index: Number) = asExpression().get(index.toDopeType())

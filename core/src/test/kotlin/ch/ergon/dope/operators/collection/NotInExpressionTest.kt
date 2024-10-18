@@ -6,10 +6,14 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
+import ch.ergon.dope.helper.someBooleanSelectRawClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotInExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.notInArray
@@ -206,6 +210,50 @@ class NotInExpressionTest : ManagerDependentTest {
         val expected = NotInExpression(value.toDopeType(), collection.toDopeType())
 
         val actual = value.notInArray(collection)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support IN extension type select`() {
+        val value = someStringField()
+        val selectClause = someSelectRawClause()
+        val expected = NotInExpression(value, selectClause.asExpression())
+
+        val actual = value.notInArray(selectClause)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support IN extension number select`() {
+        val value = 1
+        val selectClause = someNumberSelectRawClause()
+        val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
+
+        val actual = value.notInArray(selectClause)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support IN extension string select`() {
+        val value = "s"
+        val selectClause = someStringSelectRawClause()
+        val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
+
+        val actual = value.notInArray(selectClause)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support IN extension boolean boolean`() {
+        val value = true
+        val selectClause = someBooleanSelectRawClause()
+        val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
+
+        val actual = value.notInArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

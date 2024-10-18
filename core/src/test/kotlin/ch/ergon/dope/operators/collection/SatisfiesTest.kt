@@ -7,6 +7,7 @@ import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.AnySatisfiesExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.EverySatisfiesExpression
@@ -92,6 +93,17 @@ class SatisfiesTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support any satisfies with select`() {
+        val expected = DopeQuery(
+            queryString = "ANY `iterator1` IN (SELECT RAW `stringField`) SATISFIES `iterator1` = \"something\" END",
+        )
+
+        val actual = someStringSelectRawClause().any { it.isEqualTo("something") }.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support query any satisfies with named iterator`() {
         val expected = DopeQuery(
             queryString = "(`firstName` = \"Hans\" AND ANY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END)",
@@ -148,6 +160,17 @@ class SatisfiesTest : ManagerDependentTest {
         val underTest = EverySatisfiesExpression(someBooleanArrayField()) { it }
 
         val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support every satisfies with select`() {
+        val expected = DopeQuery(
+            queryString = "EVERY `iterator1` IN (SELECT RAW `stringField`) SATISFIES `iterator1` = \"something\" END",
+        )
+
+        val actual = someStringSelectRawClause().every { it.isEqualTo("something") }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }

@@ -6,6 +6,7 @@ import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperatorType.EXCEPT
 import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperatorType.INTERSECT
 import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperatorType.UNION
+import ch.ergon.dope.validtype.ValidType
 
 enum class SetOperatorType {
     UNION,
@@ -13,12 +14,12 @@ enum class SetOperatorType {
     INTERSECT,
 }
 
-class SetOperator(
+class SetOperator<T : ValidType>(
     private val setOperatorType: SetOperatorType,
-    private val leftSelect: ISelectOffsetClause,
-    private val rightSelect: ISelectOffsetClause,
+    private val leftSelect: ISelectOffsetClause<T>,
+    private val rightSelect: ISelectOffsetClause<T>,
     private val duplicatesAllowed: Boolean,
-) : ISelectOffsetClause {
+) : ISelectOffsetClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val leftSelectDopeQuery = leftSelect.toDopeQuery(manager)
         val rightSelectDopeQuery = rightSelect.toDopeQuery(manager)
@@ -31,20 +32,20 @@ class SetOperator(
     }
 }
 
-fun ISelectOffsetClause.union(select: ISelectOffsetClause) =
+fun <T : ValidType> ISelectOffsetClause<T>.union(select: ISelectOffsetClause<T>) =
     SetOperator(UNION, this, select, duplicatesAllowed = false)
 
-fun ISelectOffsetClause.unionAll(select: ISelectOffsetClause) =
+fun <T : ValidType> ISelectOffsetClause<T>.unionAll(select: ISelectOffsetClause<T>) =
     SetOperator(UNION, this, select, duplicatesAllowed = true)
 
-fun ISelectOffsetClause.intersect(select: ISelectOffsetClause) =
+fun <T : ValidType> ISelectOffsetClause<T>.intersect(select: ISelectOffsetClause<T>) =
     SetOperator(INTERSECT, this, select, duplicatesAllowed = false)
 
-fun ISelectOffsetClause.intersectAll(select: ISelectOffsetClause) =
+fun <T : ValidType> ISelectOffsetClause<T>.intersectAll(select: ISelectOffsetClause<T>) =
     SetOperator(INTERSECT, this, select, duplicatesAllowed = true)
 
-fun ISelectOffsetClause.except(select: ISelectOffsetClause) =
+fun <T : ValidType> ISelectOffsetClause<T>.except(select: ISelectOffsetClause<T>) =
     SetOperator(EXCEPT, this, select, duplicatesAllowed = false)
 
-fun ISelectOffsetClause.exceptAll(select: ISelectOffsetClause) =
+fun <T : ValidType> ISelectOffsetClause<T>.exceptAll(select: ISelectOffsetClause<T>) =
     SetOperator(EXCEPT, this, select, duplicatesAllowed = true)

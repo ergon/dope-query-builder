@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
 enum class OrderByType(val type: String) {
     ASC("ASC"),
@@ -15,10 +16,9 @@ enum class OrderByType(val type: String) {
 
 private const val ORDER_BY = "ORDER BY"
 
-open class SelectOrderByClause(
-    private val stringField: Field<StringType>,
-    private val parentClause: ISelectGroupByClause,
-) : ISelectOrderByClause {
+open class SelectOrderByClause<T : ValidType>(private val stringField: Field<StringType>, private val parentClause: ISelectGroupByClause<T>) :
+    ISelectOrderByClause<T> {
+
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val stringDopeQuery = stringField.toDopeQuery(manager)
@@ -29,11 +29,12 @@ open class SelectOrderByClause(
     }
 }
 
-class SelectOrderByTypeClause(
+class SelectOrderByTypeClause<T : ValidType>(
     private val stringField: Field<StringType>,
     private val orderByType: OrderByType,
-    private val parentClause: ISelectGroupByClause,
-) : SelectOrderByClause(stringField, parentClause) {
+    private val parentClause: ISelectGroupByClause<T>,
+) : SelectOrderByClause<T>(stringField, parentClause) {
+
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val stringDopeQuery = stringField.toDopeQuery(manager)

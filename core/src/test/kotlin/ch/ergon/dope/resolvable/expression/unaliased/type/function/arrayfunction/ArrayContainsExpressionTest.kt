@@ -5,9 +5,14 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanArrayField
+import ch.ergon.dope.helper.someBooleanSelectRawClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
+import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -161,6 +166,50 @@ class ArrayContainsExpressionTest : ManagerDependentTest {
         val expected = ArrayContainsExpression(array, value.toDopeType())
 
         val actual = arrayContains(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS extension select`() {
+        val selectClause = someSelectRawClause()
+        val value = someStringField()
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value)
+
+        val actual = arrayContains(selectClause, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS extension select number`() {
+        val selectClause = someNumberSelectRawClause()
+        val value = 1
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
+
+        val actual = arrayContains(selectClause, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS extension select string`() {
+        val selectClause = someStringSelectRawClause()
+        val value = "s"
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
+
+        val actual = arrayContains(selectClause, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_CONTAINS extension select boolean`() {
+        val selectClause = someBooleanSelectRawClause()
+        val value = true
+        val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
+
+        val actual = arrayContains(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

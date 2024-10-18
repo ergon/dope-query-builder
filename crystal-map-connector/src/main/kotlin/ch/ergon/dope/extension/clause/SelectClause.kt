@@ -13,31 +13,32 @@ import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.toDopeType
+import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMType
 
-fun ISelectLimitClause.offset(numberField: CMJsonField<Number>) = offset(numberField.toDopeType())
+fun <T : ValidType> ISelectLimitClause<T>.offset(numberField: CMJsonField<Number>) = offset(numberField.toDopeType())
 
-fun ISelectOrderByClause.limit(numberField: CMJsonField<Number>) = limit(numberField.toDopeType())
+fun <T : ValidType> ISelectOrderByClause<T>.limit(numberField: CMJsonField<Number>) = limit(numberField.toDopeType())
 
-fun ISelectGroupByClause.orderBy(stringField: CMJsonField<String>) = orderBy(stringField.toDopeType())
+fun <T : ValidType> ISelectGroupByClause<T>.orderBy(stringField: CMJsonField<String>) = orderBy(stringField.toDopeType())
 
-fun ISelectGroupByClause.orderBy(stringField: CMJsonField<String>, orderByType: OrderByType) =
+fun <T : ValidType> ISelectGroupByClause<T>.orderBy(stringField: CMJsonField<String>, orderByType: OrderByType) =
     orderBy(stringField.toDopeType(), orderByType)
 
-fun ISelectWhereClause.groupBy(field: CMType, vararg fields: CMType) =
+fun <T : ValidType> ISelectWhereClause<T>.groupBy(field: CMType, vararg fields: CMType) =
     groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
-fun ISelectFromClause.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
+fun <T : ValidType> ISelectFromClause<T>.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
-fun ISelectJoinClause.join(
+fun <T : ValidType> ISelectJoinClause<T>.join(
     joinable: Joinable,
     onKeys: CMJsonField<out Any>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = join(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
-fun ISelectJoinClause.join(
+fun <T : ValidType> ISelectJoinClause<T>.join(
     joinable: Joinable,
     onKey: CMJsonField<out Any>,
     forBucket: Bucket,
@@ -45,13 +46,13 @@ fun ISelectJoinClause.join(
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = join(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
 
-fun ISelectJoinClause.innerJoin(
+fun <T : ValidType> ISelectJoinClause<T>.innerJoin(
     joinable: Joinable,
     onKeys: CMJsonField<out Any>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = innerJoin(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
-fun ISelectJoinClause.innerJoin(
+fun <T : ValidType> ISelectJoinClause<T>.innerJoin(
     joinable: Joinable,
     onKey: CMJsonField<out Any>,
     forBucket: Bucket,
@@ -59,13 +60,13 @@ fun ISelectJoinClause.innerJoin(
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = innerJoin(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
 
-fun ISelectJoinClause.leftJoin(
+fun <T : ValidType> ISelectJoinClause<T>.leftJoin(
     joinable: Joinable,
     onKeys: CMJsonField<out Any>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = leftJoin(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
-fun ISelectJoinClause.leftJoin(
+fun <T : ValidType> ISelectJoinClause<T>.leftJoin(
     joinable: Joinable,
     onKey: CMJsonField<out Any>,
     forBucket: Bucket,
@@ -74,10 +75,10 @@ fun ISelectJoinClause.leftJoin(
 ) = leftJoin(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 @JvmName("unnestString")
-fun ISelectUnnestClause.unnest(arrayField: CMJsonList<String>) = unnest(arrayField.toDopeType())
+fun <T : ValidType> ISelectUnnestClause<T>.unnest(arrayField: CMJsonList<String>) = unnest(arrayField.toDopeType())
 
 @JvmName("unnestNumber")
-fun ISelectUnnestClause.unnest(arrayField: CMJsonList<Number>) = unnest(arrayField.toDopeType())
+fun <T : ValidType> ISelectUnnestClause<T>.unnest(arrayField: CMJsonList<Number>) = unnest(arrayField.toDopeType())
 
 @JvmName("unnestBoolean")
-fun ISelectUnnestClause.unnest(arrayField: CMJsonList<Boolean>) = unnest(arrayField.toDopeType())
+fun <T : ValidType> ISelectUnnestClause<T>.unnest(arrayField: CMJsonList<Boolean>) = unnest(arrayField.toDopeType())

@@ -6,11 +6,16 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
+import ch.ergon.dope.helper.someBooleanSelectRawClause
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
+import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -145,6 +150,50 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         val expected = ArrayAppendExpression(array, value.toDopeType())
 
         val actual = arrayAppend(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_APPEND extension select type`() {
+        val selectClause = someSelectRawClause()
+        val value = someStringField()
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value)
+
+        val actual = arrayAppend(selectClause, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_APPEND extension select string`() {
+        val selectClause = someStringSelectRawClause()
+        val value = someString()
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
+
+        val actual = arrayAppend(selectClause, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_APPEND extension select number`() {
+        val selectClause = someNumberSelectRawClause()
+        val value = someNumber()
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
+
+        val actual = arrayAppend(selectClause, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_APPEND extension select boolean`() {
+        val selectClause = someBooleanSelectRawClause()
+        val value = someBoolean()
+        val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
+
+        val actual = arrayAppend(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

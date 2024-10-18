@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -153,7 +154,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_MOVE extension type type`() {
+    fun `should support ARRAY_MOVE extension type type type`() {
         val array = someNumberArrayField()
         val from = 1.toDopeType()
         val to = 2.toDopeType()
@@ -165,7 +166,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_MOVE extension type number`() {
+    fun `should support ARRAY_MOVE extension type type number`() {
         val array = someNumberArrayField()
         val from = 1.toDopeType()
         val to = 2
@@ -177,7 +178,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_MOVE extension number type`() {
+    fun `should support ARRAY_MOVE extension type number type`() {
         val array = someNumberArrayField()
         val from = 1
         val to = 2.toDopeType()
@@ -189,13 +190,61 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_MOVE extension`() {
+    fun `should support ARRAY_MOVE extension type number number`() {
         val array = someNumberArrayField()
         val from = 1
         val to = 2
         val expected = ArrayMoveExpression(array, from.toDopeType(), to.toDopeType())
 
         val actual = arrayMove(array, from, to)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_MOVE extension select type type`() {
+        val selectClause = someSelectRawClause()
+        val from = 1.toDopeType()
+        val to = 2.toDopeType()
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from, to)
+
+        val actual = arrayMove(selectClause, from, to)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_MOVE extension select type number`() {
+        val selectClause = someSelectRawClause()
+        val from = 1.toDopeType()
+        val to = 2
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from, to.toDopeType())
+
+        val actual = arrayMove(selectClause, from, to)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_MOVE extension select number type`() {
+        val selectClause = someSelectRawClause()
+        val from = 1
+        val to = 2.toDopeType()
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from.toDopeType(), to)
+
+        val actual = arrayMove(selectClause, from, to)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_MOVE extension select number number`() {
+        val selectClause = someSelectRawClause()
+        val from = 1
+        val to = 2
+        val expected = ArrayMoveExpression(selectClause.asExpression(), from.toDopeType(), to.toDopeType())
+
+        val actual = arrayMove(selectClause, from, to)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

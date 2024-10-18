@@ -6,6 +6,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -116,12 +117,23 @@ class ArrayPositionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_POSITION extension`() {
+    fun `should support ARRAY_POSITION extension type`() {
         val array = someNumberArrayField()
         val value = someNumberField()
         val expected = ArrayPositionExpression(array, value)
 
         val actual = arrayPosition(array, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_POSITION extension select`() {
+        val selectClause = someNumberSelectRawClause()
+        val value = someNumberField()
+        val expected = ArrayPositionExpression(selectClause.asExpression(), value)
+
+        val actual = arrayPosition(selectClause, value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

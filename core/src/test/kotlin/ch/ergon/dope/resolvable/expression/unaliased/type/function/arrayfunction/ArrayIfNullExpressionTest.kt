@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -55,11 +56,21 @@ class ArrayIfNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_IFNULL extension`() {
+    fun `should support ARRAY_IFNULL extension type`() {
         val array = someNumberArrayField()
         val expected = ArrayIfNullExpression(array)
 
         val actual = arrayIfNull(array)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_IFNULL extension select`() {
+        val selectClause = someSelectRawClause()
+        val expected = ArrayIfNullExpression(selectClause.asExpression())
+
+        val actual = arrayIfNull(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

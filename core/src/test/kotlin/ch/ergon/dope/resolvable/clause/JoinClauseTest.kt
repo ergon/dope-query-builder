@@ -154,7 +154,11 @@ class JoinClauseTest : ManagerDependentTest {
             queryString = "SELECT * LEFT JOIN `someBucket` ON \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = LeftJoinClause(someBucket(), onCondition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
+        val underTest = LeftJoinClause(
+            someBucket(),
+            onCondition = parameterValue.asParameter(parameterName),
+            parentClause = someSelectClause(),
+        )
 
         val actual = underTest.toDopeQuery(manager)
 
