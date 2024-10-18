@@ -16,8 +16,9 @@ class BetweenExpression<T : ComparableType>(
         val startDopeQuery = start.toDopeQuery(manager)
         val endDopeQuery = end.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "${expressionDopeQuery.queryString} BETWEEN ${startDopeQuery.queryString} AND ${endDopeQuery.queryString}",
-            parameters = expressionDopeQuery.parameters + startDopeQuery.parameters + endDopeQuery.parameters,
+            queryString = "${expressionDopeQuery.queryString} BETWEEN ${startDopeQuery.queryString} " +
+                "AND ${endDopeQuery.queryString}",
+            parameters = expressionDopeQuery.parameters.merge(startDopeQuery.parameters, endDopeQuery.parameters),
         )
     }
 }
@@ -35,8 +36,9 @@ class NotBetweenExpression<T : ComparableType>(
         val startDopeQuery = start.toDopeQuery(manager)
         val endDopeQuery = end.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "${expressionDopeQuery.queryString} NOT BETWEEN ${startDopeQuery.queryString} AND ${endDopeQuery.queryString}",
-            parameters = expressionDopeQuery.parameters + startDopeQuery.parameters + endDopeQuery.parameters,
+            queryString = "${expressionDopeQuery.queryString} NOT BETWEEN ${startDopeQuery.queryString} " +
+                "AND ${endDopeQuery.queryString}",
+            parameters = expressionDopeQuery.parameters.merge(startDopeQuery.parameters, endDopeQuery.parameters),
         )
     }
 }

@@ -27,8 +27,8 @@ sealed class SatisfiesExpression<T : ValidType>(
         val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
         val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery(manager)
         return DopeQuery(
-            queryString = "$satisfiesType `$iteratorVariable` IN ${arrayDopeQuery.queryString} SATISFIES ${predicateDopeQuery.queryString} END",
-            parameters = arrayDopeQuery.parameters + predicateDopeQuery.parameters,
+            queryString = "$satisfiesType `$iteratorVariable` IN ${listDopeQuery.queryString} SATISFIES ${predicateDopeQuery.queryString} END",
+            parameters = listDopeQuery.parameters.merge(predicateDopeQuery.parameters),
         )
     }
 }
@@ -36,7 +36,6 @@ sealed class SatisfiesExpression<T : ValidType>(
 class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$variable`",
-        parameters = emptyMap(),
     )
 }
 

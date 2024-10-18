@@ -24,7 +24,7 @@ open class SelectOrderByClause<T : ValidType>(private val stringField: Field<Str
         val stringDopeQuery = stringField.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
-            parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(stringDopeQuery.parameters),
         )
     }
 }
@@ -39,8 +39,12 @@ class SelectOrderByTypeClause<T : ValidType>(
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val stringDopeQuery = stringField.toDopeQuery(manager)
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderByType"),
-            parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
+            queryString = formatToQueryStringWithSymbol(
+                parentDopeQuery.queryString,
+                ORDER_BY,
+                stringDopeQuery.queryString + " $orderByType",
+            ),
+            parameters = parentDopeQuery.parameters.merge(stringDopeQuery.parameters),
         )
     }
 }

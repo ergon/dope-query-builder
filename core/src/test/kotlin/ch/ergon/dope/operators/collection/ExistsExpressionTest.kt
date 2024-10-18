@@ -1,5 +1,6 @@
 package ch.ergon.dope.operators.collection
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,8 +20,7 @@ class ExistsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support EXISTS expression`() {
         val expected = DopeQuery(
-            "EXISTS `numberArrayField`",
-            emptyMap(),
+            queryString = "EXISTS `numberArrayField`",
         )
         val underTest = ExistsExpression(someNumberArrayField())
 
@@ -32,9 +32,24 @@ class ExistsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support EXISTS expression with parameter`() {
         val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
         val expected = DopeQuery(
-            "EXISTS $1",
-            mapOf("$1" to parameterValue),
+            queryString = "EXISTS \$param",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ExistsExpression(parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support EXISTS expression with positional parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val expected = DopeQuery(
+            queryString = "EXISTS $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ExistsExpression(parameterValue.asParameter())
 

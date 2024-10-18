@@ -118,25 +118,30 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
             val keysOrIndexHintDopeQuery = keysOrIndexHint?.toDopeQuery(manager)
             DopeQuery(
                 queryString = "USE" +
-                    hashOrNestedLoopHint?.let { " ${hashOrNestedLoopHintDopeQuery?.queryString}" }.orEmpty() +
-                    keysOrIndexHint?.let { " ${keysOrIndexHintDopeQuery?.queryString}" }.orEmpty(),
-                parameters = hashOrNestedLoopHintDopeQuery?.parameters.orEmpty() +
-                    keysOrIndexHintDopeQuery?.parameters.orEmpty(),
+                    hashOrNestedLoopHintDopeQuery?.let { " ${it.queryString}" }.orEmpty() +
+                    keysOrIndexHintDopeQuery?.let { " ${it.queryString}" }.orEmpty(),
+                parameters = if (hashOrNestedLoopHintDopeQuery != null && keysOrIndexHintDopeQuery != null) {
+                    hashOrNestedLoopHintDopeQuery.parameters.merge(keysOrIndexHintDopeQuery.parameters)
+                } else {
+                    hashOrNestedLoopHintDopeQuery?.parameters ?: keysOrIndexHintDopeQuery?.parameters!!
+                },
             )
         } else {
             null
         }
         val joinQueryString = "${parentDopeQuery.queryString} ${joinType.type} ${joinableDopeQuery.queryString}" +
             joinHintsDopeQuery?.let { " ${joinHintsDopeQuery.queryString}" }.orEmpty()
-        val joinParameters = parentDopeQuery.parameters + joinableDopeQuery.parameters +
-            joinHintsDopeQuery?.parameters.orEmpty()
+        val joinParameters = parentDopeQuery.parameters.merge(
+            joinableDopeQuery.parameters,
+            joinHintsDopeQuery?.parameters,
+        )
 
         return when (onType) {
             ON -> {
                 val onConditionDopeQuery = onCondition?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$joinQueryString ON ${onConditionDopeQuery?.queryString}",
-                    parameters = joinParameters + onConditionDopeQuery?.parameters.orEmpty(),
+                    parameters = joinParameters.merge(onConditionDopeQuery?.parameters),
                 )
             }
 
@@ -144,7 +149,7 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
                 val keyDopeQuery = onKeys?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$joinQueryString ON KEYS ${keyDopeQuery?.queryString}",
-                    parameters = joinParameters + keyDopeQuery?.parameters.orEmpty(),
+                    parameters = joinParameters.merge(keyDopeQuery?.parameters),
                 )
             }
 
@@ -154,8 +159,7 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
                 DopeQuery(
                     queryString = "$joinQueryString ON KEY ${keyDopeQuery?.queryString} " +
                         "FOR ${forBucketDopeQuery?.queryString}",
-                    parameters = joinParameters + keyDopeQuery?.parameters.orEmpty() +
-                        forBucketDopeQuery?.parameters.orEmpty(),
+                    parameters = joinParameters.merge(keyDopeQuery?.parameters, forBucketDopeQuery?.parameters),
                 )
             }
         }

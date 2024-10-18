@@ -16,8 +16,7 @@ class UnsetClauseTest : ManagerDependentTest {
     @Test
     fun `should support unset clause`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` UNSET `stringField`",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` UNSET `stringField`",
         )
         val underTest = UnsetClause(
             someStringField(),
@@ -32,8 +31,7 @@ class UnsetClauseTest : ManagerDependentTest {
     @Test
     fun `should support multiple unset clauses`() {
         val expected = DopeQuery(
-            "UPDATE `someBucket` UNSET `stringField`, `numberField`",
-            emptyMap(),
+            queryString = "UPDATE `someBucket` UNSET `stringField`, `numberField`",
         )
         val underTest = UnsetClause(
             someStringField(),

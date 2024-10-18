@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.conditional
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -19,8 +20,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     @Test
     fun `should support if missing or null`() {
         val expected = DopeQuery(
-            "IFMISSINGORNULL(`stringField`, `stringField`)",
-            emptyMap(),
+            queryString = "IFMISSINGORNULL(`stringField`, `stringField`)",
         )
         val underTest = IfMissingOrNullExpression(someStringField(), someStringField())
 
@@ -30,11 +30,11 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support if missing or null with parameter`() {
+    fun `should support if missing or null with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "IFMISSINGORNULL($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            queryString = "IFMISSINGORNULL($1, `stringField`)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), someStringField())
 
@@ -44,11 +44,26 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support if missing or null with second parameter`() {
+    fun `should support if missing or null with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "IFMISSINGORNULL(\$$parameterName, `stringField`)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = IfMissingOrNullExpression(parameterValue.asParameter(parameterName), someStringField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support if missing or null with positional second parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "IFMISSINGORNULL(`stringField`, $1)",
-            mapOf("$1" to parameterValue),
+            queryString = "IFMISSINGORNULL(`stringField`, $1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter())
 
@@ -58,14 +73,46 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support if missing or null with all parameters`() {
+    fun `should support if missing or null with named second parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "IFMISSINGORNULL(`stringField`, \$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support if missing or null with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
         val expected = DopeQuery(
-            "IFMISSINGORNULL($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "IFMISSINGORNULL($1, $2)",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support if missing or null with named all parameters`() {
+        val parameterValue = someString()
+        val parameterValue2 = someString()
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "IFMISSINGORNULL(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = IfMissingOrNullExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -86,8 +133,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     @Test
     fun `should support coalesce`() {
         val expected = DopeQuery(
-            "COALESCE(`stringField`, `stringField`)",
-            emptyMap(),
+            queryString = "COALESCE(`stringField`, `stringField`)",
         )
         val underTest = CoalesceExpression(someStringField(), someStringField())
 
@@ -97,11 +143,11 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support coalesce with parameter`() {
+    fun `should support coalesce with positional parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "COALESCE($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            queryString = "COALESCE($1, `stringField`)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), someStringField())
 
@@ -111,11 +157,26 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support coalesce with second parameter`() {
+    fun `should support coalesce with named parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "COALESCE(\$$parameterName, `stringField`)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = CoalesceExpression(parameterValue.asParameter(parameterName), someStringField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support coalesce with positional second parameter`() {
         val parameterValue = someString()
         val expected = DopeQuery(
-            "COALESCE(`stringField`, $1)",
-            mapOf("$1" to parameterValue),
+            queryString = "COALESCE(`stringField`, $1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter())
 
@@ -125,14 +186,46 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support coalesce with all parameters`() {
+    fun `should support coalesce with named second parameter`() {
+        val parameterValue = someString()
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "COALESCE(`stringField`, \$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support coalesce with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
         val expected = DopeQuery(
-            "COALESCE($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "COALESCE($1, $2)",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support coalesce with named all parameters`() {
+        val parameterValue = someString()
+        val parameterValue2 = someString()
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "COALESCE(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = CoalesceExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,7 @@ class ArrayDistinctExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_DISTINCT`() {
         val expected = DopeQuery(
-            "ARRAY_DISTINCT(`numberArrayField`)",
-            emptyMap(),
+            queryString = "ARRAY_DISTINCT(`numberArrayField`)",
         )
         val underTest = ArrayDistinctExpression(someNumberArrayField())
 
@@ -26,13 +26,28 @@ class ArrayDistinctExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_DISTINCT with parameter`() {
+    fun `should support ARRAY_DISTINCT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_DISTINCT($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_DISTINCT($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayDistinctExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_DISTINCT with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_DISTINCT(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayDistinctExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

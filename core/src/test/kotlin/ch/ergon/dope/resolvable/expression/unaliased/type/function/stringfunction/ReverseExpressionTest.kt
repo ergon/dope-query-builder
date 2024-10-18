@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,7 @@ class ReverseExpressionTest : ManagerDependentTest {
     @Test
     fun `should support reverse`() {
         val expected = DopeQuery(
-            "REVERSE(`stringField`)",
-            emptyMap(),
+            queryString = "REVERSE(`stringField`)",
         )
         val underTest = ReverseExpression(someStringField())
 
@@ -27,13 +27,28 @@ class ReverseExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support reverse with parameter`() {
+    fun `should support reverse with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "REVERSE($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "REVERSE($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ReverseExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support reverse with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "REVERSE(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ReverseExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

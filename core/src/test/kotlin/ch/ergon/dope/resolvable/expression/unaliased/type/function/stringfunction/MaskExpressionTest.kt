@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,10 +16,10 @@ class MaskExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support mask`() {
+    fun `should support mask with no parameters`() {
         val expected = DopeQuery(
-            "MASK(`stringField`, {\"mask\": \"*\"})",
-            emptyMap(),
+            queryString = "MASK(`stringField`, {\"mask\": \"*\"})",
+
         )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
@@ -28,13 +29,29 @@ class MaskExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support mask with parameter`() {
+    fun `should support mask with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "MASK($1, {\"mask\": \"*\"})",
-            mapOf("$1" to parameterValue),
+            queryString = "MASK($1, {\"mask\": \"*\"})",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support mask with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "MASK(\$$parameterName, {\"mask\": \"*\"})",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+
+        )
+        val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
 
         val actual = underTest.toDopeQuery(manager)
 

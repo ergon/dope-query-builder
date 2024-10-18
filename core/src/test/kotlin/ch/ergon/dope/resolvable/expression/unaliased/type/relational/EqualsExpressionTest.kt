@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -20,8 +21,7 @@ class EqualsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support equals`() {
         val expected = DopeQuery(
-            "`numberField` = `numberField`",
-            emptyMap(),
+            queryString = "`numberField` = `numberField`",
         )
         val underTest = EqualsExpression(someNumberField(), someNumberField())
 
@@ -31,11 +31,11 @@ class EqualsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support equals with parameter`() {
+    fun `should support equals with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "$1 = `numberField`",
-            mapOf("$1" to parameterValue),
+            queryString = "$1 = `numberField`",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = EqualsExpression(parameterValue.asParameter(), someNumberField())
 
@@ -45,12 +45,12 @@ class EqualsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support equals with all parameters`() {
+    fun `should support equals with all positional parameters`() {
         val parameterValue = 5
         val parameterValue2 = 6
         val expected = DopeQuery(
-            "$1 = $2",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "$1 = $2",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = EqualsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -60,13 +60,45 @@ class EqualsExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support equals with second parameter`() {
+    fun `should support equals with second positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "`numberField` = $1",
-            mapOf("$1" to parameterValue),
+            queryString = "`numberField` = $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = EqualsExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support equals with named parameter`() {
+        val parameterValue = 5
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "$$parameterName = `numberField`",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = EqualsExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support equals with all named parameters`() {
+        val parameterValue = 5
+        val parameterValue2 = 6
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "$$parameterName = $$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = EqualsExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

@@ -25,7 +25,6 @@ class SetOperatorTest : ManagerDependentTest {
     fun `should support union operator with two select statements`() {
         val expected = DopeQuery(
             "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)",
-            parameters = emptyMap(),
         )
         val underTest = SetOperator(
             UNION,
@@ -43,7 +42,6 @@ class SetOperatorTest : ManagerDependentTest {
     fun `should support union all operator with two select statements`() {
         val expected = DopeQuery(
             "(SELECT * FROM `bucket1`) UNION ALL (SELECT * FROM `bucket2`)",
-            parameters = emptyMap(),
         )
         val underTest = SetOperator(
             UNION,
@@ -83,7 +81,6 @@ class SetOperatorTest : ManagerDependentTest {
     fun `should support intersect operator with two select statements`() {
         val expected = DopeQuery(
             "(SELECT * FROM `bucket1`) INTERSECT (SELECT * FROM `bucket2`)",
-            parameters = emptyMap(),
         )
         val underTest = SetOperator(
             INTERSECT,
@@ -101,7 +98,6 @@ class SetOperatorTest : ManagerDependentTest {
     fun `should support intersect all operator with two select statements`() {
         val expected = DopeQuery(
             "(SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)",
-            parameters = emptyMap(),
         )
         val underTest = SetOperator(
             INTERSECT,
@@ -141,7 +137,6 @@ class SetOperatorTest : ManagerDependentTest {
     fun `should support except operator with two select statements`() {
         val expected = DopeQuery(
             "(SELECT * FROM `bucket1`) EXCEPT (SELECT * FROM `bucket2`)",
-            parameters = emptyMap(),
         )
         val underTest = SetOperator(
             EXCEPT,
@@ -159,7 +154,6 @@ class SetOperatorTest : ManagerDependentTest {
     fun `should support except all operator with two select statements`() {
         val expected = DopeQuery(
             "(SELECT * FROM `bucket1`) EXCEPT ALL (SELECT * FROM `bucket2`)",
-            parameters = emptyMap(),
         )
         val underTest = SetOperator(
             EXCEPT,

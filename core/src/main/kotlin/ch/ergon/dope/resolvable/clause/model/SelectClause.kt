@@ -21,9 +21,7 @@ class SelectClause(
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
-                expressionParameters + field.parameters
-            },
+            parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }
@@ -32,8 +30,8 @@ class SelectRawClause<T : ValidType>(private val expression: SingleExpression<T>
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
-            formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
-            expressionDopeQuery.parameters,
+            queryString = formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
+            parameters = expressionDopeQuery.parameters,
         )
     }
 }
@@ -48,9 +46,7 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
-                expressionParameters + field.parameters
-            },
+            parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }

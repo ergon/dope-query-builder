@@ -23,7 +23,7 @@ sealed class LimitClause(
         val numberDopeQuery = numberExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "LIMIT", numberDopeQuery.queryString),
-            parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(numberDopeQuery.parameters),
         )
     }
 }

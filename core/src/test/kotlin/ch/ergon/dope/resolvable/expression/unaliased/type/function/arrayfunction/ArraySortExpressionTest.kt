@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -15,8 +16,7 @@ class ArraySortExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_SORT`() {
         val expected = DopeQuery(
-            "ARRAY_SORT(`numberArrayField`)",
-            emptyMap(),
+            queryString = "ARRAY_SORT(`numberArrayField`)",
         )
         val underTest = ArraySortExpression(someNumberArrayField())
 
@@ -26,13 +26,28 @@ class ArraySortExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_SORT with parameter`() {
+    fun `should support ARRAY_SORT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_SORT($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_SORT($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArraySortExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_SORT with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_SORT(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArraySortExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

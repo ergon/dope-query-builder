@@ -16,8 +16,7 @@ class MaxExpressionTest : ManagerDependentTest {
     @Test
     fun `should support max`() {
         val expected = DopeQuery(
-            "MAX(`numberField`)",
-            emptyMap(),
+            queryString = "MAX(`numberField`)",
         )
         val underTest = MaxExpression(someNumberField(), null)
 
@@ -29,8 +28,7 @@ class MaxExpressionTest : ManagerDependentTest {
     @Test
     fun `should support max with quantifier ALL`() {
         val expected = DopeQuery(
-            "MAX(ALL `numberField`)",
-            emptyMap(),
+            queryString = "MAX(ALL `numberField`)",
         )
         val underTest = MaxExpression(someNumberField(), ALL)
 
@@ -42,8 +40,7 @@ class MaxExpressionTest : ManagerDependentTest {
     @Test
     fun `should support max with quantifier DISTINCT`() {
         val expected = DopeQuery(
-            "MAX(DISTINCT `numberField`)",
-            emptyMap(),
+            queryString = "MAX(DISTINCT `numberField`)",
         )
         val underTest = MaxExpression(someNumberField(), DISTINCT)
 

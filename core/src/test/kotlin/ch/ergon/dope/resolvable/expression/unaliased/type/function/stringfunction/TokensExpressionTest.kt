@@ -13,8 +13,7 @@ class TokensExpressionTest : ManagerDependentTest {
     @Test
     fun `should support tokens`() {
         val expected = DopeQuery(
-            "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
-            emptyMap(),
+            queryString = "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
         )
         val underTest = TokensExpression(listOf("test", "test2"))
 

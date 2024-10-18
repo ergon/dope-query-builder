@@ -19,7 +19,7 @@ class FromClause<T : ValidType>(private val fromable: Fromable, private val pare
         }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "FROM", fromableDopeQuery.queryString),
-            parameters = fromableDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(fromableDopeQuery.parameters),
         )
     }
 }

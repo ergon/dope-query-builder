@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.logical
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,7 @@ class AndExpressionTest : ManagerDependentTest {
     @Test
     fun `should support and`() {
         val expected = DopeQuery(
-            "(`booleanField` AND `booleanField`)",
-            emptyMap(),
+            queryString = "(`booleanField` AND `booleanField`)",
         )
         val underTest = AndExpression(someBooleanField(), someBooleanField())
 
@@ -27,11 +27,11 @@ class AndExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support and with parameter`() {
+    fun `should support and with positional parameter`() {
         val parameterValue = true
         val expected = DopeQuery(
-            "($1 AND `booleanField`)",
-            mapOf("$1" to parameterValue),
+            queryString = "($1 AND `booleanField`)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
@@ -41,12 +41,12 @@ class AndExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support and with all parameter`() {
+    fun `should support and with all positional parameters`() {
         val parameterValue = true
         val parameterValue2 = true
         val expected = DopeQuery(
-            "($1 AND $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "($1 AND $2)",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -56,13 +56,45 @@ class AndExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support and with second parameter`() {
+    fun `should support and with second positional parameter`() {
         val parameterValue = false
         val expected = DopeQuery(
-            "(`booleanField` AND $1)",
-            mapOf("$1" to parameterValue),
+            queryString = "(`booleanField` AND $1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and with named parameter`() {
+        val parameterValue = true
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "($$parameterName AND `booleanField`)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = AndExpression(parameterValue.asParameter(parameterName), someBooleanField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support and with all named parameters`() {
+        val parameterValue = true
+        val parameterValue2 = false
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "($$parameterName AND $$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = AndExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
