@@ -9,6 +9,6 @@ class ToBooleanExpression<T : ValidType>(expression: TypeExpression<T>) : TypeFu
 
 fun <T : ValidType> TypeExpression<T>.toBool() = ToBooleanExpression(this)
 
-fun Number.toBool() = ToBooleanExpression(toDopeType())
+fun Number.toBool() = toDopeType().toBool()
 
-fun String.toBool() = ToBooleanExpression(toDopeType())
+fun String.toBool() = toDopeType().toBool()

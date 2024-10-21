@@ -27,8 +27,10 @@ class Nvl2Expression<T : ValidType>(
                 valueIfExistsDopeQuery.queryString,
                 valueIfNotExistsDopeQuery.queryString,
             ),
-            parameters = initialExpressionDopeQuery.parameters + valueIfExistsDopeQuery.parameters +
+            parameters = initialExpressionDopeQuery.parameters.merge(
+                valueIfExistsDopeQuery.parameters,
                 valueIfNotExistsDopeQuery.parameters,
+            ),
         )
     }
 }

@@ -5,9 +5,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.ObjectEntryField
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
@@ -20,17 +18,13 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<ObjectType>, 
         if (bucket == null) {
             DopeQuery(
                 queryString = "$META()",
-                parameters = emptyMap(),
             )
         } else {
             val bucketDopeQuery = bucket.toDopeQuery(manager)
             DopeQuery(
                 queryString = toFunctionQueryString(
                     symbol = META,
-                    when (bucket) {
-                        is AliasedBucket -> "`${bucket.alias}`"
-                        is UnaliasedBucket -> bucketDopeQuery.queryString
-                    },
+                    bucketDopeQuery.queryString,
                 ),
                 parameters = bucketDopeQuery.parameters,
             )

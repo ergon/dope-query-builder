@@ -32,7 +32,7 @@ sealed class SatisfiesSchemaExpression<S : Schema>(
         return DopeQuery(
             queryString = "$satisfiesType `$iteratorVariable` IN ${arrayExpressionDopeQuery.queryString} " +
                 "SATISFIES ${predicateDopeQuery.queryString} END",
-            parameters = arrayExpressionDopeQuery.parameters + predicateDopeQuery.parameters,
+            parameters = arrayExpressionDopeQuery.parameters.merge(predicateDopeQuery.parameters),
         )
     }
 }

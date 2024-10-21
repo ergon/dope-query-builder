@@ -1,10 +1,12 @@
 package ch.ergon.dope.operators.collection
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.ExistsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
@@ -18,8 +20,7 @@ class ExistsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support EXISTS expression`() {
         val expected = DopeQuery(
-            "EXISTS `numberArrayField`",
-            emptyMap(),
+            queryString = "EXISTS `numberArrayField`",
         )
         val underTest = ExistsExpression(someNumberArrayField())
 
@@ -31,9 +32,24 @@ class ExistsExpressionTest : ManagerDependentTest {
     @Test
     fun `should support EXISTS expression with parameter`() {
         val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
         val expected = DopeQuery(
-            "EXISTS $1",
-            mapOf("$1" to parameterValue),
+            queryString = "EXISTS \$param",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ExistsExpression(parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support EXISTS expression with positional parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val expected = DopeQuery(
+            queryString = "EXISTS $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ExistsExpression(parameterValue.asParameter())
 
@@ -58,6 +74,16 @@ class ExistsExpressionTest : ManagerDependentTest {
         val expected = ExistsExpression(array.toDopeType())
 
         val actual = exists(array)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support EXISTS extension select`() {
+        val selectClause = someSelectRawClause()
+        val expected = ExistsExpression(selectClause.asExpression())
+
+        val actual = exists(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

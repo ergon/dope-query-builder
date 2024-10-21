@@ -17,7 +17,7 @@ class ObjectEntry<T : ValidType>(
         val valueQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = "${keyQuery.queryString} : ${valueQuery.queryString}",
-            parameters = keyQuery.parameters + valueQuery.parameters,
+            parameters = keyQuery.parameters.merge(valueQuery.parameters),
         )
     }
 }

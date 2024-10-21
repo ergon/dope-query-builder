@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -18,8 +19,7 @@ class AliasedExpressionTest : ManagerDependentTest {
     @Test
     fun `should support aliased expression`() {
         val expected = DopeQuery(
-            "`stringField` AS `test`",
-            emptyMap(),
+            queryString = "`stringField` AS `test`",
         )
         val underTest = AliasedExpression(someStringField(), "test")
 
@@ -29,13 +29,28 @@ class AliasedExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support aliased expression with parameter`() {
+    fun `should support aliased expression with positional parameter`() {
         val parameterValue = "testValue"
         val expected = DopeQuery(
-            "$1 AS `test`",
-            mapOf("$1" to parameterValue),
+            queryString = "$1 AS `test`",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = AliasedExpression(parameterValue.asParameter(), "test")
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aliased expression with named parameter`() {
+        val parameterValue = "testValue"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "\$$parameterName AS `test`",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = AliasedExpression(parameterValue.asParameter(parameterName), "test")
 
         val actual = underTest.toDopeQuery(manager)
 

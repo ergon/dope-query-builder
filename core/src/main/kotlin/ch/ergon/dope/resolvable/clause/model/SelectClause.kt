@@ -6,8 +6,12 @@ import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
+import ch.ergon.dope.validtype.ValidType
 
-class SelectClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
+class SelectClause(
+    private val expression: Expression,
+    private vararg val expressions: Expression,
+) : ISelectClause<ValidType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
@@ -17,24 +21,22 @@ class SelectClause(private val expression: Expression, private vararg val expres
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
-                expressionParameters + field.parameters
-            },
+            parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }
 
-class SelectRawClause(private val expression: SingleExpression) : ISelectClause {
+class SelectRawClause<T : ValidType>(private val expression: SingleExpression<T>) : ISelectClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
-            formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
-            expressionDopeQuery.parameters,
+            queryString = formatToQueryString("SELECT RAW", expressionDopeQuery.queryString),
+            parameters = expressionDopeQuery.parameters,
         )
     }
 }
 
-class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause {
+class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause<ValidType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
         val expressionDopeQuery = expression.toDopeQuery(manager)
@@ -44,9 +46,7 @@ class SelectDistinctClause(private val expression: Expression, private vararg va
                 expressionDopeQuery.queryString,
                 *expressionsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
-            parameters = expressionsDopeQuery.fold(expressionDopeQuery.parameters) { expressionParameters, field ->
-                expressionParameters + field.parameters
-            },
+            parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
 }

@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,7 @@ class SuffixesExpressionTest : ManagerDependentTest {
     @Test
     fun `should support split`() {
         val expected = DopeQuery(
-            "SUFFIXES(`stringField`)",
-            emptyMap(),
+            queryString = "SUFFIXES(`stringField`)",
         )
         val underTest = SuffixesExpression(someStringField())
 
@@ -27,13 +27,28 @@ class SuffixesExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support split with parameter`() {
+    fun `should support suffixes with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "SUFFIXES($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "SUFFIXES($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = SuffixesExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support suffixes with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "SUFFIXES(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = SuffixesExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

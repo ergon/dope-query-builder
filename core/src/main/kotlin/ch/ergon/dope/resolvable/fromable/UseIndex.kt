@@ -20,7 +20,9 @@ class IndexReference(
     private val indexName: String? = null,
     private val indexType: IndexType? = null,
 ) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(formatIndexToQueryString(indexName, indexType?.type), emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
+        queryString = formatIndexToQueryString(indexName, indexType?.type),
+    )
 }
 
 class UseIndex(
@@ -34,11 +36,9 @@ class UseIndex(
             queryString = formatToQueryStringWithSymbol(
                 bucketDopeQuery.queryString,
                 USE_INDEX,
-                formatListToQueryStringWithBrackets(indexReferenceDopeQueries, seperator = ", ", prefix = "(", postfix = ")"),
+                formatListToQueryStringWithBrackets(indexReferenceDopeQueries, separator = ", ", prefix = "(", postfix = ")"),
             ),
-            parameters = bucketDopeQuery.parameters + indexReferenceDopeQueries.fold(emptyMap()) { indexReferenceParameters, field ->
-                indexReferenceParameters + field.parameters
-            },
+            parameters = bucketDopeQuery.parameters.merge(*indexReferenceDopeQueries.map { it.parameters }.toTypedArray()),
         )
     }
 }

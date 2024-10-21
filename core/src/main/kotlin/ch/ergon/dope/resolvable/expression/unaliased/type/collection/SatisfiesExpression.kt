@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
@@ -22,12 +23,12 @@ sealed class SatisfiesExpression<T : ValidType>(
     private val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val listDopeQuery = arrayExpression.toDopeQuery(manager)
+        val arrayDopeQuery = arrayExpression.toDopeQuery(manager)
         val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
         val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery(manager)
         return DopeQuery(
-            queryString = "$satisfiesType `$iteratorVariable` IN ${listDopeQuery.queryString} SATISFIES ${predicateDopeQuery.queryString} END",
-            parameters = listDopeQuery.parameters + predicateDopeQuery.parameters,
+            queryString = "$satisfiesType `$iteratorVariable` IN ${arrayDopeQuery.queryString} SATISFIES ${predicateDopeQuery.queryString} END",
+            parameters = arrayDopeQuery.parameters.merge(predicateDopeQuery.parameters),
         )
     }
 }
@@ -35,7 +36,6 @@ sealed class SatisfiesExpression<T : ValidType>(
 class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$variable`",
-        parameters = emptyMap(),
     )
 }
 
@@ -54,19 +54,29 @@ class EverySatisfiesExpression<T : ValidType>(
 fun <T : ValidType> TypeExpression<ArrayType<T>>.any(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-): AnySatisfiesExpression<T> = AnySatisfiesExpression(this, iteratorName, predicate)
+) = AnySatisfiesExpression(this, iteratorName, predicate)
 
 fun <T : ValidType> Collection<TypeExpression<T>>.any(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-): AnySatisfiesExpression<T> = AnySatisfiesExpression(toDopeType(), iteratorName, predicate)
+) = toDopeType().any(iteratorName, predicate)
+
+fun <T : ValidType> ISelectOffsetClause<T>.any(
+    iteratorName: String? = null,
+    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) = asExpression().any(iteratorName, predicate)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.every(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-): EverySatisfiesExpression<T> = EverySatisfiesExpression(this, iteratorName, predicate)
+) = EverySatisfiesExpression(this, iteratorName, predicate)
 
 fun <T : ValidType> Collection<TypeExpression<T>>.every(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-): EverySatisfiesExpression<T> = EverySatisfiesExpression(toDopeType(), iteratorName, predicate)
+) = toDopeType().every(iteratorName, predicate)
+
+fun <T : ValidType> ISelectOffsetClause<T>.every(
+    iteratorName: String? = null,
+    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) = asExpression().every(iteratorName, predicate)

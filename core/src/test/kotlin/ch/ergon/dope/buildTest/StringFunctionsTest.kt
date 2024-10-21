@@ -12,7 +12,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunctio
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.contains
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.TOKEN_CASES
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.tokens
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.initCap
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.length
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
@@ -25,9 +24,10 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunctio
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.rpad
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.rtrim
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.split
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.substr
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.substring
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.suffixes
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.title
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.tokens
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.trim
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
@@ -494,8 +494,8 @@ class StringFunctionsTest : ManagerDependentTest {
                 "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
-            rtrim("N1QL is awesome...", '.').alias("dots"),
-            rtrim("N1QL is awesome     ", ' ').alias("explicit_spaces"),
+            rtrim("N1QL is awesome...", ".").alias("dots"),
+            rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
             rtrim("N1QL is awesome     ").alias("implicit_spaces"),
             rtrim("N1QL is awesome").alias("no_dots"),
         ).build().queryString
@@ -542,7 +542,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
-            rtrim("N1QL is awesome...".toDopeType(), '.').alias("dots"),
+            rtrim("N1QL is awesome...".toDopeType(), ".").alias("dots"),
             rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
             rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
             rtrim("N1QL is awesome".toDopeType()).alias("no_dots"),
@@ -603,9 +603,9 @@ class StringFunctionsTest : ManagerDependentTest {
                 " `single_letter`, SUBSTR(\"N1QL is awesome\", 3, 3) AS `three_letters`"
 
         val actual: String = create.select(
-            substr("N1QL is awesome", 3).alias("end_of_string"),
-            substr("N1QL is awesome", 3, 1).alias("single_letter"),
-            substr("N1QL is awesome", 3, 3).alias("three_letters"),
+            substring("N1QL is awesome", 3).alias("end_of_string"),
+            substring("N1QL is awesome", 3, 1).alias("single_letter"),
+            substring("N1QL is awesome", 3, 3).alias("three_letters"),
         ).build().queryString
 
         assertEquals(expected, actual)
@@ -640,11 +640,11 @@ class StringFunctionsTest : ManagerDependentTest {
 
     @Test
     fun `should Support Tokens`() {
-        val expected = "SELECT TOKENS([\"jim@example.com, kim@example.com, http://example.com/, 408-555-1212\"], " +
+        val expected = "SELECT TOKENS([\"jim@example.com, kim@example.com, https://example.com/, 408-555-1212\"], " +
             "{\"name\": false, \"specials\": true})"
 
         val actual: String = create.select(
-            tokens(listOf("jim@example.com", "kim@example.com", "http://example.com/", "408-555-1212"), CustomTokenOptions(specials = true)),
+            tokens(listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212"), CustomTokenOptions(specials = true)),
         ).build().queryString
 
         assertEquals(expected, actual)
@@ -703,7 +703,7 @@ class StringFunctionsTest : ManagerDependentTest {
             " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
-            trim("...N1QL is awesome...", '.')
+            trim("...N1QL is awesome...", ".")
                 .alias("dots"),
             trim("     N1QL is awesome     ")
                 .alias("explicit_spaces"),
@@ -745,7 +745,7 @@ class StringFunctionsTest : ManagerDependentTest {
             " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
         val actual: String = create.select(
-            trim("...N1QL is awesome...".toDopeType(), '.')
+            trim("...N1QL is awesome...".toDopeType(), ".")
                 .alias("dots"),
             trim("     N1QL is awesome     ".toDopeType())
                 .alias("explicit_spaces"),

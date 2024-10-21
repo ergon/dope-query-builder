@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -20,7 +21,7 @@ class ToObjectExpressionTest : ManagerDependentTest {
     fun `should support to object expression`() {
         val expected = DopeQuery(
             "TOOBJECT(`stringField`)",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = ToObjectExpression(someStringField())
 
@@ -34,7 +35,7 @@ class ToObjectExpressionTest : ManagerDependentTest {
         val parameterValue = someString()
         val expected = DopeQuery(
             "TOOBJECT($1)",
-            mapOf("$1" to parameterValue),
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ToObjectExpression(parameterValue.asParameter())
 

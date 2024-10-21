@@ -1,5 +1,6 @@
 package ch.ergon.dope.extensions.type
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.type.get
@@ -31,7 +32,7 @@ class ObjectTest : ManagerDependentTest {
     fun `should support object get`() {
         val expected = DopeQuery(
             "`objectField`.`type`",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = Dummy().objectField.get { type }.toDopeType()
 
@@ -44,7 +45,7 @@ class ObjectTest : ManagerDependentTest {
     fun `should support object get with path`() {
         val expected = DopeQuery(
             "`path`.`objectField`.`type`",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = Dummy("path").objectField.get { type }.toDopeType()
 
@@ -57,7 +58,7 @@ class ObjectTest : ManagerDependentTest {
     fun `should support object nested get`() {
         val expected = DopeQuery(
             "`objectField`.`otherObject`.`something`",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = Dummy().objectField.get { otherObject }.get { something }.toDopeType()
 
@@ -70,7 +71,7 @@ class ObjectTest : ManagerDependentTest {
     fun `should support object nested get with path`() {
         val expected = DopeQuery(
             "`path`.`objectField`.`otherObject`.`something`",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = Dummy("path").objectField.get { otherObject }.get { something }.toDopeType()
 

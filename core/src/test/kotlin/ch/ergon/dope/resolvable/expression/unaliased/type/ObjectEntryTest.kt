@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -17,7 +18,7 @@ class ObjectEntryTest : ManagerDependentTest {
     fun `should support object entry`() {
         val expected = DopeQuery(
             "`stringField` : `stringField`",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = ObjectEntry(someStringField(), someStringField())
 
@@ -31,7 +32,7 @@ class ObjectEntryTest : ManagerDependentTest {
         val value = "test"
         val expected = DopeQuery(
             "`stringField` : $1",
-            mapOf("$1" to value),
+            DopeParameters(positionalParameters = listOf(value)),
         )
         val underTest = ObjectEntry(someStringField(), value.asParameter())
 
@@ -53,7 +54,7 @@ class ObjectEntryTest : ManagerDependentTest {
     fun `should support object entry field`() {
         val expected = DopeQuery(
             "`objectField`.`someString`",
-            emptyMap(),
+            DopeParameters(),
         )
         val underTest = ObjectEntryField<StringType>(someObjectField(), someString())
 

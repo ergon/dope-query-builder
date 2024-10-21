@@ -26,11 +26,11 @@ class DecodeExpression<T : ValidType, U : ValidType>(
                 *searchResultsDopeQuery,
                 defaultDopeQuery,
             ),
-            parameters = decodeExpressionDopeQuery.parameters +
-                searchResultsDopeQuery.fold(searchResultDopeQuery.parameters) {
-                        expressionParameters, expression ->
-                    expressionParameters + expression.parameters
-                } + defaultDopeQuery?.parameters.orEmpty(),
+            parameters = decodeExpressionDopeQuery.parameters.merge(
+                searchResultDopeQuery.parameters,
+                *searchResultsDopeQuery.map { it.parameters }.toTypedArray(),
+                defaultDopeQuery?.parameters,
+            ),
         )
     }
 
@@ -39,7 +39,7 @@ class DecodeExpression<T : ValidType, U : ValidType>(
         val resultDopeQuery = searchResult.resultExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = "${searchDopeQuery.queryString}, ${resultDopeQuery.queryString}",
-            parameters = searchDopeQuery.parameters + resultDopeQuery.parameters,
+            parameters = searchDopeQuery.parameters.merge(resultDopeQuery.parameters),
         )
     }
 }

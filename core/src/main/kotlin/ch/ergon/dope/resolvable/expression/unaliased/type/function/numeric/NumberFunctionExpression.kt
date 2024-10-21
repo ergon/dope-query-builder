@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
@@ -16,7 +17,7 @@ sealed class NumberFunctionExpression(
         val additionalValueDopeQuery = additionalValue?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString(symbol, valueDopeQuery, additionalValueDopeQuery),
-            parameters = valueDopeQuery?.parameters.orEmpty() + additionalValueDopeQuery?.parameters.orEmpty(),
+            parameters = (valueDopeQuery?.parameters ?: DopeParameters()).merge(additionalValueDopeQuery?.parameters),
         )
     }
 }

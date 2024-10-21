@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -18,8 +19,7 @@ class LessOrEqualThanExpressionTest : ManagerDependentTest {
     @Test
     fun `should support less or equals`() {
         val expected = DopeQuery(
-            "`numberField` <= `numberField`",
-            emptyMap(),
+            queryString = "`numberField` <= `numberField`",
         )
         val underTest = LessOrEqualThanExpression(someNumberField(), someNumberField())
 
@@ -29,11 +29,11 @@ class LessOrEqualThanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support less or equals with parameter`() {
+    fun `should support less or equals with positional parameter`() {
         val parameterValue = 5
         val expected = DopeQuery(
-            "$1 <= `numberField`",
-            mapOf("$1" to parameterValue),
+            queryString = "$1 <= `numberField`",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LessOrEqualThanExpression(parameterValue.asParameter(), someNumberField())
 
@@ -43,12 +43,12 @@ class LessOrEqualThanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support less or equals with all parameters`() {
+    fun `should support less or equals with all positional parameters`() {
         val parameterValue = 5
         val parameterValue2 = 6
         val expected = DopeQuery(
-            "$1 <= $2",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "$1 <= $2",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LessOrEqualThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -58,13 +58,45 @@ class LessOrEqualThanExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support less or equal with second parameter`() {
+    fun `should support less or equals with second positional parameter`() {
         val parameterValue = someNumber()
         val expected = DopeQuery(
-            "`numberField` <= $1",
-            mapOf("$1" to parameterValue),
+            queryString = "`numberField` <= $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LessOrEqualThanExpression(someNumberField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support less or equals with named parameter`() {
+        val parameterValue = 5
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "$$parameterName <= `numberField`",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = LessOrEqualThanExpression(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support less or equals with all named parameters`() {
+        val parameterValue = 5
+        val parameterValue2 = 6
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "$$parameterName <= $$parameterName2",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = LessOrEqualThanExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 

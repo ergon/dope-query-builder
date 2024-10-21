@@ -12,6 +12,7 @@ import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ValidType
 
 sealed class LimitClause(
     private val numberExpression: TypeExpression<NumberType>,
@@ -22,13 +23,13 @@ sealed class LimitClause(
         val numberDopeQuery = numberExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "LIMIT", numberDopeQuery.queryString),
-            parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(numberDopeQuery.parameters),
         )
     }
 }
 
-class SelectLimitClause(numberExpression: TypeExpression<NumberType>, parentClause: ISelectOrderByClause) :
-    ISelectLimitClause, LimitClause(numberExpression, parentClause)
+class SelectLimitClause<T : ValidType>(numberExpression: TypeExpression<NumberType>, parentClause: ISelectOrderByClause<T>) :
+    ISelectLimitClause<T>, LimitClause(numberExpression, parentClause)
 
 class DeleteLimitClause(numberExpression: TypeExpression<NumberType>, parentClause: IDeleteWhereClause) :
     IDeleteLimitClause, LimitClause(numberExpression, parentClause)

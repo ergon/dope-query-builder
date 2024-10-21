@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -14,10 +15,9 @@ class LengthExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support length`() {
+    fun `should support length with no parameters`() {
         val expected = DopeQuery(
-            "LENGTH(`stringField`)",
-            emptyMap(),
+            queryString = "LENGTH(`stringField`)",
         )
         val underTest = LengthExpression(someStringField())
 
@@ -27,13 +27,28 @@ class LengthExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support length with parameter`() {
+    fun `should support length with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "LENGTH($1)",
-            mapOf("$1" to parameterValue),
+            queryString = "LENGTH($1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LengthExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support length with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "LENGTH(\$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = LengthExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 

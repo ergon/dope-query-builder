@@ -4,7 +4,6 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.tokens
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -14,8 +13,7 @@ class TokensExpressionTest : ManagerDependentTest {
     @Test
     fun `should support tokens`() {
         val expected = DopeQuery(
-            "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
-            emptyMap(),
+            queryString = "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
         )
         val underTest = TokensExpression(listOf("test", "test2"))
 

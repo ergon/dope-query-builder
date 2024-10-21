@@ -232,18 +232,31 @@ class JoinClauseTest {
         assertEquals(unifyString(expected), actual)
     }
 
-//    @Test TODO: DOPE-170
-//    fun `Right Outer Join `() {
-//        val expected = "SELECT DISTINCT subquery.destinationairport " +
-//            "FROM airport JOIN (SELECT destinationairport, sourceairport " +
-//            "FROM route) AS subquery ON airport.faa = subquery.sourceairport WHERE airport.city = \"San Francisco\""
-//
-//        val subquery = create.select(Collections.Route.destinationairport, Collections.Route.sourceairport).from(Collections.Route).asSubquery(
-//            "subquery",
-//        )
-//        subquery.printIt()
-//        assertEquals(true, true)
-//    }
+    @Test
+    fun `Right Outer Join`() {
+        val airport = someBucket("airport")
+        val route = someBucket("route")
+        val expected = "SELECT DISTINCT `subquery`.`destinationairport` " +
+            "FROM `airport` " +
+            "JOIN (SELECT `destinationairport`, `sourceairport` FROM `route`) AS `subquery` " +
+            "ON `airport`.`faa` = `subquery`.`sourceairport` " +
+            "WHERE `airport`.`city` = \"San Francisco\""
+
+        val actual = create
+            .selectDistinct(someStringField("destinationairport", someBucket("subquery")))
+            .from(airport)
+            .join(
+                create
+                    .select(someStringField("destinationairport"), someStringField("sourceairport"))
+                    .from(route)
+                    .alias("subquery"),
+                onCondition = someStringField("faa", airport).isEqualTo(someStringField("sourceairport", someBucket("subquery"))),
+            )
+            .where(someStringField("city", airport).isEqualTo("San Francisco"))
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
 
     @Test
     fun `Inner Lookup Join`() {
