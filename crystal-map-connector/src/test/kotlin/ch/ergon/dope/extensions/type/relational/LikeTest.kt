@@ -40,7 +40,7 @@ class LikeTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support extensions for is like with cmString`() {
+    fun `should support extensions for is like with cmString string`() {
         val left = someCMStringField()
         val right = someString()
         val expected = LikeExpression(left.toDopeType(), right.toDopeType())
@@ -51,7 +51,7 @@ class LikeTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support extensions for is like with cm`() {
+    fun `should support extensions for is like with cmString cmString`() {
         val left = someCMStringField()
         val right = someStringField()
         val expected = LikeExpression(left.toDopeType(), right)
@@ -95,7 +95,7 @@ class LikeTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support extensions for is not like with cm`() {
+    fun `should support extensions for is not like with cmString type`() {
         val someCMStringField = someCMStringField()
         val right = someStringField()
         val expected = NotLikeExpression(someCMStringField.toDopeType(), right)
