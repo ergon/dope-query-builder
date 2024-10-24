@@ -76,4 +76,26 @@ class NotLikeExpressionTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
+
+    @Test
+    fun `should support not like function with string type`() {
+        val left = someString("left")
+        val right = someStringField("right")
+        val expected = NotLikeExpression(left.toDopeType(), right)
+
+        val actual = left.isNotLike(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not like function with string string`() {
+        val left = someString("left")
+        val right = someString("right")
+        val expected = NotLikeExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isNotLike(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
 }
