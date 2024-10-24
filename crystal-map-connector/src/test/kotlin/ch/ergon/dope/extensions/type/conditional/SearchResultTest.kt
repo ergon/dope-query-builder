@@ -5,6 +5,7 @@ import ch.ergon.dope.extension.type.conditional.resultsIn
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
+import ch.ergon.dope.helper.someCMObjectField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -53,6 +54,18 @@ class SearchResultTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support resultsIn with CMObject`() {
+        val searchExpression = someCMObjectField()
+        val resultExpression = someNumberField()
+        val expected = SearchResult(searchExpression.toDopeType(), resultExpression)
+
+        val actual = searchExpression.resultsIn(resultExpression)
+
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support resultsIn with type and CMNumber`() {
         val searchExpression = someStringField()
         val resultExpression = someCMNumberField()
@@ -80,6 +93,18 @@ class SearchResultTest : ManagerDependentTest {
     fun `should support resultsIn with type and CMBoolean`() {
         val searchExpression = someNumberField()
         val resultExpression = someCMBooleanField()
+        val expected = SearchResult(searchExpression, resultExpression.toDopeType())
+
+        val actual = searchExpression.resultsIn(resultExpression)
+
+        assertEquals(expected.searchExpression.toDopeQuery(manager), actual.searchExpression.toDopeQuery(manager))
+        assertEquals(expected.resultExpression.toDopeQuery(manager), actual.resultExpression.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support resultsIn with type and CMObject`() {
+        val searchExpression = someNumberField()
+        val resultExpression = someCMObjectField()
         val expected = SearchResult(searchExpression, resultExpression.toDopeType())
 
         val actual = searchExpression.resultsIn(resultExpression)

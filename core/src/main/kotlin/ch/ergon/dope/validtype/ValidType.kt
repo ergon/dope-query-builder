@@ -18,4 +18,4 @@ interface MissingType : ValidType
 
 interface ArrayType<T : ValidType> : ValidType
 
-class DopeSchemaArray<T : Any>(val schema: T, val name: String) : ValidType
+interface ObjectType : ComparableType, AtomType

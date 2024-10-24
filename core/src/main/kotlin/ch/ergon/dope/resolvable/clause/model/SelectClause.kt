@@ -6,12 +6,13 @@ import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryString
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
 class SelectClause(
     private val expression: Expression,
     private vararg val expressions: Expression,
-) : ISelectClause<ValidType> {
+) : ISelectClause<ObjectType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
@@ -36,7 +37,7 @@ class SelectRawClause<T : ValidType>(private val expression: SingleExpression<T>
     }
 }
 
-class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause<ValidType> {
+class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause<ObjectType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
         val expressionDopeQuery = expression.toDopeQuery(manager)

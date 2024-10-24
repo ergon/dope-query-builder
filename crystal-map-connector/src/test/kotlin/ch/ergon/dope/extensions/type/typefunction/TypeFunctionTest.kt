@@ -5,6 +5,7 @@ import ch.ergon.dope.extension.type.typefunction.isArray
 import ch.ergon.dope.extension.type.typefunction.isAtom
 import ch.ergon.dope.extension.type.typefunction.isBoolean
 import ch.ergon.dope.extension.type.typefunction.isNumber
+import ch.ergon.dope.extension.type.typefunction.isObject
 import ch.ergon.dope.extension.type.typefunction.isString
 import ch.ergon.dope.extension.type.typefunction.toArray
 import ch.ergon.dope.extension.type.typefunction.toBool
@@ -16,6 +17,8 @@ import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
+import ch.ergon.dope.helper.someCMObjectField
+import ch.ergon.dope.helper.someCMObjectList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someString
@@ -23,6 +26,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsAtomExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsBooleanExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsNumberExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsObjectExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.IsStringExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.ToArrayExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.ToBooleanExpression
@@ -68,6 +72,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support isArray with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = IsArrayExpression(expression.toDopeType())
+
+        val actual = expression.isArray()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support isArray with CM number list`() {
         val expression = someCMNumberList()
         val expected = IsArrayExpression(expression.toDopeType())
@@ -90,6 +104,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support isArray with CM boolean list`() {
         val expression = someCMBooleanList()
+        val expected = IsArrayExpression(expression.toDopeType())
+
+        val actual = expression.isArray()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isArray with CM Object list`() {
+        val expression = someCMObjectList()
         val expected = IsArrayExpression(expression.toDopeType())
 
         val actual = expression.isArray()
@@ -128,6 +152,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support isAtom with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = IsAtomExpression(expression.toDopeType())
+
+        val actual = expression.isAtom()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support isAtom with CM number list`() {
         val expression = someCMNumberList()
         val expected = IsAtomExpression(expression.toDopeType())
@@ -158,6 +192,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support isAtom with CM Object list`() {
+        val expression = someCMObjectList()
+        val expected = IsAtomExpression(expression.toDopeType())
+
+        val actual = expression.isAtom()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support isBoolean with CM number field`() {
         val expression = someCMNumberField()
         val expected = IsBooleanExpression(expression.toDopeType())
@@ -170,6 +214,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support isBoolean with CM string field`() {
         val expression = someCMStringField()
+        val expected = IsBooleanExpression(expression.toDopeType())
+
+        val actual = expression.isBoolean()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isBoolean with CM Object field`() {
+        val expression = someCMObjectField()
         val expected = IsBooleanExpression(expression.toDopeType())
 
         val actual = expression.isBoolean()
@@ -218,6 +272,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support isBoolean with CM Object list`() {
+        val expression = someCMObjectList()
+        val expected = IsBooleanExpression(expression.toDopeType())
+
+        val actual = expression.isBoolean()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support isNumber with CM number field`() {
         val expression = someCMNumberField()
         val expected = IsNumberExpression(expression.toDopeType())
@@ -240,6 +304,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support isNumber with CM boolean field`() {
         val expression = someCMBooleanField()
+        val expected = IsNumberExpression(expression.toDopeType())
+
+        val actual = expression.isNumber()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isNumber with CM Object field`() {
+        val expression = someCMObjectField()
         val expected = IsNumberExpression(expression.toDopeType())
 
         val actual = expression.isNumber()
@@ -278,6 +352,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support isNumber with CM Object list`() {
+        val expression = someCMObjectList()
+        val expected = IsNumberExpression(expression.toDopeType())
+
+        val actual = expression.isNumber()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support isString with CM number field`() {
         val expression = someCMNumberField()
         val expected = IsStringExpression(expression.toDopeType())
@@ -300,6 +384,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support isString with CM boolean field`() {
         val expression = someCMBooleanField()
+        val expected = IsStringExpression(expression.toDopeType())
+
+        val actual = expression.isString()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isString with CM Object field`() {
+        val expression = someCMObjectField()
         val expected = IsStringExpression(expression.toDopeType())
 
         val actual = expression.isString()
@@ -338,6 +432,96 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support isString with CM Object list`() {
+        val expression = someCMObjectList()
+        val expected = IsStringExpression(expression.toDopeType())
+
+        val actual = expression.isString()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM number field`() {
+        val expression = someCMNumberField()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM string field`() {
+        val expression = someCMStringField()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM boolean field`() {
+        val expression = someCMBooleanField()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM number list`() {
+        val expression = someCMNumberList()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM string list`() {
+        val expression = someCMStringList()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM boolean list`() {
+        val expression = someCMBooleanList()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isObject with CM Object list`() {
+        val expression = someCMObjectList()
+        val expected = IsObjectExpression(expression.toDopeType())
+
+        val actual = expression.isObject()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support toArray with CM number field`() {
         val expression = someCMNumberField()
         val expected = ToArrayExpression(expression.toDopeType())
@@ -360,6 +544,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support toArray with CM boolean field`() {
         val expression = someCMBooleanField()
+        val expected = ToArrayExpression(expression.toDopeType())
+
+        val actual = expression.toArray()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support toArray with CM Object field`() {
+        val expression = someCMObjectField()
         val expected = ToArrayExpression(expression.toDopeType())
 
         val actual = expression.toArray()
@@ -398,6 +592,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support toBoolean with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = ToBooleanExpression(expression.toDopeType())
+
+        val actual = expression.toBool()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support toBoolean with CM number list`() {
         val expression = someCMNumberList()
         val expected = ToBooleanExpression(expression.toDopeType())
@@ -420,6 +624,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support toBoolean with CM boolean list`() {
         val expression = someCMBooleanList()
+        val expected = ToBooleanExpression(expression.toDopeType())
+
+        val actual = expression.toBool()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support toBoolean with CM Object list`() {
+        val expression = someCMObjectList()
         val expected = ToBooleanExpression(expression.toDopeType())
 
         val actual = expression.toBool()
@@ -458,6 +672,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support toNumber with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = ToNumberExpression(expression.toDopeType())
+
+        val actual = expression.toNumber()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support toNumber with CM number list`() {
         val expression = someCMNumberList()
         val expected = ToNumberExpression(expression.toDopeType())
@@ -480,6 +704,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support toNumber with CM boolean list`() {
         val expression = someCMBooleanList()
+        val expected = ToNumberExpression(expression.toDopeType())
+
+        val actual = expression.toNumber()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support toNumber with CM Object list`() {
+        val expression = someCMObjectList()
         val expected = ToNumberExpression(expression.toDopeType())
 
         val actual = expression.toNumber()
@@ -573,6 +807,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support toString with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = ToStringExpression(expression.toDopeType())
+
+        val actual = expression.toStr()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support toString with CM number list`() {
         val expression = someCMNumberList()
         val expected = ToStringExpression(expression.toDopeType())
@@ -595,6 +839,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support toString with CM boolean list`() {
         val expression = someCMBooleanList()
+        val expected = ToStringExpression(expression.toDopeType())
+
+        val actual = expression.toStr()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support toString with CM Object list`() {
+        val expression = someCMObjectList()
         val expected = ToStringExpression(expression.toDopeType())
 
         val actual = expression.toStr()
@@ -633,6 +887,16 @@ class TypeFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support typeOf with CM Object field`() {
+        val expression = someCMObjectField()
+        val expected = TypeOfExpression(expression.toDopeType())
+
+        val actual = typeOf(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support typeOf with CM number list`() {
         val expression = someCMNumberList()
         val expected = TypeOfExpression(expression.toDopeType())
@@ -655,6 +919,16 @@ class TypeFunctionTest : ManagerDependentTest {
     @Test
     fun `should support typeOf with CM boolean list`() {
         val expression = someCMBooleanList()
+        val expected = TypeOfExpression(expression.toDopeType())
+
+        val actual = typeOf(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support typeOf with CM Object list`() {
+        val expression = someCMObjectList()
         val expected = TypeOfExpression(expression.toDopeType())
 
         val actual = typeOf(expression)

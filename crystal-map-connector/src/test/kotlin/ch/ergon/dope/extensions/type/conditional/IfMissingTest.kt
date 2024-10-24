@@ -7,6 +7,8 @@ import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
+import ch.ergon.dope.helper.someCMObjectField
+import ch.ergon.dope.helper.someCMObjectList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.IfMissingExpression
@@ -99,6 +101,33 @@ class IfMissingTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support if missing with CMObjectField CMObjectField`() {
+        val firstExpression = someCMObjectField()
+        val secondExpression = someCMObjectField()
+        val expected = IfMissingExpression(firstExpression.toDopeType(), secondExpression.toDopeType())
+
+        val actual = ifMissing(firstExpression, secondExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support if missing with CMObjectField CMObjectField CMObjectField`() {
+        val firstExpression = someCMObjectField()
+        val secondExpression = someCMObjectField()
+        val additionalExpression = someCMObjectField()
+        val expected = IfMissingExpression(
+            firstExpression.toDopeType(),
+            secondExpression.toDopeType(),
+            additionalExpression.toDopeType(),
+        )
+
+        val actual = ifMissing(firstExpression, secondExpression, additionalExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support if missing with CMNumberList CMNumberList`() {
         val firstExpression = someCMNumberList()
         val secondExpression = someCMNumberList()
@@ -168,6 +197,33 @@ class IfMissingTest : ManagerDependentTest {
         val firstExpression = someCMBooleanList()
         val secondExpression = someCMBooleanList()
         val additionalExpression = someCMBooleanList()
+        val expected = IfMissingExpression(
+            firstExpression.toDopeType(),
+            secondExpression.toDopeType(),
+            additionalExpression.toDopeType(),
+        )
+
+        val actual = ifMissing(firstExpression, secondExpression, additionalExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support if missing with CMObjectList CMObjectList`() {
+        val firstExpression = someCMObjectList()
+        val secondExpression = someCMObjectList()
+        val expected = IfMissingExpression(firstExpression.toDopeType(), secondExpression.toDopeType())
+
+        val actual = ifMissing(firstExpression, secondExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support if missing with CMObjectList CMObjectList CMObjectList`() {
+        val firstExpression = someCMObjectList()
+        val secondExpression = someCMObjectList()
+        val additionalExpression = someCMObjectList()
         val expected = IfMissingExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),

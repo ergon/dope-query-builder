@@ -5,7 +5,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
-import ch.ergon.dope.helper.someSelectRawClause
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -66,7 +66,7 @@ class ArraySumExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_SUM extension select`() {
-        val selectClause = someSelectRawClause()
+        val selectClause = someNumberSelectRawClause()
         val expected = ArraySumExpression(selectClause.asExpression())
 
         val actual = arraySum(selectClause)

@@ -6,6 +6,7 @@ import ch.ergon.dope.extension.type.relational.isNull
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
+import ch.ergon.dope.helper.someCMObjectField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IsNotNullExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.IsNullExpression
@@ -47,6 +48,16 @@ class IsNullTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support is Null CMJsonFieldObject`() {
+        val field = someCMObjectField()
+        val expected = IsNullExpression(field.toDopeType())
+
+        val actual = field.isNull()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support is not Null CMJsonFieldNumber`() {
         val field = someCMNumberField()
         val expected = IsNotNullExpression(field.toDopeType())
@@ -69,6 +80,16 @@ class IsNullTest : ManagerDependentTest {
     @Test
     fun `should support is not Null CMJsonFieldBoolean`() {
         val field = someCMBooleanField()
+        val expected = IsNotNullExpression(field.toDopeType())
+
+        val actual = field.isNotNull()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support is not Null CMJsonFieldObject`() {
+        val field = someCMObjectField()
         val expected = IsNotNullExpression(field.toDopeType())
 
         val actual = field.isNotNull()
