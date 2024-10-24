@@ -24,6 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.condition
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.nowString
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.not
@@ -480,6 +481,21 @@ class QueryBuilderTest : ManagerDependentTest {
             someStringField("email").isLike(
                 "%@yahoo.com".toDopeType(),
             ),
+        ).build().queryString
+
+        assertEquals(unifyString(expected), actual)
+    }
+
+    @Test
+    fun `should support like with string function`() {
+        val expected = "SELECT `stringField` FROM `someBucket` WHERE `email` LIKE CONCAT(`name`, \"%\", \"@gmail.com\")"
+
+        val actual: String = create.select(
+            someStringField(),
+        ).from(
+            someBucket(),
+        ).where(
+            someStringField("email").isLike(concat(someStringField("name"), "%", "@gmail.com")),
         ).build().queryString
 
         assertEquals(unifyString(expected), actual)
