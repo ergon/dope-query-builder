@@ -76,4 +76,26 @@ class LikeExpressionTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
+
+    @Test
+    fun `should support like function with string type`() {
+        val left = someString("left")
+        val right = someStringField("right")
+        val expected = LikeExpression(left.toDopeType(), right)
+
+        val actual = left.isLike(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support like function with string string`() {
+        val left = someString("left")
+        val right = someString("right")
+        val expected = LikeExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.isLike(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
 }
