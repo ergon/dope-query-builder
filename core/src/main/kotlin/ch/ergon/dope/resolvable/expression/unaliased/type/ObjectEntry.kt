@@ -22,7 +22,7 @@ class ObjectEntry<T : ValidType>(
     }
 }
 
-fun TypeExpression<StringType>.to(value: TypeExpression<out ValidType>) = ObjectEntry(this, value)
+fun TypeExpression<StringType>.toObjectEntry(value: TypeExpression<out ValidType>) = ObjectEntry(this, value)
 
 class ObjectEntryField<T : ValidType>(private val objectType: TypeExpression<ObjectType>, private val key: String) : Field<T>(key, "") {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {

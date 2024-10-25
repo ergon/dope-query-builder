@@ -45,7 +45,7 @@ class ObjectEntryTest : ManagerDependentTest {
     fun `should support object entry function`() {
         val expected = ObjectEntry(someStringField(), someStringField())
 
-        val actual = someStringField().to(someStringField())
+        val actual = someStringField().toObjectEntry(someStringField())
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
