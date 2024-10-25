@@ -6,11 +6,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 // Separator is used as an argument and not as a formatting option
-class Concat2Expression(
-    separator: TypeExpression<StringType>,
-    string: TypeExpression<StringType>,
-    vararg strings: TypeExpression<StringType>,
-) : FunctionExpression<StringType>("CONCAT2", separator, string, *strings)
+class Concat2Expression<T : StringType>(
+    separator: TypeExpression<T>,
+    string: TypeExpression<T>,
+    vararg strings: TypeExpression<T>,
+) : FunctionExpression<T>("CONCAT2", separator, string, *strings)
 
 fun concat2(
     separator: TypeExpression<StringType>,
