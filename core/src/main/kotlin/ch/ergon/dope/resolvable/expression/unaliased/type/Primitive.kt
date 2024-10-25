@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.merge
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatListToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ArrayType
@@ -64,7 +65,7 @@ class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>
 )
 
 class ObjectPrimitive(
-    private vararg val entries: ObjectEntry<out ValidType>,
+    private vararg val entries: ObjectEntryPrimitive<out ValidType>,
 ) : Primitive<ObjectType>(
     { manager: DopeQueryManager ->
         val entryDopeQueries = entries.map { it.toDopeQuery(manager) }
@@ -74,6 +75,26 @@ class ObjectPrimitive(
         )
     },
 )
+
+class ObjectEntryPrimitive<T : ValidType>(
+    private val key: TypeExpression<StringType>,
+    private val value: TypeExpression<T>,
+) : Resolvable {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val keyQuery = key.toDopeQuery(manager)
+        val valueQuery = value.toDopeQuery(manager)
+        return DopeQuery(
+            queryString = "${keyQuery.queryString} : ${valueQuery.queryString}",
+            parameters = keyQuery.parameters.merge(valueQuery.parameters),
+        )
+    }
+}
+
+fun TypeExpression<StringType>.toObjectEntry(value: TypeExpression<out ValidType>) = ObjectEntryPrimitive(this, value)
+
+fun String.toObjectEntry(value: TypeExpression<out ValidType>) = toDopeType().toObjectEntry(value)
+
+fun List<ObjectEntryPrimitive<out ValidType>>.toDopeType(): ObjectPrimitive = ObjectPrimitive(*toTypedArray())
 
 fun <V> Map<String, V>.toDopeType(): ObjectPrimitive =
     ObjectPrimitive(

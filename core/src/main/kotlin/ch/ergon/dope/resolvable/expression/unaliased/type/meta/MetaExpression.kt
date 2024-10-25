@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.ObjectEntryField
+import ch.ergon.dope.resolvable.expression.unaliased.type.ObjectEntry
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
@@ -30,17 +30,17 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<ObjectType>, 
             )
         }
 
-    val cas: Field<NumberType> = ObjectEntryField(this, "cas")
+    val cas: Field<NumberType> = ObjectEntry(this, "cas")
 
-    val expiration: Field<NumberType> = ObjectEntryField(this, "expiration")
+    val expiration: Field<NumberType> = ObjectEntry(this, "expiration")
 
-    val flags: Field<NumberType> = ObjectEntryField(this, "flags")
+    val flags: Field<NumberType> = ObjectEntry(this, "flags")
 
-    val id: Field<StringType> = ObjectEntryField(this, "id")
+    val id: Field<StringType> = ObjectEntry(this, "id")
 
-    val type: Field<StringType> = ObjectEntryField(this, "type")
+    val type: Field<StringType> = ObjectEntry(this, "type")
 
-    val keyspace: Field<StringType> = ObjectEntryField(this, "keyspace")
+    val keyspace: Field<StringType> = ObjectEntry(this, "keyspace")
 }
 
 fun meta(bucket: Bucket) = MetaExpression(bucket)

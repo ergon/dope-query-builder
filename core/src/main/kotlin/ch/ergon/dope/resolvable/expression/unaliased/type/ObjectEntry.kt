@@ -2,36 +2,32 @@ package ch.ergon.dope.resolvable.expression.unaliased.type
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectEntry<T : ValidType>(
-    private val key: TypeExpression<StringType>,
-    private val value: TypeExpression<T>,
-) : Resolvable {
+class ObjectEntry<T : ValidType>(private val objectExpression: TypeExpression<ObjectType>, private val key: String) : Field<T>(key, "") {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val keyQuery = key.toDopeQuery(manager)
-        val valueQuery = value.toDopeQuery(manager)
+        val objectExpressionDopeQuery = objectExpression.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "${keyQuery.queryString} : ${valueQuery.queryString}",
-            parameters = keyQuery.parameters.merge(valueQuery.parameters),
+            queryString = "${objectExpressionDopeQuery.queryString}.`$key`",
+            parameters = objectExpressionDopeQuery.parameters,
         )
     }
 }
 
-fun TypeExpression<StringType>.toObjectEntry(value: TypeExpression<out ValidType>) = ObjectEntry(this, value)
+private fun <T : ValidType> TypeExpression<ObjectType>.get(key: String): ObjectEntry<T> = ObjectEntry(this, key)
 
-class ObjectEntryField<T : ValidType>(private val objectType: TypeExpression<ObjectType>, private val key: String) : Field<T>(key, "") {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val objectTypeDopeQuery = objectType.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "${objectTypeDopeQuery.queryString}.`$key`",
-            parameters = objectTypeDopeQuery.parameters,
-        )
-    }
-}
+fun TypeExpression<ObjectType>.getString(key: String): ObjectEntry<StringType> = get(key)
 
-fun <T : ValidType> TypeExpression<ObjectType>.get(key: String): ObjectEntryField<T> = ObjectEntryField(this, key)
+fun TypeExpression<ObjectType>.getNumber(key: String): ObjectEntry<NumberType> = get(key)
+
+fun TypeExpression<ObjectType>.getBoolean(key: String): ObjectEntry<BooleanType> = get(key)
+
+fun TypeExpression<ObjectType>.getObject(key: String): ObjectEntry<ObjectType> = get(key)
+
+fun <T : ValidType> TypeExpression<ObjectType>.getArray(key: String): ObjectEntry<ArrayType<T>> = get(key)
