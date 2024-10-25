@@ -101,11 +101,11 @@ fun <Convertable : Any> Convertable.isEqualTo(other: CMConverterField<Convertabl
     toDopeType(other).isEqualTo(other.toDopeType())
 
 @JvmName("isEqualToObject")
-fun <K, V> CMObjectField<Schema>.isEqualTo(right: Map<K, V>): EqualsExpression<ObjectType> =
+fun <V> CMObjectField<Schema>.isEqualTo(right: Map<String, V>): EqualsExpression<ObjectType> =
     toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToObject")
-fun <K, V> Map<K, V>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> =
+fun <V> Map<String, V>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> =
     toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToObject")
@@ -205,11 +205,11 @@ fun <Convertable : Any> Convertable.isNotEqualTo(other: CMConverterField<Convert
     toDopeType(other).isNotEqualTo(other.toDopeType())
 
 @JvmName("isNotEqualToObject")
-fun <K, V> CMObjectField<Schema>.isNotEqualTo(right: Map<K, V>): NotEqualsExpression<ObjectType> =
+fun <V> CMObjectField<Schema>.isNotEqualTo(right: Map<String, V>): NotEqualsExpression<ObjectType> =
     toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToObject")
-fun <K, V> Map<K, V>.isNotEqualTo(right: CMObjectField<Schema>): NotEqualsExpression<ObjectType> =
+fun <V> Map<String, V>.isNotEqualTo(right: CMObjectField<Schema>): NotEqualsExpression<ObjectType> =
     toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToObject")
