@@ -75,11 +75,10 @@ class ObjectPrimitive(
     },
 )
 
-fun <K, V> Map<K, V>.toDopeType(): ObjectPrimitive =
+fun <V> Map<String, V>.toDopeType(): ObjectPrimitive =
     ObjectPrimitive(
         *map { (key, value) ->
-            require(key is String) { "Key '$key' is not a String." }
-            key.toDopeType().to(value.toDopeType())
+            key.toDopeType().toObjectEntry(value.toDopeType())
         }.toTypedArray(),
     )
 
@@ -94,11 +93,16 @@ fun <T : ValidType> Collection<TypeExpression<out T>>.toDopeType() = ArrayPrimit
 @JvmName("anyListToDopeType")
 fun <T> Collection<T>.toDopeType(): ArrayPrimitive<ValidType> = map { it.toDopeType() }.toDopeType()
 
+@Suppress("UNCHECKED_CAST")
 fun <T> T.toDopeType() = when (this) {
     is Number -> this.toDopeType()
     is String -> this.toDopeType()
     is Boolean -> this.toDopeType()
-    is Map<*, *> -> this.toDopeType()
+    is Map<*, *> -> (this as? Map<String, Any>)?.toDopeType() ?: throw wrongTypeException()
     is Collection<*> -> this.toDopeType()
-    else -> throw IllegalArgumentException("Type for value '$this' is not supported.")
+    else -> throw wrongTypeException()
+}
+
+private fun <T> T.wrongTypeException(): IllegalArgumentException {
+    return IllegalArgumentException("Type for value '$this' is not supported.")
 }
