@@ -94,7 +94,7 @@ fun <T : ValidType> Collection<TypeExpression<out T>>.toDopeType() = ArrayPrimit
 fun <T> Collection<T>.toDopeType(): ArrayPrimitive<ValidType> = map { it.toDopeType() }.toDopeType()
 
 @Suppress("UNCHECKED_CAST")
-fun <T> T.toDopeType() = when (this) {
+private fun <T> T.toDopeType() = when (this) {
     is Number -> this.toDopeType()
     is String -> this.toDopeType()
     is Boolean -> this.toDopeType()
