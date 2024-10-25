@@ -12,6 +12,7 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -125,12 +126,67 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support object entry field array of strings function`() {
+    fun `should support object entry field array function`() {
         val objectField = someObjectField()
         val key = someString()
         val expected = ObjectEntry<ArrayType<StringType>>(objectField, key)
 
         val actual: ObjectEntry<ArrayType<StringType>> = objectField.getArray(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object entry field array of strings function`() {
+        val objectField = someObjectField()
+        val key = someString()
+        val expected = ObjectEntry<ArrayType<StringType>>(objectField, key)
+
+        val actual: ObjectEntry<ArrayType<StringType>> = objectField.getStringArray(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object entry field array of numbers function`() {
+        val objectField = someObjectField()
+        val key = someString()
+        val expected = ObjectEntry<ArrayType<NumberType>>(objectField, key)
+
+        val actual: ObjectEntry<ArrayType<NumberType>> = objectField.getNumberArray(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object entry field array of booleans function`() {
+        val objectField = someObjectField()
+        val key = someString()
+        val expected = ObjectEntry<ArrayType<BooleanType>>(objectField, key)
+
+        val actual: ObjectEntry<ArrayType<BooleanType>> = objectField.getBooleanArray(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object entry field array of objects function`() {
+        val objectField = someObjectField()
+        val key = someString()
+        val expected = ObjectEntry<ArrayType<ObjectType>>(objectField, key)
+
+        val actual: ObjectEntry<ArrayType<ObjectType>> = objectField.getObjectArray(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object entry field array of any function`() {
+        val objectField = someObjectField()
+        val key = someString()
+        val expected = ObjectEntry<ArrayType<ValidType>>(objectField, key)
+
+        val actual: ObjectEntry<ArrayType<ValidType>> = objectField.getAnyTypeArray(key)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

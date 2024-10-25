@@ -9,6 +9,8 @@ import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.alias
+import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
+import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
@@ -171,12 +173,13 @@ class ObjectTest : ManagerDependentTest {
     @Test
     fun `should support object field on aliased sub select`() {
         val subQuery = create.selectDistinct(someStringField(), someNumberField()).from(someBucket("other")).alias("subQuery")
-        val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1`.`someString` = \"something\" END " +
-            "FROM (SELECT DISTINCT `stringField`, `numberField` FROM `other`) AS `subQuery`"
+        val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1`.`someString` = \"something\" END, " +
+            "(`subQuery`[0].`asdf` + 5) AS `cool` FROM (SELECT DISTINCT `stringField`, `numberField` FROM `other`) AS `subQuery`"
 
         val actual: String = create
             .select(
                 subQuery.any { it.getString(someString()).isEqualTo("something") },
+                subQuery.get(0).getNumber("asdf").add(5).alias("cool"),
             ).from(
                 subQuery,
             )

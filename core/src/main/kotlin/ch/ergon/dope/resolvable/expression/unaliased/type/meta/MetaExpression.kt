@@ -4,12 +4,12 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.ObjectEntry
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
 private const val META = "META"
 
@@ -30,17 +30,30 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<ObjectType>, 
             )
         }
 
-    val cas: Field<NumberType> = ObjectEntry(this, "cas")
+    val cas: Field<NumberType> = MetaField(this, "cas")
 
-    val expiration: Field<NumberType> = ObjectEntry(this, "expiration")
+    val expiration: Field<NumberType> = MetaField(this, "expiration")
 
-    val flags: Field<NumberType> = ObjectEntry(this, "flags")
+    val flags: Field<NumberType> = MetaField(this, "flags")
 
-    val id: Field<StringType> = ObjectEntry(this, "id")
+    val id: Field<StringType> = MetaField(this, "id")
 
-    val type: Field<StringType> = ObjectEntry(this, "type")
+    val type: Field<StringType> = MetaField(this, "type")
 
-    val keyspace: Field<StringType> = ObjectEntry(this, "keyspace")
+    val keyspace: Field<StringType> = MetaField(this, "keyspace")
+
+    private class MetaField<T : ValidType>(
+        private val metaExpression: MetaExpression,
+        private val name: String,
+    ) : Field<T>(name, "") {
+        override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+            val metaExpressionDopeQuery = metaExpression.toDopeQuery(manager)
+            return DopeQuery(
+                queryString = "${metaExpressionDopeQuery.queryString}.`$name`",
+                parameters = metaExpressionDopeQuery.parameters,
+            )
+        }
+    }
 }
 
 fun meta(bucket: Bucket) = MetaExpression(bucket)

@@ -10,7 +10,7 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectEntry<T : ValidType>(private val objectExpression: TypeExpression<ObjectType>, private val key: String) : Field<T>(key, "") {
+class ObjectEntry<T : ValidType>(private val objectExpression: TypeExpression<ObjectType>, private val key: String) : TypeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val objectExpressionDopeQuery = objectExpression.toDopeQuery(manager)
         return DopeQuery(
@@ -31,3 +31,13 @@ fun TypeExpression<ObjectType>.getBoolean(key: String): ObjectEntry<BooleanType>
 fun TypeExpression<ObjectType>.getObject(key: String): ObjectEntry<ObjectType> = get(key)
 
 fun <T : ValidType> TypeExpression<ObjectType>.getArray(key: String): ObjectEntry<ArrayType<T>> = get(key)
+
+fun TypeExpression<ObjectType>.getNumberArray(key: String): ObjectEntry<ArrayType<NumberType>> = get(key)
+
+fun TypeExpression<ObjectType>.getStringArray(key: String): ObjectEntry<ArrayType<StringType>> = get(key)
+
+fun TypeExpression<ObjectType>.getBooleanArray(key: String): ObjectEntry<ArrayType<BooleanType>> = get(key)
+
+fun TypeExpression<ObjectType>.getObjectArray(key: String): ObjectEntry<ArrayType<ObjectType>> = get(key)
+
+fun TypeExpression<ObjectType>.getAnyTypeArray(key: String): ObjectEntry<ArrayType<ValidType>> = get(key)
