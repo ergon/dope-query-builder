@@ -1,4 +1,4 @@
-package ch.ergon.dope.operators.collection
+package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery

@@ -1,4 +1,4 @@
-package ch.ergon.dope.operators.comparison
+package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
