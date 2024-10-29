@@ -24,4 +24,28 @@ inline fun <reified T : CMType, S : Schema> ObjectField<S>.get(getCMType: S.() -
     }
 }
 
+/**
+ * Retrieves a schema attribute of a specific type from the object field's schema.
+ *
+ * This function uses pattern matching to handle different types of schema attributes.
+ * If the attribute type is not supported, it throws an error.
+ *
+ * Example usage:
+ * ```kotlin
+ * class SomeSchema : Schema {
+ *    val someObject: CMObjectField<OtherSchema> = CMObjectField(OtherSchema(), "someObject")
+ * }
+ *
+ * class OtherSchema : Schema {
+ *    val someField: CMJsonField<String> = CMJsonField("someField")
+ * }
+ *
+ * val schema = SomeSchema()
+ * val someField = schema.someObject.get { someField }
+ * ```
+ *
+ * @param getCMType a function that retrieves a CMType from the schema
+ * @throws IllegalArgumentException if the attribute type is not supported
+ * @return the retrieved CMType
+ */
 inline fun <reified T : CMType, S : Schema> CMObjectField<S>.get(getCMType: S.() -> T): T = toDopeType().get { getCMType() }
