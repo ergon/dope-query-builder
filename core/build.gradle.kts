@@ -33,7 +33,10 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    testImplementation("org.testcontainers:testcontainers:1.19.0")
+    testImplementation("org.testcontainers:couchbase:1.20.3")
+    implementation("com.couchbase.client:kotlin-client:1.4.0")
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
     implementation(kotlin("reflect"))
 }
 
@@ -54,4 +57,23 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+sourceSets {
+    create("integrationTest") {
+        kotlin {
+            srcDir("src/integrationTest/kotlin")
+        }
+        compileClasspath += sourceSets["main"].compileClasspath + sourceSets["test"].compileClasspath
+        runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["test"].runtimeClasspath
+    }
+}
+
+tasks.register<Test>("integrationTest") {
+    description = "Runs the integration tests."
+    group = "verification"
+    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
+    mustRunAfter(tasks.named("test"))
+    useJUnitPlatform()
 }

@@ -1,0 +1,49 @@
+package ch.ergon.dope.helper
+
+import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.helper.DBProvider.cluster
+import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
+import com.couchbase.client.kotlin.query.QueryParameters
+import com.couchbase.client.kotlin.query.execute
+import kotlinx.coroutines.runBlocking
+import kotlin.time.Duration.Companion.seconds
+
+abstract class BaseIntegrationTest {
+    private val maxTimeout = 5.seconds
+
+    val testBucket = UnaliasedBucket("testBucket")
+    val idField = Field<NumberType>("id", testBucket.name)
+    val typeField = Field<StringType>("type", testBucket.name)
+    val nameField = Field<StringType>("name", testBucket.name)
+    val isActiveField = Field<BooleanType>("isActive", testBucket.name)
+    val employeeField = Field<StringType>("employee", testBucket.name)
+    val clientField = Field<StringType>("client", testBucket.name)
+    val orderNumberField = Field<NumberType>("orderNumber", testBucket.name)
+    val itemsField = Field<ArrayType<StringType>>("items", testBucket.name)
+    val quantitiesField = Field<ArrayType<NumberType>>("quantities", testBucket.name)
+
+    fun queryWithoutParameters(dopeQuery: DopeQuery) = runBlocking {
+        cluster.waitUntilReady(maxTimeout).query(
+            statement = dopeQuery.queryString,
+        ).execute()
+    }
+
+    fun queryWithNamedParameters(dopeQuery: DopeQuery) = runBlocking {
+        cluster.waitUntilReady(maxTimeout).query(
+            statement = dopeQuery.queryString,
+            parameters = QueryParameters.named(dopeQuery.parameters.namedParameters),
+        ).execute()
+    }
+
+    fun queryWithPositionalParameters(dopeQuery: DopeQuery) = runBlocking {
+        cluster.waitUntilReady(maxTimeout).query(
+            statement = dopeQuery.queryString,
+            parameters = QueryParameters.positional(dopeQuery.parameters.positionalParameters),
+        ).execute()
+    }
+}
