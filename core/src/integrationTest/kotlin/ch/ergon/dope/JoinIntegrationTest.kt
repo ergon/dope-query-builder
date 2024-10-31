@@ -30,10 +30,10 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             )
             .build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-
-        tryUntil { assertEquals(5, actual.rows.size) }
         tryUntil {
+            val actual = queryWithoutParameters(dopeQuery)
+
+            assertEquals(5, actual.rows.size)
             assertEquals(
                 mapOf("name" to "employee1", "orderNumber" to "order1"),
                 actual.rows[0].contentAs<Map<String, String>>(),

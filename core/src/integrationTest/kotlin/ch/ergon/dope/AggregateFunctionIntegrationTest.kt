@@ -20,12 +20,14 @@ class AggregateFunctionIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-        val actualRow = actual.rows[0].contentAs<Map<String, Any>>()
+        tryUntil {
+            val actual = queryWithoutParameters(dopeQuery)
+            val actualRow = actual.rows[0].contentAs<Map<String, Any>>()
 
-        tryUntil { assertEquals(1, actual.rows.size) }
-        tryUntil { assertEquals("order1", actualRow["min"]) }
-        tryUntil { assertEquals("employee5", actualRow["max"]) }
-        tryUntil { assertEquals(45, actualRow["sum"]) }
+            assertEquals(1, actual.rows.size)
+            assertEquals("order1", actualRow["min"])
+            assertEquals("employee5", actualRow["max"])
+            assertEquals(45, actualRow["sum"])
+        }
     }
 }

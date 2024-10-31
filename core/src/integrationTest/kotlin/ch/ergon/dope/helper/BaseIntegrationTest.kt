@@ -9,6 +9,7 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.couchbase.client.kotlin.query.QueryParameters
+import com.couchbase.client.kotlin.query.QueryScanConsistency
 import com.couchbase.client.kotlin.query.execute
 import kotlinx.coroutines.runBlocking
 import java.time.Instant.now
@@ -31,6 +32,7 @@ abstract class BaseIntegrationTest {
     fun queryWithoutParameters(dopeQuery: DopeQuery) = runBlocking {
         cluster.waitUntilReady(maxTimeout).query(
             statement = dopeQuery.queryString,
+            consistency = QueryScanConsistency.requestPlus(60.seconds),
         ).execute()
     }
 
@@ -38,6 +40,7 @@ abstract class BaseIntegrationTest {
         cluster.waitUntilReady(maxTimeout).query(
             statement = dopeQuery.queryString,
             parameters = QueryParameters.named(dopeQuery.parameters.namedParameters),
+            consistency = QueryScanConsistency.requestPlus(60.seconds),
         ).execute()
     }
 
@@ -45,6 +48,7 @@ abstract class BaseIntegrationTest {
         cluster.waitUntilReady(maxTimeout).query(
             statement = dopeQuery.queryString,
             parameters = QueryParameters.positional(dopeQuery.parameters.positionalParameters),
+            consistency = QueryScanConsistency.requestPlus(60.seconds),
         ).execute()
     }
 
