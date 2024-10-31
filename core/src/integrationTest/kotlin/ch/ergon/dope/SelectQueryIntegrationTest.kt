@@ -22,7 +22,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertEquals(15, actual.rows.size)
+        tryUntil { assertEquals(15, actual.rows.size) }
     }
 
     @Test
@@ -37,7 +37,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertEquals(5, actual.rows.size)
+        tryUntil { assertEquals(5, actual.rows.size) }
     }
 
     @Test
@@ -52,7 +52,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertEquals(2, actual.rows.size)
+        tryUntil { assertEquals(2, actual.rows.size) }
     }
 
     @Test
@@ -70,7 +70,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertContentEquals("{\"id\":1,\"type\":\"client\"}".toByteArray(), actual.rows[0].content)
+        tryUntil { assertContentEquals("{\"id\":1,\"type\":\"client\"}".toByteArray(), actual.rows[0].content) }
     }
 
     @Test
@@ -88,7 +88,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertContentEquals("{\"$alias\":1}".toByteArray(), actual.rows[0].content)
+        tryUntil { assertContentEquals("{\"$alias\":1}".toByteArray(), actual.rows[0].content) }
     }
 
     @Test
@@ -103,7 +103,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertEquals(0, actual.rows.size)
+        tryUntil { assertEquals(0, actual.rows.size) }
     }
 
     @Test
@@ -118,7 +118,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertEquals(5, actual.rows.size)
+        tryUntil { assertEquals(5, actual.rows.size) }
     }
 
     @Test
@@ -135,7 +135,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertContentEquals("1".toByteArray(), actual.rows[0].content)
+        tryUntil { assertContentEquals("1".toByteArray(), actual.rows[0].content) }
     }
 
     @Test
@@ -168,7 +168,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithoutParameters(dopeQuery)
 
-        assertContentEquals("{\"id\":3}".toByteArray(), actual.rows[0].content)
+        tryUntil { assertContentEquals("{\"id\":3}".toByteArray(), actual.rows[0].content) }
     }
 
     @Test
@@ -181,7 +181,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithNamedParameters(dopeQuery)
 
-        assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content)
+        tryUntil { assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content) }
     }
 
     @Test
@@ -194,6 +194,6 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val actual = queryWithPositionalParameters(dopeQuery)
 
-        assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content)
+        tryUntil { assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content) }
     }
 }

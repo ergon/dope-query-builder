@@ -11,6 +11,7 @@ import ch.ergon.dope.validtype.StringType
 import com.couchbase.client.kotlin.query.QueryParameters
 import com.couchbase.client.kotlin.query.execute
 import kotlinx.coroutines.runBlocking
+import java.time.Instant.now
 import kotlin.time.Duration.Companion.seconds
 
 abstract class BaseIntegrationTest {
@@ -45,5 +46,21 @@ abstract class BaseIntegrationTest {
             statement = dopeQuery.queryString,
             parameters = QueryParameters.positional(dopeQuery.parameters.positionalParameters),
         ).execute()
+    }
+
+    fun <T> tryUntil(assertion: () -> T): T {
+        val start = now()
+        val end = start.plusSeconds(15L)
+
+        var lastException: Throwable? = null
+        while (now().isBefore(end)) {
+            try {
+                return assertion()
+            } catch (e: AssertionError) {
+                lastException = e
+                Thread.sleep(500)
+            }
+        }
+        throw lastException ?: Error("")
     }
 }
