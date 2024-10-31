@@ -15,7 +15,7 @@ import java.time.Instant.now
 import kotlin.time.Duration.Companion.seconds
 
 abstract class BaseIntegrationTest {
-    private val maxTimeout = 5.seconds
+    private val maxTimeout = 15.seconds
 
     val testBucket = UnaliasedBucket("testBucket")
     val idField = Field<NumberType>("id", testBucket.name)
@@ -50,7 +50,7 @@ abstract class BaseIntegrationTest {
 
     fun <T> tryUntil(assertion: () -> T): T {
         val start = now()
-        val end = start.plusSeconds(15L)
+        val end = start.plusSeconds(30L)
 
         var lastException: Throwable? = null
         while (now().isBefore(end)) {

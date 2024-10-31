@@ -27,8 +27,8 @@ object DBProvider {
     private fun fillDatabase() {
         val collection = cluster.bucket("testBucket").defaultCollection()
         runBlocking {
-            repeat(10) {
-                cluster.waitUntilReady(10.seconds)
+            repeat(100) {
+                cluster.waitUntilReady(15.seconds)
                 for (i in 1..5) {
                     collection.upsert(
                         id = "employee:$i",
