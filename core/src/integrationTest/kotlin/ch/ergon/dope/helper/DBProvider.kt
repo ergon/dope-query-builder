@@ -27,7 +27,7 @@ object DBProvider {
     private fun fillDatabase() {
         val collection = cluster.bucket("testBucket").defaultCollection()
         runBlocking {
-            repeat(100) {
+            repeat(10) {
                 cluster.waitUntilReady(15.seconds)
                 for (i in 1..5) {
                     collection.upsert(
@@ -58,6 +58,7 @@ object DBProvider {
                             "employee" to "employee:$i",
                             "items" to listOf("apples", "oranges", "bananas"),
                             "quantities" to listOf(0 + i, 1 + i, 2 + i),
+                            "deliveryDate" to null,
                         ),
                     )
                 }

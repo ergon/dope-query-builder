@@ -2,20 +2,25 @@ package ch.ergon.dope
 
 import ch.ergon.dope.helper.BaseIntegrationTest
 import ch.ergon.dope.resolvable.expression.alias
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.arrayAggregate
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAsterisk
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.max
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.min
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.sum
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AggregateFunctionIntegrationTest : BaseIntegrationTest() {
+class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
-    fun `select aggregate function`() {
+    fun `select aggregate functions`() {
         val dopeQuery = QueryBuilder()
             .select(
                 min(orderNumberField).alias("min"),
                 max(nameField).alias("max"),
                 sum(idField).alias("sum"),
+                arrayAggregate(typeField, DISTINCT).alias("arrayAggregate"),
+                countAsterisk().alias("count"),
             ).from(
                 testBucket,
             ).build()
@@ -28,6 +33,8 @@ class AggregateFunctionIntegrationTest : BaseIntegrationTest() {
             assertEquals("order1", actualRow["min"])
             assertEquals("employee5", actualRow["max"])
             assertEquals(45, actualRow["sum"])
+            assertEquals(listOf("client", "employee", "order"), actualRow["arrayAggregate"])
+            assertEquals(15, actualRow["count"])
         }
     }
 }

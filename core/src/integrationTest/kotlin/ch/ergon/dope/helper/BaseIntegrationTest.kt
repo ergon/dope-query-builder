@@ -25,9 +25,10 @@ abstract class BaseIntegrationTest {
     val isActiveField = Field<BooleanType>("isActive", testBucket.name)
     val employeeField = Field<StringType>("employee", testBucket.name)
     val clientField = Field<StringType>("client", testBucket.name)
-    val orderNumberField = Field<NumberType>("orderNumber", testBucket.name)
+    val orderNumberField = Field<StringType>("orderNumber", testBucket.name)
     val itemsField = Field<ArrayType<StringType>>("items", testBucket.name)
     val quantitiesField = Field<ArrayType<NumberType>>("quantities", testBucket.name)
+    val deliveryDateField = Field<StringType>("deliveryDate", testBucket.name)
 
     fun queryWithoutParameters(dopeQuery: DopeQuery) = runBlocking {
         cluster.waitUntilReady(maxTimeout).query(
@@ -54,7 +55,7 @@ abstract class BaseIntegrationTest {
 
     fun <T> tryUntil(assertion: () -> T): T {
         val start = now()
-        val end = start.plusSeconds(30L)
+        val end = start.plusSeconds(120L)
 
         var lastException: Throwable? = null
         while (now().isBefore(end)) {
@@ -62,7 +63,7 @@ abstract class BaseIntegrationTest {
                 return assertion()
             } catch (e: AssertionError) {
                 lastException = e
-                Thread.sleep(500)
+                Thread.sleep(1000)
             }
         }
         throw lastException ?: Error("")

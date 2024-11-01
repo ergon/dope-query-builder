@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class JoinIntegrationTest : BaseIntegrationTest() {
     @Test
-    fun `select all orders joined on employee id`() {
+    fun `join all orders on employee id`() {
         val employeeAlias = testBucket.alias("e")
         val orderAlias = testBucket.alias("o")
         val employeeNameField = Field<StringType>("name", employeeAlias.alias)
