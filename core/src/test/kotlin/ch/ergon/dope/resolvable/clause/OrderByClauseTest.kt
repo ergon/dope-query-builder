@@ -75,7 +75,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * ORDER BY `stringField` ASC",
         )
-        val underTest = SelectOrderByClause(listOf(someOrderExpression()), someSelectClause())
+        val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -90,7 +90,7 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT \$$parameterName ORDER BY `stringField` ASC",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = SelectOrderByClause(listOf(someOrderExpression()), someSelectClause(parameterValue.asParameter(parameterName)))
+        val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause(parameterValue.asParameter(parameterName)))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -104,7 +104,7 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT $1 ORDER BY `stringField` ASC",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = SelectOrderByClause(listOf(someOrderExpression()), someSelectClause(parameterValue.asParameter()))
+        val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -116,7 +116,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * ORDER BY `stringField` ASC",
         )
-        val underTest = SelectOrderByClause(listOf(OrderExpression(someStringField(), ASC)), someSelectClause())
+        val underTest = SelectOrderByClause(OrderExpression(someStringField(), ASC), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -132,8 +132,8 @@ class OrderByClauseTest : ManagerDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOrderByClause(
-            listOf(OrderExpression(someStringField(), ASC)),
-            someSelectClause(parameterValue.asParameter(parameterName)),
+            OrderExpression(someStringField(), ASC),
+            parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -148,7 +148,8 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT $1 ORDER BY `stringField` ASC",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = SelectOrderByClause(listOf(OrderExpression(someStringField(), ASC)), someSelectClause(parameterValue.asParameter()))
+        val underTest =
+            SelectOrderByClause(OrderExpression(someStringField(), ASC), parentClause = someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -160,7 +161,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * ORDER BY `stringField` DESC",
         )
-        val underTest = SelectOrderByClause(listOf(OrderExpression(someStringField(), DESC)), someSelectClause())
+        val underTest = SelectOrderByClause(OrderExpression(someStringField(), DESC), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -176,8 +177,8 @@ class OrderByClauseTest : ManagerDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = SelectOrderByClause(
-            listOf(OrderExpression(someStringField(), DESC)),
-            someSelectClause(parameterValue.asParameter(parameterName)),
+            OrderExpression(someStringField(), DESC),
+            parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -192,7 +193,8 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT $1 ORDER BY `stringField` DESC",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = SelectOrderByClause(listOf(OrderExpression(someStringField(), DESC)), someSelectClause(parameterValue.asParameter()))
+        val underTest =
+            SelectOrderByClause(OrderExpression(someStringField(), DESC), parentClause = someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -205,12 +207,10 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT * ORDER BY `stringField` DESC, `numberField`, `booleanField` ASC",
         )
         val underTest = SelectOrderByClause(
-            listOf(
-                OrderExpression(someStringField(), DESC),
-                OrderExpression(someNumberField()),
-                OrderExpression(someBooleanField(), ASC),
-            ),
-            someSelectClause(),
+            OrderExpression(someStringField(), DESC),
+            OrderExpression(someNumberField()),
+            OrderExpression(someBooleanField(), ASC),
+            parentClause = someSelectClause(),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -222,7 +222,7 @@ class OrderByClauseTest : ManagerDependentTest {
     fun `should support order by function`() {
         val stringField = someStringField()
         val parentClause = someSelectClause()
-        val expected = SelectOrderByClause(listOf(OrderExpression(stringField)), parentClause)
+        val expected = SelectOrderByClause(OrderExpression(stringField), parentClause = parentClause)
 
         val actual = parentClause.orderBy(stringField)
 
@@ -234,7 +234,7 @@ class OrderByClauseTest : ManagerDependentTest {
         val stringField = someStringField()
         val parentClause = someSelectClause()
         val orderType = ASC
-        val expected = SelectOrderByClause(listOf(OrderExpression(stringField, orderType)), parentClause)
+        val expected = SelectOrderByClause(OrderExpression(stringField, orderType), parentClause = parentClause)
 
         val actual = parentClause.orderBy(stringField, orderType)
 
@@ -249,8 +249,9 @@ class OrderByClauseTest : ManagerDependentTest {
         val orderType = ASC
         val orderType2 = DESC
         val expected = SelectOrderByClause(
-            listOf(OrderExpression(stringField, orderType), OrderExpression(numberField, orderType2)),
-            parentClause,
+            OrderExpression(stringField, orderType),
+            OrderExpression(numberField, orderType2),
+            parentClause = parentClause,
         )
 
         val actual = parentClause.orderBy(stringField, orderType).thenOrderBy(numberField, orderType2)

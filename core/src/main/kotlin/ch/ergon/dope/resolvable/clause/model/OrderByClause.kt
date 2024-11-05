@@ -27,12 +27,13 @@ class OrderExpression(private val typeExpression: TypeExpression<out ValidType>,
 }
 
 class SelectOrderByClause<T : ValidType>(
-    private val orderExpressions: List<OrderExpression>,
+    private val orderExpression: OrderExpression,
+    private vararg val additionalOrderExpressions: OrderExpression,
     private val parentClause: ISelectGroupByClause<T>,
 ) : ISelectOrderByClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val stringDopeQuery = orderExpressions.map { it.toDopeQuery(manager) }
+        val stringDopeQuery = listOf(orderExpression, *additionalOrderExpressions).map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
@@ -44,5 +45,10 @@ class SelectOrderByClause<T : ValidType>(
     }
 
     fun thenOrderBy(typeExpression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) =
-        SelectOrderByClause(this.orderExpressions + OrderExpression(typeExpression, orderByType), this.parentClause)
+        SelectOrderByClause(
+            this.orderExpression,
+            *additionalOrderExpressions,
+            OrderExpression(typeExpression, orderByType),
+            parentClause = this.parentClause,
+        )
 }
