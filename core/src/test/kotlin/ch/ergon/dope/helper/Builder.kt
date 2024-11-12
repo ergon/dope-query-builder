@@ -47,6 +47,8 @@ fun someString(value: String = "someString") = value
 
 fun someBoolean(value: Boolean = true) = value
 
+fun someObject() = mapOf("key1" to someNumber(), "key2" to someString())
+
 private fun getBucketName(bucket: Bucket) = when (bucket) {
     is AliasedBucket -> bucket.alias
     is UnaliasedBucket -> bucket.name
