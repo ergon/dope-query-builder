@@ -5,6 +5,8 @@ import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
+import ch.ergon.dope.resolvable.clause.model.LetClause
+import ch.ergon.dope.resolvable.clause.model.LetExpression
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
@@ -133,6 +135,12 @@ interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
     fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
     fun <U : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
+
+    fun let(letExpression: LetExpression<out ValidType>, vararg letExpressions: LetExpression<out ValidType>) = LetClause(
+        letExpression,
+        *letExpressions,
+        parentClause = this,
+    )
 }
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {

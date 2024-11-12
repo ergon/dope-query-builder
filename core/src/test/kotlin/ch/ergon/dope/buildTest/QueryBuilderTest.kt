@@ -7,8 +7,10 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
+import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.clause.model.setoperator.except
 import ch.ergon.dope.resolvable.clause.model.setoperator.exceptAll
 import ch.ergon.dope.resolvable.clause.model.setoperator.intersect
@@ -20,6 +22,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
 import ch.ergon.dope.resolvable.expression.unaliased.type.MISSING
 import ch.ergon.dope.resolvable.expression.unaliased.type.NULL
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.condition
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.otherwise
@@ -35,6 +39,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqu
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotEqualTo
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotNull
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.fromable.asterisk
 import kotlin.test.BeforeTest
@@ -893,6 +898,32 @@ class QueryBuilderTest : ManagerDependentTest {
             .intersectAll(create.selectFrom(someBucket("bucket2")))
             .unionAll(create.selectFrom(someBucket("bucket3")))
             .exceptAll(someFromClause(someBucket("bucket4"))).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support selecting let clause`() {
+        val t1 = someBucket("route").alias("t1")
+        val equip = "equip".assignTo(someStringArrayField("equipment", t1).any { it.isEqualTo("radio") })
+        val sourceAirport = someStringField("sourceAirport", someBucket("route").alias("t2"))
+        val sourceAirports = "source_airports".assignTo(create.selectRaw(sourceAirport).where(sourceAirport.isNotNull()).asExpression())
+        val destinationAirport = someStringField("destinationAirport", t1)
+
+        val expected = "SELECT `t1`.`destinationAirport`, `equip` AS `has_radio` " +
+            "FROM `route` AS `t1` " +
+            "LET `equip` = ANY `iterator1` IN `t1`.`equipment` SATISFIES `iterator1` = \"radio\" END, " +
+            "`source_airports` = (SELECT RAW `t2`.`sourceAirport` WHERE `t2`.`sourceAirport` IS NOT NULL) " +
+            "WHERE (`t1`.`airline` = \"AI\" AND `t1`.`destinationAirport` IN `source_airports`)"
+
+        val actual = create
+            .select(destinationAirport, equip.alias("has_radio"))
+            .from(t1)
+            .let(equip, sourceAirports)
+            .where(
+                someStringField("airline", t1).isEqualTo("AI")
+                    .and(destinationAirport.inArray(sourceAirports)),
+            ).build().queryString
 
         assertEquals(expected, actual)
     }
