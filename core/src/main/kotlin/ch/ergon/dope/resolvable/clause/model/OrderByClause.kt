@@ -33,14 +33,19 @@ class SelectOrderByClause<T : ValidType>(
 ) : ISelectOrderByClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val stringDopeQuery = listOf(orderExpression, *additionalOrderExpressions).map { it.toDopeQuery(manager) }
+        val orderExpressionDopeQuery = orderExpression.toDopeQuery(manager)
+        val additionalOrderExpressions = additionalOrderExpressions.map { it.toDopeQuery(manager) }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
                 ORDER_BY,
-                *stringDopeQuery.map { it.queryString }.toTypedArray(),
+                orderExpressionDopeQuery.queryString,
+                *additionalOrderExpressions.map { it.queryString }.toTypedArray(),
             ),
-            parameters = parentDopeQuery.parameters.merge(*stringDopeQuery.map { it.parameters }.toTypedArray()),
+            parameters = parentDopeQuery.parameters.merge(
+                orderExpressionDopeQuery.parameters,
+                *additionalOrderExpressions.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
 
