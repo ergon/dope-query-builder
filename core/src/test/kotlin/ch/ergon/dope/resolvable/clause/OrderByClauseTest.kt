@@ -148,8 +148,10 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT $1 ORDER BY `stringField` ASC",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest =
-            SelectOrderByClause(OrderExpression(someStringField(), ASC), parentClause = someSelectClause(parameterValue.asParameter()))
+        val underTest = SelectOrderByClause(
+            OrderExpression(someStringField(), ASC),
+            parentClause = someSelectClause(parameterValue.asParameter()),
+        )
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -193,8 +195,10 @@ class OrderByClauseTest : ManagerDependentTest {
             queryString = "SELECT $1 ORDER BY `stringField` DESC",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest =
-            SelectOrderByClause(OrderExpression(someStringField(), DESC), parentClause = someSelectClause(parameterValue.asParameter()))
+        val underTest = SelectOrderByClause(
+            OrderExpression(someStringField(), DESC),
+            parentClause = someSelectClause(parameterValue.asParameter()),
+        )
 
         val actual = underTest.toDopeQuery(manager)
 
