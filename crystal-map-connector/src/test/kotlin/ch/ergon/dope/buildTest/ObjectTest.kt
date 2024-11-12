@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.extension.type.access.get
-import ch.ergon.dope.extension.type.get
+import ch.ergon.dope.extension.type.getField
 import ch.ergon.dope.extension.type.relational.isEqualTo
 import ch.ergon.dope.extension.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -71,7 +71,7 @@ class ObjectTest : ManagerDependentTest {
         val actual = QueryBuilder()
             .selectAsterisk()
             .from(bucket)
-            .where(schema.primaryHobby.get { preferredDestination }.get { groupSize }.isGreaterOrEqualThan(5))
+            .where(schema.primaryHobby.getField(Hobby::preferredDestination).getField(Destination::groupSize).isGreaterOrEqualThan(5))
             .build().queryString
 
         assertEquals(expected, actual)

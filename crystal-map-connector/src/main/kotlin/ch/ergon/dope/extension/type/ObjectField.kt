@@ -9,11 +9,12 @@ import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
+import kotlin.reflect.KProperty1
 
 class ObjectField<S : Schema>(val schema: S, val name: String, val path: String) : Field<ObjectType>(name, path)
 
-inline fun <reified T : CMType, S : Schema> ObjectField<S>.get(getField: S.() -> T): T {
-    val schemaField = schema.getField()
+inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProperty1<S, T>): T {
+    val schemaField = field.get(schema)
     val newPath = if (path.isBlank()) name else "$path`.`$name"
     return when (schemaField) {
         is CMJsonField<*> -> CMJsonField<Any>(schemaField.name, newPath) as T
@@ -41,11 +42,11 @@ inline fun <reified T : CMType, S : Schema> ObjectField<S>.get(getField: S.() ->
  * }
  *
  * val schema = SomeSchema()
- * val someField = schema.someObject.get { someField }
+ * val someField = schema.someObject.getField(OtherSchema::someField)
  * ```
  *
- * @param getField a function that retrieves a CMType from the schema
- * @throws IllegalArgumentException if the attribute type is not supported
+ * @param field a property of the schema
+ * @throws IllegalStateException if the attribute type is not supported
  * @return the retrieved CMType
  */
-inline fun <reified T : CMType, S : Schema> CMObjectField<S>.get(getField: S.() -> T): T = toDopeType().get { getField() }
+inline fun <reified T : CMType, S : Schema> CMObjectField<S>.getField(field: KProperty1<S, T>): T = toDopeType().getField(field)

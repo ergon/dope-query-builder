@@ -3,7 +3,7 @@ package ch.ergon.dope.extensions.type
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.type.get
+import ch.ergon.dope.extension.type.getField
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
@@ -34,7 +34,7 @@ class ObjectTest : ManagerDependentTest {
             "`objectField`.`type`",
             DopeParameters(),
         )
-        val underTest = Dummy().objectField.get { type }.toDopeType()
+        val underTest = Dummy().objectField.getField(Dummy2::type).toDopeType()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -47,7 +47,7 @@ class ObjectTest : ManagerDependentTest {
             "`path`.`objectField`.`type`",
             DopeParameters(),
         )
-        val underTest = Dummy("path").objectField.get { type }.toDopeType()
+        val underTest = Dummy("path").objectField.getField(Dummy2::type).toDopeType()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -60,7 +60,7 @@ class ObjectTest : ManagerDependentTest {
             "`objectField`.`otherObject`.`something`",
             DopeParameters(),
         )
-        val underTest = Dummy().objectField.get { otherObject }.get { something }.toDopeType()
+        val underTest = Dummy().objectField.getField(Dummy2::otherObject).getField(Dummy3::something).toDopeType()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -73,7 +73,7 @@ class ObjectTest : ManagerDependentTest {
             "`path`.`objectField`.`otherObject`.`something`",
             DopeParameters(),
         )
-        val underTest = Dummy("path").objectField.get { otherObject }.get { something }.toDopeType()
+        val underTest = Dummy("path").objectField.getField(Dummy2::otherObject).getField(Dummy3::something).toDopeType()
 
         val actual = underTest.toDopeQuery(manager)
 
