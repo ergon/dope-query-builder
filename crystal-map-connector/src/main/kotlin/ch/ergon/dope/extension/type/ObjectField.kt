@@ -12,15 +12,15 @@ import com.schwarz.crystalapi.schema.Schema
 
 class ObjectField<S : Schema>(val schema: S, val name: String, val path: String) : Field<ObjectType>(name, path)
 
-inline fun <reified T : CMType, S : Schema> ObjectField<S>.get(getCMType: S.() -> T): T {
-    val schemaAttribute = schema.getCMType()
+inline fun <reified T : CMType, S : Schema> ObjectField<S>.get(getField: S.() -> T): T {
+    val schemaField = schema.getField()
     val newPath = if (path.isBlank()) name else "$path`.`$name"
-    return when (schemaAttribute) {
-        is CMJsonField<*> -> CMJsonField<Any>(schemaAttribute.name, newPath) as T
-        is CMJsonList<*> -> CMJsonList<Any>(schemaAttribute.name, newPath) as T
-        is CMObjectField<*> -> CMObjectField(schemaAttribute.element, schemaAttribute.name, newPath) as T
-        is CMObjectList<*> -> CMObjectList(schemaAttribute.element, schemaAttribute.name, newPath) as T
-        else -> error("Unsupported CMType: $schemaAttribute")
+    return when (schemaField) {
+        is CMJsonField<*> -> CMJsonField<Any>(schemaField.name, newPath) as T
+        is CMJsonList<*> -> CMJsonList<Any>(schemaField.name, newPath) as T
+        is CMObjectField<*> -> CMObjectField(schemaField.element, schemaField.name, newPath) as T
+        is CMObjectList<*> -> CMObjectList(schemaField.element, schemaField.name, newPath) as T
+        else -> error("Unsupported CMType: $schemaField")
     }
 }
 
@@ -44,8 +44,8 @@ inline fun <reified T : CMType, S : Schema> ObjectField<S>.get(getCMType: S.() -
  * val someField = schema.someObject.get { someField }
  * ```
  *
- * @param getCMType a function that retrieves a CMType from the schema
+ * @param getField a function that retrieves a CMType from the schema
  * @throws IllegalArgumentException if the attribute type is not supported
  * @return the retrieved CMType
  */
-inline fun <reified T : CMType, S : Schema> CMObjectField<S>.get(getCMType: S.() -> T): T = toDopeType().get { getCMType() }
+inline fun <reified T : CMType, S : Schema> CMObjectField<S>.get(getField: S.() -> T): T = toDopeType().get { getField() }
