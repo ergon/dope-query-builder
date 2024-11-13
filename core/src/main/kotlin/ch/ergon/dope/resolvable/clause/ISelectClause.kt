@@ -62,7 +62,15 @@ interface ISelectFromClause<T : ValidType> : ISelectWhereClause<T> {
     fun where(whereExpression: TypeExpression<BooleanType>) = SelectWhereClause(whereExpression, this)
 }
 
-interface ISelectJoinClause<T : ValidType> : ISelectFromClause<T> {
+interface ISelectLetClause<T : ValidType> : ISelectFromClause<T> {
+    fun let(letExpression: LetExpression<out ValidType>, vararg letExpressions: LetExpression<out ValidType>) = LetClause(
+        letExpression,
+        *letExpressions,
+        parentClause = this,
+    )
+}
+
+interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
     fun join(
         joinable: Joinable,
         onCondition: TypeExpression<BooleanType>,
@@ -135,12 +143,6 @@ interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
     fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
     fun <U : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
-
-    fun let(letExpression: LetExpression<out ValidType>, vararg letExpressions: LetExpression<out ValidType>) = LetClause(
-        letExpression,
-        *letExpressions,
-        parentClause = this,
-    )
 }
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {

@@ -2,8 +2,7 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.clause.ISelectJoinClause
-import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
+import ch.ergon.dope.resolvable.clause.ISelectLetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
@@ -11,8 +10,8 @@ import ch.ergon.dope.validtype.ValidType
 class LetClause<T : ValidType>(
     private val letExpression: LetExpression<out ValidType>,
     private vararg val letExpressions: LetExpression<out ValidType>,
-    private val parentClause: ISelectUnnestClause<T>,
-) : ISelectJoinClause<T> {
+    private val parentClause: ISelectLetClause<T>,
+) : ISelectLetClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val letExpressionDopeQuery = letExpression.toDefinitionDopeQuery(manager)
@@ -25,7 +24,10 @@ class LetClause<T : ValidType>(
                 letExpressionDopeQuery.queryString,
                 *letExpressionDopeQueries.map { it.queryString }.toTypedArray(),
             ),
-            parameters = parentDopeQuery.parameters.merge(letExpressionDopeQuery.parameters, *letExpressionDopeQueries.map { it.parameters }.toTypedArray()),
+            parameters = parentDopeQuery.parameters.merge(
+                letExpressionDopeQuery.parameters,
+                *letExpressionDopeQueries.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
 }
