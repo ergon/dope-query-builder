@@ -25,3 +25,7 @@ fun concat(firstString: TypeExpression<StringType>, secondString: String, vararg
 
 fun concat(firstString: String, secondString: String, vararg strings: String) =
     concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+
+fun main() {
+    println("test")
+}
