@@ -25,7 +25,7 @@ class LetClause<T : ValidType>(
                 letExpressionDopeQuery.queryString,
                 *letExpressionDopeQueries.map { it.queryString }.toTypedArray(),
             ),
-            parameters = parentDopeQuery.parameters.merge(*letExpressionDopeQueries.map { it.parameters }.toTypedArray()),
+            parameters = parentDopeQuery.parameters.merge(letExpressionDopeQuery.parameters, *letExpressionDopeQueries.map { it.parameters }.toTypedArray()),
         )
     }
 }
