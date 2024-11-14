@@ -1,6 +1,12 @@
-package ch.ergon.dope
+package ch.ergon.dope.clauses
 
-import ch.ergon.dope.helper.BaseIntegrationTest
+import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.integrationTest.BaseIntegrationTest
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.isActiveField
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.resolvable.clause.model.setoperator.intersect
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
@@ -33,6 +39,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("employee"),
+            ).orderBy(
+                nameField,
             ).build()
 
         val actual = queryWithoutParameters(dopeQuery)

@@ -1,6 +1,11 @@
-package ch.ergon.dope
+package ch.ergon.dope.functions
 
-import ch.ergon.dope.helper.BaseIntegrationTest
+import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.integrationTest.BaseIntegrationTest
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.deliveryDateField
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.decode
@@ -31,11 +36,9 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                 typeField.isEqualTo("client"),
             ).build()
 
-        tryUntil {
-            val actual = queryWithoutParameters(dopeQuery)
+        val actual = queryWithoutParameters(dopeQuery)
 
-            assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content)
-        }
+        assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content)
     }
 
     @Test
@@ -76,12 +79,10 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                 typeField.isEqualTo("order"),
             ).build()
 
-        tryUntil {
-            val actual = queryWithoutParameters(dopeQuery)
-            val actualQueryRow = actual.rows[0].contentAs<Map<String, String>>()
+        val actual = queryWithoutParameters(dopeQuery)
+        val actualQueryRow = actual.rows[0].contentAs<Map<String, String>>()
 
-            assertEquals("noDeliveryDate", actualQueryRow["nvl"])
-            assertEquals("exists", actualQueryRow["nvl2"])
-        }
+        assertEquals("noDeliveryDate", actualQueryRow["nvl"])
+        assertEquals("exists", actualQueryRow["nvl2"])
     }
 }

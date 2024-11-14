@@ -1,6 +1,7 @@
-package ch.ergon.dope
+package ch.ergon.dope.functions
 
-import ch.ergon.dope.helper.BaseIntegrationTest
+import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isNumber
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toBool
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toNumber
