@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "1.9.22"
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
     `maven-publish`
+    idea
 }
 
 group = "com.github.ergon"
@@ -76,4 +77,8 @@ tasks.register<Test>("integrationTest") {
     classpath = sourceSets["integrationTest"].runtimeClasspath
     mustRunAfter(tasks.named("test"))
     useJUnitPlatform()
+}
+
+idea.module {
+    testSources.from(sourceSets["integrationTest"].kotlin.srcDirs)
 }
