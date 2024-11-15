@@ -21,3 +21,13 @@ fun TypeExpression<ObjectType>.renameAttribute(
     oldField: String,
     newField: String,
 ) = renameAttribute(oldField.toDopeType(), newField.toDopeType())
+
+fun TypeExpression<ObjectType>.renameAttribute(
+    oldField: TypeExpression<StringType>,
+    newField: String,
+) = renameAttribute(oldField, newField.toDopeType())
+
+fun TypeExpression<ObjectType>.renameAttribute(
+    oldField: String,
+    newField: TypeExpression<StringType>,
+) = renameAttribute(oldField.toDopeType(), newField)
