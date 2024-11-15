@@ -12,7 +12,7 @@ class ObjectFieldExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support object add expression`() {
+    fun `should support object field expression`() {
         val expected = DopeQuery(
             queryString = "OBJECT_FIELD(`objectField`, \"key\")",
         )
@@ -24,7 +24,7 @@ class ObjectFieldExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support object add function`() {
+    fun `should support object field function`() {
         val objectExpression = someObjectField()
         val attributeKey = "key".toDopeType()
         val expected = ObjectFieldExpression(objectExpression, attributeKey)
@@ -35,7 +35,7 @@ class ObjectFieldExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support object add function string`() {
+    fun `should support object field function string`() {
         val objectExpression = someObjectField()
         val attributeKey = "key"
         val expected = ObjectFieldExpression(objectExpression, attributeKey.toDopeType())
