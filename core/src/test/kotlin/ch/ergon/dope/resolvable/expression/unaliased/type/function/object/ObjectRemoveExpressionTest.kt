@@ -26,10 +26,10 @@ class ObjectRemoveExpressionTest : ManagerDependentTest {
     @Test
     fun `should support object remove function`() {
         val objectExpression = someObjectField()
-        val newAttributeKey = "key".toDopeType()
-        val expected = ObjectRemoveExpression(objectExpression, newAttributeKey)
+        val attributeKey = "key".toDopeType()
+        val expected = ObjectRemoveExpression(objectExpression, attributeKey)
 
-        val actual = objectExpression.removeAttribute(newAttributeKey)
+        val actual = objectExpression.removeAttribute(attributeKey)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -37,10 +37,10 @@ class ObjectRemoveExpressionTest : ManagerDependentTest {
     @Test
     fun `should support object remove function string`() {
         val objectExpression = someObjectField()
-        val newAttributeKey = "key"
-        val expected = ObjectRemoveExpression(objectExpression, newAttributeKey.toDopeType())
+        val attributeKey = "key"
+        val expected = ObjectRemoveExpression(objectExpression, attributeKey.toDopeType())
 
-        val actual = objectExpression.removeAttribute(newAttributeKey)
+        val actual = objectExpression.removeAttribute(attributeKey)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
