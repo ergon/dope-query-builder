@@ -46,4 +46,28 @@ class ObjectRenameExpressionTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
+
+    @Test
+    fun `should support object rename function type string`() {
+        val objectExpression = someObjectField()
+        val name = "name".toDopeType()
+        val newName = "newName"
+        val expected = ObjectRenameExpression(objectExpression, name, newName.toDopeType())
+
+        val actual = objectExpression.renameAttribute(name, newName)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object rename function string type`() {
+        val objectExpression = someObjectField()
+        val name = "name"
+        val newName = "newName".toDopeType()
+        val expected = ObjectRenameExpression(objectExpression, name.toDopeType(), newName)
+
+        val actual = objectExpression.renameAttribute(name, newName)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
 }

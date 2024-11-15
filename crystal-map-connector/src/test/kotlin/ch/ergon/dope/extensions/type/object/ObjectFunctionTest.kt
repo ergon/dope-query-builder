@@ -19,6 +19,8 @@ import ch.ergon.dope.extension.type.objectfunction.values
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMObjectField
+import ch.ergon.dope.helper.someCMStringField
+import ch.ergon.dope.helper.someNumberFieldList
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectAddExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectConcatExpression
@@ -68,11 +70,35 @@ class ObjectFunctionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support object add function cmObject type cmType`() {
+    fun `should support object add function cmObject cmType type`() {
         val objectExpression = someCMObjectField()
-        val newAttributeKey = "key".toDopeType()
+        val newAttributeKey = someCMStringField()
+        val newAttributeValue = someNumberFieldList()
+        val expected = ObjectAddExpression(objectExpression.toDopeType(), newAttributeKey.toDopeType(), newAttributeValue)
+
+        val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object add function cmObject cmString cmType`() {
+        val objectExpression = someCMObjectField()
+        val newAttributeKey = someCMStringField()
         val newAttributeValue = someCMNumberList()
-        val expected = ObjectAddExpression(objectExpression.toDopeType(), newAttributeKey, newAttributeValue.toDopeType())
+        val expected = ObjectAddExpression(objectExpression.toDopeType(), newAttributeKey.toDopeType(), newAttributeValue.toDopeType())
+
+        val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object add function type string cmType`() {
+        val objectExpression = someObjectField()
+        val newAttributeKey = someCMStringField()
+        val newAttributeValue = someCMNumberList()
+        val expected = ObjectAddExpression(objectExpression, newAttributeKey.toDopeType(), newAttributeValue.toDopeType())
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -97,6 +123,18 @@ class ObjectFunctionTest : ManagerDependentTest {
         val newAttributeKey = "key".toDopeType()
         val newAttributeValue = someCMNumberList()
         val expected = ObjectAddExpression(objectExpression, newAttributeKey, newAttributeValue.toDopeType())
+
+        val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object add function cmObject type cmType`() {
+        val objectExpression = someCMObjectField()
+        val newAttributeKey = "key".toDopeType()
+        val newAttributeValue = someCMNumberList()
+        val expected = ObjectAddExpression(objectExpression.toDopeType(), newAttributeKey, newAttributeValue.toDopeType())
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -129,6 +167,17 @@ class ObjectFunctionTest : ManagerDependentTest {
     fun `should support object field function string`() {
         val objectExpression = someCMObjectField()
         val key = "key"
+        val expected = ObjectFieldExpression(objectExpression.toDopeType(), key.toDopeType())
+
+        val actual = objectExpression.objectField(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object field function cm`() {
+        val objectExpression = someCMObjectField()
+        val key = someCMStringField()
         val expected = ObjectFieldExpression(objectExpression.toDopeType(), key.toDopeType())
 
         val actual = objectExpression.objectField(key)
@@ -198,6 +247,17 @@ class ObjectFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support object pairsNested function type cmObject`() {
+        val objectExpression = someObjectField()
+        val options = someCMObjectField("options")
+        val expected = ObjectPairsNestedExpression(objectExpression, options.toDopeType())
+
+        val actual = objectExpression.pairsNested(options)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support object paths function cmObject`() {
         val objectExpression = someCMObjectField()
         val expected = ObjectPathsExpression(objectExpression.toDopeType())
@@ -219,11 +279,34 @@ class ObjectFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support object paths function type cmObject`() {
+        val objectExpression = someObjectField()
+        val options = someCMObjectField("options")
+        val expected = ObjectPathsExpression(objectExpression, options.toDopeType())
+
+        val actual = objectExpression.paths(options)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support object putAttribute function cmObject type type`() {
         val objectExpression = someCMObjectField()
         val key = "key".toDopeType()
         val value = "value".toDopeType()
         val expected = ObjectPutExpression(objectExpression.toDopeType(), key, value)
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object putAttribute function cmObject type cm`() {
+        val objectExpression = someCMObjectField()
+        val key = "key".toDopeType()
+        val value = someCMStringField()
+        val expected = ObjectPutExpression(objectExpression.toDopeType(), key, value.toDopeType())
 
         val actual = objectExpression.putAttribute(key, value)
 
@@ -255,9 +338,92 @@ class ObjectFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support object putAttribute function cmObject cmType type`() {
+        val objectExpression = someCMObjectField()
+        val key = someCMStringField()
+        val value = someNumberFieldList()
+        val expected = ObjectPutExpression(objectExpression.toDopeType(), key.toDopeType(), value)
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object putAttribute function cmObject cmType cmType`() {
+        val objectExpression = someCMObjectField()
+        val key = someCMStringField()
+        val value = someCMNumberList()
+        val expected = ObjectPutExpression(objectExpression.toDopeType(), key.toDopeType(), value.toDopeType())
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object putAttribute function type string cmType`() {
+        val objectExpression = someObjectField()
+        val key = "key"
+        val value = someCMNumberList()
+        val expected = ObjectPutExpression(objectExpression, key.toDopeType(), value.toDopeType())
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object putAttribute function type type cmType`() {
+        val objectExpression = someObjectField()
+        val key = "key".toDopeType()
+        val value = someCMNumberList()
+        val expected = ObjectPutExpression(objectExpression, key, value.toDopeType())
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object putAttribute function type cmType cmType`() {
+        val objectExpression = someObjectField()
+        val key = someCMStringField()
+        val value = someCMNumberList()
+        val expected = ObjectPutExpression(objectExpression, key.toDopeType(), value.toDopeType())
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object putAttribute function type cmType type`() {
+        val objectExpression = someObjectField()
+        val key = someCMStringField()
+        val value = someNumberFieldList()
+        val expected = ObjectPutExpression(objectExpression, key.toDopeType(), value)
+
+        val actual = objectExpression.putAttribute(key, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support object removeAttribute function cmObject string`() {
         val objectExpression = someCMObjectField()
         val key = "key"
+        val expected = ObjectRemoveExpression(objectExpression.toDopeType(), key.toDopeType())
+
+        val actual = objectExpression.removeAttribute(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object removeAttribute function cmObject cmType`() {
+        val objectExpression = someCMObjectField()
+        val key = someCMStringField()
         val expected = ObjectRemoveExpression(objectExpression.toDopeType(), key.toDopeType())
 
         val actual = objectExpression.removeAttribute(key)
@@ -289,6 +455,150 @@ class ObjectFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support object renameAttribute function cmObject type string`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = "oldKey".toDopeType()
+        val newKey = "newKey"
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey, newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function cmObject string type`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = "oldKey"
+        val newKey = "newKey".toDopeType()
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey.toDopeType(), newKey)
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function cmObject cmType cmType`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = someCMStringField()
+        val newKey = someCMStringField()
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey.toDopeType(), newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function cmObject string cmType`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = "oldKey"
+        val newKey = someCMStringField()
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey.toDopeType(), newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function cmObject cmType string`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = someCMStringField()
+        val newKey = "newKey"
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey.toDopeType(), newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function cmObject cmType type`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = "oldKey".toDopeType()
+        val newKey = someCMStringField()
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey, newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function cmObject type cmType`() {
+        val objectExpression = someCMObjectField()
+        val oldKey = someCMStringField()
+        val newKey = "newKey".toDopeType()
+        val expected = ObjectRenameExpression(objectExpression.toDopeType(), oldKey.toDopeType(), newKey)
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function type cmType cmType`() {
+        val objectExpression = someObjectField()
+        val oldKey = someCMStringField()
+        val newKey = someCMStringField()
+        val expected = ObjectRenameExpression(objectExpression, oldKey.toDopeType(), newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function type string cmType`() {
+        val objectExpression = someObjectField()
+        val oldKey = "oldKey"
+        val newKey = someCMStringField()
+        val expected = ObjectRenameExpression(objectExpression, oldKey.toDopeType(), newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function type cmType string`() {
+        val objectExpression = someObjectField()
+        val oldKey = someCMStringField()
+        val newKey = "newKey"
+        val expected = ObjectRenameExpression(objectExpression, oldKey.toDopeType(), newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function type cmType type`() {
+        val objectExpression = someObjectField()
+        val oldKey = "oldKey".toDopeType()
+        val newKey = someCMStringField()
+        val expected = ObjectRenameExpression(objectExpression, oldKey, newKey.toDopeType())
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object renameAttribute function type type cmType`() {
+        val objectExpression = someObjectField()
+        val oldKey = someCMStringField()
+        val newKey = "newKey".toDopeType()
+        val expected = ObjectRenameExpression(objectExpression, oldKey.toDopeType(), newKey)
+
+        val actual = objectExpression.renameAttribute(oldKey, newKey)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support object renameAttribute function cmObject type type`() {
         val objectExpression = someCMObjectField()
         val oldKey = "oldKey".toDopeType()
@@ -306,6 +616,78 @@ class ObjectFunctionTest : ManagerDependentTest {
         val oldList = someCMNumberList("old")
         val newList = someCMNumberList("new")
         val expected = ObjectReplaceExpression(objectExpression.toDopeType(), oldList.toDopeType(), newList.toDopeType())
+
+        val actual = objectExpression.replace(oldList, newList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object replace function cmObject type type`() {
+        val objectExpression = someCMObjectField()
+        val oldList = someNumberFieldList("old")
+        val newList = someNumberFieldList("new")
+        val expected = ObjectReplaceExpression(objectExpression.toDopeType(), oldList, newList)
+
+        val actual = objectExpression.replace(oldList, newList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object replace function type cmType cmType`() {
+        val objectExpression = someObjectField()
+        val oldList = someCMNumberList("old")
+        val newList = someCMNumberList("new")
+        val expected = ObjectReplaceExpression(objectExpression, oldList.toDopeType(), newList.toDopeType())
+
+        val actual = objectExpression.replace(oldList, newList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object replace function type type cmType`() {
+        val objectExpression = someObjectField()
+        val oldList = someNumberFieldList("old")
+        val newList = someCMNumberList("new")
+        val expected = ObjectReplaceExpression(objectExpression, oldList, newList.toDopeType())
+
+        val actual = objectExpression.replace(oldList, newList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object replace function type cmType type`() {
+        val objectExpression = someObjectField()
+        val oldList = someCMNumberList("old")
+        val newList = someNumberFieldList("new")
+        val expected = ObjectReplaceExpression(objectExpression, oldList.toDopeType(), newList)
+
+        val actual = objectExpression.replace(oldList, newList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object replace function cmObject type cmType`() {
+        val objectExpression = someCMObjectField()
+        val oldList = someNumberFieldList("old")
+        val newList = someCMNumberList("new")
+        val expected = ObjectReplaceExpression(objectExpression.toDopeType(), oldList, newList.toDopeType())
+
+        val actual = objectExpression.replace(oldList, newList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object replace function cmObject cmType type`() {
+        val objectExpression = someCMObjectField()
+        val oldList = someCMNumberList("old")
+        val newList = someNumberFieldList("new")
+        val expected = ObjectReplaceExpression(objectExpression.toDopeType(), oldList.toDopeType(), newList)
 
         val actual = objectExpression.replace(oldList, newList)
 
