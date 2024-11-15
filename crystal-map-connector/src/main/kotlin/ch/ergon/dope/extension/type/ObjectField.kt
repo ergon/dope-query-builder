@@ -15,7 +15,7 @@ class ObjectField<S : Schema>(val schema: S, val name: String, val path: String)
 
 inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProperty1<S, T>): T {
     val schemaField = field.get(schema)
-    val newPath = if (path.isBlank()) name else "$path`.`$name"
+    val newPath = if (path.isBlank()) name else "$path.$name"
     return when (schemaField) {
         is CMJsonField<*> -> CMJsonField<Any>(schemaField.name, newPath) as T
         is CMJsonList<*> -> CMJsonList<Any>(schemaField.name, newPath) as T
