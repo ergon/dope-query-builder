@@ -6,6 +6,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.conc
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.innerPairs
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.length
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.names
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.objectField
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.pairs
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.pairsNested
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.paths
@@ -40,6 +41,10 @@ fun CMObjectField<Schema>.concat(
     secondObjectExpression: CMObjectField<Schema>,
     vararg additionalObjectExpression: CMObjectField<Schema>,
 ) = toDopeType().concat(secondObjectExpression.toDopeType(), *additionalObjectExpression.map { it.toDopeType() }.toTypedArray())
+
+fun CMObjectField<Schema>.objectField(key: TypeExpression<StringType>) = toDopeType().objectField(key)
+
+fun CMObjectField<Schema>.objectField(key: String) = toDopeType().objectField(key.toDopeType())
 
 fun CMObjectField<Schema>.innerPairs() = toDopeType().innerPairs()
 

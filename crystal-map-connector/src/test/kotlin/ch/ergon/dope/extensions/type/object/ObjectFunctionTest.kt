@@ -6,6 +6,7 @@ import ch.ergon.dope.extension.type.objectfunction.concat
 import ch.ergon.dope.extension.type.objectfunction.innerPairs
 import ch.ergon.dope.extension.type.objectfunction.length
 import ch.ergon.dope.extension.type.objectfunction.names
+import ch.ergon.dope.extension.type.objectfunction.objectField
 import ch.ergon.dope.extension.type.objectfunction.pairs
 import ch.ergon.dope.extension.type.objectfunction.pairsNested
 import ch.ergon.dope.extension.type.objectfunction.paths
@@ -21,6 +22,7 @@ import ch.ergon.dope.helper.someCMObjectField
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectAddExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectConcatExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectFieldExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectInnerPairsExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectLengthExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.`object`.ObjectNamesExpression
@@ -108,6 +110,28 @@ class ObjectFunctionTest : ManagerDependentTest {
         val expected = ObjectConcatExpression(firstObjectExpression.toDopeType(), secondObjectExpression.toDopeType())
 
         val actual = firstObjectExpression.concat(secondObjectExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object field function type`() {
+        val objectExpression = someCMObjectField()
+        val key = "key".toDopeType()
+        val expected = ObjectFieldExpression(objectExpression.toDopeType(), key)
+
+        val actual = objectExpression.objectField(key)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support object field function string`() {
+        val objectExpression = someCMObjectField()
+        val key = "key"
+        val expected = ObjectFieldExpression(objectExpression.toDopeType(), key.toDopeType())
+
+        val actual = objectExpression.objectField(key)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
