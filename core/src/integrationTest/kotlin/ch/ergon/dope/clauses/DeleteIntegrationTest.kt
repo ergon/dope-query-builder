@@ -5,6 +5,8 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.toMapValues
+import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.fromable.useKeys
@@ -28,10 +30,12 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
                 idField,
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-        val actualQueryResult = actual.rows[0].contentAs<Map<String, Number>>()
+        tryUntil {
+            val queryResult = queryWithoutParameters(dopeQuery)
+            val result = queryResult.toMapValues()
 
-        assertEquals(mapOf("id" to 1), actualQueryResult)
+            assertEquals(1, result["id"])
+        }
     }
 
     @Test
@@ -51,12 +55,14 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             ).build()
 
-        val selectBeforeDeleteQueryResult = queryWithoutParameters(selectEverythingDopeQuery)
-        val deleteQueryResult = queryWithoutParameters(deleteEverythingDopeQuery)
-        val selectAfterDeleteQueryResult = queryWithoutParameters(selectEverythingDopeQuery)
+        tryUntil {
+            val selectBeforeDeleteQueryResult = queryWithoutParameters(selectEverythingDopeQuery)
+            val deleteQueryResult = queryWithoutParameters(deleteEverythingDopeQuery)
+            val selectAfterDeleteQueryResult = queryWithoutParameters(selectEverythingDopeQuery)
 
-        assertEquals(15, selectBeforeDeleteQueryResult.rows.size)
-        assertEquals(15, deleteQueryResult.rows.size)
-        assertEquals(0, selectAfterDeleteQueryResult.rows.size)
+            assertEquals(15, selectBeforeDeleteQueryResult.rows.size)
+            assertEquals(15, deleteQueryResult.rows.size)
+            assertEquals(0, selectAfterDeleteQueryResult.rows.size)
+        }
     }
 }

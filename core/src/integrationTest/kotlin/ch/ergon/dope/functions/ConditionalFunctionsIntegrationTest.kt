@@ -6,6 +6,7 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.deliveryDateField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
+import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.decode
@@ -17,7 +18,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.Test
-import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
@@ -29,16 +29,17 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                     typeField,
                     "client".resultsIn(1),
                     default = 0.toDopeType(),
-                ),
+                ).alias("decoded"),
             ).from(
                 testBucket,
             ).where(
                 typeField.isEqualTo("client"),
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toMapValues()
 
-        assertContentEquals("{\"$1\":1}".toByteArray(), actual.rows[0].content)
+        assertEquals(1, result["decoded"])
     }
 
     @Test
@@ -50,14 +51,15 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                     deliveryDateField,
                     missingField,
                     "value".toDopeType(),
-                ),
+                ).alias("conditional"),
             ).from(
                 testBucket,
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toMapValues()
 
-        assertContentEquals("{\"$1\":\"value\"}".toByteArray(), actual.rows[0].content)
+        assertEquals("value", result["conditional"])
     }
 
     @Test
@@ -79,10 +81,10 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                 typeField.isEqualTo("order"),
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-        val actualQueryRow = actual.rows[0].contentAs<Map<String, String>>()
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toMapValues()
 
-        assertEquals("noDeliveryDate", actualQueryRow["nvl"])
-        assertEquals("exists", actualQueryRow["nvl2"])
+        assertEquals("noDeliveryDate", result["nvl"])
+        assertEquals("exists", result["nvl2"])
     }
 }

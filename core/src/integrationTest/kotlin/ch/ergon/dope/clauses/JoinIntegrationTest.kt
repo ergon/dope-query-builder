@@ -3,6 +3,7 @@ package ch.ergon.dope.clauses
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.NESTED_LOOP
 import ch.ergon.dope.resolvable.clause.model.joinHint.indexHint
@@ -37,13 +38,12 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             .build()
 
         tryUntil {
-            val actual = queryWithoutParameters(dopeQuery)
+            val queryResult = queryWithoutParameters(dopeQuery)
+            val result = queryResult.toMapValues()
 
-            assertEquals(5, actual.rows.size)
-            assertEquals(
-                mapOf("name" to "employee1", "orderNumber" to "order1"),
-                actual.rows[0].contentAs<Map<String, String>>(),
-            )
+            assertEquals(5, queryResult.rows.size)
+            assertEquals("employee1", result["name"])
+            assertEquals("order1", result["orderNumber"])
         }
     }
 
@@ -78,13 +78,13 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             .build()
 
         tryUntil {
-            val actual = queryWithoutParameters(dopeQuery)
+            val queryResult = queryWithoutParameters(dopeQuery)
+            val result = queryResult.toMapValues()
 
-            assertEquals(5, actual.rows.size)
-            assertEquals(
-                mapOf("orderNumber" to "order1", "employeeName" to "employee1", "clientName" to "client1"),
-                actual.rows[0].contentAs<Map<String, String>>(),
-            )
+            assertEquals(5, queryResult.rows.size)
+            assertEquals("order1", result["orderNumber"])
+            assertEquals("employee1", result["employeeName"])
+            assertEquals("client1", result["clientName"])
         }
     }
 }

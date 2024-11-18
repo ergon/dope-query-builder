@@ -3,6 +3,8 @@ package ch.ergon.dope.functions
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.toRawValues
+import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
@@ -37,10 +39,10 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
                 array.get(0),
             ).build()
 
-        val actualQueryResult = queryWithoutParameters(dopeQuery)
-        val actual = actualQueryResult.valueAs<Number>()
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toSingleValue()
 
-        assertEquals((3 + 3 - 2), actual)
+        assertEquals(4, result)
     }
 
     @Test
@@ -72,9 +74,9 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
                 ),
             ).build()
 
-        val actualQueryResult = queryWithoutParameters(dopeQuery)
-        val actual = actualQueryResult.rows[2].contentAs<String>()
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toRawValues(rowNumber = 2)
 
-        assertEquals("employee:3", actual)
+        assertEquals("employee:3", result)
     }
 }

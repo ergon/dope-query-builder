@@ -1,11 +1,14 @@
 package ch.ergon.dope.integrationTest
 
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.couchbase.client.kotlin.Cluster
+import com.couchbase.client.kotlin.query.QueryResult
 import com.couchbase.client.kotlin.query.execute
 import kotlinx.coroutines.runBlocking
 import org.testcontainers.couchbase.BucketDefinition
@@ -56,7 +59,7 @@ object TestCouchbaseDatabase {
         tryUntil {
             runBlocking {
                 cluster.waitUntilReady(15.seconds)
-                for (i in 1..5) {
+                (1..5).forEach { i ->
                     collection.upsert(
                         id = "employee:$i",
                         mapOf(
@@ -92,3 +95,14 @@ object TestCouchbaseDatabase {
         }
     }
 }
+
+fun QueryResult.toMapValues(rowNumber: Int = 0, isSelectAsterisk: Boolean = false, bucket: Bucket = testBucket) =
+    if (isSelectAsterisk) {
+        this.rows.map { it.contentAs<Map<String, Map<String, Any>>>()[bucket.name]!! }[rowNumber]
+    } else {
+        this.rows.map { it.contentAs<Map<String, Any>>() }[rowNumber]
+    }
+
+fun QueryResult.toRawValues(rowNumber: Int = 0) = this.rows.map { it.contentAs<Any>() }[rowNumber]
+
+fun QueryResult.toSingleValue() = this.valueAs<Any>()

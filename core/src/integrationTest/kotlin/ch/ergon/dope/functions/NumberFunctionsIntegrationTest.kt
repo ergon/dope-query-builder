@@ -2,6 +2,7 @@ package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
+import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
@@ -24,11 +25,11 @@ class NumberFunctionsIntegrationTest : BaseIntegrationTest() {
                 power(2, 3).alias("power"),
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-        val actualResult = actual.rows[0].contentAs<Map<String, Number>>()
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toMapValues()
 
-        assertEquals((1 + 4 - 3), actualResult["arithmetic"])
-        assertEquals((3.1415), actualResult["pi"])
-        assertEquals((8), actualResult["power"])
+        assertEquals(2, result["arithmetic"])
+        assertEquals(3.1415, result["pi"])
+        assertEquals(8, result["power"])
     }
 }

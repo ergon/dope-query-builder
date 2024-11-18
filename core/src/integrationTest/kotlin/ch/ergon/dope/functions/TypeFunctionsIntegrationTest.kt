@@ -2,6 +2,7 @@ package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
+import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isNumber
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toBool
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toNumber
@@ -18,9 +19,9 @@ class TypeFunctionsIntegrationTest : BaseIntegrationTest() {
                 not("".toBool()).and("3!".toNumber("!").isNumber()),
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-        val actualQueryResult = actual.valueAs<Boolean>()
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toSingleValue()
 
-        assertEquals(true, actualQueryResult)
+        assertEquals(true, result)
     }
 }

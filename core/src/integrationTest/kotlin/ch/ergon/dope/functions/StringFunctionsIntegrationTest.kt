@@ -2,6 +2,7 @@ package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
+import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.length
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.ltrim
@@ -20,9 +21,9 @@ class StringFunctionsIntegrationTest : BaseIntegrationTest() {
                 length(""),
             ).build()
 
-        val actual = queryWithoutParameters(dopeQuery)
-        val actualQueryResult = actual.valueAs<String>()
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toSingleValue()
 
-        assertEquals("testString", actualQueryResult)
+        assertEquals("testString", result)
     }
 }
