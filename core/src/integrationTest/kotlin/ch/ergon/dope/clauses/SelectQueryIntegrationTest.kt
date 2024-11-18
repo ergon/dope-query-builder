@@ -27,9 +27,9 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             ).build()
 
-        val result = queryWithoutParameters(dopeQuery)
+        val queryResult = queryWithoutParameters(dopeQuery)
 
-        assertEquals(15, result.rows.size)
+        assertEquals(15, queryResult.rows.size)
     }
 
     @Test
@@ -44,9 +44,9 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 nameField,
             ).build()
 
-        val result = queryWithoutParameters(dopeQuery)
+        val queryResult = queryWithoutParameters(dopeQuery)
 
-        assertEquals(5, result.rows.size)
+        assertEquals(5, queryResult.rows.size)
     }
 
     @Test
@@ -59,9 +59,9 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 typeField.isEqualTo("client").and(isActiveField.isEqualTo(true)),
             ).build()
 
-        val result = queryWithoutParameters(dopeQuery)
+        val queryResult = queryWithoutParameters(dopeQuery)
 
-        assertEquals(2, result.rows.size)
+        assertEquals(2, queryResult.rows.size)
     }
 
     @Test
@@ -100,7 +100,6 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
-
         val result = queryResult.toMapValues()
 
         assertEquals(1, result[alias])
@@ -117,9 +116,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
-        val actual = queryResult.rows.size
 
-        assertEquals(0, actual)
+        assertEquals(0, queryResult.rows.size)
     }
 
     @Test
@@ -133,9 +131,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
-        val actual = queryResult.rows.size
 
-        assertEquals(5, actual)
+        assertEquals(5, queryResult.rows.size)
     }
 
     @Test

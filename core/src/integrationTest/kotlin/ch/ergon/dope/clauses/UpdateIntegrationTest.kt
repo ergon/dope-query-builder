@@ -40,11 +40,11 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
             ).build()
 
         tryUntil {
-            val actual = queryWithoutParameters(dopeQuery)
-            val actualQueryResult = actual.rows[0].contentAs<Map<String, String>>()
+            val queryResult = queryWithoutParameters(dopeQuery)
+            val result = queryResult.rows[0].contentAs<Map<String, String>>()
 
-            assertEquals("newName", actualQueryResult["newField"])
-            assertNull(actualQueryResult["nameField"])
+            assertEquals("newName", result["newField"])
+            assertNull(result["nameField"])
         }
     }
 }
