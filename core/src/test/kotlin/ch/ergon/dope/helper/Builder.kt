@@ -1,5 +1,8 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
+import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
@@ -64,3 +67,8 @@ fun someStringSearchNumberResult(
     searchExpression: UnaliasedExpression<StringType> = someString().toDopeType(),
     resultExpression: UnaliasedExpression<NumberType> = someNumber().toDopeType(),
 ) = SearchResult(searchExpression, resultExpression)
+
+fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderByType = ASC) = OrderExpression(
+    typeExpression,
+    orderByType,
+)
