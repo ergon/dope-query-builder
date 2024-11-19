@@ -4,7 +4,11 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectLetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class LetClause<T : ValidType>(
@@ -49,3 +53,9 @@ class DopeVariable<T : ValidType>(private val name: String, private val value: T
 }
 
 fun <T : ValidType> String.assignTo(expression: TypeExpression<T>): DopeVariable<T> = DopeVariable(this, expression)
+
+fun String.assignTo(expression: Number): DopeVariable<NumberType> = assignTo(expression.toDopeType())
+
+fun String.assignTo(expression: String): DopeVariable<StringType> = assignTo(expression.toDopeType())
+
+fun String.assignTo(expression: Boolean): DopeVariable<BooleanType> = assignTo(expression.toDopeType())

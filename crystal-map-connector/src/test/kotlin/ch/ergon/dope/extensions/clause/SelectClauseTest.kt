@@ -1,6 +1,7 @@
 package ch.ergon.dope.extensions.clause
 
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
 import ch.ergon.dope.extension.clause.join
@@ -22,6 +23,8 @@ import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someFrom
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelect
+import ch.ergon.dope.helper.someString
+import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
@@ -259,6 +262,72 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = SelectOffsetClause(field.toDopeType(), parentClause)
 
         val actual = parentClause.offset(field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support DopeVariables with cmNumberField`() {
+        val name = someString()
+        val value = someCMNumberField()
+        val expected = DopeVariable(name, value.toDopeType())
+
+        val actual = name.assignTo(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support DopeVariables with cmStringField`() {
+        val name = someString()
+        val value = someCMStringField()
+        val expected = DopeVariable(name, value.toDopeType())
+
+        val actual = name.assignTo(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support DopeVariables with cmBooleanField`() {
+        val name = someString()
+        val value = someCMBooleanField()
+        val expected = DopeVariable(name, value.toDopeType())
+
+        val actual = name.assignTo(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support DopeVariables with cmNumberList`() {
+        val name = someString()
+        val value = someCMNumberList()
+        val expected = DopeVariable(name, value.toDopeType())
+
+        val actual = name.assignTo(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support DopeVariables with cmStringList`() {
+        val name = someString()
+        val value = someCMStringList()
+        val expected = DopeVariable(name, value.toDopeType())
+
+        val actual = name.assignTo(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support DopeVariables with cmBooleanList`() {
+        val name = someString()
+        val value = someCMBooleanList()
+        val expected = DopeVariable(name, value.toDopeType())
+
+        val actual = name.assignTo(value)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

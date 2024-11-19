@@ -3,13 +3,17 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someFromClause
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -71,6 +75,39 @@ class LetClauseTest : ManagerDependentTest {
         val expression = lower("test")
         val name = "name"
         val expected = DopeVariable(name, expression)
+
+        val actual = name.assignTo(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support let expression function number`() {
+        val expression = someNumber()
+        val name = "name"
+        val expected = DopeVariable(name, expression.toDopeType())
+
+        val actual = name.assignTo(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support let expression function string`() {
+        val expression = someString()
+        val name = "name"
+        val expected = DopeVariable(name, expression.toDopeType())
+
+        val actual = name.assignTo(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support let expression function boolean`() {
+        val expression = someBoolean()
+        val name = "name"
+        val expected = DopeVariable(name, expression.toDopeType())
 
         val actual = name.assignTo(expression)
 
