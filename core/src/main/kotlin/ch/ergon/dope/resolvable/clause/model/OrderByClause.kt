@@ -20,7 +20,7 @@ class OrderExpression(private val expression: TypeExpression<out ValidType>, pri
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val typeDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "${typeDopeQuery.queryString}${orderByType?.queryString?.let { " $it" } ?: ""}",
+            queryString = listOfNotNull(typeDopeQuery.queryString, orderByType?.queryString).joinToString(separator = " "),
             parameters = typeDopeQuery.parameters,
         )
     }
