@@ -3,10 +3,11 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfuncti
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 class MBPositionExpression(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("MB_POSITION", inStr, searchStr)
+    FunctionExpression<NumberType>("MB_POSITION", inStr, searchStr)
 
 fun mbPosition(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     MBPositionExpression(inStr, searchStr)
