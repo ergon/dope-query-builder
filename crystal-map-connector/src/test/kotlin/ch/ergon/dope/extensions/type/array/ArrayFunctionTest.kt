@@ -12,6 +12,7 @@ import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
+import ch.ergon.dope.helper.someCMObjectList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayConcatExpression
@@ -61,6 +62,17 @@ class ArrayFunctionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support ARRAY_CONCAT with CM Object list`() {
+        val firstList = someCMObjectList("first")
+        val secondList = someCMObjectList("second")
+        val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
+
+        val actual = arrayConcat(firstList, secondList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support ARRAY_CONTAINS with CM Number list`() {
         val firstList = someCMNumberList("first")
         val secondList = someCMNumberField("second")
@@ -95,30 +107,40 @@ class ArrayFunctionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_DISTINCT with CM Number list`() {
-        val CMJsonList = someCMNumberList()
-        val expected = ArrayDistinctExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMNumberList()
+        val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(CMJsonList)
+        val actual = arrayDistinct(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_DISTINCT with CM String list`() {
-        val CMJsonList = someCMStringList()
-        val expected = ArrayDistinctExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMStringList()
+        val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(CMJsonList)
+        val actual = arrayDistinct(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_DISTINCT with CM Boolean list`() {
-        val CMJsonList = someCMBooleanList()
-        val expected = ArrayDistinctExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMBooleanList()
+        val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(CMJsonList)
+        val actual = arrayDistinct(cMJsonList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_DISTINCT with CM Object list`() {
+        val cMJsonList = someCMObjectList()
+        val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
+
+        val actual = arrayDistinct(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -158,60 +180,50 @@ class ArrayFunctionTest : ManagerDependentTest {
 
     @Test
     fun `should support ARRAY_LENGTH with CM Number list`() {
-        val CMJsonList = someCMNumberList()
-        val expected = ArrayLengthExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMNumberList()
+        val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(CMJsonList)
+        val actual = arrayLength(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_LENGTH with CM String list`() {
-        val CMJsonList = someCMStringList()
-        val expected = ArrayLengthExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMStringList()
+        val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(CMJsonList)
+        val actual = arrayLength(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_LENGTH with CM Boolean list`() {
-        val CMJsonList = someCMBooleanList()
-        val expected = ArrayLengthExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMBooleanList()
+        val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(CMJsonList)
+        val actual = arrayLength(cMJsonList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_LENGTH with CM Object list`() {
+        val cMJsonList = someCMObjectList()
+        val expected = ArrayLengthExpression(cMJsonList.toDopeType())
+
+        val actual = arrayLength(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support ARRAY_SUM with CM Number list`() {
-        val CMJsonList = someCMNumberList()
-        val expected = ArraySumExpression(CMJsonList.toDopeType())
+        val cMJsonList = someCMNumberList()
+        val expected = ArraySumExpression(cMJsonList.toDopeType())
 
-        val actual = arraySum(CMJsonList)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
-
-    @Test
-    fun `should support ARRAY_SUM with CM String list`() {
-        val CMJsonList = someCMStringList()
-        val expected = ArraySumExpression(CMJsonList.toDopeType())
-
-        val actual = arraySum(CMJsonList)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
-
-    @Test
-    fun `should support ARRAY_SUM with CM Boolean list`() {
-        val CMJsonList = someCMBooleanList()
-        val expected = ArraySumExpression(CMJsonList.toDopeType())
-
-        val actual = arraySum(CMJsonList)
+        val actual = arraySum(cMJsonList)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -5,9 +5,12 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.S
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMObjectField
+import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("caseNumberField")
 fun <U : ValidType> CMJsonField<out Number>.resultsIn(resultExpression: UnaliasedExpression<U>) =
@@ -21,6 +24,10 @@ fun <U : ValidType> CMJsonField<String>.resultsIn(resultExpression: UnaliasedExp
 fun <U : ValidType> CMJsonField<Boolean>.resultsIn(resultExpression: UnaliasedExpression<U>) =
     SearchResult(toDopeType(), resultExpression)
 
+@JvmName("caseObjectField")
+fun <U : ValidType> CMObjectField<Schema>.resultsIn(resultExpression: UnaliasedExpression<U>) =
+    SearchResult(toDopeType(), resultExpression)
+
 @JvmName("caseNumberField")
 fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMJsonField<out Number>): SearchResult<T, NumberType> =
     SearchResult(this, resultField.toDopeType())
@@ -31,4 +38,8 @@ fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMJsonField<St
 
 @JvmName("caseBooleanField")
 fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMJsonField<Boolean>): SearchResult<T, BooleanType> =
+    SearchResult(this, resultField.toDopeType())
+
+@JvmName("caseObjectField")
+fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultField: CMObjectField<Schema>): SearchResult<T, ObjectType> =
     SearchResult(this, resultField.toDopeType())

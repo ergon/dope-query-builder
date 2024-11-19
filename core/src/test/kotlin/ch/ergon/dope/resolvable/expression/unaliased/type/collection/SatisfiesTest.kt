@@ -1,4 +1,4 @@
-package ch.ergon.dope.operators.collection
+package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
@@ -9,10 +9,6 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mod
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.AnySatisfiesExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.EverySatisfiesExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.every
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo

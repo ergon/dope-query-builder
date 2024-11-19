@@ -16,6 +16,7 @@ import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
+import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.validtype.BooleanType
@@ -111,6 +112,7 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val joinableDopeQuery = when (joinable) {
             is AliasedBucket -> joinable.asBucketDefinition().toDopeQuery(manager)
+            is AliasedSelectClause<*> -> joinable.asAliasedSelectClauseDefinition().toDopeQuery(manager)
             else -> joinable.toDopeQuery(manager)
         }
         val joinHintsDopeQuery = if (hashOrNestedLoopHint != null || keysOrIndexHint != null) {

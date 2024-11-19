@@ -7,6 +7,9 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
+import com.schwarz.crystalapi.schema.CMObjectField
+import com.schwarz.crystalapi.schema.CMObjectList
+import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("numberToNumber")
 fun CMJsonField<out Number>.toNumber() = toDopeType().toNumber()
@@ -32,6 +35,9 @@ fun CMJsonField<String>.toNumber(filterChars: CMJsonField<String>) = toDopeType(
 @JvmName("booleanToNumber")
 fun CMJsonField<Boolean>.toNumber() = toDopeType().toNumber()
 
+@JvmName("objectToNumber")
+fun CMObjectField<Schema>.toNumber() = toDopeType().toNumber()
+
 @JvmName("numberListToNumber")
 fun CMJsonList<out Number>.toNumber() = toDopeType().toNumber()
 
@@ -40,3 +46,6 @@ fun CMJsonList<String>.toNumber() = toDopeType().toNumber()
 
 @JvmName("booleanListToNumber")
 fun CMJsonList<Boolean>.toNumber() = toDopeType().toNumber()
+
+@JvmName("objectListToNumber")
+fun CMObjectList<Schema>.toNumber() = toDopeType().toNumber()
