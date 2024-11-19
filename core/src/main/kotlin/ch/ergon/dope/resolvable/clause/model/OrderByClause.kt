@@ -38,6 +38,7 @@ class SelectOrderByClause<T : ValidType>(
             ),
         )
     }
+
     fun thenOrderBy(typeExpression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) =
         SelectOrderByClause(
             this.orderExpression,
@@ -45,7 +46,6 @@ class SelectOrderByClause<T : ValidType>(
             OrderExpression(typeExpression, orderByType),
             parentClause = this.parentClause,
         )
-
 }
 
 class OrderExpression(private val expression: TypeExpression<out ValidType>, private val orderByType: OrderByType? = null) : Resolvable {
