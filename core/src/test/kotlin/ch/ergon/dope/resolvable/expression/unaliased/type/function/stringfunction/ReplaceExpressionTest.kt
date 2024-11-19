@@ -134,7 +134,6 @@ class ReplaceExpressionTest : ManagerDependentTest {
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
-    // asödlkjfölaskdj fölkasjd fölkasj dfölkasj döflkajsödlfj aösldjf
     @Test
     fun `should support replace function string type type type`() {
         val inStr = someString("inStr")
