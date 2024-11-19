@@ -20,7 +20,7 @@ fun formatPathToQueryString(name: String, path: String) =
     if (path.isBlank()) {
         "`$name`"
     } else {
-        "`$path`.`$name`"
+        "${path.split(".").joinToString(".") { "`$it`" }}.`$name`"
     }
 
 fun formatStringListToQueryStringWithBrackets(dopeQueries: List<String>, separator: String = ", ", prefix: String = "(", postfix: String = ")") =

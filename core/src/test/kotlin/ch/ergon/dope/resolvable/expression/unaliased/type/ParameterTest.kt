@@ -6,6 +6,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -127,6 +128,35 @@ class ParameterTest : ManagerDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support positional object parameter`() {
+        val parameterValue = someObject()
+        val expected = DopeQuery(
+            queryString = "$1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
+        )
+        val underTest = ObjectParameter(parameterValue)
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support named object parameter`() {
+        val parameterValue = someObject()
+        val parameterName = "testName"
+        val expected = DopeQuery(
+            queryString = "$$parameterName",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ObjectParameter(parameterValue, parameterName)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -259,6 +289,28 @@ class ParameterTest : ManagerDependentTest {
         val value = listOf(someBoolean())
         val parameterName = someString()
         val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
+
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function object`() {
+        val value = someObject()
+        val parameterName = null
+        val expected = ObjectParameter(value, parameterName).toDopeQuery(manager)
+
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager())
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support as parameter function object with named parameter`() {
+        val value = someObject()
+        val parameterName = someString()
+        val expected = ObjectParameter(value, parameterName).toDopeQuery(manager)
 
         val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager())
 
