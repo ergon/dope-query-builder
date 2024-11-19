@@ -16,9 +16,9 @@ enum class OrderByType(val queryString: String) {
 
 private const val ORDER_BY = "ORDER BY"
 
-class OrderExpression(private val typeExpression: TypeExpression<out ValidType>, private val orderByType: OrderByType? = null) : Resolvable {
+class OrderExpression(private val expression: TypeExpression<out ValidType>, private val orderByType: OrderByType? = null) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val typeDopeQuery = typeExpression.toDopeQuery(manager)
+        val typeDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
             queryString = "${typeDopeQuery.queryString}${orderByType?.queryString?.let { " $it" } ?: ""}",
             parameters = typeDopeQuery.parameters,
