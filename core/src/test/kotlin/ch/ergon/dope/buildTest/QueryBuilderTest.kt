@@ -919,7 +919,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val actual = create
             .select(destinationAirport, equip.alias("has_radio"))
             .from(t1)
-            .let(equip, sourceAirports)
+            .withVariables(equip, sourceAirports)
             .where(
                 someStringField("airline", t1).isEqualTo("AI")
                     .and(destinationAirport.inArray(sourceAirports)),

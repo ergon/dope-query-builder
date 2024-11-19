@@ -8,14 +8,14 @@ import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 class LetClause<T : ValidType>(
-    private val letExpression: LetExpression<out ValidType>,
-    private vararg val letExpressions: LetExpression<out ValidType>,
+    private val dopeVariable: DopeVariable<out ValidType>,
+    private vararg val dopeVariables: DopeVariable<out ValidType>,
     private val parentClause: ISelectLetClause<T>,
 ) : ISelectLetClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val letExpressionDopeQuery = letExpression.toDefinitionDopeQuery(manager)
-        val letExpressionDopeQueries = letExpressions.map { it.toDefinitionDopeQuery(manager) }
+        val letExpressionDopeQuery = dopeVariable.toDefinitionDopeQuery(manager)
+        val letExpressionDopeQueries = dopeVariables.map { it.toDefinitionDopeQuery(manager) }
 
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
@@ -32,20 +32,20 @@ class LetClause<T : ValidType>(
     }
 }
 
-class LetExpression<T : ValidType>(private val alias: String, private val expression: TypeExpression<T>) : TypeExpression<T> {
+class DopeVariable<T : ValidType>(private val name: String, private val value: TypeExpression<T>) : TypeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         return DopeQuery(
-            queryString = "`$alias`",
+            queryString = "`$name`",
         )
     }
 
     fun toDefinitionDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val typeExpressionDopeQuery = expression.toDopeQuery(manager)
+        val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "`$alias` = ${typeExpressionDopeQuery.queryString}",
-            parameters = typeExpressionDopeQuery.parameters,
+            queryString = "`$name` = ${valueDopeQuery.queryString}",
+            parameters = valueDopeQuery.parameters,
         )
     }
 }
 
-fun <T : ValidType> String.assignTo(expression: TypeExpression<T>): LetExpression<T> = LetExpression(this, expression)
+fun <T : ValidType> String.assignTo(expression: TypeExpression<T>): DopeVariable<T> = DopeVariable(this, expression)

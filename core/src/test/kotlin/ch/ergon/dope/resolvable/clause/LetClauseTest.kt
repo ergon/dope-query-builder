@@ -6,8 +6,8 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.LetClause
-import ch.ergon.dope.resolvable.clause.model.LetExpression
 import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
 import kotlin.test.Test
@@ -19,9 +19,9 @@ class LetClauseTest : ManagerDependentTest {
     @Test
     fun `should support let`() {
         val expected = DopeQuery(
-            queryString = "SELECT * FROM `someBucket` LET `someAlias` = `numberField`",
+            queryString = "SELECT * FROM `someBucket` LET `someName` = `numberField`",
         )
-        val underTest = LetClause(LetExpression("someAlias", someNumberField()), parentClause = someFromClause())
+        val underTest = LetClause(DopeVariable("someName", someNumberField()), parentClause = someFromClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -31,11 +31,11 @@ class LetClauseTest : ManagerDependentTest {
     @Test
     fun `should support let with multiple expressions`() {
         val expected = DopeQuery(
-            queryString = "SELECT * FROM `someBucket` LET `alias1` = `numberField`, `alias2` = `stringField`",
+            queryString = "SELECT * FROM `someBucket` LET `name1` = `numberField`, `name2` = `stringField`",
         )
         val underTest = LetClause(
-            LetExpression("alias1", someNumberField()),
-            LetExpression("alias2", someStringField()),
+            DopeVariable("name1", someNumberField()),
+            DopeVariable("name2", someStringField()),
             parentClause = someFromClause(),
         )
 
@@ -47,10 +47,10 @@ class LetClauseTest : ManagerDependentTest {
     @Test
     fun `should support let function`() {
         val parentClause = someFromClause()
-        val letExpression = LetExpression("alias1", someNumberField())
-        val expected = LetClause(letExpression, parentClause = parentClause)
+        val dopeVariable = DopeVariable("name1", someNumberField())
+        val expected = LetClause(dopeVariable, parentClause = parentClause)
 
-        val actual = parentClause.let(letExpression)
+        val actual = parentClause.withVariables(dopeVariable)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -58,8 +58,8 @@ class LetClauseTest : ManagerDependentTest {
     @Test
     fun `should support let expression`() {
         val expression = lower("TEST")
-        val expected = DopeQuery("`alias1`")
-        val underTest = LetExpression("alias1", expression)
+        val expected = DopeQuery("`name1`")
+        val underTest = DopeVariable("name1", expression)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -69,10 +69,10 @@ class LetClauseTest : ManagerDependentTest {
     @Test
     fun `should support let expression function`() {
         val expression = lower("test")
-        val alias = "alias"
-        val expected = LetExpression(alias, expression)
+        val name = "name"
+        val expected = DopeVariable(name, expression)
 
-        val actual = alias.assignTo(expression)
+        val actual = name.assignTo(expression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
