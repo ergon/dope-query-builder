@@ -3,10 +3,11 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfuncti
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 
 class SplitExpression(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("SPLIT", inStr, inSubstring)
+    FunctionExpression<ArrayType<StringType>>("SPLIT", inStr, inSubstring)
 
 fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) =
     SplitExpression(inStr, inSubstring)

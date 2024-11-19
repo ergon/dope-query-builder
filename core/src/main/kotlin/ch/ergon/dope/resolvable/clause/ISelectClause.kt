@@ -30,7 +30,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 interface ISelectOffsetClause<T : ValidType> : Clause {
-    fun alias(alias: String) = AliasedSelectClause(alias, this)
+    fun alias(alias: String): AliasedSelectClause<T> = AliasedSelectClause(alias, this)
     fun asExpression(): SelectExpression<T> = SelectExpression(this)
 }
 

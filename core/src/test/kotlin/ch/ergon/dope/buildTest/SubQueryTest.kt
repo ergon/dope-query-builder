@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someString
@@ -20,6 +21,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.decode
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.typeOf
+import ch.ergon.dope.resolvable.expression.unaliased.type.getString
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -137,6 +139,39 @@ class SubQueryTest {
         val actual = create
             .select(
                 typeOf(someSelectRawClause().asExpression()),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support sub select entry field`() {
+        val expected = "SELECT (SELECT * FROM `someBucket`)[0].`name`"
+
+        val actual = create
+            .select(
+                create
+                    .selectAsterisk()
+                    .from(someBucket()).asExpression()
+                    .get(0)
+                    .getString("name"),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support sub select entry field with in array`() {
+        val expected = "SELECT * WHERE 5 IN (SELECT RAW `numberField` FROM `someBucket`)"
+
+        val actual = create
+            .selectAsterisk()
+            .where(
+                someNumber().inArray(
+                    create
+                        .selectRaw(someNumberField())
+                        .from(someBucket()).asExpression(),
+                ),
             ).build().queryString
 
         assertEquals(expected, actual)

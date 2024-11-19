@@ -15,10 +15,7 @@ abstract class FunctionExpression<T : ValidType>(
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionsDopeQuery = expressions.mapNotNull { it?.toDopeQuery(manager) }
         return DopeQuery(
-            queryString = toFunctionQueryString(
-                symbol,
-                *expressionsDopeQuery.toTypedArray(),
-            ),
+            queryString = toFunctionQueryString(symbol, *expressionsDopeQuery.toTypedArray()),
             parameters = expressionsDopeQuery.map { it.parameters }.merge(),
         )
     }
