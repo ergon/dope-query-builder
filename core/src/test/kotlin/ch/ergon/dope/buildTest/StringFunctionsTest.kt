@@ -7,6 +7,8 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.alias
+import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
+import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat2
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.contains
@@ -18,19 +20,34 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunctio
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lpad
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.ltrim
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mask
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbLength
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbLpad
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbPosition
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbPosition1
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbRpad
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbSubstring
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.mbSubstring1
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.position
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.position1
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.repeat
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.replace
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.reverse
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.rpad
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.rtrim
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.split
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.substring
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.substring1
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.suffixes
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.title
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.tokens
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.trim
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.urlDecode
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.urlEncode
+import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -790,6 +807,141 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT CONTAINS(UPPER(\"vendolin\"), \"VEN\") AS `foo`"
 
         val actual: String = create.select(contains(upper("vendolin"), "VEN").alias("foo")).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with number types position`() {
+        val expected = "SELECT (POSITION1(\"input\", \"i\") + POSITION(\"input\", \"n\")) " +
+            "< (MB_POSITION(\"input\", \"in\") + MB_POSITION1(\"input\", \"pu\"))"
+
+        val actual: String = create.select(
+            position1("input", "i").add(position("input", "n")).isLessThan(
+                mbPosition("input", "in").add(
+                    mbPosition1("input", "pu"),
+                ),
+            ),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with number types length`() {
+        val expected = "SELECT (LENGTH(\"input\") + MB_LENGTH(\"input\")) > 5"
+
+        val actual: String = create.select(
+            length("input").add(mbLength("input")).isGreaterThan(5),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with string types concat and lower`() {
+        val expected = "SELECT CONCAT(CONCAT(\"a\", \"b\"), " +
+            "CONCAT2(\" \", \"c\", \"d\"), LOWER(\"TEST\"), UPPER(\"test\"))"
+
+        val actual: String = create.select(
+            concat(
+                concat("a", "b"),
+                concat2(" ", "c", "d"),
+                lower("TEST"),
+                upper("test"),
+            ),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with string types pad`() {
+        val expected = "SELECT CONCAT(LPAD(\"input\", 4, \"i\"), RPAD(\"input\", 3), MB_LPAD(\"input\", 5), MB_RPAD(\"input\", 4, \"t\"))"
+
+        val actual: String = create.select(
+            concat(
+                lpad("input", 4, "i"),
+                rpad("input", 3),
+                mbLpad("input", 5),
+                mbRpad("input", 4, "t"),
+            ),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with string types substring`() {
+        val expected = "SELECT CONCAT(SUBSTR(\"input\", 2), SUBSTR1(\"input\", 4, 3), MB_SUBSTR(\"input\", 0, 2), MB_SUBSTR1(\"input\", 2, 2))"
+
+        val actual: String = create.select(
+            concat(
+                substring("input", 2),
+                substring1("input", 4, 3),
+                mbSubstring("input", 0, 2),
+                mbSubstring1("input", 2, 2),
+            ),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with string types trim`() {
+        val expected = "SELECT CONCAT(TRIM(\"  input   \"), LTRIM(\"input\", \"in\"), RTRIM(\"input\", \"ut\"))"
+
+        val actual: String = create.select(
+            concat(
+                trim("  input   "),
+                ltrim("input", "in"),
+                rtrim("input", "ut"),
+            ),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with boolean types contains`() {
+        val expected = "SELECT (CONTAINS(\"input\", \"in\") AND TRUE)"
+
+        val actual: String = create.select(
+            contains("input", "in").and(true),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with array string types suffix and split`() {
+        val expected = "SELECT SUFFIXES(\"input\")[2] = SPLIT(\"input\", \"p\")[1]"
+
+        val actual: String = create.select(
+            suffixes("input").get(2).isEqualTo(split("input", "p").get(1)),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support string functions with number types other`() {
+        val expected = "SELECT CONCAT(INITCAP(\"input\"), MASK(\"input\", {}), REPEAT(\"input\", 3), " +
+            "REPLACE(\"input\", \"p\", \"abo\"), REVERSE(\"input\"), " +
+            "TITLE(\"input\"), URL_DECODE(\"encoded\"), URL_ENCODE(\"input\"))"
+
+        val actual: String = create.select(
+            concat(
+                initCap("input"),
+                mask("input"),
+                repeat("input", 3),
+                replace("input", "p", "abo"),
+                reverse("input"),
+                title("input"),
+                urlDecode("encoded"),
+                urlEncode("input")
+            ),
+        ).build().queryString
 
         assertEquals(expected, actual)
     }

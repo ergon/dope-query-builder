@@ -40,6 +40,8 @@ fun someBooleanArrayField(name: String = "booleanArrayField", bucket: Bucket = s
 
 fun someNumber(value: Number = 5) = value
 
+fun someInt(value: Int = 5) = value
+
 fun someString(value: String = "someString") = value
 
 fun someBoolean(value: Boolean = true) = value
