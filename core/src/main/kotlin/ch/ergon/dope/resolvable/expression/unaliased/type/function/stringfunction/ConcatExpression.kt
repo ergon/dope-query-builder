@@ -5,11 +5,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpre
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class ConcatExpression(
-    firstString: TypeExpression<StringType>,
-    secondString: TypeExpression<StringType>,
-    vararg stringTypes: TypeExpression<StringType>,
-) : FunctionExpression<StringType>("CONCAT", firstString, secondString, *stringTypes)
+class ConcatExpression<T : StringType>(
+    firstString: TypeExpression<T>,
+    secondString: TypeExpression<T>,
+    vararg stringTypes: TypeExpression<T>,
+) : FunctionExpression<T>("CONCAT", firstString, secondString, *stringTypes)
 
 fun concat(
     firstString: TypeExpression<StringType>,

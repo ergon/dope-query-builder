@@ -4,6 +4,8 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isMissing
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNotMissing
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
+import com.schwarz.crystalapi.schema.CMObjectField
+import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("isMissingNumber")
 fun CMJsonField<out Number>.isMissing() = toDopeType().isMissing()
@@ -14,6 +16,9 @@ fun CMJsonField<String>.isMissing() = toDopeType().isMissing()
 @JvmName("isMissingBoolean")
 fun CMJsonField<Boolean>.isMissing() = toDopeType().isMissing()
 
+@JvmName("isMissingObject")
+fun CMObjectField<Schema>.isMissing() = toDopeType().isMissing()
+
 @JvmName("isNotMissingNumber")
 fun CMJsonField<out Number>.isNotMissing() = toDopeType().isNotMissing()
 
@@ -22,3 +27,6 @@ fun CMJsonField<String>.isNotMissing() = toDopeType().isNotMissing()
 
 @JvmName("isNotMissingBoolean")
 fun CMJsonField<Boolean>.isNotMissing() = toDopeType().isNotMissing()
+
+@JvmName("isNotMissingObject")
+fun CMObjectField<Schema>.isNotMissing() = toDopeType().isNotMissing()
