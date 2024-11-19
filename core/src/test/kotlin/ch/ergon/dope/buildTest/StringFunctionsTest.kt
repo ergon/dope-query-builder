@@ -939,7 +939,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 reverse("input"),
                 title("input"),
                 urlDecode("encoded"),
-                urlEncode("input")
+                urlEncode("input"),
             ),
         ).build().queryString
 
