@@ -6,11 +6,11 @@ import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
-import ch.ergon.dope.resolvable.clause.model.SelectOrderByTypeClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
@@ -27,7 +27,6 @@ import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
-import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 interface ISelectOffsetClause<T : ValidType> : Clause {
@@ -46,9 +45,10 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
 }
 
 interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
-    fun orderBy(stringField: Field<StringType>) = SelectOrderByClause(stringField, this)
-    fun orderBy(stringField: Field<StringType>, orderByType: OrderByType) =
-        SelectOrderByTypeClause(stringField, orderByType, this)
+    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = SelectOrderByClause(
+        OrderExpression(expression, orderByType),
+        parentClause = this,
+    )
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
