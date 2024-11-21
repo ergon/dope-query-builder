@@ -2,6 +2,7 @@ package ch.ergon.dope.extensions.type.relational
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.extension.type.getField
 import ch.ergon.dope.extension.type.relational.any
 import ch.ergon.dope.extension.type.relational.every
 import ch.ergon.dope.extension.type.relational.isEqualTo
@@ -43,7 +44,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.any { schema ->
-            schema.field { type }.isEqualTo("some value")
+            schema.getField(Dummy2::type).isEqualTo("some value")
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
@@ -56,7 +57,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.toDopeType().any { schema ->
-            schema.field { type }.isEqualTo("some value")
+            schema.getField(Dummy2::type).isEqualTo("some value")
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
@@ -65,10 +66,10 @@ class SatisfiesTest : ManagerDependentTest {
     @Test
     fun `should support any satisfies with CMJsonList number`() {
         val expected = DopeQuery(
-            queryString = "ANY `iterator1` IN `numberList` SATISFIES (`iterator1` % 2) = 1 END",
+            queryString = "ANY `iterator1` IN `something`.`numberList` SATISFIES (`iterator1` % 2) = 1 END",
         )
 
-        val actual = Dummy().numberList.any { it.mod(2).isEqualTo(1) }.toDopeQuery(manager)
+        val actual = Dummy("something").numberList.any { it.mod(2).isEqualTo(1) }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
     }
@@ -103,7 +104,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.any { schema ->
-            schema.field { otherObjectList }.any { schemaIterator -> schemaIterator.field { something }.isEqualTo(3) }
+            schema.getField(Dummy2::otherObjectList).any { schemaIterator -> schemaIterator.getField(Dummy3::something).isEqualTo(3) }
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
@@ -116,7 +117,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.every { schema ->
-            schema.field { type }.isEqualTo("some value")
+            schema.getField(Dummy2::type).isEqualTo("some value")
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
@@ -129,7 +130,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.toDopeType().every { schema ->
-            schema.field { type }.isEqualTo("some value")
+            schema.getField(Dummy2::type).isEqualTo("some value")
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
@@ -176,7 +177,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.every { schema ->
-            schema.field { otherObjectList }.every { schemaIterator -> schemaIterator.field { something }.isEqualTo(3) }
+            schema.getField(Dummy2::otherObjectList).every { schemaIterator -> schemaIterator.getField(Dummy3::something).isEqualTo(3) }
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)
@@ -190,7 +191,7 @@ class SatisfiesTest : ManagerDependentTest {
         )
 
         val actual = Dummy().objectList.every { schema ->
-            schema.field { otherObjectList }.any { schemaIterator -> schemaIterator.field { something }.isEqualTo(3) }
+            schema.getField(Dummy2::otherObjectList).any { schemaIterator -> schemaIterator.getField(Dummy3::something).isEqualTo(3) }
         }.toDopeQuery(manager)
 
         assertEquals(expected, actual)

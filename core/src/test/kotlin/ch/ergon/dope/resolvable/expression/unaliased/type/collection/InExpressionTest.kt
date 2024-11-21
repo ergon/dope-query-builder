@@ -1,4 +1,4 @@
-package ch.ergon.dope.operators.collection
+package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
@@ -15,21 +15,19 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotWithinExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.notWithinArray
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NotWithinExpressionTest : ManagerDependentTest {
+class InExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support NOT WITHIN expression`() {
+    fun `should support IN expression`() {
         val expected = DopeQuery(
-            queryString = "`numberField` NOT WITHIN `numberArrayField`",
+            queryString = "`numberField` IN `numberArrayField`",
         )
-        val underTest = NotWithinExpression(someNumberField(), someNumberArrayField())
+        val underTest = InExpression(someNumberField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -37,14 +35,14 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with named parameter as value`() {
+    fun `should support IN expression with parameter as value`() {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            queryString = "\$$parameterName NOT WITHIN `numberArrayField`",
+            queryString = "\$param IN `numberArrayField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = NotWithinExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
+        val underTest = InExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -52,13 +50,13 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with positional parameter as value`() {
+    fun `should support IN expression with positional parameter as value`() {
         val parameterValue = 1
         val expected = DopeQuery(
-            queryString = "$1 NOT WITHIN `numberArrayField`",
+            queryString = "$1 IN `numberArrayField`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = NotWithinExpression(parameterValue.asParameter(), someNumberArrayField())
+        val underTest = InExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -66,14 +64,14 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with named parameter as collection`() {
+    fun `should support IN expression with parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
         val expected = DopeQuery(
-            queryString = "`numberField` NOT WITHIN \$$parameterName",
+            queryString = "`numberField` IN \$param",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter(parameterName))
+        val underTest = InExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -81,13 +79,13 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with positional parameter as collection`() {
+    fun `should support IN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            queryString = "`numberField` NOT WITHIN $1",
+            queryString = "`numberField` IN $1",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = NotWithinExpression(someNumberField(), parameterValue.asParameter())
+        val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -95,16 +93,16 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with named parameters as value and collection`() {
+    fun `should support IN expression with parameter as value and collection`() {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
         val parameterNameA = "paramA"
         val parameterNameB = "paramB"
         val expected = DopeQuery(
-            queryString = "\$$parameterNameA NOT WITHIN \$$parameterNameB",
+            queryString = "\$paramA IN \$paramB",
             DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
         )
-        val underTest = NotWithinExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
+        val underTest = InExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -112,14 +110,14 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN expression with positional parameters as value and collection`() {
+    fun `should support IN expression with positional parameter as value and collection`() {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            queryString = "$1 NOT WITHIN $2",
+            queryString = "$1 IN $2",
             DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
         )
-        val underTest = NotWithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
+        val underTest = InExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -127,133 +125,133 @@ class NotWithinExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NOT WITHIN extension type type`() {
+    fun `should support IN extension type type`() {
         val value = someNumberField()
         val collection = someNumberArrayField()
-        val expected = NotWithinExpression(value, collection)
+        val expected = InExpression(value, collection)
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension number type`() {
+    fun `should support IN extension number type`() {
         val value = 1
         val collection = someNumberArrayField()
-        val expected = NotWithinExpression(value.toDopeType(), collection)
+        val expected = InExpression(value.toDopeType(), collection)
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension string type`() {
+    fun `should support IN extension string type`() {
         val value = "s"
         val collection = someStringArrayField()
-        val expected = NotWithinExpression(value.toDopeType(), collection)
+        val expected = InExpression(value.toDopeType(), collection)
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension boolean type`() {
+    fun `should support IN extension boolean type`() {
         val value = true
         val collection = someBooleanArrayField()
-        val expected = NotWithinExpression(value.toDopeType(), collection)
+        val expected = InExpression(value.toDopeType(), collection)
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension type type collection`() {
+    fun `should support IN extension type type collection`() {
         val value = someNumberField()
         val collection = listOf(someNumberField(), someNumberField())
-        val expected = NotWithinExpression(value, collection.toDopeType())
+        val expected = InExpression(value, collection.toDopeType())
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension number type collection`() {
+    fun `should support IN extension number type collection`() {
         val value = 1
         val collection = listOf(someNumberField(), someNumberField())
-        val expected = NotWithinExpression(value.toDopeType(), collection.toDopeType())
+        val expected = InExpression(value.toDopeType(), collection.toDopeType())
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension string type collection`() {
+    fun `should support IN extension string type collection`() {
         val value = "s"
         val collection = listOf(someStringField(), someStringField())
-        val expected = NotWithinExpression(value.toDopeType(), collection.toDopeType())
+        val expected = InExpression(value.toDopeType(), collection.toDopeType())
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support NOT WITHIN extension boolean type collection`() {
+    fun `should support IN extension boolean type collection`() {
         val value = true
         val collection = listOf(someBooleanField(), someBooleanField())
-        val expected = NotWithinExpression(value.toDopeType(), collection.toDopeType())
+        val expected = InExpression(value.toDopeType(), collection.toDopeType())
 
-        val actual = value.notWithinArray(collection)
+        val actual = value.inArray(collection)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support WITHIN extension type select`() {
+    fun `should support IN extension type select`() {
         val value = someStringField()
         val selectClause = someSelectRawClause()
-        val expected = NotWithinExpression(value, selectClause.asExpression())
+        val expected = InExpression(value, selectClause.asExpression())
 
-        val actual = value.notWithinArray(selectClause)
+        val actual = value.inArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support WITHIN extension number select`() {
+    fun `should support IN extension number select`() {
         val value = 1
         val selectClause = someNumberSelectRawClause()
-        val expected = NotWithinExpression(value.toDopeType(), selectClause.asExpression())
+        val expected = InExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.notWithinArray(selectClause)
+        val actual = value.inArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support WITHIN extension string select`() {
+    fun `should support IN extension string select`() {
         val value = "s"
         val selectClause = someStringSelectRawClause()
-        val expected = NotWithinExpression(value.toDopeType(), selectClause.asExpression())
+        val expected = InExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.notWithinArray(selectClause)
+        val actual = value.inArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support WITHIN extension boolean select`() {
+    fun `should support IN extension boolean boolean`() {
         val value = true
         val selectClause = someBooleanSelectRawClause()
-        val expected = NotWithinExpression(value.toDopeType(), selectClause.asExpression())
+        val expected = InExpression(value.toDopeType(), selectClause.asExpression())
 
-        val actual = value.notWithinArray(selectClause)
+        val actual = value.inArray(selectClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

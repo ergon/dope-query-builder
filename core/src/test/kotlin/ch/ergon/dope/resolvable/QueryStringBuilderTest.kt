@@ -87,4 +87,15 @@ class QueryStringBuilderTest : ManagerDependentTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should format name with path that has multiple dots`() {
+        val name = "testName"
+        val path = "testPath.otherPath.testOtherPath"
+        val expected = "`testPath`.`otherPath`.`testOtherPath`.`testName`"
+
+        val actual = formatPathToQueryString(name, path)
+
+        assertEquals(expected, actual)
+    }
 }

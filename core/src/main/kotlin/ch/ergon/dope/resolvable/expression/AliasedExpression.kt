@@ -26,3 +26,5 @@ fun Number.alias(string: String) = toDopeType().alias(string)
 fun String.alias(string: String) = toDopeType().alias(string)
 
 fun Boolean.alias(string: String) = toDopeType().alias(string)
+
+fun <V> Map<String, V>.alias(string: String) = toDopeType().alias(string)
