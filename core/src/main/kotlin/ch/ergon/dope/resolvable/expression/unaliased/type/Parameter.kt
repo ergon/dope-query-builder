@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
@@ -38,6 +39,8 @@ class BooleanParameter(value: Boolean, parameterName: String? = null) : Paramete
 
 class ArrayParameter<T : ValidType>(value: Collection<Any>, parameterName: String? = null) : Parameter<ArrayType<T>>(value, parameterName)
 
+class ObjectParameter(value: Map<String, Any>, parameterName: String? = null) : Parameter<ObjectType>(value, parameterName)
+
 fun Number.asParameter(parameterName: String? = null) = NumberParameter(this, parameterName)
 
 fun String.asParameter(parameterName: String? = null) = StringParameter(this, parameterName)
@@ -52,3 +55,5 @@ fun Collection<String>.asParameter(parameterName: String? = null) = ArrayParamet
 
 @JvmName("booleanParameterAsParameter")
 fun Collection<Boolean>.asParameter(parameterName: String? = null) = ArrayParameter<BooleanType>(this, parameterName)
+
+fun Map<String, Any>.asParameter(parameterName: String? = null) = ObjectParameter(this, parameterName)

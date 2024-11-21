@@ -7,12 +7,13 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 private const val META = "META"
 
-class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, FunctionOperator {
+class MetaExpression(private val bucket: Bucket?) : TypeExpression<ObjectType>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager) =
         if (bucket == null) {
             DopeQuery(
@@ -29,30 +30,27 @@ class MetaExpression(private val bucket: Bucket?) : TypeExpression<StringType>, 
             )
         }
 
-    val cas: Field<NumberType> = getMetaField("cas")
+    val cas: Field<NumberType> = MetaField(this, "cas")
 
-    val expiration: Field<NumberType> = getMetaField("expiration")
+    val expiration: Field<NumberType> = MetaField(this, "expiration")
 
-    val flags: Field<NumberType> = getMetaField("flags")
+    val flags: Field<NumberType> = MetaField(this, "flags")
 
-    val id: Field<StringType> = getMetaField("id")
+    val id: Field<StringType> = MetaField(this, "id")
 
-    val type: Field<StringType> = getMetaField("type")
+    val type: Field<StringType> = MetaField(this, "type")
 
-    val keyspace: Field<StringType> = getMetaField("keyspace")
-
-    private fun <T : ValidType> getMetaField(field: String): MetaField<T> =
-        MetaField(field) { manager: DopeQueryManager -> toDopeQuery(manager) }
+    val keyspace: Field<StringType> = MetaField(this, "keyspace")
 
     private class MetaField<T : ValidType>(
+        private val metaExpression: MetaExpression,
         private val name: String,
-        private val generateDopeQuery: (DopeQueryManager) -> DopeQuery,
     ) : Field<T>(name, "") {
         override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-            val dopeQuery = generateDopeQuery(manager)
+            val metaExpressionDopeQuery = metaExpression.toDopeQuery(manager)
             return DopeQuery(
-                queryString = "${dopeQuery.queryString}.`$name`",
-                parameters = dopeQuery.parameters,
+                queryString = "${metaExpressionDopeQuery.queryString}.`$name`",
+                parameters = metaExpressionDopeQuery.parameters,
             )
         }
     }

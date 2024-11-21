@@ -4,6 +4,9 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.i
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
+import com.schwarz.crystalapi.schema.CMObjectField
+import com.schwarz.crystalapi.schema.CMObjectList
+import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("ifCMNumberFieldIsMissing")
 fun ifMissing(
@@ -38,6 +41,17 @@ fun ifMissing(
     *additionalExpressions.map { it.toDopeType() }.toTypedArray(),
 )
 
+@JvmName("ifCMObjectFieldIsMissing")
+fun ifMissing(
+    firstExpression: CMObjectField<Schema>,
+    secondExpression: CMObjectField<Schema>,
+    vararg additionalExpressions: CMObjectField<Schema>,
+) = ifMissing(
+    firstExpression.toDopeType(),
+    secondExpression.toDopeType(),
+    *additionalExpressions.map { it.toDopeType() }.toTypedArray(),
+)
+
 @JvmName("ifCMNumberStringIsMissing")
 fun ifMissing(
     firstExpression: CMJsonList<out Number>,
@@ -65,6 +79,17 @@ fun ifMissing(
     firstExpression: CMJsonList<Boolean>,
     secondExpression: CMJsonList<Boolean>,
     vararg additionalExpressions: CMJsonList<Boolean>,
+) = ifMissing(
+    firstExpression.toDopeType(),
+    secondExpression.toDopeType(),
+    *additionalExpressions.map { it.toDopeType() }.toTypedArray(),
+)
+
+@JvmName("ifCMObjectListIsMissing")
+fun ifMissing(
+    firstExpression: CMObjectList<Schema>,
+    secondExpression: CMObjectList<Schema>,
+    vararg additionalExpressions: CMObjectList<Schema>,
 ) = ifMissing(
     firstExpression.toDopeType(),
     secondExpression.toDopeType(),

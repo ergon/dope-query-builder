@@ -6,6 +6,7 @@ import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.formatStringListToQueryStringWithBrackets
 import ch.ergon.dope.resolvable.operator.FunctionOperator
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 
 // Argument {"case":"lower"} is optional. Valid values are lower or upper.
@@ -14,7 +15,7 @@ import ch.ergon.dope.validtype.StringType
 class TokensExpression(
     private val inStr: List<String>,
     private val opt: CustomTokenOptions = CustomTokenOptions(),
-) : TypeExpression<StringType>, FunctionOperator {
+) : TypeExpression<ArrayType<StringType>>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val optDopeQuery = opt.toDopeQuery()
         return DopeQuery(

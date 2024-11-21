@@ -9,10 +9,13 @@ import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
+import ch.ergon.dope.helper.someCMObjectField
+import ch.ergon.dope.helper.someCMObjectList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someCaseClass
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
@@ -22,6 +25,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.S
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import kotlin.test.Test
@@ -61,6 +65,16 @@ class CaseExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should create CaseClass from CMObjectField`() {
+        val expression = someCMObjectField()
+        val expected = CaseClass(expression.toDopeType())
+
+        val actual = case(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should create CaseClass from CMJsonList of Number`() {
         val expression = someCMNumberList()
         val expected = CaseClass(expression.toDopeType())
@@ -83,6 +97,16 @@ class CaseExpressionTest : ManagerDependentTest {
     @Test
     fun `should create CaseClass from CMJsonList of Boolean`() {
         val expression = someCMBooleanList()
+        val expected = CaseClass(expression.toDopeType())
+
+        val actual = case(expression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should create CaseClass from CMObjectList`() {
+        val expression = someCMObjectList()
         val expected = CaseClass(expression.toDopeType())
 
         val actual = case(expression)
@@ -193,6 +217,40 @@ class CaseExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should add else condition with CMObject to SimpleCaseExpression with generic`() {
+        val case = someCaseClass(someNumberField())
+        val initialExpression = CaseExpression(case, SearchResult(someNumberField(), someObjectField()))
+        val elseExpression = someCMObjectField()
+        val expected = ElseCaseExpression(
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
+            elseCase = elseExpression.toDopeType(),
+        )
+
+        val actual: TypeExpression<ObjectType> = initialExpression.otherwise(elseExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should add else condition with CMObject to SimpleCaseExpression without generic`() {
+        val case = someCaseClass(someNumberField())
+        val initialExpression = CaseExpression(case, SearchResult(someNumberField(), someNumberField()))
+        val elseExpression = someCMObjectField()
+        val expected = ElseCaseExpression(
+            case,
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
+            elseCase = elseExpression.toDopeType(),
+        )
+
+        val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should add else condition with CMNumber to SearchedCaseExpression with generic`() {
         val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someNumberField()))
         val elseExpression = someCMNumberField()
@@ -276,6 +334,38 @@ class CaseExpressionTest : ManagerDependentTest {
     fun `should add else condition with CMBoolean to SearchedCaseExpression without generic`() {
         val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someNumberField()))
         val elseExpression = someCMBooleanField()
+        val expected = ElseCaseExpression(
+            CaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
+            elseCase = elseExpression.toDopeType(),
+        )
+
+        val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should add else condition with CMObject to SearchedCaseExpression with generic`() {
+        val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someObjectField()))
+        val elseExpression = someCMObjectField()
+        val expected = ElseCaseExpression(
+            CaseClass(),
+            initialExpression.firstSearchResult,
+            *initialExpression.additionalSearchResult,
+            elseCase = elseExpression.toDopeType(),
+        )
+
+        val actual: TypeExpression<ObjectType> = initialExpression.otherwise(elseExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should add else condition with CMObject to SearchedCaseExpression without generic`() {
+        val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someNumberField()))
+        val elseExpression = someCMObjectField()
         val expected = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,

@@ -2,8 +2,10 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -58,6 +60,27 @@ class OrderByTest {
             ).orderBy(
                 someStringField(),
                 OrderByType.DESC,
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support multiple Order By clause`() {
+        val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` DESC, `numberField`, LOWER(\"SOMETHING\") ASC"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket(),
+            ).orderBy(
+                someStringField(),
+                OrderByType.DESC,
+            ).thenOrderBy(
+                someNumberField(),
+            ).thenOrderBy(
+                lower("SOMETHING"),
+                OrderByType.ASC,
             ).build().queryString
 
         assertEquals(expected, actual)
