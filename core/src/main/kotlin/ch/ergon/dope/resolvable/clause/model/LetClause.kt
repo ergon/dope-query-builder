@@ -18,19 +18,19 @@ class LetClause<T : ValidType>(
 ) : ISelectLetClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val letExpressionDopeQuery = dopeVariable.toDefinitionDopeQuery(manager)
-        val letExpressionDopeQueries = dopeVariables.map { it.toDefinitionDopeQuery(manager) }
+        val dopeVariableQuery = dopeVariable.toDefinitionDopeQuery(manager)
+        val dopeVariablesQueries = dopeVariables.map { it.toDefinitionDopeQuery(manager) }
 
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
                 "LET",
-                letExpressionDopeQuery.queryString,
-                *letExpressionDopeQueries.map { it.queryString }.toTypedArray(),
+                dopeVariableQuery.queryString,
+                *dopeVariablesQueries.map { it.queryString }.toTypedArray(),
             ),
             parameters = parentDopeQuery.parameters.merge(
-                letExpressionDopeQuery.parameters,
-                *letExpressionDopeQueries.map { it.parameters }.toTypedArray(),
+                dopeVariableQuery.parameters,
+                *dopeVariablesQueries.map { it.parameters }.toTypedArray(),
             ),
         )
     }
