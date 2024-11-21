@@ -4,6 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
@@ -33,11 +34,13 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayReplace
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayReverse
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySort
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayStar
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySum
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiff
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiffN
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayUnion
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
+import ch.ergon.dope.resolvable.expression.unaliased.type.getNumberArray
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -367,6 +370,19 @@ class ArrayFunctionsTest {
         val actual = create
             .select(
                 arraySum(someNumberArrayField()).add(1),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array star with object function`() {
+        val objectArray = someObjectArrayField()
+        val expected = "SELECT ARRAY_STAR(`objectArrayField`).`key`"
+
+        val actual = create
+            .select(
+                arrayStar(objectArray).getNumberArray("key"),
             ).build().queryString
 
         assertEquals(expected, actual)

@@ -12,6 +12,7 @@ import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 
 fun someSelectClause(expression: Expression = AsteriskExpression()) = SelectClause(expression)
@@ -27,8 +28,12 @@ fun someNumberSelectRawClause(expression: TypeExpression<NumberType> = someNumbe
 fun someBooleanSelectRawClause(expression: TypeExpression<BooleanType> = someBooleanField()) =
     SelectRawClause(expression)
 
+fun someObjectSelectRawClause(expression: TypeExpression<ObjectType> = someObjectField()) =
+    SelectRawClause(expression)
+
 fun someDeleteClause(bucket: Bucket = someBucket()) = DeleteClause(bucket)
 
 fun someUpdateClause(bucket: Bucket = someBucket()) = UpdateClause(bucket)
 
-fun someFromClause(bucket: UnaliasedBucket = someBucket(), parent: SelectClause = someSelectClause()) = FromClause(bucket, parent)
+fun someFromClause(bucket: UnaliasedBucket = someBucket(), parent: SelectClause = someSelectClause()) =
+    FromClause(bucket, parent)
