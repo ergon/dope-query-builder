@@ -4,7 +4,6 @@ import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ObjectType
-import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class ObjectInnerValuesExpression(
