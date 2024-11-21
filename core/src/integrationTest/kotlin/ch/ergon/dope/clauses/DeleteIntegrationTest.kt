@@ -46,7 +46,8 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 1.add(1).isEqualTo(2),
-            ).returning(
+            )
+            .returning(
                 idField,
             ).build()
 

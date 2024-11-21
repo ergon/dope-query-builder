@@ -29,7 +29,8 @@ class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
                 sum(idField).alias("sum"),
                 arrayAggregate(typeField, DISTINCT).alias("arrayAggregate"),
                 countAsterisk().alias("count"),
-            ).from(
+            )
+            .from(
                 testBucket,
             ).build()
 

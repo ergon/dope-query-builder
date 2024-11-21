@@ -70,7 +70,8 @@ class JoinIntegrationTest : BaseIntegrationTest() {
                 employeeAlias,
                 orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
                 hashOrNestedLoopHint = NESTED_LOOP,
-            ).innerJoin(
+            )
+            .innerJoin(
                 clientAlias,
                 orderClientIdField.isEqualTo(meta(clientAlias).id),
                 keysOrIndexHint = indexHint(),

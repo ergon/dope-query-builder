@@ -21,7 +21,7 @@ const val BUCKET = "testBucket"
 
 object TestCouchbaseDatabase {
     private val container = CouchbaseContainer(
-        DockerImageName.parse("couchbase/server:community-7.6.2"),
+        DockerImageName.parse("couchbase/server:latest"),
     )
     val cluster: Cluster
     val testBucket = UnaliasedBucket(BUCKET)

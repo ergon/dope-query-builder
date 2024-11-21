@@ -16,6 +16,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -40,7 +41,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("employee"),
-            ).orderBy(
+            )
+            .orderBy(
                 nameField,
             ).build()
 
@@ -73,9 +75,11 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).orderBy(
+            )
+            .orderBy(
                 typeField,
-            ).limit(
+            )
+            .limit(
                 1,
             ).build()
 
@@ -95,7 +99,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).limit(
+            )
+            .limit(
                 1,
             ).build()
 
@@ -112,7 +117,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             )
             .where(
-                1.isEqualTo(2),
+                idField.isNull(),
             ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
@@ -143,7 +148,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).limit(
+            )
+            .limit(
                 1,
             ).build()
 
@@ -174,7 +180,8 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                     )
                     .from(
                         testBucket,
-                    ).where(
+                    )
+                    .where(
                         typeField.isEqualTo("client").and(
                             idField.isGreaterThan(2),
                         ),

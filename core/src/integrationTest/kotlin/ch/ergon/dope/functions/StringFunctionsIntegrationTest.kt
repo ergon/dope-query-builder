@@ -17,7 +17,8 @@ class StringFunctionsIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder()
             .select(
                 concat(ltrim("   test"), title(rtrim("string   "))),
-            ).offset(
+            )
+            .offset(
                 length(""),
             ).build()
 

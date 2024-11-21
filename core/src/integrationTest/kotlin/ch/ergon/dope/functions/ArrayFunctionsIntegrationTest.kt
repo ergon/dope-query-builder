@@ -33,9 +33,11 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder()
             .select(
                 arrayCount(array).add(arrayLength(array)).sub(arrayAverage(array)),
-            ).where(
+            )
+            .where(
                 arrayContains(array, arrayMin(array)).and(arrayRange(1, 4).isEqualTo(array)),
-            ).limit(
+            )
+            .limit(
                 array.get(0),
             ).build()
 
@@ -51,7 +53,8 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder()
             .selectRaw(
                 meta().id,
-            ).from(
+            )
+            .from(
                 testBucket.useKeys(
                     arraySort(
                         arrayPut(
@@ -64,7 +67,8 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
                         ),
                     ),
                 ),
-            ).where(
+            )
+            .where(
                 arrayCount(
                     arrayRange(1, 11),
                 ).isEqualTo(

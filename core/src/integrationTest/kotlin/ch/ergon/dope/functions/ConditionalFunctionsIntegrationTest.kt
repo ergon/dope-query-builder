@@ -30,9 +30,11 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                     "client".resultsIn(1),
                     default = 0.toDopeType(),
                 ).alias("decoded"),
-            ).from(
+            )
+            .from(
                 testBucket,
-            ).where(
+            )
+            .where(
                 typeField.isEqualTo("client"),
             ).build()
 
@@ -52,7 +54,8 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                     missingField,
                     "value".toDopeType(),
                 ).alias("conditional"),
-            ).from(
+            )
+            .from(
                 testBucket,
             ).build()
 
@@ -75,9 +78,11 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                     "exists",
                     "doesn't exist",
                 ).alias("nvl2"),
-            ).from(
+            )
+            .from(
                 testBucket,
-            ).where(
+            )
+            .where(
                 typeField.isEqualTo("order"),
             ).build()
 
