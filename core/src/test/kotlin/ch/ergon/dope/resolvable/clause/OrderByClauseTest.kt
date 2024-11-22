@@ -246,6 +246,31 @@ class OrderByClauseTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support order by function with orderExpression`() {
+        val stringField = someStringField()
+        val parentClause = someSelectClause()
+        val orderExpression = OrderExpression(stringField)
+        val expected = SelectOrderByClause(orderExpression, parentClause = parentClause)
+
+        val actual = parentClause.orderBy(orderExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support order by function with then order by with orderExpression`() {
+        val stringField = someStringField()
+        val parentClause = someSelectClause()
+        val orderType = ASC
+        val orderExpression = OrderExpression(someNumberField())
+        val expected = SelectOrderByClause(OrderExpression(stringField, orderType), orderExpression, parentClause = parentClause)
+
+        val actual = parentClause.orderBy(stringField, orderType).thenOrderBy(orderExpression)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support order by function with then order by`() {
         val stringField = someStringField()
         val numberField = someNumberField()
