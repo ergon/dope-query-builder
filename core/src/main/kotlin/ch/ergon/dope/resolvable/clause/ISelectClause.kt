@@ -45,10 +45,9 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
 }
 
 interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
-    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = SelectOrderByClause(
-        OrderExpression(expression, orderByType),
-        parentClause = this,
-    )
+    fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
+        SelectOrderByClause(orderExpression, *additionalOrderExpressions, parentClause = this)
+    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = orderBy(OrderExpression(expression, orderByType))
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
