@@ -76,11 +76,17 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
                         arrayRepeat("value".toDopeType(), 10),
                     ),
                 ),
-            ).build()
+            ).orderBy(
+                meta().id,
+            )
+            .build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
-        val result = queryResult.toRawValues(rowNumber = 2)
 
-        assertEquals("employee:3", result)
+        assertEquals("employee:1", queryResult.toRawValues(rowNumber = 0))
+        assertEquals("employee:2", queryResult.toRawValues(rowNumber = 1))
+        assertEquals("employee:3", queryResult.toRawValues(rowNumber = 2))
+        assertEquals("employee:4", queryResult.toRawValues(rowNumber = 3))
+        assertEquals("employee:5", queryResult.toRawValues(rowNumber = 4))
     }
 }

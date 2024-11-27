@@ -5,6 +5,7 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.fromable.useKeys
@@ -41,7 +42,7 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
-            val result = queryResult.rows[0].contentAs<Map<String, String>>()
+            val result = queryResult.toMapValues()
 
             assertEquals("newName", result["newField"])
             assertNull(result["nameField"])

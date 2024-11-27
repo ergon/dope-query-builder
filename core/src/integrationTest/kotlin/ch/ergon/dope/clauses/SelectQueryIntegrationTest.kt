@@ -133,11 +133,18 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
+            ).orderBy(
+                idField,
             ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
         assertEquals(5, queryResult.rows.size)
+        assertEquals(mapOf("id" to 1), queryResult.toMapValues(rowNumber = 0))
+        assertEquals(mapOf("id" to 2), queryResult.toMapValues(rowNumber = 1))
+        assertEquals(mapOf("id" to 3), queryResult.toMapValues(rowNumber = 2))
+        assertEquals(mapOf("id" to 4), queryResult.toMapValues(rowNumber = 3))
+        assertEquals(mapOf("id" to 5), queryResult.toMapValues(rowNumber = 4))
     }
 
     @Test

@@ -5,6 +5,8 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
+import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
+import ch.ergon.dope.resolvable.clause.model.OrderByType.DESC
 import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.NESTED_LOOP
 import ch.ergon.dope.resolvable.clause.model.joinHint.indexHint
 import ch.ergon.dope.resolvable.expression.alias
@@ -34,16 +36,20 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             .join(
                 orderAlias,
                 orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
-            )
-            .build()
+            ).orderBy(
+                orderNumberField,
+                ASC,
+            ).build()
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
-            val result = queryResult.toMapValues()
 
             assertEquals(5, queryResult.rows.size)
-            assertEquals("employee1", result["name"])
-            assertEquals("order1", result["orderNumber"])
+            assertEquals(mapOf("name" to "employee1", "orderNumber" to "order1"), queryResult.toMapValues(rowNumber = 0))
+            assertEquals(mapOf("name" to "employee2", "orderNumber" to "order2"), queryResult.toMapValues(rowNumber = 1))
+            assertEquals(mapOf("name" to "employee3", "orderNumber" to "order3"), queryResult.toMapValues(rowNumber = 2))
+            assertEquals(mapOf("name" to "employee4", "orderNumber" to "order4"), queryResult.toMapValues(rowNumber = 3))
+            assertEquals(mapOf("name" to "employee5", "orderNumber" to "order5"), queryResult.toMapValues(rowNumber = 4))
         }
     }
 
@@ -75,17 +81,36 @@ class JoinIntegrationTest : BaseIntegrationTest() {
                 clientAlias,
                 orderClientIdField.isEqualTo(meta(clientAlias).id),
                 keysOrIndexHint = indexHint(),
+            ).orderBy(
+                orderNumberField,
+                DESC,
             )
             .build()
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
-            val result = queryResult.toMapValues()
 
             assertEquals(5, queryResult.rows.size)
-            assertEquals("order1", result["orderNumber"])
-            assertEquals("employee1", result["employeeName"])
-            assertEquals("client1", result["clientName"])
+            assertEquals(
+                mapOf("employeeName" to "employee5", "orderNumber" to "order5", "clientName" to "client5"),
+                queryResult.toMapValues(rowNumber = 0),
+            )
+            assertEquals(
+                mapOf("employeeName" to "employee4", "orderNumber" to "order4", "clientName" to "client4"),
+                queryResult.toMapValues(rowNumber = 1),
+            )
+            assertEquals(
+                mapOf("employeeName" to "employee3", "orderNumber" to "order3", "clientName" to "client3"),
+                queryResult.toMapValues(rowNumber = 2),
+            )
+            assertEquals(
+                mapOf("employeeName" to "employee2", "orderNumber" to "order2", "clientName" to "client2"),
+                queryResult.toMapValues(rowNumber = 3),
+            )
+            assertEquals(
+                mapOf("employeeName" to "employee1", "orderNumber" to "order1", "clientName" to "client1"),
+                queryResult.toMapValues(rowNumber = 4),
+            )
         }
     }
 }
