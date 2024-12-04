@@ -9,6 +9,7 @@ import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
+import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.fromable.Bucket
@@ -150,3 +151,21 @@ fun <T : ValidType> ISelectUnnestClause<T>.unnest(arrayField: CMJsonList<Number>
 
 @JvmName("unnestBoolean")
 fun <T : ValidType> ISelectUnnestClause<T>.unnest(arrayField: CMJsonList<Boolean>) = unnest(arrayField.toDopeType())
+
+@JvmName("assignToCMNumberField")
+fun String.assignTo(value: CMJsonField<Number>) = assignTo(value.toDopeType())
+
+@JvmName("assignToCMStringField")
+fun String.assignTo(value: CMJsonField<String>) = assignTo(value.toDopeType())
+
+@JvmName("assignToCMBooleanField")
+fun String.assignTo(value: CMJsonField<Boolean>) = assignTo(value.toDopeType())
+
+@JvmName("assignToCMNumberList")
+fun String.assignTo(value: CMJsonList<Number>) = assignTo(value.toDopeType())
+
+@JvmName("assignToCMStringList")
+fun String.assignTo(value: CMJsonList<String>) = assignTo(value.toDopeType())
+
+@JvmName("assignToCMBooleanList")
+fun String.assignTo(value: CMJsonList<Boolean>) = assignTo(value.toDopeType())
