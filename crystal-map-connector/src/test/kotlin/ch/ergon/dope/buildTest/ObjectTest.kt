@@ -4,7 +4,9 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.extension.type.access.get
+import ch.ergon.dope.extension.type.array.arrayStar
 import ch.ergon.dope.extension.type.getField
+import ch.ergon.dope.extension.type.relational.inArray
 import ch.ergon.dope.extension.type.relational.isEqualTo
 import ch.ergon.dope.extension.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -13,6 +15,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.case
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.condition
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.unaliased.type.getString
+import ch.ergon.dope.resolvable.expression.unaliased.type.getStringArray
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMObjectField
@@ -110,6 +113,25 @@ class ObjectTest : ManagerDependentTest {
             .select(objectField, case(objectField).condition(schema.hobbies.get(0).resultsIn("isPrimary")))
             .from(bucket)
             .where(objectField.getField(Hobby::name).isEqualTo("Football"))
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array star function with object list`() {
+        val bucket = someBucket().alias("p")
+        val schema = Person("p")
+        val objectField = schema.primaryHobby.toDopeType()
+        val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`primaryHobby`.`name` IN " +
+            "ARRAY_STAR(`p`.`hobbies`).`name`"
+
+        val actual = QueryBuilder()
+            .selectAsterisk()
+            .from(bucket)
+            .where(
+                objectField.getField(Hobby::name).inArray(schema.hobbies.arrayStar().getStringArray("name")),
+            )
             .build().queryString
 
         assertEquals(expected, actual)
