@@ -13,7 +13,6 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.IN
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isNumber
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toNumber
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
@@ -21,20 +20,20 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqu
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FirstForRangeExpressionTest : ManagerDependentTest {
+class FirstForRangeIndexedExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support first for in expression`() {
         val range = someNumberArrayField()
         val expected = DopeQuery(
-            queryString = "FIRST (`it` * `it`) FOR `it` IN `numberArrayField` END",
+            queryString = "FIRST (`it` * `it`) FOR `iterator1`:`it` IN `numberArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { it.mul(it) },
+            transformation = { it, _ -> it.mul(it) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -46,13 +45,13 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support first for in expression string function`() {
         val range = someStringArrayField()
         val expected = DopeQuery(
-            queryString = "FIRST CONCAT(\"test\", `it`) FOR `it` IN `stringArrayField` END",
+            queryString = "FIRST CONCAT(\"test\", `it`) FOR `iterator1`:`it` IN `stringArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { concat("test", it) },
+            transformation = { it, _ -> concat("test", it) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -64,13 +63,14 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support first for in expression resulting in new type`() {
         val range = someStringArrayField()
         val expected = DopeQuery(
-            queryString = "FIRST TONUMBER(`it`) FOR `it` IN `stringArrayField` END",
+            queryString = "FIRST (`i` * TONUMBER(`it`)) FOR `i`:`it` IN `stringArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { it.toNumber() },
+            indexName = "i",
+            transformation = { it, i -> i.mul(it.toNumber()) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -82,13 +82,14 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support first for in expression with condition`() {
         val range = someNumberArrayField()
         val expected = DopeQuery(
-            "FIRST (`iterator1` + 1) FOR `iterator1` IN `numberArrayField` WHEN `iterator1` <= 2 END",
+            "FIRST (`iterator1` + 1) FOR `i`:`iterator1` IN `numberArrayField` WHEN `i` <= 2 END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
-            transformation = { it.add(1) },
-            condition = { it.isLessOrEqualThan(2) },
+            indexName = "i",
+            transformation = { it, _ -> it.add(1) },
+            condition = { _, i -> i.isLessOrEqualThan(2) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -102,17 +103,17 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val positionalParameterValue = "test"
         val namedParameterName = "first"
         val expected = DopeQuery(
-            queryString = "FIRST CONCAT(\$1, `it`) FOR `it` IN \$$namedParameterName END",
+            queryString = "FIRST CONCAT(\$1, `it`) FOR `iterator1`:`it` IN \$$namedParameterName END",
             parameters = DopeParameters(
                 namedParameters = mapOf(namedParameterName to range),
                 positionalParameters = listOf(positionalParameterValue),
             ),
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
-            transformation = { concat(positionalParameterValue.asParameter(), it) },
+            transformation = { it, _ -> concat(positionalParameterValue.asParameter(), it) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -124,20 +125,22 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support nested first for in expression with condition`() {
         val range = someNumberArrayField()
         val expected = DopeQuery(
-            "FIRST `it` FOR `it` IN `numberArrayField` " +
-                "WHEN FIRST `it2` FOR `it2` IN `numberArrayField` END = `it` END",
+            "FIRST (`it` + `i`) FOR `i`:`it` IN `numberArrayField` " +
+                "WHEN FIRST `it2` FOR `i2`:`it2` IN `numberArrayField` END = `it` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { it },
-            condition = {
-                FirstForRangeExpression(
+            indexName = "i",
+            transformation = { it, i -> it.add(i) },
+            condition = { it, _ ->
+                FirstForRangeIndexedExpression(
                     membershipType = IN,
                     range = range,
                     iteratorName = "it2",
-                    transformation = { it2 -> it2 },
+                    indexName = "i2",
+                    transformation = { it2, _ -> it2 },
                 ).isEqualTo(it)
             },
         )
@@ -150,14 +153,18 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for in expression extension`() {
         val range = someNumberArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { it.add(1) },
+            indexName = "i",
+            transformation = { it, _ -> it.add(1) },
         )
 
-        val actual = range.map(iteratorName = "it") { it.add(1) }.first()
+        val actual = range.mapIndexed(iteratorName = "it", indexName = "i") {
+                it, _ ->
+            it.add(1)
+        }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -165,17 +172,20 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for in expression extension with condition`() {
         val range = someNumberArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstForRangeIndexedExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { it.add(1) },
-            condition = { it.isLessOrEqualThan(2) },
+            indexName = "i",
+            transformation = { it, _ -> it.add(1) },
+            condition = { _, i -> i.isLessOrEqualThan(2) },
         )
 
-        val actual = range.filter(iteratorName = "it") {
-            it.isLessOrEqualThan(2)
+        val actual = range.filterIndexed(iteratorName = "it", indexName = "i") {
+                _, i ->
+            i.isLessOrEqualThan(2)
         }.map {
+                it, _ ->
             it.add(1)
         }.first()
 
@@ -186,13 +196,13 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support first for within expression`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            queryString = "FIRST (TONUMBER(`it`) * TONUMBER(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
+            queryString = "FIRST (TONUMBER(`it`) * TONUMBER(`it`)) FOR `iterator1`:`it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { it.toNumber().mul(it.toNumber()) },
+            transformation = { it, _ -> it.toNumber().mul(it.toNumber()) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -204,13 +214,13 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support first for within expression string function`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            queryString = "FIRST CONCAT(\"test\", TOSTRING(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
+            queryString = "FIRST CONCAT(\"test\", TOSTRING(`it`)) FOR `iterator1`:`it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { concat("test", it.toStr()) },
+            transformation = { it, _ -> concat("test", it.toStr()) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -219,16 +229,17 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support first for WITHIN expression resulting in new type`() {
+    fun `should support first for within expression resulting in new type`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            queryString = "FIRST TONUMBER(`it`) FOR `it` WITHIN `anyTypeArrayField` END",
+            queryString = "FIRST (`i` * TONUMBER(`it`)) FOR `i`:`it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { it.toNumber() },
+            indexName = "i",
+            transformation = { it, i -> i.mul(it.toNumber()) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -240,13 +251,14 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     fun `should support first for within expression with condition`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            "FIRST (TONUMBER(`iterator1`) + 1) FOR `iterator1` WITHIN `anyTypeArrayField` WHEN ISNUMBER(`iterator1`) END",
+            "FIRST (TONUMBER(`iterator1`) + 1) FOR `i`:`iterator1` WITHIN `anyTypeArrayField` WHEN `i` <= 2 END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstForRangeIndexedExpression(
             membershipType = WITHIN,
             range = range,
-            transformation = { it.toNumber().add(1) },
-            condition = { it.isNumber() },
+            indexName = "i",
+            transformation = { it, _ -> it.toNumber().add(1) },
+            condition = { _, i -> i.isLessOrEqualThan(2) },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -257,14 +269,18 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for within expression extension`() {
         val range = someAnyTypeArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstForRangeIndexedExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { it.toNumber() },
+            indexName = "i",
+            transformation = { it, _ -> it.toNumber().add(1) },
         )
 
-        val actual = range.mapUnnested(iteratorName = "it") { it.toNumber() }.first()
+        val actual = range.mapIndexedUnnested(iteratorName = "it", indexName = "i") {
+                it, _ ->
+            it.toNumber().add(1)
+        }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -272,15 +288,22 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for within expression extension with condition`() {
         val range = someAnyTypeArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstForRangeIndexedExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { it.toNumber().add(1) },
-            condition = { it.isNumber() },
+            indexName = "i",
+            transformation = { it, _ -> it.toNumber().add(1) },
+            condition = { _, i -> i.isLessOrEqualThan(2) },
         )
 
-        val actual = range.filterUnnested(iteratorName = "it") { it.isNumber() }.map { it.toNumber().add(1) }.first()
+        val actual = range.filterIndexedUnnested(iteratorName = "it", indexName = "i") {
+                _, i ->
+            i.isLessOrEqualThan(2)
+        }.map {
+                it, _ ->
+            it.toNumber().add(1)
+        }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

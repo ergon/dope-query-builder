@@ -33,12 +33,6 @@ sealed class SatisfiesExpression<T : ValidType>(
     }
 }
 
-class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
-        queryString = "`$variable`",
-    )
-}
-
 class AnySatisfiesExpression<T : ValidType>(
     arrayExpression: TypeExpression<ArrayType<T>>,
     iteratorName: String? = null,

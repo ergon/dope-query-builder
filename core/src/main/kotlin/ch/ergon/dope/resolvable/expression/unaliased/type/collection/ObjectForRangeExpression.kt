@@ -13,11 +13,28 @@ class ObjectForRangeExpression<T : ValidType, U : ValidType>(
     membershipType: MembershipType,
     range: TypeExpression<ArrayType<T>>,
     iteratorName: String? = null,
+    withAttributeKeys: (Iterator<T>) -> TypeExpression<StringType>,
+    transformation: (Iterator<T>) -> TypeExpression<U>,
+    condition: ((Iterator<T>) -> TypeExpression<BooleanType>)? = null,
+) : TypeExpression<ObjectType>, ForRangeExpression<T, U>(
+    transformationType = OBJECT,
+    membershipType = membershipType,
+    range = range,
+    iteratorName = iteratorName,
+    withAttributeKeys = withAttributeKeys,
+    transformation = transformation,
+    condition = condition,
+)
+
+class ObjectForRangeIndexedExpression<T : ValidType, U : ValidType>(
+    membershipType: MembershipType,
+    range: TypeExpression<ArrayType<T>>,
+    iteratorName: String? = null,
     indexName: String? = null,
     withAttributeKeys: ((Iterator<T>, Iterator<NumberType>) -> TypeExpression<StringType>),
     transformation: (Iterator<T>, Iterator<NumberType>) -> TypeExpression<U>,
     condition: ((Iterator<T>, Iterator<NumberType>) -> TypeExpression<BooleanType>)? = null,
-) : TypeExpression<ObjectType>, ForRangeExpression<T, U>(
+) : TypeExpression<ObjectType>, ForRangeIndexedExpression<T, U>(
     transformationType = OBJECT,
     membershipType = membershipType,
     range = range,
