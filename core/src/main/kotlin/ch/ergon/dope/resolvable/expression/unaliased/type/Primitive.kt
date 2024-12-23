@@ -99,7 +99,10 @@ fun List<ObjectEntryPrimitive<out ValidType>>.toDopeType(): ObjectPrimitive = Ob
 fun <V> Map<String, V>.toDopeType(): ObjectPrimitive =
     ObjectPrimitive(
         *map { (key, value) ->
-            key.toDopeType().toObjectEntry(value.toDopeType())
+            when (value) {
+                is TypeExpression<*> -> key.toDopeType().toObjectEntry(value)
+                else -> key.toDopeType().toObjectEntry(value.toDopeType())
+            }
         }.toTypedArray(),
     )
 
