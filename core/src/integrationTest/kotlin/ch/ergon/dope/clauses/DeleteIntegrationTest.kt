@@ -28,7 +28,8 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
             )
             .returning(
                 idField,
-            ).build()
+            ).thenReturningAsterisk()
+            .build()
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

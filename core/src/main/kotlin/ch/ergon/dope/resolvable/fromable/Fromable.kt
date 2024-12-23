@@ -9,3 +9,5 @@ interface Joinable : Resolvable
 interface Deletable : Resolvable
 
 interface Updatable : Resolvable
+
+interface Returnable : Resolvable

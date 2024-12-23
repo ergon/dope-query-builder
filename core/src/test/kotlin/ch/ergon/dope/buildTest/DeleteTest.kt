@@ -85,7 +85,7 @@ class DeleteTest {
 
         val actual: String = create
             .deleteFrom(someBucket())
-            .returning(someStringField(), someNumberField())
+            .returning(someStringField()).thenReturning(someNumberField())
             .build().queryString
 
         assertEquals(expected, actual)

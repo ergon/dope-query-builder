@@ -37,6 +37,8 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
             )
             .returning(
                 newField,
+            )
+            .thenReturning(
                 nameField,
             ).build()
 
