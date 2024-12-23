@@ -5,6 +5,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
@@ -12,13 +13,16 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mul
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.filterIndexed
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.filterIndexedUnnested
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.map
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.mapIndexed
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toNumber
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toStr
 import ch.ergon.dope.resolvable.expression.unaliased.type.getNumber
+import ch.ergon.dope.resolvable.expression.unaliased.type.getString
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqualThan
+import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -93,7 +97,7 @@ class RangeTransformationTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should transform unnested array into object and get specific field`() {
+    fun `should transform array into object and get specific field`() {
         val expected = "SELECT OBJECT CONCAT(\"id:\", TOSTRING(`i`)):`it` FOR `i`:`it` IN `numberArrayField` END.`id:1`"
 
         val actual = create.select(
@@ -101,6 +105,22 @@ class RangeTransformationTest : ManagerDependentTest {
                     it, _ ->
                 it
             }.toObject { _, i -> concat("id:", i.toStr()) }.getNumber("id:1"),
+        ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should transform array range with mapping to object`() {
+        val expected = "SELECT ARRAY {\"number\" : `it`.`no`, \"id\" : `it`.`id`} FOR `it` IN `objectArrayField` END"
+
+        val actual = create.select(
+            someObjectArrayField().map("it") {
+                mapOf(
+                    "number" to it.getNumber("no"),
+                    "id" to it.getString("id"),
+                ).toDopeType()
+            },
         ).build().queryString
 
         assertEquals(expected, actual)
