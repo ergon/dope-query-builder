@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.clause.IUpdateUnsetClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
+import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.to
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.toDopeType
@@ -19,8 +20,20 @@ import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMType
 
-fun IUpdateLimitClause.returning(field: CMType, vararg fields: CMType) =
-    returning(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
+fun IUpdateLimitClause.returning(field: CMType) =
+    returning(field.toDopeType())
+
+fun UpdateReturningClause.thenReturning(field: CMType) =
+    thenReturning(field.toDopeType())
+
+fun IUpdateLimitClause.returningRaw(field: CMType) =
+    returningRaw(field.toDopeType())
+
+fun IUpdateLimitClause.returningValue(field: CMType) =
+    returningValue(field.toDopeType())
+
+fun IUpdateLimitClause.returningElement(field: CMType) =
+    returningElement(field.toDopeType())
 
 fun IUpdateWhereClause.limit(numberField: CMJsonField<Number>) = limit(numberField.toDopeType())
 

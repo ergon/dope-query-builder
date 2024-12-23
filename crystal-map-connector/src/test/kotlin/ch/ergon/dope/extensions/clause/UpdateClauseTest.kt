@@ -3,7 +3,11 @@ package ch.ergon.dope.extensions.clause
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.returning
+import ch.ergon.dope.extension.clause.returningElement
+import ch.ergon.dope.extension.clause.returningRaw
+import ch.ergon.dope.extension.clause.returningValue
 import ch.ergon.dope.extension.clause.set
+import ch.ergon.dope.extension.clause.thenReturning
 import ch.ergon.dope.extension.clause.unset
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -21,12 +25,18 @@ import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someUpdate
+import ch.ergon.dope.resolvable.clause.model.ReturningExpression
+import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
+import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
+import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
+import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.to
+import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
@@ -630,7 +640,7 @@ class UpdateClauseTest : ManagerDependentTest {
     fun `should support update returning with CM`() {
         val field = someCMBooleanField()
         val parentClause = someUpdate()
-        val expected = UpdateReturningClause(field.toDopeType(), parentClause = parentClause)
+        val expected = UpdateReturningClause(ReturningExpression(field.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.returning(field)
 
@@ -638,14 +648,53 @@ class UpdateClauseTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support update returning with multiple CM`() {
+    fun `should support update returning raw with CM`() {
+        val field = someCMBooleanField()
+        val parentClause = someUpdate()
+        val expected = UpdateReturningSingleClause(field.toDopeType(), returningType = RAW, parentClause = parentClause)
+
+        val actual = parentClause.returningRaw(field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update returning value with CM`() {
+        val field = someCMBooleanField()
+        val parentClause = someUpdate()
+        val expected = UpdateReturningSingleClause(field.toDopeType(), returningType = VALUE, parentClause = parentClause)
+
+        val actual = parentClause.returningValue(field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update returning element with CM`() {
+        val field = someCMBooleanField()
+        val parentClause = someUpdate()
+        val expected = UpdateReturningSingleClause(field.toDopeType(), returningType = ELEMENT, parentClause = parentClause)
+
+        val actual = parentClause.returningElement(field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support update returning with multiple CM and asterisk`() {
         val field1 = someCMBooleanField()
         val field2 = someCMNumberList()
         val field3 = someCMStringField()
         val parentClause = someUpdate()
-        val expected = UpdateReturningClause(field1.toDopeType(), field2.toDopeType(), field3.toDopeType(), parentClause = parentClause)
+        val expected = UpdateReturningClause(
+            ReturningExpression(field1.toDopeType()),
+            ReturningExpression(field2.toDopeType()),
+            AsteriskExpression(),
+            ReturningExpression(field3.toDopeType()),
+            parentClause = parentClause,
+        )
 
-        val actual = parentClause.returning(field1, field2, field3)
+        val actual = parentClause.returning(field1).thenReturning(field2).thenReturningAsterisk().thenReturning(field3)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
