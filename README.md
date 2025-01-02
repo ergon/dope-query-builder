@@ -25,3 +25,5 @@ The project is available as open source under the terms of the [MIT License](./L
 ### [**Core**](https://github.com/ergon/dope-query-builder/wiki/%5B1%5D-Core)
 
 ### [**Crystal-Map-Connector**](https://github.com/ergon/dope-query-builder/wiki/%5B2%5D-Crystal%E2%80%90Map%E2%80%90Connector)
+
+### [**DOPE functionality**](https://github.com/ergon/dope-query-builder/wiki/%5B3%5D-DOPE-functionality)

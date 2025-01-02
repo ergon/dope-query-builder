@@ -1,10 +1,12 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
+import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
+import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
@@ -45,10 +47,9 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
 }
 
 interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
-    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = SelectOrderByClause(
-        OrderExpression(expression, orderByType),
-        parentClause = this,
-    )
+    fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
+        SelectOrderByClause(orderExpression, *additionalOrderExpressions, parentClause = this)
+    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = orderBy(OrderExpression(expression, orderByType))
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
@@ -60,7 +61,15 @@ interface ISelectFromClause<T : ValidType> : ISelectWhereClause<T> {
     fun where(whereExpression: TypeExpression<BooleanType>) = SelectWhereClause(whereExpression, this)
 }
 
-interface ISelectJoinClause<T : ValidType> : ISelectFromClause<T> {
+interface ISelectLetClause<T : ValidType> : ISelectFromClause<T> {
+    fun withVariables(dopeVariable: DopeVariable<out ValidType>, vararg dopeVariables: DopeVariable<out ValidType>) = LetClause(
+        dopeVariable,
+        *dopeVariables,
+        parentClause = this,
+    )
+}
+
+interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
     fun join(
         joinable: Joinable,
         onCondition: TypeExpression<BooleanType>,
