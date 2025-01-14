@@ -23,15 +23,24 @@ class ArrayStarExpression(
 
 fun arrayStar(objectArray: TypeExpression<ArrayType<ObjectType>>) = ArrayStarExpression(objectArray)
 
-@JvmName("receiverArrayStar")
-fun TypeExpression<ArrayType<ObjectType>>.arrayStar() = arrayStar(this)
-
 fun arrayStar(objectArray: Collection<TypeExpression<ObjectType>>) = arrayStar(objectArray.toDopeType())
 
-@JvmName("collectionReceiverArrayStar")
-fun Collection<TypeExpression<ObjectType>>.arrayStar() = arrayStar(this.toDopeType())
+fun arrayStar(objectArray: ISelectOffsetClause<ObjectType>) = arrayStar(objectArray.asExpression())
 
-fun arrayStar(objectArray: ISelectOffsetClause<ObjectType>) = ArrayStarExpression(objectArray.asExpression())
+class GetAsteriskExpression(
+    private val objectArray: TypeExpression<ArrayType<ObjectType>>,
+) : TypeExpression<ObjectType> {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val objectArrayDopeQuery = objectArray.toDopeQuery(manager)
+        return DopeQuery(
+            queryString = "${objectArrayDopeQuery.queryString}[*]",
+            parameters = objectArrayDopeQuery.parameters,
+        )
+    }
+}
 
-@JvmName("selectClauseReceiverArrayStar")
-fun ISelectOffsetClause<ObjectType>.arrayStar() = arrayStar(this.asExpression())
+fun TypeExpression<ArrayType<ObjectType>>.getAsterisk() = GetAsteriskExpression(this)
+
+fun Collection<TypeExpression<ObjectType>>.getAsterisk() = toDopeType().getAsterisk()
+
+fun ISelectOffsetClause<ObjectType>.getAsterisk() = asExpression().getAsterisk()

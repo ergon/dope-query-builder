@@ -8,6 +8,7 @@ import ch.ergon.dope.extension.type.array.arrayIntersect
 import ch.ergon.dope.extension.type.array.arrayLength
 import ch.ergon.dope.extension.type.array.arrayStar
 import ch.ergon.dope.extension.type.array.arraySum
+import ch.ergon.dope.extension.type.array.getAsterisk
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -23,6 +24,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayLengthExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArrayStarExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.ArraySumExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.GetAsteriskExpression
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -231,11 +233,11 @@ class ArrayFunctionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR with CM Object list as receiver`() {
+    fun `should support get asterisk with CM Object list as receiver`() {
         val cMJsonList = someCMObjectList()
-        val expected = ArrayStarExpression(cMJsonList.toDopeType())
+        val expected = GetAsteriskExpression(cMJsonList.toDopeType())
 
-        val actual = cMJsonList.arrayStar()
+        val actual = cMJsonList.getAsterisk()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -4,6 +4,7 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someObjectSelectRawClause
@@ -16,7 +17,7 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support ARRAY_STAR`() {
+    fun `should support array star`() {
         val expected = DopeQuery(
             queryString = "ARRAY_STAR(`objectArrayField`)",
         )
@@ -28,7 +29,33 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR with named parameter`() {
+    fun `should support array star with collection`() {
+        val objectArray = listOf(someObjectField())
+        val expected = DopeQuery(
+            queryString = "ARRAY_STAR([`objectField`])",
+        )
+        val underTest = ArrayStarExpression(objectArray.toDopeType())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array star with select raw clause`() {
+        val selectObjectArray = someObjectSelectRawClause().from(someBucket())
+        val expected = DopeQuery(
+            queryString = "ARRAY_STAR((SELECT RAW `objectField` FROM `someBucket`))",
+        )
+        val underTest = ArrayStarExpression(selectObjectArray.asExpression())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array star with named parameter`() {
         val parameterName = "objectArray"
         val parameterValue = listOf(
             mapOf("key1" to 1, "key2" to "test"),
@@ -48,7 +75,7 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR with positional parameter`() {
+    fun `should support array star with positional parameter`() {
         val parameterValue = listOf(
             mapOf("key1" to 1, "key2" to "test"),
             mapOf("key1" to 2, "key2" to "string"),
@@ -67,7 +94,7 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR extension type`() {
+    fun `should support array star extension type`() {
         val objectArray = someObjectArrayField()
         val expected = ArrayStarExpression(objectArray)
 
@@ -77,7 +104,7 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR extension collection`() {
+    fun `should support array star extension collection`() {
         val objectArray = listOf(someObjectField(), someObjectField())
         val expected = ArrayStarExpression(objectArray.toDopeType())
 
@@ -87,7 +114,7 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR extension select`() {
+    fun `should support array star extension select`() {
         val selectClause = someObjectSelectRawClause()
         val expected = ArrayStarExpression(selectClause.asExpression())
 
@@ -97,31 +124,108 @@ class ArrayStarExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_STAR receiver extension type`() {
+    fun `should support get asterisk`() {
+        val expected = DopeQuery(
+            queryString = "`objectArrayField`[*]",
+        )
+        val underTest = GetAsteriskExpression(someObjectArrayField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk with collection`() {
+        val objectArray = listOf(someObjectField())
+        val expected = DopeQuery(
+            queryString = "[`objectField`][*]",
+        )
+        val underTest = GetAsteriskExpression(objectArray.toDopeType())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk with select raw clause`() {
+        val selectObjectArray = someObjectSelectRawClause().from(someBucket())
+        val expected = DopeQuery(
+            queryString = "(SELECT RAW `objectField` FROM `someBucket`)[*]",
+        )
+        val underTest = GetAsteriskExpression(selectObjectArray.asExpression())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk with named parameter`() {
+        val parameterName = "objectArray"
+        val parameterValue = listOf(
+            mapOf("key1" to 1, "key2" to "test"),
+            mapOf("key1" to 2, "key2" to "string"),
+        )
+        val expected = DopeQuery(
+            queryString = "\$objectArray[*]",
+            parameters = DopeParameters(
+                namedParameters = mapOf(parameterName to parameterValue),
+            ),
+        )
+        val underTest = GetAsteriskExpression(parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk with positional parameter`() {
+        val parameterValue = listOf(
+            mapOf("key1" to 1, "key2" to "test"),
+            mapOf("key1" to 2, "key2" to "string"),
+        )
+        val expected = DopeQuery(
+            queryString = "\$1[*]",
+            parameters = DopeParameters(
+                positionalParameters = listOf(parameterValue),
+            ),
+        )
+        val underTest = GetAsteriskExpression(parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk extension type`() {
         val objectArray = someObjectArrayField()
-        val expected = ArrayStarExpression(objectArray)
+        val expected = GetAsteriskExpression(objectArray)
 
-        val actual = objectArray.arrayStar()
+        val actual = objectArray.getAsterisk()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support ARRAY_STAR receiver extension collection`() {
+    fun `should support get asterisk extension collection`() {
         val objectArray = listOf(someObjectField(), someObjectField())
-        val expected = ArrayStarExpression(objectArray.toDopeType())
+        val expected = GetAsteriskExpression(objectArray.toDopeType())
 
-        val actual = objectArray.arrayStar()
+        val actual = objectArray.getAsterisk()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support ARRAY_STAR receiver extension select`() {
+    fun `should support get asterisk receiver extension select`() {
         val selectClause = someObjectSelectRawClause()
-        val expected = ArrayStarExpression(selectClause.asExpression())
+        val expected = GetAsteriskExpression(selectClause.asExpression())
 
-        val actual = selectClause.arrayStar()
+        val actual = selectClause.getAsterisk()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

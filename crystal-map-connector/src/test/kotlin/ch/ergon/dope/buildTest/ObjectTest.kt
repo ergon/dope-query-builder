@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.extension.type.access.get
-import ch.ergon.dope.extension.type.array.arrayStar
+import ch.ergon.dope.extension.type.array.getAsterisk
 import ch.ergon.dope.extension.type.getField
 import ch.ergon.dope.extension.type.relational.inArray
 import ch.ergon.dope.extension.type.relational.isEqualTo
@@ -119,18 +119,18 @@ class ObjectTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array star function with object list`() {
+    fun `should support get asterisk function with object list`() {
         val bucket = someBucket().alias("p")
         val schema = Person("p")
         val objectField = schema.primaryHobby.toDopeType()
         val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`primaryHobby`.`name` IN " +
-            "ARRAY_STAR(`p`.`hobbies`).`name`"
+            "`p`.`hobbies`[*].`name`"
 
         val actual = QueryBuilder()
             .selectAsterisk()
             .from(bucket)
             .where(
-                objectField.getField(Hobby::name).inArray(schema.hobbies.arrayStar().getStringArray("name")),
+                objectField.getField(Hobby::name).inArray(schema.hobbies.getAsterisk().getStringArray("name")),
             )
             .build().queryString
 

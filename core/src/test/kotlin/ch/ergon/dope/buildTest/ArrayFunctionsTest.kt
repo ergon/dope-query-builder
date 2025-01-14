@@ -5,6 +5,7 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someObjectArrayField
+import ch.ergon.dope.helper.someObjectSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
@@ -39,6 +40,7 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiff
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arraySymDiffN
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayUnion
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.getAsterisk
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
 import ch.ergon.dope.resolvable.expression.unaliased.type.getNumberArray
 import kotlin.test.BeforeTest
@@ -383,6 +385,19 @@ class ArrayFunctionsTest {
         val actual = create
             .select(
                 arrayStar(objectArray).getNumberArray("key"),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk on subquery with object function`() {
+        val subquery = someObjectSelectRawClause().from(someBucket())
+        val expected = "SELECT (SELECT RAW `objectField` FROM `someBucket`)[*].`key`"
+
+        val actual = create
+            .select(
+                subquery.getAsterisk().getNumberArray("key"),
             ).build().queryString
 
         assertEquals(expected, actual)
