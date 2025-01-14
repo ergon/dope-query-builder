@@ -42,11 +42,11 @@ class RangeTransformationTest : ManagerDependentTest {
             "WHEN `i` <= 2 END[0] = 9"
 
         val actual = create.select(
-            someNumberArrayField().filterIndexed(iteratorName = "it", indexName = "i") { _, i -> i.isLessOrEqualThan(2) }
-                .map {
-                        it, _ ->
-                    it.mul(it)
-                }.get(0).isEqualTo(9),
+            someNumberArrayField().filterIndexed(iteratorName = "it", indexName = "i") { _, i ->
+                i.isLessOrEqualThan(2)
+            }.map { it, _ ->
+                it.mul(it)
+            }.get(0).isEqualTo(9),
         ).build().queryString
 
         assertEquals(expected, actual)
@@ -58,7 +58,9 @@ class RangeTransformationTest : ManagerDependentTest {
             "WHEN `i` <= 2 END"
 
         val actual = create.select(
-            someAnyTypeArrayField().filterIndexedUnnested(iteratorName = "it", indexName = "i") { _, i -> i.isLessOrEqualThan(2) },
+            someAnyTypeArrayField().filterIndexedUnnested(iteratorName = "it", indexName = "i") { _, i ->
+                i.isLessOrEqualThan(2)
+            },
         ).build().queryString
 
         assertEquals(expected, actual)
@@ -72,8 +74,7 @@ class RangeTransformationTest : ManagerDependentTest {
         val actual = create.select(
             concat(
                 "test",
-                someStringArrayField().filterIndexed(iteratorName = "it", indexName = "i") {
-                        _, i ->
+                someStringArrayField().filterIndexed(iteratorName = "it", indexName = "i") { _, i ->
                     i.isLessOrEqualThan(2)
                 }.first(),
             ),
@@ -87,8 +88,7 @@ class RangeTransformationTest : ManagerDependentTest {
         val expected = "SELECT (FIRST (TONUMBER(`it`) + `i`) FOR `i`:`it` IN `stringArrayField` END - 5)"
 
         val actual = create.select(
-            someStringArrayField().mapIndexed(iteratorName = "it", indexName = "i") {
-                    it, i ->
+            someStringArrayField().mapIndexed(iteratorName = "it", indexName = "i") { it, i ->
                 it.toNumber().add(i)
             }.first().sub(5),
         ).build().queryString
@@ -101,10 +101,11 @@ class RangeTransformationTest : ManagerDependentTest {
         val expected = "SELECT OBJECT CONCAT(\"id:\", TOSTRING(`i`)):`it` FOR `i`:`it` IN `numberArrayField` END.`id:1`"
 
         val actual = create.select(
-            someNumberArrayField().mapIndexed(iteratorName = "it", indexName = "i") {
-                    it, _ ->
+            someNumberArrayField().mapIndexed(iteratorName = "it", indexName = "i") { it, _ ->
                 it
-            }.toObject { _, i -> concat("id:", i.toStr()) }.getNumber("id:1"),
+            }.toObject { _, i ->
+                concat("id:", i.toStr())
+            }.getNumber("id:1"),
         ).build().queryString
 
         assertEquals(expected, actual)

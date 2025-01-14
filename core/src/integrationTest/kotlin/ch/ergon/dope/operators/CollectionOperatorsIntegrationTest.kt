@@ -3,6 +3,8 @@ package ch.ergon.dope.operators
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.toSingleValue
+import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mul
 import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.every
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
@@ -20,12 +22,12 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder()
             .select(
                 array.filterIndexed { value, i -> exists(array).and(array.every { value.sub(1).isEqualTo(i) }) }
-                    .map { value, _ -> value },
+                    .map { value, i -> value.mul(i.add(1)) },
             ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
 
-        assertEquals(listOf(1, 2, 3), result)
+        assertEquals(listOf(1, 4, 9), result)
     }
 }
