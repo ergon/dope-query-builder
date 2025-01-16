@@ -1,9 +1,15 @@
 package ch.ergon.dope
 
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someCMConverterBooleanField
+import ch.ergon.dope.helper.someCMConverterNumberField
+import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCorruptField
 import ch.ergon.dope.helper.someString
+import ch.ergon.dope.resolvable.expression.unaliased.type.BooleanParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.expression.unaliased.type.NumberParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.StringParameter
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -11,6 +17,7 @@ import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 import org.junit.jupiter.api.assertThrows
+import java.util.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -79,5 +86,53 @@ class CrystalMapAdapterTest : ManagerDependentTest {
         assertThrows<IllegalArgumentException> {
             string.toDopeType(corruptField)
         }
+    }
+
+    @Test
+    fun `should support parameter with number converter`() {
+        val cmField = someCMConverterNumberField()
+        val value = Date(1737021572)
+        val expected = DopeQuery(
+            queryString = "\$testParameter",
+            parameters = DopeParameters(
+                namedParameters = mapOf("testParameter" to 1737021L),
+            ),
+        )
+
+        val actual: NumberParameter = value.asParameter(cmField.typeConverter, "testParameter")
+
+        assertEquals(expected, actual.toDopeQuery(DopeQueryManager()))
+    }
+
+    @Test
+    fun `should support parameter with string converter`() {
+        val cmField = someCMConverterStringField()
+        val value = Date(1737021572)
+        val expected = DopeQuery(
+            queryString = "\$testParameter",
+            parameters = DopeParameters(
+                namedParameters = mapOf("testParameter" to "1737021"),
+            ),
+        )
+
+        val actual: StringParameter = value.asParameter(cmField.typeConverter, "testParameter")
+
+        assertEquals(expected, actual.toDopeQuery(DopeQueryManager()))
+    }
+
+    @Test
+    fun `should support parameter with boolean converter`() {
+        val cmField = someCMConverterBooleanField()
+        val value = Date(1737021572)
+        val expected = DopeQuery(
+            queryString = "\$testParameter",
+            parameters = DopeParameters(
+                namedParameters = mapOf("testParameter" to true),
+            ),
+        )
+
+        val actual: BooleanParameter = value.asParameter(cmField.typeConverter, "testParameter")
+
+        assertEquals(expected, actual.toDopeQuery(DopeQueryManager()))
     }
 }

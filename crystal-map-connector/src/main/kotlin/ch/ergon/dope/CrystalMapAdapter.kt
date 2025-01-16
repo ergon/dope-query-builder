@@ -4,12 +4,14 @@ import ch.ergon.dope.extension.type.ObjectField
 import ch.ergon.dope.extension.type.ObjectList
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
+import com.schwarz.crystalapi.ITypeConverter
 import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMJsonField
@@ -78,6 +80,21 @@ fun CMJsonList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, 
 fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, path)
 
 fun <T : Schema> CMObjectList<T>.toDopeType() = ObjectList(element, name, path)
+
+fun <Convertable : Any, JsonType : Number> Convertable.asParameter(
+    converter: ITypeConverter<Convertable, JsonType>,
+    parameterName: String? = null,
+) = requireValidConvertable(converter.write(this), Number::class).asParameter(parameterName)
+
+fun <Convertable : Any> Convertable.asParameter(
+    converter: ITypeConverter<Convertable, String>,
+    parameterName: String? = null,
+) = requireValidConvertable(converter.write(this), String::class).asParameter(parameterName)
+
+fun <Convertable : Any> Convertable.asParameter(
+    converter: ITypeConverter<Convertable, Boolean>,
+    parameterName: String? = null,
+) = requireValidConvertable(converter.write(this), Boolean::class).asParameter(parameterName)
 
 private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConvertable(jsonType: JsonType?, jsonTypeClass: KClass<JsonType>) =
     requireNotNull(jsonType) {
