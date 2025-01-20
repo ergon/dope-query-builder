@@ -3,7 +3,6 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.BooleanType
@@ -12,9 +11,9 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class Nvl2Expression<T : ValidType>(
-    private val initialExpression: UnaliasedExpression<out ValidType>,
-    private val valueIfExists: UnaliasedExpression<T>,
-    private val valueIfNotExists: UnaliasedExpression<T>,
+    private val initialExpression: TypeExpression<out ValidType>,
+    private val valueIfExists: TypeExpression<T>,
+    private val valueIfNotExists: TypeExpression<T>,
 ) : TypeExpression<T>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val initialExpressionDopeQuery = initialExpression.toDopeQuery(manager)
@@ -36,61 +35,61 @@ class Nvl2Expression<T : ValidType>(
 }
 
 fun <T : ValidType> nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
-    valueIfExists: UnaliasedExpression<T>,
-    valueIfNotExists: UnaliasedExpression<T>,
+    initialExpression: TypeExpression<out ValidType>,
+    valueIfExists: TypeExpression<T>,
+    valueIfNotExists: TypeExpression<T>,
 ) = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists)
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
-    valueIfExists: UnaliasedExpression<NumberType>,
+    initialExpression: TypeExpression<out ValidType>,
+    valueIfExists: TypeExpression<NumberType>,
     valueIfNotExists: Number,
 ) = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists.toDopeType())
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
-    valueIfExists: UnaliasedExpression<StringType>,
+    initialExpression: TypeExpression<out ValidType>,
+    valueIfExists: TypeExpression<StringType>,
     valueIfNotExists: String,
 ) = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists.toDopeType())
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
-    valueIfExists: UnaliasedExpression<BooleanType>,
+    initialExpression: TypeExpression<out ValidType>,
+    valueIfExists: TypeExpression<BooleanType>,
     valueIfNotExists: Boolean,
 ) = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists.toDopeType())
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
+    initialExpression: TypeExpression<out ValidType>,
     valueIfExists: Number,
-    valueIfNotExists: UnaliasedExpression<NumberType>,
+    valueIfNotExists: TypeExpression<NumberType>,
 ) = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists)
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
+    initialExpression: TypeExpression<out ValidType>,
     valueIfExists: String,
-    valueIfNotExists: UnaliasedExpression<StringType>,
+    valueIfNotExists: TypeExpression<StringType>,
 ) = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists)
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
+    initialExpression: TypeExpression<out ValidType>,
     valueIfExists: Boolean,
-    valueIfNotExists: UnaliasedExpression<BooleanType>,
+    valueIfNotExists: TypeExpression<BooleanType>,
 ) = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists)
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
+    initialExpression: TypeExpression<out ValidType>,
     valueIfExists: Number,
     valueIfNotExists: Number,
 ) = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists.toDopeType())
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
+    initialExpression: TypeExpression<out ValidType>,
     valueIfExists: String,
     valueIfNotExists: String,
 ) = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists.toDopeType())
 
 fun nvl2(
-    initialExpression: UnaliasedExpression<out ValidType>,
+    initialExpression: TypeExpression<out ValidType>,
     valueIfExists: Boolean,
     valueIfNotExists: Boolean,
 ) = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists.toDopeType())

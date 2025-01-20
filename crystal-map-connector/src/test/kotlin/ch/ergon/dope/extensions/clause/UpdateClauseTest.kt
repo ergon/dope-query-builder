@@ -7,7 +7,6 @@ import ch.ergon.dope.extension.clause.returningElement
 import ch.ergon.dope.extension.clause.returningRaw
 import ch.ergon.dope.extension.clause.returningValue
 import ch.ergon.dope.extension.clause.set
-import ch.ergon.dope.extension.clause.thenReturning
 import ch.ergon.dope.extension.clause.unset
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -25,7 +24,6 @@ import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someUpdate
-import ch.ergon.dope.resolvable.clause.model.ReturningExpression
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
 import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
@@ -640,7 +638,7 @@ class UpdateClauseTest : ManagerDependentTest {
     fun `should support update returning with CM`() {
         val field = someCMBooleanField()
         val parentClause = someUpdate()
-        val expected = UpdateReturningClause(ReturningExpression(field.toDopeType()), parentClause = parentClause)
+        val expected = UpdateReturningClause(field.toDopeType(), parentClause = parentClause)
 
         val actual = parentClause.returning(field)
 
@@ -687,14 +685,14 @@ class UpdateClauseTest : ManagerDependentTest {
         val field3 = someCMStringField()
         val parentClause = someUpdate()
         val expected = UpdateReturningClause(
-            ReturningExpression(field1.toDopeType()),
-            ReturningExpression(field2.toDopeType()),
+            field1.toDopeType(),
+            field2.toDopeType(),
             AsteriskExpression(),
-            ReturningExpression(field3.toDopeType()),
+            field3.toDopeType(),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.returning(field1).thenReturning(field2).thenReturningAsterisk().thenReturning(field3)
+        val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), AsteriskExpression(), field3.toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

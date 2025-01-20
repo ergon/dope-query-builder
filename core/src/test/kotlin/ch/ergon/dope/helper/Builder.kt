@@ -4,8 +4,6 @@ import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
@@ -32,8 +30,6 @@ fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket(
 fun someObjectField(name: String = "objectField", bucket: Bucket = someBucket("")) = Field<ObjectType>(name, getBucketName(bucket))
 
 fun someBooleanExpression() = TRUE
-
-fun someUnaliasedExpression() = CountAsteriskExpression()
 
 fun someNumberArrayField(name: String = "numberArrayField", bucket: Bucket = someBucket("")) =
     Field<ArrayType<NumberType>>(name, getBucketName(bucket))
@@ -64,8 +60,8 @@ fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
 )
 
 fun someStringSearchNumberResult(
-    searchExpression: UnaliasedExpression<StringType> = someString().toDopeType(),
-    resultExpression: UnaliasedExpression<NumberType> = someNumber().toDopeType(),
+    searchExpression: TypeExpression<StringType> = someString().toDopeType(),
+    resultExpression: TypeExpression<NumberType> = someNumber().toDopeType(),
 ) = SearchResult(searchExpression, resultExpression)
 
 fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderByType = ASC) = OrderExpression(

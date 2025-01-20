@@ -1,6 +1,5 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.resolvable.clause.model.ReturningExpression
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
 import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
@@ -15,6 +14,7 @@ import ch.ergon.dope.resolvable.expression.AsteriskExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Returnable
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -26,16 +26,14 @@ interface IUpdateReturningClause : Clause
 interface IUpdateLimitClause : IUpdateReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         UpdateReturningClause(returningExpression, *additionalReturningExpressions, parentClause = this)
-    fun returning(typeExpression: TypeExpression<out ValidType>) =
-        UpdateReturningClause(ReturningExpression(typeExpression), parentClause = this)
-    fun returningAsterisk() = UpdateReturningClause(AsteriskExpression(), parentClause = this)
+    fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(AsteriskExpression(bucket), parentClause = this)
 
-    fun returningRaw(typeExpression: TypeExpression<out ValidType>) =
-        UpdateReturningSingleClause(typeExpression, returningType = RAW, parentClause = this)
-    fun returningValue(typeExpression: TypeExpression<out ValidType>) =
-        UpdateReturningSingleClause(typeExpression, returningType = VALUE, parentClause = this)
-    fun returningElement(typeExpression: TypeExpression<out ValidType>) =
-        UpdateReturningSingleClause(typeExpression, returningType = ELEMENT, parentClause = this)
+    fun returningRaw(returningExpression: TypeExpression<out ValidType>) =
+        UpdateReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)
+    fun returningValue(returningExpression: TypeExpression<out ValidType>) =
+        UpdateReturningSingleClause(returningExpression, returningType = VALUE, parentClause = this)
+    fun returningElement(returningExpression: TypeExpression<out ValidType>) =
+        UpdateReturningSingleClause(returningExpression, returningType = ELEMENT, parentClause = this)
 }
 
 interface IUpdateWhereClause : IUpdateLimitClause {

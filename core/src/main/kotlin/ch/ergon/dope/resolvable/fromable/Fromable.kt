@@ -11,3 +11,5 @@ interface Deletable : Resolvable
 interface Updatable : Resolvable
 
 interface Returnable : Resolvable
+
+interface SingleReturnable : Returnable

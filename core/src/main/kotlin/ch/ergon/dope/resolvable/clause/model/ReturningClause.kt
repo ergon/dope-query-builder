@@ -8,12 +8,12 @@ import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.IDeleteReturningClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateReturningClause
-import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
-import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
+import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
 import ch.ergon.dope.resolvable.fromable.Returnable
-import ch.ergon.dope.validtype.ValidType
+import ch.ergon.dope.resolvable.fromable.SingleReturnable
+
+private const val RETURNING = "RETURNING"
 
 enum class ReturningType(val queryString: String) {
     ELEMENT("ELEMENT"),
@@ -27,107 +27,73 @@ sealed class ReturningClause(
     private val parentClause: Clause,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val returnables = arrayOf(returnable) + additionalReturnables
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val returnableDopeQuery = returnable.toDopeQuery(manager)
-        val additionalReturnableDopeQueries = additionalReturnables.map { it.toDopeQuery(manager) }
+        val returnablesDopeQuery = returnables.map {
+            when (it) {
+                is AliasedSelectClause<*> -> it.asAliasedSelectClauseDefinition().toDopeQuery(manager)
+                else -> it.toDopeQuery(manager)
+            }
+        }
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
-                "RETURNING",
-                returnableDopeQuery.queryString,
-                *additionalReturnableDopeQueries.map { it.queryString }.toTypedArray(),
+                RETURNING,
+                *returnablesDopeQuery.map { it.queryString }.toTypedArray(),
             ),
             parameters = parentDopeQuery.parameters.merge(
-                returnableDopeQuery.parameters,
-                *additionalReturnableDopeQueries.map { it.parameters }.toTypedArray(),
+                *returnablesDopeQuery.map { it.parameters }.toTypedArray(),
             ),
         )
     }
 }
 
-class ReturningExpression(private val typeExpression: TypeExpression<out ValidType>) : Returnable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        return typeExpression.toDopeQuery(manager)
-    }
-}
-
 class DeleteReturningClause(
-    private val returnable: Returnable,
-    private vararg val additionalReturnables: Returnable,
-    private val parentClause: IDeleteOffsetClause,
+    returnable: Returnable,
+    vararg additionalReturnables: Returnable,
+    parentClause: IDeleteOffsetClause,
 ) : IDeleteReturningClause, ReturningClause(
     returnable,
     *additionalReturnables,
     parentClause = parentClause,
-) {
-    fun thenReturning(typeExpression: TypeExpression<out ValidType>) = DeleteReturningClause(
-        this.returnable,
-        *this.additionalReturnables,
-        ReturningExpression(typeExpression),
-        parentClause = this.parentClause,
-    )
-
-    fun thenReturningAsterisk() = DeleteReturningClause(
-        this.returnable,
-        *this.additionalReturnables,
-        AsteriskExpression(),
-        parentClause = this.parentClause,
-    )
-}
+)
 
 class UpdateReturningClause(
-    private val returnable: Returnable,
-    private vararg val additionalReturnables: Returnable,
-    private val parentClause: IUpdateLimitClause,
+    returnable: Returnable,
+    vararg additionalReturnables: Returnable,
+    parentClause: IUpdateLimitClause,
 ) : IUpdateReturningClause, ReturningClause(
     returnable,
     *additionalReturnables,
     parentClause = parentClause,
-) {
-    fun thenReturning(typeExpression: TypeExpression<out ValidType>) = UpdateReturningClause(
-        this.returnable,
-        *this.additionalReturnables,
-        ReturningExpression(typeExpression),
-        parentClause = this.parentClause,
-    )
-
-    fun thenReturningAsterisk() = UpdateReturningClause(
-        this.returnable,
-        *this.additionalReturnables,
-        AsteriskExpression(),
-        parentClause = this.parentClause,
-    )
-}
+)
 
 sealed class ReturningSingleClause(
-    private val typeExpression: TypeExpression<out ValidType>,
-    private val returningType: ReturningType = RAW,
+    private val singleReturnable: SingleReturnable,
+    private val returningType: ReturningType,
     private val parentClause: Clause,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val typeExpressionDopeQuery = typeExpression.toDopeQuery(manager)
+        val singleReturnableDopeQuery = singleReturnable.toDopeQuery(manager)
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(
-                parentDopeQuery.queryString,
-                "RETURNING " + returningType.queryString,
-                typeExpressionDopeQuery.queryString,
-            ),
+            queryString = "${parentDopeQuery.queryString} $RETURNING " +
+                "${returningType.queryString} ${singleReturnableDopeQuery.queryString}",
             parameters = parentDopeQuery.parameters.merge(
-                typeExpressionDopeQuery.parameters,
+                singleReturnableDopeQuery.parameters,
             ),
         )
     }
 }
 
 class DeleteReturningSingleClause(
-    typeExpression: TypeExpression<out ValidType>,
-    returningType: ReturningType = RAW,
+    singleReturnable: SingleReturnable,
+    returningType: ReturningType,
     parentClause: IDeleteOffsetClause,
-) : IDeleteReturningClause, ReturningSingleClause(typeExpression, returningType, parentClause = parentClause)
+) : IDeleteReturningClause, ReturningSingleClause(singleReturnable, returningType, parentClause = parentClause)
 
 class UpdateReturningSingleClause(
-    typeExpression: TypeExpression<out ValidType>,
-    returningType: ReturningType = RAW,
+    singleReturnable: SingleReturnable,
+    returningType: ReturningType,
     parentClause: IUpdateLimitClause,
-) : IUpdateReturningClause, ReturningSingleClause(typeExpression, returningType, parentClause = parentClause)
+) : IUpdateReturningClause, ReturningSingleClause(singleReturnable, returningType, parentClause = parentClause)
