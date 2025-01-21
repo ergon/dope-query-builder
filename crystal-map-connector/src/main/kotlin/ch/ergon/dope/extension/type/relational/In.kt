@@ -53,6 +53,18 @@ fun TypeExpression<StringType>.inArray(array: CMJsonList<String>): InExpression<
 fun TypeExpression<BooleanType>.inArray(array: CMJsonList<Boolean>): InExpression<BooleanType> =
     inArray(array.toDopeType())
 
+@JvmName("inArrayNumberCollection")
+fun CMJsonField<Number>.inArray(array: Collection<Number>): InExpression<NumberType> =
+    inArray(array.toDopeType())
+
+@JvmName("inArrayStringCollection")
+fun CMJsonField<String>.inArray(array: Collection<String>): InExpression<StringType> =
+    inArray(array.toDopeType())
+
+@JvmName("inArrayBooleanCollection")
+fun CMJsonField<Boolean>.inArray(array: Collection<Boolean>): InExpression<BooleanType> =
+    inArray(array.toDopeType())
+
 @JvmName("inArrayNumber")
 fun CMJsonField<out Number>.inArray(array: CMJsonList<out Number>): InExpression<NumberType> =
     toDopeType().inArray(array.toDopeType())
@@ -184,3 +196,15 @@ fun String.notInArray(array: CMJsonList<String>): NotInExpression<StringType> =
 @JvmName("notInArrayBoolean")
 fun Boolean.notInArray(array: CMJsonList<Boolean>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array.toDopeType())
+
+@JvmName("notInArrayNumberCollection")
+fun CMJsonField<Number>.notInArray(array: Collection<Number>): NotInExpression<NumberType> =
+    notInArray(array.toDopeType())
+
+@JvmName("notInArrayStringCollection")
+fun CMJsonField<String>.notInArray(array: Collection<String>): NotInExpression<StringType> =
+    notInArray(array.toDopeType())
+
+@JvmName("notInArrayBooleanCollection")
+fun CMJsonField<Boolean>.notInArray(array: Collection<Boolean>): NotInExpression<BooleanType> =
+    notInArray(array.toDopeType())
