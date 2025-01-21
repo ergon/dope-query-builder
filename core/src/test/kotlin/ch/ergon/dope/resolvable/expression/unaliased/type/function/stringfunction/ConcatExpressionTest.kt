@@ -130,4 +130,40 @@ class ConcatExpressionTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
+
+    @Test
+    fun `should support concat function string type string`() {
+        val firstString = someString("first")
+        val secondString = someStringField("second")
+        val thirdString = someString("third")
+        val expected = ConcatExpression(firstString.toDopeType(), secondString, thirdString.toDopeType())
+
+        val actual = concat(firstString, secondString, thirdString)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support concat function type type string`() {
+        val firstString = someStringField("first")
+        val secondString = someStringField("second")
+        val thirdString = someString("third")
+        val expected = ConcatExpression(firstString, secondString, thirdString.toDopeType())
+
+        val actual = concat(firstString, secondString, thirdString)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support concat function string string type`() {
+        val firstString = someString("first")
+        val secondString = someString("second")
+        val thirdString = someStringField("third")
+        val expected = ConcatExpression(firstString.toDopeType(), secondString.toDopeType(), thirdString)
+
+        val actual = concat(firstString, secondString, thirdString)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
 }
