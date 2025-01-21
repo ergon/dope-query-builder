@@ -91,39 +91,40 @@ class CrystalMapAdapterTest : ManagerDependentTest {
     @Test
     fun `should support parameter with number converter`() {
         val cmField = someCMConverterNumberField()
-        val value = Date(1737021572)
+        val value = Date(1737021572000)
         val expected = DopeQuery(
             queryString = "\$testParameter",
             parameters = DopeParameters(
-                namedParameters = mapOf("testParameter" to 1737021L),
+                namedParameters = mapOf("testParameter" to 1737021572L),
             ),
         )
 
         val actual: NumberParameter = value.asParameter(cmField.typeConverter, "testParameter")
 
-        assertEquals(expected, actual.toDopeQuery(DopeQueryManager()))
+        assertEquals(expected, actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support parameter with string converter`() {
         val cmField = someCMConverterStringField()
-        val value = Date(1737021572)
+
+        val value = Date(1737021572000)
         val expected = DopeQuery(
             queryString = "\$testParameter",
             parameters = DopeParameters(
-                namedParameters = mapOf("testParameter" to "1737021"),
+                namedParameters = mapOf("testParameter" to "1737021572"),
             ),
         )
 
         val actual: StringParameter = value.asParameter(cmField.typeConverter, "testParameter")
 
-        assertEquals(expected, actual.toDopeQuery(DopeQueryManager()))
+        assertEquals(expected, actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support parameter with boolean converter`() {
         val cmField = someCMConverterBooleanField()
-        val value = Date(1737021572)
+        val value = Date(1737021572000)
         val expected = DopeQuery(
             queryString = "\$testParameter",
             parameters = DopeParameters(
@@ -133,6 +134,6 @@ class CrystalMapAdapterTest : ManagerDependentTest {
 
         val actual: BooleanParameter = value.asParameter(cmField.typeConverter, "testParameter")
 
-        assertEquals(expected, actual.toDopeQuery(DopeQueryManager()))
+        assertEquals(expected, actual.toDopeQuery(manager))
     }
 }

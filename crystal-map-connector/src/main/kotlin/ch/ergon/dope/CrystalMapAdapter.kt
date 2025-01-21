@@ -81,8 +81,8 @@ fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, path
 
 fun <T : Schema> CMObjectList<T>.toDopeType() = ObjectList(element, name, path)
 
-fun <Convertable : Any, JsonType : Number> Convertable.asParameter(
-    converter: ITypeConverter<Convertable, JsonType>,
+fun <Convertable : Any, JsonNumberType : Number> Convertable.asParameter(
+    converter: ITypeConverter<Convertable, JsonNumberType>,
     parameterName: String? = null,
 ) = requireValidConvertable(converter.write(this), Number::class).asParameter(parameterName)
 
