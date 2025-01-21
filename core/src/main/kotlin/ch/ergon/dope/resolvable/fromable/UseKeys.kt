@@ -51,5 +51,8 @@ fun Bucket.useKeys(keys: ISelectOffsetClause<StringType>) = UseKeys(keys.asExpre
 
 fun Bucket.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
 
+@JvmName("useKeysStringCollection")
+fun Bucket.useKeys(keys: Collection<String>) = useKeys(keys.toDopeType())
+
 fun Bucket.useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
     useKeys(listOf(firstKey.toDopeType(), secondKey.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())
