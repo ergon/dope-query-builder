@@ -3,6 +3,7 @@ package ch.ergon.dope
 import ch.ergon.dope.extension.type.ObjectField
 import ch.ergon.dope.extension.type.ObjectList
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -95,6 +96,28 @@ fun <Convertable : Any> Convertable.asParameter(
     converter: ITypeConverter<Convertable, Boolean>,
     parameterName: String? = null,
 ) = requireValidConvertable(converter.write(this), Boolean::class).asParameter(parameterName)
+
+@JvmName("cmNumberFieldAlias")
+fun CMJsonField<out Number>.alias(alias: String) = toDopeType().alias(alias)
+
+@JvmName("cmStringFieldAlias")
+fun CMJsonField<String>.alias(alias: String) = toDopeType().alias(alias)
+
+@JvmName("cmBooleanFieldAlias")
+fun CMJsonField<Boolean>.alias(alias: String) = toDopeType().alias(alias)
+
+@JvmName("cmNumberListAlias")
+fun CMJsonList<out Number>.alias(alias: String) = toDopeType().alias(alias)
+
+@JvmName("cmStringListAlias")
+fun CMJsonList<String>.alias(alias: String) = toDopeType().alias(alias)
+
+@JvmName("cmBooleanListAlias")
+fun CMJsonList<Boolean>.alias(alias: String) = toDopeType().alias(alias)
+
+fun CMObjectField<Schema>.alias(alias: String) = toDopeType().alias(alias)
+
+fun CMObjectList<Schema>.alias(alias: String) = toDopeType().alias(alias)
 
 private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConvertable(jsonType: JsonType?, jsonTypeClass: KClass<JsonType>) =
     requireNotNull(jsonType) {
