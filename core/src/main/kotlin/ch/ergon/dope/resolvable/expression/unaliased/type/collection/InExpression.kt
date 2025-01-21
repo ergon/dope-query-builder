@@ -28,11 +28,29 @@ fun Boolean.inArray(array: TypeExpression<ArrayType<BooleanType>>) = toDopeType(
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: Collection<TypeExpression<T>>) = inArray(array.toDopeType())
 
+@JvmName("numberInTypeCollection")
 fun Number.inArray(array: Collection<TypeExpression<NumberType>>) = inArray(array.toDopeType())
 
+@JvmName("stringInTypeCollection")
 fun String.inArray(array: Collection<TypeExpression<StringType>>) = inArray(array.toDopeType())
 
+@JvmName("booleanInTypeCollection")
 fun Boolean.inArray(array: Collection<TypeExpression<BooleanType>>) = inArray(array.toDopeType())
+
+fun Number.inArray(array: Collection<Number>) = inArray(array.toDopeType())
+
+fun String.inArray(array: Collection<String>) = inArray(array.toDopeType())
+
+fun Boolean.inArray(array: Collection<Boolean>) = inArray(array.toDopeType())
+
+@JvmName("typeInNumberCollection")
+fun TypeExpression<NumberType>.inArray(array: Collection<Number>) = inArray(array.toDopeType())
+
+@JvmName("typeInStringCollection")
+fun TypeExpression<StringType>.inArray(array: Collection<String>) = inArray(array.toDopeType())
+
+@JvmName("typeInBooleanCollection")
+fun TypeExpression<BooleanType>.inArray(array: Collection<Boolean>) = inArray(array.toDopeType())
 
 fun <T : ValidType> TypeExpression<T>.inArray(selectClause: ISelectOffsetClause<T>) =
     inArray(selectClause.asExpression())
@@ -63,11 +81,29 @@ fun Boolean.notInArray(array: TypeExpression<ArrayType<BooleanType>>) = toDopeTy
 
 fun <T : ValidType> TypeExpression<T>.notInArray(array: Collection<TypeExpression<T>>) = notInArray(array.toDopeType())
 
+@JvmName("numberInTypeCollection")
 fun Number.notInArray(array: Collection<TypeExpression<NumberType>>) = notInArray(array.toDopeType())
 
+@JvmName("stringInTypeCollection")
 fun String.notInArray(array: Collection<TypeExpression<StringType>>) = notInArray(array.toDopeType())
 
+@JvmName("booleanInTypeCollection")
 fun Boolean.notInArray(array: Collection<TypeExpression<BooleanType>>) = notInArray(array.toDopeType())
+
+fun Number.notInArray(array: Collection<Number>) = notInArray(array.toDopeType())
+
+fun String.notInArray(array: Collection<String>) = notInArray(array.toDopeType())
+
+fun Boolean.notInArray(array: Collection<Boolean>) = notInArray(array.toDopeType())
+
+@JvmName("typeNotInNumberCollection")
+fun TypeExpression<NumberType>.notInArray(array: Collection<Number>) = notInArray(array.toDopeType())
+
+@JvmName("typeNotInStringCollection")
+fun TypeExpression<StringType>.notInArray(array: Collection<String>) = notInArray(array.toDopeType())
+
+@JvmName("typeNotInBooleanCollection")
+fun TypeExpression<BooleanType>.notInArray(array: Collection<Boolean>) = notInArray(array.toDopeType())
 
 fun <T : ValidType> TypeExpression<T>.notInArray(selectClause: ISelectOffsetClause<T>) =
     notInArray(selectClause.asExpression())

@@ -58,7 +58,7 @@ class UseTest {
     }
 
     @Test
-    fun `should support use keys clause with string array`() {
+    fun `should support use keys clause with string array expression`() {
         val expected = "SELECT * FROM `someBucket` USE KEYS [\"someId\", \"anotherId\"]"
 
         val actual: String = create
@@ -99,6 +99,20 @@ class UseTest {
                 someBucket().useKeys(
                     create.selectRaw(someStringField()),
                 ),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support use keys clause with string array`() {
+        val expected = "SELECT * FROM `someBucket` USE KEYS [\"someId1\", \"someId2\"]"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket().useKeys(listOf("someId1", "someId2")),
             )
             .build().queryString
 
