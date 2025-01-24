@@ -1,8 +1,8 @@
 package ch.ergon.dope.helper
 
-import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
+import ch.ergon.dope.resolvable.clause.model.OrderType
+import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
@@ -11,6 +11,15 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder
+import ch.ergon.dope.resolvable.expression.windowfunction.OrderingTerm
+import ch.ergon.dope.resolvable.expression.windowfunction.UnboundedPreceding
+import ch.ergon.dope.resolvable.expression.windowfunction.WindowDefinition
+import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExclusion
+import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExtent
+import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameType
+import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameType.RANGE
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
@@ -68,7 +77,35 @@ fun someStringSearchNumberResult(
     resultExpression: UnaliasedExpression<NumberType> = someNumber().toDopeType(),
 ) = SearchResult(searchExpression, resultExpression)
 
-fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderByType = ASC) = OrderExpression(
+fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderType = ASC) = OrderExpression(
     typeExpression,
     orderByType,
 )
+
+fun someOrderingTerm(
+    expression: TypeExpression<out ValidType> = someStringField(),
+    orderType: OrderType? = null,
+    nullsOrder: NullsOrder? = null,
+) = OrderingTerm(expression, orderType, nullsOrder)
+
+fun someWindowDefinition(
+    windowReference: UnaliasedExpression<StringType>? = null,
+    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowOrderClause: List<OrderingTerm>? = null,
+    windowFrameClause: WindowFrameClause? = null,
+) = WindowDefinition(
+    windowReference = windowReference,
+    windowPartitionClause = windowPartitionClause,
+    windowOrderClause = windowOrderClause,
+    windowFrameClause = windowFrameClause,
+)
+
+fun someWindowFrameClause(
+    windowFrameType: WindowFrameType = RANGE,
+    windowFrameExtent: WindowFrameExtent = someWindowFrameExtent(),
+    windowFrameExclusion: WindowFrameExclusion? = null,
+) = WindowFrameClause(windowFrameType, windowFrameExtent, windowFrameExclusion)
+
+fun someWindowFrameExtent() = UnboundedPreceding()
+
+fun someWindowFrameExclusion() = WindowFrameExclusion.EXCLUDE_GROUP
