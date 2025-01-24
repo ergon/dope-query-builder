@@ -6,6 +6,6 @@ import ch.ergon.dope.validtype.NumberType
 class AverageExpression<T : NumberType>(
     number: Field<T>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression<T>(number, quantifier, "AVG")
+) : AggregateExpression<T>("AVG", number, quantifier)
 
 fun avg(number: Field<out NumberType>, quantifier: AggregateQuantifier? = null) = AverageExpression(number, quantifier)

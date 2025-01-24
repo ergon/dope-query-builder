@@ -10,6 +10,7 @@ import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ValidType
 
 sealed class OffsetClause(
     private val numberExpression: TypeExpression<NumberType>,
@@ -20,13 +21,13 @@ sealed class OffsetClause(
         val numberDopeQuery = numberExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "OFFSET", numberDopeQuery.queryString),
-            parameters = numberDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(numberDopeQuery.parameters),
         )
     }
 }
 
-class SelectOffsetClause(numberExpression: TypeExpression<NumberType>, parentClause: ISelectLimitClause) :
-    ISelectOffsetClause, OffsetClause(numberExpression, parentClause)
+class SelectOffsetClause<T : ValidType>(numberExpression: TypeExpression<NumberType>, parentClause: ISelectLimitClause<T>) :
+    ISelectOffsetClause<T>, OffsetClause(numberExpression, parentClause)
 
 class DeleteOffsetClause(numberExpression: TypeExpression<NumberType>, parentClause: IDeleteLimitClause) :
     IDeleteOffsetClause, OffsetClause(numberExpression, parentClause)

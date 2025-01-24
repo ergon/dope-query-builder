@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -20,7 +21,7 @@ class ArrayBinarySearchExpression<T : ValidType>(
         val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_BINARY_SEARCH", arrayDopeQuery, valueDopeQuery),
-            parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
+            parameters = arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
         )
     }
 }
@@ -44,3 +45,23 @@ fun arrayBinarySearch(
     array: TypeExpression<ArrayType<BooleanType>>,
     value: Boolean,
 ) = arrayBinarySearch(array, value.toDopeType())
+
+fun <T : ValidType> arrayBinarySearch(
+    selectClause: ISelectOffsetClause<T>,
+    value: TypeExpression<T>,
+) = arrayBinarySearch(selectClause.asExpression(), value)
+
+fun arrayBinarySearch(
+    selectClause: ISelectOffsetClause<StringType>,
+    value: String,
+) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
+
+fun arrayBinarySearch(
+    selectClause: ISelectOffsetClause<NumberType>,
+    value: Number,
+) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
+
+fun arrayBinarySearch(
+    selectClause: ISelectOffsetClause<BooleanType>,
+    value: Boolean,
+) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())

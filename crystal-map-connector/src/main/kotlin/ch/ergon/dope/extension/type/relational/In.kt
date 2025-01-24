@@ -1,5 +1,6 @@
 package ch.ergon.dope.extension.type.relational
 
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.InExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.NotInExpression
@@ -29,6 +30,18 @@ fun CMJsonField<Boolean>.inArray(array: TypeExpression<ArrayType<BooleanType>>):
     toDopeType().inArray(array)
 
 @JvmName("inArrayNumber")
+fun CMJsonField<out Number>.inArray(selectClause: ISelectOffsetClause<NumberType>): InExpression<NumberType> =
+    toDopeType().inArray(selectClause.asExpression())
+
+@JvmName("inArrayString")
+fun CMJsonField<String>.inArray(selectClause: ISelectOffsetClause<StringType>): InExpression<StringType> =
+    toDopeType().inArray(selectClause.asExpression())
+
+@JvmName("inArrayBoolean")
+fun CMJsonField<Boolean>.inArray(selectClause: ISelectOffsetClause<BooleanType>): InExpression<BooleanType> =
+    toDopeType().inArray(selectClause.asExpression())
+
+@JvmName("inArrayNumber")
 fun TypeExpression<NumberType>.inArray(array: CMJsonList<out Number>): InExpression<NumberType> =
     inArray(array.toDopeType())
 
@@ -38,6 +51,18 @@ fun TypeExpression<StringType>.inArray(array: CMJsonList<String>): InExpression<
 
 @JvmName("inArrayBoolean")
 fun TypeExpression<BooleanType>.inArray(array: CMJsonList<Boolean>): InExpression<BooleanType> =
+    inArray(array.toDopeType())
+
+@JvmName("inArrayNumberCollection")
+fun CMJsonField<Number>.inArray(array: Collection<Number>): InExpression<NumberType> =
+    inArray(array.toDopeType())
+
+@JvmName("inArrayStringCollection")
+fun CMJsonField<String>.inArray(array: Collection<String>): InExpression<StringType> =
+    inArray(array.toDopeType())
+
+@JvmName("inArrayBooleanCollection")
+fun CMJsonField<Boolean>.inArray(array: Collection<Boolean>): InExpression<BooleanType> =
     inArray(array.toDopeType())
 
 @JvmName("inArrayNumber")
@@ -112,6 +137,18 @@ fun CMJsonField<String>.notInArray(array: TypeExpression<ArrayType<StringType>>)
 fun CMJsonField<Boolean>.notInArray(array: TypeExpression<ArrayType<BooleanType>>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array)
 
+@JvmName("inArrayNumber")
+fun CMJsonField<out Number>.notInArray(selectClause: ISelectOffsetClause<NumberType>): NotInExpression<NumberType> =
+    toDopeType().notInArray(selectClause.asExpression())
+
+@JvmName("inArrayString")
+fun CMJsonField<String>.notInArray(selectClause: ISelectOffsetClause<StringType>): NotInExpression<StringType> =
+    toDopeType().notInArray(selectClause.asExpression())
+
+@JvmName("inArrayBoolean")
+fun CMJsonField<Boolean>.notInArray(selectClause: ISelectOffsetClause<BooleanType>): NotInExpression<BooleanType> =
+    toDopeType().notInArray(selectClause.asExpression())
+
 @JvmName("notInArrayNumber")
 fun TypeExpression<NumberType>.notInArray(array: CMJsonList<out Number>): NotInExpression<NumberType> =
     this.notInArray(array.toDopeType())
@@ -159,3 +196,15 @@ fun String.notInArray(array: CMJsonList<String>): NotInExpression<StringType> =
 @JvmName("notInArrayBoolean")
 fun Boolean.notInArray(array: CMJsonList<Boolean>): NotInExpression<BooleanType> =
     toDopeType().notInArray(array.toDopeType())
+
+@JvmName("notInArrayNumberCollection")
+fun CMJsonField<Number>.notInArray(array: Collection<Number>): NotInExpression<NumberType> =
+    notInArray(array.toDopeType())
+
+@JvmName("notInArrayStringCollection")
+fun CMJsonField<String>.notInArray(array: Collection<String>): NotInExpression<StringType> =
+    notInArray(array.toDopeType())
+
+@JvmName("notInArrayBooleanCollection")
+fun CMJsonField<Boolean>.notInArray(array: Collection<Boolean>): NotInExpression<BooleanType> =
+    notInArray(array.toDopeType())

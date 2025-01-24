@@ -12,6 +12,7 @@ import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.ValidType
 
 sealed class WhereClause(
     private val whereExpression: TypeExpression<BooleanType>,
@@ -22,13 +23,13 @@ sealed class WhereClause(
         val whereDopeQuery = whereExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "WHERE", whereDopeQuery.queryString),
-            parameters = whereDopeQuery.parameters + parentDopeQuery.parameters,
+            parameters = parentDopeQuery.parameters.merge(whereDopeQuery.parameters),
         )
     }
 }
 
-class SelectWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: ISelectFromClause) :
-    ISelectWhereClause, WhereClause(whereExpression, parentClause)
+class SelectWhereClause<T : ValidType>(whereExpression: TypeExpression<BooleanType>, parentClause: ISelectFromClause<T>) :
+    ISelectWhereClause<T>, WhereClause(whereExpression, parentClause)
 
 class DeleteWhereClause(whereExpression: TypeExpression<BooleanType>, parentClause: IDeleteClause) :
     IDeleteWhereClause, WhereClause(whereExpression, parentClause)

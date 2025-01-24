@@ -5,8 +5,11 @@ import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonList
+import com.schwarz.crystalapi.schema.CMObjectList
+import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("stringArrayConcat")
 fun arrayConcat(
@@ -36,6 +39,17 @@ fun arrayConcat(
     secondArray: CMJsonList<Boolean>,
     vararg additionalArrays: CMJsonList<Boolean>,
 ): ArrayConcatExpression<BooleanType> = arrayConcat(
+    firstArray.toDopeType(),
+    secondArray.toDopeType(),
+    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+)
+
+@JvmName("objectArrayConcat")
+fun arrayConcat(
+    firstArray: CMObjectList<Schema>,
+    secondArray: CMObjectList<Schema>,
+    vararg additionalArrays: CMObjectList<Schema>,
+): ArrayConcatExpression<ObjectType> = arrayConcat(
     firstArray.toDopeType(),
     secondArray.toDopeType(),
     *additionalArrays.map { it.toDopeType() }.toTypedArray(),

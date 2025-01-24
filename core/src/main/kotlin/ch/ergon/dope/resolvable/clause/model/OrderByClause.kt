@@ -2,44 +2,61 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
+import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
-import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
-enum class OrderType(val type: String) {
+enum class OrderType(val queryString: String) {
     ASC("ASC"),
     DESC("DESC"),
 }
 
 private const val ORDER_BY = "ORDER BY"
 
-open class SelectOrderByClause(private val stringField: Field<StringType>, private val parentClause: ISelectGroupByClause) :
-    ISelectOrderByClause {
-
+class SelectOrderByClause<T : ValidType>(
+    private val orderExpression: OrderExpression,
+    private vararg val additionalOrderExpressions: OrderExpression,
+    private val parentClause: ISelectGroupByClause<T>,
+) : ISelectOrderByClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val stringDopeQuery = stringField.toDopeQuery(manager)
+        val orderExpressionDopeQuery = orderExpression.toDopeQuery(manager)
+        val additionalOrderExpressions = additionalOrderExpressions.map { it.toDopeQuery(manager) }
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString),
-            parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
+            queryString = formatToQueryStringWithSymbol(
+                parentDopeQuery.queryString,
+                ORDER_BY,
+                orderExpressionDopeQuery.queryString,
+                *additionalOrderExpressions.map { it.queryString }.toTypedArray(),
+            ),
+            parameters = parentDopeQuery.parameters.merge(
+                orderExpressionDopeQuery.parameters,
+                *additionalOrderExpressions.map { it.parameters }.toTypedArray(),
+            ),
         )
     }
+
+    fun thenOrderBy(orderExpression: OrderExpression) =
+        SelectOrderByClause(
+            this.orderExpression,
+            *additionalOrderExpressions,
+            orderExpression,
+            parentClause = this.parentClause,
+        )
+
+    fun thenOrderBy(typeExpression: TypeExpression<out ValidType>, orderByType: OrderType? = null) =
+        thenOrderBy(OrderExpression(typeExpression, orderByType))
 }
 
-class SelectOrderByTypeClause(
-    private val stringField: Field<StringType>,
-    private val orderType: OrderType,
-    private val parentClause: ISelectGroupByClause,
-) : SelectOrderByClause(stringField, parentClause) {
-
+class OrderExpression(private val expression: TypeExpression<out ValidType>, private val orderByType: OrderType? = null) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val stringDopeQuery = stringField.toDopeQuery(manager)
+        val typeDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, ORDER_BY, stringDopeQuery.queryString + " $orderType"),
-            parameters = stringDopeQuery.parameters + parentDopeQuery.parameters,
+            queryString = listOfNotNull(typeDopeQuery.queryString, orderByType?.queryString).joinToString(separator = " "),
+            parameters = typeDopeQuery.parameters,
         )
     }
 }

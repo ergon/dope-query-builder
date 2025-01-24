@@ -16,7 +16,6 @@ class NTileTest : ManagerDependentTest {
     fun `should support ntile with reference`() {
         val expected = DopeQuery(
             "NTILE (`numberField`) OVER `ref`",
-            emptyMap(),
         )
         val underTest = NTile(someNumberField(), windowReference = "ref")
 
@@ -29,7 +28,6 @@ class NTileTest : ManagerDependentTest {
     fun `should support ntile with order clause`() {
         val expected = DopeQuery(
             "NTILE (`numberField`) OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = NTile(
             someNumberField(),
@@ -45,7 +43,6 @@ class NTileTest : ManagerDependentTest {
     fun `should support ntile with partition and order clause`() {
         val expected = DopeQuery(
             "NTILE (`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = NTile(
             someNumberField(),

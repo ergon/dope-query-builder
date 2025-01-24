@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.fromable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
@@ -34,7 +35,7 @@ class UseKeysClass private constructor(
         val keysDopeQuery = useKeys.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(bucketDopeQuery.queryString, USE_KEYS, keysDopeQuery.queryString),
-            parameters = bucketDopeQuery.parameters + keysDopeQuery.parameters,
+            parameters = bucketDopeQuery.parameters.merge(keysDopeQuery.parameters),
         )
     }
 }
@@ -46,7 +47,12 @@ fun Bucket.useKeys(key: String) = useKeys(key.toDopeType())
 @JvmName("useKeysArray")
 fun Bucket.useKeys(keys: TypeExpression<ArrayType<StringType>>) = UseKeys(keys, this)
 
+fun Bucket.useKeys(keys: ISelectOffsetClause<StringType>) = UseKeys(keys.asExpression(), this)
+
 fun Bucket.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
+
+@JvmName("useKeysStringCollection")
+fun Bucket.useKeys(keys: Collection<String>) = useKeys(keys.toDopeType())
 
 fun Bucket.useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
     useKeys(listOf(firstKey.toDopeType(), secondKey.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())

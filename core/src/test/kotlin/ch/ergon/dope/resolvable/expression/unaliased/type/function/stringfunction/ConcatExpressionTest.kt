@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -16,8 +17,7 @@ class ConcatExpressionTest : ManagerDependentTest {
     @Test
     fun `should support concat`() {
         val expected = DopeQuery(
-            "CONCAT(`stringField`, `stringField`)",
-            emptyMap(),
+            queryString = "CONCAT(`stringField`, `stringField`)",
         )
         val underTest = ConcatExpression(someStringField(), someStringField())
 
@@ -27,11 +27,11 @@ class ConcatExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support concat with parameter`() {
+    fun `should support concat with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "CONCAT($1, `stringField`)",
-            mapOf("$1" to parameterValue),
+            queryString = "CONCAT($1, `stringField`)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField())
 
@@ -41,12 +41,12 @@ class ConcatExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support concat with all parameters`() {
+    fun `should support concat with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "CONCAT($1, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "CONCAT($1, $2)",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
@@ -60,10 +60,27 @@ class ConcatExpressionTest : ManagerDependentTest {
         val parameterValue = "test"
         val parameterValue2 = "test"
         val expected = DopeQuery(
-            "CONCAT($1, `stringField`, $2)",
-            mapOf("$1" to parameterValue, "$2" to parameterValue2),
+            queryString = "CONCAT($1, `stringField`, $2)",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support concat with all named parameters`() {
+        val parameterValue = "test"
+        val parameterValue2 = "test"
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "CONCAT(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = ConcatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -110,6 +127,42 @@ class ConcatExpressionTest : ManagerDependentTest {
         val expected = ConcatExpression(firstString.toDopeType(), secondString.toDopeType())
 
         val actual = concat(firstString, secondString)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support concat function string type string`() {
+        val firstString = someString("first")
+        val secondString = someStringField("second")
+        val thirdString = someString("third")
+        val expected = ConcatExpression(firstString.toDopeType(), secondString, thirdString.toDopeType())
+
+        val actual = concat(firstString, secondString, thirdString)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support concat function type type string`() {
+        val firstString = someStringField("first")
+        val secondString = someStringField("second")
+        val thirdString = someString("third")
+        val expected = ConcatExpression(firstString, secondString, thirdString.toDopeType())
+
+        val actual = concat(firstString, secondString, thirdString)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support concat function string string type`() {
+        val firstString = someString("first")
+        val secondString = someString("second")
+        val thirdString = someStringField("third")
+        val expected = ConcatExpression(firstString.toDopeType(), secondString.toDopeType(), thirdString)
+
+        val actual = concat(firstString, secondString, thirdString)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

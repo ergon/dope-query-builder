@@ -1,9 +1,11 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
+import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,8 +16,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     @Test
     fun `should support ARRAY_EXCEPT`() {
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
-            emptyMap(),
+            queryString = "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), someNumberArrayField())
 
@@ -25,11 +26,11 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_EXCEPT with parameter`() {
+    fun `should support ARRAY_EXCEPT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_EXCEPT($1, `numberArrayField`)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_EXCEPT($1, `numberArrayField`)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(), someNumberArrayField())
 
@@ -39,11 +40,26 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_EXCEPT with parameter as value`() {
+    fun `should support ARRAY_EXCEPT with named parameter`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_EXCEPT(\$$parameterName, `numberArrayField`)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayExceptExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val expected = DopeQuery(
-            "ARRAY_EXCEPT(`numberArrayField`, $1)",
-            mapOf("$1" to parameterValue),
+            queryString = "ARRAY_EXCEPT(`numberArrayField`, $1)",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter())
 
@@ -53,12 +69,27 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_EXCEPT with all parameters`() {
+    fun `should support ARRAY_EXCEPT with named parameter as value`() {
+        val parameterValue = listOf(1, 2, 3)
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "ARRAY_EXCEPT(`numberArrayField`, \$$parameterName)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT with positional all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
         val expected = DopeQuery(
-            "ARRAY_EXCEPT($1, $2)",
-            mapOf("$1" to parameterValueCollection, "$2" to parameterValue),
+            queryString = "ARRAY_EXCEPT($1, $2)",
+            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
         )
         val underTest = ArrayExceptExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
@@ -68,12 +99,65 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ARRAY_EXCEPT extension`() {
-        val array = someNumberArrayField()
-        val value = someNumberArrayField()
-        val expected = ArrayExceptExpression(array, value)
+    fun `should support ARRAY_EXCEPT with named all parameters`() {
+        val parameterValueCollection = listOf(1, 2, 3)
+        val parameterValue = listOf(4, 5, 6)
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = DopeQuery(
+            queryString = "ARRAY_EXCEPT(\$$parameterName, \$$parameterName2)",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
+        )
+        val underTest = ArrayExceptExpression(
+            parameterValueCollection.asParameter(parameterName),
+            parameterValue.asParameter(parameterName2),
+        )
 
-        val actual = arrayExcept(array, value)
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension type type`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberArrayField()
+        val expected = ArrayExceptExpression(firstArray, secondArray)
+
+        val actual = arrayExcept(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension select type`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberArrayField()
+        val expected = ArrayExceptExpression(firstArray.asExpression(), secondArray)
+
+        val actual = arrayExcept(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension type select`() {
+        val firstArray = someNumberArrayField()
+        val secondArray = someNumberSelectRawClause()
+        val expected = ArrayExceptExpression(firstArray, secondArray.asExpression())
+
+        val actual = arrayExcept(firstArray, secondArray)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ARRAY_EXCEPT extension select select`() {
+        val firstArray = someNumberSelectRawClause()
+        val secondArray = someNumberSelectRawClause()
+        val expected = ArrayExceptExpression(firstArray.asExpression(), secondArray.asExpression())
+
+        val actual = arrayExcept(firstArray, secondArray)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

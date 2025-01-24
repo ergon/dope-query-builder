@@ -1,45 +1,39 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
+import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.StringType
 
-class ConcatExpression(
-    private val firstString: TypeExpression<StringType>,
-    private val secondString: TypeExpression<StringType>,
-    private vararg val stringTypes: TypeExpression<StringType>,
-) : TypeExpression<StringType>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val firstStringDopeQuery = firstString.toDopeQuery(manager)
-        val secondStringDopeQuery = secondString.toDopeQuery(manager)
-        val stringTypesDopeQuery = stringTypes.map { it.toDopeQuery(manager) }
-        return DopeQuery(
-            queryString = toFunctionQueryString(
-                symbol = "CONCAT",
-                firstStringDopeQuery,
-                secondStringDopeQuery,
-                *stringTypesDopeQuery.toTypedArray(),
-            ),
-            parameters = firstStringDopeQuery.parameters + secondStringDopeQuery.parameters + stringTypesDopeQuery.fold(
-                emptyMap(),
-            ) { stringTypeParameters, field -> stringTypeParameters + field.parameters },
-        )
-    }
-}
+class ConcatExpression<T : StringType>(
+    firstString: TypeExpression<T>,
+    secondString: TypeExpression<T>,
+    vararg stringTypes: TypeExpression<T>,
+) : FunctionExpression<T>("CONCAT", firstString, secondString, *stringTypes)
 
-fun concat(firstString: TypeExpression<StringType>, secondString: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    ConcatExpression(firstString, secondString, *strings)
+fun concat(
+    firstString: TypeExpression<StringType>,
+    secondString: TypeExpression<StringType>,
+    vararg strings: TypeExpression<StringType>,
+) = ConcatExpression(firstString, secondString, *strings)
 
 fun concat(firstString: String, secondString: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
     concat(firstString.toDopeType(), secondString, *strings)
 
-fun concat(firstString: TypeExpression<StringType>, secondString: String, vararg strings: String) =
-    concat(firstString, secondString.toDopeType(), *wrapVarargsWithStringValueType(*strings))
+fun concat(firstString: TypeExpression<StringType>, secondString: String, vararg strings: TypeExpression<StringType>) =
+    concat(firstString, secondString.toDopeType(), *strings)
 
-fun concat(firstString: String, secondString: String, vararg strings: String) =
-    concat(firstString.toDopeType(), secondString.toDopeType(), *wrapVarargsWithStringValueType(*strings))
+fun concat(firstString: TypeExpression<StringType>, secondString: TypeExpression<StringType>, thirdString: String, vararg strings: String) =
+    concat(firstString, secondString, thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-internal fun wrapVarargsWithStringValueType(vararg strings: String) = strings.map { it.toDopeType() }.toTypedArray()
+fun concat(firstString: String, secondString: String, vararg strings: TypeExpression<StringType>) =
+    concat(firstString.toDopeType(), secondString.toDopeType(), *strings)
+
+fun concat(firstString: TypeExpression<StringType>, secondString: String, thirdString: String, vararg strings: String) =
+    concat(firstString, secondString.toDopeType(), thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+
+fun concat(firstString: String, secondString: TypeExpression<StringType>, thirdString: String, vararg strings: String) =
+    concat(firstString.toDopeType(), secondString, thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+
+fun concat(firstString: String, secondString: String, thirdString: String, vararg strings: String) =
+    concat(firstString.toDopeType(), secondString.toDopeType(), thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())

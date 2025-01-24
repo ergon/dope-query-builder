@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.relational
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -14,10 +15,9 @@ class LikeExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support like`() {
+    fun `should support like with no parameters`() {
         val expected = DopeQuery(
-            "`stringField` LIKE `stringField`",
-            emptyMap(),
+            queryString = "`stringField` LIKE `stringField`",
         )
         val underTest = LikeExpression(someStringField(), someStringField())
 
@@ -27,13 +27,28 @@ class LikeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support like with parameter`() {
+    fun `should support like with positional parameter`() {
         val parameterValue = "test"
         val expected = DopeQuery(
-            "`stringField` LIKE $1",
-            mapOf("$1" to parameterValue),
+            queryString = "`stringField` LIKE $1",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support like with named parameter`() {
+        val parameterValue = "test"
+        val parameterName = "param"
+        val expected = DopeQuery(
+            queryString = "`stringField` LIKE \$$parameterName",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = LikeExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -56,6 +71,28 @@ class LikeExpressionTest : ManagerDependentTest {
         val left = someStringField("left")
         val right = someString("right")
         val expected = LikeExpression(left, right.toDopeType())
+
+        val actual = left.isLike(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support like function with string type`() {
+        val left = someString("left")
+        val right = someStringField("right")
+        val expected = LikeExpression(left.toDopeType(), right)
+
+        val actual = left.isLike(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support like function with string string`() {
+        val left = someString("left")
+        val right = someString("right")
+        val expected = LikeExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.isLike(right)
 

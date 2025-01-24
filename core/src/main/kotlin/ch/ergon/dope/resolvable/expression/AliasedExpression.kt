@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.ValidType
 class AliasedExpression<T : ValidType>(
     private val unaliasedExpression: UnaliasedExpression<T>,
     private val alias: String,
-) : SingleExpression {
+) : SingleExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery(manager)
         return DopeQuery(
@@ -26,3 +26,5 @@ fun Number.alias(string: String) = toDopeType().alias(string)
 fun String.alias(string: String) = toDopeType().alias(string)
 
 fun Boolean.alias(string: String) = toDopeType().alias(string)
+
+fun <V> Map<String, V>.alias(string: String) = toDopeType().alias(string)

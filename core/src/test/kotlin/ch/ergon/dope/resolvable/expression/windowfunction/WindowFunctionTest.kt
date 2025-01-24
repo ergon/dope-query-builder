@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -27,7 +28,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support ordering term`() {
         val expected = DopeQuery(
             "`stringField`",
-            emptyMap(),
         )
         val underTest = OrderingTerm(someStringField())
 
@@ -40,7 +40,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support ordering term with order type`() {
         val expected = DopeQuery(
             "`stringField` ASC",
-            emptyMap(),
         )
         val underTest = OrderingTerm(someStringField(), OrderType.ASC)
 
@@ -53,7 +52,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support ordering term with nulls order`() {
         val expected = DopeQuery(
             "`stringField` NULLS LAST",
-            emptyMap(),
         )
         val underTest = OrderingTerm(someStringField(), nullsOrder = NULLS_LAST)
 
@@ -66,7 +64,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support ordering term with order type and nulls order`() {
         val expected = DopeQuery(
             "`stringField` ASC NULLS LAST",
-            emptyMap(),
         )
         val underTest = OrderingTerm(someStringField(), OrderType.ASC, NULLS_LAST)
 
@@ -80,7 +77,7 @@ class WindowFunctionTest : ManagerDependentTest {
         val value = someString()
         val expected = DopeQuery(
             "$1 ASC NULLS LAST",
-            mapOf("$1" to value),
+            DopeParameters(positionalParameters = listOf(value)),
         )
         val underTest = OrderingTerm(value.asParameter(), OrderType.ASC, NULLS_LAST)
 
@@ -93,7 +90,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowFunctionArgument with one`() {
         val expected = DopeQuery(
             "`stringField`",
-            emptyMap(),
         )
         val underTest = WindowFunctionArguments(someStringField())
 
@@ -106,7 +102,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowFunctionArgument with two`() {
         val expected = DopeQuery(
             "`stringField`, `numberField`",
-            emptyMap(),
         )
         val underTest = WindowFunctionArguments(someStringField(), someNumberField())
 
@@ -119,7 +114,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowFunctionArgument with three`() {
         val expected = DopeQuery(
             "`stringField`, `numberField`, `booleanField`",
-            emptyMap(),
         )
         val underTest = WindowFunctionArguments(someStringField(), someNumberField(), someBooleanField())
 
@@ -133,7 +127,7 @@ class WindowFunctionTest : ManagerDependentTest {
         val value = someNumber()
         val expected = DopeQuery(
             "`stringField`, $1, `booleanField`",
-            mapOf("$1" to value),
+            DopeParameters(positionalParameters = listOf(value)),
         )
         val underTest = WindowFunctionArguments(someStringField(), value.asParameter(), someBooleanField())
 
@@ -146,7 +140,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support OverClauseWindowDefinition`() {
         val expected = DopeQuery(
             "OVER ()",
-            emptyMap(),
         )
         val underTest = OverClauseWindowDefinition(someWindowDefinition())
 
@@ -159,7 +152,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support OverClauseWindowReference`() {
         val expected = DopeQuery(
             "OVER `someString`",
-            emptyMap(),
         )
         val underTest = OverClauseWindowReference(someString())
 
@@ -172,7 +164,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowDefinition`() {
         val expected = DopeQuery(
             "",
-            emptyMap(),
         )
         val underTest = WindowDefinition()
 
@@ -185,7 +176,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowDefinition with window reference`() {
         val expected = DopeQuery(
             "`stringField`",
-            emptyMap(),
         )
         val underTest = WindowDefinition(windowReference = someStringField())
 
@@ -198,7 +188,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowDefinition with window partition`() {
         val expected = DopeQuery(
             "PARTITION BY `numberField`, `stringField`",
-            emptyMap(),
         )
         val underTest = WindowDefinition(windowPartitionClause = listOf(someNumberField(), someStringField()))
 
@@ -211,7 +200,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowDefinition with ordering`() {
         val expected = DopeQuery(
             "ORDER BY `stringField` NULLS LAST, `stringField` DESC",
-            emptyMap(),
         )
         val underTest =
             WindowDefinition(windowOrderClause = listOf(someOrderingTerm(nullsOrder = NULLS_LAST), someOrderingTerm(orderType = DESC)))
@@ -225,7 +213,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowDefinition with window frame`() {
         val expected = DopeQuery(
             "RANGE UNBOUNDED PRECEDING",
-            emptyMap(),
         )
         val underTest = WindowDefinition(windowFrameClause = someWindowFrameClause())
 
@@ -238,7 +225,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowDefinition with all arguments`() {
         val expected = DopeQuery(
             "`stringField` PARTITION BY `numberField`, `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING",
-            emptyMap(),
         )
         val underTest = WindowDefinition(
             someStringField(),
@@ -256,7 +242,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowFrameClause`() {
         val expected = DopeQuery(
             "GROUPS UNBOUNDED PRECEDING",
-            emptyMap(),
         )
         val underTest = WindowFrameClause(WindowFrameType.GROUPS, someWindowFrameExtent())
 
@@ -269,7 +254,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support WindowFrameClause and exclusion`() {
         val expected = DopeQuery(
             "GROUPS UNBOUNDED PRECEDING EXCLUDE GROUP",
-            emptyMap(),
         )
         val underTest = WindowFrameClause(WindowFrameType.GROUPS, someWindowFrameExtent(), someWindowFrameExclusion())
 
@@ -282,7 +266,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support UnboundedPreceding`() {
         val expected = DopeQuery(
             "UNBOUNDED PRECEDING",
-            emptyMap(),
         )
         val underTest = UnboundedPreceding()
 
@@ -295,7 +278,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support Preceding`() {
         val expected = DopeQuery(
             "`numberField` PRECEDING",
-            emptyMap(),
         )
         val underTest = Preceding(someNumberField())
 
@@ -308,7 +290,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support CurrentRow`() {
         val expected = DopeQuery(
             "CURRENT ROW",
-            emptyMap(),
         )
         val underTest = CurrentRow()
 
@@ -321,7 +302,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support between and`() {
         val expected = DopeQuery(
             "BETWEEN CURRENT ROW AND CURRENT ROW",
-            emptyMap(),
         )
         val underTest = Between(CurrentRow(), CurrentRow())
 
@@ -334,7 +314,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support unbounded following`() {
         val expected = DopeQuery(
             "UNBOUNDED FOLLOWING",
-            emptyMap(),
         )
         val underTest = UnboundedFollowing()
 
@@ -347,7 +326,6 @@ class WindowFunctionTest : ManagerDependentTest {
     fun `should support following`() {
         val expected = DopeQuery(
             "`numberField` FOLLOWING",
-            emptyMap(),
         )
         val underTest = Following(someNumberField())
 

@@ -19,7 +19,7 @@ class ArrayRangeExpression(
         val stepDopeQuery = step?.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_RANGE", startDopeQuery, endDopeQuery, stepDopeQuery),
-            parameters = startDopeQuery.parameters + endDopeQuery.parameters + stepDopeQuery?.parameters.orEmpty(),
+            parameters = startDopeQuery.parameters.merge(endDopeQuery.parameters, stepDopeQuery?.parameters),
         )
     }
 }

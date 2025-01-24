@@ -18,7 +18,6 @@ class RatioToReportTest : ManagerDependentTest {
     fun `should support ratio to report with reference`() {
         val expected = DopeQuery(
             "RATIO_TO_REPORT (`numberField`) OVER `ref`",
-            emptyMap(),
         )
         val underTest = RatioToReport(someNumberField(), windowReference = "ref")
 
@@ -31,7 +30,6 @@ class RatioToReportTest : ManagerDependentTest {
     fun `should support ratio to report with reference and nulls modifier`() {
         val expected = DopeQuery(
             "RATIO_TO_REPORT (`numberField`) RESPECT NULLS OVER `ref`",
-            emptyMap(),
         )
         val underTest = RatioToReport(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
@@ -44,7 +42,6 @@ class RatioToReportTest : ManagerDependentTest {
     fun `should support ratio to report with order clause`() {
         val expected = DopeQuery(
             "RATIO_TO_REPORT (`numberField`) OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = RatioToReport(
             someNumberField(),
@@ -60,7 +57,6 @@ class RatioToReportTest : ManagerDependentTest {
     fun `should support ratio to report with partition and order clause`() {
         val expected = DopeQuery(
             "RATIO_TO_REPORT (`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = RatioToReport(
             someNumberField(),
@@ -77,7 +73,6 @@ class RatioToReportTest : ManagerDependentTest {
     fun `should support ratio to report with frame clause`() {
         val expected = DopeQuery(
             "RATIO_TO_REPORT (`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-            emptyMap(),
         )
         val underTest = RatioToReport(
             someNumberField(),

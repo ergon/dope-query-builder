@@ -18,7 +18,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with reference`() {
         val expected = DopeQuery(
             "LAG (`numberField`) OVER `ref`",
-            emptyMap(),
         )
         val underTest = Lag(someNumberField(), windowReference = "ref")
 
@@ -31,7 +30,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with reference and nulls modifier`() {
         val expected = DopeQuery(
             "LAG (`numberField`) RESPECT NULLS OVER `ref`",
-            emptyMap(),
         )
         val underTest = Lag(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
@@ -44,7 +42,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with offset`() {
         val expected = DopeQuery(
             "LAG (`numberField`, `numberField`) OVER `ref`",
-            emptyMap(),
         )
         val underTest = Lag(someNumberField(), offset = someNumberField(), windowReference = "ref")
 
@@ -57,7 +54,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with default`() {
         val expected = DopeQuery(
             "LAG (`numberField`, `numberField`) OVER `ref`",
-            emptyMap(),
         )
         val underTest = Lag(someNumberField(), default = someNumberField(), windowReference = "ref")
 
@@ -70,7 +66,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with all`() {
         val expected = DopeQuery(
             "LAG (`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
-            emptyMap(),
         )
         val underTest = Lag(
             someNumberField(),
@@ -89,7 +84,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with order clause`() {
         val expected = DopeQuery(
             "LAG (`numberField`) OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = Lag(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
@@ -102,7 +96,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with order clause and nulls modifier`() {
         val expected = DopeQuery(
             "LAG (`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = Lag(
             someNumberField(),
@@ -119,7 +112,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with order clause and offset`() {
         val expected = DopeQuery(
             "LAG (`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = Lag(
             someNumberField(),
@@ -136,7 +128,6 @@ class LagTest : ManagerDependentTest {
     fun `should support lag with all window partition`() {
         val expected = DopeQuery(
             "LAG (`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = Lag(
             someNumberField(),

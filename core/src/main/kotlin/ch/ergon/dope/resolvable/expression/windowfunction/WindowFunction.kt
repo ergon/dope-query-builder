@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
+import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
@@ -41,7 +42,8 @@ sealed class WindowFunction(
                 (fromModifier?.let { " ${it.queryString}" }.orEmpty()) +
                 (nullsModifier?.let { " ${it.queryString}" }.orEmpty()) +
                 overClauseDopeQuery.queryString.let { " $it" },
-            parameters = windowFunctionArgumentsDopeQuery?.parameters.orEmpty() + overClauseDopeQuery.parameters,
+            parameters = windowFunctionArgumentsDopeQuery?.parameters?.merge(overClauseDopeQuery.parameters)
+                ?: overClauseDopeQuery.parameters,
         )
     }
 
@@ -78,9 +80,10 @@ data class WindowFunctionArguments(
                     append(thirdArgDopeQuery.queryString)
                 }
             },
-            parameters = firstArgDopeQuery?.parameters.orEmpty() +
-                secondArgDopeQuery?.parameters.orEmpty() +
-                thirdArgDopeQuery?.parameters.orEmpty(),
+            parameters = (firstArgDopeQuery?.parameters ?: DopeParameters()).merge(
+                secondArgDopeQuery?.parameters,
+                thirdArgDopeQuery?.parameters,
+            ),
         )
     }
 }
@@ -101,7 +104,6 @@ class OverClauseWindowReference(private val windowReference: String) : OverClaus
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         return DopeQuery(
             queryString = "OVER `$windowReference`",
-            parameters = emptyMap(),
         )
     }
 }
@@ -141,7 +143,6 @@ class WindowDefinition(
                     append(it)
                 }
             },
-            parameters = emptyMap(),
         )
     }
 }
@@ -173,21 +174,21 @@ class Between(private val between: FrameBetween, private val and: FrameAndBetwee
         val andDopeQuery = and.toDopeQuery(manager)
         return DopeQuery(
             "BETWEEN ${betweenDopeQuery.queryString} AND ${andDopeQuery.queryString}",
-            betweenDopeQuery.parameters + andDopeQuery.parameters,
+            betweenDopeQuery.parameters.merge(andDopeQuery.parameters),
         )
     }
 }
 
 class UnboundedFollowing : FrameAndBetween {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED FOLLOWING", emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED FOLLOWING")
 }
 
 class UnboundedPreceding : FrameBetween, WindowFrameExtent {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED PRECEDING", emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED PRECEDING")
 }
 
 class CurrentRow : FrameBetween, FrameAndBetween, WindowFrameExtent {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("CURRENT ROW", emptyMap())
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("CURRENT ROW")
 }
 
 class Following(val offset: UnaliasedExpression<NumberType>) : FrameBetween, FrameAndBetween {

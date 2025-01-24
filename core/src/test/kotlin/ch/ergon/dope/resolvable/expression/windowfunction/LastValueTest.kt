@@ -19,7 +19,6 @@ class LastValueTest : ManagerDependentTest {
     fun `should support last value with reference`() {
         val expected = DopeQuery(
             "LAST_VALUE (`numberField`) OVER `ref`",
-            emptyMap(),
         )
         val underTest = LastValue(someNumberField(), windowReference = "ref")
 
@@ -32,7 +31,6 @@ class LastValueTest : ManagerDependentTest {
     fun `should support last value with reference and nulls modifier`() {
         val expected = DopeQuery(
             "LAST_VALUE (`numberField`) RESPECT NULLS OVER `ref`",
-            emptyMap(),
         )
         val underTest = LastValue(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
@@ -45,7 +43,6 @@ class LastValueTest : ManagerDependentTest {
     fun `should support last value with order clause`() {
         val expected = DopeQuery(
             "LAST_VALUE (`numberField`) OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = LastValue(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
@@ -58,7 +55,6 @@ class LastValueTest : ManagerDependentTest {
     fun `should support last value with order clause and nulls modifier`() {
         val expected = DopeQuery(
             "LAST_VALUE (`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = LastValue(
             someNumberField(),
@@ -75,7 +71,6 @@ class LastValueTest : ManagerDependentTest {
     fun `should support last value with all window partition`() {
         val expected = DopeQuery(
             "LAST_VALUE (`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = LastValue(
             someNumberField(),
@@ -92,7 +87,6 @@ class LastValueTest : ManagerDependentTest {
     fun `should support last value with frame clause`() {
         val expected = DopeQuery(
             "LAST_VALUE (`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-            emptyMap(),
         )
         val underTest = LastValue(
             someNumberField(),

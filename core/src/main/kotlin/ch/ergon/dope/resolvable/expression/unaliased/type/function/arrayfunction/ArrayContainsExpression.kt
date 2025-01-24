@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.operator.FunctionOperator
@@ -20,7 +21,7 @@ class ArrayContainsExpression<T : ValidType>(
         val valueDopeQuery = value.toDopeQuery(manager)
         return DopeQuery(
             queryString = toFunctionQueryString("ARRAY_CONTAINS", arrayDopeQuery, valueDopeQuery),
-            parameters = arrayDopeQuery.parameters + valueDopeQuery.parameters,
+            parameters = arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
         )
     }
 }
@@ -36,3 +37,15 @@ fun arrayContains(array: TypeExpression<ArrayType<NumberType>>, value: Number) =
 
 fun arrayContains(array: TypeExpression<ArrayType<BooleanType>>, value: Boolean) =
     arrayContains(array, value.toDopeType())
+
+fun <T : ValidType> arrayContains(selectClause: ISelectOffsetClause<T>, value: TypeExpression<T>) =
+    arrayContains(selectClause.asExpression(), value)
+
+fun arrayContains(selectClause: ISelectOffsetClause<StringType>, value: String) =
+    arrayContains(selectClause.asExpression(), value.toDopeType())
+
+fun arrayContains(selectClause: ISelectOffsetClause<NumberType>, value: Number) =
+    arrayContains(selectClause.asExpression(), value.toDopeType())
+
+fun arrayContains(selectClause: ISelectOffsetClause<BooleanType>, value: Boolean) =
+    arrayContains(selectClause.asExpression(), value.toDopeType())

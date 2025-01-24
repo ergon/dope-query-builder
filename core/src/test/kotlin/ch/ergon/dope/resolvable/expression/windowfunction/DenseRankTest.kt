@@ -16,7 +16,6 @@ class DenseRankTest : ManagerDependentTest {
     fun `should support dense rank with reference`() {
         val expected = DopeQuery(
             "DENSE_RANK () OVER `ref`",
-            emptyMap(),
         )
         val underTest = DenseRank("ref")
 
@@ -29,7 +28,6 @@ class DenseRankTest : ManagerDependentTest {
     fun `should support dense rank with ordering term`() {
         val expected = DopeQuery(
             "DENSE_RANK () OVER (ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = DenseRank(listOf(someOrderingTerm()))
 
@@ -42,7 +40,6 @@ class DenseRankTest : ManagerDependentTest {
     fun `should support dense rank with ordering term and partition`() {
         val expected = DopeQuery(
             "DENSE_RANK () OVER (PARTITION BY `stringField`, `numberField` ORDER BY `stringField`)",
-            emptyMap(),
         )
         val underTest = DenseRank(listOf(someOrderingTerm()), listOf(someStringField(), someNumberField()))
 

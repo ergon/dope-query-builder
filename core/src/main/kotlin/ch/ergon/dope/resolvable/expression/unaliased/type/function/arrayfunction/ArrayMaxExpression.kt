@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunctio
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ArrayType
@@ -20,3 +21,5 @@ class ArrayMaxExpression<T : ValidType>(
 }
 
 fun <T : ValidType> arrayMax(array: TypeExpression<ArrayType<T>>) = ArrayMaxExpression(array)
+
+fun <T : ValidType> arrayMax(selectClause: ISelectOffsetClause<T>) = arrayMax(selectClause.asExpression())
