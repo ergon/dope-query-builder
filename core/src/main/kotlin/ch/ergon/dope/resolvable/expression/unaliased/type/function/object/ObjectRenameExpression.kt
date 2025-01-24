@@ -8,26 +8,26 @@ import ch.ergon.dope.validtype.StringType
 
 class ObjectRenameExpression(
     objectExpression: TypeExpression<ObjectType>,
-    oldField: TypeExpression<StringType>,
-    newField: TypeExpression<StringType>,
-) : FunctionExpression<ObjectType>("OBJECT_RENAME", objectExpression, oldField, newField)
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: TypeExpression<StringType>,
+) : FunctionExpression<ObjectType>("OBJECT_RENAME", objectExpression, oldFieldName, newFieldName)
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: TypeExpression<StringType>,
-    newField: TypeExpression<StringType>,
-) = ObjectRenameExpression(this, oldField, newField)
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: TypeExpression<StringType>,
+) = ObjectRenameExpression(this, oldFieldName, newFieldName)
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: String,
-    newField: String,
-) = renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: String,
+    newFieldName: String,
+) = renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: TypeExpression<StringType>,
-    newField: String,
-) = renameAttribute(oldField, newField.toDopeType())
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: String,
+) = renameAttribute(oldFieldName, newFieldName.toDopeType())
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: String,
-    newField: TypeExpression<StringType>,
-) = renameAttribute(oldField.toDopeType(), newField)
+    oldFieldName: String,
+    newFieldName: TypeExpression<StringType>,
+) = renameAttribute(oldFieldName.toDopeType(), newFieldName)

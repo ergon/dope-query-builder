@@ -106,74 +106,74 @@ fun CMObjectField<Schema>.removeAttribute(key: String) = toDopeType().removeAttr
 fun CMObjectField<Schema>.removeAttribute(key: CMJsonField<String>) = toDopeType().removeAttribute(key.toDopeType())
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: TypeExpression<StringType>,
-    newField: TypeExpression<StringType>,
-) = toDopeType().renameAttribute(oldField, newField)
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: TypeExpression<StringType>,
+) = toDopeType().renameAttribute(oldFieldName, newFieldName)
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: String,
-    newField: String,
-) = toDopeType().renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: String,
+    newFieldName: String,
+) = toDopeType().renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: TypeExpression<StringType>,
-    newField: String,
-) = toDopeType().renameAttribute(oldField, newField.toDopeType())
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: String,
+) = toDopeType().renameAttribute(oldFieldName, newFieldName.toDopeType())
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: String,
-    newField: TypeExpression<StringType>,
-) = toDopeType().renameAttribute(oldField.toDopeType(), newField)
+    oldFieldName: String,
+    newFieldName: TypeExpression<StringType>,
+) = toDopeType().renameAttribute(oldFieldName.toDopeType(), newFieldName)
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: CMJsonField<String>,
-    newField: CMJsonField<String>,
-) = toDopeType().renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: CMJsonField<String>,
+    newFieldName: CMJsonField<String>,
+) = toDopeType().renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: CMJsonField<String>,
-    newField: String,
-) = toDopeType().renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: CMJsonField<String>,
+    newFieldName: String,
+) = toDopeType().renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: String,
-    newField: CMJsonField<String>,
-) = toDopeType().renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: String,
+    newFieldName: CMJsonField<String>,
+) = toDopeType().renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: CMJsonField<String>,
-    newField: TypeExpression<StringType>,
-) = toDopeType().renameAttribute(oldField.toDopeType(), newField)
+    oldFieldName: CMJsonField<String>,
+    newFieldName: TypeExpression<StringType>,
+) = toDopeType().renameAttribute(oldFieldName.toDopeType(), newFieldName)
 
 fun CMObjectField<Schema>.renameAttribute(
-    oldField: TypeExpression<StringType>,
-    newField: CMJsonField<String>,
-) = toDopeType().renameAttribute(oldField, newField.toDopeType())
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: CMJsonField<String>,
+) = toDopeType().renameAttribute(oldFieldName, newFieldName.toDopeType())
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: CMJsonField<String>,
-    newField: CMJsonField<String>,
-) = renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: CMJsonField<String>,
+    newFieldName: CMJsonField<String>,
+) = renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: CMJsonField<String>,
-    newField: String,
-) = renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: CMJsonField<String>,
+    newFieldName: String,
+) = renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: String,
-    newField: CMJsonField<String>,
-) = renameAttribute(oldField.toDopeType(), newField.toDopeType())
+    oldFieldName: String,
+    newFieldName: CMJsonField<String>,
+) = renameAttribute(oldFieldName.toDopeType(), newFieldName.toDopeType())
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: CMJsonField<String>,
-    newField: TypeExpression<StringType>,
-) = renameAttribute(oldField.toDopeType(), newField)
+    oldFieldName: CMJsonField<String>,
+    newFieldName: TypeExpression<StringType>,
+) = renameAttribute(oldFieldName.toDopeType(), newFieldName)
 
 fun TypeExpression<ObjectType>.renameAttribute(
-    oldField: TypeExpression<StringType>,
-    newField: CMJsonField<String>,
-) = renameAttribute(oldField, newField.toDopeType())
+    oldFieldName: TypeExpression<StringType>,
+    newFieldName: CMJsonField<String>,
+) = renameAttribute(oldFieldName, newFieldName.toDopeType())
 
 fun CMObjectField<Schema>.replace(oldValue: TypeExpression<out ValidType>, newValue: TypeExpression<out ValidType>) =
     toDopeType().replace(oldValue, newValue)
