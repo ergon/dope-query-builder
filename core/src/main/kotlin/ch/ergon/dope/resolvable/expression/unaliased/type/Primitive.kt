@@ -77,8 +77,8 @@ class ObjectPrimitive(
 )
 
 class ObjectEntryPrimitive<T : ValidType>(
-    private val key: TypeExpression<StringType>,
-    private val value: TypeExpression<T>,
+    val key: TypeExpression<StringType>,
+    val value: TypeExpression<T>,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val keyQuery = key.toDopeQuery(manager)
