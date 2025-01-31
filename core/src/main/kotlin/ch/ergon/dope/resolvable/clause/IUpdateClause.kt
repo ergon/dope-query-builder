@@ -10,7 +10,7 @@ import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.to
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
+import ch.ergon.dope.resolvable.expression.Asterisk
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -26,7 +26,7 @@ interface IUpdateReturningClause : Clause
 interface IUpdateLimitClause : IUpdateReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         UpdateReturningClause(returningExpression, *additionalReturningExpressions, parentClause = this)
-    fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(AsteriskExpression(bucket), parentClause = this)
+    fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(Asterisk(bucket), parentClause = this)
 
     fun returningRaw(returningExpression: TypeExpression<out ValidType>) =
         UpdateReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)

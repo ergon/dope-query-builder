@@ -5,6 +5,7 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.isActiveField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.quantitiesField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
@@ -12,8 +13,10 @@ import ch.ergon.dope.integrationTest.toRawValues
 import ch.ergon.dope.resolvable.clause.model.setoperator.intersect
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isNull
@@ -227,5 +230,27 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         val result = queryResult.toMapValues()
 
         assertEquals(1, result["positionalParameter"])
+    }
+
+    @Test
+    fun `select from subquery`() {
+        val create = QueryBuilder()
+        val subQuery = create
+            .selectRaw(quantitiesField)
+            .from(testBucket)
+            .where(typeField.isEqualTo("order"))
+            .limit(1)
+            .alias("subQuery")
+        val dopeQuery = create
+            .select(subQuery)
+            .from(subQuery)
+            .where(
+                subQuery.any { it.isGreaterOrEqualThan(1) },
+            ).build()
+
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toMapValues()
+
+        assertEquals(listOf(1, 2, 3), result["subQuery"])
     }
 }

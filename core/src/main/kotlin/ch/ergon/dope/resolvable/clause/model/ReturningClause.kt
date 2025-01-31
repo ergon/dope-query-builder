@@ -8,10 +8,11 @@ import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.IDeleteReturningClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateReturningClause
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
 import ch.ergon.dope.resolvable.fromable.Returnable
-import ch.ergon.dope.resolvable.fromable.SingleReturnable
+import ch.ergon.dope.validtype.ValidType
 
 private const val RETURNING = "RETURNING"
 
@@ -69,7 +70,7 @@ class UpdateReturningClause(
 )
 
 sealed class ReturningSingleClause(
-    private val singleReturnable: SingleReturnable,
+    private val singleReturnable: SingleExpression<out ValidType>,
     private val returningType: ReturningType,
     private val parentClause: Clause,
 ) : Resolvable {
@@ -87,13 +88,13 @@ sealed class ReturningSingleClause(
 }
 
 class DeleteReturningSingleClause(
-    singleReturnable: SingleReturnable,
+    singleReturnable: SingleExpression<out ValidType>,
     returningType: ReturningType,
     parentClause: IDeleteOffsetClause,
 ) : IDeleteReturningClause, ReturningSingleClause(singleReturnable, returningType, parentClause = parentClause)
 
 class UpdateReturningSingleClause(
-    singleReturnable: SingleReturnable,
+    singleReturnable: SingleExpression<out ValidType>,
     returningType: ReturningType,
     parentClause: IUpdateLimitClause,
 ) : IUpdateReturningClause, ReturningSingleClause(singleReturnable, returningType, parentClause = parentClause)

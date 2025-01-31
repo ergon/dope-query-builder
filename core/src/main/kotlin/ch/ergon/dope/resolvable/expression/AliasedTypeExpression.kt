@@ -4,32 +4,16 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
-import ch.ergon.dope.resolvable.fromable.SingleReturnable
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class AliasedExpression<T : ValidType>(
-    private val unaliasedExpression: UnaliasedExpression<T>,
-    private val alias: String,
-) : SingleExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val unaliasedExpressionDopeQuery = unaliasedExpression.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = formatToQueryStringWithSymbol(unaliasedExpressionDopeQuery.queryString, "AS", "`$alias`"),
-            parameters = unaliasedExpressionDopeQuery.parameters,
-        )
-    }
-}
-
-fun <T : ValidType> UnaliasedExpression<T>.alias(string: String): AliasedExpression<T> = AliasedExpression(this, string)
-
 class AliasedTypeExpression<T : ValidType>(
     private val typeExpression: TypeExpression<T>,
     private val alias: String,
-) : SingleExpression<T>, SingleReturnable {
+) : SingleExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val typeExpressionDopeQuery = typeExpression.toDopeQuery(manager)
         return DopeQuery(

@@ -7,7 +7,7 @@ import ch.ergon.dope.helper.someBucket
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AsteriskExpressionTest : ManagerDependentTest {
+class AsteriskTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
@@ -15,7 +15,7 @@ class AsteriskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "*",
         )
-        val underTest = AsteriskExpression()
+        val underTest = Asterisk()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -27,7 +27,7 @@ class AsteriskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "`someBucket`.*",
         )
-        val underTest = AsteriskExpression(someBucket())
+        val underTest = Asterisk(someBucket())
 
         val actual = underTest.toDopeQuery(manager)
 

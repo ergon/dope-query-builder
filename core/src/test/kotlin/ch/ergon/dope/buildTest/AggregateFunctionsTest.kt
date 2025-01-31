@@ -8,9 +8,9 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.arrayAggregate
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.avg
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.count

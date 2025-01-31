@@ -9,8 +9,8 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
-import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.alias
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.arrayAggregate
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAsterisk
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.max

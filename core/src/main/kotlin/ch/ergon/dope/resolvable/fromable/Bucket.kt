@@ -3,10 +3,11 @@ package ch.ergon.dope.resolvable.fromable
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
-import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.Asterisk
+import ch.ergon.dope.resolvable.expression.SingleExpression
+import ch.ergon.dope.validtype.ObjectType
 
-sealed class Bucket(open val name: String) : Fromable, Joinable, Deletable, Updatable, SingleReturnable, Expression {
+sealed class Bucket(open val name: String) : Fromable, Joinable, Deletable, Updatable, SingleExpression<ObjectType> {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
         queryString = "`$name`",
     )
@@ -30,4 +31,4 @@ class AliasedBucketDefinition(val name: String, val alias: String) : Resolvable 
     )
 }
 
-fun Bucket.asterisk() = AsteriskExpression(this)
+fun Bucket.asterisk() = Asterisk(this)

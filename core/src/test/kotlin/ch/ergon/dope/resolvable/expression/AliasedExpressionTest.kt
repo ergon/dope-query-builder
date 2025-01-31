@@ -6,8 +6,10 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AliasedAggregateExpression
 import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAsterisk
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -22,7 +24,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "COUNT(*) AS `count`",
         )
-        val underTest = AliasedExpression(countAsterisk(), "count")
+        val underTest = AliasedAggregateExpression(countAsterisk(), "count")
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -110,6 +112,17 @@ class AliasedExpressionTest : ManagerDependentTest {
         val expected = AliasedTypeExpression(boolean.toDopeType(), alias)
 
         val actual = boolean.alias(alias)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support alias function select expression`() {
+        val selectExpression = someSelectClause().asExpression()
+        val alias = "alias"
+        val expected = AliasedTypeExpression(selectExpression, alias)
+
+        val actual = selectExpression.alias(alias)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

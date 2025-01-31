@@ -5,14 +5,14 @@ import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
-import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.Asterisk
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
 import ch.ergon.dope.resolvable.fromable.AliasedBucket
 import ch.ergon.dope.resolvable.fromable.Bucket
 import ch.ergon.dope.resolvable.fromable.Fromable
+import ch.ergon.dope.resolvable.fromable.Selectable
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -67,7 +67,7 @@ fun someCMConverterStringList(name: String = "cmConverterStringList", path: Stri
 fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: String = "") =
     CMConverterList(name, path, DateBooleanConverterInstance)
 
-fun someSelect(expression: Expression = AsteriskExpression()) = SelectClause(expression)
+fun someSelect(selectable: Selectable = Asterisk()) = SelectClause(selectable)
 fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), OrderByType.ASC)
 fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
 

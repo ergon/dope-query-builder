@@ -22,7 +22,7 @@ import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
 import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
+import ch.ergon.dope.resolvable.expression.Asterisk
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -116,12 +116,12 @@ class DeleteClauseTest : ManagerDependentTest {
         val expected = DeleteReturningClause(
             field1.toDopeType(),
             field2.toDopeType(),
-            AsteriskExpression(),
+            Asterisk(),
             field3.toDopeType(),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), AsteriskExpression(), field3.toDopeType())
+        val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), Asterisk(), field3.toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

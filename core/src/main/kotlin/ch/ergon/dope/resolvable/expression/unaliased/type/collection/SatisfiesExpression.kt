@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.collection
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.ANY
 import ch.ergon.dope.resolvable.expression.unaliased.type.collection.SatisfiesType.EVERY
@@ -18,7 +19,7 @@ enum class SatisfiesType {
 
 sealed class SatisfiesExpression<T : ValidType>(
     private val satisfiesType: SatisfiesType,
-    private val arrayExpression: TypeExpression<ArrayType<T>>,
+    private val arrayExpression: SingleExpression<ArrayType<T>>,
     private val iteratorName: String? = null,
     private val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<BooleanType> {
@@ -40,18 +41,18 @@ class Iterator<T : ValidType>(private val variable: String) : TypeExpression<T> 
 }
 
 class AnySatisfiesExpression<T : ValidType>(
-    arrayExpression: TypeExpression<ArrayType<T>>,
+    arrayExpression: SingleExpression<ArrayType<T>>,
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(ANY, arrayExpression, iteratorName, predicate)
 
 class EverySatisfiesExpression<T : ValidType>(
-    arrayExpression: TypeExpression<ArrayType<T>>,
+    arrayExpression: SingleExpression<ArrayType<T>>,
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(EVERY, arrayExpression, iteratorName, predicate)
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.any(
+fun <T : ValidType> SingleExpression<ArrayType<T>>.any(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) = AnySatisfiesExpression(this, iteratorName, predicate)
@@ -66,7 +67,7 @@ fun <T : ValidType> ISelectOffsetClause<T>.any(
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) = asExpression().any(iteratorName, predicate)
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.every(
+fun <T : ValidType> SingleExpression<ArrayType<T>>.every(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) = EverySatisfiesExpression(this, iteratorName, predicate)
