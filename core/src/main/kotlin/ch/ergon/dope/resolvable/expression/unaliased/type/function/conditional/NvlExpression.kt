@@ -1,6 +1,6 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
@@ -9,18 +9,18 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class NvlExpression<T : ValidType>(
-    initialExpression: UnaliasedExpression<T>,
-    substituteExpression: UnaliasedExpression<T>,
+    initialExpression: TypeExpression<T>,
+    substituteExpression: TypeExpression<T>,
 ) : FunctionExpression<T>("NVL", initialExpression, substituteExpression)
 
-fun <T : ValidType> nvl(initialExpression: UnaliasedExpression<T>, substituteExpression: UnaliasedExpression<T>) =
+fun <T : ValidType> nvl(initialExpression: TypeExpression<T>, substituteExpression: TypeExpression<T>) =
     NvlExpression(initialExpression, substituteExpression)
 
-fun nvl(initialExpression: UnaliasedExpression<NumberType>, substituteExpression: Number) =
+fun nvl(initialExpression: TypeExpression<NumberType>, substituteExpression: Number) =
     NvlExpression(initialExpression, substituteExpression.toDopeType())
 
-fun nvl(initialExpression: UnaliasedExpression<StringType>, substituteExpression: String) =
+fun nvl(initialExpression: TypeExpression<StringType>, substituteExpression: String) =
     NvlExpression(initialExpression, substituteExpression.toDopeType())
 
-fun nvl(initialExpression: UnaliasedExpression<BooleanType>, substituteExpression: Boolean) =
+fun nvl(initialExpression: TypeExpression<BooleanType>, substituteExpression: Boolean) =
     NvlExpression(initialExpression, substituteExpression.toDopeType())

@@ -18,7 +18,7 @@ import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
-import ch.ergon.dope.resolvable.expression.AliasedExpression
+import ch.ergon.dope.resolvable.expression.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
@@ -140,7 +140,7 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
 
 interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
     fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
-    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<U>>) =
+    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedTypeExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
 }
 

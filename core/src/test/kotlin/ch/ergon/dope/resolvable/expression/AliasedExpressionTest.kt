@@ -6,8 +6,11 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
+import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AliasedAggregateExpression
+import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAsterisk
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import kotlin.test.Test
@@ -19,9 +22,21 @@ class AliasedExpressionTest : ManagerDependentTest {
     @Test
     fun `should support aliased expression`() {
         val expected = DopeQuery(
+            queryString = "COUNT(*) AS `count`",
+        )
+        val underTest = AliasedAggregateExpression(countAsterisk(), "count")
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aliased type expression`() {
+        val expected = DopeQuery(
             queryString = "`stringField` AS `test`",
         )
-        val underTest = AliasedExpression(someStringField(), "test")
+        val underTest = AliasedTypeExpression(someStringField(), "test")
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -35,7 +50,7 @@ class AliasedExpressionTest : ManagerDependentTest {
             queryString = "$1 AS `test`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = AliasedExpression(parameterValue.asParameter(), "test")
+        val underTest = AliasedTypeExpression(parameterValue.asParameter(), "test")
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -50,7 +65,7 @@ class AliasedExpressionTest : ManagerDependentTest {
             queryString = "\$$parameterName AS `test`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = AliasedExpression(parameterValue.asParameter(parameterName), "test")
+        val underTest = AliasedTypeExpression(parameterValue.asParameter(parameterName), "test")
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -59,44 +74,55 @@ class AliasedExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support alias function type`() {
-        val unaliasedExpression = someStringField()
+        val typeExpression = someStringField()
         val alias = "alias"
-        val expected = AliasedExpression(unaliasedExpression, alias)
+        val expected = AliasedTypeExpression(typeExpression, alias)
 
-        val actual = unaliasedExpression.alias(alias)
+        val actual = typeExpression.alias(alias)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support alias function number`() {
-        val unaliasedExpression = someNumber()
+        val number = someNumber()
         val alias = "alias"
-        val expected = AliasedExpression(unaliasedExpression.toDopeType(), alias)
+        val expected = AliasedTypeExpression(number.toDopeType(), alias)
 
-        val actual = unaliasedExpression.alias(alias)
+        val actual = number.alias(alias)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support alias function string`() {
-        val unaliasedExpression = someString()
+        val string = someString()
         val alias = "alias"
-        val expected = AliasedExpression(unaliasedExpression.toDopeType(), alias)
+        val expected = AliasedTypeExpression(string.toDopeType(), alias)
 
-        val actual = unaliasedExpression.alias(alias)
+        val actual = string.alias(alias)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support alias function boolean`() {
-        val unaliasedExpression = someBoolean()
+        val boolean = someBoolean()
         val alias = "alias"
-        val expected = AliasedExpression(unaliasedExpression.toDopeType(), alias)
+        val expected = AliasedTypeExpression(boolean.toDopeType(), alias)
 
-        val actual = unaliasedExpression.alias(alias)
+        val actual = boolean.alias(alias)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support alias function select expression`() {
+        val selectExpression = someSelectClause().asExpression()
+        val alias = "alias"
+        val expected = AliasedTypeExpression(selectExpression, alias)
+
+        val actual = selectExpression.alias(alias)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

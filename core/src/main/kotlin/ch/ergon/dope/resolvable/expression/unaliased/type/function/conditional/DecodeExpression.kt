@@ -3,15 +3,14 @@ package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
 import ch.ergon.dope.resolvable.operator.FunctionOperator
 import ch.ergon.dope.validtype.ValidType
 
 class DecodeExpression<T : ValidType, U : ValidType>(
-    private val decodeExpression: UnaliasedExpression<T>,
+    private val decodeExpression: TypeExpression<T>,
     private val searchResult: SearchResult<T, out U>,
     private vararg val searchResults: SearchResult<T, out U>,
-    private val default: UnaliasedExpression<out U>? = null,
+    private val default: TypeExpression<out U>? = null,
 ) : TypeExpression<U>, FunctionOperator {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val decodeExpressionDopeQuery = decodeExpression.toDopeQuery(manager)
@@ -46,22 +45,22 @@ class DecodeExpression<T : ValidType, U : ValidType>(
 
 @JvmName("decodeWithGeneric")
 fun <T : ValidType, U : ValidType> decode(
-    decodeExpression: UnaliasedExpression<T>,
+    decodeExpression: TypeExpression<T>,
     searchResult: SearchResult<T, U>,
     vararg searchResults: SearchResult<T, U>,
 ) = DecodeExpression(decodeExpression, searchResult, *searchResults)
 
 fun <T : ValidType, U : ValidType> decode(
-    decodeExpression: UnaliasedExpression<T>,
+    decodeExpression: TypeExpression<T>,
     searchResult: SearchResult<T, U>,
     vararg searchResults: SearchResult<T, U>,
-    default: UnaliasedExpression<U>,
+    default: TypeExpression<U>,
 ) = DecodeExpression(decodeExpression, searchResult, *searchResults, default = default)
 
 @JvmName("decodeWithoutGeneric")
 fun <T : ValidType> decode(
-    decodeExpression: UnaliasedExpression<T>,
+    decodeExpression: TypeExpression<T>,
     searchResult: SearchResult<T, out ValidType>,
     vararg searchResults: SearchResult<T, out ValidType>,
-    default: UnaliasedExpression<out ValidType>? = null,
+    default: TypeExpression<out ValidType>? = null,
 ) = DecodeExpression(decodeExpression, searchResult, *searchResults, default = default)

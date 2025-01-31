@@ -3,9 +3,9 @@ package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.NumberType
 
-class VarianceExpression<T : NumberType>(
-    number: Field<T>,
+class VarianceExpression(
+    number: Field<NumberType>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression<T>("VARIANCE", number, quantifier)
+) : AggregateFunctionExpression<NumberType>("VARIANCE", number, quantifier)
 
-fun variance(number: Field<out NumberType>, quantifier: AggregateQuantifier? = null) = VarianceExpression(number, quantifier)
+fun variance(number: Field<NumberType>, quantifier: AggregateQuantifier? = null) = VarianceExpression(number, quantifier)

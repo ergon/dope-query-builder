@@ -5,16 +5,16 @@ import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
-import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.Asterisk
 import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.fromable.Bucket
+import ch.ergon.dope.resolvable.fromable.Selectable
 import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-fun someSelectClause(expression: Expression = AsteriskExpression()) = SelectClause(expression)
+fun someSelectClause(selectable: Selectable = Asterisk()) = SelectClause(selectable)
 
 fun someSelectRawClause() = someStringSelectRawClause()
 

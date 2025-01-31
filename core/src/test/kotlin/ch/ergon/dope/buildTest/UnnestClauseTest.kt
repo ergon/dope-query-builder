@@ -6,7 +6,7 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.AliasedExpression
+import ch.ergon.dope.resolvable.expression.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.alias
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
@@ -34,7 +34,7 @@ class UnnestClauseTest {
         val aField = listOf("a".toDopeType()).toDopeType()
         val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
-        val alias: AliasedExpression<ArrayType<StringType>> = aField.alias("a")
+        val alias: AliasedTypeExpression<ArrayType<StringType>> = aField.alias("a")
         val actual: String = create
             .selectFrom(airline)
             .unnest(alias)

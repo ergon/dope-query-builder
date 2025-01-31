@@ -3,9 +3,9 @@ package ch.ergon.dope.resolvable.expression.unaliased.aggregator
 import ch.ergon.dope.resolvable.expression.unaliased.type.Field
 import ch.ergon.dope.validtype.NumberType
 
-class MedianExpression<T : NumberType>(
-    number: Field<T>,
+class MedianExpression(
+    number: Field<NumberType>,
     quantifier: AggregateQuantifier?,
-) : AggregateExpression<T>("MEDIAN", number, quantifier)
+) : AggregateFunctionExpression<NumberType>("MEDIAN", number, quantifier)
 
-fun median(number: Field<out NumberType>, quantifier: AggregateQuantifier? = null) = MedianExpression(number, quantifier)
+fun median(number: Field<NumberType>, quantifier: AggregateQuantifier? = null) = MedianExpression(number, quantifier)

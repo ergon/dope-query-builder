@@ -10,7 +10,6 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.helper.someUnaliasedExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.Nvl2Expression
 import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.nvl2
@@ -163,7 +162,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function expression expression`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someStringField()
         val valueIfNotExists = someStringField()
         val expected = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists)
@@ -175,7 +174,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function expression number`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someNumberField()
         val valueIfNotExists = someNumber()
         val expected = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists.toDopeType())
@@ -187,7 +186,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function expression string`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someStringField()
         val valueIfNotExists = someString()
         val expected = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists.toDopeType())
@@ -199,7 +198,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function expression boolean`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someBooleanField()
         val valueIfNotExists = someBoolean()
         val expected = Nvl2Expression(initialExpression, valueIfExists, valueIfNotExists.toDopeType())
@@ -211,7 +210,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function number expression`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someNumber()
         val valueIfNotExists = someNumberField()
         val expected = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists)
@@ -223,7 +222,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function string expression`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someString()
         val valueIfNotExists = someStringField()
         val expected = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists)
@@ -235,7 +234,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function boolean expression`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someBoolean()
         val valueIfNotExists = someBooleanField()
         val expected = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists)
@@ -247,7 +246,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function number number`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someNumber()
         val valueIfNotExists = someNumber()
         val expected = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists.toDopeType())
@@ -259,7 +258,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function string string`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someString()
         val valueIfNotExists = someString()
         val expected = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists.toDopeType())
@@ -271,7 +270,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support nvl2 function boolean boolean`() {
-        val initialExpression = someUnaliasedExpression()
+        val initialExpression = someNumberField()
         val valueIfExists = someBoolean()
         val valueIfNotExists = someBoolean()
         val expected = Nvl2Expression(initialExpression, valueIfExists.toDopeType(), valueIfNotExists.toDopeType())

@@ -1,33 +1,33 @@
 package ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
 import ch.ergon.dope.validtype.ValidType
 
 data class SearchResult<T : ValidType, U : ValidType>(
-    val searchExpression: UnaliasedExpression<T>,
-    val resultExpression: UnaliasedExpression<U>,
+    val searchExpression: TypeExpression<T>,
+    val resultExpression: TypeExpression<U>,
 )
 
-fun <T : ValidType, U : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: UnaliasedExpression<U>) =
+fun <T : ValidType, U : ValidType> TypeExpression<T>.resultsIn(resultExpression: TypeExpression<U>) =
     SearchResult(this, resultExpression)
 
-fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: Number) =
+fun <T : ValidType> TypeExpression<T>.resultsIn(resultExpression: Number) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: String) =
+fun <T : ValidType> TypeExpression<T>.resultsIn(resultExpression: String) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun <T : ValidType> UnaliasedExpression<T>.resultsIn(resultExpression: Boolean) =
+fun <T : ValidType> TypeExpression<T>.resultsIn(resultExpression: Boolean) =
     SearchResult(this, resultExpression.toDopeType())
 
-fun <T : ValidType> Number.resultsIn(resultExpression: UnaliasedExpression<T>) =
+fun <T : ValidType> Number.resultsIn(resultExpression: TypeExpression<T>) =
     SearchResult(toDopeType(), resultExpression)
 
-fun <T : ValidType> String.resultsIn(resultExpression: UnaliasedExpression<T>) =
+fun <T : ValidType> String.resultsIn(resultExpression: TypeExpression<T>) =
     SearchResult(toDopeType(), resultExpression)
 
-fun <T : ValidType> Boolean.resultsIn(resultExpression: UnaliasedExpression<T>) =
+fun <T : ValidType> Boolean.resultsIn(resultExpression: TypeExpression<T>) =
     SearchResult(toDopeType(), resultExpression)
 
 fun Number.resultsIn(resultExpression: Number) =

@@ -38,7 +38,8 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
             .returning(
                 newField,
                 nameField,
-            ).build()
+            )
+            .build()
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

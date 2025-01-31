@@ -22,6 +22,15 @@ import com.schwarz.crystalapi.schema.CMType
 fun IUpdateLimitClause.returning(field: CMType, vararg fields: CMType) =
     returning(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
+fun IUpdateLimitClause.returningRaw(field: CMType) =
+    returningRaw(field.toDopeType())
+
+fun IUpdateLimitClause.returningValue(field: CMType) =
+    returningValue(field.toDopeType())
+
+fun IUpdateLimitClause.returningElement(field: CMType) =
+    returningElement(field.toDopeType())
+
 fun IUpdateWhereClause.limit(numberField: CMJsonField<Number>) = limit(numberField.toDopeType())
 
 fun IUpdateUnsetClause.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())

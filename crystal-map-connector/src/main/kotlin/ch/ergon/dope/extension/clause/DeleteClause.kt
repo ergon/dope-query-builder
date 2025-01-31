@@ -11,6 +11,15 @@ import com.schwarz.crystalapi.schema.CMType
 fun IDeleteOffsetClause.returning(field: CMType, vararg fields: CMType) =
     returning(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
+fun IDeleteOffsetClause.returningRaw(field: CMType) =
+    returningRaw(field.toDopeType())
+
+fun IDeleteOffsetClause.returningValue(field: CMType) =
+    returningValue(field.toDopeType())
+
+fun IDeleteOffsetClause.returningElement(field: CMType) =
+    returningElement(field.toDopeType())
+
 fun IDeleteLimitClause.offset(numberExpression: CMJsonField<Number>) = offset(numberExpression.toDopeType())
 
 fun IDeleteWhereClause.limit(numberExpression: CMJsonField<Number>) = limit(numberExpression.toDopeType())
