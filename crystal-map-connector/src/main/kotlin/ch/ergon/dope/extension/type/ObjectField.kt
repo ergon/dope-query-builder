@@ -45,8 +45,12 @@ inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProp
     val schemaField = field.get(schema)
     val nestedFieldPath = if (path.isBlank()) name else "$path.$name"
     return when (schemaField) {
-        is CMConverterField<*, *> -> CMConverterField(schemaField.name, nestedFieldPath, schemaField.typeConverter as ITypeConverter<Any, Any>) as T
-        is CMConverterList<*, *> -> CMConverterList(schemaField.name, nestedFieldPath, schemaField.typeConverter as ITypeConverter<Any, Any>) as T
+        is CMConverterField<*, *> ->
+            CMConverterField(schemaField.name, nestedFieldPath, schemaField.typeConverter as ITypeConverter<Any, Any>) as T
+
+        is CMConverterList<*, *> ->
+            CMConverterList(schemaField.name, nestedFieldPath, schemaField.typeConverter as ITypeConverter<Any, Any>) as T
+
         is CMJsonField<*> -> CMJsonField<Any>(schemaField.name, nestedFieldPath) as T
         is CMJsonList<*> -> CMJsonList<Any>(schemaField.name, nestedFieldPath) as T
         is CMObjectField<*> -> CMObjectField(schemaField.element, schemaField.name, nestedFieldPath) as T
