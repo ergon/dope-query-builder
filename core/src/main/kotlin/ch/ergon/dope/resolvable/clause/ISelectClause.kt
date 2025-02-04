@@ -7,8 +7,8 @@ import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
 import ch.ergon.dope.resolvable.clause.model.LetClause
-import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
@@ -49,7 +49,7 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
 interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
     fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
         SelectOrderByClause(orderExpression, *additionalOrderExpressions, parentClause = this)
-    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = orderBy(OrderExpression(expression, orderByType))
+    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderType? = null) = orderBy(OrderExpression(expression, orderByType))
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {

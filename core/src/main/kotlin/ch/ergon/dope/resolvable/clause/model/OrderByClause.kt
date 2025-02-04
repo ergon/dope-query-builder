@@ -9,7 +9,7 @@ import ch.ergon.dope.resolvable.expression.TypeExpression
 import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
-enum class OrderByType(val queryString: String) {
+enum class OrderType(val queryString: String) {
     ASC("ASC"),
     DESC("DESC"),
 }
@@ -47,11 +47,11 @@ class SelectOrderByClause<T : ValidType>(
             parentClause = this.parentClause,
         )
 
-    fun thenOrderBy(typeExpression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) =
+    fun thenOrderBy(typeExpression: TypeExpression<out ValidType>, orderByType: OrderType? = null) =
         thenOrderBy(OrderExpression(typeExpression, orderByType))
 }
 
-class OrderExpression(private val expression: TypeExpression<out ValidType>, private val orderByType: OrderByType? = null) : Resolvable {
+class OrderExpression(private val expression: TypeExpression<out ValidType>, private val orderByType: OrderType? = null) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val typeDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
