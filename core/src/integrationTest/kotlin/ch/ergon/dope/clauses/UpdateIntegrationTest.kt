@@ -23,20 +23,20 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `update to set and unset single attribute`() {
-        val newField = Field<StringType>("newField", testBucket.name)
+        val newFieldName = Field<StringType>("newFieldName", testBucket.name)
         val dopeQuery = QueryBuilder()
             .update(
                 testBucket.useKeys("client:1"),
             )
             .set(
-                newField,
+                newFieldName,
                 "newName",
             )
             .unset(
                 nameField,
             )
             .returning(
-                newField,
+                newFieldName,
                 nameField,
             ).build()
 
@@ -44,7 +44,7 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
             val queryResult = queryWithoutParameters(dopeQuery)
             val result = queryResult.toMapValues()
 
-            assertEquals("newName", result["newField"])
+            assertEquals("newName", result["newFieldName"])
             assertNull(result["nameField"])
         }
     }
