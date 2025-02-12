@@ -114,6 +114,15 @@ fun <T : ValidType> Collection<TypeExpression<out T>>.toDopeType() = ArrayPrimit
 @JvmName("anyListToDopeType")
 fun <T> Collection<T>.toDopeType(): ArrayPrimitive<ValidType> = map { it.toDopeType() }.toDopeType()
 
+@JvmName("numberListToDopeType")
+fun Collection<Number>.toDopeType(): ArrayPrimitive<NumberType> = map { it.toDopeType() }.toDopeType()
+
+@JvmName("stringListToDopeType")
+fun Collection<String>.toDopeType(): ArrayPrimitive<StringType> = map { it.toDopeType() }.toDopeType()
+
+@JvmName("booleanListToDopeType")
+fun Collection<Boolean>.toDopeType(): ArrayPrimitive<BooleanType> = map { it.toDopeType() }.toDopeType()
+
 @Suppress("UNCHECKED_CAST")
 private fun <T> T.toDopeType() = when (this) {
     is Number -> this.toDopeType()

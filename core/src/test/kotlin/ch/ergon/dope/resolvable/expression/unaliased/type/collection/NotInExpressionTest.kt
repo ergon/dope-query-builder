@@ -4,13 +4,16 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBooleanSelectRawClause
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.helper.someSelectRawClause
+import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSelectRawClause
@@ -252,6 +255,72 @@ class NotInExpressionTest : ManagerDependentTest {
         val expected = NotInExpression(value.toDopeType(), selectClause.asExpression())
 
         val actual = value.notInArray(selectClause)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in function number collection`() {
+        val left = someNumber()
+        val right = listOf(someNumber())
+        val expected = NotInExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.notInArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in function string collection`() {
+        val left = someString()
+        val right = listOf(someString())
+        val expected = NotInExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.notInArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in function boolean collection`() {
+        val left = someBoolean()
+        val right = listOf(someBoolean())
+        val expected = NotInExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.notInArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in function numberType collection`() {
+        val left = someNumberField()
+        val right = listOf(someNumber())
+        val expected = NotInExpression(left, right.toDopeType())
+
+        val actual = left.notInArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in function stringType collection`() {
+        val left = someStringField()
+        val right = listOf(someString())
+        val expected = NotInExpression(left, right.toDopeType())
+
+        val actual = left.notInArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support not in function booleanType collection`() {
+        val left = someBooleanField()
+        val right = listOf(someBoolean())
+        val expected = NotInExpression(left, right.toDopeType())
+
+        val actual = left.notInArray(right)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

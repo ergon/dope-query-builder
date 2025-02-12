@@ -197,4 +197,70 @@ class InExpressionTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
+
+    @Test
+    fun `should support in function number collection`() {
+        val left = someNumber()
+        val right = listOf(someNumber())
+        val expected = InExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in function string collection`() {
+        val left = someString()
+        val right = listOf(someString())
+        val expected = InExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in function boolean collection`() {
+        val left = someBoolean()
+        val right = listOf(someBoolean())
+        val expected = InExpression(left.toDopeType(), right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in function numberType collection`() {
+        val left = someNumberField()
+        val right = listOf(someNumber())
+        val expected = InExpression(left, right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in function stringType collection`() {
+        val left = someStringField()
+        val right = listOf(someString())
+        val expected = InExpression(left, right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support in function booleanType collection`() {
+        val left = someBooleanField()
+        val right = listOf(someBoolean())
+        val expected = InExpression(left, right.toDopeType())
+
+        val actual = left.inArray(right)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
 }
