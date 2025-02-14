@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
-import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 

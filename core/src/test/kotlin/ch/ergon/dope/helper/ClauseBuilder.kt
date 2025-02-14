@@ -1,15 +1,15 @@
 package ch.ergon.dope.helper
 
 import ch.ergon.dope.resolvable.Asterisk
-import ch.ergon.dope.resolvable.Bucket
 import ch.ergon.dope.resolvable.Selectable
-import ch.ergon.dope.resolvable.UnaliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType

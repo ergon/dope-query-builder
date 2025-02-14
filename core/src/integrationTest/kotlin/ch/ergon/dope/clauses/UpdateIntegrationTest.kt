@@ -7,8 +7,8 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
-import ch.ergon.dope.resolvable.expression.single.type.Field
-import ch.ergon.dope.resolvable.useKeys
+import ch.ergon.dope.resolvable.bucket.useKeys
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.AfterTest
 import kotlin.test.Test

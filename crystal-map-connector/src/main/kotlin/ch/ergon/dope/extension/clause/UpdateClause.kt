@@ -8,7 +8,7 @@ import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.to
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType

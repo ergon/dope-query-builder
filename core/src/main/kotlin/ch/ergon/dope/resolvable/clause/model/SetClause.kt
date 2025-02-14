@@ -4,9 +4,9 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.IUpdateSetClause
-import ch.ergon.dope.resolvable.expression.single.type.Field
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.single.type.toDopeType
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

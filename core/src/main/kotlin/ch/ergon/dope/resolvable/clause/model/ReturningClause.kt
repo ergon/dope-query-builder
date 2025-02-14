@@ -10,7 +10,7 @@ import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.IDeleteReturningClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateReturningClause
-import ch.ergon.dope.resolvable.expression.single.SingleExpression
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 

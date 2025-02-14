@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.resolvable.Bucket
 import ch.ergon.dope.resolvable.Returnable
 import ch.ergon.dope.resolvable.asterisk
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.DeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
@@ -11,9 +11,9 @@ import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
 import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
-import ch.ergon.dope.resolvable.expression.single.SingleExpression
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.single.type.toDopeType
+import ch.ergon.dope.resolvable.expression.SingleExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType

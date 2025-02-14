@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.bucket.Bucket
 
 const val ASTERISK_STRING = "*"
 

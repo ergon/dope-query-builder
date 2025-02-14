@@ -3,9 +3,9 @@ package ch.ergon.dope.resolvable.clause.joinHintTest
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
-import ch.ergon.dope.resolvable.joinHint.HashOrNestedLoopHint.HASH_BUILD
-import ch.ergon.dope.resolvable.joinHint.HashOrNestedLoopHint.HASH_PROBE
-import ch.ergon.dope.resolvable.joinHint.HashOrNestedLoopHint.NESTED_LOOP
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_BUILD
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_PROBE
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

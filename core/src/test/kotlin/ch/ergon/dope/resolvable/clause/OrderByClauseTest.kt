@@ -13,9 +13,9 @@ import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderByType.DESC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
-import ch.ergon.dope.resolvable.expression.single.type.asParameter
-import ch.ergon.dope.resolvable.expression.single.type.function.string.concat
-import ch.ergon.dope.resolvable.expression.single.type.function.string.lower
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.function.string.concat
+import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

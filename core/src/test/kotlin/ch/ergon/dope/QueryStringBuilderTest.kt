@@ -1,7 +1,7 @@
 package ch.ergon.dope
 
 import ch.ergon.dope.helper.ManagerDependentTest
-import ch.ergon.dope.resolvable.expression.single.type.toDopeType
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.util.formatPathToQueryString
 import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.util.formatToQueryStringWithBrackets

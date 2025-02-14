@@ -1,6 +1,6 @@
 package ch.ergon.dope.resolvable.expression.aggregate
 
-import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.ValidType
 
 class MaxExpression<T : ValidType>(

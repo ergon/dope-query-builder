@@ -7,7 +7,7 @@ import ch.ergon.dope.resolvable.clause.IDeleteLimitClause
 import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType

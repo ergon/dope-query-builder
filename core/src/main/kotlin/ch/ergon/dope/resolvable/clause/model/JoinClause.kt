@@ -2,12 +2,14 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.AliasedBucket
 import ch.ergon.dope.resolvable.AliasedSelectClause
-import ch.ergon.dope.resolvable.Bucket
 import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectJoinClause
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.JoinType.INNER_JOIN
 import ch.ergon.dope.resolvable.clause.model.JoinType.JOIN
 import ch.ergon.dope.resolvable.clause.model.JoinType.LEFT_JOIN
@@ -15,10 +17,8 @@ import ch.ergon.dope.resolvable.clause.model.JoinType.RIGHT_JOIN
 import ch.ergon.dope.resolvable.clause.model.OnType.ON
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEYS
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEY_FOR
-import ch.ergon.dope.resolvable.expression.single.type.Field
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
-import ch.ergon.dope.resolvable.joinHint.HashOrNestedLoopHint
-import ch.ergon.dope.resolvable.joinHint.KeysOrIndexHint
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 

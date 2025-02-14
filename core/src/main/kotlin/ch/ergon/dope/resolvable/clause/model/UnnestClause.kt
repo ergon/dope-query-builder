@@ -3,8 +3,7 @@ package ch.ergon.dope.resolvable.clause.model
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
-import ch.ergon.dope.resolvable.expression.single.type.AliasedTypeExpression
-import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
@@ -26,7 +25,7 @@ class UnnestClause<T : ValidType, U : ValidType>(
 }
 
 class AliasedUnnestClause<T : ValidType, U : ValidType>(
-    private val aliasedTypeExpression: AliasedTypeExpression<ArrayType<T>>,
+    private val aliasedTypeExpression: ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression<ArrayType<T>>,
     private val parentClause: ISelectUnnestClause<U>,
 ) : ISelectUnnestClause<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {

@@ -1,12 +1,12 @@
 package ch.ergon.dope
 
-import ch.ergon.dope.extension.expression.single.type.ObjectField
-import ch.ergon.dope.extension.expression.single.type.ObjectList
-import ch.ergon.dope.resolvable.expression.single.type.Field
-import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.single.type.alias
-import ch.ergon.dope.resolvable.expression.single.type.asParameter
-import ch.ergon.dope.resolvable.expression.single.type.toDopeType
+import ch.ergon.dope.extension.expression.type.ObjectField
+import ch.ergon.dope.extension.expression.type.ObjectList
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

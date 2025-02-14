@@ -3,11 +3,11 @@ package ch.ergon.dope.functions
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.toSingleValue
-import ch.ergon.dope.resolvable.expression.single.type.function.type.isNumber
-import ch.ergon.dope.resolvable.expression.single.type.function.type.toBool
-import ch.ergon.dope.resolvable.expression.single.type.function.type.toNumber
-import ch.ergon.dope.resolvable.expression.single.type.logic.and
-import ch.ergon.dope.resolvable.expression.single.type.logic.not
+import ch.ergon.dope.resolvable.expression.type.function.type.isNumber
+import ch.ergon.dope.resolvable.expression.type.function.type.toBool
+import ch.ergon.dope.resolvable.expression.type.function.type.toNumber
+import ch.ergon.dope.resolvable.expression.type.logic.and
+import ch.ergon.dope.resolvable.expression.type.logic.not
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

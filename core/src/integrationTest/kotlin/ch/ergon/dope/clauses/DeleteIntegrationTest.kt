@@ -8,9 +8,9 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.asterisk
-import ch.ergon.dope.resolvable.expression.single.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.single.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.useKeys
+import ch.ergon.dope.resolvable.bucket.useKeys
+import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

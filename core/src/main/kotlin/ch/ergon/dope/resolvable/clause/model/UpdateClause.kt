@@ -2,8 +2,8 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.AliasedBucket
 import ch.ergon.dope.resolvable.Updatable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.IUpdateClause
 
 class UpdateClause(private val updatable: Updatable) : IUpdateClause {

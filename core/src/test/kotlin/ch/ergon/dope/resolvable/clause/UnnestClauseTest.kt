@@ -10,8 +10,8 @@ import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
-import ch.ergon.dope.resolvable.expression.single.type.alias
-import ch.ergon.dope.resolvable.expression.single.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

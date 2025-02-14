@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.clause
 
-import ch.ergon.dope.resolvable.Bucket
 import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectJoinClause
@@ -9,11 +9,11 @@ import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.assignTo
-import ch.ergon.dope.resolvable.joinHint.HashOrNestedLoopHint
-import ch.ergon.dope.resolvable.joinHint.KeysOrIndexHint
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField

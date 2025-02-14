@@ -10,16 +10,16 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.toRawValues
-import ch.ergon.dope.resolvable.clause.model.setoperator.intersect
-import ch.ergon.dope.resolvable.expression.single.type.alias
-import ch.ergon.dope.resolvable.expression.single.type.asParameter
-import ch.ergon.dope.resolvable.expression.single.type.collection.any
-import ch.ergon.dope.resolvable.expression.single.type.logic.and
-import ch.ergon.dope.resolvable.expression.single.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.single.type.relational.isGreaterOrEqualThan
-import ch.ergon.dope.resolvable.expression.single.type.relational.isGreaterThan
-import ch.ergon.dope.resolvable.expression.single.type.relational.isLessThan
-import ch.ergon.dope.resolvable.expression.single.type.relational.isNull
+import ch.ergon.dope.resolvable.clause.intersect
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.collection.any
+import ch.ergon.dope.resolvable.expression.type.logic.and
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.relational.isGreaterOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.relational.isGreaterThan
+import ch.ergon.dope.resolvable.expression.type.relational.isLessThan
+import ch.ergon.dope.resolvable.expression.type.relational.isNull
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

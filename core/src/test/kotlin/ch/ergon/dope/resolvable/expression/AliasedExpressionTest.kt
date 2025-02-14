@@ -11,10 +11,10 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.aggregate.AliasedAggregateExpression
 import ch.ergon.dope.resolvable.expression.aggregate.countAsterisk
-import ch.ergon.dope.resolvable.expression.single.type.AliasedTypeExpression
-import ch.ergon.dope.resolvable.expression.single.type.alias
-import ch.ergon.dope.resolvable.expression.single.type.asParameter
-import ch.ergon.dope.resolvable.expression.single.type.toDopeType
+import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -52,7 +52,8 @@ class AliasedExpressionTest : ManagerDependentTest {
             queryString = "$1 AS `test`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = AliasedTypeExpression(parameterValue.asParameter(), "test")
+        val underTest =
+            AliasedTypeExpression(parameterValue.asParameter(), "test")
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -67,7 +68,10 @@ class AliasedExpressionTest : ManagerDependentTest {
             queryString = "\$$parameterName AS `test`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = AliasedTypeExpression(parameterValue.asParameter(parameterName), "test")
+        val underTest = AliasedTypeExpression(
+            parameterValue.asParameter(parameterName),
+            "test",
+        )
 
         val actual = underTest.toDopeQuery(manager)
 

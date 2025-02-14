@@ -2,17 +2,17 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.extension.expression.single.type.get
-import ch.ergon.dope.extension.expression.single.type.getField
-import ch.ergon.dope.extension.expression.single.type.relational.isEqualTo
-import ch.ergon.dope.extension.expression.single.type.relational.isGreaterOrEqualThan
+import ch.ergon.dope.extension.expression.type.get
+import ch.ergon.dope.extension.expression.type.getField
+import ch.ergon.dope.extension.expression.type.relational.isEqualTo
+import ch.ergon.dope.extension.expression.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.resolvable.expression.single.type.case
-import ch.ergon.dope.resolvable.expression.single.type.condition
-import ch.ergon.dope.resolvable.expression.single.type.function.conditional.resultsIn
-import ch.ergon.dope.resolvable.expression.single.type.getString
+import ch.ergon.dope.resolvable.expression.type.case
+import ch.ergon.dope.resolvable.expression.type.condition
+import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
+import ch.ergon.dope.resolvable.expression.type.getString
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMObjectField

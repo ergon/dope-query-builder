@@ -2,8 +2,8 @@ package ch.ergon.dope.resolvable.expression.aggregate
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.expression.single.type.Field
-import ch.ergon.dope.util.operator.FunctionOperator
+import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.ValidType
 
 sealed class AggregateFunctionExpression<T : ValidType>(

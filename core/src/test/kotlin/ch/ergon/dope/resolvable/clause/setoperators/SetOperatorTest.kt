@@ -5,16 +5,16 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
-import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperator
-import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperatorType.EXCEPT
-import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperatorType.INTERSECT
-import ch.ergon.dope.resolvable.clause.model.setoperator.SetOperatorType.UNION
-import ch.ergon.dope.resolvable.clause.model.setoperator.except
-import ch.ergon.dope.resolvable.clause.model.setoperator.exceptAll
-import ch.ergon.dope.resolvable.clause.model.setoperator.intersect
-import ch.ergon.dope.resolvable.clause.model.setoperator.intersectAll
-import ch.ergon.dope.resolvable.clause.model.setoperator.union
-import ch.ergon.dope.resolvable.clause.model.setoperator.unionAll
+import ch.ergon.dope.resolvable.clause.SetOperator
+import ch.ergon.dope.resolvable.clause.SetOperatorType.EXCEPT
+import ch.ergon.dope.resolvable.clause.SetOperatorType.INTERSECT
+import ch.ergon.dope.resolvable.clause.SetOperatorType.UNION
+import ch.ergon.dope.resolvable.clause.except
+import ch.ergon.dope.resolvable.clause.exceptAll
+import ch.ergon.dope.resolvable.clause.intersect
+import ch.ergon.dope.resolvable.clause.intersectAll
+import ch.ergon.dope.resolvable.clause.union
+import ch.ergon.dope.resolvable.clause.unionAll
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

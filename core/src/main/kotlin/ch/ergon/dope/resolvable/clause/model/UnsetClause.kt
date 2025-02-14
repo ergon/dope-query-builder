@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.clause.model
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.IUpdateUnsetClause
-import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.ValidType
 

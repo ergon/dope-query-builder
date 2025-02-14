@@ -18,7 +18,7 @@ import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
-import ch.ergon.dope.resolvable.expression.single.type.function.string.concat
+import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

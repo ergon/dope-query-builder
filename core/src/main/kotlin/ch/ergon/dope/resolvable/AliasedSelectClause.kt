@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
-import ch.ergon.dope.resolvable.expression.single.SingleExpression
+import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.validtype.ValidType
 
 class AliasedSelectClause<T : ValidType>(
