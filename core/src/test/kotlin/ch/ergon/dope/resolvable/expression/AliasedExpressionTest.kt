@@ -9,10 +9,12 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.AliasedAggregateExpression
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.countAsterisk
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.aggregate.AliasedAggregateExpression
+import ch.ergon.dope.resolvable.expression.aggregate.countAsterisk
+import ch.ergon.dope.resolvable.expression.single.type.AliasedTypeExpression
+import ch.ergon.dope.resolvable.expression.single.type.alias
+import ch.ergon.dope.resolvable.expression.single.type.asParameter
+import ch.ergon.dope.resolvable.expression.single.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

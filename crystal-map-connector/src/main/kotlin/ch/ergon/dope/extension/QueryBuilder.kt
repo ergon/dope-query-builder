@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.resolvable.fromable.Selectable
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList

@@ -11,8 +11,8 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
-import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.single.type.alias
+import ch.ergon.dope.resolvable.expression.single.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

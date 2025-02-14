@@ -24,6 +24,7 @@ import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someUpdate
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
 import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
@@ -34,8 +35,7 @@ import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.to
-import ch.ergon.dope.resolvable.expression.Asterisk
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.single.type.toDopeType
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -687,12 +687,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val expected = UpdateReturningClause(
             field1.toDopeType(),
             field2.toDopeType(),
-            Asterisk(),
+            asterisk(),
             field3.toDopeType(),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), Asterisk(), field3.toDopeType())
+        val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), asterisk(), field3.toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

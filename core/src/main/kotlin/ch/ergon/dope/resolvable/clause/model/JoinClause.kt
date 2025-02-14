@@ -2,6 +2,10 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.AliasedBucket
+import ch.ergon.dope.resolvable.AliasedSelectClause
+import ch.ergon.dope.resolvable.Bucket
+import ch.ergon.dope.resolvable.Joinable
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectJoinClause
 import ch.ergon.dope.resolvable.clause.model.JoinType.INNER_JOIN
@@ -11,14 +15,10 @@ import ch.ergon.dope.resolvable.clause.model.JoinType.RIGHT_JOIN
 import ch.ergon.dope.resolvable.clause.model.OnType.ON
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEYS
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEY_FOR
-import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.Joinable
+import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
+import ch.ergon.dope.resolvable.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.joinHint.KeysOrIndexHint
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 

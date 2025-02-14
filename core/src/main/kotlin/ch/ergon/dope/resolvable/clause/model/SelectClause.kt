@@ -2,10 +2,10 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.clause.ISelectClause
-import ch.ergon.dope.resolvable.formatToQueryString
-import ch.ergon.dope.resolvable.fromable.RawSelectable
-import ch.ergon.dope.resolvable.fromable.Selectable
+import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
@@ -27,7 +27,7 @@ class SelectClause(
     }
 }
 
-class SelectRawClause<T : ValidType>(private val expression: RawSelectable<T>) : ISelectClause<T> {
+class SelectRawClause<T : ValidType>(private val expression: Expression<T>) : ISelectClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(

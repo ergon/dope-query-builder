@@ -5,11 +5,11 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.useKeys
+import ch.ergon.dope.resolvable.expression.single.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.single.type.meta
+import ch.ergon.dope.resolvable.expression.single.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.single.type.toDopeType
+import ch.ergon.dope.resolvable.useKeys
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

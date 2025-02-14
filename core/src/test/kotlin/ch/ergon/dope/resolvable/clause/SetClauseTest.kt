@@ -13,9 +13,9 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUpdateClause
 import ch.ergon.dope.resolvable.clause.model.SetClause
 import ch.ergon.dope.resolvable.clause.model.to
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.single.type.asParameter
+import ch.ergon.dope.resolvable.expression.single.type.meta
+import ch.ergon.dope.resolvable.expression.single.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

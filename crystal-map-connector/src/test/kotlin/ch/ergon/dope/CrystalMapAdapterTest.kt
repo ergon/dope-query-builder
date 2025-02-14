@@ -6,10 +6,10 @@ import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCorruptField
 import ch.ergon.dope.helper.someString
-import ch.ergon.dope.resolvable.expression.unaliased.type.BooleanParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.NumberParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.StringParameter
+import ch.ergon.dope.resolvable.expression.single.type.BooleanParameter
+import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.single.type.NumberParameter
+import ch.ergon.dope.resolvable.expression.single.type.StringParameter
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

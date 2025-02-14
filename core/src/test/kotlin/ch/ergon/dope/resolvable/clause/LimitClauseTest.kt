@@ -12,8 +12,8 @@ import ch.ergon.dope.helper.someUpdateClause
 import ch.ergon.dope.resolvable.clause.model.DeleteLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.single.type.asParameter
+import ch.ergon.dope.resolvable.expression.single.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

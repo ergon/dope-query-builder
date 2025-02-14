@@ -10,6 +10,7 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUpdateClause
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.clause.model.DeleteReturningClause
 import ch.ergon.dope.resolvable.clause.model.DeleteReturningSingleClause
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
@@ -17,8 +18,7 @@ import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
-import ch.ergon.dope.resolvable.expression.Asterisk
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
+import ch.ergon.dope.resolvable.expression.single.type.function.string.concat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -42,7 +42,7 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "DELETE FROM `someBucket` RETURNING *",
         )
-        val underTest = DeleteReturningClause(Asterisk(), parentClause = someDeleteClause())
+        val underTest = DeleteReturningClause(asterisk(), parentClause = someDeleteClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -108,7 +108,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteReturningClause(
             concat(someStringField(), "test"),
-            Asterisk(),
+            asterisk(),
             someNumberField(),
             parentClause = someDeleteClause(),
         )
@@ -163,7 +163,7 @@ class ReturningClauseTest : ManagerDependentTest {
     @Test
     fun `should support delete returning with multiple fields, functions and asterisk extension`() {
         val stringConcatenation = concat(someStringField(), "test")
-        val asterisk = Asterisk()
+        val asterisk = asterisk()
         val numberArrayField = someNumberArrayField()
         val parentClause = someDeleteClause()
         val expected = DeleteReturningClause(
@@ -195,7 +195,7 @@ class ReturningClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "UPDATE `someBucket` RETURNING *",
         )
-        val underTest = UpdateReturningClause(Asterisk(), parentClause = someUpdateClause())
+        val underTest = UpdateReturningClause(asterisk(), parentClause = someUpdateClause())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -261,7 +261,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateReturningClause(
             concat(someStringField(), "test"),
-            Asterisk(),
+            asterisk(),
             someNumberField(),
             parentClause = someUpdateClause(),
         )
@@ -301,7 +301,7 @@ class ReturningClauseTest : ManagerDependentTest {
     @Test
     fun `should support update returning with multiple fields, functions and asterisk extension`() {
         val stringConcatenation = concat(someStringField(), "test")
-        val asterisk = Asterisk()
+        val asterisk = asterisk()
         val numberArrayField = someNumberArrayField()
         val parentClause = someUpdateClause()
         val expected = UpdateReturningClause(

@@ -9,8 +9,8 @@ import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
+import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
+import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 

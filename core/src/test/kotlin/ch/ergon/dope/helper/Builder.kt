@@ -1,17 +1,17 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.AliasedBucket
+import ch.ergon.dope.resolvable.Bucket
+import ch.ergon.dope.resolvable.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.expression.single.type.CaseClass
+import ch.ergon.dope.resolvable.expression.single.type.Field
+import ch.ergon.dope.resolvable.expression.single.type.TRUE
+import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.single.type.function.conditional.SearchResult
+import ch.ergon.dope.resolvable.expression.single.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

@@ -2,16 +2,16 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.Returnable
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.IDeleteOffsetClause
 import ch.ergon.dope.resolvable.clause.IDeleteReturningClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateReturningClause
-import ch.ergon.dope.resolvable.expression.SingleExpression
-import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
-import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
-import ch.ergon.dope.resolvable.fromable.Returnable
+import ch.ergon.dope.resolvable.expression.single.SingleExpression
+import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 private const val RETURNING = "RETURNING"
@@ -30,7 +30,7 @@ sealed class ReturningClause(
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val returnables = arrayOf(returnable) + additionalReturnables
         val parentDopeQuery = parentClause.toDopeQuery(manager)
-        val returnablesDopeQuery = returnables.map {
+        val returnableDopeQueries = returnables.map {
             when (it) {
                 is AliasedSelectClause<*> -> it.asAliasedSelectClauseDefinition().toDopeQuery(manager)
                 else -> it.toDopeQuery(manager)
@@ -40,10 +40,10 @@ sealed class ReturningClause(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
                 RETURNING,
-                *returnablesDopeQuery.map { it.queryString }.toTypedArray(),
+                *returnableDopeQueries.map { it.queryString }.toTypedArray(),
             ),
             parameters = parentDopeQuery.parameters.merge(
-                *returnablesDopeQuery.map { it.parameters }.toTypedArray(),
+                *returnableDopeQueries.map { it.parameters }.toTypedArray(),
             ),
         )
     }

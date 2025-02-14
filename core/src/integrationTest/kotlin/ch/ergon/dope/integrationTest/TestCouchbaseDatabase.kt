@@ -1,9 +1,9 @@
 package ch.ergon.dope.integrationTest
 
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.Bucket
+import ch.ergon.dope.resolvable.UnaliasedBucket
+import ch.ergon.dope.resolvable.expression.single.type.Field
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

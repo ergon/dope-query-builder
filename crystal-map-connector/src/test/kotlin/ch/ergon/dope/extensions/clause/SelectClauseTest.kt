@@ -5,7 +5,6 @@ import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
 import ch.ergon.dope.extension.clause.join
-import ch.ergon.dope.extension.clause.joinhint.keysHint
 import ch.ergon.dope.extension.clause.leftJoin
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
@@ -13,6 +12,7 @@ import ch.ergon.dope.extension.clause.orderBy
 import ch.ergon.dope.extension.clause.thenOrderBy
 import ch.ergon.dope.extension.clause.unnest
 import ch.ergon.dope.extension.clause.where
+import ch.ergon.dope.extension.joinHint.keysHint
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someCMBooleanField
