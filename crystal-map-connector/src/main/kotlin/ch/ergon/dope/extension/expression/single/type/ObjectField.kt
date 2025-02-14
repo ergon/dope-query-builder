@@ -3,6 +3,9 @@ package ch.ergon.dope.extension.expression.single.type
 import ch.ergon.dope.resolvable.expression.single.type.Field
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ObjectType
+import com.schwarz.crystalapi.ITypeConverter
+import com.schwarz.crystalapi.schema.CMConverterField
+import com.schwarz.crystalapi.schema.CMConverterList
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObjectField
@@ -37,10 +40,17 @@ class ObjectField<S : Schema>(val schema: S, val name: String, val path: String)
  * @throws IllegalStateException if the attribute type is not supported
  * @return the retrieved CMType
  */
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProperty1<S, T>): T {
     val schemaField = field.get(schema)
     val nestedFieldPath = if (path.isBlank()) name else "$path.$name"
     return when (schemaField) {
+        is CMConverterField<*, *> ->
+            CMConverterField(schemaField.name, nestedFieldPath, schemaField.typeConverter as ITypeConverter<Any, Any>) as T
+
+        is CMConverterList<*, *> ->
+            CMConverterList(schemaField.name, nestedFieldPath, schemaField.typeConverter as ITypeConverter<Any, Any>) as T
+
         is CMJsonField<*> -> CMJsonField<Any>(schemaField.name, nestedFieldPath) as T
         is CMJsonList<*> -> CMJsonList<Any>(schemaField.name, nestedFieldPath) as T
         is CMObjectField<*> -> CMObjectField(schemaField.element, schemaField.name, nestedFieldPath) as T
