@@ -12,10 +12,10 @@ import ch.ergon.dope.resolvable.expression.single.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.single.type.toDopeType
 import ch.ergon.dope.resolvable.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.util.formatListToQueryStringWithBrackets
+import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
-import ch.ergon.dope.util.formatToQueryString as formatToQueryString
 
 interface KeysOrIndexHint : Resolvable
 

@@ -29,4 +29,4 @@ class AliasedBucketDefinition(val name: String, val alias: String) : Resolvable 
     )
 }
 
-fun Bucket.asterisk() = Asterisk(this)
+fun Bucket.asterisk() = asterisk(this)
