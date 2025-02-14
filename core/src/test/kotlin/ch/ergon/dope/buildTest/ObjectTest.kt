@@ -4,26 +4,25 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
+import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.any
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.upper
-import ch.ergon.dope.resolvable.expression.unaliased.type.getArray
-import ch.ergon.dope.resolvable.expression.unaliased.type.getBoolean
-import ch.ergon.dope.resolvable.expression.unaliased.type.getNumber
-import ch.ergon.dope.resolvable.expression.unaliased.type.getObject
-import ch.ergon.dope.resolvable.expression.unaliased.type.getString
-import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isGreaterOrEqualThan
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.expression.unaliased.type.toObjectEntry
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.collection.any
+import ch.ergon.dope.resolvable.expression.type.function.string.upper
+import ch.ergon.dope.resolvable.expression.type.get
+import ch.ergon.dope.resolvable.expression.type.getArray
+import ch.ergon.dope.resolvable.expression.type.getBoolean
+import ch.ergon.dope.resolvable.expression.type.getNumber
+import ch.ergon.dope.resolvable.expression.type.getObject
+import ch.ergon.dope.resolvable.expression.type.getString
+import ch.ergon.dope.resolvable.expression.type.logic.and
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.relational.isGreaterOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.resolvable.expression.type.toObjectEntry
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -171,15 +170,15 @@ class ObjectTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support object field on aliased sub select`() {
-        val subQuery = create.selectDistinct(someStringField(), someNumberField()).from(someBucket("other")).alias("subQuery")
-        val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1`.`someString` = \"something\" END, " +
-            "(`subQuery`[0].`asdf` + 5) AS `cool` FROM (SELECT DISTINCT `stringField`, `numberField` FROM `other`) AS `subQuery`"
+    fun `should support range operations on aliased sub select`() {
+        val subQuery = create.selectRaw(someStringArrayField()).from(someBucket("other")).alias("subQuery")
+        val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1` = \"something\" END, " +
+            "`subQuery`[0] AS `cool` FROM (SELECT RAW `stringArrayField` FROM `other`) AS `subQuery`"
 
         val actual: String = create
             .select(
-                subQuery.any { it.getString(someString()).isEqualTo("something") },
-                subQuery.get(0).getNumber("asdf").add(5).alias("cool"),
+                subQuery.any { it.isEqualTo("something") },
+                subQuery.get(0).alias("cool"),
             ).from(
                 subQuery,
             )
