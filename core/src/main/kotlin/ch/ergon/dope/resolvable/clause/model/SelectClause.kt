@@ -2,16 +2,16 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.expression.Expression
-import ch.ergon.dope.resolvable.expression.SingleExpression
-import ch.ergon.dope.resolvable.formatToQueryString
+import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
 class SelectClause(
-    private val expression: Expression,
-    private vararg val expressions: Expression,
+    private val expression: Selectable,
+    private vararg val expressions: Selectable,
 ) : ISelectClause<ObjectType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
@@ -27,7 +27,7 @@ class SelectClause(
     }
 }
 
-class SelectRawClause<T : ValidType>(private val expression: SingleExpression<T>) : ISelectClause<T> {
+class SelectRawClause<T : ValidType>(private val expression: Expression<T>) : ISelectClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
@@ -37,7 +37,7 @@ class SelectRawClause<T : ValidType>(private val expression: SingleExpression<T>
     }
 }
 
-class SelectDistinctClause(private val expression: Expression, private vararg val expressions: Expression) : ISelectClause<ObjectType> {
+class SelectDistinctClause(private val expression: Selectable, private vararg val expressions: Selectable) : ISelectClause<ObjectType> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
         val expressionDopeQuery = expression.toDopeQuery(manager)

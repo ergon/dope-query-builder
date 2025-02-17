@@ -1,21 +1,21 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.Asterisk
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
-import ch.ergon.dope.resolvable.expression.Expression
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 
-fun someSelectClause(expression: Expression = AsteriskExpression()) = SelectClause(expression)
+fun someSelectClause(selectable: Selectable = Asterisk()) = SelectClause(selectable)
 
 fun someSelectRawClause() = someStringSelectRawClause()
 

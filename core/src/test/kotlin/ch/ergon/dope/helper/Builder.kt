@@ -1,19 +1,17 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.expression.type.CaseClass
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.TRUE
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -32,8 +30,6 @@ fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket(
 fun someObjectField(name: String = "objectField", bucket: Bucket = someBucket("")) = Field<ObjectType>(name, getBucketName(bucket))
 
 fun someBooleanExpression() = TRUE
-
-fun someUnaliasedExpression() = CountAsteriskExpression()
 
 fun someNumberArrayField(name: String = "numberArrayField", bucket: Bucket = someBucket("")) =
     Field<ArrayType<NumberType>>(name, getBucketName(bucket))
@@ -67,8 +63,8 @@ fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
 )
 
 fun someStringSearchNumberResult(
-    searchExpression: UnaliasedExpression<StringType> = someString().toDopeType(),
-    resultExpression: UnaliasedExpression<NumberType> = someNumber().toDopeType(),
+    searchExpression: TypeExpression<StringType> = someString().toDopeType(),
+    resultExpression: TypeExpression<NumberType> = someNumber().toDopeType(),
 ) = SearchResult(searchExpression, resultExpression)
 
 fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderByType = ASC) = OrderExpression(

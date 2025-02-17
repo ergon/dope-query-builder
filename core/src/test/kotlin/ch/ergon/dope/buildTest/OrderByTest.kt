@@ -5,7 +5,7 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
+import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
