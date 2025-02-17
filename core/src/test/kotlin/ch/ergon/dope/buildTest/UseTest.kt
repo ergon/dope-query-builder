@@ -5,18 +5,18 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.HASH_BUILD
-import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.HASH_PROBE
-import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint.NESTED_LOOP
-import ch.ergon.dope.resolvable.clause.model.joinHint.indexHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.keysHint
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.useFtsIndex
-import ch.ergon.dope.resolvable.fromable.useGsiIndex
-import ch.ergon.dope.resolvable.fromable.useIndex
-import ch.ergon.dope.resolvable.fromable.useKeys
+import ch.ergon.dope.resolvable.bucket.useFtsIndex
+import ch.ergon.dope.resolvable.bucket.useGsiIndex
+import ch.ergon.dope.resolvable.bucket.useIndex
+import ch.ergon.dope.resolvable.bucket.useKeys
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_BUILD
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_PROBE
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
+import ch.ergon.dope.resolvable.clause.joinHint.indexHint
+import ch.ergon.dope.resolvable.clause.joinHint.keysHint
+import ch.ergon.dope.resolvable.expression.type.function.string.concat
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import junit.framework.TestCase.assertEquals
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -58,7 +58,7 @@ class UseTest {
     }
 
     @Test
-    fun `should support use keys clause with string array`() {
+    fun `should support use keys clause with string array expression`() {
         val expected = "SELECT * FROM `someBucket` USE KEYS [\"someId\", \"anotherId\"]"
 
         val actual: String = create
@@ -99,6 +99,20 @@ class UseTest {
                 someBucket().useKeys(
                     create.selectRaw(someStringField()),
                 ),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support use keys clause with string array`() {
+        val expected = "SELECT * FROM `someBucket` USE KEYS [\"someId1\", \"someId2\"]"
+
+        val actual: String = create
+            .selectAsterisk()
+            .from(
+                someBucket().useKeys(listOf("someId1", "someId2")),
             )
             .build().queryString
 

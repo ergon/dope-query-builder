@@ -3,15 +3,15 @@ package ch.ergon.dope.functions
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.toMapValues
-import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.sub
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.abs
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.ceil
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.pi
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.power
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.sqrt
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.numeric.trunc
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.arithmetic.sub
+import ch.ergon.dope.resolvable.expression.type.function.numeric.abs
+import ch.ergon.dope.resolvable.expression.type.function.numeric.ceil
+import ch.ergon.dope.resolvable.expression.type.function.numeric.pi
+import ch.ergon.dope.resolvable.expression.type.function.numeric.power
+import ch.ergon.dope.resolvable.expression.type.function.numeric.sqrt
+import ch.ergon.dope.resolvable.expression.type.function.numeric.trunc
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

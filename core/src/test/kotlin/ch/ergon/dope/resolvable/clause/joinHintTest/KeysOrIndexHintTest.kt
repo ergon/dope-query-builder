@@ -7,16 +7,16 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSelectRawClause
-import ch.ergon.dope.resolvable.clause.model.joinHint.IndexHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.KeysHintClass.Companion.KeysHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.ftsIndexHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.gsiIndexHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.indexHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.keysHint
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.IndexReference
-import ch.ergon.dope.resolvable.fromable.IndexType.USING_FTS
-import ch.ergon.dope.resolvable.fromable.IndexType.USING_GSI
+import ch.ergon.dope.resolvable.bucket.IndexReference
+import ch.ergon.dope.resolvable.bucket.IndexType.USING_FTS
+import ch.ergon.dope.resolvable.bucket.IndexType.USING_GSI
+import ch.ergon.dope.resolvable.clause.joinHint.IndexHint
+import ch.ergon.dope.resolvable.clause.joinHint.KeysHintClass.Companion.KeysHint
+import ch.ergon.dope.resolvable.clause.joinHint.ftsIndexHint
+import ch.ergon.dope.resolvable.clause.joinHint.gsiIndexHint
+import ch.ergon.dope.resolvable.clause.joinHint.indexHint
+import ch.ergon.dope.resolvable.clause.joinHint.keysHint
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

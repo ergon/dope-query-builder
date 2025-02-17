@@ -7,9 +7,10 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.fromable.useKeys
+import ch.ergon.dope.resolvable.asterisk
+import ch.ergon.dope.resolvable.bucket.useKeys
+import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -28,7 +29,9 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
             )
             .returning(
                 idField,
-            ).build()
+                asterisk(),
+            )
+            .build()
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

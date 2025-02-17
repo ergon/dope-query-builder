@@ -12,8 +12,8 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.assignTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.lower
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
+import ch.ergon.dope.resolvable.expression.type.function.string.lower
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

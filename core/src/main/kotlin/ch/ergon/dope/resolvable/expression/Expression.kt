@@ -1,12 +1,9 @@
 package ch.ergon.dope.resolvable.expression
 
-import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.Returnable
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.validtype.ValidType
 
-interface Expression : Resolvable
+interface Expression<T : ValidType> : Selectable
 
-interface SingleExpression<T : ValidType> : Expression
-
-interface UnaliasedExpression<T : ValidType> : SingleExpression<T>
-
-interface TypeExpression<T : ValidType> : UnaliasedExpression<T>
+interface SingleExpression<T : ValidType> : Expression<T>, Returnable
