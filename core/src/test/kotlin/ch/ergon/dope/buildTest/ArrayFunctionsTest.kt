@@ -4,7 +4,6 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
-import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someObjectSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -38,8 +37,10 @@ import ch.ergon.dope.resolvable.expression.type.function.array.arraySum
 import ch.ergon.dope.resolvable.expression.type.function.array.arraySymDiff
 import ch.ergon.dope.resolvable.expression.type.function.array.arraySymDiffN
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayUnion
+import ch.ergon.dope.resolvable.expression.type.function.array.unpack
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import ch.ergon.dope.resolvable.expression.type.get
+import ch.ergon.dope.resolvable.expression.type.getNumberArray
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -375,26 +376,13 @@ class ArrayFunctionsTest {
     }
 
     @Test
-    fun `should support array star with object function`() {
-        val objectArray = someObjectArrayField()
-        val expected = "SELECT ARRAY_STAR(`objectArrayField`).`key`"
-
-        val actual = create
-            .select(
-                arrayStar(objectArray).getNumberArray("key"),
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support get asterisk on subquery with object function`() {
+    fun `should support unpack on subquery with object function`() {
         val subquery = someObjectSelectRawClause().from(someBucket())
         val expected = "SELECT (SELECT RAW `objectField` FROM `someBucket`)[*].`key`"
 
         val actual = create
             .select(
-                subquery.getAsterisk().getNumberArray("key"),
+                subquery.unpack().getNumberArray("key"),
             ).build().queryString
 
         assertEquals(expected, actual)
