@@ -1,11 +1,11 @@
-package ch.ergon.dope.extension.type.collection
+package ch.ergon.dope.extension.expression.type.collection
 
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.filter
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.filterIndexed
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.map
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.mapIndexed
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.collection.Iterator
+import ch.ergon.dope.resolvable.expression.type.collection.filter
+import ch.ergon.dope.resolvable.expression.type.collection.filterIndexed
+import ch.ergon.dope.resolvable.expression.type.collection.map
+import ch.ergon.dope.resolvable.expression.type.collection.mapIndexed
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -33,24 +33,24 @@ fun <T : ValidType> CMJsonList<Boolean>.map(
 
 @JvmName("mapCMJsonNumberListIndexed")
 fun <T : ValidType> CMJsonList<out Number>.mapIndexed(
-    iteratorName: String? = null,
     indexName: String? = null,
+    iteratorName: String? = null,
     transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<T>,
-) = toDopeType().mapIndexed(iteratorName, indexName, transformation)
+) = toDopeType().mapIndexed(indexName, iteratorName, transformation)
 
 @JvmName("mapCMJsonStringListIndexed")
 fun <T : ValidType> CMJsonList<String>.mapIndexed(
-    iteratorName: String? = null,
     indexName: String? = null,
-    transformation: (Iterator<StringType>, Iterator<NumberType>) -> TypeExpression<T>,
-) = toDopeType().mapIndexed(iteratorName, indexName, transformation)
+    iteratorName: String? = null,
+    transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<T>,
+) = toDopeType().mapIndexed(indexName, iteratorName, transformation)
 
 @JvmName("mapCMJsonBooleanListIndexed")
 fun <T : ValidType> CMJsonList<Boolean>.mapIndexed(
-    iteratorName: String? = null,
     indexName: String? = null,
-    transformation: (Iterator<BooleanType>, Iterator<NumberType>) -> TypeExpression<T>,
-) = toDopeType().mapIndexed(iteratorName, indexName, transformation)
+    iteratorName: String? = null,
+    transformation: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<T>,
+) = toDopeType().mapIndexed(indexName, iteratorName, transformation)
 
 @JvmName("filterCMJsonNumberList")
 fun CMJsonList<out Number>.filter(
@@ -72,21 +72,21 @@ fun CMJsonList<Boolean>.filter(
 
 @JvmName("filterCMJsonNumberListIndexed")
 fun CMJsonList<out Number>.filterIndexed(
-    iteratorName: String? = null,
     indexName: String? = null,
+    iteratorName: String? = null,
     condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = toDopeType().filterIndexed(iteratorName, indexName, condition)
+) = toDopeType().filterIndexed(indexName, iteratorName, condition)
 
 @JvmName("filterCMJsonStringListIndexed")
 fun CMJsonList<String>.filterIndexed(
-    iteratorName: String? = null,
     indexName: String? = null,
-    condition: (Iterator<StringType>, Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = toDopeType().filterIndexed(iteratorName, indexName, condition)
+    iteratorName: String? = null,
+    condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType>,
+) = toDopeType().filterIndexed(indexName, iteratorName, condition)
 
 @JvmName("filterCMJsonBooleanListIndexed")
 fun CMJsonList<Boolean>.filterIndexed(
-    iteratorName: String? = null,
     indexName: String? = null,
-    condition: (Iterator<BooleanType>, Iterator<NumberType>) -> TypeExpression<BooleanType>,
-) = toDopeType().filterIndexed(iteratorName, indexName, condition)
+    iteratorName: String? = null,
+    condition: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType>,
+) = toDopeType().filterIndexed(indexName, iteratorName, condition)

@@ -1,39 +1,39 @@
-package ch.ergon.dope.extensions.type.collection
+package ch.ergon.dope.extensions.expression.type.collection
 
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.type.collection.filter
-import ch.ergon.dope.extension.type.collection.filterIndexed
-import ch.ergon.dope.extension.type.collection.map
-import ch.ergon.dope.extension.type.collection.mapIndexed
+import ch.ergon.dope.extension.expression.type.collection.filter
+import ch.ergon.dope.extension.expression.type.collection.filterIndexed
+import ch.ergon.dope.extension.expression.type.collection.map
+import ch.ergon.dope.extension.expression.type.collection.mapIndexed
+import ch.ergon.dope.extension.expression.type.function.string.concat
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringList
-import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.FirstForRangeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.FirstForRangeIndexedExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.contains
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.repeat
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toBool
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toStr
-import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
-import ch.ergon.dope.resolvable.expression.unaliased.type.logical.or
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.collection.FirstRangeExpression
+import ch.ergon.dope.resolvable.expression.type.collection.FirstRangeIndexedExpression
+import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.function.string.contains
+import ch.ergon.dope.resolvable.expression.type.function.string.repeat
+import ch.ergon.dope.resolvable.expression.type.function.type.toBool
+import ch.ergon.dope.resolvable.expression.type.function.type.toStr
+import ch.ergon.dope.resolvable.expression.type.logic.and
+import ch.ergon.dope.resolvable.expression.type.logic.or
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FirstForRangeTest : ManagerDependentTest {
+class FirstRangeTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
     fun `should support first range transformation with cm number list`() {
         val range = someCMNumberList()
         val iteratorName = "it"
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
@@ -49,7 +49,7 @@ class FirstForRangeTest : ManagerDependentTest {
     fun `should support first range transformation with cm string list`() {
         val range = someCMStringList()
         val iteratorName = "it"
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
@@ -65,7 +65,7 @@ class FirstForRangeTest : ManagerDependentTest {
     fun `should support first range transformation with cm boolean list`() {
         val range = someCMBooleanList()
         val iteratorName = "it"
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
@@ -81,7 +81,7 @@ class FirstForRangeTest : ManagerDependentTest {
     fun `should support first range transformation with condition with cm number list`() {
         val range = someCMNumberList()
         val iteratorName = "it"
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             membershipType = IN,
             range.toDopeType(),
             iteratorName,
@@ -98,7 +98,7 @@ class FirstForRangeTest : ManagerDependentTest {
     fun `should support first range transformation with condition with cm string list`() {
         val range = someCMStringList()
         val iteratorName = "it"
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
@@ -115,7 +115,7 @@ class FirstForRangeTest : ManagerDependentTest {
     fun `should support first range transformation with condition with cm boolean list`() {
         val range = someCMBooleanList()
         val iteratorName = "it"
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
@@ -131,17 +131,17 @@ class FirstForRangeTest : ManagerDependentTest {
     @Test
     fun `should support indexed first range transformation with cm number list`() {
         val range = someCMNumberList()
-        val iteratorName = "it"
         val indexName = "i"
-        val expected = FirstForRangeIndexedExpression(
+        val iteratorName = "it"
+        val expected = FirstRangeIndexedExpression(
             IN,
             range.toDopeType(),
-            iteratorName,
             indexName,
-            { it, i -> it.add(i) },
+            iteratorName,
+            { i, it -> it.add(i) },
         )
 
-        val actual = range.mapIndexed(iteratorName, indexName) { it, i -> it.add(i) }.first()
+        val actual = range.mapIndexed(indexName, iteratorName) { i, it -> it.add(i) }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -149,17 +149,17 @@ class FirstForRangeTest : ManagerDependentTest {
     @Test
     fun `should support indexed first range transformation with cm string list`() {
         val range = someCMStringList()
-        val iteratorName = "it"
         val indexName = "i"
-        val expected = FirstForRangeIndexedExpression(
+        val iteratorName = "it"
+        val expected = FirstRangeIndexedExpression(
             IN,
             range.toDopeType(),
-            iteratorName,
             indexName,
-            { it, i -> concat(it, i.toStr()) },
+            iteratorName,
+            { i, it -> concat(i.toStr(), it) },
         )
 
-        val actual = range.mapIndexed(iteratorName, indexName) { it, i -> concat(it, i.toStr()) }.first()
+        val actual = range.mapIndexed(indexName, iteratorName) { i, it -> concat(i.toStr(), it) }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -167,17 +167,17 @@ class FirstForRangeTest : ManagerDependentTest {
     @Test
     fun `should support indexed first range transformation with cm boolean list`() {
         val range = someCMBooleanList()
-        val iteratorName = "it"
         val indexName = "i"
-        val expected = FirstForRangeIndexedExpression(
+        val iteratorName = "it"
+        val expected = FirstRangeIndexedExpression(
             IN,
             range.toDopeType(),
-            iteratorName,
             indexName,
-            { it, i -> it.and(i.toBool()) },
+            iteratorName,
+            { i, it -> it.and(i.toBool()) },
         )
 
-        val actual = range.mapIndexed(iteratorName, indexName) { it, i -> it.and(i.toBool()) }.first()
+        val actual = range.mapIndexed(indexName, iteratorName) { i, it -> it.and(i.toBool()) }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -185,21 +185,21 @@ class FirstForRangeTest : ManagerDependentTest {
     @Test
     fun `should support indexed first range transformation with condition with cm number list`() {
         val range = someCMNumberList()
-        val iteratorName = "it"
         val indexName = "i"
-        val expected = FirstForRangeIndexedExpression(
+        val iteratorName = "it"
+        val expected = FirstRangeIndexedExpression(
             membershipType = IN,
             range.toDopeType(),
-            iteratorName,
             indexName,
-            transformation = { it, i -> it.add(i) },
-            condition = { it, i -> it.isEqualTo(i) },
+            iteratorName,
+            transformation = { i, it -> it.add(i) },
+            condition = { i, it -> it.isEqualTo(i) },
         )
 
         val actual = range.filterIndexed(
-            iteratorName,
             indexName,
-        ) { it, i -> it.isEqualTo(i) }.map { it, i -> it.add(i) }.first()
+            iteratorName,
+        ) { i, it -> it.isEqualTo(i) }.map { i, it -> it.add(i) }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -207,21 +207,21 @@ class FirstForRangeTest : ManagerDependentTest {
     @Test
     fun `should support indexed first range transformation with condition with cm string list`() {
         val range = someCMStringList()
-        val iteratorName = "it"
         val indexName = "i"
-        val expected = FirstForRangeIndexedExpression(
+        val iteratorName = "it"
+        val expected = FirstRangeIndexedExpression(
             IN,
             range.toDopeType(),
-            iteratorName,
             indexName,
-            transformation = { it, i -> repeat(it, i) },
-            condition = { it, i -> contains(it, i.toStr()) },
+            iteratorName,
+            transformation = { i, it -> repeat(it, i) },
+            condition = { i, it -> contains(it, i.toStr()) },
         )
 
         val actual = range.filterIndexed(
-            iteratorName,
             indexName,
-        ) { it, i -> contains(it, i.toStr()) }.map { it, i -> repeat(it, i) }.first()
+            iteratorName,
+        ) { i, it -> contains(it, i.toStr()) }.map { i, it -> repeat(it, i) }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -229,21 +229,21 @@ class FirstForRangeTest : ManagerDependentTest {
     @Test
     fun `should support indexed first range transformation with condition with cm boolean list`() {
         val range = someCMBooleanList()
-        val iteratorName = "it"
         val indexName = "i"
-        val expected = FirstForRangeIndexedExpression(
+        val iteratorName = "it"
+        val expected = FirstRangeIndexedExpression(
             IN,
             range.toDopeType(),
-            iteratorName,
             indexName,
-            transformation = { it, i -> it.and(i.toBool()) },
-            condition = { it, i -> it.or(i.toBool()) },
+            iteratorName,
+            transformation = { i, it -> it.and(i.toBool()) },
+            condition = { i, it -> it.or(i.toBool()) },
         )
 
         val actual = range.filterIndexed(
-            iteratorName,
             indexName,
-        ) { it, i -> it.or(i.toBool()) }.map { it, i -> it.and(i.toBool()) }.first()
+            iteratorName,
+        ) { i, it -> it.or(i.toBool()) }.map { i, it -> it.and(i.toBool()) }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

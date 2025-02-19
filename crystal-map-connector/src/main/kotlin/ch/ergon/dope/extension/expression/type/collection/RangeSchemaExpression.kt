@@ -1,19 +1,19 @@
-package ch.ergon.dope.extension.type.collection
+package ch.ergon.dope.extension.expression.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.type.ObjectField
-import ch.ergon.dope.extension.type.ObjectList
+import ch.ergon.dope.extension.expression.type.ObjectField
+import ch.ergon.dope.extension.expression.type.ObjectList
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.END
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.FOR
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.TransformationType
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.TransformationType.ARRAY
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.TransformationType.FIRST
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.TransformationType.OBJECT
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.WHEN
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.collection.END
+import ch.ergon.dope.resolvable.expression.type.collection.FOR
+import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.collection.TransformationType
+import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.ARRAY
+import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.FIRST
+import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.OBJECT
+import ch.ergon.dope.resolvable.expression.type.collection.WHEN
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -23,13 +23,13 @@ import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
 
-abstract class ForRangeSchemaExpression<S : Schema, T : ValidType>(
+abstract class RangeSchemaExpression<S : Schema, T : ValidType>(
     private val transformationType: TransformationType,
     private val range: ObjectList<S>,
-    private val iteratorName: String? = null,
-    private val withAttributeKeys: ((ObjectField<S>) -> TypeExpression<StringType>)? = null,
+    private val iteratorName: String?,
+    private val withAttributeKeys: ((ObjectField<S>) -> TypeExpression<StringType>)?,
     private val transformation: (ObjectField<S>) -> TypeExpression<T>,
-    private val condition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
+    private val condition: ((ObjectField<S>) -> TypeExpression<BooleanType>)?,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val rangeDopeQuery = range.toDopeQuery(manager)
@@ -42,24 +42,24 @@ abstract class ForRangeSchemaExpression<S : Schema, T : ValidType>(
             it(ObjectField(range.schema, iteratorVariable, ""))
         }?.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "${transformationType.type} " +
+            queryString = "${transformationType.queryString} " +
                 withAttributeKeys?.let { "${withAttributeKeysDopeQuery?.queryString}:" }.orEmpty() +
                 "${transformationDopeQuery.queryString} $FOR `$iteratorVariable` " +
-                "${IN.type} ${rangeDopeQuery.queryString} " +
+                "${IN.queryString} ${rangeDopeQuery.queryString} " +
                 conditionDopeQuery?.let { "$WHEN ${conditionDopeQuery.queryString} " }.orEmpty() +
                 END,
         )
     }
 }
 
-class ForRangeConditionSchemaExpression<S : Schema>(
+class FilterRangeSchemaExpression<S : Schema>(
     private val range: ObjectList<S>,
     private val iteratorName: String? = null,
     private val condition: (ObjectField<S>) -> TypeExpression<BooleanType>,
 ) {
     fun <T : ValidType> map(
         transformation: (ObjectField<S>) -> TypeExpression<T>,
-    ) = ArrayForRangeSchemaExpression(
+    ) = ArrayRangeSchemaExpression(
         range,
         iteratorName,
         transformation,
@@ -70,25 +70,26 @@ class ForRangeConditionSchemaExpression<S : Schema>(
 fun <S : Schema> CMObjectList<S>.filter(
     iteratorName: String? = null,
     condition: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = ForRangeConditionSchemaExpression(
+) = FilterRangeSchemaExpression(
     range = toDopeType(),
     iteratorName = iteratorName,
     condition = condition,
 )
 
-class ArrayForRangeSchemaExpression<S : Schema, T : ValidType>(
+class ArrayRangeSchemaExpression<S : Schema, T : ValidType>(
     private val range: ObjectList<S>,
     private val iteratorName: String? = null,
     private val transformation: (ObjectField<S>) -> TypeExpression<T>,
     private val condition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
-) : TypeExpression<ArrayType<T>>, ForRangeSchemaExpression<S, T>(
+) : TypeExpression<ArrayType<T>>, RangeSchemaExpression<S, T>(
     transformationType = ARRAY,
     range = range,
     iteratorName = iteratorName,
+    withAttributeKeys = null,
     transformation = transformation,
     condition = condition,
 ) {
-    fun first() = FirstForRangeSchemaExpression(
+    fun first() = FirstRangeSchemaExpression(
         range = range,
         iteratorName = iteratorName,
         transformation = transformation,
@@ -96,7 +97,7 @@ class ArrayForRangeSchemaExpression<S : Schema, T : ValidType>(
     )
 
     fun toObject(withAttributeKeys: (ObjectField<S>) -> TypeExpression<StringType>) =
-        ObjectForRangeSchemaExpression(
+        ObjectRangeSchemaExpression(
             range = range,
             iteratorName = iteratorName,
             transformation = transformation,
@@ -108,32 +109,33 @@ class ArrayForRangeSchemaExpression<S : Schema, T : ValidType>(
 fun <S : Schema, T : ValidType> CMObjectList<S>.map(
     iteratorName: String? = null,
     transformation: (ObjectField<S>) -> TypeExpression<T>,
-) = ArrayForRangeSchemaExpression(
+) = ArrayRangeSchemaExpression(
     range = toDopeType(),
     iteratorName = iteratorName,
     transformation = transformation,
 )
 
-class FirstForRangeSchemaExpression<S : Schema, T : ValidType>(
+class FirstRangeSchemaExpression<S : Schema, T : ValidType>(
     range: ObjectList<S>,
     iteratorName: String? = null,
     transformation: (ObjectField<S>) -> TypeExpression<T>,
     condition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
-) : TypeExpression<T>, ForRangeSchemaExpression<S, T>(
+) : TypeExpression<T>, RangeSchemaExpression<S, T>(
     transformationType = FIRST,
     range = range,
     iteratorName = iteratorName,
+    withAttributeKeys = null,
     transformation = transformation,
     condition = condition,
 )
 
-class ObjectForRangeSchemaExpression<S : Schema, T : ValidType>(
+class ObjectRangeSchemaExpression<S : Schema, T : ValidType>(
     range: ObjectList<S>,
     iteratorName: String? = null,
     withAttributeKeys: ((ObjectField<S>) -> TypeExpression<StringType>),
     transformation: (ObjectField<S>) -> TypeExpression<T>,
     condition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
-) : TypeExpression<ObjectType>, ForRangeSchemaExpression<S, T>(
+) : TypeExpression<ObjectType>, RangeSchemaExpression<S, T>(
     transformationType = OBJECT,
     range = range,
     iteratorName = iteratorName,

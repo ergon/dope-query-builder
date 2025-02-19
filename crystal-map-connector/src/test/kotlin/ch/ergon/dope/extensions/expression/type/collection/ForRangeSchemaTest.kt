@@ -1,15 +1,15 @@
-package ch.ergon.dope.extensions.type.collection
+package ch.ergon.dope.extensions.expression.type.collection
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.type.collection.filter
-import ch.ergon.dope.extension.type.collection.filterIndexed
-import ch.ergon.dope.extension.type.collection.map
-import ch.ergon.dope.extension.type.collection.mapIndexed
-import ch.ergon.dope.extension.type.getField
-import ch.ergon.dope.extension.type.relational.isEqualTo
-import ch.ergon.dope.extension.type.stringfunction.concat
+import ch.ergon.dope.extension.expression.type.collection.filter
+import ch.ergon.dope.extension.expression.type.collection.filterIndexed
+import ch.ergon.dope.extension.expression.type.collection.map
+import ch.ergon.dope.extension.expression.type.collection.mapIndexed
+import ch.ergon.dope.extension.expression.type.getField
+import ch.ergon.dope.extension.expression.type.relational.isEqualTo
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMObjectList
@@ -125,7 +125,7 @@ class ForRangeSchemaTest : ManagerDependentTest {
             queryString = "ARRAY `it`.`type` FOR `i`:`it` IN `objectList` END",
         )
 
-        val actual = Dummy().objectList.mapIndexed(iteratorName = "it", indexName = "i") { schema, _ ->
+        val actual = Dummy().objectList.mapIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.toDopeQuery(manager)
 
@@ -139,9 +139,9 @@ class ForRangeSchemaTest : ManagerDependentTest {
                 "WHEN `it`.`type` = \"test\" END",
         )
 
-        val actual = Dummy().objectList.filterIndexed(iteratorName = "it", indexName = "i") { schema, _ ->
+        val actual = Dummy().objectList.filterIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).isEqualTo("test")
-        }.map { schema, _ ->
+        }.map { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.toDopeQuery(manager)
 
@@ -154,7 +154,7 @@ class ForRangeSchemaTest : ManagerDependentTest {
             queryString = "FIRST `it`.`type` FOR `i`:`it` IN `objectList` END",
         )
 
-        val actual = Dummy().objectList.mapIndexed(iteratorName = "it", indexName = "i") { schema, _ ->
+        val actual = Dummy().objectList.mapIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.first().toDopeQuery(manager)
 
@@ -168,9 +168,9 @@ class ForRangeSchemaTest : ManagerDependentTest {
                 "WHEN `it`.`type` = \"test\" END",
         )
 
-        val actual = Dummy().objectList.filterIndexed(iteratorName = "it", indexName = "i") { schema, _ ->
+        val actual = Dummy().objectList.filterIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).isEqualTo("test")
-        }.map { schema, _ ->
+        }.map { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.first().toDopeQuery(manager)
 
@@ -183,9 +183,9 @@ class ForRangeSchemaTest : ManagerDependentTest {
             queryString = "OBJECT CONCAT(\"id\", `it`.`type`):`it`.`type` FOR `i`:`it` IN `objectList` END",
         )
 
-        val actual = Dummy().objectList.mapIndexed(iteratorName = "it", indexName = "i") { schema, _ ->
+        val actual = Dummy().objectList.mapIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
-        }.toObject { schema, _ ->
+        }.toObject { _, schema ->
             concat("id", schema.getField(Dummy2::type).toDopeType())
         }.toDopeQuery(manager)
 
@@ -199,11 +199,11 @@ class ForRangeSchemaTest : ManagerDependentTest {
                 "WHEN `it`.`type` = \"test\" END",
         )
 
-        val actual = Dummy().objectList.filterIndexed(iteratorName = "it", indexName = "i") { schema, _ ->
+        val actual = Dummy().objectList.filterIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).isEqualTo("test")
-        }.map { schema, _ ->
+        }.map { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
-        }.toObject { schema, _ ->
+        }.toObject { _, schema ->
             concat("id", schema.getField(Dummy2::type).toDopeType())
         }.toDopeQuery(manager)
 

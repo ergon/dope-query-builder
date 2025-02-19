@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.unaliased.type.collection
+package ch.ergon.dope.resolvable.expression.type.collection
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
@@ -7,21 +7,21 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mul
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.WITHIN
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isNumber
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toNumber
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toStr
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.arithmetic.mul
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.WITHIN
+import ch.ergon.dope.resolvable.expression.type.function.string.concat
+import ch.ergon.dope.resolvable.expression.type.function.type.isNumber
+import ch.ergon.dope.resolvable.expression.type.function.type.toNumber
+import ch.ergon.dope.resolvable.expression.type.function.type.toStr
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FirstForRangeExpressionTest : ManagerDependentTest {
+class FirstRangeExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
@@ -30,7 +30,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "FIRST (`it` * `it`) FOR `it` IN `numberArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
@@ -48,7 +48,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "FIRST CONCAT(\"test\", `it`) FOR `it` IN `stringArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
@@ -66,7 +66,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "FIRST TONUMBER(`it`) FOR `it` IN `stringArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
@@ -84,7 +84,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "FIRST (`iterator1` + 1) FOR `iterator1` IN `numberArrayField` WHEN `iterator1` <= 2 END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = IN,
             range = range,
             transformation = { it.add(1) },
@@ -108,7 +108,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
                 positionalParameters = listOf(positionalParameterValue),
             ),
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = IN,
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
@@ -127,13 +127,13 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
             "FIRST `it` FOR `it` IN `numberArrayField` " +
                 "WHEN FIRST `it2` FOR `it2` IN `numberArrayField` END = `it` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
             transformation = { it },
             condition = {
-                FirstForRangeExpression(
+                FirstRangeExpression(
                     membershipType = IN,
                     range = range,
                     iteratorName = "it2",
@@ -150,7 +150,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for in expression extension`() {
         val range = someNumberArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
@@ -165,7 +165,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for in expression extension with condition`() {
         val range = someNumberArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
@@ -188,7 +188,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "FIRST (TONUMBER(`it`) * TONUMBER(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
@@ -206,7 +206,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "FIRST CONCAT(\"test\", TOSTRING(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
@@ -224,7 +224,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "FIRST TONUMBER(`it`) FOR `it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
@@ -242,7 +242,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "FIRST (TONUMBER(`iterator1`) + 1) FOR `iterator1` WITHIN `anyTypeArrayField` WHEN ISNUMBER(`iterator1`) END",
         )
-        val underTest = FirstForRangeExpression(
+        val underTest = FirstRangeExpression(
             membershipType = WITHIN,
             range = range,
             transformation = { it.toNumber().add(1) },
@@ -257,7 +257,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for within expression extension`() {
         val range = someAnyTypeArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
@@ -272,7 +272,7 @@ class FirstForRangeExpressionTest : ManagerDependentTest {
     @Test
     fun `should support first for within expression extension with condition`() {
         val range = someAnyTypeArrayField()
-        val expected = FirstForRangeExpression(
+        val expected = FirstRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",

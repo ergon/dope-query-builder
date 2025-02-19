@@ -1,40 +1,41 @@
-package ch.ergon.dope.resolvable.expression.unaliased.type.collection
+package ch.ergon.dope.resolvable.expression.type.collection
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
+import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
-import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.unaliased.type.arithmetic.mul
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.MembershipType.WITHIN
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.stringfunction.concat
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.isNumber
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toNumber
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.toStr
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isLessOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.arithmetic.mul
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.WITHIN
+import ch.ergon.dope.resolvable.expression.type.function.string.concat
+import ch.ergon.dope.resolvable.expression.type.function.type.toNumber
+import ch.ergon.dope.resolvable.expression.type.function.type.toStr
+import ch.ergon.dope.resolvable.expression.type.getNumber
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayForRangeExpressionTest : ManagerDependentTest {
+class ObjectRangeExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
-    fun `should support array for in expression`() {
+    fun `should support object for in expression`() {
         val range = someNumberArrayField()
         val expected = DopeQuery(
-            queryString = "ARRAY (`it` * `it`) FOR `it` IN `numberArrayField` END",
+            queryString = "OBJECT TOSTRING(`it`):(`it` * `it`) FOR `it` IN `numberArrayField` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
+            withAttributeKeys = { it.toStr() },
             transformation = { it.mul(it) },
         )
 
@@ -44,15 +45,16 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for in expression string function`() {
+    fun `should support object for in expression string function`() {
         val range = someStringArrayField()
         val expected = DopeQuery(
-            queryString = "ARRAY CONCAT(\"test\", `it`) FOR `it` IN `stringArrayField` END",
+            queryString = "OBJECT `it`:CONCAT(\"test\", `it`) FOR `it` IN `stringArrayField` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
+            withAttributeKeys = { it },
             transformation = { concat("test", it) },
         )
 
@@ -62,15 +64,16 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for in expression resulting in new type`() {
+    fun `should support object for in expression resulting in new type`() {
         val range = someStringArrayField()
         val expected = DopeQuery(
-            queryString = "ARRAY TONUMBER(`it`) FOR `it` IN `stringArrayField` END",
+            queryString = "OBJECT `it`:TONUMBER(`it`) FOR `it` IN `stringArrayField` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
+            withAttributeKeys = { it },
             transformation = { it.toNumber() },
         )
 
@@ -80,14 +83,15 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for in expression with condition`() {
+    fun `should support object for in expression with condition`() {
         val range = someNumberArrayField()
         val expected = DopeQuery(
-            "ARRAY (`iterator1` + 1) FOR `iterator1` IN `numberArrayField` WHEN `iterator1` <= 2 END",
+            "OBJECT TOSTRING(`iterator1`):(`iterator1` + 1) FOR `iterator1` IN `numberArrayField` WHEN `iterator1` <= 2 END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = IN,
             range = range,
+            withAttributeKeys = { it.toStr() },
             transformation = { it.add(1) },
             condition = { it.isLessOrEqualThan(2) },
         )
@@ -98,21 +102,22 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for in expression with parameters`() {
+    fun `should support object for in expression with parameters`() {
         val range = listOf("test1", "test2", "test3")
         val positionalParameterValue = "test"
-        val namedParameterName = "array"
+        val namedParameterName = "object"
         val expected = DopeQuery(
-            queryString = "ARRAY CONCAT(\$1, `it`) FOR `it` IN \$$namedParameterName END",
+            queryString = "OBJECT `it`:CONCAT(\$1, `it`) FOR `it` IN \$$namedParameterName END",
             parameters = DopeParameters(
                 namedParameters = mapOf(namedParameterName to range),
                 positionalParameters = listOf(positionalParameterValue),
             ),
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = IN,
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
+            withAttributeKeys = { it },
             transformation = { concat(positionalParameterValue.asParameter(), it) },
         )
 
@@ -122,24 +127,26 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support nested array for in expression with condition`() {
+    fun `should support nested object for in expression with condition`() {
         val range = someNumberArrayField()
         val expected = DopeQuery(
-            "ARRAY `it` FOR `it` IN `numberArrayField` " +
-                "WHEN ARRAY `it2` FOR `it2` IN `numberArrayField` END[0] = `it` END",
+            "OBJECT TOSTRING(`it`):(`it` + 1) FOR `it` IN `numberArrayField` " +
+                "WHEN OBJECT TOSTRING(`it2`):`it2` FOR `it2` IN `numberArrayField` END.`1` = `it` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { it },
+            withAttributeKeys = { it.toStr() },
+            transformation = { it.add(1) },
             condition = {
-                ArrayForRangeExpression(
+                ObjectRangeExpression(
                     membershipType = IN,
                     range = range,
                     iteratorName = "it2",
+                    withAttributeKeys = { it2 -> it2.toStr() },
                     transformation = { it2 -> it2 },
-                ).get(0).isEqualTo(it)
+                ).getNumber("1").isEqualTo(it)
             },
         )
 
@@ -149,27 +156,34 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for in expression extension`() {
+    fun `should support object for in expression extension`() {
         val range = someNumberArrayField()
-        val expected = ArrayForRangeExpression(
+        val expected = ObjectRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
+            withAttributeKeys = { it.toStr() },
             transformation = { it.add(1) },
         )
 
-        val actual = range.map(iteratorName = "it") { it.add(1) }
+        val actual = range.map(iteratorName = "it") {
+            it.add(1)
+        }.toObject {
+            it.toStr()
+        }
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support array for in expression extension with condition`() {
+    fun `should support object for in expression extension with condition`() {
         val range = someNumberArrayField()
-        val expected = ArrayForRangeExpression(
+        val expected = ObjectRangeExpression(
             membershipType = IN,
             range = range,
             iteratorName = "it",
+
+            withAttributeKeys = { it.toStr() },
             transformation = { it.add(1) },
             condition = { it.isLessOrEqualThan(2) },
         )
@@ -178,21 +192,24 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
             it.isLessOrEqualThan(2)
         }.map {
             it.add(1)
+        }.toObject {
+            it.toStr()
         }
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support array for within expression`() {
+    fun `should support object for within expression`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            queryString = "ARRAY (TONUMBER(`it`) * TONUMBER(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
+            queryString = "OBJECT TOSTRING(`it`):(TONUMBER(`it`) * TONUMBER(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
+            withAttributeKeys = { it.toStr() },
             transformation = { it.toNumber().mul(it.toNumber()) },
         )
 
@@ -202,15 +219,17 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for within expression string function`() {
+    fun `should support object for within expression string function`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            queryString = "ARRAY CONCAT(\"test\", TOSTRING(`it`)) FOR `it` WITHIN `anyTypeArrayField` END",
+            queryString = "OBJECT TOSTRING(`it`):CONCAT(\"test\", TOSTRING(`it`)) " +
+                "FOR `it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
+            withAttributeKeys = { it.toStr() },
             transformation = { concat("test", it.toStr()) },
         )
 
@@ -220,15 +239,17 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for WITHIN expression resulting in new type`() {
+    fun `should support object for within expression resulting in new type`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            queryString = "ARRAY TONUMBER(`it`) FOR `it` WITHIN `anyTypeArrayField` END",
+            queryString = "OBJECT TOSTRING(`it`):TONUMBER(`it`) FOR `it` WITHIN `anyTypeArrayField` END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
+
+            withAttributeKeys = { it.toStr() },
             transformation = { it.toNumber() },
         )
 
@@ -238,16 +259,18 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for within expression with condition`() {
+    fun `should support object for within expression with condition`() {
         val range = someAnyTypeArrayField()
         val expected = DopeQuery(
-            "ARRAY (TONUMBER(`iterator1`) + 1) FOR `iterator1` WITHIN `anyTypeArrayField` WHEN ISNUMBER(`iterator1`) END",
+            "OBJECT TOSTRING(`iterator1`):(TONUMBER(`iterator1`) + 1) FOR `iterator1` WITHIN `anyTypeArrayField` WHEN TRUE END",
         )
-        val underTest = ArrayForRangeExpression(
+        val underTest = ObjectRangeExpression(
             membershipType = WITHIN,
             range = range,
+
             transformation = { it.toNumber().add(1) },
-            condition = { it.isNumber() },
+            withAttributeKeys = { it.toStr() },
+            condition = { someBooleanExpression() },
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -256,32 +279,46 @@ class ArrayForRangeExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support array for within expression extension`() {
+    fun `should support object for within expression extension`() {
         val range = someAnyTypeArrayField()
-        val expected = ArrayForRangeExpression(
+        val expected = ObjectRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { it.toNumber() },
+
+            withAttributeKeys = { it.toStr() },
+            transformation = { it.toNumber().add(1) },
         )
 
-        val actual = range.mapUnnested(iteratorName = "it") { it.toNumber() }
+        val actual = range.mapUnnested(iteratorName = "it") {
+            it.toNumber().add(1)
+        }.toObject {
+            it.toStr()
+        }
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
-    fun `should support array for within expression extension with condition`() {
+    fun `should support object for within expression extension with condition`() {
         val range = someAnyTypeArrayField()
-        val expected = ArrayForRangeExpression(
+        val expected = ObjectRangeExpression(
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
+
+            withAttributeKeys = { it.toStr() },
             transformation = { it.toNumber().add(1) },
-            condition = { it.isNumber() },
+            condition = { 1.isLessOrEqualThan(2) },
         )
 
-        val actual = range.filterUnnested(iteratorName = "it") { it.isNumber() }.map { it.toNumber().add(1) }
+        val actual = range.filterUnnested(iteratorName = "it") {
+            1.isLessOrEqualThan(2)
+        }.map {
+            it.toNumber().add(1)
+        }.toObject {
+            it.toStr()
+        }
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
