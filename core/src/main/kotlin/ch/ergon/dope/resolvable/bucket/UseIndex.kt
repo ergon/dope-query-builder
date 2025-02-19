@@ -14,7 +14,7 @@ import ch.ergon.dope.util.formatToQueryStringWithSymbol
 
 private const val USE_INDEX = "USE INDEX"
 
-enum class IndexType(val type: String) {
+enum class IndexType(val queryString: String) {
     USING_GSI("USING GSI"),
     USING_FTS("USING FTS"),
 }
@@ -24,7 +24,7 @@ class IndexReference(
     private val indexType: IndexType? = null,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
-        queryString = formatIndexToQueryString(indexName, indexType?.type),
+        queryString = formatIndexToQueryString(indexName, indexType?.queryString),
     )
 }
 
