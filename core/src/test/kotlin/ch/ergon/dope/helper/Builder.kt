@@ -40,6 +40,9 @@ fun someStringArrayField(name: String = "stringArrayField", bucket: Bucket = som
 fun someBooleanArrayField(name: String = "booleanArrayField", bucket: Bucket = someBucket("")) =
     Field<ArrayType<BooleanType>>(name, getBucketName(bucket))
 
+fun someObjectArrayField(name: String = "objectArrayField", bucket: Bucket = someBucket("")) =
+    Field<ArrayType<ObjectType>>(name, getBucketName(bucket))
+
 fun someNumber(value: Number = 5) = value
 
 fun someInt(value: Int = 5) = value

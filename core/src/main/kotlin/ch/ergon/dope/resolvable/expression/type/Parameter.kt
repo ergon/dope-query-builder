@@ -46,13 +46,17 @@ fun String.asParameter(parameterName: String? = null) = StringParameter(this, pa
 
 fun Boolean.asParameter(parameterName: String? = null) = BooleanParameter(this, parameterName)
 
+fun Map<String, Any>.asParameter(parameterName: String? = null) = ObjectParameter(this, parameterName)
+
 @JvmName("numberCollectionAsParameter")
 fun Collection<Number>.asParameter(parameterName: String? = null) = ArrayParameter<NumberType>(this, parameterName)
 
 @JvmName("stringCollectionAsParameter")
 fun Collection<String>.asParameter(parameterName: String? = null) = ArrayParameter<StringType>(this, parameterName)
 
-@JvmName("booleanParameterAsParameter")
+@JvmName("booleanCollectionAsParameter")
 fun Collection<Boolean>.asParameter(parameterName: String? = null) = ArrayParameter<BooleanType>(this, parameterName)
 
-fun Map<String, Any>.asParameter(parameterName: String? = null) = ObjectParameter(this, parameterName)
+@JvmName("objectCollectionAsParameter")
+fun Collection<Map<String, Any>>.asParameter(parameterName: String? = null) =
+    ArrayParameter<ObjectType>(this, parameterName)
