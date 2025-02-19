@@ -2,8 +2,10 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.extension.expression.type.function.array.unpack
 import ch.ergon.dope.extension.expression.type.get
 import ch.ergon.dope.extension.expression.type.getField
+import ch.ergon.dope.extension.expression.type.relational.inArray
 import ch.ergon.dope.extension.expression.type.relational.isEqualTo
 import ch.ergon.dope.extension.expression.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.extension.select
@@ -13,6 +15,7 @@ import ch.ergon.dope.resolvable.expression.type.case
 import ch.ergon.dope.resolvable.expression.type.condition
 import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.type.getString
+import ch.ergon.dope.resolvable.expression.type.getStringArray
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMObjectField
@@ -110,6 +113,25 @@ class ObjectTest : ManagerDependentTest {
             .select(objectField, case(objectField).condition(schema.hobbies.get(0).resultsIn("isPrimary")))
             .from(bucket)
             .where(objectField.getField(Hobby::name).isEqualTo("Football"))
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support get asterisk function with object list`() {
+        val bucket = someBucket().alias("p")
+        val schema = Person("p")
+        val objectField = schema.primaryHobby.toDopeType()
+        val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`primaryHobby`.`name` IN " +
+            "`p`.`hobbies`[*].`name`"
+
+        val actual = QueryBuilder()
+            .selectAsterisk()
+            .from(bucket)
+            .where(
+                objectField.getField(Hobby::name).inArray(schema.hobbies.unpack().getStringArray("name")),
+            )
             .build().queryString
 
         assertEquals(expected, actual)

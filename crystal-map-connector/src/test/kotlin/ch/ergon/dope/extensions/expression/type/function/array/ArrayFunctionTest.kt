@@ -7,6 +7,7 @@ import ch.ergon.dope.extension.expression.type.function.array.arrayDistinct
 import ch.ergon.dope.extension.expression.type.function.array.arrayIntersect
 import ch.ergon.dope.extension.expression.type.function.array.arrayLength
 import ch.ergon.dope.extension.expression.type.function.array.arraySum
+import ch.ergon.dope.extension.expression.type.function.array.unpack
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -21,6 +22,7 @@ import ch.ergon.dope.resolvable.expression.type.function.array.ArrayDistinctExpr
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIntersectExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayLengthExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArraySumExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.UnpackExpression
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -214,6 +216,16 @@ class ArrayFunctionTest : ManagerDependentTest {
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
         val actual = arrayLength(cMJsonList)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support get asterisk with CM Object list as receiver`() {
+        val cMJsonList = someCMObjectList()
+        val expected = UnpackExpression(cMJsonList.toDopeType())
+
+        val actual = cMJsonList.unpack()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
