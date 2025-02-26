@@ -8,6 +8,6 @@ interface FunctionOperator {
     fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery?) =
         formatListToQueryStringWithBrackets(arguments.filterNotNull(), prefix = "$symbol(")
 
-    fun toFunctionQueryString(symbol: String, vararg arguments: String) =
-        formatStringListToQueryStringWithBrackets(arguments.toList(), prefix = "$symbol(")
+    fun toFunctionQueryString(symbol: String, vararg arguments: String?) =
+        formatStringListToQueryStringWithBrackets(arguments.filterNotNull().toList(), prefix = "$symbol(")
 }
