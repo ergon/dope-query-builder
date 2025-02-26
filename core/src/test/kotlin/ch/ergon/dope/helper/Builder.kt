@@ -29,6 +29,8 @@ fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket(
 
 fun someObjectField(name: String = "objectField", bucket: Bucket = someBucket("")) = Field<ObjectType>(name, getBucketName(bucket))
 
+fun someAnyTypeField(name: String = "anyTypeField", bucket: Bucket = someBucket("")) = Field<ValidType>(name, getBucketName(bucket))
+
 fun someBooleanExpression() = TRUE
 
 fun someNumberArrayField(name: String = "numberArrayField", bucket: Bucket = someBucket("")) =
@@ -42,6 +44,9 @@ fun someBooleanArrayField(name: String = "booleanArrayField", bucket: Bucket = s
 
 fun someObjectArrayField(name: String = "objectArrayField", bucket: Bucket = someBucket("")) =
     Field<ArrayType<ObjectType>>(name, getBucketName(bucket))
+
+fun someAnyTypeArrayField(name: String = "anyTypeArrayField", bucket: Bucket = someBucket("")) =
+    Field<ArrayType<ValidType>>(name, getBucketName(bucket))
 
 fun someNumber(value: Number = 5) = value
 

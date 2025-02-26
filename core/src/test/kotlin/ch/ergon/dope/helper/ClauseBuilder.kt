@@ -9,11 +9,13 @@ import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
+import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
 fun someSelectClause(selectable: Selectable = Asterisk()) = SelectClause(selectable)
 
@@ -30,6 +32,8 @@ fun someBooleanSelectRawClause(expression: TypeExpression<BooleanType> = someBoo
 
 fun someObjectSelectRawClause(expression: TypeExpression<ObjectType> = someObjectField()) =
     SelectRawClause(expression)
+
+fun someAnyTypeSelectRawClause(expression: Expression<ValidType> = someAnyTypeField()) = SelectRawClause(expression)
 
 fun someDeleteClause(bucket: Bucket = someBucket()) = DeleteClause(bucket)
 
