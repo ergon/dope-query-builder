@@ -1,11 +1,11 @@
-package ch.ergon.dope.extension.expression.type.collection
+package ch.ergon.dope.extension.expression.type.range
 
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.type.collection.filter
-import ch.ergon.dope.resolvable.expression.type.collection.filterIndexed
-import ch.ergon.dope.resolvable.expression.type.collection.map
-import ch.ergon.dope.resolvable.expression.type.collection.mapIndexed
+import ch.ergon.dope.resolvable.expression.type.range.filter
+import ch.ergon.dope.resolvable.expression.type.range.filterIndexed
+import ch.ergon.dope.resolvable.expression.type.range.map
+import ch.ergon.dope.resolvable.expression.type.range.mapIndexed
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType

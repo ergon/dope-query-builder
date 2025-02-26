@@ -1,10 +1,11 @@
-package ch.ergon.dope.resolvable.expression.type.collection
+package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.WITHIN
-import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.ARRAY
+import ch.ergon.dope.resolvable.expression.type.collection.Iterator
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType.WITHIN
+import ch.ergon.dope.resolvable.expression.type.range.TransformationType.ARRAY
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType

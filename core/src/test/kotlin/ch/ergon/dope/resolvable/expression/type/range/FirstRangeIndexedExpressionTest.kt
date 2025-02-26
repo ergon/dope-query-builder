@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.type.collection
+package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
@@ -10,11 +10,11 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.arithmetic.mul
 import ch.ergon.dope.resolvable.expression.type.asParameter
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.type.toNumber
 import ch.ergon.dope.resolvable.expression.type.function.type.toStr
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
 import kotlin.test.Test

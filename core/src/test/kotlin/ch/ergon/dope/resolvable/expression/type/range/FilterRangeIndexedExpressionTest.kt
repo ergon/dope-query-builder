@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.type.collection
+package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -8,8 +8,8 @@ import ch.ergon.dope.helper.someAnyTypeSelectRawClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someNumberSelectRawClause
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.IN
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType.WITHIN
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType.IN
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test

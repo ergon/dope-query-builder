@@ -1,8 +1,6 @@
 package ch.ergon.dope.buildTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someObjectArrayField
@@ -10,17 +8,17 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.arithmetic.mul
 import ch.ergon.dope.resolvable.expression.type.arithmetic.sub
-import ch.ergon.dope.resolvable.expression.type.collection.filter
-import ch.ergon.dope.resolvable.expression.type.collection.filterIndexed
-import ch.ergon.dope.resolvable.expression.type.collection.filterIndexedUnnested
-import ch.ergon.dope.resolvable.expression.type.collection.map
-import ch.ergon.dope.resolvable.expression.type.collection.mapIndexed
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.type.toNumber
 import ch.ergon.dope.resolvable.expression.type.function.type.toStr
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.getNumber
 import ch.ergon.dope.resolvable.expression.type.getString
+import ch.ergon.dope.resolvable.expression.type.range.filter
+import ch.ergon.dope.resolvable.expression.type.range.filterIndexed
+import ch.ergon.dope.resolvable.expression.type.range.filterIndexedUnnested
+import ch.ergon.dope.resolvable.expression.type.range.map
+import ch.ergon.dope.resolvable.expression.type.range.mapIndexed
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -28,8 +26,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RangeTransformationsTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
+class RangeTransformationsTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest

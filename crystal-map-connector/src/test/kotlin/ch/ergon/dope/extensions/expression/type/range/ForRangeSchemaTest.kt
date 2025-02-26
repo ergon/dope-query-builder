@@ -1,12 +1,12 @@
-package ch.ergon.dope.extensions.expression.type.collection
+package ch.ergon.dope.extensions.expression.type.range
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.expression.type.collection.filter
-import ch.ergon.dope.extension.expression.type.collection.filterIndexed
-import ch.ergon.dope.extension.expression.type.collection.map
-import ch.ergon.dope.extension.expression.type.collection.mapIndexed
 import ch.ergon.dope.extension.expression.type.getField
+import ch.ergon.dope.extension.expression.type.range.filter
+import ch.ergon.dope.extension.expression.type.range.filterIndexed
+import ch.ergon.dope.extension.expression.type.range.map
+import ch.ergon.dope.extension.expression.type.range.mapIndexed
 import ch.ergon.dope.extension.expression.type.relational.isEqualTo
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.resolvable.expression.type.function.string.concat

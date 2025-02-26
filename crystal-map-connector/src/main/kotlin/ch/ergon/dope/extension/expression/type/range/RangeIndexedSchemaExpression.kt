@@ -1,4 +1,4 @@
-package ch.ergon.dope.extension.expression.type.collection
+package ch.ergon.dope.extension.expression.type.range
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
@@ -6,15 +6,15 @@ import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.type.collection.END
-import ch.ergon.dope.resolvable.expression.type.collection.FOR
 import ch.ergon.dope.resolvable.expression.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.type.collection.MembershipType
-import ch.ergon.dope.resolvable.expression.type.collection.TransformationType
-import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.ARRAY
-import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.FIRST
-import ch.ergon.dope.resolvable.expression.type.collection.TransformationType.OBJECT
-import ch.ergon.dope.resolvable.expression.type.collection.WHEN
+import ch.ergon.dope.resolvable.expression.type.range.END
+import ch.ergon.dope.resolvable.expression.type.range.FOR
+import ch.ergon.dope.resolvable.expression.type.range.MembershipType
+import ch.ergon.dope.resolvable.expression.type.range.TransformationType
+import ch.ergon.dope.resolvable.expression.type.range.TransformationType.ARRAY
+import ch.ergon.dope.resolvable.expression.type.range.TransformationType.FIRST
+import ch.ergon.dope.resolvable.expression.type.range.TransformationType.OBJECT
+import ch.ergon.dope.resolvable.expression.type.range.WHEN
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
