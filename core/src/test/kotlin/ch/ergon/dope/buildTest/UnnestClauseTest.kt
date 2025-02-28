@@ -6,7 +6,7 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.bucket.asterisk
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.asParameter

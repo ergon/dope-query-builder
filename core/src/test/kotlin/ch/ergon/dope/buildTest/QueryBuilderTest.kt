@@ -10,7 +10,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
-import ch.ergon.dope.resolvable.bucket.asterisk
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.clause.except
 import ch.ergon.dope.resolvable.clause.exceptAll
 import ch.ergon.dope.resolvable.clause.intersect
