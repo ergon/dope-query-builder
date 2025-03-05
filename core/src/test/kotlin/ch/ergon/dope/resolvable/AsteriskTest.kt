@@ -4,8 +4,10 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someSelectClause
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -62,85 +64,90 @@ class AsteriskTest : ManagerDependentTest {
 
     @Test
     fun `should support asterisk function`() {
-        val expected = DopeQuery(
-            queryString = "*",
-        )
-        val underTest = asterisk()
+        val expected = Asterisk()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = asterisk()
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support asterisk function with bucket`() {
-        val expected = DopeQuery(
-            queryString = "`someBucket`.*",
-        )
-        val underTest = asterisk(someBucket())
+        val bucket = someBucket()
+        val expected = Asterisk(bucket)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = asterisk(bucket)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support asterisk function with aliased select clause`() {
-        val expected = DopeQuery(
-            queryString = "`selectClause`.*",
-        )
-        val underTest = asterisk(someSelectClause().alias("selectClause"))
+        val selectClause = someSelectClause().alias("selectClause")
+        val expected = Asterisk(selectClause)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = asterisk(selectClause)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support asterisk function with object field`() {
-        val expected = DopeQuery(
-            queryString = "`objectField`.*",
-        )
-        val underTest = asterisk(someObjectField())
+        val objectField = someObjectField()
+        val expected = Asterisk(objectField)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = asterisk(objectField)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support asterisk function with object`() {
+        val someObject = someObject()
+        val expected = Asterisk(someObject.toDopeType())
+
+        val actual = asterisk(someObject)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support asterisk function receiver extension with bucket`() {
-        val expected = DopeQuery(
-            queryString = "`someBucket`.*",
-        )
-        val underTest = someBucket().asterisk()
+        val bucket = someBucket()
+        val expected = Asterisk(bucket)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = bucket.asterisk()
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support asterisk function receiver extension with aliased select clause`() {
-        val expected = DopeQuery(
-            queryString = "`selectClause`.*",
-        )
-        val underTest = someSelectClause().alias("selectClause").asterisk()
+        val selectClause = someSelectClause().alias("selectClause")
+        val expected = Asterisk(selectClause)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = selectClause.asterisk()
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support asterisk function receiver extension with object field`() {
-        val expected = DopeQuery(
-            queryString = "`objectField`.*",
-        )
-        val underTest = someObjectField().asterisk()
+        val objectField = someObjectField()
+        val expected = Asterisk(objectField)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = objectField.asterisk()
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support asterisk function receiver extension with object`() {
+        val someObject = someObject()
+        val expected = Asterisk(someObject.toDopeType())
+
+        val actual = someObject.asterisk()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }
