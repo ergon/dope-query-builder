@@ -5,10 +5,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchBucketObjectFunctionExpression
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchBucketStringFunctionExpression
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchFieldObjectFunctionExpression
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchFieldStringFunctionExpression
+import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchMetaFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchScoreFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
@@ -26,7 +23,10 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`.`stringField`, \"someString\")",
         )
-        val underTest = SearchFieldStringFunctionExpression(field, "someString")
+        val underTest = SearchFunctionExpression(
+            field = field,
+            stringSearchExpression = "someString",
+        )
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -39,9 +39,9 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`.`stringField`, \"+someString\", {\"index\" : \"someIndex\"})",
         )
-        val underTest = SearchFieldStringFunctionExpression(
-            field,
-            searchQuery = "+someString",
+        val underTest = SearchFunctionExpression(
+            field = field,
+            stringSearchExpression = "+someString",
             options = mapOf("index" to "someIndex"),
         )
 
@@ -53,10 +53,10 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search string function extension on field`() {
         val field = someStringField(bucket = someBucket())
-        val searchQuery = "+someString"
-        val expected = SearchFieldStringFunctionExpression(field, searchQuery)
+        val searchExpression = "+someString"
+        val expected = SearchFunctionExpression(field, searchExpression)
 
-        val actual = fullTextSearch(field, searchQuery)
+        val actual = fullTextSearch(field, searchExpression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -64,11 +64,11 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search string function extension on field with options`() {
         val field = someStringField(bucket = someBucket())
-        val searchQuery = "+someString"
+        val searchExpression = "+someString"
         val options = mapOf("index" to "someIndex")
-        val expected = SearchFieldStringFunctionExpression(field, searchQuery, options)
+        val expected = SearchFunctionExpression(field, searchExpression, options)
 
-        val actual = fullTextSearch(field, searchQuery, options)
+        val actual = fullTextSearch(field, searchExpression, options)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -78,9 +78,9 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`, \"field:\"someString\"\")",
         )
-        val underTest = SearchBucketStringFunctionExpression(
-            someBucket(),
-            searchQuery = "field:\"someString\"",
+        val underTest = SearchFunctionExpression(
+            bucket = someBucket(),
+            stringSearchExpression = "field:\"someString\"",
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -93,9 +93,9 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`, \"field:\"someString\"\", {\"index\" : \"someIndex\"})",
         )
-        val underTest = SearchBucketStringFunctionExpression(
-            someBucket(),
-            searchQuery = "field:\"someString\"",
+        val underTest = SearchFunctionExpression(
+            bucket = someBucket(),
+            stringSearchExpression = "field:\"someString\"",
             options = mapOf("index" to "someIndex"),
         )
 
@@ -107,10 +107,10 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search string function extension on bucket`() {
         val bucket = someBucket()
-        val searchQuery = "field:\"someString\""
-        val expected = SearchBucketStringFunctionExpression(bucket, searchQuery)
+        val searchExpression = "field:\"someString\""
+        val expected = SearchFunctionExpression(bucket, searchExpression)
 
-        val actual = fullTextSearch(bucket, searchQuery)
+        val actual = fullTextSearch(bucket, searchExpression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -118,22 +118,24 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search string function extension on bucket with options`() {
         val bucket = someBucket()
-        val searchQuery = "field:\"someString\""
+        val searchExpression = "field:\"someString\""
         val options = mapOf("index" to "someIndex")
-        val expected = SearchBucketStringFunctionExpression(bucket, searchQuery, options)
+        val expected = SearchFunctionExpression(bucket, searchExpression, options)
 
-        val actual = fullTextSearch(bucket, searchQuery, options)
+        val actual = fullTextSearch(bucket, searchExpression, options)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support search object function expression`() {
-        val field = someStringField(bucket = someBucket())
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`.`stringField`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
         )
-        val underTest = SearchFieldObjectFunctionExpression(field, mapOf("field" to "someField", "analyzer" to "standard"))
+        val underTest = SearchFunctionExpression(
+            field = someStringField(bucket = someBucket()),
+            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+        )
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -142,16 +144,15 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support search object function expression with options`() {
-        val field = someStringField(bucket = someBucket())
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`.`stringField`, " +
                 "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
                 "{\"index\" : \"someIndex\"})",
         )
-        val underTest = SearchFieldObjectFunctionExpression(
-            field,
-            mapOf("field" to "someField", "analyzer" to "standard"),
-            mapOf("index" to "someIndex"),
+        val underTest = SearchFunctionExpression(
+            field = someStringField(bucket = someBucket()),
+            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+            options = mapOf("index" to "someIndex"),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -162,10 +163,10 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search object function extension`() {
         val field = someStringField(bucket = someBucket())
-        val searchQuery = mapOf("field" to "someField", "analyzer" to "standard")
-        val expected = SearchFieldObjectFunctionExpression(field, searchQuery)
+        val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
+        val expected = SearchFunctionExpression(field, searchExpression)
 
-        val actual = fullTextSearch(field, searchQuery)
+        val actual = fullTextSearch(field, searchExpression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -173,22 +174,24 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search object function extension with options`() {
         val field = someStringField(bucket = someBucket())
-        val searchQuery = mapOf("field" to "someField", "analyzer" to "standard")
+        val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
         val options = mapOf("index" to "someIndex")
-        val expected = SearchFieldObjectFunctionExpression(field, searchQuery, options)
+        val expected = SearchFunctionExpression(field, searchExpression, options)
 
-        val actual = fullTextSearch(field, searchQuery, options)
+        val actual = fullTextSearch(field, searchExpression, options)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support search object function expression on bucket`() {
-        val bucket = someBucket()
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
         )
-        val underTest = SearchBucketObjectFunctionExpression(bucket, mapOf("field" to "someField", "analyzer" to "standard"))
+        val underTest = SearchFunctionExpression(
+            bucket = someBucket(),
+            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+        )
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -197,16 +200,15 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support search object function expression on bucket with options`() {
-        val bucket = someBucket()
         val expected = DopeQuery(
             queryString = "SEARCH(`someBucket`, " +
                 "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
                 "{\"index\" : \"someIndex\"})",
         )
-        val underTest = SearchBucketObjectFunctionExpression(
-            bucket,
-            mapOf("field" to "someField", "analyzer" to "standard"),
-            mapOf("index" to "someIndex"),
+        val underTest = SearchFunctionExpression(
+            bucket = someBucket(),
+            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+            options = mapOf("index" to "someIndex"),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -217,10 +219,10 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search object function extension on bucket`() {
         val bucket = someBucket()
-        val searchQuery = mapOf("field" to "someField", "analyzer" to "standard")
-        val expected = SearchBucketObjectFunctionExpression(bucket, searchQuery)
+        val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
+        val expected = SearchFunctionExpression(bucket, searchExpression)
 
-        val actual = fullTextSearch(bucket, searchQuery)
+        val actual = fullTextSearch(bucket, searchExpression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -228,11 +230,11 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
     @Test
     fun `should support search object function extension on bucket with options`() {
         val bucket = someBucket()
-        val searchQuery = mapOf("field" to "someField", "analyzer" to "standard")
+        val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
         val options = mapOf("index" to "someIndex")
-        val expected = SearchBucketObjectFunctionExpression(bucket, searchQuery, options)
+        val expected = SearchFunctionExpression(bucket, searchExpression, options)
 
-        val actual = fullTextSearch(bucket, searchQuery, options)
+        val actual = fullTextSearch(bucket, searchExpression, options)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
