@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
-import ch.ergon.dope.resolvable.expression.unaliased.type.meta.meta
+import ch.ergon.dope.resolvable.expression.type.meta
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals

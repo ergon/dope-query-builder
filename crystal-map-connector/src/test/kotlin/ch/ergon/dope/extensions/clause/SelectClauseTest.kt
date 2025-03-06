@@ -5,7 +5,7 @@ import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
 import ch.ergon.dope.extension.clause.join
-import ch.ergon.dope.extension.clause.joinhint.keysHint
+import ch.ergon.dope.extension.clause.joinHint.keysHint
 import ch.ergon.dope.extension.clause.leftJoin
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset

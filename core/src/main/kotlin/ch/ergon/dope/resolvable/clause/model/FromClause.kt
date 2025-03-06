@@ -2,12 +2,12 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.AliasedSelectClause
+import ch.ergon.dope.resolvable.Fromable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
-import ch.ergon.dope.resolvable.formatToQueryStringWithSymbol
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
-import ch.ergon.dope.resolvable.fromable.Fromable
+import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
 class FromClause<T : ValidType>(private val fromable: Fromable, private val parentClause: ISelectClause<T>) : ISelectUnnestClause<T> {

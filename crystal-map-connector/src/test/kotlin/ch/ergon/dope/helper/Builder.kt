@@ -1,19 +1,19 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.Asterisk
+import ch.ergon.dope.resolvable.Fromable
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
-import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
+import ch.ergon.dope.resolvable.clause.model.OrderBy
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
-import ch.ergon.dope.resolvable.expression.AsteriskExpression
-import ch.ergon.dope.resolvable.expression.Expression
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.Fromable
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.expression.type.CaseClass
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -67,8 +67,8 @@ fun someCMConverterStringList(name: String = "cmConverterStringList", path: Stri
 fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: String = "") =
     CMConverterList(name, path, DateBooleanConverterInstance)
 
-fun someSelect(expression: Expression = AsteriskExpression()) = SelectClause(expression)
-fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), ASC)
+fun someSelect(selectable: Selectable = Asterisk()) = SelectClause(selectable)
+fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), OrderBy.ASC)
 fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
 
 fun someDelete(bucket: Bucket = someBucket()) = DeleteClause(bucket)

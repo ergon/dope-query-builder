@@ -1,9 +1,10 @@
 package ch.ergon.dope.integrationTest
 
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -31,6 +32,7 @@ object TestCouchbaseDatabase {
     val isActiveField = Field<BooleanType>("isActive", testBucket.name)
     val orderNumberField = Field<StringType>("orderNumber", testBucket.name)
     val deliveryDateField = Field<StringType>("deliveryDate", testBucket.name)
+    val quantitiesField = Field<ArrayType<NumberType>>("quantities", testBucket.name)
 
     init {
         initContainer()
@@ -87,6 +89,7 @@ object TestCouchbaseDatabase {
                             "client" to "client:$i",
                             "employee" to "employee:$i",
                             "deliveryDate" to null,
+                            "quantities" to listOf(1, 2, 3),
                         ),
                     )
                 }

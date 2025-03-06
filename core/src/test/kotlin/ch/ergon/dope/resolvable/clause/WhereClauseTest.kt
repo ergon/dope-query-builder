@@ -11,7 +11,7 @@ import ch.ergon.dope.helper.someUpdateClause
 import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

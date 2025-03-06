@@ -1,5 +1,11 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.resolvable.AliasedSelectClause
+import ch.ergon.dope.resolvable.Fromable
+import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.FromClause
@@ -16,16 +22,10 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
-import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
-import ch.ergon.dope.resolvable.expression.AliasedExpression
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.AliasedSelectClause
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.Fromable
-import ch.ergon.dope.resolvable.fromable.Joinable
+import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.SelectExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -140,7 +140,7 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
 
 interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
     fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
-    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedExpression<ArrayType<U>>) =
+    fun <U : ValidType> unnest(aliasedArrayExpression: ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
 }
 
