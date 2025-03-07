@@ -3,8 +3,8 @@ package ch.ergon.dope.resolvable.clause.model
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
+import ch.ergon.dope.resolvable.clause.ISelectWindowClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
@@ -19,7 +19,7 @@ private const val ORDER_BY = "ORDER BY"
 class SelectOrderByClause<T : ValidType>(
     private val orderExpression: OrderExpression,
     private vararg val additionalOrderExpressions: OrderExpression,
-    private val parentClause: ISelectGroupByClause<T>,
+    private val parentClause: ISelectWindowClause<T>,
 ) : ISelectOrderByClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)

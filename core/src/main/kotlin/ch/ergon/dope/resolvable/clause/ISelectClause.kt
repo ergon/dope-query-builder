@@ -20,8 +20,12 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
+import ch.ergon.dope.resolvable.clause.model.SelectWindowClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
+import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
+import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowDefinition
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -46,10 +50,19 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
     fun limit(number: Number) = limit(number.toDopeType())
 }
 
-interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
+interface ISelectWindowClause<T : ValidType> : ISelectOrderByClause<T> {
     fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
         SelectOrderByClause(orderExpression, *additionalOrderExpressions, parentClause = this)
+
     fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderType? = null) = orderBy(OrderExpression(expression, orderByType))
+}
+
+interface ISelectGroupByClause<T : ValidType> : ISelectWindowClause<T> {
+    fun windowReference(reference: String, windowDefinition: WindowDefinition? = null) =
+        SelectWindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
+
+    fun windowReference(windowDeclaration: WindowDeclaration, vararg windowDeclarations: WindowDeclaration) =
+        SelectWindowClause(windowDeclaration, *windowDeclarations, parentClause = this)
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
@@ -76,12 +89,14 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = StandardJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun join(
         joinable: Joinable,
         onKeys: Field<out ValidType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = StandardJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun join(
         joinable: Joinable,
         onKey: Field<out ValidType>,
@@ -96,12 +111,14 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = InnerJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun innerJoin(
         joinable: Joinable,
         onKeys: Field<out ValidType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = InnerJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun innerJoin(
         joinable: Joinable,
         onKey: Field<out ValidType>,
@@ -116,12 +133,14 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = LeftJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun leftJoin(
         joinable: Joinable,
         onKeys: Field<out ValidType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = LeftJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun leftJoin(
         joinable: Joinable,
         onKey: Field<out ValidType>,
