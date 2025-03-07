@@ -28,7 +28,7 @@ enum class NullsModifier(val queryString: String) {
     IGNORE("IGNORE NULLS"),
 }
 
-sealed class WindowFunction<T: ValidType>(
+sealed class WindowFunction<T : ValidType>(
     private val functionName: String,
     private val windowFunctionArguments: WindowFunctionArguments? = null,
     private val fromModifier: FromModifier? = null,

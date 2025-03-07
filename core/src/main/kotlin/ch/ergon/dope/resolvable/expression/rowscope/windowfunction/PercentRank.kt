@@ -30,5 +30,5 @@ fun percentRank(windowReference: String) = PercentRank(windowReference)
 
 fun percentRank(
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-    windowOrderClause: List<OrderingTerm>
+    windowOrderClause: List<OrderingTerm>,
 ) = PercentRank(windowPartitionClause, windowOrderClause)

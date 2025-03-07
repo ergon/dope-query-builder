@@ -28,7 +28,7 @@ class LastValue<T : ValidType> : WindowFunction<T> {
     constructor(
         expression: TypeExpression<T>,
         nullsModifier: NullsModifier? = null,
-        windowReference: String
+        windowReference: String,
     ) : super(
         functionName = LAST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
@@ -48,5 +48,5 @@ fun <T : ValidType> lastValue(
 fun <T : ValidType> lastValue(
     expression: TypeExpression<T>,
     nullsModifier: NullsModifier? = null,
-    windowReference: String
+    windowReference: String,
 ) = LastValue(expression, nullsModifier, windowReference)

@@ -30,5 +30,5 @@ fun rank(windowReference: String) = Rank(windowReference)
 
 fun rank(
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-    windowOrderClause: List<OrderingTerm>
+    windowOrderClause: List<OrderingTerm>,
 ) = Rank(windowPartitionClause, windowOrderClause)

@@ -28,7 +28,7 @@ class RowNumber : WindowFunction<NumberType> {
 
 fun rowNumber(
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-    windowOrderClause: List<OrderingTerm>? = null
+    windowOrderClause: List<OrderingTerm>? = null,
 ) = RowNumber(windowPartitionClause, windowOrderClause)
 
 fun rowNumber(windowReference: String) = RowNumber(windowReference)

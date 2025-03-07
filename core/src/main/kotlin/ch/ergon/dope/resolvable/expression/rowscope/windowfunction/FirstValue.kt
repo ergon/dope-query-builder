@@ -28,7 +28,7 @@ class FirstValue<T : ValidType> : WindowFunction<T> {
     constructor(
         expression: TypeExpression<T>,
         windowReference: String,
-        nullsModifier: NullsModifier? = null
+        nullsModifier: NullsModifier? = null,
     ) : super(
         functionName = FIRST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),

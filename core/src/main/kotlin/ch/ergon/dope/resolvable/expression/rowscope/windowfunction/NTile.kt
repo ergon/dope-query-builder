@@ -44,10 +44,10 @@ fun ntile(
 
 fun ntile(
     numTiles: TypeExpression<NumberType>,
-    windowReference: String
+    windowReference: String,
 ) = NTile(numTiles, windowReference)
 
 fun ntile(
     numTiles: Number,
-    windowReference: String
+    windowReference: String,
 ) = ntile(numTiles.toDopeType(), windowReference)

@@ -10,7 +10,6 @@ import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
-import ch.ergon.dope.resolvable.expression.rowscope.alias
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.arrayAggregate
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.avg
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.count
@@ -22,6 +21,7 @@ import ch.ergon.dope.resolvable.expression.rowscope.aggregate.min
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.stdDev
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.sum
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.variance
+import ch.ergon.dope.resolvable.expression.rowscope.alias
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

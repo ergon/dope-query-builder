@@ -30,5 +30,5 @@ fun denseRank(windowReference: String) = DenseRank(windowReference)
 
 fun denseRank(
     windowOrderClause: List<OrderingTerm>,
-    windowPartitionClause: List<TypeExpression<out ValidType>>? = null
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
 ) = DenseRank(windowOrderClause, windowPartitionClause)

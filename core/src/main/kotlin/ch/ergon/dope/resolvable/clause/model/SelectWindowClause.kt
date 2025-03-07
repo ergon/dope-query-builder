@@ -13,7 +13,7 @@ import ch.ergon.dope.validtype.ValidType
 class SelectWindowClause<T : ValidType>(
     private val windowDeclaration: WindowDeclaration,
     private vararg val windowDeclarations: WindowDeclaration,
-    private val parentClause: ISelectGroupByClause<T>
+    private val parentClause: ISelectGroupByClause<T>,
 ) : ISelectWindowClause<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val windowDeclarationDopeQuery = windowDeclaration.toDopeQuery(manager)

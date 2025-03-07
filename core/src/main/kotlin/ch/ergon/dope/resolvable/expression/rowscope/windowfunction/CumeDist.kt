@@ -30,5 +30,5 @@ fun cumeDist(windowReference: String) = CumeDist(windowReference)
 
 fun cumeDist(
     windowOrderClause: List<OrderingTerm>,
-    windowPartitionClause: List<TypeExpression<out ValidType>>? = null
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
 ) = CumeDist(windowOrderClause, windowPartitionClause)

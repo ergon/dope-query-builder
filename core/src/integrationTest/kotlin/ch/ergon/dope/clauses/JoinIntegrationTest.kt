@@ -5,10 +5,10 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
-import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
-import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
 import ch.ergon.dope.resolvable.clause.joinHint.indexHint
+import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
+import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.meta

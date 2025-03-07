@@ -10,9 +10,9 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someWindowFrameClause
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NthValue
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
