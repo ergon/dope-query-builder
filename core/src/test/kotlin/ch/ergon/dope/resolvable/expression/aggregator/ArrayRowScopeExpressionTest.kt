@@ -4,14 +4,14 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.DISTINCT
-import ch.ergon.dope.resolvable.expression.aggregate.ArrayAggregateExpression
-import ch.ergon.dope.resolvable.expression.aggregate.arrayAggregate
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.ArrayAggregateExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.arrayAggregate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayAggregateExpressionTest : ManagerDependentTest {
+class ArrayRowScopeExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test

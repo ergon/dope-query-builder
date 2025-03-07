@@ -6,6 +6,8 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.DenseRank
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.denseRank
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

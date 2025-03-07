@@ -7,8 +7,10 @@ import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someWindowFrameClause
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.IGNORE
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FirstValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.firstValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.RESPECT
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

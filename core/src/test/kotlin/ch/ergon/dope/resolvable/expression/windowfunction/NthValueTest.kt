@@ -3,12 +3,17 @@ package ch.ergon.dope.resolvable.expression.windowfunction
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someWindowFrameClause
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.IGNORE
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NthValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -126,6 +131,19 @@ class NthValueTest : ManagerDependentTest {
         val windowReference = "ref"
         val nullsModifier = RESPECT
         val expected = NthValue(expression, offset, nullsModifier, windowReference = windowReference)
+
+        val actual = nthValue(expression, offset, nullsModifier, windowReference = windowReference)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support nth value function with reference and number`() {
+        val expression = someNumberField()
+        val offset = someNumber()
+        val windowReference = "ref"
+        val nullsModifier = RESPECT
+        val expected = NthValue(expression, offset.toDopeType(), nullsModifier, windowReference = windowReference)
 
         val actual = nthValue(expression, offset, nullsModifier, windowReference = windowReference)
 

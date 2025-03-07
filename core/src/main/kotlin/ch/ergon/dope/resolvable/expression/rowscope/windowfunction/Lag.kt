@@ -1,19 +1,19 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val LAG = "LAG"
 
-class Lag : WindowFunction {
+class Lag<T : ValidType> : WindowFunction<T> {
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         offset: TypeExpression<NumberType>? = null,
-        default: UnaliasedExpression<out ValidType>? = null,
+        default: TypeExpression<T>? = null,
         nullsModifier: NullsModifier? = null,
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>,
     ) : super(
         functionName = LAG,
@@ -28,9 +28,9 @@ class Lag : WindowFunction {
     )
 
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         offset: TypeExpression<NumberType>? = null,
-        default: UnaliasedExpression<out ValidType>? = null,
+        default: TypeExpression<T>? = null,
         nullsModifier: NullsModifier? = null,
         windowReference: String,
     ) : super(
@@ -41,19 +41,19 @@ class Lag : WindowFunction {
     )
 }
 
-fun lag(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> lag(
+    expression: TypeExpression<T>,
     offset: TypeExpression<NumberType>? = null,
-    default: UnaliasedExpression<out ValidType>? = null,
+    default: TypeExpression<T>? = null,
     nullsModifier: NullsModifier? = null,
-    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>,
 ) = Lag(expression, offset, default, nullsModifier, windowPartitionClause, windowOrderClause)
 
-fun lag(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> lag(
+    expression: TypeExpression<T>,
     offset: TypeExpression<NumberType>? = null,
-    default: UnaliasedExpression<out ValidType>? = null,
+    default: TypeExpression<T>? = null,
     nullsModifier: NullsModifier? = null,
     windowReference: String,
 ) = Lag(expression, offset, default, nullsModifier, windowReference)

@@ -8,7 +8,7 @@ import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
-import ch.ergon.dope.resolvable.clause.model.OrderBy
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.type.CaseClass
@@ -68,7 +68,7 @@ fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: St
     CMConverterList(name, path, DateBooleanConverterInstance)
 
 fun someSelect(selectable: Selectable = Asterisk()) = SelectClause(selectable)
-fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), OrderBy.ASC)
+fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), OrderType.ASC)
 fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
 
 fun someDelete(bucket: Bucket = someBucket()) = DeleteClause(bucket)

@@ -16,8 +16,22 @@ import ch.ergon.dope.helper.someWindowFrameExclusion
 import ch.ergon.dope.helper.someWindowFrameExtent
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Between
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.CurrentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Following
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClauseWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClauseWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Preceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.UnboundedFollowing
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.UnboundedPreceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameExclusion
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameType
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFunctionArguments
+import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -280,6 +294,18 @@ class WindowFunctionTest : ManagerDependentTest {
             "`numberField` PRECEDING",
         )
         val underTest = Preceding(someNumberField())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support Preceding with number`() {
+        val expected = DopeQuery(
+            "5 PRECEDING",
+        )
+        val underTest = Preceding(someNumber())
 
         val actual = underTest.toDopeQuery(manager)
 

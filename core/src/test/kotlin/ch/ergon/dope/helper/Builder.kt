@@ -3,37 +3,24 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
-import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
+import ch.ergon.dope.resolvable.clause.model.OrderType
+import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.UnboundedPreceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameExclusion
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameExtent
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameType
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameType.RANGE
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.clause.model.OrderType
-import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
-import ch.ergon.dope.resolvable.expression.unaliased.aggregator.CountAsteriskExpression
-import ch.ergon.dope.resolvable.expression.unaliased.type.Field
-import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
-import ch.ergon.dope.resolvable.expression.unaliased.type.conditional.CaseClass
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.SearchResult
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder
-import ch.ergon.dope.resolvable.expression.windowfunction.OrderingTerm
-import ch.ergon.dope.resolvable.expression.windowfunction.UnboundedPreceding
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowDefinition
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExclusion
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExtent
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameType
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameType.RANGE
-import ch.ergon.dope.resolvable.fromable.AliasedBucket
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.UnaliasedBucket
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -106,8 +93,8 @@ fun someOrderingTerm(
 ) = OrderingTerm(expression, orderType, nullsOrder)
 
 fun someWindowDefinition(
-    windowReference: UnaliasedExpression<StringType>? = null,
-    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowReference: TypeExpression<StringType>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
 ) = WindowDefinition(

@@ -1,19 +1,19 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val NTH_VALUE = "NTH_VALUE"
 
-class NthValue : WindowFunction {
+class NthValue<T : ValidType> : WindowFunction<T> {
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         offset: TypeExpression<NumberType>,
         nullsModifier: NullsModifier? = null,
         fromModifier: FromModifier? = null,
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
     ) : super(
@@ -31,7 +31,7 @@ class NthValue : WindowFunction {
     )
 
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         offset: TypeExpression<NumberType>,
         nullsModifier: NullsModifier? = null,
         fromModifier: FromModifier? = null,
@@ -45,12 +45,12 @@ class NthValue : WindowFunction {
     )
 }
 
-fun nthValue(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> nthValue(
+    expression: TypeExpression<T>,
     offset: TypeExpression<NumberType>,
     nullsModifier: NullsModifier? = null,
     fromModifier: FromModifier? = null,
-    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
 ) = NthValue(
@@ -63,8 +63,26 @@ fun nthValue(
     windowFrameClause,
 )
 
-fun nthValue(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> nthValue(
+    expression: TypeExpression<T>,
+    offset: Number,
+    nullsModifier: NullsModifier? = null,
+    fromModifier: FromModifier? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    windowOrderClause: List<OrderingTerm>? = null,
+    windowFrameClause: WindowFrameClause? = null,
+) = nthValue(
+    expression,
+    offset.toDopeType(),
+    nullsModifier,
+    fromModifier,
+    windowPartitionClause,
+    windowOrderClause,
+    windowFrameClause,
+)
+
+fun <T : ValidType> nthValue(
+    expression: TypeExpression<T>,
     offset: TypeExpression<NumberType>,
     nullsModifier: NullsModifier? = null,
     fromModifier: FromModifier? = null,
@@ -72,6 +90,20 @@ fun nthValue(
 ) = NthValue(
     expression,
     offset,
+    nullsModifier,
+    fromModifier,
+    windowReference,
+)
+
+fun <T : ValidType> nthValue(
+    expression: TypeExpression<T>,
+    offset: Number,
+    nullsModifier: NullsModifier? = null,
+    fromModifier: FromModifier? = null,
+    windowReference: String,
+) = nthValue(
+    expression,
+    offset.toDopeType(),
     nullsModifier,
     fromModifier,
     windowReference,

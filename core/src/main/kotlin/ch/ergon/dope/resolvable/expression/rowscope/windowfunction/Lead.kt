@@ -1,19 +1,19 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.TypeExpression
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val LEAD = "LEAD"
 
-class Lead : WindowFunction {
+class Lead<T : ValidType> : WindowFunction<T> {
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         offset: TypeExpression<NumberType>? = null,
-        default: UnaliasedExpression<out ValidType>? = null,
+        default: TypeExpression<T>? = null,
         nullsModifier: NullsModifier? = null,
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>,
     ) : super(
         functionName = LEAD,
@@ -28,9 +28,9 @@ class Lead : WindowFunction {
     )
 
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         offset: TypeExpression<NumberType>? = null,
-        default: UnaliasedExpression<out ValidType>? = null,
+        default: TypeExpression<T>? = null,
         nullsModifier: NullsModifier? = null,
         windowReference: String,
     ) : super(
@@ -41,19 +41,19 @@ class Lead : WindowFunction {
     )
 }
 
-fun lead(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> lead(
+    expression: TypeExpression<T>,
     offset: TypeExpression<NumberType>? = null,
-    default: UnaliasedExpression<out ValidType>? = null,
+    default: TypeExpression<T>? = null,
     nullsModifier: NullsModifier? = null,
-    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>,
 ) = Lead(expression, offset, default, nullsModifier, windowPartitionClause, windowOrderClause)
 
-fun lead(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> lead(
+    expression: TypeExpression<T>,
     offset: TypeExpression<NumberType>? = null,
-    default: UnaliasedExpression<out ValidType>? = null,
+    default: TypeExpression<T>? = null,
     nullsModifier: NullsModifier? = null,
     windowReference: String,
 ) = Lead(expression, offset, default, nullsModifier, windowReference)

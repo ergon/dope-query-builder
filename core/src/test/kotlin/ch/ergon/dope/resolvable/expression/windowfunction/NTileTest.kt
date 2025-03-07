@@ -3,9 +3,13 @@ package ch.ergon.dope.resolvable.expression.windowfunction
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NTile
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.ntile
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -67,11 +71,34 @@ class NTileTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support ntile function with reference and number`() {
+        val numTiles = someNumber()
+        val windowReference = "ref"
+        val expected = NTile(numTiles.toDopeType(), windowReference)
+
+        val actual = ntile(numTiles, windowReference)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support ntile function with partition and order clause`() {
         val numTiles = someNumberField()
         val windowPartitionClause = listOf(someStringField())
         val windowOrderClause = listOf(someOrderingTerm())
         val expected = NTile(numTiles, windowPartitionClause, windowOrderClause)
+
+        val actual = ntile(numTiles, windowPartitionClause, windowOrderClause)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support ntile function with partition, order clause and number`() {
+        val numTiles = someNumber()
+        val windowPartitionClause = listOf(someStringField())
+        val windowOrderClause = listOf(someOrderingTerm())
+        val expected = NTile(numTiles.toDopeType(), windowPartitionClause, windowOrderClause)
 
         val actual = ntile(numTiles, windowPartitionClause, windowOrderClause)
 

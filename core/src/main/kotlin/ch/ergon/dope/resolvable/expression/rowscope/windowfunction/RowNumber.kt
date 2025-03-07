@@ -1,13 +1,14 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val ROW_NUMBER = "ROW_NUMBER"
 
-class RowNumber : WindowFunction {
+class RowNumber : WindowFunction<NumberType> {
     constructor(
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
     ) : super(
         functionName = ROW_NUMBER,
@@ -25,7 +26,9 @@ class RowNumber : WindowFunction {
     )
 }
 
-fun rowNumber(windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null, windowOrderClause: List<OrderingTerm>? = null) =
-    RowNumber(windowPartitionClause, windowOrderClause)
+fun rowNumber(
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    windowOrderClause: List<OrderingTerm>? = null
+) = RowNumber(windowPartitionClause, windowOrderClause)
 
 fun rowNumber(windowReference: String) = RowNumber(windowReference)

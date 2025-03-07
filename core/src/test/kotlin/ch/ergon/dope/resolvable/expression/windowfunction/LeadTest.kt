@@ -6,8 +6,10 @@ import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.IGNORE
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Lead
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lead
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.RESPECT
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -156,7 +158,7 @@ class LeadTest : ManagerDependentTest {
     fun `should support lead function with all parameters`() {
         val expression = someNumberField()
         val offset = someNumberField()
-        val default = someStringField()
+        val default = someNumberField()
         val nullsModifier = IGNORE
         val windowPartitionClause = listOf(someStringField())
         val windowOrderClause = listOf(someOrderingTerm())

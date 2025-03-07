@@ -1,14 +1,15 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val DENSE_RANK = "DENSE_RANK"
 
-class DenseRank : WindowFunction {
+class DenseRank : WindowFunction<NumberType> {
     constructor(
         windowOrderClause: List<OrderingTerm>,
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     ) : super(
         functionName = DENSE_RANK,
         overClause = OverClauseWindowDefinition(
@@ -27,5 +28,7 @@ class DenseRank : WindowFunction {
 
 fun denseRank(windowReference: String) = DenseRank(windowReference)
 
-fun denseRank(windowOrderClause: List<OrderingTerm>, windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null) =
-    DenseRank(windowOrderClause, windowPartitionClause)
+fun denseRank(
+    windowOrderClause: List<OrderingTerm>,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null
+) = DenseRank(windowOrderClause, windowPartitionClause)

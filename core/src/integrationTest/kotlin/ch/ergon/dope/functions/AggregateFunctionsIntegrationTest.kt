@@ -9,13 +9,13 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.DISTINCT
-import ch.ergon.dope.resolvable.expression.aggregate.alias
-import ch.ergon.dope.resolvable.expression.aggregate.arrayAggregate
-import ch.ergon.dope.resolvable.expression.aggregate.countAsterisk
-import ch.ergon.dope.resolvable.expression.aggregate.max
-import ch.ergon.dope.resolvable.expression.aggregate.min
-import ch.ergon.dope.resolvable.expression.aggregate.sum
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.rowscope.alias
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.arrayAggregate
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.countAsterisk
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.max
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.min
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.sum
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

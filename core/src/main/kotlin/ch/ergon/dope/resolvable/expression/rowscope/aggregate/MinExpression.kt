@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.aggregate
+package ch.ergon.dope.resolvable.expression.rowscope.aggregate
 
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.ValidType

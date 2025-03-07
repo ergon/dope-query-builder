@@ -5,6 +5,8 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.RowNumber
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.rowNumber
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

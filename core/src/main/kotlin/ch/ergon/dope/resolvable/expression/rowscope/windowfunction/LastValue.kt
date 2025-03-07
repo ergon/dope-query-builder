@@ -1,15 +1,15 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
 private const val LAST_VALUE = "LAST_VALUE"
 
-class LastValue : WindowFunction {
+class LastValue<T : ValidType> : WindowFunction<T> {
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         nullsModifier: NullsModifier? = null,
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
     ) : super(
@@ -25,7 +25,11 @@ class LastValue : WindowFunction {
         ),
     )
 
-    constructor(expression: UnaliasedExpression<out ValidType>, nullsModifier: NullsModifier? = null, windowReference: String) : super(
+    constructor(
+        expression: TypeExpression<T>,
+        nullsModifier: NullsModifier? = null,
+        windowReference: String
+    ) : super(
         functionName = LAST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
         nullsModifier = nullsModifier,
@@ -33,13 +37,16 @@ class LastValue : WindowFunction {
     )
 }
 
-fun lastValue(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> lastValue(
+    expression: TypeExpression<T>,
     nullsModifier: NullsModifier? = null,
-    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
 ) = LastValue(expression, nullsModifier, windowPartitionClause, windowOrderClause, windowFrameClause)
 
-fun lastValue(expression: UnaliasedExpression<out ValidType>, nullsModifier: NullsModifier? = null, windowReference: String) =
-    LastValue(expression, nullsModifier, windowReference)
+fun <T : ValidType> lastValue(
+    expression: TypeExpression<T>,
+    nullsModifier: NullsModifier? = null,
+    windowReference: String
+) = LastValue(expression, nullsModifier, windowReference)

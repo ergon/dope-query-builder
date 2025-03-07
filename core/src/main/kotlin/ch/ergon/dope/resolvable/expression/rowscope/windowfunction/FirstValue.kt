@@ -1,15 +1,15 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
 private const val FIRST_VALUE = "FIRST_VALUE"
 
-class FirstValue : WindowFunction {
+class FirstValue<T : ValidType> : WindowFunction<T> {
     constructor(
-        expression: UnaliasedExpression<out ValidType>,
+        expression: TypeExpression<T>,
         nullsModifier: NullsModifier? = null,
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>,
         windowFrameClause: WindowFrameClause? = null,
     ) : super(
@@ -25,7 +25,11 @@ class FirstValue : WindowFunction {
         ),
     )
 
-    constructor(expression: UnaliasedExpression<out ValidType>, windowReference: String, nullsModifier: NullsModifier? = null) : super(
+    constructor(
+        expression: TypeExpression<T>,
+        windowReference: String,
+        nullsModifier: NullsModifier? = null
+    ) : super(
         functionName = FIRST_VALUE,
         windowFunctionArguments = WindowFunctionArguments(expression),
         nullsModifier = nullsModifier,
@@ -33,16 +37,16 @@ class FirstValue : WindowFunction {
     )
 }
 
-fun firstValue(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> firstValue(
+    expression: TypeExpression<T>,
     nullsModifier: NullsModifier? = null,
-    windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>,
     windowFrameClause: WindowFrameClause? = null,
 ) = FirstValue(expression, nullsModifier, windowPartitionClause, windowOrderClause, windowFrameClause)
 
-fun firstValue(
-    expression: UnaliasedExpression<out ValidType>,
+fun <T : ValidType> firstValue(
+    expression: TypeExpression<T>,
     windowReference: String,
     nullsModifier: NullsModifier? = null,
 ) = FirstValue(expression, windowReference, nullsModifier)

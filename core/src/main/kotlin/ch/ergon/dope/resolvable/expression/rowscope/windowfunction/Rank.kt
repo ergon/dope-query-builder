@@ -1,13 +1,14 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val RANK = "RANK"
 
-class Rank : WindowFunction {
+class Rank : WindowFunction<NumberType> {
     constructor(
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>,
     ) : super(
         functionName = RANK,
@@ -27,5 +28,7 @@ class Rank : WindowFunction {
 
 fun rank(windowReference: String) = Rank(windowReference)
 
-fun rank(windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null, windowOrderClause: List<OrderingTerm>) =
-    Rank(windowPartitionClause, windowOrderClause)
+fun rank(
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    windowOrderClause: List<OrderingTerm>
+) = Rank(windowPartitionClause, windowOrderClause)

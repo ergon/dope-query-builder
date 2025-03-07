@@ -5,25 +5,25 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.expression.windowfunction.Between
-import ch.ergon.dope.resolvable.expression.windowfunction.CurrentRow
-import ch.ergon.dope.resolvable.expression.windowfunction.Following
-import ch.ergon.dope.resolvable.expression.windowfunction.FromModifier.LAST
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.IGNORE
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder.NULLS_FIRST
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsOrder.NULLS_LAST
-import ch.ergon.dope.resolvable.expression.windowfunction.OrderingTerm
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameExclusion.EXCLUDE_NO_OTHERS
-import ch.ergon.dope.resolvable.expression.windowfunction.WindowFrameType.ROWS
-import ch.ergon.dope.resolvable.expression.windowfunction.cumeDist
-import ch.ergon.dope.resolvable.expression.windowfunction.denseRank
-import ch.ergon.dope.resolvable.expression.windowfunction.firstValue
-import ch.ergon.dope.resolvable.expression.windowfunction.lag
-import ch.ergon.dope.resolvable.expression.windowfunction.lastValue
-import ch.ergon.dope.resolvable.expression.windowfunction.nthValue
-import ch.ergon.dope.resolvable.expression.windowfunction.rowNumber
+import ch.ergon.dope.resolvable.expression.rowscope.alias
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Between
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.CurrentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Following
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder.NULLS_FIRST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameExclusion.EXCLUDE_NO_OTHERS
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameType.ROWS
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.cumeDist
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.denseRank
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.firstValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lag
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lastValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.rowNumber
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -57,13 +57,13 @@ class WindowFunctionTest {
                     windowOrderClause = listOf(OrderingTerm(someStringField(), nullsOrder = NULLS_LAST)),
                     windowFrameClause = WindowFrameClause(
                         ROWS,
-                        Between(CurrentRow(), Following(1.toDopeType())),
+                        Between(CurrentRow(), Following(1)),
                         EXCLUDE_NO_OTHERS,
                     ),
                 ),
                 nthValue(
                     someNumberField(),
-                    10.toDopeType(),
+                    10,
                     fromModifier = LAST,
                     windowOrderClause = listOf(
                         OrderingTerm(

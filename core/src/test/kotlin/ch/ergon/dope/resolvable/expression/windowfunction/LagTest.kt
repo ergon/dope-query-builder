@@ -3,11 +3,15 @@ package ch.ergon.dope.resolvable.expression.windowfunction
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.IGNORE
-import ch.ergon.dope.resolvable.expression.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Lag
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lag
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.RESPECT
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -148,21 +152,6 @@ class LagTest : ManagerDependentTest {
         val expected = Lag(expression, nullsModifier = nullsModifier, windowReference = windowReference)
 
         val actual = lag(expression, nullsModifier = nullsModifier, windowReference = windowReference)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
-
-    @Test
-    fun `should support lag function with all parameters`() {
-        val expression = someNumberField()
-        val offset = someNumberField()
-        val default = someStringField()
-        val nullsModifier = IGNORE
-        val windowPartitionClause = listOf(someStringField())
-        val windowOrderClause = listOf(someOrderingTerm())
-        val expected = Lag(expression, offset, default, nullsModifier, windowPartitionClause, windowOrderClause)
-
-        val actual = lag(expression, offset, default, nullsModifier, windowPartitionClause, windowOrderClause)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

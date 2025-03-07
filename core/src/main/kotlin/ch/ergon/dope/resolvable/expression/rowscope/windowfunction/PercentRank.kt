@@ -1,13 +1,14 @@
-package ch.ergon.dope.resolvable.expression.windowfunction
+package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.UnaliasedExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 private const val PERCENT_RANK = "PERCENT_RANK"
 
-class PercentRank : WindowFunction {
+class PercentRank : WindowFunction<NumberType> {
     constructor(
-        windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null,
+        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>,
     ) : super(
         functionName = PERCENT_RANK,
@@ -27,5 +28,7 @@ class PercentRank : WindowFunction {
 
 fun percentRank(windowReference: String) = PercentRank(windowReference)
 
-fun percentRank(windowPartitionClause: List<UnaliasedExpression<out ValidType>>? = null, windowOrderClause: List<OrderingTerm>) =
-    PercentRank(windowPartitionClause, windowOrderClause)
+fun percentRank(
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    windowOrderClause: List<OrderingTerm>
+) = PercentRank(windowPartitionClause, windowOrderClause)
