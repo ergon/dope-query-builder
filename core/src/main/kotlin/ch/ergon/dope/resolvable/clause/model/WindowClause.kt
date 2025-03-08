@@ -10,7 +10,7 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowD
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
-class SelectWindowClause<T : ValidType>(
+class WindowClause<T : ValidType>(
     private val windowDeclaration: WindowDeclaration,
     private vararg val windowDeclarations: WindowDeclaration,
     private val parentClause: ISelectGroupByClause<T>,

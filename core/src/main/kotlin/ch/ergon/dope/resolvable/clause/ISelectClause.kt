@@ -20,7 +20,7 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.SelectWindowClause
+import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
@@ -59,10 +59,10 @@ interface ISelectWindowClause<T : ValidType> : ISelectOrderByClause<T> {
 
 interface ISelectGroupByClause<T : ValidType> : ISelectWindowClause<T> {
     fun windowReference(reference: String, windowDefinition: WindowDefinition? = null) =
-        SelectWindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
+        WindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
 
     fun windowReference(windowDeclaration: WindowDeclaration, vararg windowDeclarations: WindowDeclaration) =
-        SelectWindowClause(windowDeclaration, *windowDeclarations, parentClause = this)
+        WindowClause(windowDeclaration, *windowDeclarations, parentClause = this)
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
