@@ -153,4 +153,15 @@ class LagTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
+
+    @Test
+    fun `should support lag function with ordering term`() {
+        val expression = someNumberField()
+        val nullsModifier = RESPECT
+        val expected = Lag(expression, nullsModifier = nullsModifier, windowOrderClause = listOf(someOrderingTerm()))
+
+        val actual = lag(expression, nullsModifier = nullsModifier, windowOrderClause = listOf(someOrderingTerm()))
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
 }
