@@ -11,7 +11,7 @@ import ch.ergon.dope.resolvable.expression.rowscope.aggregate.arrayAggregate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayRowScopeExpressionTest : ManagerDependentTest {
+class ArrayAggregateExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test

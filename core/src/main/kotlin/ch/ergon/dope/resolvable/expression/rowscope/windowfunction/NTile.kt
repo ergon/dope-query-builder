@@ -1,5 +1,10 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFunctionArguments
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
@@ -7,7 +12,7 @@ import ch.ergon.dope.validtype.ValidType
 
 private const val NTILE = "NTILE"
 
-class NTile : WindowFunction<NumberType> {
+class NTile : WindowFunctionExpression<NumberType> {
     constructor(
         numTiles: TypeExpression<NumberType>,
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,

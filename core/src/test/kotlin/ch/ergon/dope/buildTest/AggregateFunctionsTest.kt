@@ -728,4 +728,35 @@ class AggregateFunctionsTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support aggregate with a window reference`() {
+        val expected = "SELECT STDDEV(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(
+                stdDev(someNumberField()).withWindow("ref"),
+            ).from(
+                person,
+            )
+            .windowReference("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aggregate with a window over clause`() {
+        val expected = "SELECT STDDEV(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(
+                stdDev(someNumberField()).withWindow(windowPartitionClause = listOf(someStringField())),
+            ).from(
+                person,
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
 }

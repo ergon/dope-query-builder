@@ -6,29 +6,29 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
 import ch.ergon.dope.resolvable.expression.rowscope.alias
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Between
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.CurrentRow
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Following
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.LAST
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder.NULLS_FIRST
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder.NULLS_LAST
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameExclusion.EXCLUDE_NO_OTHERS
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameType.ROWS
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.cumeDist
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.denseRank
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.firstValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lag
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lastValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Between
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.CurrentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Following
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder.NULLS_FIRST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameExclusion.EXCLUDE_NO_OTHERS
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameType.ROWS
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.rowNumber
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WindowFunctionTest {
+class WindowFunctionExpressionTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest

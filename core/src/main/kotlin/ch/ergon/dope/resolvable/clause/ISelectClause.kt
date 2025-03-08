@@ -25,7 +25,7 @@ import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression

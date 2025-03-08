@@ -2,34 +2,32 @@ package ch.ergon.dope.resolvable.expression.rowscope.aggregate
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClauseWindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClauseWindowReference
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
-import kotlin.reflect.full.primaryConstructor
 
 sealed class AggregateFunctionExpression<T : ValidType>(
-    val symbol: String,
-    val field: Field<out ValidType>,
-    val quantifier: AggregateQuantifier?,
-    val overClause: OverClause? = null,
+    private val symbol: String,
+    private val resolvable: Resolvable,
+    private val quantifier: AggregateQuantifier?,
 ) : FunctionOperator, RowScopeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val fieldDopeQuery = field.toDopeQuery(manager)
-        val overClauseDopeQuery = overClause?.toDopeQuery(manager)
+        val resolvableDopeQuery = resolvable.toDopeQuery(manager)
         val quantifierString = quantifier?.let { "${quantifier.queryString} " }.orEmpty()
-        val fieldQuantifierString = quantifierString + fieldDopeQuery.queryString
+        val resolvableQuantifierString = quantifierString + resolvableDopeQuery.queryString
         return DopeQuery(
-            queryString = toFunctionQueryString(symbol, fieldQuantifierString) + overClauseDopeQuery?.let { " ${it.queryString}" }.orEmpty(),
-            parameters = fieldDopeQuery.parameters,
+            queryString = toFunctionQueryString(symbol, resolvableQuantifierString),
+            parameters = resolvableDopeQuery.parameters,
         )
     }
 
@@ -38,21 +36,31 @@ sealed class AggregateFunctionExpression<T : ValidType>(
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
-    ): AggregateFunctionExpression<T> {
-        val newOverClause = OverClauseWindowDefinition(
-            WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause),
-        )
-
-        return this::class.primaryConstructor?.call(field, quantifier, newOverClause)
-            ?: throw IllegalStateException("No valid constructor found for ${this::class.simpleName}")
-    }
+    ): AggregateFunctionExpression<T> = AggregateFunctionWithWindowExpression(
+        symbol,
+        resolvable,
+        quantifier,
+        OverClauseWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)),
+    )
 
     fun withWindow(
         windowReference: String,
-    ): AggregateFunctionExpression<T> {
-        val newOverClause = OverClauseWindowReference(windowReference)
+    ): AggregateFunctionExpression<T> =
+        AggregateFunctionWithWindowExpression(symbol, resolvable, quantifier, OverClauseWindowReference(windowReference))
+}
 
-        return this::class.primaryConstructor?.call(symbol, field, quantifier, newOverClause)
-            ?: throw IllegalStateException("No valid constructor found for ${this::class.simpleName}")
+private class AggregateFunctionWithWindowExpression<T : ValidType>(
+    symbol: String,
+    resolvable: Resolvable,
+    quantifier: AggregateQuantifier?,
+    private val overClause: OverClause,
+) : AggregateFunctionExpression<T>(symbol, resolvable, quantifier) {
+    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
+        val aggregateFunctionDopeQuery = super.toDopeQuery(manager)
+        val overClauseDopeQuery = overClause.toDopeQuery(manager)
+        return DopeQuery(
+            queryString = formatToQueryString(aggregateFunctionDopeQuery.queryString, overClauseDopeQuery.queryString),
+            parameters = aggregateFunctionDopeQuery.parameters.merge(overClauseDopeQuery.parameters),
+        )
     }
 }

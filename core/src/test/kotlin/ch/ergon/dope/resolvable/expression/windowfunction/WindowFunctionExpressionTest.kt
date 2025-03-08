@@ -16,26 +16,26 @@ import ch.ergon.dope.helper.someWindowFrameExclusion
 import ch.ergon.dope.helper.someWindowFrameExtent
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Between
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.CurrentRow
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Following
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsOrder.NULLS_LAST
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClauseWindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.OverClauseWindowReference
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Preceding
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.UnboundedFollowing
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.UnboundedPreceding
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameExclusion
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFrameType
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.WindowFunctionArguments
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Between
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.CurrentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Following
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Preceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.UnboundedFollowing
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.UnboundedPreceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameExclusion
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameType
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFunctionArguments
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WindowFunctionTest : ManagerDependentTest {
+class WindowFunctionExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
