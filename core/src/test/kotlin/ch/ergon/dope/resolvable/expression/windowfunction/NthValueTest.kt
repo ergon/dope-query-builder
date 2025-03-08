@@ -8,7 +8,8 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someWindowFrameClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.FIRST
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.LAST
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NthValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.RESPECT
@@ -81,7 +82,7 @@ class NthValueTest : ManagerDependentTest {
         val underTest = NthValue(
             someNumberField(),
             someNumberField(),
-            fromModifier = FromModifier.FIRST,
+            fromModifier = FIRST,
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
@@ -155,7 +156,7 @@ class NthValueTest : ManagerDependentTest {
         val expression = someNumberField()
         val offset = someNumberField()
         val nullsModifier = IGNORE
-        val fromModifier = FromModifier.LAST
+        val fromModifier = LAST
         val windowPartitionClause = listOf(someStringField())
         val windowOrderClause = listOf(someOrderingTerm())
         val windowFrameClause = someWindowFrameClause()
