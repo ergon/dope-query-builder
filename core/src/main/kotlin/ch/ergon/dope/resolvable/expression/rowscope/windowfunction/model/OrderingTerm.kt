@@ -7,9 +7,11 @@ import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.validtype.ValidType
 
+private const val NULLS = "NULLS"
+
 enum class NullsOrder(val queryString: String) {
-    NULLS_FIRST("NULLS FIRST"),
-    NULLS_LAST("NULLS LAST"),
+    NULLS_FIRST("$NULLS FIRST"),
+    NULLS_LAST("$NULLS LAST"),
 }
 
 class OrderingTerm(

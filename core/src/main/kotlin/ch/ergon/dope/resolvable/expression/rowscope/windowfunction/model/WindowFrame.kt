@@ -4,11 +4,13 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 
+private const val EXCLUDE = "EXCLUDE"
+
 enum class WindowFrameExclusion(val queryString: String) {
-    EXCLUDE_CURRENT_ROW("EXCLUDE CURRENT ROW"),
-    EXCLUDE_GROUP("EXCLUDE GROUP"),
-    EXCLUDE_TIES("EXCLUDE TIES"),
-    EXCLUDE_NO_OTHERS("EXCLUDE NO OTHERS"),
+    EXCLUDE_CURRENT_ROW("$EXCLUDE CURRENT ROW"),
+    EXCLUDE_GROUP("$EXCLUDE GROUP"),
+    EXCLUDE_TIES("$EXCLUDE TIES"),
+    EXCLUDE_NO_OTHERS("$EXCLUDE NO OTHERS"),
 }
 
 enum class WindowFrameType(val queryString: String) {

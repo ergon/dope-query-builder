@@ -7,6 +7,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
+private const val UNBOUNDED = "UNBOUNDED"
+private const val FOLLOWING = "FOLLOWING"
+private const val PRECEDING = "PRECEDING"
+
 interface WindowFrameExtent : Resolvable
 
 interface FrameBetween : Resolvable
@@ -25,11 +29,11 @@ class Between(private val between: FrameBetween, private val and: FrameAndBetwee
 }
 
 class UnboundedFollowing : FrameAndBetween {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED FOLLOWING")
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("$UNBOUNDED $FOLLOWING")
 }
 
 class UnboundedPreceding : FrameBetween, WindowFrameExtent {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("UNBOUNDED PRECEDING")
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("$UNBOUNDED $PRECEDING")
 }
 
 class CurrentRow : FrameBetween, FrameAndBetween, WindowFrameExtent {
@@ -49,7 +53,7 @@ class Following : FrameBetween, FrameAndBetween {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val offsetDopeQuery = offset.toDopeQuery(manager)
-        return DopeQuery("${offsetDopeQuery.queryString} FOLLOWING", offsetDopeQuery.parameters)
+        return DopeQuery("${offsetDopeQuery.queryString} $FOLLOWING", offsetDopeQuery.parameters)
     }
 }
 
@@ -66,6 +70,6 @@ class Preceding : FrameBetween, FrameAndBetween, WindowFrameExtent {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val offsetDopeQuery = offset.toDopeQuery(manager)
-        return DopeQuery("${offsetDopeQuery.queryString} PRECEDING", offsetDopeQuery.parameters)
+        return DopeQuery("${offsetDopeQuery.queryString} $PRECEDING", offsetDopeQuery.parameters)
     }
 }
