@@ -7,7 +7,6 @@ import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Joinable
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.Updatable
-import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.validtype.ObjectType
 
@@ -34,5 +33,3 @@ class AliasedBucketDefinition(val name: String, val alias: String) : Resolvable 
         queryString = "`$name` AS `$alias`",
     )
 }
-
-fun Bucket.asterisk() = asterisk(this)
