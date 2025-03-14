@@ -5,7 +5,7 @@ import ch.ergon.dope.validtype.NumberType
 
 class MeanExpression(
     number: Field<NumberType>,
-    quantifier: AggregateQuantifier?,
+    quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<NumberType>("MEAN", number, quantifier)
 
 fun mean(number: Field<NumberType>, quantifier: AggregateQuantifier? = null) = MeanExpression(

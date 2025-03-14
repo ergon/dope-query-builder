@@ -5,7 +5,7 @@ import ch.ergon.dope.validtype.NumberType
 
 class MedianExpression(
     number: Field<NumberType>,
-    quantifier: AggregateQuantifier?,
+    quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<NumberType>("MEDIAN", number, quantifier)
 
 fun median(number: Field<NumberType>, quantifier: AggregateQuantifier? = null) = MedianExpression(

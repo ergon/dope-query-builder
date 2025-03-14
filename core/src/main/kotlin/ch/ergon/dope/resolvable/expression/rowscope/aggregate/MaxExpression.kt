@@ -5,7 +5,7 @@ import ch.ergon.dope.validtype.ValidType
 
 class MaxExpression<T : ValidType>(
     field: Field<T>,
-    quantifier: AggregateQuantifier?,
+    quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<T>("MAX", field, quantifier)
 
 fun <T : ValidType> max(field: Field<T>, quantifier: AggregateQuantifier? = null) = MaxExpression(

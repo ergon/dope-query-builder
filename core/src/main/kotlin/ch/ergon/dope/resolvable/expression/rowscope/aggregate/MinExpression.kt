@@ -5,7 +5,7 @@ import ch.ergon.dope.validtype.ValidType
 
 class MinExpression<T : ValidType>(
     field: Field<T>,
-    quantifier: AggregateQuantifier?,
+    quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<T>("MIN", field, quantifier)
 
 fun min(field: Field<out ValidType>, quantifier: AggregateQuantifier? = null) = MinExpression(

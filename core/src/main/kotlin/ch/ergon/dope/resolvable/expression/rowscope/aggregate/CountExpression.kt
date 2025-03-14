@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.ValidType
 
 class CountExpression(
     field: Field<out ValidType>,
-    quantifier: AggregateQuantifier?,
+    quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<NumberType>("COUNT", field, quantifier)
 
 fun count(field: Field<out ValidType>, quantifier: AggregateQuantifier? = null) = CountExpression(field, quantifier)
