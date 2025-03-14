@@ -28,7 +28,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WindowFunctionExpressionTest {
+class WindowFunctionTest {
     private lateinit var create: QueryBuilder
 
     @BeforeTest
