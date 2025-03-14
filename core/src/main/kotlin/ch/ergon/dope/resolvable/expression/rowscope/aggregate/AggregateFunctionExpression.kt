@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.rowscope.aggregate
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
@@ -18,16 +18,16 @@ import ch.ergon.dope.validtype.ValidType
 
 sealed class AggregateFunctionExpression<T : ValidType>(
     private val symbol: String,
-    private val resolvable: Resolvable,
+    private val selectable: Selectable,
     private val quantifier: AggregateQuantifier?,
 ) : FunctionOperator, RowScopeExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val resolvableDopeQuery = resolvable.toDopeQuery(manager)
+        val selectableDopeQuery = selectable.toDopeQuery(manager)
         val quantifierString = quantifier?.let { "${quantifier.queryString} " }.orEmpty()
-        val resolvableQuantifierString = quantifierString + resolvableDopeQuery.queryString
+        val resolvableQuantifierString = quantifierString + selectableDopeQuery.queryString
         return DopeQuery(
             queryString = toFunctionQueryString(symbol, resolvableQuantifierString),
-            parameters = resolvableDopeQuery.parameters,
+            parameters = selectableDopeQuery.parameters,
         )
     }
 
@@ -38,7 +38,7 @@ sealed class AggregateFunctionExpression<T : ValidType>(
         windowFrameClause: WindowFrameClause? = null,
     ): AggregateFunctionExpression<T> = AggregateFunctionWithWindowExpression(
         symbol,
-        resolvable,
+        selectable,
         quantifier,
         OverClauseWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)),
     )
@@ -46,15 +46,15 @@ sealed class AggregateFunctionExpression<T : ValidType>(
     fun withWindow(
         windowReference: String,
     ): AggregateFunctionExpression<T> =
-        AggregateFunctionWithWindowExpression(symbol, resolvable, quantifier, OverClauseWindowReference(windowReference))
+        AggregateFunctionWithWindowExpression(symbol, selectable, quantifier, OverClauseWindowReference(windowReference))
 }
 
 private class AggregateFunctionWithWindowExpression<T : ValidType>(
     symbol: String,
-    resolvable: Resolvable,
+    selectable: Selectable,
     quantifier: AggregateQuantifier?,
     private val overClause: OverClause,
-) : AggregateFunctionExpression<T>(symbol, resolvable, quantifier) {
+) : AggregateFunctionExpression<T>(symbol, selectable, quantifier) {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val aggregateFunctionDopeQuery = super.toDopeQuery(manager)
         val overClauseDopeQuery = overClause.toDopeQuery(manager)
