@@ -10,10 +10,14 @@ import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
+import ch.ergon.dope.resolvable.clause.model.With
+import ch.ergon.dope.resolvable.clause.model.WithClause
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.validtype.ValidType
 
 class QueryBuilder {
+    fun withCommonTableExpressions(with: With<out ValidType>, vararg additionalWiths: With<out ValidType>) = WithClause(with, *additionalWiths)
+
     fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions)
 
     fun selectAsterisk() = SelectClause(asterisk())

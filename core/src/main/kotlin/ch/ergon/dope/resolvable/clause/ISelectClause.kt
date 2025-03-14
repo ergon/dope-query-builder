@@ -3,6 +3,9 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
@@ -16,12 +19,16 @@ import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
+import ch.ergon.dope.resolvable.clause.model.SelectClause
+import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
+import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
+import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -146,4 +153,17 @@ interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
     fun from(fromable: Fromable) = FromClause(fromable, this)
+}
+
+interface ISelectWithClause : Resolvable {
+    fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions, parentClause = this)
+
+    fun selectAsterisk() = SelectClause(asterisk(), parentClause = this)
+
+    fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
+        SelectDistinctClause(expression, *expressions, parentClause = this)
+
+    fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression, parentClause = this)
+
+    fun selectFrom(fromable: Fromable) = SelectClause(asterisk(), parentClause = this).from(fromable)
 }
