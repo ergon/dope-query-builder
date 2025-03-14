@@ -10,10 +10,13 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.toRawValues
+import ch.ergon.dope.resolvable.bucket.asterisk
 import ch.ergon.dope.resolvable.clause.intersect
+import ch.ergon.dope.resolvable.clause.model.asCTE
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.collection.any
+import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isGreaterOrEqualThan
@@ -252,5 +255,25 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         val result = queryResult.toMapValues()
 
         assertEquals(listOf(1, 2, 3), result["subQuery"])
+    }
+
+    @Test
+    fun `select with common table expressions and let variables`() {
+        val create = QueryBuilder()
+        val cteSubquery = "subquery".asCTE(
+            create.select(testBucket.asterisk()).from(testBucket).where(typeField.isEqualTo("client")).orderBy(idField),
+        )
+        val dopeQuery = create
+            .withCommonTableExpressions(
+                cteSubquery,
+            )
+            .select(
+                cteSubquery.get(0),
+            ).build()
+
+        val queryResult = queryWithoutParameters(dopeQuery)
+        val result = queryResult.toMapValues()
+
+        assertEquals(mapOf("id" to 1, "isActive" to false, "name" to "client1", "type" to "client"), result["$1"])
     }
 }

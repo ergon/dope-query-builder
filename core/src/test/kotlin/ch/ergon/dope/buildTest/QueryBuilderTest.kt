@@ -15,9 +15,11 @@ import ch.ergon.dope.resolvable.clause.except
 import ch.ergon.dope.resolvable.clause.exceptAll
 import ch.ergon.dope.resolvable.clause.intersect
 import ch.ergon.dope.resolvable.clause.intersectAll
+import ch.ergon.dope.resolvable.clause.model.asCTE
 import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.clause.union
 import ch.ergon.dope.resolvable.clause.unionAll
+import ch.ergon.dope.resolvable.expression.aggregate.avg
 import ch.ergon.dope.resolvable.expression.type.FALSE
 import ch.ergon.dope.resolvable.expression.type.MISSING
 import ch.ergon.dope.resolvable.expression.type.NULL
@@ -30,6 +32,7 @@ import ch.ergon.dope.resolvable.expression.type.condition
 import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.string.nowString
+import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.logic.not
 import ch.ergon.dope.resolvable.expression.type.logic.or
@@ -923,6 +926,38 @@ class QueryBuilderTest : ManagerDependentTest {
             .where(
                 someStringField("airline", t1).isEqualTo("AI")
                     .and(destinationAirport.inArray(sourceAirports)),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support with clause before query`() {
+        val hotel = someBucket("hotel")
+        val publicLikes = someNumberField("publicLikes", hotel)
+        val cte = hotel.alias("cte")
+        val ctePublicLikes = someNumberField("publicLikes", cte)
+        val avgLikeCount = "avgLikeCount".asCTE(
+            create.selectRaw(avg(ctePublicLikes)).from(cte),
+        )
+
+        val expected = "WITH `avgLikeCount` AS ((SELECT RAW AVG(`cte`.`publicLikes`) FROM `hotel` AS `cte`)) " +
+            "SELECT `hotel`.`publicLikes` AS `likeCount` FROM `hotel` " +
+            "WHERE `hotel`.`publicLikes` >= `avgLikeCount`[0] LIMIT 5"
+
+        val actual = create
+            .withCommonTableExpressions(avgLikeCount)
+            .select(
+                publicLikes.alias("likeCount"),
+            )
+            .from(
+                hotel,
+            )
+            .where(
+                publicLikes.isGreaterOrEqualThan(avgLikeCount.get(0)),
+            )
+            .limit(
+                5,
             ).build().queryString
 
         assertEquals(expected, actual)
