@@ -83,7 +83,6 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
             .orderBy(nameField)
             .thenOrderBy(idField)
             .build()
-            .also { println(it.queryString) }
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
