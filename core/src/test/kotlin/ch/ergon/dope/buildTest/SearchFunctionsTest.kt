@@ -25,15 +25,16 @@ class SearchFunctionsTest : ManagerDependentTest {
 
     @Test
     fun `should support search function on field and string query`() {
+        val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`.`stringField`, \"+something\")"
 
         val actual = create.select(
             meta().id,
         ).from(
-            someBucket(),
+            bucket,
         ).where(
             fullTextSearch(
-                someStringField(bucket = someBucket()),
+                someStringField(bucket = bucket),
                 "+something",
             ),
         ).build().queryString
@@ -43,15 +44,16 @@ class SearchFunctionsTest : ManagerDependentTest {
 
     @Test
     fun `should support search function on bucket with string query`() {
+        val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, \"stringField:\"something\"\")"
 
         val actual = create.select(
             meta().id,
         ).from(
-            someBucket(),
+            bucket,
         ).where(
             fullTextSearch(
-                someBucket(),
+                bucket,
                 "stringField:\"something\"",
             ),
         ).build().queryString
@@ -81,6 +83,7 @@ class SearchFunctionsTest : ManagerDependentTest {
 
     @Test
     fun `should support search function on bucket with object query`() {
+        val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, {\"disjuncts\" : " +
             "[{\"regexp\" : \"(?i).*123.*\", \"field\" : \"someField\"}, " +
             "{\"regexp\" : \"(?i).*123.*\", \"field\" : \"anotherField\"}]}) " +
@@ -90,10 +93,10 @@ class SearchFunctionsTest : ManagerDependentTest {
             .select(
                 meta().id,
             ).from(
-                someBucket(),
+                bucket,
             ).where(
                 fullTextSearch(
-                    someBucket(),
+                    bucket,
                     mapOf(
                         "disjuncts" to listOf(
                             mapOf("regexp" to "(?i).*123.*", "field" to "someField"),
