@@ -2,6 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.extension.expression.asterisk
 import ch.ergon.dope.extension.expression.type.function.array.unpack
 import ch.ergon.dope.extension.expression.type.get
 import ch.ergon.dope.extension.expression.type.getField
@@ -131,6 +132,25 @@ class ObjectTest : ManagerDependentTest {
             .from(bucket)
             .where(
                 objectField.getField(Hobby::name).inArray(schema.hobbies.unpack().getStringArray("name")),
+            )
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support selecting asterisk on cm object field`() {
+        val bucket = someBucket().alias("p")
+        val schema = Person("p")
+        val objectField = schema.primaryHobby
+        val expected = "SELECT `p`.`primaryHobby`.* FROM `someBucket` AS `p`"
+
+        val actual = QueryBuilder()
+            .select(
+                objectField.asterisk(),
+            )
+            .from(
+                bucket,
             )
             .build().queryString
 

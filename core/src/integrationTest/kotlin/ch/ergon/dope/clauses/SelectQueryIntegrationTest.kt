@@ -10,7 +10,7 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.toRawValues
-import ch.ergon.dope.resolvable.bucket.asterisk
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.clause.intersect
 import ch.ergon.dope.resolvable.clause.model.asCTE
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -255,6 +255,26 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         val result = queryResult.toMapValues()
 
         assertEquals(listOf(1, 2, 3), result["subQuery"])
+    }
+
+    @Test
+    fun `select with star expression`() {
+        val dopeQuery = QueryBuilder()
+            .select(
+                testBucket.asterisk(),
+            )
+            .from(
+                testBucket,
+            )
+            .where(
+                typeField.isEqualTo("client").and(isActiveField),
+            )
+            .build()
+
+        val queryResult = queryWithoutParameters(dopeQuery)
+
+        assertEquals(mapOf("id" to 2, "isActive" to true, "name" to "client2", "type" to "client"), queryResult.toMapValues(rowNumber = 0))
+        assertEquals(mapOf("id" to 4, "isActive" to true, "name" to "client4", "type" to "client"), queryResult.toMapValues(rowNumber = 1))
     }
 
     @Test
