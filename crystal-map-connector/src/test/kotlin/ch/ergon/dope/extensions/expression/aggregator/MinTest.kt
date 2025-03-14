@@ -9,8 +9,8 @@ import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.aggregate.MinExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MinExpression
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals

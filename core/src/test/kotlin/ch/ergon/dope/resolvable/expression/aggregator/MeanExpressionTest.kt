@@ -4,10 +4,10 @@ import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.DISTINCT
-import ch.ergon.dope.resolvable.expression.aggregate.MeanExpression
-import ch.ergon.dope.resolvable.expression.aggregate.mean
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MeanExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.mean
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

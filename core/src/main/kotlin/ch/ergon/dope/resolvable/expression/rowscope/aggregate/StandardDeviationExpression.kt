@@ -1,11 +1,11 @@
-package ch.ergon.dope.resolvable.expression.aggregate
+package ch.ergon.dope.resolvable.expression.rowscope.aggregate
 
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.NumberType
 
 class StandardDeviationExpression(
     number: Field<NumberType>,
-    quantifier: AggregateQuantifier?,
+    quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<NumberType>("STDDEV", number, quantifier)
 
 fun stdDev(number: Field<NumberType>, quantifier: AggregateQuantifier? = null) = StandardDeviationExpression(

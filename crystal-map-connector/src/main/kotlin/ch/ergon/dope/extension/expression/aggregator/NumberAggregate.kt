@@ -1,18 +1,18 @@
 package ch.ergon.dope.extension.expression.aggregator
 
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier
-import ch.ergon.dope.resolvable.expression.aggregate.AverageExpression
-import ch.ergon.dope.resolvable.expression.aggregate.MeanExpression
-import ch.ergon.dope.resolvable.expression.aggregate.MedianExpression
-import ch.ergon.dope.resolvable.expression.aggregate.StandardDeviationExpression
-import ch.ergon.dope.resolvable.expression.aggregate.SumExpression
-import ch.ergon.dope.resolvable.expression.aggregate.VarianceExpression
-import ch.ergon.dope.resolvable.expression.aggregate.avg
-import ch.ergon.dope.resolvable.expression.aggregate.mean
-import ch.ergon.dope.resolvable.expression.aggregate.median
-import ch.ergon.dope.resolvable.expression.aggregate.stdDev
-import ch.ergon.dope.resolvable.expression.aggregate.sum
-import ch.ergon.dope.resolvable.expression.aggregate.variance
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AverageExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MeanExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MedianExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.StandardDeviationExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.SumExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.VarianceExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.avg
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.mean
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.median
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.stdDev
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.sum
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.variance
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 

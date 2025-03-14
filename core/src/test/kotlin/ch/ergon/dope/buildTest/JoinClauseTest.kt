@@ -6,8 +6,8 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.bucket.useIndex
-import ch.ergon.dope.resolvable.expression.aggregate.alias
-import ch.ergon.dope.resolvable.expression.aggregate.min
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.min
+import ch.ergon.dope.resolvable.expression.rowscope.alias
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.meta
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo

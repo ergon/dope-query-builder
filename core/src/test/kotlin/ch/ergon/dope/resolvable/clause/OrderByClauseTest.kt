@@ -9,9 +9,9 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderExpression
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
-import ch.ergon.dope.resolvable.clause.model.OrderByType.DESC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
+import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
+import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.function.string.concat

@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.aggregate
+package ch.ergon.dope.resolvable.expression.rowscope
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
@@ -6,24 +6,21 @@ import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
-class AliasedAggregateExpression<T : ValidType>(
-    private val aggregateExpression: AggregateExpression<T>,
+class AliasedRowScopeExpression<T : ValidType>(
+    private val rowScopeExpression: RowScopeExpression<T>,
     private val alias: String,
 ) : Expression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val aggregateExpressionDopeQuery = aggregateExpression.toDopeQuery(manager)
+        val rowScopeExpressionDopeQuery = rowScopeExpression.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
-                aggregateExpressionDopeQuery.queryString,
+                rowScopeExpressionDopeQuery.queryString,
                 symbol = "AS",
                 "`$alias`",
             ),
-            parameters = aggregateExpressionDopeQuery.parameters,
+            parameters = rowScopeExpressionDopeQuery.parameters,
         )
     }
 }
 
-fun <T : ValidType> AggregateExpression<T>.alias(alias: String) = AliasedAggregateExpression(
-    this,
-    alias,
-)
+fun <T : ValidType> RowScopeExpression<T>.alias(alias: String) = AliasedRowScopeExpression(this, alias)

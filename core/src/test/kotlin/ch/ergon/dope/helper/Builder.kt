@@ -3,9 +3,18 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
-import ch.ergon.dope.resolvable.clause.model.OrderByType
-import ch.ergon.dope.resolvable.clause.model.OrderByType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
+import ch.ergon.dope.resolvable.clause.model.OrderType
+import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.UnboundedPreceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameExclusion
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameExtent
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameType
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameType.RANGE
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TRUE
@@ -72,7 +81,35 @@ fun someStringSearchNumberResult(
     resultExpression: TypeExpression<NumberType> = someNumber().toDopeType(),
 ) = SearchResult(searchExpression, resultExpression)
 
-fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderByType = ASC) = OrderExpression(
+fun someOrderExpression(typeExpression: TypeExpression<StringType> = someStringField(), orderByType: OrderType = ASC) = OrderExpression(
     typeExpression,
     orderByType,
 )
+
+fun someOrderingTerm(
+    expression: TypeExpression<out ValidType> = someStringField(),
+    orderType: OrderType? = null,
+    nullsOrder: NullsOrder? = null,
+) = OrderingTerm(expression, orderType, nullsOrder)
+
+fun someWindowDefinition(
+    windowReference: TypeExpression<StringType>? = null,
+    windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    windowOrderClause: List<OrderingTerm>? = null,
+    windowFrameClause: WindowFrameClause? = null,
+) = WindowDefinition(
+    windowReference = windowReference,
+    windowPartitionClause = windowPartitionClause,
+    windowOrderClause = windowOrderClause,
+    windowFrameClause = windowFrameClause,
+)
+
+fun someWindowFrameClause(
+    windowFrameType: WindowFrameType = RANGE,
+    windowFrameExtent: WindowFrameExtent = someWindowFrameExtent(),
+    windowFrameExclusion: WindowFrameExclusion? = null,
+) = WindowFrameClause(windowFrameType, windowFrameExtent, windowFrameExclusion)
+
+fun someWindowFrameExtent() = UnboundedPreceding()
+
+fun someWindowFrameExclusion() = WindowFrameExclusion.EXCLUDE_GROUP

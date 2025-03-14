@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.expression.aggregator
 
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier
-import ch.ergon.dope.resolvable.expression.aggregate.max
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.max
 import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList

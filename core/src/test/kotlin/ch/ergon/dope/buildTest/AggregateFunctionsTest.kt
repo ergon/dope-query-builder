@@ -8,20 +8,20 @@ import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.ALL
-import ch.ergon.dope.resolvable.expression.aggregate.AggregateQuantifier.DISTINCT
-import ch.ergon.dope.resolvable.expression.aggregate.alias
-import ch.ergon.dope.resolvable.expression.aggregate.arrayAggregate
-import ch.ergon.dope.resolvable.expression.aggregate.avg
-import ch.ergon.dope.resolvable.expression.aggregate.count
-import ch.ergon.dope.resolvable.expression.aggregate.countAsterisk
-import ch.ergon.dope.resolvable.expression.aggregate.max
-import ch.ergon.dope.resolvable.expression.aggregate.mean
-import ch.ergon.dope.resolvable.expression.aggregate.median
-import ch.ergon.dope.resolvable.expression.aggregate.min
-import ch.ergon.dope.resolvable.expression.aggregate.stdDev
-import ch.ergon.dope.resolvable.expression.aggregate.sum
-import ch.ergon.dope.resolvable.expression.aggregate.variance
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.arrayAggregate
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.avg
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.count
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.countAsterisk
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.max
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.mean
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.median
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.min
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.stdDev
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.sum
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.variance
+import ch.ergon.dope.resolvable.expression.rowscope.alias
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -725,6 +725,37 @@ class AggregateFunctionsTest {
             ).from(
                 person,
             ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aggregate with a window reference`() {
+        val expected = "SELECT STDDEV(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(
+                stdDev(someNumberField()).withWindow("ref"),
+            ).from(
+                person,
+            )
+            .windowReference("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aggregate with a window over clause`() {
+        val expected = "SELECT STDDEV(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(
+                stdDev(someNumberField()).withWindow(windowPartitionClause = listOf(someStringField())),
+            ).from(
+                person,
+            )
+            .build().queryString
 
         assertEquals(expected, actual)
     }
