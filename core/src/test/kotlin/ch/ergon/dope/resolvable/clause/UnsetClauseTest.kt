@@ -66,7 +66,7 @@ class UnsetClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.unset(stringField).unset(numberField)
+        val actual = parentClause.unset(stringField, numberField)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
