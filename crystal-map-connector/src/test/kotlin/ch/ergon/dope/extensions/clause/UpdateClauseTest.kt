@@ -69,7 +69,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(numberField to numberValue)
+        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -99,7 +99,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue).set(stringField to stringValue)
+        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -129,7 +129,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(booleanField to booleanValue)
+        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -159,7 +159,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(numberField to numberValue)
+        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -189,7 +189,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue).set(stringField to stringValue)
+        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -219,7 +219,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(booleanField to booleanValue)
+        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -261,7 +261,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(numberField to numberValue)
+        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -291,7 +291,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue).set(stringField to stringValue)
+        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -321,7 +321,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(booleanField to booleanValue)
+        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -351,7 +351,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(numberField to numberValue)
+        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -381,7 +381,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue).set(stringField to stringValue)
+        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -411,7 +411,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(booleanField to booleanValue)
+        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -441,7 +441,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(numberField to numberValue)
+        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -471,7 +471,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(dateField to dateValue)
+        val actual = parentClause.set(stringField to stringValue, dateField to dateValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -501,7 +501,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue).set(stringField to stringValue)
+        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -531,7 +531,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(dateField to dateValue)
+        val actual = parentClause.set(stringField to stringValue, dateField to dateValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -561,7 +561,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(booleanField to booleanValue)
+        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -591,7 +591,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue).set(dateField to dateValue)
+        val actual = parentClause.set(stringField to stringValue, dateField to dateValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -620,7 +620,7 @@ class UpdateClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.unset(numberField).unset(booleanField).unset(stringField)
+        val actual = parentClause.unset(numberField, booleanField, stringField)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

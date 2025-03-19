@@ -45,9 +45,11 @@ interface IUpdateUnsetClause : IUpdateWhereClause {
 }
 
 interface IUpdateSetClause : IUpdateUnsetClause {
-    fun unset(field: Field<out ValidType>) = UnsetClause(field, parentClause = this)
+    fun unset(field: Field<out ValidType>, vararg fields: Field<out ValidType>) =
+        UnsetClause(field, *fields, parentClause = this)
 }
 
 interface IUpdateClause : IUpdateSetClause {
-    fun set(setAssignment: SetAssignment<out ValidType>) = SetClause(setAssignment, parentClause = this)
+    fun set(setAssignment: SetAssignment<out ValidType>, vararg setAssignments: SetAssignment<out ValidType>) =
+        SetClause(setAssignment, *setAssignments, parentClause = this)
 }

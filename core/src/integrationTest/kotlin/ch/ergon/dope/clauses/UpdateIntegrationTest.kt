@@ -34,7 +34,6 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
             )
             .set(
                 newField to "newName",
-            ).set(
                 newNullField to NULL,
             )
             .unset(

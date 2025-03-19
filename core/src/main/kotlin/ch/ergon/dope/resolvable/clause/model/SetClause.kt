@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.clause.model
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.clause.IUpdateClause
 import ch.ergon.dope.resolvable.clause.IUpdateSetClause
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -14,34 +15,26 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class SetClause(
-    private val fieldAssignment: SetAssignment<out ValidType>,
-    private vararg val fieldAssignments: SetAssignment<out ValidType>,
-    private val parentClause: IUpdateSetClause,
+    private val setAssignment: SetAssignment<out ValidType>,
+    private vararg val setAssignments: SetAssignment<out ValidType>,
+    private val parentClause: IUpdateClause,
 ) : IUpdateSetClause {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val fieldAssignmentDopeQuery = fieldAssignment.toDopeQuery(manager)
-        val fieldAssignmentsDopeQuery = fieldAssignments.map { it.toDopeQuery(manager) }
+        val setAssignmentDopeQuery = setAssignment.toDopeQuery(manager)
+        val setAssignmentsDopeQuery = setAssignments.map { it.toDopeQuery(manager) }
         val parentClauseDopeQuery = parentClause.toDopeQuery(manager)
         return DopeQuery(
             queryString = formatToQueryString(
                 "${parentClauseDopeQuery.queryString} SET",
-                fieldAssignmentDopeQuery.queryString,
-                *fieldAssignmentsDopeQuery.map { it.queryString }.toTypedArray(),
+                setAssignmentDopeQuery.queryString,
+                *setAssignmentsDopeQuery.map { it.queryString }.toTypedArray(),
             ),
             parameters = parentClauseDopeQuery.parameters.merge(
-                fieldAssignmentDopeQuery.parameters,
-                *fieldAssignmentsDopeQuery.map { it.parameters }.toTypedArray(),
+                setAssignmentDopeQuery.parameters,
+                *setAssignmentsDopeQuery.map { it.parameters }.toTypedArray(),
             ),
         )
     }
-
-    fun set(setAssignment: SetAssignment<out ValidType>) =
-        SetClause(
-            this.fieldAssignment,
-            *this.fieldAssignments,
-            setAssignment,
-            parentClause = this.parentClause,
-        )
 }
 
 class SetAssignment<T : ValidType>(

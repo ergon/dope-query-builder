@@ -45,8 +45,6 @@ class UpdateTest {
                 someBucket(),
             ).set(
                 meta().expiration to 10.toDopeType(),
-            )
-            .set(
                 someStringField() to "test".toDopeType(),
             )
             .build().queryString
@@ -128,9 +126,7 @@ class UpdateTest {
                 bucket.useKeys("keyString"),
             ).set(
                 setThisNumberField to 1.toDopeType(),
-            ).set(
                 meta(someBucket().alias("sb")).expiration to 3600.toDopeType(),
-            ).set(
                 someStringField() to NULL,
             ).unset(
                 someStringField("unsetThisStringField"),

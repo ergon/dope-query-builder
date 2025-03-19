@@ -1,6 +1,7 @@
 package ch.ergon.dope.extension.clause
 
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
+import ch.ergon.dope.resolvable.clause.IUpdateSetClause
 import ch.ergon.dope.resolvable.clause.IUpdateUnsetClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.SetAssignment
@@ -33,11 +34,8 @@ fun IUpdateWhereClause.limit(numberField: CMJsonField<Number>) = limit(numberFie
 
 fun IUpdateUnsetClause.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
-fun IUpdateUnsetClause.unset(field: CMType) =
-    UnsetClause(field.toDopeType(), parentClause = this)
-
-fun UnsetClause.unset(field: CMType) =
-    this.unset(field.toDopeType())
+fun IUpdateSetClause.unset(field: CMType, vararg fields: CMType) =
+    UnsetClause(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray(), parentClause = this)
 
 @JvmName("setCMNumberFieldToCMNumberField")
 infix fun CMJsonField<out Number>.to(value: CMJsonField<out Number>):

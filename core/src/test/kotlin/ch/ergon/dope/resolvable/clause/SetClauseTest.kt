@@ -184,9 +184,7 @@ class SetClauseTest : ManagerDependentTest {
         )
 
         val actual = parentClause
-            .set(stringField to stringValue)
-            .set(numberField to numberValue)
-            .set(booleanField to booleanValue)
+            .set(stringField to stringValue, numberField to numberValue, booleanField to booleanValue)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -210,10 +208,12 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(field to value)
-            .set(stringField to stringValue)
-            .set(numberField to numberValue)
-            .set(booleanField to booleanValue)
+        val actual = parentClause.set(
+            field to value,
+            stringField to stringValue,
+            numberField to numberValue,
+            booleanField to booleanValue,
+        )
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
