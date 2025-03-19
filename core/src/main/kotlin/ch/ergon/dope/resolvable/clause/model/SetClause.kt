@@ -35,37 +35,18 @@ class SetClause(
         )
     }
 
-    fun <T : ValidType> set(field: Field<T>, value: TypeExpression<T>) =
-        SetClause(this.fieldAssignment, *this.fieldAssignments, field.to(value), parentClause = this.parentClause)
-
-    fun set(field: Field<NumberType>, value: Number) =
+    fun set(setAssignment: SetAssignment<out ValidType>) =
         SetClause(
             this.fieldAssignment,
             *this.fieldAssignments,
-            field.to(value.toDopeType()),
-            parentClause = this.parentClause,
-        )
-
-    fun set(field: Field<StringType>, value: String) =
-        SetClause(
-            this.fieldAssignment,
-            *this.fieldAssignments,
-            field.to(value.toDopeType()),
-            parentClause = this.parentClause,
-        )
-
-    fun set(field: Field<BooleanType>, value: Boolean) =
-        SetClause(
-            this.fieldAssignment,
-            *this.fieldAssignments,
-            field.to(value.toDopeType()),
+            setAssignment,
             parentClause = this.parentClause,
         )
 }
 
 class SetAssignment<T : ValidType>(
     private val field: Field<T>,
-    private val value: TypeExpression<T>,
+    private val value: TypeExpression<out T>,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val fieldDopeQuery = field.toDopeQuery(manager)
@@ -77,4 +58,10 @@ class SetAssignment<T : ValidType>(
     }
 }
 
-fun <T : ValidType> Field<T>.to(value: TypeExpression<T>) = SetAssignment(this, value)
+infix fun <T : ValidType> Field<T>.to(value: TypeExpression<out T>) = SetAssignment(this, value)
+
+infix fun Field<NumberType>.to(value: Number) = to(value.toDopeType())
+
+infix fun Field<StringType>.to(value: String) = to(value.toDopeType())
+
+infix fun Field<BooleanType>.to(value: Boolean) = to(value.toDopeType())

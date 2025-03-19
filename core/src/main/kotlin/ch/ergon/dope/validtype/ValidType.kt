@@ -12,10 +12,12 @@ interface NumberType : ComparableType, AtomType
 
 interface StringType : ComparableType, AtomType
 
-interface NullType : ValidType
-
-interface MissingType : ValidType
-
 interface ArrayType<T : ValidType> : ValidType
 
 interface ObjectType : ComparableType, AtomType
+
+sealed interface SuperNullType<T : ValidType> : BooleanType, NumberType, StringType, ArrayType<T>, ObjectType
+
+typealias NullType = SuperNullType<out ValidType>
+
+interface MissingType : ValidType
