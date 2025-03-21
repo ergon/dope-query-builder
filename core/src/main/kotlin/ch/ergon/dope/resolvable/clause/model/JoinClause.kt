@@ -7,7 +7,6 @@ import ch.ergon.dope.resolvable.Joinable
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
-import ch.ergon.dope.resolvable.clause.ISelectJoinClause
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.JoinType.INNER_JOIN
@@ -29,13 +28,13 @@ private enum class JoinType(val type: String) {
     RIGHT_JOIN("RIGHT JOIN"),
 }
 
-private enum class OnType {
+enum class OnType {
     ON,
     ON_KEYS,
     ON_KEY_FOR,
 }
 
-sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
+sealed class JoinClause<T : ValidType> : ISelectFromClause<T> {
     private val joinType: JoinType
     private val joinable: Joinable
     private val onCondition: TypeExpression<BooleanType>?
@@ -168,7 +167,7 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
     }
 }
 
-class StandardJoinClause<T : ValidType> : SelectJoinClause<T> {
+class StandardJoinClause<T : ValidType> : JoinClause<T> {
     constructor(
         joinable: Joinable,
         onCondition: TypeExpression<BooleanType>,
@@ -195,7 +194,7 @@ class StandardJoinClause<T : ValidType> : SelectJoinClause<T> {
     ) : super(JOIN, joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
 }
 
-class LeftJoinClause<T : ValidType> : SelectJoinClause<T> {
+class LeftJoinClause<T : ValidType> : JoinClause<T> {
     constructor(
         joinable: Joinable,
         onCondition: TypeExpression<BooleanType>,
@@ -222,7 +221,7 @@ class LeftJoinClause<T : ValidType> : SelectJoinClause<T> {
     ) : super(LEFT_JOIN, joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
 }
 
-class InnerJoinClause<T : ValidType> : SelectJoinClause<T> {
+class InnerJoinClause<T : ValidType> : JoinClause<T> {
     constructor(
         joinable: Joinable,
         onCondition: TypeExpression<BooleanType>,
@@ -255,4 +254,4 @@ class RightJoinClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : SelectJoinClause<T>(RIGHT_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
+) : JoinClause<T>(RIGHT_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)

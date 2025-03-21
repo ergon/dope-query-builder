@@ -4,10 +4,13 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
+import ch.ergon.dope.extension.clause.innerNest
 import ch.ergon.dope.extension.clause.join
 import ch.ergon.dope.extension.clause.joinHint.keysHint
 import ch.ergon.dope.extension.clause.leftJoin
+import ch.ergon.dope.extension.clause.leftNest
 import ch.ergon.dope.extension.clause.limit
+import ch.ergon.dope.extension.clause.nest
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
 import ch.ergon.dope.extension.clause.thenOrderBy
@@ -29,7 +32,9 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestClause
 import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
@@ -37,6 +42,7 @@ import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
@@ -52,6 +58,81 @@ class SelectClauseTest : ManagerDependentTest {
         val expected = SelectWhereClause(field.toDopeType(), parentClause)
 
         val actual = parentClause.where(field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support standard nest on keys with CM`() {
+        val bucket = someBucket()
+        val field = someCMNumberField()
+        val parentClause = someFrom()
+        val expected = StandardNestClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.nest(bucket, onKeys = field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support standard nest on key for bucket with CM`() {
+        val bucket = someBucket()
+        val field = someCMNumberField()
+        val forBucket = someBucket()
+        val parentClause = someFrom()
+        val expected = StandardNestClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+
+        val actual = parentClause.nest(bucket, onKey = field, forBucket)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support inner nest on keys with CM`() {
+        val bucket = someBucket()
+        val field = someCMNumberField()
+        val parentClause = someFrom()
+        val expected = InnerNestClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.innerNest(bucket, onKeys = field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support inner nest on key for bucket with CM`() {
+        val bucket = someBucket()
+        val field = someCMNumberField()
+        val forBucket = someBucket()
+        val parentClause = someFrom()
+        val expected = InnerNestClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+
+        val actual = parentClause.innerNest(bucket, onKey = field, forBucket)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support left nest on keys with CM`() {
+        val bucket = someBucket()
+        val field = someCMNumberField()
+        val parentClause = someFrom()
+        val expected = LeftNestClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.leftNest(bucket, onKeys = field)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support left nest on key for bucket with CM`() {
+        val bucket = someBucket()
+        val field = someCMNumberField()
+        val forBucket = someBucket()
+        val parentClause = someFrom()
+        val expected = LeftNestClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+
+        val actual = parentClause.leftNest(bucket, onKey = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

@@ -19,6 +19,8 @@ import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
 const val BUCKET = "testBucket"
+const val MAX_RETRIES = 5
+const val MAX_TIMEOUT = 15 // seconds
 
 object TestCouchbaseDatabase {
     private val container = CouchbaseContainer(
@@ -46,13 +48,13 @@ object TestCouchbaseDatabase {
 
     fun resetDatabase() {
         runBlocking {
-            cluster.waitUntilReady(15.seconds).query("DELETE FROM $BUCKET").execute()
+            cluster.waitUntilReady(MAX_TIMEOUT.seconds).query("DELETE FROM $BUCKET").execute()
         }
         initDatabase()
     }
 
     private fun initContainer() {
-        container.withBucket(BucketDefinition(BUCKET))
+        container.withStartupAttempts(MAX_RETRIES).withBucket(BucketDefinition(BUCKET))
         container.start()
     }
 
@@ -60,7 +62,7 @@ object TestCouchbaseDatabase {
         val collection = cluster.bucket(BUCKET).defaultCollection()
         tryUntil {
             runBlocking {
-                cluster.waitUntilReady(15.seconds)
+                cluster.waitUntilReady(MAX_TIMEOUT.seconds)
                 (1..5).forEach { i ->
                     collection.upsert(
                         id = "employee:$i",
