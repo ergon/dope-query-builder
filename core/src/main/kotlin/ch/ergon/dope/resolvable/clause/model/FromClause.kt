@@ -6,11 +6,11 @@ import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.ISelectClause
-import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
+import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
-class FromClause<T : ValidType>(private val fromable: Fromable, private val parentClause: ISelectClause<T>) : ISelectUnnestClause<T> {
+class FromClause<T : ValidType>(private val fromable: Fromable, private val parentClause: ISelectClause<T>) : ISelectFromClause<T> {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)

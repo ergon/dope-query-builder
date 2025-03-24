@@ -13,6 +13,8 @@ interface Fromable : Resolvable
 
 interface Joinable : Resolvable
 
+interface Nestable : Resolvable
+
 interface Deletable : Resolvable
 
 interface Updatable : Resolvable

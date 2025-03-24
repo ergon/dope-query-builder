@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.ValidType
 class AliasedSelectClause<T : ValidType>(
     private val alias: String,
     private val parentClause: ISelectOffsetClause<T>,
-) : Fromable, Joinable, SingleExpression<T> {
+) : Fromable, Joinable, Nestable, SingleExpression<T> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery =
         DopeQuery(
             queryString = "`$alias`",
