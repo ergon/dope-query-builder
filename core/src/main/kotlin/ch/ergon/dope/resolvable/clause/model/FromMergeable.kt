@@ -23,7 +23,7 @@ enum class OnType {
     ON_KEY_FOR,
 }
 
-interface MergeType {
+sealed interface MergeType {
     val type: String
 }
 
@@ -103,7 +103,7 @@ sealed class FromMergeable<T : ValidType> : ISelectFromClause<T> {
             is AliasedSelectClause<*> -> mergeable.asAliasedSelectClauseDefinition().toDopeQuery(manager)
             else -> mergeable.toDopeQuery(manager)
         }
-        val joinHintsDopeQuery = if (hashOrNestedLoopHint != null || keysOrIndexHint != null) {
+        val hintsDopeQuery = if (hashOrNestedLoopHint != null || keysOrIndexHint != null) {
             val hashOrNestedLoopHintDopeQuery = hashOrNestedLoopHint?.toDopeQuery(manager)
             val keysOrIndexHintDopeQuery = keysOrIndexHint?.toDopeQuery(manager)
             DopeQuery(
@@ -120,10 +120,10 @@ sealed class FromMergeable<T : ValidType> : ISelectFromClause<T> {
             null
         }
         val mergeQueryString = "${parentDopeQuery.queryString} ${mergeType.type} ${mergeableDopeQuery.queryString}" +
-            joinHintsDopeQuery?.let { " ${joinHintsDopeQuery.queryString}" }.orEmpty()
+            hintsDopeQuery?.let { " ${hintsDopeQuery.queryString}" }.orEmpty()
         val mergeParameters = parentDopeQuery.parameters.merge(
             mergeableDopeQuery.parameters,
-            joinHintsDopeQuery?.parameters,
+            hintsDopeQuery?.parameters,
         )
 
         return when (onType) {
