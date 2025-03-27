@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowReference
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
@@ -16,7 +16,7 @@ class CumeDist : WindowFunctionExpression<NumberType> {
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     ) : super(
         functionName = CUME_DIST,
-        overClause = OverClauseWindowDefinition(
+        overDefinition = OverWindowDefinition(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
@@ -26,7 +26,7 @@ class CumeDist : WindowFunctionExpression<NumberType> {
 
     constructor(windowReference: String) : super(
         functionName = CUME_DIST,
-        overClause = OverClauseWindowReference(windowReference),
+        overDefinition = OverWindowReference(windowReference),
     )
 }
 

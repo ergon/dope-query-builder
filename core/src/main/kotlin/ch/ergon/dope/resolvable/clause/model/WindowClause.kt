@@ -6,7 +6,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectWindowClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ValidType
 
@@ -23,7 +23,7 @@ class WindowClause<T : ValidType>(
         return DopeQuery(
             queryString = formatToQueryStringWithSymbol(
                 parentDopeQuery.queryString,
-                "WINDOW",
+                symbol = "WINDOW",
                 windowDeclarationDopeQuery.queryString,
                 *windowDeclarationsDopeQueries.map { it.queryString }.toTypedArray(),
             ),
@@ -39,7 +39,7 @@ class WindowDeclaration(val reference: String, private val windowDefinition: Win
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val windowDefinitionDopeQuery = windowDefinition?.toDopeQuery(manager)
 
-        val windowDefinitionQueryString = windowDefinitionDopeQuery?.let { "(${it.queryString})" } ?: "()"
+        val windowDefinitionQueryString = "(${windowDefinitionDopeQuery?.queryString.orEmpty()})"
         return DopeQuery(
             queryString = "`$reference` AS $windowDefinitionQueryString",
             parameters = windowDefinitionDopeQuery?.parameters ?: DopeParameters(),

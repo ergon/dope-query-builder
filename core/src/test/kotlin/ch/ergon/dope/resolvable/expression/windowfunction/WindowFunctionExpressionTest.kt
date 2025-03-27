@@ -16,21 +16,20 @@ import ch.ergon.dope.helper.someWindowFrameExclusion
 import ch.ergon.dope.helper.someWindowFrameExtent
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Between
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.CurrentRow
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Following
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder.NULLS_LAST
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowReference
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Preceding
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.UnboundedFollowing
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.UnboundedPreceding
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameExclusion
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameType
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFunctionArguments
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Between
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.CurrentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Following
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Preceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.UnboundedFollowing
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.UnboundedPreceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameExclusion
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameType
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -101,61 +100,11 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support WindowFunctionArgument with one`() {
-        val expected = DopeQuery(
-            "`stringField`",
-        )
-        val underTest = WindowFunctionArguments(someStringField())
-
-        val actual = underTest.toDopeQuery(manager)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support WindowFunctionArgument with two`() {
-        val expected = DopeQuery(
-            "`stringField`, `numberField`",
-        )
-        val underTest = WindowFunctionArguments(someStringField(), someNumberField())
-
-        val actual = underTest.toDopeQuery(manager)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support WindowFunctionArgument with three`() {
-        val expected = DopeQuery(
-            "`stringField`, `numberField`, `booleanField`",
-        )
-        val underTest = WindowFunctionArguments(someStringField(), someNumberField(), someBooleanField())
-
-        val actual = underTest.toDopeQuery(manager)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support WindowFunctionArgument with three and parameter`() {
-        val value = someNumber()
-        val expected = DopeQuery(
-            "`stringField`, $1, `booleanField`",
-            DopeParameters(positionalParameters = listOf(value)),
-        )
-        val underTest = WindowFunctionArguments(someStringField(), value.asParameter(), someBooleanField())
-
-        val actual = underTest.toDopeQuery(manager)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun `should support OverClauseWindowDefinition`() {
         val expected = DopeQuery(
             "OVER ()",
         )
-        val underTest = OverClauseWindowDefinition(someWindowDefinition())
+        val underTest = OverWindowDefinition(someWindowDefinition())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -167,7 +116,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "OVER `someString`",
         )
-        val underTest = OverClauseWindowReference(someString())
+        val underTest = OverWindowReference(someString())
 
         val actual = underTest.toDopeQuery(manager)
 

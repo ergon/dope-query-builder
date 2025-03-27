@@ -20,7 +20,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with reference`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) OVER `ref`",
+            "FIRST_VALUE(`numberField`) OVER `ref`",
         )
         val underTest = FirstValue(someNumberField(), "ref")
 
@@ -32,7 +32,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with reference and nulls modifier`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) RESPECT NULLS OVER `ref`",
+            "FIRST_VALUE(`numberField`) RESPECT NULLS OVER `ref`",
         )
         val underTest = FirstValue(someNumberField(), "ref", RESPECT)
 
@@ -44,7 +44,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with order clause`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) OVER (ORDER BY `stringField`)",
+            "FIRST_VALUE(`numberField`) OVER (ORDER BY `stringField`)",
         )
         val underTest = FirstValue(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
@@ -56,7 +56,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with order clause and nulls modifier`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            "FIRST_VALUE(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
         )
         val underTest = FirstValue(someNumberField(), nullsModifier = IGNORE, windowOrderClause = listOf(someOrderingTerm()))
 
@@ -68,7 +68,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with all window partition`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) OVER (PARTITION BY `booleanField` ORDER BY `stringField`)",
+            "FIRST_VALUE(`numberField`) OVER (PARTITION BY `booleanField` ORDER BY `stringField`)",
         )
         val underTest = FirstValue(
             someNumberField(),
@@ -84,7 +84,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with frame clause`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            "FIRST_VALUE(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
         )
         val underTest = FirstValue(
             someNumberField(),
@@ -100,7 +100,7 @@ class FirstValueTest : ManagerDependentTest {
     @Test
     fun `should support first value with all arguments`() {
         val expected = DopeQuery(
-            "FIRST_VALUE (`numberField`) IGNORE NULLS OVER (PARTITION BY `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            "FIRST_VALUE(`numberField`) IGNORE NULLS OVER (PARTITION BY `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
         )
         val underTest = FirstValue(
             someNumberField(),

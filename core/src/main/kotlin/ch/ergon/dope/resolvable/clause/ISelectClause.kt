@@ -25,7 +25,7 @@ import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -58,10 +58,10 @@ interface ISelectWindowClause<T : ValidType> : ISelectOrderByClause<T> {
 }
 
 interface ISelectGroupByClause<T : ValidType> : ISelectWindowClause<T> {
-    fun windowReference(reference: String, windowDefinition: WindowDefinition? = null) =
+    fun referenceWindow(reference: String, windowDefinition: WindowDefinition? = null) =
         WindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
 
-    fun windowReference(windowDeclaration: WindowDeclaration, vararg windowDeclarations: WindowDeclaration) =
+    fun referenceWindow(windowDeclaration: WindowDeclaration, vararg windowDeclarations: WindowDeclaration) =
         WindowClause(windowDeclaration, *windowDeclarations, parentClause = this)
 }
 

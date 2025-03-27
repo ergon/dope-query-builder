@@ -27,13 +27,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class AggregateFunctionsTest {
-    private lateinit var builder: StringBuilder
     private lateinit var create: QueryBuilder
     private val person = someBucket("person")
 
     @BeforeTest
     fun setup() {
-        builder = StringBuilder()
         create = QueryBuilder()
     }
 
@@ -50,9 +48,9 @@ class AggregateFunctionsTest {
                 min(someNumberArrayField()),
                 min(someStringArrayField()),
                 min(someBooleanArrayField()),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -70,9 +68,9 @@ class AggregateFunctionsTest {
                 min(someNumberArrayField(), ALL),
                 min(someStringArrayField(), ALL),
                 min(someBooleanArrayField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -90,9 +88,9 @@ class AggregateFunctionsTest {
                 min(someNumberArrayField(), DISTINCT),
                 min(someStringArrayField(), DISTINCT),
                 min(someBooleanArrayField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -111,9 +109,9 @@ class AggregateFunctionsTest {
                 min(someNumberArrayField()).alias("numberArray"),
                 min(someStringArrayField()).alias("stringArray"),
                 min(someBooleanArrayField()).alias("booleanArray"),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -131,9 +129,9 @@ class AggregateFunctionsTest {
                 max(someNumberArrayField()),
                 max(someStringArrayField()),
                 max(someBooleanArrayField()),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -151,9 +149,9 @@ class AggregateFunctionsTest {
                 max(someNumberArrayField(), ALL),
                 max(someStringArrayField(), ALL),
                 max(someBooleanArrayField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -171,9 +169,9 @@ class AggregateFunctionsTest {
                 max(someNumberArrayField(), DISTINCT),
                 max(someStringArrayField(), DISTINCT),
                 max(someBooleanArrayField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -192,9 +190,9 @@ class AggregateFunctionsTest {
                 max(someNumberArrayField()).alias("numberArray"),
                 max(someStringArrayField()).alias("stringArray"),
                 max(someBooleanArrayField()).alias("booleanArray"),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -204,11 +202,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT COUNT(*) FROM `person`"
 
         val actual: String = create
-            .select(
-                countAsterisk(),
-            ).from(
-                person,
-            ).build().queryString
+            .select(countAsterisk())
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -218,11 +214,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT COUNT(*) AS `everything` FROM `person`"
 
         val actual: String = create
-            .select(
-                countAsterisk().alias("everything"),
-            ).from(
-                person,
-            ).build().queryString
+            .select(countAsterisk().alias("everything"))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -240,9 +234,9 @@ class AggregateFunctionsTest {
                 count(someNumberArrayField()),
                 count(someStringArrayField()),
                 count(someBooleanArrayField()),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -261,9 +255,9 @@ class AggregateFunctionsTest {
                 count(someNumberArrayField(), ALL),
                 count(someStringArrayField(), ALL),
                 count(someBooleanArrayField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -282,9 +276,9 @@ class AggregateFunctionsTest {
                 count(someNumberArrayField(), DISTINCT),
                 count(someStringArrayField(), DISTINCT),
                 count(someBooleanArrayField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -303,9 +297,9 @@ class AggregateFunctionsTest {
                 count(someNumberArrayField()).alias("numberArray"),
                 count(someStringArrayField()).alias("stringArray"),
                 count(someBooleanArrayField()).alias("booleanArray"),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -323,9 +317,9 @@ class AggregateFunctionsTest {
                 arrayAggregate(someNumberArrayField()),
                 arrayAggregate(someStringArrayField()),
                 arrayAggregate(someBooleanArrayField()),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -344,9 +338,9 @@ class AggregateFunctionsTest {
                 arrayAggregate(someNumberArrayField(), ALL),
                 arrayAggregate(someStringArrayField(), ALL),
                 arrayAggregate(someBooleanArrayField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -365,9 +359,9 @@ class AggregateFunctionsTest {
                 arrayAggregate(someNumberArrayField(), DISTINCT),
                 arrayAggregate(someStringArrayField(), DISTINCT),
                 arrayAggregate(someBooleanArrayField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -386,9 +380,9 @@ class AggregateFunctionsTest {
                 arrayAggregate(someNumberArrayField()).alias("numberArray"),
                 arrayAggregate(someStringArrayField()).alias("stringArray"),
                 arrayAggregate(someBooleanArrayField()).alias("booleanArray"),
-            ).from(
-                person,
-            ).build().queryString
+            )
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -398,11 +392,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT AVG(`numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                avg(someNumberField()),
-            ).from(
-                person,
-            ).build().queryString
+            .select(avg(someNumberField()))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -412,11 +404,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT AVG(ALL `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                avg(someNumberField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            .select(avg(someNumberField(), ALL))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -426,11 +416,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT AVG(DISTINCT `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                avg(someNumberField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            .select(avg(someNumberField(), DISTINCT))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -440,11 +428,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT AVG(`numberField`) AS `number` FROM `person`"
 
         val actual: String = create
-            .select(
-                avg(someNumberField()).alias("number"),
-            ).from(
-                person,
-            ).build().queryString
+            .select(avg(someNumberField()).alias("number"))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -454,11 +440,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEAN(`numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                mean(someNumberField()),
-            ).from(
-                person,
-            ).build().queryString
+            .select(mean(someNumberField()))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -468,11 +452,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEAN(ALL `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                mean(someNumberField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            .select(mean(someNumberField(), ALL))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -482,11 +464,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEAN(DISTINCT `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                mean(someNumberField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            .select(mean(someNumberField(), DISTINCT))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -496,11 +476,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEAN(`numberField`) AS `number` FROM `person`"
 
         val actual: String = create
-            .select(
-                mean(someNumberField()).alias("number"),
-            ).from(
-                person,
-            ).build().queryString
+            .select(mean(someNumberField()).alias("number"))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -510,11 +488,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEDIAN(`numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                median(someNumberField()),
-            ).from(
-                person,
-            ).build().queryString
+            .select(median(someNumberField()))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -524,11 +500,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEDIAN(ALL `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                median(someNumberField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            .select(median(someNumberField(), ALL))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -538,11 +512,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEDIAN(DISTINCT `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                median(someNumberField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            .select(median(someNumberField(), DISTINCT))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -552,11 +524,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT MEDIAN(`numberField`) AS `number` FROM `person`"
 
         val actual: String = create
-            .select(
-                median(someNumberField()).alias("number"),
-            ).from(
-                person,
-            ).build().queryString
+            .select(median(someNumberField()).alias("number"))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -566,11 +536,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT SUM(`numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                sum(someNumberField()),
-            ).from(
-                person,
-            ).build().queryString
+            .select(sum(someNumberField()))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -580,11 +548,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT SUM(ALL `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                sum(someNumberField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            .select(sum(someNumberField(), ALL))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -594,11 +560,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT SUM(DISTINCT `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                sum(someNumberField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            .select(sum(someNumberField(), DISTINCT))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -608,11 +572,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT SUM(`numberField`) AS `number` FROM `person`"
 
         val actual: String = create
-            .select(
-                sum(someNumberField()).alias("number"),
-            ).from(
-                person,
-            ).build().queryString
+            .select(sum(someNumberField()).alias("number"))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -622,11 +584,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT STDDEV(`numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                stdDev(someNumberField()),
-            ).from(
-                person,
-            ).build().queryString
+            .select(stdDev(someNumberField()))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -636,11 +596,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT STDDEV(ALL `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                stdDev(someNumberField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            .select(stdDev(someNumberField(), ALL))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -650,11 +608,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT STDDEV(DISTINCT `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                stdDev(someNumberField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            .select(stdDev(someNumberField(), DISTINCT))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -664,11 +620,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT STDDEV(`numberField`) AS `number` FROM `person`"
 
         val actual: String = create
-            .select(
-                stdDev(someNumberField()).alias("number"),
-            ).from(
-                person,
-            ).build().queryString
+            .select(stdDev(someNumberField()).alias("number"))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -678,11 +632,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT VARIANCE(`numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                variance(someNumberField()),
-            ).from(
-                person,
-            ).build().queryString
+            .select(variance(someNumberField()))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -692,11 +644,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT VARIANCE(ALL `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                variance(someNumberField(), ALL),
-            ).from(
-                person,
-            ).build().queryString
+            .select(variance(someNumberField(), ALL))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -706,11 +656,9 @@ class AggregateFunctionsTest {
         val expected = "SELECT VARIANCE(DISTINCT `numberField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                variance(someNumberField(), DISTINCT),
-            ).from(
-                person,
-            ).build().queryString
+            .select(variance(someNumberField(), DISTINCT))
+            .from(person)
+            .build().queryString
 
         assertEquals(expected, actual)
     }
@@ -720,41 +668,283 @@ class AggregateFunctionsTest {
         val expected = "SELECT VARIANCE(`numberField`) AS `number` FROM `person`"
 
         val actual: String = create
-            .select(
-                variance(someNumberField()).alias("number"),
-            ).from(
-                person,
-            ).build().queryString
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support aggregate with a window reference`() {
-        val expected = "SELECT STDDEV(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
-
-        val actual: String = create
-            .select(
-                stdDev(someNumberField()).withWindow("ref"),
-            ).from(
-                person,
-            )
-            .windowReference("ref")
+            .select(variance(someNumberField()).alias("number"))
+            .from(person)
             .build().queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `should support aggregate with a window over clause`() {
+    fun `should support min with a window reference`() {
+        val expected = "SELECT MIN(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(min(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support min with a window over clause`() {
+        val expected = "SELECT MIN(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(min(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support max with a window reference`() {
+        val expected = "SELECT MAX(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(max(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support max with a window over clause`() {
+        val expected = "SELECT MAX(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(max(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support count with a window reference`() {
+        val expected = "SELECT COUNT(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(count(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support count with a window over clause`() {
+        val expected = "SELECT COUNT(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(count(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support countAsterisk with a window reference`() {
+        val expected = "SELECT COUNT(*) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(countAsterisk(windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support countAsterisk with a window over clause`() {
+        val expected = "SELECT COUNT(*) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(countAsterisk(windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support arrayAggregate with a window reference`() {
+        val expected = "SELECT ARRAY_AGG(ALL `numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(arrayAggregate(someNumberField(), quantifier = ALL, windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support arrayAggregate with a window over clause`() {
+        val expected = "SELECT ARRAY_AGG(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(arrayAggregate(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support avg with a window reference`() {
+        val expected = "SELECT AVG(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(avg(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support avg with a window over clause`() {
+        val expected = "SELECT AVG(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(avg(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support mean with a window reference`() {
+        val expected = "SELECT MEAN(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(mean(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support mean with a window over clause`() {
+        val expected = "SELECT MEAN(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(mean(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support median with a window reference`() {
+        val expected = "SELECT MEDIAN(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(median(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support median with a window over clause`() {
+        val expected = "SELECT MEDIAN(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(median(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support sum with a window reference`() {
+        val expected = "SELECT SUM(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(sum(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support sum with a window over clause`() {
+        val expected = "SELECT SUM(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(sum(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support stdDev with a window reference`() {
+        val expected = "SELECT STDDEV(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(stdDev(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support stdDev with a window over clause`() {
         val expected = "SELECT STDDEV(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
 
         val actual: String = create
-            .select(
-                stdDev(someNumberField()).withWindow(windowPartitionClause = listOf(someStringField())),
-            ).from(
-                person,
-            )
+            .select(stdDev(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support variance with a window reference`() {
+        val expected = "SELECT VARIANCE(`numberField`) OVER `ref` FROM `person` WINDOW `ref` AS ()"
+
+        val actual: String = create
+            .select(variance(someNumberField(), windowReference = "ref"))
+            .from(person)
+            .referenceWindow("ref")
+            .build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support variance with a window over clause`() {
+        val expected = "SELECT VARIANCE(`numberField`) OVER (PARTITION BY `stringField`) FROM `person`"
+
+        val actual: String = create
+            .select(variance(someNumberField(), windowPartitionClause = listOf(someStringField())))
+            .from(person)
             .build().queryString
 
         assertEquals(expected, actual)

@@ -24,7 +24,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with reference`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) OVER `ref`",
+            "NTH_VALUE(`numberField`, `numberField`) OVER `ref`",
         )
         val underTest = NthValue(someNumberField(), someNumberField(), windowReference = "ref")
 
@@ -36,7 +36,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with reference and nulls modifier`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) RESPECT NULLS OVER `ref`",
+            "NTH_VALUE(`numberField`, `numberField`) RESPECT NULLS OVER `ref`",
         )
         val underTest = NthValue(someNumberField(), someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
@@ -48,7 +48,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with order clause`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
+            "NTH_VALUE(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
         )
         val underTest = NthValue(someNumberField(), someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
@@ -60,7 +60,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with order clause and nulls modifier`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            "NTH_VALUE(`numberField`, `numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
         )
         val underTest = NthValue(
             someNumberField(),
@@ -77,7 +77,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with from modifier`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) FROM FIRST OVER (ORDER BY `stringField`)",
+            "NTH_VALUE(`numberField`, `numberField`) FROM FIRST OVER (ORDER BY `stringField`)",
         )
         val underTest = NthValue(
             someNumberField(),
@@ -94,7 +94,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with all window partition`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            "NTH_VALUE(`numberField`, `numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
         )
         val underTest = NthValue(
             someNumberField(),
@@ -111,7 +111,7 @@ class NthValueTest : ManagerDependentTest {
     @Test
     fun `should support nth value with frame clause`() {
         val expected = DopeQuery(
-            "NTH_VALUE (`numberField`, `numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            "NTH_VALUE(`numberField`, `numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
         )
         val underTest = NthValue(
             someNumberField(),

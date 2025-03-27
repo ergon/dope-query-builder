@@ -1,11 +1,10 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClauseWindowReference
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowDefinition
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFunctionArguments
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
@@ -20,8 +19,8 @@ class RatioToReport : WindowFunctionExpression<NumberType> {
         windowFrameClause: WindowFrameClause? = null,
     ) : super(
         functionName = RATIO_TO_REPORT,
-        windowFunctionArguments = WindowFunctionArguments(expression),
-        overClause = OverClauseWindowDefinition(
+        functionArguments = listOf(expression),
+        overDefinition = OverWindowDefinition(
             WindowDefinition(
                 windowPartitionClause = windowPartitionClause,
                 windowOrderClause = windowOrderClause,
@@ -30,11 +29,15 @@ class RatioToReport : WindowFunctionExpression<NumberType> {
         ),
     )
 
-    constructor(expression: TypeExpression<out ValidType>, nullsModifier: NullsModifier? = null, windowReference: String) : super(
+    constructor(
+        expression: TypeExpression<out ValidType>,
+        nullsModifier: NullsModifier? = null,
+        windowReference: String,
+    ) : super(
         functionName = RATIO_TO_REPORT,
-        windowFunctionArguments = WindowFunctionArguments(expression),
+        functionArguments = listOf(expression),
         nullsModifier = nullsModifier,
-        overClause = OverClauseWindowReference(windowReference),
+        overDefinition = OverWindowReference(windowReference),
     )
 }
 

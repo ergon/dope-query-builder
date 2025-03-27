@@ -17,7 +17,7 @@ class CumeDistTest : ManagerDependentTest {
     @Test
     fun `should support cume dist with reference`() {
         val expected = DopeQuery(
-            "CUME_DIST () OVER `ref`",
+            "CUME_DIST() OVER `ref`",
         )
         val underTest = CumeDist("ref")
 
@@ -29,7 +29,7 @@ class CumeDistTest : ManagerDependentTest {
     @Test
     fun `should support cume dist with ordering term`() {
         val expected = DopeQuery(
-            "CUME_DIST () OVER (ORDER BY `stringField`)",
+            "CUME_DIST() OVER (ORDER BY `stringField`)",
         )
         val underTest = CumeDist(listOf(someOrderingTerm()))
 
@@ -41,7 +41,7 @@ class CumeDistTest : ManagerDependentTest {
     @Test
     fun `should support cume dist with ordering term and partition`() {
         val expected = DopeQuery(
-            "CUME_DIST () OVER (PARTITION BY `stringField`, `numberField` ORDER BY `stringField`)",
+            "CUME_DIST() OVER (PARTITION BY `stringField`, `numberField` ORDER BY `stringField`)",
         )
         val underTest = CumeDist(listOf(someOrderingTerm()), listOf(someStringField(), someNumberField()))
 

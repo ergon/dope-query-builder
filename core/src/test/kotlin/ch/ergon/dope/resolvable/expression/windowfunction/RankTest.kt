@@ -16,7 +16,7 @@ class RankTest : ManagerDependentTest {
     @Test
     fun `should support rank with reference`() {
         val expected = DopeQuery(
-            "RANK () OVER `ref`",
+            "RANK() OVER `ref`",
         )
         val underTest = Rank("ref")
 
@@ -28,7 +28,7 @@ class RankTest : ManagerDependentTest {
     @Test
     fun `should support rank with order clause`() {
         val expected = DopeQuery(
-            "RANK () OVER (ORDER BY `stringField`)",
+            "RANK() OVER (ORDER BY `stringField`)",
         )
         val underTest = Rank(windowOrderClause = listOf(someOrderingTerm()))
 
@@ -40,7 +40,7 @@ class RankTest : ManagerDependentTest {
     @Test
     fun `should support rank with partition and order clause`() {
         val expected = DopeQuery(
-            "RANK () OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            "RANK() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
         )
         val underTest = Rank(
             windowPartitionClause = listOf(someStringField()),

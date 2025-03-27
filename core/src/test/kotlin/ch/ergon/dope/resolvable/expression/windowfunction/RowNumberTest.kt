@@ -16,7 +16,7 @@ class RowNumberTest : ManagerDependentTest {
     @Test
     fun `should support row number with reference`() {
         val expected = DopeQuery(
-            "ROW_NUMBER () OVER `ref`",
+            "ROW_NUMBER() OVER `ref`",
         )
         val underTest = RowNumber("ref")
 
@@ -28,7 +28,7 @@ class RowNumberTest : ManagerDependentTest {
     @Test
     fun `should support row number with order clause`() {
         val expected = DopeQuery(
-            "ROW_NUMBER () OVER (ORDER BY `stringField`)",
+            "ROW_NUMBER() OVER (ORDER BY `stringField`)",
         )
         val underTest = RowNumber(windowOrderClause = listOf(someOrderingTerm()))
 
@@ -40,7 +40,7 @@ class RowNumberTest : ManagerDependentTest {
     @Test
     fun `should support row number with partition and order clause`() {
         val expected = DopeQuery(
-            "ROW_NUMBER () OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            "ROW_NUMBER() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
         )
         val underTest = RowNumber(
             windowPartitionClause = listOf(someStringField()),

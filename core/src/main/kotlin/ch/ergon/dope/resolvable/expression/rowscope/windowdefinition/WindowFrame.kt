@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model
+package ch.ergon.dope.resolvable.expression.rowscope.windowdefinition
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager

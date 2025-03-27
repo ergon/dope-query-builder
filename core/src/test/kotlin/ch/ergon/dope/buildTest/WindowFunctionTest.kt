@@ -5,7 +5,19 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
+import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
 import ch.ergon.dope.resolvable.expression.rowscope.alias
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Between
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.CurrentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Following
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_FIRST
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_LAST
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.UnboundedFollowing
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameExclusion.EXCLUDE_NO_OTHERS
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameType.ROWS
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.LAST
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.cumeDist
@@ -13,15 +25,6 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.denseRank
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.firstValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lag
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lastValue
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Between
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.CurrentRow
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.Following
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder.NULLS_FIRST
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.NullsOrder.NULLS_LAST
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameExclusion.EXCLUDE_NO_OTHERS
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFrameType.ROWS
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.rowNumber
 import kotlin.test.BeforeTest
@@ -38,14 +41,15 @@ class WindowFunctionTest {
 
     @Test
     fun `should support window functions`() {
-        val expected = "SELECT ROW_NUMBER () OVER () AS `row`, " +
-            "CUME_DIST () OVER `ref`, " +
-            "DENSE_RANK () OVER (ORDER BY `stringField` ASC), " +
-            "FIRST_VALUE (`stringField`) OVER (ORDER BY `stringField` NULLS LAST ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING EXCLUDE NO OTHERS), " +
-            "NTH_VALUE (`numberField`, 10) FROM LAST OVER (ORDER BY `stringField` NULLS FIRST), " +
-            "LAG (`numberField`) OVER (ORDER BY `stringField` ASC), " +
-            "LAST_VALUE (`last`) IGNORE NULLS OVER () " +
-            "FROM `someBucket`"
+        val expected = "SELECT ROW_NUMBER() OVER () AS `row`, " +
+            "CUME_DIST() OVER `ref`, " +
+            "DENSE_RANK() OVER (ORDER BY `stringField` ASC), " +
+            "FIRST_VALUE(`stringField`) OVER (ORDER BY `stringField` NULLS LAST ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING EXCLUDE NO OTHERS), " +
+            "NTH_VALUE(`numberField`, 10) FROM LAST OVER (ORDER BY `stringField` NULLS FIRST), " +
+            "LAG(`numberField`) OVER (ORDER BY `stringField` ASC), " +
+            "LAST_VALUE(`last`) IGNORE NULLS OVER () " +
+            "FROM `someBucket` " +
+            "WINDOW `ref` AS (ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)"
 
         val actual = create
             .select(
@@ -77,7 +81,19 @@ class WindowFunctionTest {
                     someStringField("last"),
                     IGNORE,
                 ),
-            ).from(someBucket()).build().queryString
+            )
+            .from(someBucket())
+            .referenceWindow(
+                "ref".asWindowDeclaration(
+                    WindowDefinition(
+                        windowFrameClause = WindowFrameClause(
+                            ROWS,
+                            Between(CurrentRow(), UnboundedFollowing()),
+                        ),
+                    ),
+                ),
+            )
+            .build().queryString
 
         assertEquals(expected, actual)
     }

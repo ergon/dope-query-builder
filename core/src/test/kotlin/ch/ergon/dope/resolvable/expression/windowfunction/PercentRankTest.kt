@@ -16,7 +16,7 @@ class PercentRankTest : ManagerDependentTest {
     @Test
     fun `should support percent rank with reference`() {
         val expected = DopeQuery(
-            "PERCENT_RANK () OVER `ref`",
+            "PERCENT_RANK() OVER `ref`",
         )
         val underTest = PercentRank("ref")
 
@@ -28,7 +28,7 @@ class PercentRankTest : ManagerDependentTest {
     @Test
     fun `should support percent rank with order clause`() {
         val expected = DopeQuery(
-            "PERCENT_RANK () OVER (ORDER BY `stringField`)",
+            "PERCENT_RANK() OVER (ORDER BY `stringField`)",
         )
         val underTest = PercentRank(windowOrderClause = listOf(someOrderingTerm()))
 
@@ -40,7 +40,7 @@ class PercentRankTest : ManagerDependentTest {
     @Test
     fun `should support percent rank with partition and order clause`() {
         val expected = DopeQuery(
-            "PERCENT_RANK () OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            "PERCENT_RANK() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
         )
         val underTest = PercentRank(
             windowPartitionClause = listOf(someStringField()),

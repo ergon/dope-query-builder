@@ -1,10 +1,9 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.OverClause
-import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.model.WindowFunctionArguments
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
 enum class FromModifier(val queryString: String) {
@@ -18,23 +17,11 @@ enum class NullsModifier(val queryString: String) {
 }
 
 sealed class WindowFunctionExpression<T : ValidType>(
-    private val functionName: String,
-    private val windowFunctionArguments: WindowFunctionArguments? = null,
-    private val fromModifier: FromModifier? = null,
-    private val nullsModifier: NullsModifier? = null,
-    private val overClause: OverClause,
+    override val functionName: String,
+    override val functionArguments: List<TypeExpression<out ValidType>?>? = null,
+    override val fromModifier: FromModifier? = null,
+    override val nullsModifier: NullsModifier? = null,
+    override val overDefinition: OverDefinition,
 ) : RowScopeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val windowFunctionArgumentsDopeQuery = windowFunctionArguments?.toDopeQuery(manager)
-        val overClauseDopeQuery = overClause.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = functionName +
-                (windowFunctionArgumentsDopeQuery?.queryString?.let { " ($it)" } ?: " ()") +
-                (fromModifier?.let { " ${it.queryString}" }.orEmpty()) +
-                (nullsModifier?.let { " ${it.queryString}" }.orEmpty()) +
-                overClauseDopeQuery.queryString.let { " $it" },
-            parameters = windowFunctionArgumentsDopeQuery?.parameters?.merge(overClauseDopeQuery.parameters)
-                ?: overClauseDopeQuery.parameters,
-        )
-    }
+    override val quantifier: AggregateQuantifier? = null
 }

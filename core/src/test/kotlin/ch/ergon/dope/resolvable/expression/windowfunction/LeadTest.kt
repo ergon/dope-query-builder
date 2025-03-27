@@ -19,7 +19,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with reference`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`) OVER `ref`",
+            "LEAD(`numberField`) OVER `ref`",
         )
         val underTest = Lead(someNumberField(), windowReference = "ref")
 
@@ -31,7 +31,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with reference and nulls modifier`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`) RESPECT NULLS OVER `ref`",
+            "LEAD(`numberField`) RESPECT NULLS OVER `ref`",
         )
         val underTest = Lead(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
@@ -43,7 +43,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with offset`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`, `numberField`) OVER `ref`",
+            "LEAD(`numberField`, `numberField`) OVER `ref`",
         )
         val underTest = Lead(someNumberField(), offset = someNumberField(), windowReference = "ref")
 
@@ -55,7 +55,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with default`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`, `numberField`) OVER `ref`",
+            "LEAD(`numberField`, `numberField`) OVER `ref`",
         )
         val underTest = Lead(someNumberField(), default = someNumberField(), windowReference = "ref")
 
@@ -67,7 +67,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with all parameters`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
+            "LEAD(`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
         )
         val underTest = Lead(
             someNumberField(),
@@ -85,7 +85,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with order clause`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`) OVER (ORDER BY `stringField`)",
+            "LEAD(`numberField`) OVER (ORDER BY `stringField`)",
         )
         val underTest = Lead(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
@@ -97,7 +97,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with order clause and nulls modifier`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            "LEAD(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
         )
         val underTest = Lead(
             someNumberField(),
@@ -113,7 +113,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with order clause and offset`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
+            "LEAD(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
         )
         val underTest = Lead(
             someNumberField(),
@@ -129,7 +129,7 @@ class LeadTest : ManagerDependentTest {
     @Test
     fun `should support lead with all window partition`() {
         val expected = DopeQuery(
-            "LEAD (`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            "LEAD(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
         )
         val underTest = Lead(
             someNumberField(),
