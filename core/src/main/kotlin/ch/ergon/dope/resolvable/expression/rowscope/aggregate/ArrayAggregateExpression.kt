@@ -23,7 +23,7 @@ class ArrayAggregateExpression<T : ValidType> : AggregateFunctionExpression<Arra
     constructor(
         field: Field<T>,
         quantifier: AggregateQuantifier? = null,
-        windowReference: TypeExpression<StringType>? = null,
+        windowReferenceExpression: TypeExpression<StringType>? = null,
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
@@ -31,10 +31,10 @@ class ArrayAggregateExpression<T : ValidType> : AggregateFunctionExpression<Arra
         ARRAY_AGG,
         field,
         quantifier,
-        if (listOf(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
+        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
             null
         } else {
-            OverWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause))
+            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
         },
     )
 }
@@ -48,8 +48,8 @@ fun <T : ValidType> arrayAggregate(
 fun <T : ValidType> arrayAggregate(
     field: Field<T>,
     quantifier: AggregateQuantifier? = null,
-    windowReference: TypeExpression<StringType>? = null,
+    windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = ArrayAggregateExpression(field, quantifier, windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = ArrayAggregateExpression(field, quantifier, windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)

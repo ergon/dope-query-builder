@@ -23,7 +23,7 @@ class AverageExpression : AggregateFunctionExpression<NumberType> {
     constructor(
         number: Field<NumberType>,
         quantifier: AggregateQuantifier? = null,
-        windowReference: TypeExpression<StringType>? = null,
+        windowReferenceExpression: TypeExpression<StringType>? = null,
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
@@ -31,10 +31,10 @@ class AverageExpression : AggregateFunctionExpression<NumberType> {
         AVG,
         number,
         quantifier,
-        if (listOf(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
+        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
             null
         } else {
-            OverWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause))
+            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
         },
     )
 }
@@ -48,8 +48,8 @@ fun avg(
 fun avg(
     number: Field<NumberType>,
     quantifier: AggregateQuantifier? = null,
-    windowReference: TypeExpression<StringType>? = null,
+    windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = AverageExpression(number, quantifier, windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = AverageExpression(number, quantifier, windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)

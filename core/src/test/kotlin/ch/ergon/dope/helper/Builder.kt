@@ -93,12 +93,12 @@ fun someOrderingTerm(
 ) = OrderingTerm(expression, orderType, nullsOrder)
 
 fun someWindowDefinition(
-    windowReference: TypeExpression<StringType>? = null,
+    windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
 ) = WindowDefinition(
-    windowReference = windowReference,
+    windowReferenceExpression = windowReferenceExpression,
     windowPartitionClause = windowPartitionClause,
     windowOrderClause = windowOrderClause,
     windowFrameClause = windowFrameClause,

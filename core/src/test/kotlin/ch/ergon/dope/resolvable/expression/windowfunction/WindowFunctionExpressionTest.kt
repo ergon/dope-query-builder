@@ -158,7 +158,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             "`stringField`",
         )
-        val underTest = WindowDefinition(windowReference = someStringField())
+        val underTest = WindowDefinition(windowReferenceExpression = someStringField())
 
         val actual = underTest.toDopeQuery(manager)
 

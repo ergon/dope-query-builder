@@ -9,13 +9,13 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 class WindowDefinition(
-    private val windowReference: TypeExpression<StringType>? = null,
+    private val windowReferenceExpression: TypeExpression<StringType>? = null,
     private val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     private val windowOrderClause: List<OrderingTerm>? = null,
     private val windowFrameClause: WindowFrameClause? = null,
 ) : Resolvable {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val windowReferenceDopeQuery = windowReference?.toDopeQuery(manager)
+        val windowReferenceExpressionDopeQuery = windowReferenceExpression?.toDopeQuery(manager)
 
         val partitionClauseDopeQueries = windowPartitionClause?.map { it.toDopeQuery(manager) }
         val partitionClauseQueryString = partitionClauseDopeQueries?.joinToString(separator = ", ", prefix = "PARTITION BY ") { it.queryString }
@@ -26,7 +26,7 @@ class WindowDefinition(
         val frameClauseDopeQuery = windowFrameClause?.toDopeQuery(manager)
 
         val queryString = listOfNotNull(
-            windowReferenceDopeQuery?.queryString,
+            windowReferenceExpressionDopeQuery?.queryString,
             partitionClauseQueryString,
             orderClauseQueryString,
             frameClauseDopeQuery?.queryString,
@@ -34,7 +34,7 @@ class WindowDefinition(
 
         return DopeQuery(
             queryString = queryString,
-            parameters = windowReferenceDopeQuery?.parameters.orEmpty()
+            parameters = windowReferenceExpressionDopeQuery?.parameters.orEmpty()
                 .merge(*partitionClauseDopeQueries?.map { it.parameters }.orEmpty().toTypedArray())
                 .merge(*orderClauseDopeQueries?.map { it.parameters }.orEmpty().toTypedArray())
                 .merge(frameClauseDopeQuery?.parameters.orEmpty()),

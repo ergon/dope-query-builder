@@ -22,7 +22,7 @@ class MinExpression<T : ValidType> : AggregateFunctionExpression<T> {
     constructor(
         field: Field<T>,
         quantifier: AggregateQuantifier? = null,
-        windowReference: TypeExpression<StringType>? = null,
+        windowReferenceExpression: TypeExpression<StringType>? = null,
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
@@ -30,10 +30,10 @@ class MinExpression<T : ValidType> : AggregateFunctionExpression<T> {
         MIN,
         field,
         quantifier,
-        if (listOf(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
+        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
             null
         } else {
-            OverWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause))
+            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
         },
     )
 }
@@ -47,8 +47,8 @@ fun min(
 fun min(
     field: Field<out ValidType>,
     quantifier: AggregateQuantifier? = null,
-    windowReference: TypeExpression<StringType>? = null,
+    windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = MinExpression(field, quantifier, windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = MinExpression(field, quantifier, windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)

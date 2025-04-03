@@ -24,7 +24,7 @@ class CountExpression : AggregateFunctionExpression<NumberType> {
     constructor(
         field: Field<out ValidType>,
         quantifier: AggregateQuantifier? = null,
-        windowReference: TypeExpression<StringType>? = null,
+        windowReferenceExpression: TypeExpression<StringType>? = null,
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
@@ -32,10 +32,10 @@ class CountExpression : AggregateFunctionExpression<NumberType> {
         COUNT,
         field,
         quantifier,
-        if (listOf(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
+        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
             null
         } else {
-            OverWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause))
+            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
         },
     )
 }
@@ -46,7 +46,7 @@ class CountAsteriskExpression : AggregateFunctionExpression<NumberType> {
     ) : super(COUNT, Asterisk(), quantifier = null, OverWindowReference(windowReference))
 
     constructor(
-        windowReference: TypeExpression<StringType>? = null,
+        windowReferenceExpression: TypeExpression<StringType>? = null,
         windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
         windowOrderClause: List<OrderingTerm>? = null,
         windowFrameClause: WindowFrameClause? = null,
@@ -54,10 +54,10 @@ class CountAsteriskExpression : AggregateFunctionExpression<NumberType> {
         COUNT,
         Asterisk(),
         null,
-        if (listOf(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
+        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
             null
         } else {
-            OverWindowDefinition(WindowDefinition(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause))
+            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
         },
     )
 }
@@ -65,11 +65,11 @@ class CountAsteriskExpression : AggregateFunctionExpression<NumberType> {
 fun count(
     field: Field<out ValidType>,
     quantifier: AggregateQuantifier? = null,
-    windowReference: TypeExpression<StringType>? = null,
+    windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = CountExpression(field, quantifier, windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = CountExpression(field, quantifier, windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)
 
 fun count(
     field: Field<out ValidType>,
@@ -82,8 +82,8 @@ fun countAsterisk(
 ) = CountAsteriskExpression(windowReference)
 
 fun countAsterisk(
-    windowReference: TypeExpression<StringType>? = null,
+    windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = CountAsteriskExpression(windowReference, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = CountAsteriskExpression(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)
