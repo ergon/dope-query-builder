@@ -13,9 +13,6 @@ import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
 import ch.ergon.dope.resolvable.expression.rowscope.alias
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Between
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.CurrentRow
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Following
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_FIRST
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_LAST
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
