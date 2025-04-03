@@ -23,7 +23,7 @@ class Between(private val between: FrameBetween, private val and: FrameAndBetwee
         val betweenDopeQuery = between.toDopeQuery(manager)
         val andDopeQuery = and.toDopeQuery(manager)
         return DopeQuery(
-            formatToQueryString("BETWEEN", betweenDopeQuery.queryString, "AND", andDopeQuery.queryString, seperator = " "),
+            formatToQueryString("BETWEEN", betweenDopeQuery.queryString, "AND", andDopeQuery.queryString, separator = " "),
             betweenDopeQuery.parameters.merge(andDopeQuery.parameters),
         )
     }

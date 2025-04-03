@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.expression.rowscope.windowdefinition
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.util.formatFunctionArgumentsWithAdditionalStrings
 
 private const val EXCLUDE = "EXCLUDE"
 
@@ -27,10 +28,12 @@ class WindowFrameClause(
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val windowFrameExtentDopeQuery = windowFrameExtent.toDopeQuery(manager)
         return DopeQuery(
-            queryString = "${windowFrameType.queryString} " +
-                "${windowFrameExtentDopeQuery.queryString}${
-                windowFrameExclusion?.let { " ${it.queryString}" }.orEmpty()
-                }",
+            queryString = formatFunctionArgumentsWithAdditionalStrings(
+                windowFrameType.queryString,
+                "",
+                windowFrameExtentDopeQuery.queryString,
+                windowFrameExclusion?.queryString,
+            ),
             parameters = windowFrameExtentDopeQuery.parameters,
         )
     }
