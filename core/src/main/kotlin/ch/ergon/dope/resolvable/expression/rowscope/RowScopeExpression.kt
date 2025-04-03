@@ -9,6 +9,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifie
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier
+import ch.ergon.dope.util.formatFunctionArgumentsWithAdditionalStrings
+import ch.ergon.dope.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ValidType
 
 interface RowScopeExpression<T : ValidType> : Expression<T> {
@@ -21,20 +23,22 @@ interface RowScopeExpression<T : ValidType> : Expression<T> {
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val functionArgumentsDopeQuery = functionArguments?.mapNotNull { it?.toDopeQuery(manager) }
-        val overClauseDopeQuery = overDefinition?.toDopeQuery(manager)
-        val functionArgumentsQueryString = functionArgumentsDopeQuery.orEmpty().joinToString(
-            separator = ", ",
-            prefix = "(" + quantifier?.let { "${it.queryString} " }.orEmpty(),
-            postfix = ")",
-        ) { it.queryString }
+        val overDefinitionDopeQuery = overDefinition?.toDopeQuery(manager)
+        val functionArgumentsQueryString =
+            formatListToQueryStringWithBrackets(
+                functionArgumentsDopeQuery.orEmpty(),
+                prefix = "(" + quantifier?.let { "${it.queryString} " }.orEmpty(),
+            )
 
         return DopeQuery(
-            queryString = functionName +
-                functionArgumentsQueryString +
-                fromModifier?.let { " ${it.queryString}" }.orEmpty() +
-                nullsModifier?.let { " ${it.queryString}" }.orEmpty() +
-                overClauseDopeQuery?.let { " ${it.queryString}" }.orEmpty(),
-            parameters = functionArgumentsDopeQuery?.map { it.parameters }.orEmpty().merge(overClauseDopeQuery?.parameters),
+            queryString = formatFunctionArgumentsWithAdditionalStrings(
+                functionName,
+                functionArgumentsQueryString,
+                fromModifier?.queryString,
+                nullsModifier?.queryString,
+                overDefinitionDopeQuery?.queryString,
+            ),
+            parameters = functionArgumentsDopeQuery?.map { it.parameters }.orEmpty().merge(overDefinitionDopeQuery?.parameters),
         )
     }
 }

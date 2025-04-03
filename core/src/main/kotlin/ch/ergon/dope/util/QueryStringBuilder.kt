@@ -31,3 +31,17 @@ fun formatListToQueryStringWithBrackets(dopeQueries: List<DopeQuery>, separator:
 
 fun formatIndexToQueryString(indexName: String?, indexType: String?) =
     listOfNotNull(indexName?.let { "`$it`" }, indexType).joinToString(separator = " ")
+
+fun formatFunctionArgumentsWithAdditionalStrings(
+    functionName: String,
+    argumentsQueryString: String,
+    vararg additionalStrings: String?,
+): String {
+    val filtered = additionalStrings.filterNotNull()
+    val additional = if (filtered.isNotEmpty()) {
+        filtered.joinToString(separator = " ", prefix = " ")
+    } else {
+        ""
+    }
+    return "$functionName$argumentsQueryString$additional"
+}
