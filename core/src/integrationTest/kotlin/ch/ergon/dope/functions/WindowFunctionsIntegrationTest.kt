@@ -23,6 +23,10 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefin
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameExclusion.EXCLUDE_NO_OTHERS
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameType.ROWS
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.between
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.currentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.following
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.orderingTerm
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.LAST
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.cumeDist
@@ -53,13 +57,13 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
             .select(
                 rowNumber().alias("rowNumber"),
                 cumeDist(windowReference.reference).alias("cumeDist"),
-                denseRank(listOf(OrderingTerm(nameField, ASC))).alias("denseRank"),
+                denseRank(listOf(orderingTerm(nameField, ASC))).alias("denseRank"),
                 firstValue(
                     orderNumberField,
-                    windowOrderClause = listOf(OrderingTerm(nameField, nullsOrder = NULLS_LAST)),
+                    windowOrderClause = listOf(orderingTerm(nameField, nullsOrder = NULLS_LAST)),
                     windowFrameClause = WindowFrameClause(
                         ROWS,
-                        Between(CurrentRow(), Following(1)),
+                        between(currentRow(), following(1)),
                         EXCLUDE_NO_OTHERS,
                     ),
                 ).alias("firstValue"),
@@ -68,13 +72,13 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
                     10,
                     fromModifier = LAST,
                     windowOrderClause = listOf(
-                        OrderingTerm(
+                        orderingTerm(
                             nameField,
                             nullsOrder = NULLS_FIRST,
                         ),
                     ),
                 ).alias("nthValue"),
-                lag(idField, windowOrderClause = listOf(OrderingTerm(deliveryDateField, ASC)))
+                lag(idField, windowOrderClause = listOf(orderingTerm(deliveryDateField, ASC)))
                     .alias("lag"),
                 lastValue(nameField, IGNORE).alias("lastValue"),
             )
