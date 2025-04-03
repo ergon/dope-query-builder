@@ -29,3 +29,9 @@ class OrderingTerm(
         )
     }
 }
+
+fun orderingTerm(
+    expression: Expression<out ValidType>,
+    orderType: OrderType? = null,
+    nullsOrder: NullsOrder? = null,
+): OrderingTerm = OrderingTerm(expression, orderType, nullsOrder)

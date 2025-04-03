@@ -1,4 +1,4 @@
-package ch.ergon.dope.extension.expression.aggregator
+package ch.ergon.dope.extension.expression.aggregate
 
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.count

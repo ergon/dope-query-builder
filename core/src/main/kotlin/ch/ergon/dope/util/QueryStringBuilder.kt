@@ -2,8 +2,8 @@ package ch.ergon.dope.util
 
 import ch.ergon.dope.DopeQuery
 
-fun formatToQueryString(left: String, vararg right: String) =
-    "$left ${right.joinToString()}"
+fun formatToQueryString(left: String, vararg right: String, seperator: String = ", ") =
+    "$left ${right.joinToString(seperator)}"
 
 fun formatToQueryStringWithSymbol(left: String, symbol: String, vararg right: String) =
     "$left $symbol ${right.joinToString()}"

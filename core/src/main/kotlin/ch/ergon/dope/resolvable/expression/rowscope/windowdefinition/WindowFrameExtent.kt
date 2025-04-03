@@ -5,6 +5,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.NumberType
 
 private const val UNBOUNDED = "UNBOUNDED"
@@ -22,54 +23,50 @@ class Between(private val between: FrameBetween, private val and: FrameAndBetwee
         val betweenDopeQuery = between.toDopeQuery(manager)
         val andDopeQuery = and.toDopeQuery(manager)
         return DopeQuery(
-            "BETWEEN ${betweenDopeQuery.queryString} AND ${andDopeQuery.queryString}",
+            formatToQueryString("BETWEEN", betweenDopeQuery.queryString, "AND", andDopeQuery.queryString, seperator = " "),
             betweenDopeQuery.parameters.merge(andDopeQuery.parameters),
         )
     }
 }
 
+fun between(between: FrameBetween, and: FrameAndBetween) = Between(between, and)
+
 class UnboundedFollowing : FrameAndBetween {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("$UNBOUNDED $FOLLOWING")
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(formatToQueryString(UNBOUNDED, FOLLOWING))
 }
+
+fun unboundedFollowing() = UnboundedFollowing()
 
 class UnboundedPreceding : FrameBetween, WindowFrameExtent {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("$UNBOUNDED $PRECEDING")
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(formatToQueryString(UNBOUNDED, PRECEDING))
 }
+
+fun unboundedPreceding() = UnboundedPreceding()
 
 class CurrentRow : FrameBetween, FrameAndBetween, WindowFrameExtent {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery("CURRENT ROW")
+    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(formatToQueryString("CURRENT", "ROW"))
 }
 
-class Following : FrameBetween, FrameAndBetween {
-    val offset: TypeExpression<NumberType>
+fun currentRow() = CurrentRow()
 
-    constructor(offset: TypeExpression<NumberType>) {
-        this.offset = offset
-    }
-
-    constructor(offset: Number) {
-        this.offset = offset.toDopeType()
-    }
-
+class Following(private val offset: TypeExpression<NumberType>) : FrameBetween, FrameAndBetween {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val offsetDopeQuery = offset.toDopeQuery(manager)
-        return DopeQuery("${offsetDopeQuery.queryString} $FOLLOWING", offsetDopeQuery.parameters)
+        return DopeQuery(formatToQueryString(offsetDopeQuery.queryString, FOLLOWING), offsetDopeQuery.parameters)
     }
 }
 
-class Preceding : FrameBetween, FrameAndBetween, WindowFrameExtent {
-    val offset: TypeExpression<NumberType>
+fun following(offset: TypeExpression<NumberType>) = Following(offset)
 
-    constructor(offset: TypeExpression<NumberType>) {
-        this.offset = offset
-    }
+fun following(offset: Number) = following(offset.toDopeType())
 
-    constructor(offset: Number) {
-        this.offset = offset.toDopeType()
-    }
-
+class Preceding(private val offset: TypeExpression<NumberType>) : FrameBetween, FrameAndBetween, WindowFrameExtent {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val offsetDopeQuery = offset.toDopeQuery(manager)
-        return DopeQuery("${offsetDopeQuery.queryString} $PRECEDING", offsetDopeQuery.parameters)
+        return DopeQuery(formatToQueryString(offsetDopeQuery.queryString, PRECEDING), offsetDopeQuery.parameters)
     }
 }
+
+fun preceding(offset: TypeExpression<NumberType>) = Preceding(offset)
+
+fun preceding(offset: Number) = preceding(offset.toDopeType())

@@ -30,7 +30,15 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefin
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameExclusion
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameType
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.between
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.currentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.following
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.orderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.preceding
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.unboundedFollowing
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.unboundedPreceding
 import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -97,6 +105,16 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support ordering term function`() {
+        val value = someStringField()
+        val expected = OrderingTerm(value)
+
+        val actual = orderingTerm(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -238,6 +256,15 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support UnboundedPreceding function`() {
+        val expected = UnboundedPreceding()
+
+        val actual = unboundedPreceding()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support Preceding`() {
         val expected = DopeQuery(
             "`numberField` PRECEDING",
@@ -250,15 +277,23 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support Preceding with number`() {
-        val expected = DopeQuery(
-            "5 PRECEDING",
-        )
-        val underTest = Preceding(someNumber())
+    fun `should support Preceding function`() {
+        val value = someNumberField()
+        val expected = Preceding(value)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = preceding(value)
 
-        assertEquals(expected, actual)
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support Preceding function with number`() {
+        val value = someNumber()
+        val expected = Preceding(value.toDopeType())
+
+        val actual = preceding(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -274,6 +309,15 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support CurrentRow function`() {
+        val expected = CurrentRow()
+
+        val actual = currentRow()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support between and`() {
         val expected = DopeQuery(
             "BETWEEN CURRENT ROW AND CURRENT ROW",
@@ -283,6 +327,16 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support Between function`() {
+        val value = CurrentRow()
+        val expected = Between(value, value)
+
+        val actual = between(value, value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
@@ -298,6 +352,15 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
     }
 
     @Test
+    fun `should support unbounded following function`() {
+        val expected = UnboundedFollowing()
+
+        val actual = unboundedFollowing()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
     fun `should support following`() {
         val expected = DopeQuery(
             "`numberField` FOLLOWING",
@@ -307,6 +370,26 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support Following function`() {
+        val value = someNumberField()
+        val expected = Following(value)
+
+        val actual = following(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support Following function with number`() {
+        val value = someNumber()
+        val expected = Following(value.toDopeType())
+
+        val actual = following(value)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test

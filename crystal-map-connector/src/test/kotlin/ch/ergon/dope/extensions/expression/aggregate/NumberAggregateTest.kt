@@ -1,12 +1,12 @@
-package ch.ergon.dope.extensions.expression.aggregator
+package ch.ergon.dope.extensions.expression.aggregate
 
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.expression.aggregator.avg
-import ch.ergon.dope.extension.expression.aggregator.mean
-import ch.ergon.dope.extension.expression.aggregator.median
-import ch.ergon.dope.extension.expression.aggregator.stdDev
-import ch.ergon.dope.extension.expression.aggregator.sum
-import ch.ergon.dope.extension.expression.aggregator.variance
+import ch.ergon.dope.extension.expression.aggregate.avg
+import ch.ergon.dope.extension.expression.aggregate.mean
+import ch.ergon.dope.extension.expression.aggregate.median
+import ch.ergon.dope.extension.expression.aggregate.stdDev
+import ch.ergon.dope.extension.expression.aggregate.sum
+import ch.ergon.dope.extension.expression.aggregate.variance
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL

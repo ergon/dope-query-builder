@@ -7,17 +7,17 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
 import ch.ergon.dope.resolvable.expression.rowscope.alias
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Between
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.CurrentRow
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Following
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_FIRST
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.NullsOrder.NULLS_LAST
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
-import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.UnboundedFollowing
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameExclusion.EXCLUDE_NO_OTHERS
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameType.ROWS
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.between
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.currentRow
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.following
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.orderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.unboundedFollowing
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FromModifier.LAST
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier.IGNORE
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.cumeDist
@@ -55,13 +55,13 @@ class WindowFunctionTest {
             .select(
                 rowNumber().alias("row"),
                 cumeDist("ref"),
-                denseRank(listOf(OrderingTerm(someStringField(), ASC))),
+                denseRank(listOf(orderingTerm(someStringField(), ASC))),
                 firstValue(
                     someStringField(),
-                    windowOrderClause = listOf(OrderingTerm(someStringField(), nullsOrder = NULLS_LAST)),
+                    windowOrderClause = listOf(orderingTerm(someStringField(), nullsOrder = NULLS_LAST)),
                     windowFrameClause = WindowFrameClause(
                         ROWS,
-                        Between(CurrentRow(), Following(1)),
+                        between(currentRow(), following(1)),
                         EXCLUDE_NO_OTHERS,
                     ),
                 ),
@@ -70,13 +70,13 @@ class WindowFunctionTest {
                     10,
                     fromModifier = LAST,
                     windowOrderClause = listOf(
-                        OrderingTerm(
+                        orderingTerm(
                             someStringField(),
                             nullsOrder = NULLS_FIRST,
                         ),
                     ),
                 ),
-                lag(someNumberField(), windowOrderClause = listOf(OrderingTerm(someStringField(), ASC))),
+                lag(someNumberField(), windowOrderClause = listOf(orderingTerm(someStringField(), ASC))),
                 lastValue(
                     someStringField("last"),
                     IGNORE,
@@ -88,7 +88,7 @@ class WindowFunctionTest {
                     WindowDefinition(
                         windowFrameClause = WindowFrameClause(
                             ROWS,
-                            Between(CurrentRow(), UnboundedFollowing()),
+                            between(currentRow(), unboundedFollowing()),
                         ),
                     ),
                 ),
