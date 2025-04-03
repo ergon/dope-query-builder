@@ -18,7 +18,7 @@ enum class NullsModifier(val queryString: String) {
 
 sealed class WindowFunctionExpression<T : ValidType>(
     override val functionName: String,
-    override val functionArguments: List<TypeExpression<out ValidType>?>? = null,
+    override val functionArguments: List<TypeExpression<out ValidType>?> = emptyList(),
     override val fromModifier: FromModifier? = null,
     override val nullsModifier: NullsModifier? = null,
     override val overDefinition: OverDefinition,

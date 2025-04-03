@@ -16,17 +16,17 @@ import ch.ergon.dope.validtype.ValidType
 interface RowScopeExpression<T : ValidType> : Expression<T> {
     val functionName: String
     val quantifier: AggregateQuantifier?
-    val functionArguments: List<Selectable?>?
+    val functionArguments: List<Selectable?>
     val fromModifier: FromModifier?
     val nullsModifier: NullsModifier?
     val overDefinition: OverDefinition?
 
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val functionArgumentsDopeQuery = functionArguments?.mapNotNull { it?.toDopeQuery(manager) }
+        val functionArgumentsDopeQuery = functionArguments.mapNotNull { it?.toDopeQuery(manager) }
         val overDefinitionDopeQuery = overDefinition?.toDopeQuery(manager)
         val functionArgumentsQueryString =
             formatListToQueryStringWithBrackets(
-                functionArgumentsDopeQuery.orEmpty(),
+                functionArgumentsDopeQuery,
                 prefix = "(" + quantifier?.let { "${it.queryString} " }.orEmpty(),
             )
 
