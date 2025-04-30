@@ -9,4 +9,4 @@ class ObjectLengthExpression(
     objectExpression: TypeExpression<ObjectType>,
 ) : FunctionExpression<NumberType>("OBJECT_LENGTH", objectExpression)
 
-fun TypeExpression<ObjectType>.length() = ObjectLengthExpression(this)
+fun TypeExpression<ObjectType>.getLength() = ObjectLengthExpression(this)

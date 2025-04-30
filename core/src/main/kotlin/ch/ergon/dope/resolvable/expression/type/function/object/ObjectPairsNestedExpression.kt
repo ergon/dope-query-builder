@@ -10,4 +10,4 @@ class ObjectPairsNestedExpression(
     options: TypeExpression<ObjectType>? = null,
 ) : FunctionExpression<ArrayType<ObjectType>>("OBJECT_PAIRS_NESTED", objectExpression, options)
 
-fun TypeExpression<ObjectType>.pairsNested(options: TypeExpression<ObjectType>? = null) = ObjectPairsNestedExpression(this, options)
+fun TypeExpression<ObjectType>.getNestedPairs(options: TypeExpression<ObjectType>? = null) = ObjectPairsNestedExpression(this, options)

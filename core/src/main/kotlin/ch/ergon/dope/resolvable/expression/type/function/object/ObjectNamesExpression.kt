@@ -10,4 +10,4 @@ class ObjectNamesExpression(
     objectExpression: TypeExpression<ObjectType>,
 ) : FunctionExpression<ArrayType<StringType>>("OBJECT_NAMES", objectExpression)
 
-fun TypeExpression<ObjectType>.names() = ObjectNamesExpression(this)
+fun TypeExpression<ObjectType>.getNames() = ObjectNamesExpression(this)

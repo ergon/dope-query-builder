@@ -9,4 +9,4 @@ class ObjectInnerPairsExpression(
     objectExpression: TypeExpression<ObjectType>,
 ) : FunctionExpression<ArrayType<ObjectType>>("OBJECT_INNER_PAIRS", objectExpression)
 
-fun TypeExpression<ObjectType>.innerPairs() = ObjectInnerPairsExpression(this)
+fun TypeExpression<ObjectType>.getInnerPairs() = ObjectInnerPairsExpression(this)

@@ -10,4 +10,4 @@ class ObjectValuesExpression(
     objectExpression: TypeExpression<ObjectType>,
 ) : FunctionExpression<ArrayType<out ValidType>>("OBJECT_VALUES", objectExpression)
 
-fun TypeExpression<ObjectType>.values() = ObjectValuesExpression(this)
+fun TypeExpression<ObjectType>.getValues() = ObjectValuesExpression(this)

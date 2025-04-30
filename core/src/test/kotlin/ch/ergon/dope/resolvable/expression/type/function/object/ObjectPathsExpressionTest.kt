@@ -39,7 +39,7 @@ class ObjectPathsExpressionTest : ManagerDependentTest {
         val objectExpression = someObjectField()
         val expected = ObjectPathsExpression(objectExpression)
 
-        val actual = objectExpression.paths()
+        val actual = objectExpression.getPaths()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -50,7 +50,7 @@ class ObjectPathsExpressionTest : ManagerDependentTest {
         val options = someObjectField("options")
         val expected = ObjectPathsExpression(objectExpression, options)
 
-        val actual = objectExpression.paths(options)
+        val actual = objectExpression.getPaths(options)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

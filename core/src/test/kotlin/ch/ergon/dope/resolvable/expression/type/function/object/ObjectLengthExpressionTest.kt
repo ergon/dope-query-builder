@@ -27,7 +27,7 @@ class ObjectLengthExpressionTest : ManagerDependentTest {
         val objectExpression = someObjectField()
         val expected = ObjectLengthExpression(objectExpression)
 
-        val actual = objectExpression.length()
+        val actual = objectExpression.getLength()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

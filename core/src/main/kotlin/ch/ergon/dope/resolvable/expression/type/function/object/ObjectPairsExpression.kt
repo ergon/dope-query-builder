@@ -9,4 +9,4 @@ class ObjectPairsExpression(
     objectExpression: TypeExpression<ObjectType>,
 ) : FunctionExpression<ArrayType<ObjectType>>("OBJECT_PAIRS", objectExpression)
 
-fun TypeExpression<ObjectType>.pairs() = ObjectPairsExpression(this)
+fun TypeExpression<ObjectType>.getPairs() = ObjectPairsExpression(this)

@@ -27,7 +27,7 @@ class ObjectPairsExpressionTest : ManagerDependentTest {
         val objectExpression = someObjectField()
         val expected = ObjectPairsExpression(objectExpression)
 
-        val actual = objectExpression.pairs()
+        val actual = objectExpression.getPairs()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

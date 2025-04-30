@@ -39,7 +39,7 @@ class ObjectPairsNestedExpressionTest : ManagerDependentTest {
         val objectExpression = someObjectField()
         val expected = ObjectPairsNestedExpression(objectExpression)
 
-        val actual = objectExpression.pairsNested()
+        val actual = objectExpression.getNestedPairs()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -50,7 +50,7 @@ class ObjectPairsNestedExpressionTest : ManagerDependentTest {
         val options = someObjectField("options")
         val expected = ObjectPairsNestedExpression(objectExpression, options)
 
-        val actual = objectExpression.pairsNested(options)
+        val actual = objectExpression.getNestedPairs(options)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

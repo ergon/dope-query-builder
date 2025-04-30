@@ -27,7 +27,7 @@ class ObjectInnerValuesExpressionTest : ManagerDependentTest {
         val objectExpression = someObjectField()
         val expected = ObjectInnerValuesExpression(objectExpression)
 
-        val actual = objectExpression.innerValues()
+        val actual = objectExpression.getInnerValues()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

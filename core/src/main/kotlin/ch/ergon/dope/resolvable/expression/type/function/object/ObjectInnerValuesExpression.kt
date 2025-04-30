@@ -10,4 +10,4 @@ class ObjectInnerValuesExpression(
     objectExpression: TypeExpression<ObjectType>,
 ) : FunctionExpression<ArrayType<ValidType>>("OBJECT_INNER_VALUES", objectExpression)
 
-fun TypeExpression<ObjectType>.innerValues() = ObjectInnerValuesExpression(this)
+fun TypeExpression<ObjectType>.getInnerValues() = ObjectInnerValuesExpression(this)

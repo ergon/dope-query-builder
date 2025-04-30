@@ -3,19 +3,18 @@ package ch.ergon.dope.extension.expression.type.`object`
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.`object`.addAttribute
 import ch.ergon.dope.resolvable.expression.type.function.`object`.concat
-import ch.ergon.dope.resolvable.expression.type.function.`object`.innerPairs
-import ch.ergon.dope.resolvable.expression.type.function.`object`.length
-import ch.ergon.dope.resolvable.expression.type.function.`object`.names
-import ch.ergon.dope.resolvable.expression.type.function.`object`.getField
-import ch.ergon.dope.resolvable.expression.type.function.`object`.pairs
-import ch.ergon.dope.resolvable.expression.type.function.`object`.pairsNested
-import ch.ergon.dope.resolvable.expression.type.function.`object`.paths
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getInnerPairs
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getLength
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getNames
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getPairs
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getNestedPairs
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getPaths
 import ch.ergon.dope.resolvable.expression.type.function.`object`.putAttribute
 import ch.ergon.dope.resolvable.expression.type.function.`object`.removeAttribute
 import ch.ergon.dope.resolvable.expression.type.function.`object`.renameAttribute
 import ch.ergon.dope.resolvable.expression.type.function.`object`.replace
 import ch.ergon.dope.resolvable.expression.type.function.`object`.unwrap
-import ch.ergon.dope.resolvable.expression.type.function.`object`.values
+import ch.ergon.dope.resolvable.expression.type.function.`object`.getValues
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ObjectType
@@ -50,25 +49,25 @@ fun CMObjectField<Schema>.concat(
     vararg additionalObjectExpression: CMObjectField<Schema>,
 ) = toDopeType().concat(secondObjectExpression.toDopeType(), *additionalObjectExpression.map { it.toDopeType() }.toTypedArray())
 
-fun CMObjectField<Schema>.innerPairs() = toDopeType().innerPairs()
+fun CMObjectField<Schema>.innerPairs() = toDopeType().getInnerPairs()
 
-fun CMObjectField<Schema>.length() = toDopeType().length()
+fun CMObjectField<Schema>.length() = toDopeType().getLength()
 
-fun CMObjectField<Schema>.names() = toDopeType().names()
+fun CMObjectField<Schema>.names() = toDopeType().getNames()
 
-fun CMObjectField<Schema>.pairs() = toDopeType().pairs()
+fun CMObjectField<Schema>.pairs() = toDopeType().getPairs()
 
-fun CMObjectField<Schema>.pairsNested(options: TypeExpression<ObjectType>? = null) = toDopeType().pairsNested(options)
+fun CMObjectField<Schema>.pairsNested(options: TypeExpression<ObjectType>? = null) = toDopeType().getNestedPairs(options)
 
-fun CMObjectField<Schema>.pairsNested(options: CMObjectField<Schema>) = toDopeType().pairsNested(options.toDopeType())
+fun CMObjectField<Schema>.pairsNested(options: CMObjectField<Schema>) = toDopeType().getNestedPairs(options.toDopeType())
 
-fun TypeExpression<ObjectType>.pairsNested(options: CMObjectField<Schema>) = pairsNested(options.toDopeType())
+fun TypeExpression<ObjectType>.pairsNested(options: CMObjectField<Schema>) = getNestedPairs(options.toDopeType())
 
-fun CMObjectField<Schema>.paths(options: TypeExpression<ObjectType>? = null) = toDopeType().paths(options)
+fun CMObjectField<Schema>.paths(options: TypeExpression<ObjectType>? = null) = toDopeType().getPaths(options)
 
-fun CMObjectField<Schema>.paths(options: CMObjectField<Schema>) = toDopeType().paths(options.toDopeType())
+fun CMObjectField<Schema>.paths(options: CMObjectField<Schema>) = toDopeType().getPaths(options.toDopeType())
 
-fun TypeExpression<ObjectType>.paths(options: CMObjectField<Schema>) = paths(options.toDopeType())
+fun TypeExpression<ObjectType>.paths(options: CMObjectField<Schema>) = getPaths(options.toDopeType())
 
 fun CMObjectField<Schema>.putAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
     toDopeType().putAttribute(key, value)
@@ -188,4 +187,4 @@ fun CMObjectField<Schema>.replace(oldValue: CMType, newValue: TypeExpression<out
 
 fun CMObjectField<Schema>.unwrap() = toDopeType().unwrap()
 
-fun CMObjectField<Schema>.values() = toDopeType().values()
+fun CMObjectField<Schema>.values() = toDopeType().getValues()
