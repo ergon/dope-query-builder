@@ -11,18 +11,22 @@ import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSelectRawClause
-import ch.ergon.dope.resolvable.expression.unaliased.type.FALSE
-import ch.ergon.dope.resolvable.expression.unaliased.type.TRUE
-import ch.ergon.dope.resolvable.expression.unaliased.type.access.get
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.exists
-import ch.ergon.dope.resolvable.expression.unaliased.type.collection.inArray
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.arrayfunction.arrayLength
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.decode
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.conditional.resultsIn
-import ch.ergon.dope.resolvable.expression.unaliased.type.function.typefunction.typeOf
-import ch.ergon.dope.resolvable.expression.unaliased.type.getString
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.AliasedSelectClause
+import ch.ergon.dope.resolvable.asterisk
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TRUE
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.collection.exists
+import ch.ergon.dope.resolvable.expression.type.collection.inArray
+import ch.ergon.dope.resolvable.expression.type.function.array.arrayLength
+import ch.ergon.dope.resolvable.expression.type.function.conditional.decode
+import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
+import ch.ergon.dope.resolvable.expression.type.function.type.typeOf
+import ch.ergon.dope.resolvable.expression.type.get
+import ch.ergon.dope.resolvable.expression.type.getString
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.validtype.ObjectType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -172,6 +176,21 @@ class SubQueryTest {
                         .selectRaw(someNumberField())
                         .from(someBucket()).asExpression(),
                 ),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support asterisk on sub select`() {
+        val sub: AliasedSelectClause<ObjectType> = create.select(1.toDopeType()).alias("sub")
+        val expected = "SELECT `sub`.* FROM (SELECT 1) AS `sub`"
+
+        val actual = create
+            .select(
+                sub.asterisk(),
+            ).from(
+                sub,
             ).build().queryString
 
         assertEquals(expected, actual)

@@ -1,5 +1,7 @@
 package ch.ergon.dope.extension.clause
 
+import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectJoinClause
@@ -7,13 +9,11 @@ import ch.ergon.dope.resolvable.clause.ISelectLimitClause
 import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.assignTo
-import ch.ergon.dope.resolvable.clause.model.joinHint.HashOrNestedLoopHint
-import ch.ergon.dope.resolvable.clause.model.joinHint.KeysOrIndexHint
-import ch.ergon.dope.resolvable.fromable.Bucket
-import ch.ergon.dope.resolvable.fromable.Joinable
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField
@@ -27,73 +27,73 @@ fun <T : ValidType> ISelectOrderByClause<T>.limit(numberField: CMJsonField<Numbe
 @JvmName("orderByNumber")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     numberField: CMJsonField<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("orderByString")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     stringField: CMJsonField<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("orderByBoolean")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     booleanField: CMJsonField<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(booleanField.toDopeType(), orderByType)
 
 @JvmName("orderByListNumber")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     numberField: CMJsonList<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("orderByListString")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     stringField: CMJsonList<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("orderByListBoolean")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     booleanField: CMJsonList<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(booleanField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByNumber")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     numberField: CMJsonField<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByString")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     stringField: CMJsonField<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByBoolean")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     booleanField: CMJsonField<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(booleanField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByListNumber")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     numberField: CMJsonList<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByListString")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     stringField: CMJsonList<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByListBoolean")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     booleanField: CMJsonList<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(booleanField.toDopeType(), orderByType)
 
 fun <T : ValidType> ISelectWhereClause<T>.groupBy(field: CMType, vararg fields: CMType) =

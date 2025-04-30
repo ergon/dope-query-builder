@@ -6,14 +6,14 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.AliasedExpression
-import ch.ergon.dope.resolvable.expression.alias
-import ch.ergon.dope.resolvable.expression.unaliased.type.asParameter
-import ch.ergon.dope.resolvable.expression.unaliased.type.logical.and
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.expression.unaliased.type.relational.isValued
-import ch.ergon.dope.resolvable.expression.unaliased.type.toDopeType
-import ch.ergon.dope.resolvable.fromable.asterisk
+import ch.ergon.dope.resolvable.asterisk
+import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
+import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.logic.and
+import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.resolvable.expression.type.relational.isValued
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.BeforeTest
@@ -34,7 +34,7 @@ class UnnestClauseTest {
         val aField = listOf("a".toDopeType()).toDopeType()
         val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
-        val alias: AliasedExpression<ArrayType<StringType>> = aField.alias("a")
+        val alias: AliasedTypeExpression<ArrayType<StringType>> = aField.alias("a")
         val actual: String = create
             .selectFrom(airline)
             .unnest(alias)
