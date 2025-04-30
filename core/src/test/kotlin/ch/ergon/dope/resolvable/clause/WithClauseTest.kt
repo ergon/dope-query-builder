@@ -7,9 +7,9 @@ import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
-import ch.ergon.dope.resolvable.clause.model.With
 import ch.ergon.dope.resolvable.clause.model.WithClause
-import ch.ergon.dope.resolvable.clause.model.asCTE
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
+import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,7 +22,7 @@ class WithClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "WITH `alias` AS (\"someString\")",
         )
-        val underTest = WithClause(With("alias", someString().toDopeType()))
+        val underTest = WithClause(DopeVariable("alias", someString().toDopeType()))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -35,8 +35,8 @@ class WithClauseTest : ManagerDependentTest {
             queryString = "WITH `alias` AS (\"someString\"), `subquery` AS ((SELECT *))",
         )
         val underTest = WithClause(
-            With("alias", someString().toDopeType()),
-            With("subquery", someSelectClause().asExpression()),
+            DopeVariable("alias", someString().toDopeType()),
+            DopeVariable("subquery", someSelectClause().asExpression()),
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -48,9 +48,9 @@ class WithClauseTest : ManagerDependentTest {
     fun `should support with expression`() {
         val expression = someString().toDopeType()
         val alias = "alias"
-        val expected = With(alias, expression)
+        val expected = DopeVariable(alias, expression)
 
-        val actual = alias.asCTE(expression)
+        val actual = alias.assignTo(expression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -59,9 +59,9 @@ class WithClauseTest : ManagerDependentTest {
     fun `should support with expression with string`() {
         val expression = someString()
         val alias = "alias"
-        val expected = With(alias, expression.toDopeType())
+        val expected = DopeVariable(alias, expression.toDopeType())
 
-        val actual = alias.asCTE(expression)
+        val actual = alias.assignTo(expression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -70,9 +70,9 @@ class WithClauseTest : ManagerDependentTest {
     fun `should support with expression with number`() {
         val expression = someNumber()
         val alias = "alias"
-        val expected = With(alias, expression.toDopeType())
+        val expected = DopeVariable(alias, expression.toDopeType())
 
-        val actual = alias.asCTE(expression)
+        val actual = alias.assignTo(expression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -81,9 +81,9 @@ class WithClauseTest : ManagerDependentTest {
     fun `should support with expression with boolean`() {
         val expression = someBoolean()
         val alias = "alias"
-        val expected = With(alias, expression.toDopeType())
+        val expected = DopeVariable(alias, expression.toDopeType())
 
-        val actual = alias.asCTE(expression)
+        val actual = alias.assignTo(expression)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -92,9 +92,9 @@ class WithClauseTest : ManagerDependentTest {
     fun `should support with expression with subquery`() {
         val subquery = someSelectClause()
         val alias = "alias"
-        val expected = With(alias, subquery.asExpression())
+        val expected = DopeVariable(alias, subquery.asExpression())
 
-        val actual = alias.asCTE(subquery)
+        val actual = alias.assignTo(subquery)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

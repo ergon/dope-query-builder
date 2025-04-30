@@ -15,16 +15,15 @@ import ch.ergon.dope.resolvable.clause.except
 import ch.ergon.dope.resolvable.clause.exceptAll
 import ch.ergon.dope.resolvable.clause.intersect
 import ch.ergon.dope.resolvable.clause.intersectAll
-import ch.ergon.dope.resolvable.clause.model.asCTE
-import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.clause.union
 import ch.ergon.dope.resolvable.clause.unionAll
-import ch.ergon.dope.resolvable.expression.aggregate.avg
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.avg
 import ch.ergon.dope.resolvable.expression.type.FALSE
 import ch.ergon.dope.resolvable.expression.type.MISSING
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.resolvable.expression.type.case
 import ch.ergon.dope.resolvable.expression.type.collection.any
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
@@ -910,7 +909,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val t1 = someBucket("route").alias("t1")
         val equip = "equip".assignTo(someStringArrayField("equipment", t1).any { it.isEqualTo("radio") })
         val sourceAirport = someStringField("sourceAirport", someBucket("route").alias("t2"))
-        val sourceAirports = "source_airports".assignTo(create.selectRaw(sourceAirport).where(sourceAirport.isNotNull()).asExpression())
+        val sourceAirports = "source_airports".assignTo(create.selectRaw(sourceAirport).where(sourceAirport.isNotNull()))
         val destinationAirport = someStringField("destinationAirport", t1)
 
         val expected = "SELECT `t1`.`destinationAirport`, `equip` AS `has_radio` " +
@@ -937,8 +936,8 @@ class QueryBuilderTest : ManagerDependentTest {
         val publicLikes = someNumberField("publicLikes", hotel)
         val cte = hotel.alias("cte")
         val ctePublicLikes = someNumberField("publicLikes", cte)
-        val avgLikeCount = "avgLikeCount".asCTE(
-            create.selectRaw(avg(ctePublicLikes)).from(cte),
+        val avgLikeCount = "avgLikeCount".assignTo(
+            create.selectRaw(avg(ctePublicLikes)).from(cte).asExpression(),
         )
 
         val expected = "WITH `avgLikeCount` AS ((SELECT RAW AVG(`cte`.`publicLikes`) FROM `hotel` AS `cte`)) " +

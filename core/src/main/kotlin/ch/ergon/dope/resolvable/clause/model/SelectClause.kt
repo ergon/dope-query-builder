@@ -22,7 +22,7 @@ class SelectClause(
         return DopeQuery(
             queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
                 "SELECT " +
-                listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString(separator = ", ") { it.queryString },
+                listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString },
             parameters = (parentDopeQuery?.parameters ?: DopeParameters()).merge(
                 expressionDopeQuery.parameters,
                 *expressionsDopeQuery.map { it.parameters }.toTypedArray(),
@@ -58,7 +58,7 @@ class SelectDistinctClause(
         return DopeQuery(
             queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
                 "SELECT DISTINCT " +
-                listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString(separator = ", ") { it.queryString },
+                listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString },
             parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }

@@ -13,7 +13,7 @@ import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
-import ch.ergon.dope.resolvable.clause.model.assignTo
+import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField

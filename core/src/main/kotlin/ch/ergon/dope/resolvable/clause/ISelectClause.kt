@@ -10,7 +10,6 @@ import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
-import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
@@ -31,7 +30,9 @@ import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
+import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression

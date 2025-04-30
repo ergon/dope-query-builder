@@ -26,7 +26,6 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderBy
 import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.helper.someString
-import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
@@ -38,6 +37,7 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
