@@ -33,7 +33,7 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             .from(
                 employeeAlias,
             )
-            .join(
+            .joinOnCondition(
                 orderAlias,
                 orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
             ).orderBy(
@@ -72,12 +72,12 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             .from(
                 orderAlias,
             )
-            .join(
+            .joinOnCondition(
                 employeeAlias,
                 orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
                 hashOrNestedLoopHint = NESTED_LOOP,
             )
-            .innerJoin(
+            .innerJoinOnCondition(
                 clientAlias,
                 orderClientIdField.isEqualTo(meta(clientAlias).id),
                 keysOrIndexHint = indexHint(),

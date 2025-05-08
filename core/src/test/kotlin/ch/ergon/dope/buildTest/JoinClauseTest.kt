@@ -37,7 +37,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 route,
-            ).join(
+            ).joinOnCondition(
                 airline,
                 onCondition = someStringField("airlineid", route).isEqualTo(
                     meta(airline).id,
@@ -61,7 +61,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 route.useIndex(),
-            ).leftJoin(
+            ).leftJoinOnCondition(
                 airline,
                 onCondition = someStringField("airlineid", route).isEqualTo(
                     meta(airline).id,
@@ -111,7 +111,7 @@ class JoinClauseTest {
             someStringField("destinationairport", route),
         ).from(
             route,
-        ).innerJoin(
+        ).innerJoinOnCondition(
             airline,
             onCondition = someStringField("airlineid", route).isEqualTo(
                 meta(
@@ -162,7 +162,7 @@ class JoinClauseTest {
             ),
         ).from(
             aport,
-        ).leftJoin(
+        ).leftJoinOnCondition(
             lmark,
             onCondition = someStringField("city", aport).isEqualTo(
                 someStringField("city", lmark),
@@ -245,7 +245,7 @@ class JoinClauseTest {
         val actual = create
             .selectDistinct(someStringField("destinationairport", someBucket("subquery")))
             .from(airport)
-            .join(
+            .joinOnCondition(
                 create
                     .select(someStringField("destinationairport"), someStringField("sourceairport"))
                     .from(route)
@@ -273,7 +273,7 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).join(
+        ).joinOnKeys(
             airline,
             onKeys = someStringField("airlineid", route),
         ).where(
@@ -305,7 +305,7 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).leftJoin(
+        ).leftJoinOnKeys(
             airline,
             onKeys = someStringField("airlineid", route),
         ).where(
@@ -336,7 +336,7 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).join(
+        ).joinOnKeys(
             airline,
             onKeys = someStringField("airlineid", route),
         ).where(
@@ -356,7 +356,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 airline,
-            ).join(
+            ).joinOnKey(
                 route,
                 onKey = someStringField("airlineid", route),
                 forBucket = airline,
@@ -373,7 +373,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 airline,
-            ).innerJoin(
+            ).innerJoinOnKey(
                 route,
                 onKey = someStringField("airlineid", route),
                 forBucket = airline,
@@ -390,7 +390,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 airline,
-            ).leftJoin(
+            ).leftJoinOnKey(
                 route,
                 onKey = someStringField("airlineid", route),
                 forBucket = airline,
@@ -413,7 +413,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 r,
-            ).join(
+            ).joinOnCondition(
                 a,
                 onCondition = someStringField("airlineid", r).isEqualTo(
                     meta(a).id,
@@ -433,7 +433,7 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 r,
-            ).join(
+            ).joinOnKeys(
                 airline,
                 onKeys = someStringField("airlineid", r),
             ).build().queryString
@@ -456,7 +456,7 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).innerJoin(
+        ).innerJoinOnKeys(
             airline,
             onKeys = someStringField("airlineid", route),
         ).where(
@@ -479,7 +479,7 @@ class JoinClauseTest {
         val actual = create
             .selectFrom(
                 a1,
-            ).join(
+            ).joinOnCondition(
                 a2,
                 onCondition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
             ).build().queryString
@@ -500,10 +500,10 @@ class JoinClauseTest {
         val actual = create
             .selectFrom(
                 airline,
-            ).join(
+            ).joinOnCondition(
                 airport,
                 onCondition = someStringField("id", airline).isEqualTo(someStringField("id", airport)),
-            ).join(
+            ).joinOnCondition(
                 city,
                 onCondition = someStringField("id", airport).isEqualTo(someStringField("id", city)),
             ).build().queryString

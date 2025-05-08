@@ -309,7 +309,7 @@ class UseTest {
             .from(
                 someBucket(),
             )
-            .join(
+            .joinOnCondition(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_BUILD,
@@ -328,7 +328,7 @@ class UseTest {
             .from(
                 someBucket(),
             )
-            .join(
+            .joinOnCondition(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,
@@ -347,7 +347,7 @@ class UseTest {
             .from(
                 someBucket(),
             )
-            .join(
+            .joinOnCondition(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 keysOrIndexHint = keysHint("someID"),
@@ -366,7 +366,7 @@ class UseTest {
             .from(
                 someBucket(),
             )
-            .join(
+            .joinOnCondition(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 keysOrIndexHint = indexHint("someID"),
@@ -385,7 +385,7 @@ class UseTest {
             .from(
                 someBucket(),
             )
-            .join(
+            .joinOnCondition(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_PROBE,
@@ -405,7 +405,7 @@ class UseTest {
             .from(
                 someBucket(),
             )
-            .join(
+            .joinOnCondition(
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,

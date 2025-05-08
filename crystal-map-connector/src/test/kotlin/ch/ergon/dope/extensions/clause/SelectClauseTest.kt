@@ -3,10 +3,13 @@ package ch.ergon.dope.extensions.clause
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
-import ch.ergon.dope.extension.clause.innerJoin
-import ch.ergon.dope.extension.clause.join
+import ch.ergon.dope.extension.clause.innerJoinOnKey
+import ch.ergon.dope.extension.clause.innerJoinOnKeys
 import ch.ergon.dope.extension.clause.joinHint.keysHint
-import ch.ergon.dope.extension.clause.leftJoin
+import ch.ergon.dope.extension.clause.joinOnKey
+import ch.ergon.dope.extension.clause.joinOnKeys
+import ch.ergon.dope.extension.clause.leftJoinOnKey
+import ch.ergon.dope.extension.clause.leftJoinOnKeys
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
@@ -28,15 +31,18 @@ import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
+import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
+import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
@@ -92,11 +98,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = StandardJoinClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = StandardJoinOnKeysClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, onKeys = field)
+        val actual = parentClause.joinOnKeys(bucket, onKeys = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -104,12 +110,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join on key for with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = StandardJoinClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, onKey = field, forBucket)
+        val actual = parentClause.joinOnKey(bucket, onKey = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -117,11 +123,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select inner join with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = InnerJoinClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = InnerJoinOnKeysClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, onKeys = field)
+        val actual = parentClause.innerJoinOnKeys(bucket, onKeys = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -129,12 +135,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select inner join on key for with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = InnerJoinClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, onKey = field, forBucket)
+        val actual = parentClause.innerJoinOnKey(bucket, onKey = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -142,11 +148,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select left join with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = LeftJoinClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = LeftJoinOnKeysClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, onKeys = field)
+        val actual = parentClause.leftJoinOnKeys(bucket, onKeys = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -154,12 +160,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select left join on key for with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = LeftJoinClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, onKey = field, forBucket)
+        val actual = parentClause.leftJoinOnKey(bucket, onKey = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -170,14 +176,14 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someNumberField()
         val keysHint = keysHint(someCMStringField())
         val parentClause = someFrom()
-        val expected = StandardJoinClause(
+        val expected = StandardJoinOnKeysClause(
             bucket,
             onKeys = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, onKeys = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.joinOnKeys(bucket, onKeys = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -188,14 +194,14 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someNumberField()
         val keysHint = keysHint(someCMStringList())
         val parentClause = someFrom()
-        val expected = StandardJoinClause(
+        val expected = StandardJoinOnKeysClause(
             bucket,
             onKeys = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, onKeys = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.joinOnKeys(bucket, onKeys = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -225,7 +231,7 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select order by with CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(OrderExpression(field.toDopeType()), parentClause = parentClause)
 
@@ -236,7 +242,7 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select order by with type and CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
@@ -363,7 +369,7 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select then order by with CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
@@ -378,7 +384,7 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select then order by with type and CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
@@ -572,7 +578,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support DopeVariables with cmNumberField`() {
         val name = someString()
-        val value = someCMNumberField()
+        val value = someCMStringField()
         val expected = DopeVariable(name, value.toDopeType())
 
         val actual = name.assignTo(value)
