@@ -17,14 +17,14 @@ data class DopeParameters(
      * is the first in the order of merging.
      */
     fun merge(vararg otherParameters: DopeParameters?) = this.copy(
-        namedParameters = otherParameters.filterNotNull().fold(this.namedParameters) {
-                namedParams, additionalNamedParams ->
-            namedParams + additionalNamedParams.namedParameters
-        },
-        positionalParameters = otherParameters.filterNotNull().fold(this.positionalParameters) {
-                positionalParams, additionalPositionalParams ->
-            positionalParams + additionalPositionalParams.positionalParameters
-        },
+        namedParameters = otherParameters.filterNotNull()
+            .fold(this.namedParameters) { namedParams, additionalNamedParams ->
+                namedParams + additionalNamedParams.namedParameters
+            },
+        positionalParameters = otherParameters.filterNotNull()
+            .fold(this.positionalParameters) { positionalParams, additionalPositionalParams ->
+                positionalParams + additionalPositionalParams.positionalParameters
+            },
     )
 }
 
