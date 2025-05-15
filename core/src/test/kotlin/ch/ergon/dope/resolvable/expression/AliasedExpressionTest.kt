@@ -9,8 +9,8 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.aggregate.AliasedAggregateExpression
-import ch.ergon.dope.resolvable.expression.aggregate.countAsterisk
+import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.countAsterisk
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -26,7 +26,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "COUNT(*) AS `count`",
         )
-        val underTest = AliasedAggregateExpression(countAsterisk(), "count")
+        val underTest = AliasedRowScopeExpression(countAsterisk(), "count")
 
         val actual = underTest.toDopeQuery(manager)
 

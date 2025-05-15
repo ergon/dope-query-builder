@@ -511,7 +511,10 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMConverterStringField()
         val value = someDate()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType().toNewValue(value.toInstant().epochSecond.toString().toDopeType()), parentClause = parentClause)
+        val expected = SetClause(
+            field.toDopeType().toNewValue(value.toInstant().epochSecond.toString().toDopeType()),
+            parentClause = parentClause,
+        )
 
         val actual = parentClause.set(field.toNewValue(value))
 

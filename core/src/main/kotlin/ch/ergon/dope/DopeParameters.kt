@@ -28,8 +28,9 @@ data class DopeParameters(
     )
 }
 
-fun List<DopeParameters>.merge(vararg otherParameters: DopeParameters): DopeParameters {
-    return this.fold(DopeParameters()) { parameters, additionalParameters ->
+fun List<DopeParameters>.merge(vararg otherParameters: DopeParameters?): DopeParameters =
+    this.fold(DopeParameters()) { parameters, additionalParameters ->
         parameters.merge(additionalParameters)
     }.merge(*otherParameters)
-}
+
+fun DopeParameters?.orEmpty(): DopeParameters = this ?: DopeParameters()

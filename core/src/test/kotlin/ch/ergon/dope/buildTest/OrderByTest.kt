@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -43,7 +43,7 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-                OrderByType.ASC,
+                OrderType.ASC,
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -59,7 +59,7 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-                OrderByType.DESC,
+                OrderType.DESC,
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -75,12 +75,12 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-                OrderByType.DESC,
+                OrderType.DESC,
             ).thenOrderBy(
                 someNumberField(),
             ).thenOrderBy(
                 lower("SOMETHING"),
-                OrderByType.ASC,
+                OrderType.ASC,
             ).build().queryString
 
         assertEquals(expected, actual)
