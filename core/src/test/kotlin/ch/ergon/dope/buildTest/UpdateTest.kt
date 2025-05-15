@@ -6,7 +6,7 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.bucket.useKeys
-import ch.ergon.dope.resolvable.clause.model.to
+import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.meta
@@ -44,8 +44,8 @@ class UpdateTest {
             .update(
                 someBucket(),
             ).set(
-                meta().expiration to 10.toDopeType(),
-                someStringField() to "test".toDopeType(),
+                meta().expiration.toNewValue(10.toDopeType()),
+                someStringField().toNewValue("test".toDopeType()),
             )
             .build().queryString
 
@@ -125,9 +125,9 @@ class UpdateTest {
             .update(
                 bucket.useKeys("keyString"),
             ).set(
-                setThisNumberField to 1.toDopeType(),
-                meta(someBucket().alias("sb")).expiration to 3600.toDopeType(),
-                someStringField() to NULL,
+                setThisNumberField.toNewValue(1.toDopeType()),
+                meta(bucket).expiration.toNewValue(3600.toDopeType()),
+                someStringField().toNewValue(NULL),
             ).unset(
                 someStringField("unsetThisStringField"),
             ).where(

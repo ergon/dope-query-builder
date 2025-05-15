@@ -25,12 +25,15 @@ interface IUpdateReturningClause : Clause
 interface IUpdateLimitClause : IUpdateReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         UpdateReturningClause(returningExpression, *additionalReturningExpressions, parentClause = this)
+
     fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(Asterisk(bucket), parentClause = this)
 
     fun returningRaw(returningExpression: TypeExpression<out ValidType>) =
         UpdateReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)
+
     fun returningValue(returningExpression: TypeExpression<out ValidType>) =
         UpdateReturningSingleClause(returningExpression, returningType = VALUE, parentClause = this)
+
     fun returningElement(returningExpression: TypeExpression<out ValidType>) =
         UpdateReturningSingleClause(returningExpression, returningType = ELEMENT, parentClause = this)
 }

@@ -16,8 +16,6 @@ interface ArrayType<T : ValidType> : ValidType
 
 interface ObjectType : ComparableType, AtomType
 
-sealed interface SuperNullType<T : ValidType> : BooleanType, NumberType, StringType, ArrayType<T>, ObjectType
-
-typealias NullType = SuperNullType<out ValidType>
+interface NullType : BooleanType, NumberType, StringType, ArrayType<ValidType>, ObjectType
 
 interface MissingType : ValidType

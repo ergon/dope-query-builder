@@ -51,10 +51,10 @@ class SetAssignment<T : ValidType>(
     }
 }
 
-infix fun <T : ValidType> Field<T>.to(value: TypeExpression<out T>) = SetAssignment(this, value)
+fun <T : ValidType> Field<T>.toNewValue(value: TypeExpression<out T>) = SetAssignment(this, value)
 
-infix fun Field<NumberType>.to(value: Number) = to(value.toDopeType())
+fun Field<NumberType>.toNewValue(value: Number) = toNewValue(value.toDopeType())
 
-infix fun Field<StringType>.to(value: String) = to(value.toDopeType())
+fun Field<StringType>.toNewValue(value: String) = toNewValue(value.toDopeType())
 
-infix fun Field<BooleanType>.to(value: Boolean) = to(value.toDopeType())
+fun Field<BooleanType>.toNewValue(value: Boolean) = toNewValue(value.toDopeType())

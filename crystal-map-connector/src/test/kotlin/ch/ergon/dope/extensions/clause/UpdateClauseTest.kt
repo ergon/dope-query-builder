@@ -6,7 +6,7 @@ import ch.ergon.dope.extension.clause.returning
 import ch.ergon.dope.extension.clause.returningElement
 import ch.ergon.dope.extension.clause.returningRaw
 import ch.ergon.dope.extension.clause.returningValue
-import ch.ergon.dope.extension.clause.to
+import ch.ergon.dope.extension.clause.toNewValue
 import ch.ergon.dope.extension.clause.unset
 import ch.ergon.dope.extension.clause.where
 import ch.ergon.dope.helper.ManagerDependentTest
@@ -34,7 +34,7 @@ import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
-import ch.ergon.dope.resolvable.clause.model.to
+import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
@@ -49,9 +49,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMNumberField()
         val value = someCMNumberField()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -64,12 +64,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            numberField.toDopeType() to numberValue.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -79,9 +79,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val value = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -94,12 +94,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType() to numberValue.toDopeType(),
-            stringField.toDopeType() to stringValue.toDopeType(),
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
+        val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -109,9 +109,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMBooleanField()
         val value = someCMBooleanField()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -124,12 +124,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            booleanField.toDopeType() to booleanValue.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            booleanField.toDopeType().toNewValue(booleanValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -139,9 +139,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMNumberList()
         val value = someCMNumberList()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -154,12 +154,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            numberField.toDopeType() to numberValue.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -169,9 +169,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMStringList()
         val value = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -184,12 +184,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType() to numberValue.toDopeType(),
-            stringField.toDopeType() to stringValue.toDopeType(),
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
+        val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -199,9 +199,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMBooleanList()
         val value = someCMBooleanList()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -214,12 +214,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            booleanField.toDopeType() to booleanValue.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            booleanField.toDopeType().toNewValue(booleanValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -229,9 +229,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMNumberField()
         val value = someNumber().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -241,9 +241,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMNumberField()
         val value = NULL
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -256,12 +256,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            numberField.toDopeType() to numberValue,
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            numberField.toDopeType().toNewValue(numberValue),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -271,9 +271,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val value = someString().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -286,12 +286,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someString().toDopeType()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType() to numberValue.toDopeType(),
-            stringField.toDopeType() to stringValue,
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+            stringField.toDopeType().toNewValue(stringValue),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
+        val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -301,9 +301,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMBooleanField()
         val value = someBoolean().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -316,12 +316,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            booleanField.toDopeType() to booleanValue,
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            booleanField.toDopeType().toNewValue(booleanValue),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -331,9 +331,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMNumberList()
         val value = listOf(someNumber().toDopeType(), someNumber().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -346,12 +346,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            numberField.toDopeType() to numberValue,
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            numberField.toDopeType().toNewValue(numberValue),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -361,9 +361,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMStringList()
         val value = listOf(someString().toDopeType(), someString().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -376,12 +376,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = listOf(someString().toDopeType(), someString().toDopeType()).toDopeType()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType() to numberValue.toDopeType(),
-            stringField.toDopeType() to stringValue,
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+            stringField.toDopeType().toNewValue(stringValue),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
+        val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -391,9 +391,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMBooleanList()
         val value = listOf(someBoolean().toDopeType(), someBoolean().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value, parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -406,12 +406,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            booleanField.toDopeType() to booleanValue,
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            booleanField.toDopeType().toNewValue(booleanValue),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -421,9 +421,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMNumberField()
         val value = someNumber()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -436,12 +436,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            numberField.toDopeType() to numberValue.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, numberField to numberValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -451,9 +451,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMConverterNumberField()
         val value = someDate()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toInstant().epochSecond.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toInstant().epochSecond.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -466,12 +466,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            dateField.toDopeType() to dateValue.toInstant().epochSecond.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            dateField.toDopeType().toNewValue(dateValue.toInstant().epochSecond.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, dateField to dateValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), dateField.toNewValue(dateValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -481,9 +481,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val value = someString()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -496,12 +496,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someString()
         val parentClause = someUpdate()
         val expected = SetClause(
-            numberField.toDopeType() to numberValue.toDopeType(),
-            stringField.toDopeType() to stringValue.toDopeType(),
+            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(numberField to numberValue, stringField to stringValue)
+        val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -511,9 +511,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMConverterStringField()
         val value = someDate()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toInstant().epochSecond.toString().toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toInstant().epochSecond.toString().toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -526,12 +526,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            dateField.toDopeType() to dateValue.toInstant().epochSecond.toString().toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            dateField.toDopeType().toNewValue(dateValue.toInstant().epochSecond.toString().toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, dateField to dateValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), dateField.toNewValue(dateValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -541,9 +541,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMBooleanField()
         val value = someBoolean()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to value.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(value.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -556,12 +556,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            booleanField.toDopeType() to booleanValue.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            booleanField.toDopeType().toNewValue(booleanValue.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, booleanField to booleanValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -571,9 +571,9 @@ class UpdateClauseTest : ManagerDependentTest {
         val field = someCMConverterBooleanField()
         val value = someDate()
         val parentClause = someUpdate()
-        val expected = SetClause(field.toDopeType() to true.toDopeType(), parentClause = parentClause)
+        val expected = SetClause(field.toDopeType().toNewValue(true.toDopeType()), parentClause = parentClause)
 
-        val actual = parentClause.set(field to value)
+        val actual = parentClause.set(field.toNewValue(value))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -586,12 +586,12 @@ class UpdateClauseTest : ManagerDependentTest {
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
         val expected = SetClause(
-            stringField.toDopeType() to stringValue.toDopeType(),
-            dateField.toDopeType() to true.toDopeType(),
+            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+            dateField.toDopeType().toNewValue(true.toDopeType()),
             parentClause = parentClause,
         )
 
-        val actual = parentClause.set(stringField to stringValue, dateField to dateValue)
+        val actual = parentClause.set(stringField.toNewValue(stringValue), dateField.toNewValue(dateValue))
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

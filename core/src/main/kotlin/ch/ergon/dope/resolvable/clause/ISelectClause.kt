@@ -49,6 +49,7 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
 interface ISelectGroupByClause<T : ValidType> : ISelectOrderByClause<T> {
     fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
         SelectOrderByClause(orderExpression, *additionalOrderExpressions, parentClause = this)
+
     fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderByType? = null) = orderBy(OrderExpression(expression, orderByType))
 }
 
@@ -76,12 +77,14 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = StandardJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun join(
         joinable: Joinable,
         onKeys: Field<out ValidType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = StandardJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun join(
         joinable: Joinable,
         onKey: Field<out ValidType>,
@@ -96,12 +99,14 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = InnerJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun innerJoin(
         joinable: Joinable,
         onKeys: Field<out ValidType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = InnerJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun innerJoin(
         joinable: Joinable,
         onKey: Field<out ValidType>,
@@ -116,12 +121,14 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = LeftJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun leftJoin(
         joinable: Joinable,
         onKeys: Field<out ValidType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = LeftJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+
     fun leftJoin(
         joinable: Joinable,
         onKey: Field<out ValidType>,

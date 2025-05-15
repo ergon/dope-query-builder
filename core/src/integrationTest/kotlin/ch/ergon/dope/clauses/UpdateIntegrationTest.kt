@@ -8,7 +8,7 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.bucket.useKeys
-import ch.ergon.dope.resolvable.clause.model.to
+import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.validtype.NumberType
@@ -33,8 +33,8 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
                 testBucket.useKeys("client:1"),
             )
             .set(
-                newField to "newName",
-                newNullField to NULL,
+                newField.toNewValue("newName"),
+                newNullField.toNewValue(NULL),
             )
             .unset(
                 nameField,
