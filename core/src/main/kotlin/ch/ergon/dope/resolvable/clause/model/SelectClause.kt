@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.clause.ISelectWithClause
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.util.formatQueryStringWithNullableFirst
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
@@ -20,9 +21,7 @@ class SelectClause(
         val expressionDopeQuery = expression.toDopeQuery(manager)
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
         return DopeQuery(
-            queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
-                "SELECT " +
-                listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString },
+            queryString = formatQueryStringWithNullableFirst(parentDopeQuery, "SELECT", expressionDopeQuery, expressionsDopeQuery),
             parameters = (parentDopeQuery?.parameters.orEmpty()).merge(
                 expressionDopeQuery.parameters,
                 *expressionsDopeQuery.map { it.parameters }.toTypedArray(),
@@ -39,8 +38,7 @@ class SelectRawClause<T : ValidType>(
         val parentDopeQuery = parentClause?.toDopeQuery(manager)
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
-            queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
-                "SELECT RAW " + expressionDopeQuery.queryString,
+            queryString = formatQueryStringWithNullableFirst(parentDopeQuery, "SELECT RAW", expressionDopeQuery),
             parameters = parentDopeQuery?.parameters.orEmpty().merge(expressionDopeQuery.parameters),
         )
     }
@@ -56,9 +54,7 @@ class SelectDistinctClause(
         val expressionsDopeQuery = expressions.map { it.toDopeQuery(manager) }
         val expressionDopeQuery = expression.toDopeQuery(manager)
         return DopeQuery(
-            queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
-                "SELECT DISTINCT " +
-                listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString },
+            queryString = formatQueryStringWithNullableFirst(parentDopeQuery, "SELECT DISTINCT", expressionDopeQuery, expressionsDopeQuery),
             parameters = expressionDopeQuery.parameters.merge(*expressionsDopeQuery.map { it.parameters }.toTypedArray()),
         )
     }
