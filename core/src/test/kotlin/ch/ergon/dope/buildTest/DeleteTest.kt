@@ -8,23 +8,15 @@ import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DeleteTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support delete from`() {
         val expected = "DELETE FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .build().queryString
 
@@ -35,7 +27,7 @@ class DeleteTest {
     fun `should support delete from with where`() {
         val expected = "DELETE FROM `someBucket` WHERE TRUE"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .where(TRUE)
             .build().queryString
@@ -47,7 +39,7 @@ class DeleteTest {
     fun `should support delete from with limit`() {
         val expected = "DELETE FROM `someBucket` LIMIT 10"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .limit(10.toDopeType())
             .build().queryString
@@ -59,7 +51,7 @@ class DeleteTest {
     fun `should support delete from with offset`() {
         val expected = "DELETE FROM `someBucket` AS `b` OFFSET 10"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket().alias("b"))
             .offset(10.toDopeType())
             .build().queryString
@@ -71,7 +63,7 @@ class DeleteTest {
     fun `should support delete from with returning`() {
         val expected = "DELETE FROM `someBucket` RETURNING `stringField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .returning(someStringField())
             .build().queryString
@@ -83,7 +75,7 @@ class DeleteTest {
     fun `should support delete from with multiple returning`() {
         val expected = "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .returning(someStringField(), someNumberField())
             .build().queryString
@@ -95,7 +87,7 @@ class DeleteTest {
     fun `should support delete`() {
         val expected = "DELETE FROM `someBucket` WHERE (`someBucket`.`age` = 2 AND TRUE) LIMIT 7 OFFSET 10 RETURNING `stringField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .where(someNumberField("age", someBucket()).isEqualTo(2).and(TRUE))
             .limit(7.toDopeType())

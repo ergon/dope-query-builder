@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause.model
 
-import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.clause.ISelectClause
 import ch.ergon.dope.resolvable.clause.ISelectWithClause
@@ -23,7 +23,7 @@ class SelectClause(
             queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
                 "SELECT " +
                 listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString },
-            parameters = (parentDopeQuery?.parameters ?: DopeParameters()).merge(
+            parameters = (parentDopeQuery?.parameters.orEmpty()).merge(
                 expressionDopeQuery.parameters,
                 *expressionsDopeQuery.map { it.parameters }.toTypedArray(),
             ),
@@ -41,7 +41,7 @@ class SelectRawClause<T : ValidType>(
         return DopeQuery(
             queryString = parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
                 "SELECT RAW " + expressionDopeQuery.queryString,
-            parameters = (parentDopeQuery?.parameters ?: DopeParameters()).merge(expressionDopeQuery.parameters),
+            parameters = parentDopeQuery?.parameters.orEmpty().merge(expressionDopeQuery.parameters),
         )
     }
 }

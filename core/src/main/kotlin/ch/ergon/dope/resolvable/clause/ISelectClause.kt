@@ -1,5 +1,6 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.QueryProvider
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Joinable
@@ -174,15 +175,15 @@ interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
     fun from(fromable: Fromable) = FromClause(fromable, this)
 }
 
-interface ISelectWithClause : Resolvable {
-    fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions, parentClause = this)
+interface ISelectWithClause : QueryProvider, Resolvable {
+    override fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions, parentClause = this)
 
-    fun selectAsterisk() = SelectClause(asterisk(), parentClause = this)
+    override fun selectAsterisk() = SelectClause(asterisk(), parentClause = this)
 
-    fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
+    override fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
         SelectDistinctClause(expression, *expressions, parentClause = this)
 
-    fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression, parentClause = this)
+    override fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression, parentClause = this)
 
-    fun selectFrom(fromable: Fromable) = SelectClause(asterisk(), parentClause = this).from(fromable)
+    override fun selectFrom(fromable: Fromable) = selectAsterisk().from(fromable)
 }

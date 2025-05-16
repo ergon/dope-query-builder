@@ -13,27 +13,18 @@ import ch.ergon.dope.resolvable.expression.type.meta
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import org.junit.jupiter.api.Assertions.assertEquals
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class JoinClauseTest {
-    private lateinit var builder: StringBuilder
-    private lateinit var create: QueryBuilder
     private val route = someBucket("route")
     private val airline = someBucket("airline")
-
-    @BeforeTest
-    fun setup() {
-        builder = StringBuilder()
-        create = QueryBuilder()
-    }
 
     @Test
     fun `should support join`() {
         val expected =
             "SELECT * FROM `route` JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` WHERE `airline`.`country` = \"France\""
 
-        val actual = create
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(
                 route,
@@ -57,7 +48,7 @@ class JoinClauseTest {
             "SELECT * FROM `route` USE INDEX () LEFT JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` " +
                 "WHERE `route`.`sourceairport` = \"SFO\""
 
-        val actual = create
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(
                 route.useIndex(),
@@ -78,7 +69,7 @@ class JoinClauseTest {
         val expected =
             "SELECT * FROM `route` RIGHT JOIN `airline` ON `route`.`airlineid` = META(`airline`).`id` WHERE `route`.`sourceairport` = \"SFO\""
 
-        val actual = create
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(
                 route,
@@ -104,7 +95,7 @@ class JoinClauseTest {
             "`route`.`destinationairport` FROM `route` INNER JOIN `airline` ON `route`.`airlineid` = " +
             "META(`airline`).`id` WHERE `route`.`destinationairport` = \"SFO\" ORDER BY `sourceairport`"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             someStringField("airlineid", route),
             someStringField("iota", airline),
             someStringField("sourceairport", route),
@@ -144,7 +135,7 @@ class JoinClauseTest {
                 "`lmark`.`city` AND `lmark`.`country` = \"United States\") GROUP BY " +
                 "`aport`.`airportname` ORDER BY `aport`.`airportname` LIMIT 4"
 
-        val actual = create.selectDistinct(
+        val actual = QueryBuilder.selectDistinct(
             min(
                 someStringField("airportname", aport),
             ).alias(
@@ -194,7 +185,7 @@ class JoinClauseTest {
                 "`lmark`.`city` AND `lmark`.`country` = \"United States\") GROUP BY " +
                 "`aport`.`airportname` ORDER BY `aport`.`airportname` LIMIT 4"
 
-        val actual = create.selectDistinct(
+        val actual = QueryBuilder.selectDistinct(
             min(
                 someStringField("airportname", aport),
             ).alias(
@@ -242,11 +233,11 @@ class JoinClauseTest {
             "ON `airport`.`faa` = `subquery`.`sourceairport` " +
             "WHERE `airport`.`city` = \"San Francisco\""
 
-        val actual = create
+        val actual = QueryBuilder
             .selectDistinct(someStringField("destinationairport", someBucket("subquery")))
             .from(airport)
             .join(
-                create
+                QueryBuilder
                     .select(someStringField("destinationairport"), someStringField("sourceairport"))
                     .from(route)
                     .alias("subquery"),
@@ -265,7 +256,7 @@ class JoinClauseTest {
             "FROM `route` JOIN `airline` ON KEYS `route`.`airlineid` " +
             "WHERE (`route`.`sourceairport` = \"SFO\" AND `route`.`stops` = 0) LIMIT 4"
 
-        val actual = create.selectDistinct(
+        val actual = QueryBuilder.selectDistinct(
             someStringField("destinationairport", route),
             someStringField("stops", route),
             someStringField("airline", route),
@@ -298,7 +289,7 @@ class JoinClauseTest {
             "ON KEYS `route`.`airlineid` WHERE (`route`.`destinationairport` = " +
             "\"ATL\" AND `route`.`sourceairport` = \"SEA\")"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             someStringField("airline", route),
             someStringField("sourceairport", route),
             someStringField("destinationairport", route),
@@ -328,7 +319,7 @@ class JoinClauseTest {
             "FROM `route` JOIN `airline` ON KEYS `route`.`airlineid` " +
             "WHERE `airline`.`icao` = \"SWA\" LIMIT 4"
 
-        val actual = create.selectDistinct(
+        val actual = QueryBuilder.selectDistinct(
             someStringField("destinationairport", route),
             someStringField("stops", route),
             someStringField("airline", route),
@@ -352,7 +343,7 @@ class JoinClauseTest {
     fun `Use INDEX join to flip the direction with on key for`() {
         val expected = "SELECT * FROM `airline` JOIN `route` ON KEY `route`.`airlineid` FOR `airline`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 airline,
@@ -369,7 +360,7 @@ class JoinClauseTest {
     fun `Use INDEX inner join to flip the direction with on key for`() {
         val expected = "SELECT * FROM `airline` INNER JOIN `route` ON KEY `route`.`airlineid` FOR `airline`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 airline,
@@ -386,7 +377,7 @@ class JoinClauseTest {
     fun `Use INDEX left join to flip the direction with on key for`() {
         val expected = "SELECT * FROM `airline` LEFT JOIN `route` ON KEY `route`.`airlineid` FOR `airline`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 airline,
@@ -409,7 +400,7 @@ class JoinClauseTest {
         val r = someBucket("route").alias("r")
         val a = airline.alias("a")
 
-        val actual = create
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(
                 r,
@@ -429,7 +420,7 @@ class JoinClauseTest {
 
         val r = someBucket("route").alias("r")
 
-        val actual = create
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(
                 r,
@@ -448,7 +439,7 @@ class JoinClauseTest {
             "FROM `route` INNER JOIN `airline` ON KEYS `route`.`airlineid` " +
             "WHERE `airline`.`icao` = \"SWA\" LIMIT 4"
 
-        val actual = create.selectDistinct(
+        val actual = QueryBuilder.selectDistinct(
             someStringField("destinationairport", route),
             someStringField("stops", route),
             someStringField("airline", route),
@@ -476,7 +467,7 @@ class JoinClauseTest {
         val a1 = airline.alias("a1")
         val a2 = airline.alias("a2")
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 a1,
             ).join(
@@ -497,7 +488,7 @@ class JoinClauseTest {
         val airport = someBucket("airport").alias("ap")
         val city = someBucket("city").alias("c")
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 airline,
             ).join(

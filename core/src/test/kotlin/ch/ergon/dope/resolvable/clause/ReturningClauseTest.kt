@@ -124,7 +124,7 @@ class ReturningClauseTest : ManagerDependentTest {
             queryString = "DELETE FROM `someBucket` RETURNING (SELECT * FROM `someBucket`) AS `sub`",
         )
         val underTest = DeleteReturningClause(
-            QueryBuilder().selectAsterisk().from(someBucket()).alias("sub"),
+            QueryBuilder.selectAsterisk().from(someBucket()).alias("sub"),
             parentClause = someDeleteClause(),
         )
 

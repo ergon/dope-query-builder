@@ -22,7 +22,7 @@ import kotlin.test.assertEquals
 class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select aggregate functions`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 min(orderNumberField).alias("min"),
                 max(nameField).alias("max"),

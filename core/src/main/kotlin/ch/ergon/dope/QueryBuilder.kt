@@ -15,19 +15,21 @@ import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.validtype.ValidType
 
-class QueryBuilder {
-    fun withCommonTableExpressions(variable: DopeVariable<out ValidType>, vararg additionalVariables: DopeVariable<out ValidType>) =
+object QueryBuilder : QueryProvider {
+    fun with(variable: DopeVariable<out ValidType>, vararg additionalVariables: DopeVariable<out ValidType>) =
         WithClause(variable, *additionalVariables)
 
-    fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions)
+    override fun select(expression: Selectable, vararg expressions: Selectable) =
+        SelectClause(expression, *expressions)
 
-    fun selectAsterisk() = SelectClause(asterisk())
+    override fun selectAsterisk() = SelectClause(asterisk())
 
-    fun selectDistinct(expression: Selectable, vararg expressions: Selectable) = SelectDistinctClause(expression, *expressions)
+    override fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
+        SelectDistinctClause(expression, *expressions)
 
-    fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression)
+    override fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression)
 
-    fun selectFrom(fromable: Fromable) = SelectClause(asterisk()).from(fromable)
+    override fun selectFrom(fromable: Fromable) = SelectClause(asterisk()).from(fromable)
 
     fun deleteFrom(deletable: Deletable) = DeleteClause(deletable)
 

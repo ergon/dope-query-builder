@@ -16,23 +16,15 @@ import ch.ergon.dope.resolvable.expression.type.function.type.isString
 import ch.ergon.dope.resolvable.expression.type.function.type.toArray
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TypeFunctionsTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support ISARRAY as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISARRAY(`numberArrayField`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 someBucket(),
             )
@@ -47,7 +39,7 @@ class TypeFunctionsTest {
     fun `should support ISATOM as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISATOM(`numberField`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 someBucket(),
             )
@@ -62,7 +54,7 @@ class TypeFunctionsTest {
     fun `should support ISBOOLEAN as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISBOOLEAN(`booleanField`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 someBucket(),
             )
@@ -77,7 +69,7 @@ class TypeFunctionsTest {
     fun `should support ISNUMBER as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISNUMBER(`numberField`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 someBucket(),
             )
@@ -92,7 +84,7 @@ class TypeFunctionsTest {
     fun `should support ISSTRING as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISSTRING(`stringField`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(
                 someBucket(),
             )
@@ -107,7 +99,7 @@ class TypeFunctionsTest {
     fun `should support TOARRAY from atom to array`() {
         val expected = "SELECT (TOARRAY(1)[0] + 1)"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 someNumber(1).toDopeType().toArray().get(0).add(1),
             ).build().queryString

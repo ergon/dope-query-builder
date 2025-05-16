@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 class SelectQueryIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select everything from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
             ).build()
@@ -41,7 +41,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select all employees from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
             )
@@ -59,7 +59,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select all active clients from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
             )
@@ -74,7 +74,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select id, type field from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 idField,
                 typeField,
@@ -99,7 +99,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select aliased field from the test bucket`() {
         val alias = "Identification"
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 idField.alias(alias),
             )
@@ -118,7 +118,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select where nothing applies from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
             )
@@ -133,7 +133,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select distinct field from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectDistinct(
                 idField,
             )
@@ -155,7 +155,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select raw field from the test bucket`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectRaw(
                 idField,
             )
@@ -174,7 +174,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `intersect two select clauses`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 idField,
             )
@@ -187,7 +187,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 ),
             )
             .intersect(
-                QueryBuilder()
+                QueryBuilder
                     .select(
                         idField,
                     )
@@ -210,7 +210,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select named parameter`() {
         val parameter = 1.asParameter("parameter")
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 parameter.alias("namedParameter"),
             ).build()
@@ -224,7 +224,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select positional parameter`() {
         val parameter = 1.asParameter()
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 parameter.alias("positionalParameter"),
             ).build()
@@ -237,14 +237,13 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select from subquery`() {
-        val create = QueryBuilder()
-        val subQuery = create
+        val subQuery = QueryBuilder
             .selectRaw(quantitiesField)
             .from(testBucket)
             .where(typeField.isEqualTo("order"))
             .limit(1)
             .alias("subQuery")
-        val dopeQuery = create
+        val dopeQuery = QueryBuilder
             .select(subQuery)
             .from(subQuery)
             .where(
@@ -259,7 +258,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select with star expression`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 testBucket.asterisk(),
             )
@@ -279,12 +278,11 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select with common table expressions and let variables`() {
-        val create = QueryBuilder()
         val cteSubquery = "subquery".assignTo(
-            create.select(testBucket.asterisk()).from(testBucket).where(typeField.isEqualTo("client")).orderBy(idField),
+            QueryBuilder.select(testBucket.asterisk()).from(testBucket).where(typeField.isEqualTo("client")).orderBy(idField),
         )
-        val dopeQuery = create
-            .withCommonTableExpressions(
+        val dopeQuery = QueryBuilder
+            .with(
                 cteSubquery,
             )
             .select(

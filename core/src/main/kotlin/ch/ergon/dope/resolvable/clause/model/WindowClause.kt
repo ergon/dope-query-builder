@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause.model
 
-import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.ISelectGroupByClause
 import ch.ergon.dope.resolvable.clause.ISelectWindowClause
@@ -42,7 +42,7 @@ class WindowDeclaration(val reference: String, private val windowDefinition: Win
         val windowDefinitionQueryString = "(${windowDefinitionDopeQuery?.queryString.orEmpty()})"
         return DopeQuery(
             queryString = "`$reference` AS $windowDefinitionQueryString",
-            parameters = windowDefinitionDopeQuery?.parameters ?: DopeParameters(),
+            parameters = windowDefinitionDopeQuery?.parameters.orEmpty(),
         )
     }
 }
