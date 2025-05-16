@@ -6,8 +6,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ToStringExpression<T : ValidType>(expression: TypeExpression<T>) : FunctionExpression<
-    StringType,>(
+class ToStringExpression<T : ValidType>(expression: TypeExpression<T>) : FunctionExpression<StringType>(
     "TOSTRING",
     expression,
 )

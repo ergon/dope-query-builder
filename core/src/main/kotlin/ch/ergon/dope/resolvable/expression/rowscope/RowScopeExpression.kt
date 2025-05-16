@@ -38,7 +38,7 @@ interface RowScopeExpression<T : ValidType> : Expression<T> {
                 nullsModifier?.queryString,
                 overDefinitionDopeQuery?.queryString,
             ),
-            parameters = functionArgumentsDopeQuery?.map { it.parameters }.orEmpty().merge(overDefinitionDopeQuery?.parameters),
+            parameters = functionArgumentsDopeQuery.map { it.parameters }.merge(overDefinitionDopeQuery?.parameters),
         )
     }
 }

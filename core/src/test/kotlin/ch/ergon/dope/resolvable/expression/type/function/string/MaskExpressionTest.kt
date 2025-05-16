@@ -19,7 +19,6 @@ class MaskExpressionTest : ManagerDependentTest {
     fun `should support mask with no parameters`() {
         val expected = DopeQuery(
             queryString = "MASK(`stringField`, {\"mask\": \"*\"})",
-
         )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
@@ -49,7 +48,6 @@ class MaskExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "MASK(\$$parameterName, {\"mask\": \"*\"})",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-
         )
         val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
 

@@ -248,7 +248,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
                 namedParameters = mapOf(parameterName to parameterValue),
                 positionalParameters = listOf(parameterValue2, parameterValue3),
             ),
-
         )
         val underTest =
             ArrayReplaceExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(), parameterValue3.asParameter())
