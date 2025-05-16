@@ -22,7 +22,6 @@ class MBLpadExpressionTest : ManagerDependentTest {
     fun `should support mbLpad`() {
         val expected = DopeQuery(
             queryString = "MB_LPAD(`stringField`, `numberField`)",
-
         )
         val underTest = MBLpadExpression(someStringField(), someNumberField())
 
@@ -66,7 +65,6 @@ class MBLpadExpressionTest : ManagerDependentTest {
     fun `should support mbLpad with extra `() {
         val expected = DopeQuery(
             queryString = "MB_LPAD(`stringField`, `numberField`, `stringField`)",
-
         )
         val underTest = MBLpadExpression(someStringField(), someNumberField(), someStringField())
 

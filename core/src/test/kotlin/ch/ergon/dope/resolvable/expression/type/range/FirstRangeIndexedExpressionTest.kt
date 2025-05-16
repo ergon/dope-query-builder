@@ -161,10 +161,10 @@ class FirstRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> it.add(1) },
         )
 
-        val actual = range.mapIndexed(iteratorName = "it", indexName = "i") {
-                _, it ->
-            it.add(1)
-        }.first()
+        val actual =
+            range.mapIndexed(iteratorName = "it", indexName = "i") { _, it ->
+                it.add(1)
+            }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -181,13 +181,12 @@ class FirstRangeIndexedExpressionTest : ManagerDependentTest {
             condition = { i, _ -> i.isLessOrEqualThan(2) },
         )
 
-        val actual = range.filterIndexed(iteratorName = "it", indexName = "i") {
-                i, _ ->
-            i.isLessOrEqualThan(2)
-        }.map {
-                _, it ->
-            it.add(1)
-        }.first()
+        val actual =
+            range.filterIndexed(iteratorName = "it", indexName = "i") { i, _ ->
+                i.isLessOrEqualThan(2)
+            }.map { _, it ->
+                it.add(1)
+            }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -277,10 +276,10 @@ class FirstRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> it.toNumber().add(1) },
         )
 
-        val actual = range.mapIndexedUnnested(iteratorName = "it", indexName = "i") {
-                _, it ->
-            it.toNumber().add(1)
-        }.first()
+        val actual =
+            range.mapIndexedUnnested(iteratorName = "it", indexName = "i") { _, it ->
+                it.toNumber().add(1)
+            }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -297,13 +296,12 @@ class FirstRangeIndexedExpressionTest : ManagerDependentTest {
             condition = { i, _ -> i.isLessOrEqualThan(2) },
         )
 
-        val actual = range.filterIndexedUnnested(iteratorName = "it", indexName = "i") {
-                i, _ ->
-            i.isLessOrEqualThan(2)
-        }.map {
-                _, it ->
-            it.toNumber().add(1)
-        }.first()
+        val actual =
+            range.filterIndexedUnnested(iteratorName = "it", indexName = "i") { i, _ ->
+                i.isLessOrEqualThan(2)
+            }.map { _, it ->
+                it.toNumber().add(1)
+            }.first()
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

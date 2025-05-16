@@ -124,7 +124,6 @@ class AdditionExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "(\$$parameterName + $1)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-
         )
         val underTest = AdditionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 

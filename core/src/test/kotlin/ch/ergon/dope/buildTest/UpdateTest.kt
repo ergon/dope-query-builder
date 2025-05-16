@@ -6,6 +6,8 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.bucket.useKeys
+import ch.ergon.dope.resolvable.clause.model.toNewValue
+import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.meta
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
@@ -34,12 +36,8 @@ class UpdateTest {
             .update(
                 someBucket(),
             ).set(
-                meta().expiration,
-                10.toDopeType(),
-            )
-            .set(
-                someStringField(),
-                "test".toDopeType(),
+                meta().expiration.toNewValue(10.toDopeType()),
+                someStringField().toNewValue("test".toDopeType()),
             )
             .build().queryString
 
@@ -106,9 +104,10 @@ class UpdateTest {
     @Test
     fun `should support update clause as a complex query`() {
         val bucket = someBucket().alias("sb")
+        val setThisNumberField = someNumberField("setThisNumberField")
         val expected = "UPDATE `someBucket` AS `sb` " +
             "USE KEYS \"keyString\" " +
-            "SET `setThisNumberField` = 1, META(`sb`).`expiration` = 3600 " +
+            "SET `setThisNumberField` = 1, META(`sb`).`expiration` = 3600, `stringField` = NULL " +
             "UNSET `unsetThisStringField` " +
             "WHERE `booleanField` = FALSE " +
             "LIMIT 1 " +
@@ -118,11 +117,9 @@ class UpdateTest {
             .update(
                 bucket.useKeys("keyString"),
             ).set(
-                someNumberField("setThisNumberField"),
-                1.toDopeType(),
-            ).set(
-                meta(someBucket().alias("sb")).expiration,
-                3600.toDopeType(),
+                setThisNumberField.toNewValue(1.toDopeType()),
+                meta(bucket).expiration.toNewValue(3600.toDopeType()),
+                someStringField().toNewValue(NULL),
             ).unset(
                 someStringField("unsetThisStringField"),
             ).where(
@@ -130,7 +127,7 @@ class UpdateTest {
             ).limit(
                 1.toDopeType(),
             ).returning(
-                someNumberField("setThisNumberField"),
+                setThisNumberField,
             ).build().queryString
 
         assertEquals(expected, actual)

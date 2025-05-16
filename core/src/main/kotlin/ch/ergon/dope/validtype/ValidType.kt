@@ -12,10 +12,10 @@ interface NumberType : ComparableType, AtomType
 
 interface StringType : ComparableType, AtomType
 
-interface NullType : ValidType
-
-interface MissingType : ValidType
-
 interface ArrayType<T : ValidType> : ValidType
 
 interface ObjectType : ComparableType, AtomType
+
+interface NullType : BooleanType, NumberType, StringType, ArrayType<ValidType>, ObjectType
+
+interface MissingType : ValidType
