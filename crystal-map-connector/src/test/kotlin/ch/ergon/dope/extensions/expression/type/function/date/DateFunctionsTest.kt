@@ -66,19 +66,10 @@ import ch.ergon.dope.resolvable.expression.type.function.date.StrToTzExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayStrExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.clockString
 import ch.ergon.dope.resolvable.expression.type.function.date.extractDateComponent
-import ch.ergon.dope.resolvable.expression.type.function.date.extractWeekdayName
-import ch.ergon.dope.resolvable.expression.type.function.date.localClockString
-import ch.ergon.dope.resolvable.expression.type.function.date.localNowString
-import ch.ergon.dope.resolvable.expression.type.function.date.nowString
-import ch.ergon.dope.resolvable.expression.type.function.date.toEpochMillis
-import ch.ergon.dope.resolvable.expression.type.function.date.toUtcDate
-import ch.ergon.dope.resolvable.expression.type.function.date.utcClockString
-import ch.ergon.dope.resolvable.expression.type.function.date.utcNowString
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
-import java.util.Date
+import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
