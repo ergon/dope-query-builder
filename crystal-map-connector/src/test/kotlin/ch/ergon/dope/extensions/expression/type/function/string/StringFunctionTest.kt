@@ -4,7 +4,6 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.length
 import ch.ergon.dope.extension.expression.type.function.string.lower
 import ch.ergon.dope.extension.expression.type.function.string.mbLength
-import ch.ergon.dope.extension.expression.type.function.string.nowString
 import ch.ergon.dope.extension.expression.type.function.string.reverse
 import ch.ergon.dope.extension.expression.type.function.string.suffixes
 import ch.ergon.dope.extension.expression.type.function.string.upper
@@ -15,7 +14,6 @@ import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.resolvable.expression.type.function.string.LengthExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.LowerExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.MBLengthExpression
-import ch.ergon.dope.resolvable.expression.type.function.string.NowStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.ReverseExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.SuffixesExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.UpperExpression
@@ -54,16 +52,6 @@ class StringFunctionTest : ManagerDependentTest {
         val expected = MBLengthExpression(string.toDopeType())
 
         val actual = mbLength(string)
-
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
-    }
-
-    @Test
-    fun `should support NowString with CM string`() {
-        val string = someCMStringField()
-        val expected = NowStringExpression(string.toDopeType())
-
-        val actual = nowString(string)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

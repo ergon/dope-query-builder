@@ -39,7 +39,7 @@ class MillisToUtcExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support TypeExpression toFormattedDateInUtc extension without format`() {
-        val expr = someNumberField().toFormattedDateInUtc()
+        val expr = someNumberField().toUtcDate()
         val expected = MillisToUtcExpression(someNumberField(), null)
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -47,21 +47,21 @@ class MillisToUtcExpressionTest : ManagerDependentTest {
     @Test
     fun `should support TypeExpression toFormattedDateInUtc extension with field format`() {
         val fmtExpr = someStringField()
-        val expr = someNumberField().toFormattedDateInUtc(fmtExpr)
+        val expr = someNumberField().toUtcDate(fmtExpr)
         val expected = MillisToUtcExpression(someNumberField(), fmtExpr)
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support TypeExpression toFormattedDateInUtc extension with raw string format`() {
-        val expr = someNumberField().toFormattedDateInUtc("yyyy")
+        val expr = someNumberField().toUtcDate("yyyy")
         val expected = MillisToUtcExpression(someNumberField(), "yyyy".toDopeType())
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support Number toFormattedDateInUtc extension without format`() {
-        val expr = 123L.toFormattedDateInUtc()
+        val expr = 123L.toUtcDate()
         val expected = MillisToUtcExpression(123L.toDopeType(), null)
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -69,14 +69,14 @@ class MillisToUtcExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateInUtc extension with field format`() {
         val fmtExpr = someStringField()
-        val expr = 456L.toFormattedDateInUtc(fmtExpr)
+        val expr = 456L.toUtcDate(fmtExpr)
         val expected = MillisToUtcExpression(456L.toDopeType(), fmtExpr)
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support Number toFormattedDateInUtc extension with raw string format`() {
-        val expr = 789L.toFormattedDateInUtc("MM-dd")
+        val expr = 789L.toUtcDate("MM-dd")
         val expected = MillisToUtcExpression(789L.toDopeType(), "MM-dd".toDopeType())
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

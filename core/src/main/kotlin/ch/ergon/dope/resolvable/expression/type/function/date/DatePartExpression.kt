@@ -9,6 +9,9 @@ import ch.ergon.dope.validtype.StringType
 class DatePartMillisExpression(date: TypeExpression<NumberType>, component: DateComponent, timeZone: TypeExpression<StringType>? = null) :
     FunctionExpression<NumberType>("DATE_PART_MILLIS", date, component, timeZone)
 
+class DatePartStrExpression(date: TypeExpression<StringType>, component: DateComponent) :
+    FunctionExpression<NumberType>("DATE_PART_STR", date, component)
+
 fun TypeExpression<NumberType>.extractDateComponent(component: DateComponent, timeZone: TypeExpression<StringType>? = null) =
     DatePartMillisExpression(this, component, timeZone)
 
@@ -20,3 +23,9 @@ fun Number.extractDateComponent(component: DateComponent, timeZone: TypeExpressi
 
 fun Number.extractDateComponent(component: DateComponent, timeZone: String) =
     toDopeType().extractDateComponent(component, timeZone.toDopeType())
+
+fun TypeExpression<StringType>.extractDateComponent(component: DateComponent) =
+    DatePartStrExpression(this, component)
+
+fun String.extractDateComponent(component: DateComponent) =
+    toDopeType().extractDateComponent(component)

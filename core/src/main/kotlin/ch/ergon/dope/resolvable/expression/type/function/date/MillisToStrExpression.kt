@@ -6,11 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MillisToStrExpression(date: TypeExpression<NumberType>, format: TypeExpression<StringType>? = null) : FunctionExpression<StringType>(
-    "MILLIS_TO_STR",
-    date,
-    format,
-)
+class MillisToStrExpression(date: TypeExpression<NumberType>, format: TypeExpression<StringType>? = null) :
+    FunctionExpression<StringType>("MILLIS_TO_STR", date, format)
 
 fun TypeExpression<NumberType>.toFormattedDate(format: TypeExpression<StringType>? = null) = MillisToStrExpression(this, format)
 

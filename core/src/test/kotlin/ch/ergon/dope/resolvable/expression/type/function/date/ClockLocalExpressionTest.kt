@@ -19,7 +19,7 @@ class ClockLocalExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "CLOCK_LOCAL()",
         )
-        val underTest = ClockLocal()
+        val underTest = ClockLocalExpression()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -32,7 +32,7 @@ class ClockLocalExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "CLOCK_LOCAL(`stringField`)",
         )
-        val underTest = ClockLocal(formatField)
+        val underTest = ClockLocalExpression(formatField)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -46,7 +46,7 @@ class ClockLocalExpressionTest : ManagerDependentTest {
             queryString = "CLOCK_LOCAL($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = ClockLocal(parameterValue.asParameter())
+        val underTest = ClockLocalExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -61,7 +61,7 @@ class ClockLocalExpressionTest : ManagerDependentTest {
             queryString = "CLOCK_LOCAL(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = ClockLocal(parameterValue.asParameter(parameterName))
+        val underTest = ClockLocalExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -71,7 +71,7 @@ class ClockLocalExpressionTest : ManagerDependentTest {
     @Test
     fun `should support localClockString extension with field`() {
         val formatField = someStringField()
-        val expected = ClockLocal(formatField)
+        val expected = ClockLocalExpression(formatField)
         val actual = localClockString(formatField)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
@@ -80,7 +80,7 @@ class ClockLocalExpressionTest : ManagerDependentTest {
     @Test
     fun `should support localClockString extension with raw string`() {
         val format = someString()
-        val expected = ClockLocal(format.toDopeType())
+        val expected = ClockLocalExpression(format.toDopeType())
         val actual = localClockString(format)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
