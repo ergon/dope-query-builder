@@ -101,50 +101,50 @@ fun <T : ValidType> ISelectWhereClause<T>.groupBy(field: CMType, vararg fields: 
 
 fun <T : ValidType> ISelectFromClause<T>.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
-fun <T : ValidType> ISelectJoinClause<T>.joinOnKeys(
+fun <T : ValidType> ISelectJoinClause<T>.xjoin(
     joinable: Joinable,
-    onKeys: CMJsonField<String>,
+    keys: CMJsonList<String>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = joinOnKeys(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+) = join(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
 
-fun <T : ValidType> ISelectJoinClause<T>.joinOnKey(
+fun <T : ValidType> ISelectJoinClause<T>.join(
     joinable: Joinable,
-    onKey: CMJsonField<String>,
-    forBucket: Bucket,
+    key: CMJsonField<String>,
+    bucket: Bucket? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = joinOnKey(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
+) = join(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
-fun <T : ValidType> ISelectJoinClause<T>.innerJoinOnKeys(
+fun <T : ValidType> ISelectJoinClause<T>.innerJoin(
     joinable: Joinable,
-    onKeys: CMJsonField<String>,
+    keys: CMJsonList<String>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = innerJoinOnKeys(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+) = innerJoin(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
 
-fun <T : ValidType> ISelectJoinClause<T>.innerJoinOnKey(
+fun <T : ValidType> ISelectJoinClause<T>.innerJoin(
     joinable: Joinable,
-    onKey: CMJsonField<String>,
-    forBucket: Bucket,
+    key: CMJsonField<String>,
+    bucket: Bucket? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = innerJoinOnKey(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
+) = innerJoin(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
-fun <T : ValidType> ISelectJoinClause<T>.leftJoinOnKeys(
+fun <T : ValidType> ISelectJoinClause<T>.leftJoin(
     joinable: Joinable,
-    onKeys: CMJsonField<String>,
+    keys: CMJsonList<String>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = leftJoinOnKeys(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+) = leftJoin(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
 
-fun <T : ValidType> ISelectJoinClause<T>.leftJoinOnKey(
+fun <T : ValidType> ISelectJoinClause<T>.leftJoin(
     joinable: Joinable,
-    onKey: CMJsonField<String>,
-    forBucket: Bucket,
+    key: CMJsonField<String>,
+    bucket: Bucket? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = leftJoinOnKey(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
+) = leftJoin(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 @JvmName("unnestString")
 fun <T : ValidType> ISelectUnnestClause<T>.unnest(arrayField: CMJsonList<String>) = unnest(arrayField.toDopeType())

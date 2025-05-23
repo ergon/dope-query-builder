@@ -37,9 +37,9 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 route,
-            ).joinOnCondition(
+            ).join(
                 airline,
-                onCondition = someStringField("airlineid", route).isEqualTo(
+                condition = someStringField("airlineid", route).isEqualTo(
                     meta(airline).id,
                 ),
             ).where(
@@ -61,9 +61,9 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 route.useIndex(),
-            ).leftJoinOnCondition(
+            ).leftJoin(
                 airline,
-                onCondition = someStringField("airlineid", route).isEqualTo(
+                condition = someStringField("airlineid", route).isEqualTo(
                     meta(airline).id,
                 ),
             ).where(
@@ -84,7 +84,7 @@ class JoinClauseTest {
                 route,
             ).rightJoin(
                 airline,
-                onCondition = someStringField("airlineid", route).isEqualTo(
+                condition = someStringField("airlineid", route).isEqualTo(
                     meta(
                         airline,
                     ).id,
@@ -111,9 +111,9 @@ class JoinClauseTest {
             someStringField("destinationairport", route),
         ).from(
             route,
-        ).innerJoinOnCondition(
+        ).innerJoin(
             airline,
-            onCondition = someStringField("airlineid", route).isEqualTo(
+            condition = someStringField("airlineid", route).isEqualTo(
                 meta(
                     airline,
                 ).id,
@@ -162,9 +162,9 @@ class JoinClauseTest {
             ),
         ).from(
             aport,
-        ).leftJoinOnCondition(
+        ).leftJoin(
             lmark,
-            onCondition = someStringField("city", aport).isEqualTo(
+            condition = someStringField("city", aport).isEqualTo(
                 someStringField("city", lmark),
             ).and(
                 someStringField("country", lmark).isEqualTo(
@@ -214,7 +214,7 @@ class JoinClauseTest {
             aport,
         ).rightJoin(
             lmark,
-            onCondition = someStringField("city", aport).isEqualTo(
+            condition = someStringField("city", aport).isEqualTo(
                 someStringField("city", lmark),
             ).and(
                 someStringField("country", lmark).isEqualTo(
@@ -245,12 +245,12 @@ class JoinClauseTest {
         val actual = create
             .selectDistinct(someStringField("destinationairport", someBucket("subquery")))
             .from(airport)
-            .joinOnCondition(
+            .join(
                 create
                     .select(someStringField("destinationairport"), someStringField("sourceairport"))
                     .from(route)
                     .alias("subquery"),
-                onCondition = someStringField("faa", airport).isEqualTo(someStringField("sourceairport", someBucket("subquery"))),
+                condition = someStringField("faa", airport).isEqualTo(someStringField("sourceairport", someBucket("subquery"))),
             )
             .where(someStringField("city", airport).isEqualTo("San Francisco"))
             .build().queryString
@@ -273,9 +273,9 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).joinOnKeys(
+        ).join(
             airline,
-            onKeys = someStringField("airlineid", route),
+            key = someStringField("airlineid", route),
         ).where(
             someStringField("sourceairport", route).isEqualTo(
                 "SFO".toDopeType(),
@@ -305,9 +305,9 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).leftJoinOnKeys(
+        ).leftJoin(
             airline,
-            onKeys = someStringField("airlineid", route),
+            key = someStringField("airlineid", route),
         ).where(
             someStringField("destinationairport", route).isEqualTo(
                 "ATL".toDopeType(),
@@ -336,9 +336,9 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).joinOnKeys(
+        ).join(
             airline,
-            onKeys = someStringField("airlineid", route),
+            key = someStringField("airlineid", route),
         ).where(
             someStringField("icao", airline).isEqualTo("SWA".toDopeType()),
         ).limit(
@@ -356,10 +356,10 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 airline,
-            ).joinOnKey(
+            ).join(
                 route,
-                onKey = someStringField("airlineid", route),
-                forBucket = airline,
+                key = someStringField("airlineid", route),
+                bucket = airline,
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -373,10 +373,10 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 airline,
-            ).innerJoinOnKey(
+            ).innerJoin(
                 route,
-                onKey = someStringField("airlineid", route),
-                forBucket = airline,
+                key = someStringField("airlineid", route),
+                bucket = airline,
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -390,10 +390,10 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 airline,
-            ).leftJoinOnKey(
+            ).leftJoin(
                 route,
-                onKey = someStringField("airlineid", route),
-                forBucket = airline,
+                key = someStringField("airlineid", route),
+                bucket = airline,
             ).build().queryString
 
         assertEquals(expected, actual)
@@ -413,9 +413,9 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 r,
-            ).joinOnCondition(
+            ).join(
                 a,
-                onCondition = someStringField("airlineid", r).isEqualTo(
+                condition = someStringField("airlineid", r).isEqualTo(
                     meta(a).id,
                 ),
             ).build().queryString
@@ -433,9 +433,9 @@ class JoinClauseTest {
             .selectAsterisk()
             .from(
                 r,
-            ).joinOnKeys(
+            ).join(
                 airline,
-                onKeys = someStringField("airlineid", r),
+                key = someStringField("airlineid", r),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -456,9 +456,9 @@ class JoinClauseTest {
             someStringField("callsign", airline),
         ).from(
             route,
-        ).innerJoinOnKeys(
+        ).innerJoin(
             airline,
-            onKeys = someStringField("airlineid", route),
+            key = someStringField("airlineid", route),
         ).where(
             someStringField("icao", airline).isEqualTo("SWA".toDopeType()),
         ).limit(
@@ -479,9 +479,9 @@ class JoinClauseTest {
         val actual = create
             .selectFrom(
                 a1,
-            ).joinOnCondition(
+            ).join(
                 a2,
-                onCondition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
+                condition = someStringField("id", a1).isEqualTo(someStringField("id", a2)),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)
@@ -500,12 +500,12 @@ class JoinClauseTest {
         val actual = create
             .selectFrom(
                 airline,
-            ).joinOnCondition(
+            ).join(
                 airport,
-                onCondition = someStringField("id", airline).isEqualTo(someStringField("id", airport)),
-            ).joinOnCondition(
+                condition = someStringField("id", airline).isEqualTo(someStringField("id", airport)),
+            ).join(
                 city,
-                onCondition = someStringField("id", airport).isEqualTo(someStringField("id", city)),
+                condition = someStringField("id", airport).isEqualTo(someStringField("id", city)),
             ).build().queryString
 
         assertEquals(unifyString(expected), actual)

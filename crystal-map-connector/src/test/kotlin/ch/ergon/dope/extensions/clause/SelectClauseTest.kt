@@ -3,13 +3,10 @@ package ch.ergon.dope.extensions.clause
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
-import ch.ergon.dope.extension.clause.innerJoinOnKey
-import ch.ergon.dope.extension.clause.innerJoinOnKeys
+import ch.ergon.dope.extension.clause.innerJoin
+import ch.ergon.dope.extension.clause.join
 import ch.ergon.dope.extension.clause.joinHint.keysHint
-import ch.ergon.dope.extension.clause.joinOnKey
-import ch.ergon.dope.extension.clause.joinOnKeys
-import ch.ergon.dope.extension.clause.leftJoinOnKey
-import ch.ergon.dope.extension.clause.leftJoinOnKeys
+import ch.ergon.dope.extension.clause.leftJoin
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
@@ -29,12 +26,11 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderBy
 import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.helper.someString
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
@@ -100,9 +96,9 @@ class SelectClauseTest : ManagerDependentTest {
         val bucket = someBucket()
         val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeysClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.joinOnKeys(bucket, onKeys = field)
+        val actual = parentClause.join(bucket, key = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -113,9 +109,9 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeyClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.joinOnKey(bucket, onKey = field, forBucket)
+        val actual = parentClause.join(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -125,9 +121,9 @@ class SelectClauseTest : ManagerDependentTest {
         val bucket = someBucket()
         val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = InnerJoinOnKeysClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerJoinOnKeys(bucket, onKeys = field)
+        val actual = parentClause.innerJoin(bucket, key = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -138,9 +134,9 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = InnerJoinOnKeyClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.innerJoinOnKey(bucket, onKey = field, forBucket)
+        val actual = parentClause.innerJoin(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -150,9 +146,9 @@ class SelectClauseTest : ManagerDependentTest {
         val bucket = someBucket()
         val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = LeftJoinOnKeysClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoinOnKeys(bucket, onKeys = field)
+        val actual = parentClause.leftJoin(bucket, key = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -163,9 +159,9 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = LeftJoinOnKeyClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.leftJoinOnKey(bucket, onKey = field, forBucket)
+        val actual = parentClause.leftJoin(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -173,17 +169,17 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join use single key hint with CM`() {
         val bucket = someBucket()
-        val field = someNumberField()
+        val field = someStringField()
         val keysHint = keysHint(someCMStringField())
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeysClause(
+        val expected = StandardJoinOnKeyClause(
             bucket,
-            onKeys = field,
+            key = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.joinOnKeys(bucket, onKeys = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -191,17 +187,17 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join use multiple keys hint with CM`() {
         val bucket = someBucket()
-        val field = someNumberField()
+        val field = someStringField()
         val keysHint = keysHint(someCMStringList())
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeysClause(
+        val expected = StandardJoinOnKeyClause(
             bucket,
-            onKeys = field,
+            key = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.joinOnKeys(bucket, onKeys = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
