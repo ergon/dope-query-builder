@@ -38,7 +38,6 @@ import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
