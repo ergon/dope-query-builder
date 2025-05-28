@@ -1,13 +1,12 @@
 package ch.ergon.dope.extension.clause
 
-import ch.ergon.dope.resolvable.clause.IUpdateClause
 import ch.ergon.dope.resolvable.clause.IUpdateLimitClause
 import ch.ergon.dope.resolvable.clause.IUpdateSetClause
 import ch.ergon.dope.resolvable.clause.IUpdateUnsetClause
 import ch.ergon.dope.resolvable.clause.IUpdateWhereClause
-import ch.ergon.dope.resolvable.clause.model.SetClause
+import ch.ergon.dope.resolvable.clause.model.SetAssignment
 import ch.ergon.dope.resolvable.clause.model.UnsetClause
-import ch.ergon.dope.resolvable.clause.model.to
+import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -35,224 +34,74 @@ fun IUpdateWhereClause.limit(numberField: CMJsonField<Number>) = limit(numberFie
 
 fun IUpdateUnsetClause.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
-fun IUpdateUnsetClause.unset(field: CMType) =
-    UnsetClause(field.toDopeType(), parentClause = this)
-
-fun UnsetClause.unset(field: CMType) =
-    this.unset(field.toDopeType())
+fun IUpdateSetClause.unset(field: CMType, vararg fields: CMType) =
+    UnsetClause(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray(), parentClause = this)
 
 @JvmName("setCMNumberFieldToCMNumberField")
-fun IUpdateSetClause.set(
-    field: CMJsonField<out Number>,
-    value: CMJsonField<out Number>,
-) = SetClause(field.toDopeType().to(value.toDopeType()), parentClause = this)
-
-@JvmName("setCMNumberFieldToCMNumberField")
-fun SetClause.set(
-    field: CMJsonField<out Number>,
-    value: CMJsonField<out Number>,
-) = set(field.toDopeType(), value.toDopeType())
+fun CMJsonField<out Number>.toNewValue(value: CMJsonField<out Number>):
+    SetAssignment<NumberType> = toDopeType().toNewValue(value.toDopeType())
 
 @JvmName("setCMStringFieldToCMStringField")
-fun IUpdateClause.set(
-    field: CMJsonField<String>,
-    value: CMJsonField<String>,
-) = set(field.toDopeType(), value.toDopeType())
-
-@JvmName("setCMStringFieldToCMStringField")
-fun SetClause.set(
-    field: CMJsonField<String>,
-    value: CMJsonField<String>,
-) = set(field.toDopeType(), value.toDopeType())
+fun CMJsonField<String>.toNewValue(value: CMJsonField<String>):
+    SetAssignment<StringType> = toDopeType().toNewValue(value.toDopeType())
 
 @JvmName("setCMBooleanFieldToCMBooleanField")
-fun IUpdateClause.set(
-    field: CMJsonField<Boolean>,
-    value: CMJsonField<Boolean>,
-) = set(field.toDopeType(), value.toDopeType())
-
-@JvmName("setCMBooleanFieldToCMBooleanField")
-fun SetClause.set(
-    field: CMJsonField<Boolean>,
-    value: CMJsonField<Boolean>,
-) = set(field.toDopeType(), value.toDopeType())
+fun CMJsonField<Boolean>.toNewValue(value: CMJsonField<Boolean>):
+    SetAssignment<BooleanType> = toDopeType().toNewValue(value.toDopeType())
 
 @JvmName("setCMNumberListToCMNumberList")
-fun IUpdateClause.set(
-    field: CMJsonList<out Number>,
-    value: CMJsonList<out Number>,
-) = set(field.toDopeType(), value.toDopeType())
-
-@JvmName("setCMNumberListToCMNumberList")
-fun SetClause.set(
-    field: CMJsonList<out Number>,
-    value: CMJsonList<out Number>,
-) = set(field.toDopeType(), value.toDopeType())
+fun CMJsonList<out Number>.toNewValue(value: CMJsonList<out Number>):
+    SetAssignment<ArrayType<NumberType>> = toDopeType().toNewValue(value.toDopeType())
 
 @JvmName("setCMStringListToCMStringList")
-fun IUpdateClause.set(
-    field: CMJsonList<String>,
-    value: CMJsonList<String>,
-) = set(field.toDopeType(), value.toDopeType())
-
-@JvmName("setCMStringListToCMStringList")
-fun SetClause.set(
-    field: CMJsonList<String>,
-    value: CMJsonList<String>,
-) = set(field.toDopeType(), value.toDopeType())
+fun CMJsonList<String>.toNewValue(value: CMJsonList<String>):
+    SetAssignment<ArrayType<StringType>> = toDopeType().toNewValue(value.toDopeType())
 
 @JvmName("setCMBooleanListToCMBooleanList")
-fun IUpdateClause.set(
-    field: CMJsonList<Boolean>,
-    value: CMJsonList<Boolean>,
-) = set(field.toDopeType(), value.toDopeType())
+fun CMJsonList<Boolean>.toNewValue(value: CMJsonList<Boolean>):
+    SetAssignment<ArrayType<BooleanType>> = toDopeType().toNewValue(value.toDopeType())
 
-@JvmName("setCMBooleanListToCMBooleanList")
-fun SetClause.set(
-    field: CMJsonList<Boolean>,
-    value: CMJsonList<Boolean>,
-) = set(field.toDopeType(), value.toDopeType())
+@JvmName("setCMNumberFieldToTypeExpression")
+fun CMJsonField<out Number>.toNewValue(value: TypeExpression<out NumberType>):
+    SetAssignment<NumberType> = toDopeType().toNewValue(value)
 
-@JvmName("setCMNumberFieldToNumberTypeExpression")
-fun IUpdateClause.set(
-    field: CMJsonField<out Number>,
-    value: TypeExpression<NumberType>,
-) = set(field.toDopeType(), value)
+@JvmName("setCMStringFieldToTypeExpression")
+fun CMJsonField<String>.toNewValue(value: TypeExpression<out StringType>):
+    SetAssignment<StringType> = toDopeType().toNewValue(value)
 
-@JvmName("setCMNumberFieldToNumberTypeExpression")
-fun SetClause.set(
-    field: CMJsonField<out Number>,
-    value: TypeExpression<NumberType>,
-) = set(field.toDopeType(), value)
+@JvmName("setCMBooleanFieldToTypeExpression")
+fun CMJsonField<Boolean>.toNewValue(value: TypeExpression<out BooleanType>):
+    SetAssignment<BooleanType> = toDopeType().toNewValue(value)
 
-@JvmName("setCMStringFieldToStringTypeExpression")
-fun IUpdateClause.set(
-    field: CMJsonField<String>,
-    value: TypeExpression<StringType>,
-) = set(field.toDopeType(), value)
+@JvmName("setCMNumberListToTypeExpression")
+fun CMJsonList<out Number>.toNewValue(value: TypeExpression<out ArrayType<NumberType>>):
+    SetAssignment<ArrayType<NumberType>> = toDopeType().toNewValue(value)
 
-@JvmName("setCMStringFieldToStringTypeExpression")
-fun SetClause.set(
-    field: CMJsonField<String>,
-    value: TypeExpression<StringType>,
-) = set(field.toDopeType(), value)
+@JvmName("setCMStringListToTypeExpression")
+fun CMJsonList<String>.toNewValue(value: TypeExpression<out ArrayType<StringType>>):
+    SetAssignment<ArrayType<StringType>> = toDopeType().toNewValue(value)
 
-@JvmName("setCMBooleanFieldToBooleanTypeExpression")
-fun IUpdateClause.set(
-    field: CMJsonField<Boolean>,
-    value: TypeExpression<BooleanType>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMBooleanFieldToBooleanTypeExpression")
-fun SetClause.set(
-    field: CMJsonField<Boolean>,
-    value: TypeExpression<BooleanType>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMNumberListToNumberArrayTypeExpression")
-fun IUpdateClause.set(
-    field: CMJsonList<out Number>,
-    value: TypeExpression<ArrayType<NumberType>>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMNumberListToNumberArrayTypeExpression")
-fun SetClause.set(
-    field: CMJsonList<out Number>,
-    value: TypeExpression<ArrayType<NumberType>>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMStringListToStringArrayTypeExpression")
-fun IUpdateClause.set(
-    field: CMJsonList<String>,
-    value: TypeExpression<ArrayType<StringType>>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMStringListToStringArrayTypeExpression")
-fun SetClause.set(
-    field: CMJsonList<String>,
-    value: TypeExpression<ArrayType<StringType>>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMBooleanListToBooleanArrayTypeExpression")
-fun IUpdateClause.set(
-    field: CMJsonList<Boolean>,
-    value: TypeExpression<ArrayType<BooleanType>>,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMBooleanListToBooleanArrayTypeExpression")
-fun SetClause.set(
-    field: CMJsonList<Boolean>,
-    value: TypeExpression<ArrayType<BooleanType>>,
-) = set(field.toDopeType(), value)
+@JvmName("setCMBooleanListToTypeExpression")
+fun CMJsonList<Boolean>.toNewValue(value: TypeExpression<out ArrayType<BooleanType>>):
+    SetAssignment<ArrayType<BooleanType>> = toDopeType().toNewValue(value)
 
 @JvmName("setCMNumberFieldToNumber")
-fun IUpdateClause.set(
-    field: CMJsonField<out Number>,
-    value: Number,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMNumberFieldToNumber")
-fun SetClause.set(
-    field: CMJsonField<out Number>,
-    value: Number,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMConverterNumberFieldToNumber")
-fun <Convertable : Any, JsonType : Number> IUpdateClause.set(
-    field: CMConverterField<Convertable, JsonType>,
-    value: Convertable,
-) = set(field.toDopeType(), field.toDopeType(value))
-
-@JvmName("setCMConverterNumberFieldToNumber")
-fun <Convertable : Any, JsonType : Number> SetClause.set(
-    field: CMConverterField<Convertable, JsonType>,
-    value: Convertable,
-) = set(field.toDopeType(), field.toDopeType(value))
+fun CMJsonField<out Number>.toNewValue(value: Number): SetAssignment<NumberType> = toDopeType().toNewValue(value)
 
 @JvmName("setCMStringFieldToString")
-fun IUpdateClause.set(
-    field: CMJsonField<String>,
-    value: String,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMStringFieldToString")
-fun SetClause.set(
-    field: CMJsonField<String>,
-    value: String,
-) = set(field.toDopeType(), value)
-
-@JvmName("setCMConverterStringFieldToNumber")
-fun <Convertable : Any> IUpdateClause.set(
-    field: CMConverterField<Convertable, String>,
-    value: Convertable,
-) = set(field.toDopeType(), field.toDopeType(value))
-
-@JvmName("setCMConverterStringFieldToNumber")
-fun <Convertable : Any> SetClause.set(
-    field: CMConverterField<Convertable, String>,
-    value: Convertable,
-) = set(field.toDopeType(), field.toDopeType(value))
+fun CMJsonField<String>.toNewValue(value: String): SetAssignment<StringType> = toDopeType().toNewValue(value)
 
 @JvmName("setCMBooleanFieldToBoolean")
-fun IUpdateClause.set(
-    field: CMJsonField<Boolean>,
-    value: Boolean,
-) = set(field.toDopeType(), value)
+fun CMJsonField<Boolean>.toNewValue(value: Boolean): SetAssignment<BooleanType> = toDopeType().toNewValue(value)
 
-@JvmName("setCMBooleanFieldToBoolean")
-fun SetClause.set(
-    field: CMJsonField<Boolean>,
-    value: Boolean,
-) = set(field.toDopeType(), value)
+@JvmName("setCMConverterNumberFieldToNumber")
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.toNewValue(value: Convertable) =
+    toDopeType().toNewValue(toDopeType(value))
 
-@JvmName("setCMConverterBooleanFieldToNumber")
-fun <Convertable : Any> IUpdateClause.set(
-    field: CMConverterField<Convertable, Boolean>,
-    value: Convertable,
-) = set(field.toDopeType(), field.toDopeType(value))
+@JvmName("setCMConverterStringFieldToString")
+fun <Convertable : Any> CMConverterField<Convertable, String>.toNewValue(value: Convertable) =
+    toDopeType().toNewValue(toDopeType(value))
 
-@JvmName("setCMConverterBooleanFieldToNumber")
-fun <Convertable : Any> SetClause.set(
-    field: CMConverterField<Convertable, Boolean>,
-    value: Convertable,
-) = set(field.toDopeType(), field.toDopeType(value))
+@JvmName("setCMConverterBooleanFieldToBoolean")
+fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toNewValue(value: Convertable) =
+    toDopeType().toNewValue(toDopeType(value))

@@ -23,12 +23,15 @@ interface IDeleteReturningClause : Clause
 interface IDeleteOffsetClause : IDeleteReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         DeleteReturningClause(returningExpression, *additionalReturningExpressions, parentClause = this)
+
     fun returningAsterisk(bucket: Bucket? = null) = DeleteReturningClause(asterisk(bucket), parentClause = this)
 
     fun returningRaw(returningExpression: SingleExpression<out ValidType>): DeleteReturningSingleClause =
         DeleteReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)
+
     fun returningValue(returningExpression: SingleExpression<out ValidType>) =
         DeleteReturningSingleClause(returningExpression, returningType = VALUE, parentClause = this)
+
     fun returningElement(returningExpression: SingleExpression<out ValidType>) =
         DeleteReturningSingleClause(returningExpression, returningType = ELEMENT, parentClause = this)
 }
