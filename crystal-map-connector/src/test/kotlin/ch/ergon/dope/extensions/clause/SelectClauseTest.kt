@@ -29,19 +29,20 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderBy
 import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.helper.someString
+import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
+import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.InnerNestClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
+import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.LeftNestClause
-import ch.ergon.dope.resolvable.clause.model.OrderByType
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
+import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.StandardNestClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.toDopeType
@@ -173,11 +174,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = StandardJoinClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, onKeys = field)
+        val actual = parentClause.join(bucket, key = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -185,12 +186,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join on key for with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = StandardJoinClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, onKey = field, forBucket)
+        val actual = parentClause.join(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -198,11 +199,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select inner join with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = InnerJoinClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, onKeys = field)
+        val actual = parentClause.innerJoin(bucket, key = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -210,12 +211,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select inner join on key for with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = InnerJoinClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, onKey = field, forBucket)
+        val actual = parentClause.innerJoin(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -223,11 +224,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select left join with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = LeftJoinClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, onKeys = field)
+        val actual = parentClause.leftJoin(bucket, key = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -235,12 +236,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select left join on key for with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = LeftJoinClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, onKey = field, forBucket)
+        val actual = parentClause.leftJoin(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -248,17 +249,17 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join use single key hint with CM`() {
         val bucket = someBucket()
-        val field = someNumberField()
+        val field = someStringField()
         val keysHint = keysHint(someCMStringField())
         val parentClause = someFrom()
-        val expected = StandardJoinClause(
+        val expected = StandardJoinOnKeyClause(
             bucket,
-            onKeys = field,
+            key = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, onKeys = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -266,17 +267,17 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support select join use multiple keys hint with CM`() {
         val bucket = someBucket()
-        val field = someNumberField()
+        val field = someStringField()
         val keysHint = keysHint(someCMStringList())
         val parentClause = someFrom()
-        val expected = StandardJoinClause(
+        val expected = StandardJoinOnKeyClause(
             bucket,
-            onKeys = field,
+            key = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, onKeys = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -306,7 +307,7 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select order by with CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(OrderExpression(field.toDopeType()), parentClause = parentClause)
 
@@ -317,12 +318,12 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select order by with type and CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderByType), parentClause = parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -342,10 +343,10 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select order by with type and CMStringField`() {
         val field = someCMStringField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderByType), parentClause = parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -365,10 +366,10 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select order by with type and CMBooleanField`() {
         val field = someCMBooleanField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderByType), parentClause = parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -388,10 +389,10 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select order by with type and CMNumberList`() {
         val field = someCMNumberList()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderByType), parentClause = parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -411,10 +412,10 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select order by with type and CMStringList`() {
         val field = someCMStringList()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderByType), parentClause = parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -434,20 +435,20 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select order by with type and CMBooleanList`() {
         val field = someCMBooleanList()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
-        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderByType), parentClause = parentClause)
+        val orderType = OrderType.ASC
+        val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
 
-        val actual = parentClause.orderBy(field, orderByType)
+        val actual = parentClause.orderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
     @Test
     fun `should support select then order by with CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
+            OrderExpression(someNumberField(), OrderType.ASC),
             OrderExpression(field.toDopeType()),
             parentClause = parentClause,
         )
@@ -459,16 +460,16 @@ class SelectClauseTest : ManagerDependentTest {
 
     @Test
     fun `should support select then order by with type and CMNumberField`() {
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
-            OrderExpression(field.toDopeType(), orderByType),
+            OrderExpression(someNumberField(), OrderType.ASC),
+            OrderExpression(field.toDopeType(), orderType),
             parentClause = parentClause,
         )
 
-        val actual = someOrderBy(parentClause).thenOrderBy(field, orderByType)
+        val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -478,7 +479,7 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMStringField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
+            OrderExpression(someNumberField(), OrderType.ASC),
             OrderExpression(field.toDopeType()),
             parentClause = parentClause,
         )
@@ -492,14 +493,14 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select then order by with type and CMStringField`() {
         val field = someCMStringField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
-            OrderExpression(field.toDopeType(), orderByType),
+            OrderExpression(someNumberField(), OrderType.ASC),
+            OrderExpression(field.toDopeType(), orderType),
             parentClause = parentClause,
         )
 
-        val actual = someOrderBy(parentClause).thenOrderBy(field, orderByType)
+        val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -509,7 +510,7 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMBooleanField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
+            OrderExpression(someNumberField(), OrderType.ASC),
             OrderExpression(field.toDopeType()),
             parentClause = parentClause,
         )
@@ -523,14 +524,14 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select then order by with type and CMBooleanField`() {
         val field = someCMBooleanField()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
-            OrderExpression(field.toDopeType(), orderByType),
+            OrderExpression(someNumberField(), OrderType.ASC),
+            OrderExpression(field.toDopeType(), orderType),
             parentClause = parentClause,
         )
 
-        val actual = someOrderBy(parentClause).thenOrderBy(field, orderByType)
+        val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -540,7 +541,7 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMNumberList()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
+            OrderExpression(someNumberField(), OrderType.ASC),
             OrderExpression(field.toDopeType()),
             parentClause = parentClause,
         )
@@ -554,14 +555,14 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select then order by with type and CMNumberList`() {
         val field = someCMNumberList()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
-            OrderExpression(field.toDopeType(), orderByType),
+            OrderExpression(someNumberField(), OrderType.ASC),
+            OrderExpression(field.toDopeType(), orderType),
             parentClause = parentClause,
         )
 
-        val actual = someOrderBy(parentClause).thenOrderBy(field, orderByType)
+        val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -571,7 +572,7 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMStringList()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
+            OrderExpression(someNumberField(), OrderType.ASC),
             OrderExpression(field.toDopeType()),
             parentClause = parentClause,
         )
@@ -585,14 +586,14 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select then order by with type and CMStringList`() {
         val field = someCMStringList()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
-            OrderExpression(field.toDopeType(), orderByType),
+            OrderExpression(someNumberField(), OrderType.ASC),
+            OrderExpression(field.toDopeType(), orderType),
             parentClause = parentClause,
         )
 
-        val actual = someOrderBy(parentClause).thenOrderBy(field, orderByType)
+        val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -602,7 +603,7 @@ class SelectClauseTest : ManagerDependentTest {
         val field = someCMBooleanList()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
+            OrderExpression(someNumberField(), OrderType.ASC),
             OrderExpression(field.toDopeType()),
             parentClause = parentClause,
         )
@@ -616,14 +617,14 @@ class SelectClauseTest : ManagerDependentTest {
     fun `should support select then order by with type and CMBooleanList`() {
         val field = someCMBooleanList()
         val parentClause = someSelect()
-        val orderByType = OrderByType.ASC
+        val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderByType.ASC),
-            OrderExpression(field.toDopeType(), orderByType),
+            OrderExpression(someNumberField(), OrderType.ASC),
+            OrderExpression(field.toDopeType(), orderType),
             parentClause = parentClause,
         )
 
-        val actual = someOrderBy(parentClause).thenOrderBy(field, orderByType)
+        val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -653,7 +654,7 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support DopeVariables with cmNumberField`() {
         val name = someString()
-        val value = someCMNumberField()
+        val value = someCMStringField()
         val expected = DopeVariable(name, value.toDopeType())
 
         val actual = name.assignTo(value)

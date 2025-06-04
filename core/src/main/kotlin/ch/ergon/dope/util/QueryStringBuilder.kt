@@ -2,8 +2,8 @@ package ch.ergon.dope.util
 
 import ch.ergon.dope.DopeQuery
 
-fun formatToQueryString(left: String, vararg right: String) =
-    "$left ${right.joinToString()}"
+fun formatToQueryString(left: String, vararg right: String, separator: String = ", ") =
+    "$left ${right.joinToString(separator)}"
 
 fun formatToQueryStringWithSymbol(left: String, symbol: String, vararg right: String) =
     "$left $symbol ${right.joinToString()}"
@@ -31,3 +31,17 @@ fun formatListToQueryStringWithBrackets(dopeQueries: List<DopeQuery>, separator:
 
 fun formatIndexToQueryString(indexName: String?, indexType: String?) =
     listOfNotNull(indexName?.let { "`$it`" }, indexType).joinToString(separator = " ")
+
+fun formatFunctionArgumentsWithAdditionalStrings(
+    functionName: String,
+    argumentsQueryString: String,
+    vararg additionalStrings: String?,
+): String {
+    val filtered = additionalStrings.filterNotNull()
+    val additional = if (filtered.isNotEmpty()) {
+        filtered.joinToString(separator = " ", prefix = " ")
+    } else {
+        ""
+    }
+    return "$functionName$argumentsQueryString$additional"
+}

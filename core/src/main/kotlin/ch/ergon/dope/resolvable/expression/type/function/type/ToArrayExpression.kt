@@ -5,8 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.AtomType
 
-class ToArrayExpression<T : AtomType>(expression: TypeExpression<T>) : FunctionExpression<
-    ArrayType<T>,>(
+class ToArrayExpression<T : AtomType>(expression: TypeExpression<T>) : FunctionExpression<ArrayType<T>>(
     "TOARRAY",
     expression,
 )

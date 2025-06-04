@@ -10,7 +10,7 @@ import ch.ergon.dope.resolvable.clause.ISelectOrderByClause
 import ch.ergon.dope.resolvable.clause.ISelectWhereClause
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
-import ch.ergon.dope.resolvable.clause.model.OrderByType
+import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.toDopeType
@@ -26,73 +26,73 @@ fun <T : ValidType> ISelectOrderByClause<T>.limit(numberField: CMJsonField<Numbe
 @JvmName("orderByNumber")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     numberField: CMJsonField<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("orderByString")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     stringField: CMJsonField<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("orderByBoolean")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     booleanField: CMJsonField<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(booleanField.toDopeType(), orderByType)
 
 @JvmName("orderByListNumber")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     numberField: CMJsonList<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("orderByListString")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     stringField: CMJsonList<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("orderByListBoolean")
 fun <T : ValidType> ISelectGroupByClause<T>.orderBy(
     booleanField: CMJsonList<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = orderBy(booleanField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByNumber")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     numberField: CMJsonField<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByString")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     stringField: CMJsonField<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByBoolean")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     booleanField: CMJsonField<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(booleanField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByListNumber")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     numberField: CMJsonList<Number>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(numberField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByListString")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     stringField: CMJsonList<String>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(stringField.toDopeType(), orderByType)
 
 @JvmName("thenOrderByListBoolean")
 fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     booleanField: CMJsonList<Boolean>,
-    orderByType: OrderByType? = null,
+    orderByType: OrderType? = null,
 ) = thenOrderBy(booleanField.toDopeType(), orderByType)
 
 fun <T : ValidType> ISelectWhereClause<T>.groupBy(field: CMType, vararg fields: CMType) =
@@ -100,50 +100,53 @@ fun <T : ValidType> ISelectWhereClause<T>.groupBy(field: CMType, vararg fields: 
 
 fun <T : ValidType> ISelectFromClause<T>.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
-fun <T : ValidType> ISelectFromClause<T>.join(
+fun <T : ValidType> ISelectFromClause<T>.xjoin(
     joinable: Joinable,
-    onKeys: CMJsonField<out Any>,
+    keys: CMJsonList<String>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = join(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+) = join(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+
 
 fun <T : ValidType> ISelectFromClause<T>.join(
     joinable: Joinable,
-    onKey: CMJsonField<out Any>,
-    forBucket: Bucket,
+    key: CMJsonField<String>,
+    bucket: Bucket? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = join(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
+) = join(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 fun <T : ValidType> ISelectFromClause<T>.innerJoin(
     joinable: Joinable,
-    onKeys: CMJsonField<out Any>,
+    keys: CMJsonList<String>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = innerJoin(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+) = innerJoin(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+
 
 fun <T : ValidType> ISelectFromClause<T>.innerJoin(
     joinable: Joinable,
-    onKey: CMJsonField<out Any>,
-    forBucket: Bucket,
+    key: CMJsonField<String>,
+    bucket: Bucket? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = innerJoin(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
+) = innerJoin(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 fun <T : ValidType> ISelectFromClause<T>.leftJoin(
     joinable: Joinable,
-    onKeys: CMJsonField<out Any>,
+    keys: CMJsonList<String>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = leftJoin(joinable, onKeys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+) = leftJoin(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+
 
 fun <T : ValidType> ISelectFromClause<T>.leftJoin(
     joinable: Joinable,
-    onKey: CMJsonField<out Any>,
-    forBucket: Bucket,
+    key: CMJsonField<String>,
+    bucket: Bucket? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
-) = leftJoin(joinable, onKey.toDopeType(), forBucket, hashOrNestedLoopHint, keysOrIndexHint)
+) = leftJoin(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
 @JvmName("unnestString")
 fun <T : ValidType> ISelectFromClause<T>.unnest(arrayField: CMJsonList<String>) = unnest(arrayField.toDopeType())

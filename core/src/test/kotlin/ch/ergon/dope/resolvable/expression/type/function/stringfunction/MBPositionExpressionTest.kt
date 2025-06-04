@@ -20,7 +20,6 @@ class MBPositionExpressionTest : ManagerDependentTest {
     fun `should support mbPosition`() {
         val expected = DopeQuery(
             queryString = "MB_POSITION(`stringField`, `stringField`)",
-
         )
         val underTest = MBPositionExpression(someStringField(), someStringField())
 

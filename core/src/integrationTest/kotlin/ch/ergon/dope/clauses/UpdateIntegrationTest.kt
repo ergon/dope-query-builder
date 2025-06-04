@@ -8,7 +8,10 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.bucket.useKeys
+import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.NULL
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.AfterTest
 import kotlin.test.Test
@@ -24,19 +27,21 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `update to set and unset single attribute`() {
         val newField = Field<StringType>("newField", testBucket.name)
+        val newNullField = Field<NumberType>("nullField", testBucket.name)
         val dopeQuery = QueryBuilder()
             .update(
                 testBucket.useKeys("client:1"),
             )
             .set(
-                newField,
-                "newName",
+                newField.toNewValue("newName"),
+                newNullField.toNewValue(NULL),
             )
             .unset(
                 nameField,
             )
             .returning(
                 newField,
+                newNullField,
                 nameField,
             )
             .build()
@@ -46,6 +51,7 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
             val result = queryResult.toMapValues()
 
             assertEquals("newName", result["newField"])
+            assertNull(result["nullField"])
             assertNull(result["nameField"])
         }
     }
