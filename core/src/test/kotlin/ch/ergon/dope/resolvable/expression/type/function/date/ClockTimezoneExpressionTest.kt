@@ -11,7 +11,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ClockTzExpressionTest : ManagerDependentTest {
+class ClockTimezoneExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
@@ -20,7 +20,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "CLOCK_TZ(`stringField`)",
         )
-        val underTest = ClockTzExpression(tzField)
+        val underTest = ClockTimezoneExpression(tzField)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -34,7 +34,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
             queryString = "CLOCK_TZ($1)",
             DopeParameters(positionalParameters = listOf(tz)),
         )
-        val underTest = ClockTzExpression(tz.asParameter())
+        val underTest = ClockTimezoneExpression(tz.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -49,7 +49,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
             queryString = "CLOCK_TZ(\$$name)",
             DopeParameters(namedParameters = mapOf(name to tz)),
         )
-        val underTest = ClockTzExpression(tz.asParameter(name))
+        val underTest = ClockTimezoneExpression(tz.asParameter(name))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -63,7 +63,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "CLOCK_TZ(`stringField`, `stringField`)",
         )
-        val underTest = ClockTzExpression(tzField, fmtField)
+        val underTest = ClockTimezoneExpression(tzField, fmtField)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -74,7 +74,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
     fun `should support formattedClockIn extension with raw args`() {
         val tz = someString()
         val fmt = someString()
-        val expected = ClockTzExpression(tz.toDopeType(), fmt.toDopeType())
+        val expected = ClockTimezoneExpression(tz.toDopeType(), fmt.toDopeType())
         val actual = formattedClockIn(tz, fmt)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
@@ -83,7 +83,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support formattedClockIn extension with raw timezone`() {
         val tz = someString()
-        val expected = ClockTzExpression(tz.toDopeType())
+        val expected = ClockTimezoneExpression(tz.toDopeType())
         val actual = formattedClockIn(tz)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
@@ -93,7 +93,7 @@ class ClockTzExpressionTest : ManagerDependentTest {
     fun `should support formattedClockIn extension with type timezone and raw format`() {
         val tz = someStringField()
         val fmt = someString()
-        val expected = ClockTzExpression(tz, fmt.toDopeType())
+        val expected = ClockTimezoneExpression(tz, fmt.toDopeType())
         val actual = formattedClockIn(tz, fmt)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))

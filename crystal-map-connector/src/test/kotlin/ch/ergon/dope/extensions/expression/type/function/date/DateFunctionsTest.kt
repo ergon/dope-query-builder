@@ -37,7 +37,7 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockLocalExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockStrExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.ClockTzExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.ClockTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.Component
 import ch.ergon.dope.resolvable.expression.type.function.date.DateAddMillisExpression
@@ -54,15 +54,15 @@ import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncStrExpres
 import ch.ergon.dope.resolvable.expression.type.function.date.DurationToStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToStrExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.MillisToTzExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.MillisToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowLocalExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowStringExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.NowTzExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.NowTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToDurationExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToMillisExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.StrToTzExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.StrToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayStrExpression
@@ -97,9 +97,9 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ClockTz with CM string`() {
+    fun `should support ClockTimezone with CM string`() {
         val tz = someCMStringField()
-        val expected = ClockTzExpression(tz.toDopeType())
+        val expected = ClockTimezoneExpression(tz.toDopeType())
 
         val actual = formattedClockIn(tz)
 
@@ -107,10 +107,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ClockTz with CM string and CM string`() {
+    fun `should support ClockTimezone with CM string and CM string`() {
         val tz = someCMStringField()
         val format = someCMStringField()
-        val expected = ClockTzExpression(tz.toDopeType(), format.toDopeType())
+        val expected = ClockTimezoneExpression(tz.toDopeType(), format.toDopeType())
 
         val actual = formattedClockIn(tz, format)
 
@@ -118,10 +118,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ClockTz with string and CM string`() {
+    fun `should support ClockTimezone with string and CM string`() {
         val tz = someString()
         val format = someCMStringField()
-        val expected = ClockTzExpression(tz.toDopeType(), format.toDopeType())
+        val expected = ClockTimezoneExpression(tz.toDopeType(), format.toDopeType())
 
         val actual = formattedClockIn(tz, format)
 
@@ -129,10 +129,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ClockTz with CM string and string`() {
+    fun `should support ClockTimezone with CM string and string`() {
         val tz = someCMStringField()
         val format = someString()
-        val expected = ClockTzExpression(tz.toDopeType(), format.toDopeType())
+        val expected = ClockTimezoneExpression(tz.toDopeType(), format.toDopeType())
 
         val actual = formattedClockIn(tz, format)
 
@@ -140,10 +140,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ClockTz with CM string and type`() {
+    fun `should support ClockTimezone with CM string and type`() {
         val tz = someCMStringField()
         val format = someStringField()
-        val expected = ClockTzExpression(tz.toDopeType(), format)
+        val expected = ClockTimezoneExpression(tz.toDopeType(), format)
 
         val actual = formattedClockIn(tz, format)
 
@@ -151,10 +151,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support ClockTz with type and CM string`() {
+    fun `should support ClockTimezone with type and CM string`() {
         val tz = someStringField()
         val format = someCMStringField()
-        val expected = ClockTzExpression(tz, format.toDopeType())
+        val expected = ClockTimezoneExpression(tz, format.toDopeType())
 
         val actual = formattedClockIn(tz, format)
 
@@ -874,9 +874,9 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NowTz with CM string`() {
+    fun `should support NowTimezone with CM string`() {
         val tz = someCMStringField()
-        val expected = NowTzExpression(tz.toDopeType())
+        val expected = NowTimezoneExpression(tz.toDopeType())
 
         val actual = nowStringInZone(tz)
 
@@ -884,10 +884,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NowTz with CM string and string`() {
+    fun `should support NowTimezone with CM string and string`() {
         val tz = someCMStringField()
         val format = someString()
-        val expected = NowTzExpression(tz.toDopeType(), format.toDopeType())
+        val expected = NowTimezoneExpression(tz.toDopeType(), format.toDopeType())
 
         val actual = nowStringInZone(tz, format)
 
@@ -895,10 +895,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NowTz with string and CM string`() {
+    fun `should support NowTimezone with string and CM string`() {
         val tz = someString()
         val format = someCMStringField()
-        val expected = NowTzExpression(tz.toDopeType(), format.toDopeType())
+        val expected = NowTimezoneExpression(tz.toDopeType(), format.toDopeType())
 
         val actual = nowStringInZone(tz, format)
 
@@ -906,10 +906,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NowTz with CM string and type`() {
+    fun `should support NowTimezone with CM string and type`() {
         val tz = someCMStringField()
         val format = someStringField()
-        val expected = NowTzExpression(tz.toDopeType(), format)
+        val expected = NowTimezoneExpression(tz.toDopeType(), format)
 
         val actual = nowStringInZone(tz, format)
 
@@ -917,10 +917,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support NowTz with type and CM string`() {
+    fun `should support NowTimezone with type and CM string`() {
         val tz = someStringField()
         val format = someCMStringField()
-        val expected = NowTzExpression(tz, format.toDopeType())
+        val expected = NowTimezoneExpression(tz, format.toDopeType())
 
         val actual = nowStringInZone(tz, format)
 
@@ -1002,10 +1002,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with CM number type`() {
+    fun `should support MillisToTimezone with CM number type`() {
         val date = someCMNumberField()
         val tz = someStringField()
-        val expected = MillisToTzExpression(date.toDopeType(), tz)
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz)
 
         val actual = date.toTimeZone(tz)
 
@@ -1013,10 +1013,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with CM number CM string`() {
+    fun `should support MillisToTimezone with CM number CM string`() {
         val date = someCMNumberField()
         val tz = someCMStringField()
-        val expected = MillisToTzExpression(date.toDopeType(), tz.toDopeType())
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1024,10 +1024,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with type CM string`() {
+    fun `should support MillisToTimezone with type CM string`() {
         val date = someNumberField()
         val tz = someCMStringField()
-        val expected = MillisToTzExpression(date, tz.toDopeType())
+        val expected = MillisToTimezoneExpression(date, tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1035,10 +1035,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with CM number string`() {
+    fun `should support MillisToTimezone with CM number string`() {
         val date = someCMNumberField()
         val tz = someString()
-        val expected = MillisToTzExpression(date.toDopeType(), tz.toDopeType())
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1046,10 +1046,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with number CM string`() {
+    fun `should support MillisToTimezone with number CM string`() {
         val date = someNumber()
         val tz = someCMStringField()
-        val expected = MillisToTzExpression(date.toDopeType(), tz.toDopeType())
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1057,11 +1057,11 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with CM number, type and CM string`() {
+    fun `should support MillisToTimezone with CM number, type and CM string`() {
         val date = someCMNumberField()
         val tz = someStringField()
         val format = someCMStringField()
-        val expected = MillisToTzExpression(date.toDopeType(), tz, format.toDopeType())
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz, format.toDopeType())
 
         val actual = date.toTimeZone(tz, format)
 
@@ -1069,11 +1069,11 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with type, CM string and CM string`() {
+    fun `should support MillisToTimezone with type, CM string and CM string`() {
         val date = someNumberField()
         val tz = someCMStringField()
         val format = someCMStringField()
-        val expected = MillisToTzExpression(date, tz.toDopeType(), format.toDopeType())
+        val expected = MillisToTimezoneExpression(date, tz.toDopeType(), format.toDopeType())
 
         val actual = date.toTimeZone(tz, format)
 
@@ -1081,11 +1081,11 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with CM number, string and CM string`() {
+    fun `should support MillisToTimezone with CM number, string and CM string`() {
         val date = someCMNumberField()
         val tz = someString()
         val format = someCMStringField()
-        val expected = MillisToTzExpression(date.toDopeType(), tz.toDopeType(), format.toDopeType())
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz.toDopeType(), format.toDopeType())
 
         val actual = date.toTimeZone(tz, format)
 
@@ -1093,11 +1093,11 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support MillisToTz with number, string and CM string`() {
+    fun `should support MillisToTimezone with number, string and CM string`() {
         val date = someNumber()
         val tz = someString()
         val format = someCMStringField()
-        val expected = MillisToTzExpression(date.toDopeType(), tz.toDopeType(), format.toDopeType())
+        val expected = MillisToTimezoneExpression(date.toDopeType(), tz.toDopeType(), format.toDopeType())
 
         val actual = date.toTimeZone(tz, format)
 
@@ -1105,10 +1105,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support StrToTz with CM string type`() {
+    fun `should support StrToTimezone with CM string type`() {
         val date = someCMStringField()
         val tz = someStringField()
-        val expected = StrToTzExpression(date.toDopeType(), tz)
+        val expected = StrToTimezoneExpression(date.toDopeType(), tz)
 
         val actual = date.toTimeZone(tz)
 
@@ -1116,10 +1116,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support StrToTz with CM string CM string`() {
+    fun `should support StrToTimezone with CM string CM string`() {
         val date = someCMStringField()
         val tz = someCMStringField()
-        val expected = StrToTzExpression(date.toDopeType(), tz.toDopeType())
+        val expected = StrToTimezoneExpression(date.toDopeType(), tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1127,10 +1127,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support StrToTz with type CM string`() {
+    fun `should support StrToTimezone with type CM string`() {
         val date = someStringField()
         val tz = someCMStringField()
-        val expected = StrToTzExpression(date, tz.toDopeType())
+        val expected = StrToTimezoneExpression(date, tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1138,10 +1138,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support StrToTz with CM string string`() {
+    fun `should support StrToTimezone with CM string string`() {
         val date = someCMStringField()
         val tz = someString()
-        val expected = StrToTzExpression(date.toDopeType(), tz.toDopeType())
+        val expected = StrToTimezoneExpression(date.toDopeType(), tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 
@@ -1149,10 +1149,10 @@ class DateFunctionsTest : ManagerDependentTest {
     }
 
     @Test
-    fun `should support StrToTz with string CM string`() {
+    fun `should support StrToTimezone with string CM string`() {
         val date = someString()
         val tz = someCMStringField()
-        val expected = StrToTzExpression(date.toDopeType(), tz.toDopeType())
+        val expected = StrToTimezoneExpression(date.toDopeType(), tz.toDopeType())
 
         val actual = date.toTimeZone(tz)
 

@@ -6,14 +6,18 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MillisToTzExpression(date: TypeExpression<NumberType>, timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) :
+class MillisToTimezoneExpression(
+    date: TypeExpression<NumberType>,
+    timeZone: TypeExpression<StringType>,
+    format: TypeExpression<StringType>? = null,
+) :
     FunctionExpression<StringType>("MILLIS_TO_TZ", date, timeZone, format)
 
-class StrToTzExpression(date: TypeExpression<StringType>, timeZone: TypeExpression<StringType>) :
+class StrToTimezoneExpression(date: TypeExpression<StringType>, timeZone: TypeExpression<StringType>) :
     FunctionExpression<StringType>("STR_TO_TZ", date, timeZone)
 
 fun TypeExpression<NumberType>.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
-    MillisToTzExpression(this, timeZone, format)
+    MillisToTimezoneExpression(this, timeZone, format)
 
 fun Number.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     toDopeType().toTimeZone(timeZone, format)
@@ -36,7 +40,7 @@ fun TypeExpression<NumberType>.toTimeZone(timeZone: String, format: String) =
 fun Number.toTimeZone(timeZone: String, format: String) =
     toDopeType().toTimeZone(timeZone.toDopeType(), format.toDopeType())
 
-fun TypeExpression<StringType>.toTimeZone(timeZone: TypeExpression<StringType>) = StrToTzExpression(this, timeZone)
+fun TypeExpression<StringType>.toTimeZone(timeZone: TypeExpression<StringType>) = StrToTimezoneExpression(this, timeZone)
 
 fun TypeExpression<StringType>.toTimeZone(timeZone: String) = toTimeZone(timeZone.toDopeType())
 

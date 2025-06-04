@@ -11,7 +11,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MillisToTzExpressionTest : ManagerDependentTest {
+class MillisToTimezoneExpressionTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
 
     @Test
@@ -19,7 +19,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "MILLIS_TO_TZ(`numberField`, `stringField`)",
         )
-        val underTest = MillisToTzExpression(
+        val underTest = MillisToTimezoneExpression(
             someNumberField(),
             someStringField(),
         )
@@ -34,7 +34,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
             queryString = "MILLIS_TO_TZ(`numberField`, $1)",
             DopeParameters(positionalParameters = listOf(tz)),
         )
-        val underTest = MillisToTzExpression(
+        val underTest = MillisToTimezoneExpression(
             someNumberField(),
             tz.asParameter(),
         )
@@ -50,7 +50,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
             queryString = "MILLIS_TO_TZ(`numberField`, \$$name)",
             DopeParameters(namedParameters = mapOf(name to tz)),
         )
-        val underTest = MillisToTzExpression(
+        val underTest = MillisToTimezoneExpression(
             someNumberField(),
             tz.asParameter(name),
         )
@@ -65,7 +65,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "MILLIS_TO_TZ(`numberField`, `stringField`, `stringField`)",
         )
-        val underTest = MillisToTzExpression(
+        val underTest = MillisToTimezoneExpression(
             someNumberField(),
             tzField,
             fmtField,
@@ -82,7 +82,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
             queryString = "MILLIS_TO_TZ(`numberField`, $1, $2)",
             DopeParameters(positionalParameters = listOf(tz, fmt)),
         )
-        val underTest = MillisToTzExpression(
+        val underTest = MillisToTimezoneExpression(
             someNumberField(),
             tz.asParameter(),
             fmt.asParameter(),
@@ -101,7 +101,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
             queryString = "MILLIS_TO_TZ(`numberField`, \$$tzName, \$$fmtName)",
             DopeParameters(namedParameters = mapOf(tzName to tz, fmtName to fmt)),
         )
-        val underTest = MillisToTzExpression(
+        val underTest = MillisToTimezoneExpression(
             someNumberField(),
             tz.asParameter(tzName),
             fmt.asParameter(fmtName),
@@ -115,7 +115,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDateIn extension with tz field and no format`() {
         val expr = someNumberField().toTimeZone(someStringField())
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             someNumberField(),
             someStringField(),
             null,
@@ -126,7 +126,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDateIn extension with raw tz and no format`() {
         val expr = someNumberField().toTimeZone("UTC")
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             someNumberField(),
             "UTC".toDopeType(),
             null,
@@ -137,7 +137,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDateIn extension with tz field and format field`() {
         val expr = someNumberField().toTimeZone(someStringField(), someStringField())
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             someNumberField(),
             someStringField(),
             someStringField(),
@@ -148,7 +148,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDateIn extension with tz field and raw format`() {
         val expr = someNumberField().toTimeZone(someStringField(), "yyyy")
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             someNumberField(),
             someStringField(),
             "yyyy".toDopeType(),
@@ -159,7 +159,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDateIn extension with raw tz and format field`() {
         val expr = someNumberField().toTimeZone("Asia/Kolkata", someStringField())
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             someNumberField(),
             "Asia/Kolkata".toDopeType(),
             someStringField(),
@@ -170,7 +170,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDateIn extension with raw tz and raw format`() {
         val expr = someNumberField().toTimeZone("Europe/Paris", "dd/MM")
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             someNumberField(),
             "Europe/Paris".toDopeType(),
             "dd/MM".toDopeType(),
@@ -181,7 +181,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateIn extension with tz field`() {
         val expr = 1234L.toTimeZone(someStringField())
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             1234L.toDopeType(),
             someStringField(),
             null,
@@ -192,7 +192,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateIn extension with raw tz`() {
         val expr = 5678L.toTimeZone("UTC")
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             5678L.toDopeType(),
             "UTC".toDopeType(),
             null,
@@ -203,7 +203,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateIn extension with tz and format fields`() {
         val expr = 91011L.toTimeZone(someStringField(), someStringField())
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             91011L.toDopeType(),
             someStringField(),
             someStringField(),
@@ -214,7 +214,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateIn extension with tz field and raw format`() {
         val expr = 1213L.toTimeZone(someStringField(), "yyyy")
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             1213L.toDopeType(),
             someStringField(),
             "yyyy".toDopeType(),
@@ -225,7 +225,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateIn extension with raw tz and format field`() {
         val expr = 1415L.toTimeZone("America/Toronto", someStringField())
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             1415L.toDopeType(),
             "America/Toronto".toDopeType(),
             someStringField(),
@@ -236,7 +236,7 @@ class MillisToTzExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDateIn extension with raw tz and raw format`() {
         val expr = 1617L.toTimeZone("Asia/Tokyo", "MM-dd")
-        val expected = MillisToTzExpression(
+        val expected = MillisToTimezoneExpression(
             1617L.toDopeType(),
             "Asia/Tokyo".toDopeType(),
             "MM-dd".toDopeType(),

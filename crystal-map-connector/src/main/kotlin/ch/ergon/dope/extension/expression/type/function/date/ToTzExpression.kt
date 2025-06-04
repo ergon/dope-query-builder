@@ -8,15 +8,15 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-@JvmName("millisToTzCMNumber")
+@JvmName("millisToTimezoneCMNumber")
 fun CMJsonField<Number>.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     toDopeType().toTimeZone(timeZone, format)
 
-@JvmName("millisToTzCMNumber")
+@JvmName("millisToTimezoneCMNumber")
 fun CMJsonField<Number>.toTimeZone(timeZone: CMJsonField<String>, format: TypeExpression<StringType>? = null) =
     toDopeType().toTimeZone(timeZone.toDopeType(), format)
 
-@JvmName("millisToTzTypeCMNumber")
+@JvmName("millisToTimezoneTypeCMNumber")
 fun TypeExpression<NumberType>.toTimeZone(timeZone: CMJsonField<String>, format: TypeExpression<StringType>? = null) =
     toTimeZone(timeZone.toDopeType(), format)
 
@@ -26,7 +26,7 @@ fun CMJsonField<Number>.toTimeZone(timeZone: String, format: TypeExpression<Stri
 fun Number.toTimeZone(timeZone: CMJsonField<String>, format: TypeExpression<StringType>? = null) =
     toDopeType().toTimeZone(timeZone.toDopeType(), format)
 
-@JvmName("millisToTzCMNumberFormat")
+@JvmName("millisToTimezoneCMNumberFormat")
 fun CMJsonField<Number>.toTimeZone(timeZone: TypeExpression<StringType>, format: CMJsonField<String>) =
     toDopeType().toTimeZone(timeZone, format.toDopeType())
 
@@ -39,13 +39,13 @@ fun CMJsonField<Number>.toTimeZone(timeZone: String, format: CMJsonField<String>
 fun Number.toTimeZone(timeZone: String, format: CMJsonField<String>) =
     toDopeType().toTimeZone(timeZone.toDopeType(), format.toDopeType())
 
-@JvmName("strToTzCMString")
+@JvmName("strToTimezoneCMString")
 fun CMJsonField<String>.toTimeZone(timeZone: TypeExpression<StringType>) = toDopeType().toTimeZone(timeZone)
 
-@JvmName("strToTzCMStringWithCMString")
+@JvmName("strToTimezoneCMStringWithCMString")
 fun CMJsonField<String>.toTimeZone(timeZone: CMJsonField<String>) = toDopeType().toTimeZone(timeZone.toDopeType())
 
-@JvmName("strToTzTypeCMString")
+@JvmName("strToTimezoneTypeCMString")
 fun TypeExpression<StringType>.toTimeZone(timeZone: CMJsonField<String>) = toTimeZone(timeZone.toDopeType())
 
 fun CMJsonField<String>.toTimeZone(timeZone: String) = toDopeType().toTimeZone(timeZone.toDopeType())

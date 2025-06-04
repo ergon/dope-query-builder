@@ -5,10 +5,13 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class ClockTzExpression(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) :
+class ClockTimezoneExpression(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) :
     FunctionExpression<StringType>("CLOCK_TZ", timeZone, format)
 
-fun formattedClockIn(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) = ClockTzExpression(timeZone, format)
+fun formattedClockIn(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) = ClockTimezoneExpression(
+    timeZone,
+    format,
+)
 
 fun formattedClockIn(timeZone: String, format: TypeExpression<StringType>? = null) = formattedClockIn(timeZone.toDopeType(), format)
 
