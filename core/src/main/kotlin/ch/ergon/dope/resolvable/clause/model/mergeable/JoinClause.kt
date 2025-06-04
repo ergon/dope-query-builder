@@ -1,14 +1,10 @@
-package ch.ergon.dope.resolvable.clause.model
+package ch.ergon.dope.resolvable.clause.model.mergeable
 
 import ch.ergon.dope.resolvable.Joinable
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
-import ch.ergon.dope.resolvable.clause.model.JoinType.INNER_JOIN
-import ch.ergon.dope.resolvable.clause.model.JoinType.JOIN
-import ch.ergon.dope.resolvable.clause.model.JoinType.LEFT_JOIN
-import ch.ergon.dope.resolvable.clause.model.JoinType.RIGHT_JOIN
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -28,8 +24,8 @@ class StandardJoinOnConditionClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.JOIN,
     mergeable = mergeable,
     condition = condition,
     hashOrNestedLoopHint = hashOrNestedLoopHint,
@@ -43,8 +39,8 @@ class StandardJoinOnKeysClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.JOIN,
     mergeable = mergeable,
     keys = keys,
     hashOrNestedLoopHint = hashOrNestedLoopHint,
@@ -59,8 +55,8 @@ class StandardJoinOnKeyClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.JOIN,
     mergeable = mergeable,
     key = key,
     bucket = bucket,
@@ -75,8 +71,8 @@ class LeftJoinOnConditionClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = LEFT_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.LEFT_JOIN,
     mergeable = mergeable,
     condition = condition,
     hashOrNestedLoopHint = hashOrNestedLoopHint,
@@ -90,8 +86,8 @@ class LeftJoinOnKeysClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = LEFT_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.LEFT_JOIN,
     mergeable = mergeable,
     keys = keys,
     hashOrNestedLoopHint = hashOrNestedLoopHint,
@@ -106,8 +102,8 @@ class LeftJoinOnKeyClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = LEFT_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.LEFT_JOIN,
     mergeable = mergeable,
     key = key,
     bucket = bucket,
@@ -122,8 +118,8 @@ class InnerJoinOnConditionClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = INNER_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.INNER_JOIN,
     mergeable = mergeable,
     condition = condition,
     hashOrNestedLoopHint = hashOrNestedLoopHint,
@@ -137,8 +133,8 @@ class InnerJoinOnKeysClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = INNER_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.INNER_JOIN,
     mergeable = mergeable,
     keys = keys,
     hashOrNestedLoopHint = hashOrNestedLoopHint,
@@ -153,8 +149,8 @@ class InnerJoinOnKeyClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = INNER_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.INNER_JOIN,
     mergeable = mergeable,
     key = key,
     bucket = bucket,
@@ -169,8 +165,8 @@ class RightJoinClause<T : ValidType>(
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : FromMergeable<T>(
-    mergeType = RIGHT_JOIN,
+) : MergeableClause<T>(
+    mergeType = JoinType.RIGHT_JOIN,
     mergeable = mergeable,
     condition = condition,
     hashOrNestedLoopHint = hashOrNestedLoopHint,

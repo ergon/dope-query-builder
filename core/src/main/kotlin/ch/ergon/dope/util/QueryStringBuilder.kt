@@ -32,6 +32,9 @@ fun formatListToQueryStringWithBrackets(dopeQueries: List<DopeQuery>, separator:
 fun formatIndexToQueryString(indexName: String?, indexType: String?) =
     listOfNotNull(indexName?.let { "`$it`" }, indexType).joinToString(separator = " ")
 
+fun formatPartsToQueryStringWithSpace(vararg string: String?) =
+    listOfNotNull(*string).joinToString(separator = " ")
+
 fun formatFunctionArgumentsWithAdditionalStrings(
     functionName: String,
     argumentsQueryString: String,

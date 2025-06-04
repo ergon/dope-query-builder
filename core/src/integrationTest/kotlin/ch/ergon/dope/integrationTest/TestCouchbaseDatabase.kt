@@ -20,7 +20,7 @@ import kotlin.time.Duration.Companion.seconds
 
 const val BUCKET = "testBucket"
 const val MAX_RETRIES = 5
-const val MAX_TIMEOUT = 15 // seconds
+const val MAX_TIMEOUT_IN_SECONDS = 15
 
 object TestCouchbaseDatabase {
     private val container = CouchbaseContainer(
@@ -48,7 +48,7 @@ object TestCouchbaseDatabase {
 
     fun resetDatabase() {
         runBlocking {
-            cluster.waitUntilReady(MAX_TIMEOUT.seconds).query("DELETE FROM $BUCKET").execute()
+            cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds).query("DELETE FROM $BUCKET").execute()
         }
         initDatabase()
     }
@@ -62,7 +62,7 @@ object TestCouchbaseDatabase {
         val collection = cluster.bucket(BUCKET).defaultCollection()
         tryUntil {
             runBlocking {
-                cluster.waitUntilReady(MAX_TIMEOUT.seconds)
+                cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
                 (1..5).forEach { i ->
                     collection.upsert(
                         id = "employee:$i",
