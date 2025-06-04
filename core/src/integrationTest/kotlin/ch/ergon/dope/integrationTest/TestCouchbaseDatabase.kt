@@ -7,6 +7,7 @@ import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import com.couchbase.client.kotlin.Cluster
 import com.couchbase.client.kotlin.query.QueryResult
@@ -33,6 +34,7 @@ object TestCouchbaseDatabase {
     val orderNumberField = Field<StringType>("orderNumber", testBucket.name)
     val deliveryDateField = Field<StringType>("deliveryDate", testBucket.name)
     val quantitiesField = Field<ArrayType<NumberType>>("quantities", testBucket.name)
+    val detailsField = Field<ObjectType>("details", testBucket.name)
 
     init {
         initContainer()
@@ -69,6 +71,11 @@ object TestCouchbaseDatabase {
                             "type" to "employee",
                             "name" to "employee$i",
                             "isActive" to true,
+                            "details" to mapOf(
+                                "position" to "Engineer",
+                                "department" to "Engineering",
+                                "email" to "employee$i@company.com",
+                            ),
                         ),
                     )
                     collection.upsert(
@@ -78,6 +85,10 @@ object TestCouchbaseDatabase {
                             "type" to "client",
                             "name" to "client$i",
                             "isActive" to (i % 2 == 0), // clients with even numbers are active
+                            "contacts" to listOf(
+                                mapOf("name" to "Contact A", "email" to "contact.a@client.com"),
+                                mapOf("name" to "Contact B", "email" to "contact.b@client.com"),
+                            ),
                         ),
                     )
                     collection.upsert(
