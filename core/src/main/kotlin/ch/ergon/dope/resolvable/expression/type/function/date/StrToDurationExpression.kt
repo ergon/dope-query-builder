@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.StringType
 
 class StrToDurationExpression(duration: TypeExpression<StringType>) : FunctionExpression<NumberType>("STR_TO_DURATION", duration)
 
-fun TypeExpression<StringType>.toDurationMillis() = StrToDurationExpression(this)
+fun TypeExpression<StringType>.toDurationNanos() = StrToDurationExpression(this)
 
-fun String.toDurationMillis() = toDopeType().toDurationMillis()
+fun String.toDurationNanos() = toDopeType().toDurationNanos()
