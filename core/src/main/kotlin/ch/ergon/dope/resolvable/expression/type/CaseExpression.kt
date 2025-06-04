@@ -96,16 +96,16 @@ fun <T : ValidType> CaseExpression<T, out ValidType>.otherwise(elseCase: TypeExp
     ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
 
 @JvmName("searchedCaseCondition")
-fun <U : ValidType> CaseClass<BooleanType>.condition(conditicondition: SearchResult<BooleanType, U>) =
-    CaseExpression(this, conditicondition)
+fun <U : ValidType> CaseClass<BooleanType>.condition(condition: SearchResult<BooleanType, U>) =
+    CaseExpression(this, condition)
 
 @JvmName("searchedCaseConditionWithGeneric")
-fun <U : ValidType> CaseExpression<BooleanType, U>.condition(conditicondition: SearchResult<BooleanType, U>) =
-    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditicondition)
+fun <U : ValidType> CaseExpression<BooleanType, U>.condition(condition: SearchResult<BooleanType, U>) =
+    CaseExpression(case, firstSearchResult, *additionalSearchResult, condition)
 
 @JvmName("searchedCaseConditionWithOutGeneric")
-fun CaseExpression<BooleanType, out ValidType>.condition(conditicondition: SearchResult<BooleanType, out ValidType>) =
-    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditicondition)
+fun CaseExpression<BooleanType, out ValidType>.condition(condition: SearchResult<BooleanType, out ValidType>) =
+    CaseExpression(case, firstSearchResult, *additionalSearchResult, condition)
 
 @JvmName("searchedCaseOtherwiseWithGeneric")
 fun <U : ValidType> CaseExpression<BooleanType, U>.otherwise(elseCase: TypeExpression<U>) =
