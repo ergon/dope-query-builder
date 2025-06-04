@@ -12,9 +12,10 @@ import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.OnType.ON
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEYS
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEY_FOR
-import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 enum class OnType {
@@ -31,8 +32,9 @@ sealed class FromMergeable<T : ValidType> : ISelectFromClause<T> {
     private val mergeType: MergeType
     private val mergeable: Resolvable
     private val condition: TypeExpression<BooleanType>?
-    private val keys: Field<out ValidType>?
-    private val forBucket: Bucket?
+    private val keys: TypeExpression<ArrayType<StringType>>?
+    private val key: TypeExpression<StringType>?
+    private val bucket: Bucket?
     private val hashOrNestedLoopHint: HashOrNestedLoopHint?
     private val keysOrIndexHint: KeysOrIndexHint?
     private val parentClause: ISelectFromClause<T>
@@ -41,57 +43,27 @@ sealed class FromMergeable<T : ValidType> : ISelectFromClause<T> {
     constructor(
         mergeType: MergeType,
         mergeable: Resolvable,
-        condition: TypeExpression<BooleanType>,
+        condition: TypeExpression<BooleanType>? = null,
+        keys: TypeExpression<ArrayType<StringType>>? = null,
+        key: TypeExpression<StringType>? = null,
+        bucket: Bucket? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
         parentClause: ISelectFromClause<T>,
     ) {
-        this.onType = ON
+        this.onType = when {
+            condition != null -> ON
+            keys != null || (key != null && bucket == null) -> ON_KEYS
+            key != null && bucket != null -> ON_KEY_FOR
+            else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
+        }
         this.mergeType = mergeType
         this.mergeable = mergeable
         this.condition = condition
-        this.parentClause = parentClause
-        this.keys = null
-        this.forBucket = null
-        this.hashOrNestedLoopHint = hashOrNestedLoopHint
-        this.keysOrIndexHint = keysOrIndexHint
-    }
-
-    constructor(
-        mergeType: MergeType,
-        mergeable: Resolvable,
-        keys: Field<out ValidType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) {
-        this.onType = ON_KEYS
-        this.mergeType = mergeType
-        this.mergeable = mergeable
         this.keys = keys
+        this.key = key
+        this.bucket = bucket
         this.parentClause = parentClause
-        this.condition = null
-        this.forBucket = null
-        this.hashOrNestedLoopHint = hashOrNestedLoopHint
-        this.keysOrIndexHint = keysOrIndexHint
-    }
-
-    constructor(
-        mergeType: MergeType,
-        mergeable: Resolvable,
-        key: Field<out ValidType>,
-        forBucket: Bucket,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) {
-        this.onType = ON_KEY_FOR
-        this.mergeType = mergeType
-        this.mergeable = mergeable
-        this.keys = key
-        this.forBucket = forBucket
-        this.parentClause = parentClause
-        this.condition = null
         this.hashOrNestedLoopHint = hashOrNestedLoopHint
         this.keysOrIndexHint = keysOrIndexHint
     }
@@ -136,7 +108,11 @@ sealed class FromMergeable<T : ValidType> : ISelectFromClause<T> {
             }
 
             ON_KEYS -> {
-                val keyDopeQuery = keys?.toDopeQuery(manager)
+                val keyDopeQuery = when {
+                    keys != null -> keys.toDopeQuery(manager)
+                    key != null -> key.toDopeQuery(manager)
+                    else -> null
+                }
                 DopeQuery(
                     queryString = "$mergeQueryString ON KEYS ${keyDopeQuery?.queryString}",
                     parameters = mergeParameters.merge(keyDopeQuery?.parameters),
@@ -144,12 +120,12 @@ sealed class FromMergeable<T : ValidType> : ISelectFromClause<T> {
             }
 
             ON_KEY_FOR -> {
-                val keyDopeQuery = keys?.toDopeQuery(manager)
-                val forBucketDopeQuery = forBucket?.toDopeQuery(manager)
+                val keyDopeQuery = key?.toDopeQuery(manager)
+                val bucketDopeQuery = bucket?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$mergeQueryString ON KEY ${keyDopeQuery?.queryString} " +
-                        "FOR ${forBucketDopeQuery?.queryString}",
-                    parameters = mergeParameters.merge(keyDopeQuery?.parameters, forBucketDopeQuery?.parameters),
+                        "FOR ${bucketDopeQuery?.queryString}",
+                    parameters = mergeParameters.merge(keyDopeQuery?.parameters, bucketDopeQuery?.parameters),
                 )
             }
         }

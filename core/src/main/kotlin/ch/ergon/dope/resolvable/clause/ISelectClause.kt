@@ -14,11 +14,15 @@ import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnConditionClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeysClause
-import ch.ergon.dope.resolvable.clause.model.InnerNestClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinOnConditionClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeysClause
-import ch.ergon.dope.resolvable.clause.model.LeftNestClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
@@ -30,7 +34,9 @@ import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnConditionClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeysClause
-import ch.ergon.dope.resolvable.clause.model.StandardNestClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
@@ -215,47 +221,50 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun <U : ValidType> unnest(aliasedArrayExpression: AliasedTypeExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
 
-    fun nest(
-        nestable: Nestable,
-        onCondition: TypeExpression<BooleanType>,
-    ) = StandardNestClause(nestable, onCondition, parentClause = this)
-    fun nest(
-        nestable: Nestable,
-        onKeys: Field<out ValidType>,
-    ) = StandardNestClause(nestable, onKeys, parentClause = this)
-    fun nest(
-        nestable: Nestable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-    ) = StandardNestClause(nestable, onKey, forBucket, parentClause = this)
+    fun nest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
+        StandardNestOnConditionClause(nestable, condition, this)
 
-    fun innerNest(
-        nestable: Nestable,
-        onCondition: TypeExpression<BooleanType>,
-    ) = InnerNestClause(nestable, onCondition, parentClause = this)
-    fun innerNest(
-        nestable: Nestable,
-        onKeys: Field<out ValidType>,
-    ) = InnerNestClause(nestable, onKeys, parentClause = this)
-    fun innerNest(
-        nestable: Nestable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-    ) = InnerNestClause(nestable, onKey, forBucket, parentClause = this)
+    fun nest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
+        StandardNestOnKeysClause(nestable, keys, this)
 
-    fun leftNest(
-        nestable: Nestable,
-        onCondition: TypeExpression<BooleanType>,
-    ) = LeftNestClause(nestable, onCondition, parentClause = this)
-    fun leftNest(
-        nestable: Nestable,
-        onKeys: Field<out ValidType>,
-    ) = LeftNestClause(nestable, onKeys, parentClause = this)
-    fun leftNest(
-        nestable: Nestable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-    ) = LeftNestClause(nestable, onKey, forBucket, parentClause = this)
+    fun nest(nestable: Nestable, keys: Collection<String>) =
+        nest(nestable, keys.toDopeType())
+
+    fun nest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
+        StandardNestOnKeyClause(nestable, key, bucket, this)
+
+    fun nest(nestable: Nestable, key: String, bucket: Bucket? = null) =
+        nest(nestable, key.toDopeType(), bucket)
+
+    fun innerNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
+        InnerNestOnConditionClause(nestable, condition, this)
+
+    fun innerNest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
+        InnerNestOnKeysClause(nestable, keys, this)
+
+    fun innerNest(nestable: Nestable, keys: Collection<String>) =
+        innerNest(nestable, keys.toDopeType())
+
+    fun innerNest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
+        InnerNestOnKeyClause(nestable, key, bucket, this)
+
+    fun innerNest(nestable: Nestable, key: String, bucket: Bucket? = null) =
+        innerNest(nestable, key.toDopeType(), bucket)
+
+    fun leftNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
+        LeftNestOnConditionClause(nestable, condition, this)
+
+    fun leftNest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
+        LeftNestOnKeysClause(nestable, keys, this)
+
+    fun leftNest(nestable: Nestable, keys: Collection<String>) =
+        leftNest(nestable, keys.toDopeType())
+
+    fun leftNest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
+        LeftNestOnKeyClause(nestable, key, bucket, this)
+
+    fun leftNest(nestable: Nestable, key: String, bucket: Bucket? = null) =
+        leftNest(nestable, key.toDopeType(), bucket)
 }
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {

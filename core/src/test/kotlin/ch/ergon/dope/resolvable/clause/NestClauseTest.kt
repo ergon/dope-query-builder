@@ -5,10 +5,17 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someSelectClause
+import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.InnerNestClause
-import ch.ergon.dope.resolvable.clause.model.LeftNestClause
-import ch.ergon.dope.resolvable.clause.model.StandardNestClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnKeysClause
 import ch.ergon.dope.resolvable.expression.type.TRUE
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,9 +28,9 @@ class NestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * NEST `someBucket` ON TRUE",
         )
-        val underTest = StandardNestClause(
+        val underTest = StandardNestOnConditionClause(
             someBucket(),
-            onCondition = TRUE,
+            condition = TRUE,
             parentClause = someSelectClause(),
         )
 
@@ -35,11 +42,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support standard nest with on keys`() {
         val expected = DopeQuery(
-            queryString = "SELECT * NEST `someBucket` ON KEYS `stringField`",
+            queryString = "SELECT * NEST `someBucket` ON KEYS `stringArrayField`",
         )
-        val underTest = StandardNestClause(
+        val underTest = StandardNestOnKeysClause(
             someBucket(),
-            onKeys = someStringField(),
+            keys = someStringArrayField(),
             parentClause = someSelectClause(),
         )
 
@@ -54,10 +61,10 @@ class NestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * NEST `someBucket` ON KEY `stringField` FOR `someBucket`",
         )
-        val underTest = StandardNestClause(
+        val underTest = StandardNestOnKeyClause(
             bucket,
-            onKey = someStringField(),
-            forBucket = bucket,
+            key = someStringField(),
+            bucket = bucket,
             parentClause = someSelectClause(),
         )
 
@@ -69,11 +76,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support standard nest with boolean condition function`() {
         val bucket = someBucket()
-        val onCondition = TRUE
+        val condition = TRUE
         val parentClause = someSelectClause()
-        val expected = StandardNestClause(bucket, onCondition, parentClause)
+        val expected = StandardNestOnConditionClause(bucket, condition, parentClause)
 
-        val actual = parentClause.nest(bucket, onCondition)
+        val actual = parentClause.nest(bucket, condition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -81,11 +88,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support standard nest with on keys function`() {
         val bucket = someBucket()
-        val onKeys = someStringField()
+        val keys = someStringArrayField()
         val parentClause = someSelectClause()
-        val expected = StandardNestClause(bucket, onKeys, parentClause)
+        val expected = StandardNestOnKeysClause(bucket, keys, parentClause)
 
-        val actual = parentClause.nest(bucket, onKeys)
+        val actual = parentClause.nest(bucket, keys)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -93,11 +100,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support standard nest with on key for bucket function`() {
         val bucket = someBucket()
-        val onKey = someStringField()
+        val key = someStringField()
         val parentClause = someSelectClause()
-        val expected = StandardNestClause(bucket, onKey, bucket, parentClause)
+        val expected = StandardNestOnKeyClause(bucket, key, bucket, parentClause)
 
-        val actual = parentClause.nest(bucket, onKey, bucket)
+        val actual = parentClause.nest(bucket, key, bucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -107,9 +114,9 @@ class NestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * INNER NEST `someBucket` ON TRUE",
         )
-        val underTest = InnerNestClause(
+        val underTest = InnerNestOnConditionClause(
             someBucket(),
-            onCondition = TRUE,
+            condition = TRUE,
             parentClause = someSelectClause(),
         )
 
@@ -121,11 +128,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support inner nest with on keys`() {
         val expected = DopeQuery(
-            queryString = "SELECT * INNER NEST `someBucket` ON KEYS `stringField`",
+            queryString = "SELECT * INNER NEST `someBucket` ON KEYS `stringArrayField`",
         )
-        val underTest = InnerNestClause(
+        val underTest = InnerNestOnKeysClause(
             someBucket(),
-            onKeys = someStringField(),
+            keys = someStringArrayField(),
             parentClause = someSelectClause(),
         )
 
@@ -140,10 +147,10 @@ class NestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * INNER NEST `someBucket` ON KEY `stringField` FOR `someBucket`",
         )
-        val underTest = InnerNestClause(
+        val underTest = InnerNestOnKeyClause(
             bucket,
-            onKey = someStringField(),
-            forBucket = bucket,
+            key = someStringField(),
+            bucket = bucket,
             parentClause = someSelectClause(),
         )
 
@@ -155,11 +162,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support inner nest with boolean condition function`() {
         val bucket = someBucket()
-        val onCondition = TRUE
+        val condition = TRUE
         val parentClause = someSelectClause()
-        val expected = InnerNestClause(bucket, onCondition, parentClause)
+        val expected = InnerNestOnConditionClause(bucket, condition, parentClause)
 
-        val actual = parentClause.innerNest(bucket, onCondition)
+        val actual = parentClause.innerNest(bucket, condition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -167,11 +174,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support inner nest with on keys function`() {
         val bucket = someBucket()
-        val onKeys = someStringField()
+        val keys = someStringArrayField()
         val parentClause = someSelectClause()
-        val expected = InnerNestClause(bucket, onKeys, parentClause)
+        val expected = InnerNestOnKeysClause(bucket, keys, parentClause)
 
-        val actual = parentClause.innerNest(bucket, onKeys)
+        val actual = parentClause.innerNest(bucket, keys)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -179,11 +186,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support inner nest with on key for bucket function`() {
         val bucket = someBucket()
-        val onKey = someStringField()
+        val key = someStringField()
         val parentClause = someSelectClause()
-        val expected = InnerNestClause(bucket, onKey, bucket, parentClause)
+        val expected = InnerNestOnKeyClause(bucket, key, bucket, parentClause)
 
-        val actual = parentClause.innerNest(bucket, onKey, bucket)
+        val actual = parentClause.innerNest(bucket, key, bucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -193,9 +200,9 @@ class NestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * LEFT NEST `someBucket` ON TRUE",
         )
-        val underTest = LeftNestClause(
+        val underTest = LeftNestOnConditionClause(
             someBucket(),
-            onCondition = TRUE,
+            condition = TRUE,
             parentClause = someSelectClause(),
         )
 
@@ -207,11 +214,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support left nest with on keys`() {
         val expected = DopeQuery(
-            queryString = "SELECT * LEFT NEST `someBucket` ON KEYS `stringField`",
+            queryString = "SELECT * LEFT NEST `someBucket` ON KEYS `stringArrayField`",
         )
-        val underTest = LeftNestClause(
+        val underTest = LeftNestOnKeysClause(
             someBucket(),
-            onKeys = someStringField(),
+            keys = someStringArrayField(),
             parentClause = someSelectClause(),
         )
 
@@ -226,10 +233,10 @@ class NestClauseTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "SELECT * LEFT NEST `someBucket` ON KEY `stringField` FOR `someBucket`",
         )
-        val underTest = LeftNestClause(
+        val underTest = LeftNestOnKeyClause(
             bucket,
-            onKey = someStringField(),
-            forBucket = bucket,
+            key = someStringField(),
+            bucket = bucket,
             parentClause = someSelectClause(),
         )
 
@@ -241,11 +248,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support left nest with boolean condition function`() {
         val bucket = someBucket()
-        val onCondition = TRUE
+        val condition = TRUE
         val parentClause = someSelectClause()
-        val expected = LeftNestClause(bucket, onCondition, parentClause)
+        val expected = LeftNestOnConditionClause(bucket, condition, parentClause)
 
-        val actual = parentClause.leftNest(bucket, onCondition)
+        val actual = parentClause.leftNest(bucket, condition)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -253,11 +260,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support left nest with on keys function`() {
         val bucket = someBucket()
-        val onKeys = someStringField()
+        val keys = someStringArrayField()
         val parentClause = someSelectClause()
-        val expected = LeftNestClause(bucket, onKeys, parentClause)
+        val expected = LeftNestOnKeysClause(bucket, keys, parentClause)
 
-        val actual = parentClause.leftNest(bucket, onKeys)
+        val actual = parentClause.leftNest(bucket, keys)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -265,11 +272,11 @@ class NestClauseTest : ManagerDependentTest {
     @Test
     fun `should support left nest with on key for bucket function`() {
         val bucket = someBucket()
-        val onKey = someStringField()
+        val key = someStringField()
         val parentClause = someSelectClause()
-        val expected = LeftNestClause(bucket, onKey, bucket, parentClause)
+        val expected = LeftNestOnKeyClause(bucket, key, bucket, parentClause)
 
-        val actual = parentClause.leftNest(bucket, onKey, bucket)
+        val actual = parentClause.leftNest(bucket, key, bucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

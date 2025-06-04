@@ -35,7 +35,7 @@ class NestTest {
                 airport,
             ).innerNest(
                 route,
-                onCondition = someStringField("faa", airport).isEqualTo(
+                condition = someStringField("faa", airport).isEqualTo(
                     someStringField("sourceairport", route),
                 ),
             ).where(
@@ -64,7 +64,7 @@ class NestTest {
                         someStringField("sourceairport", r1),
                     ),
                 ).alias("r"),
-                onCondition = TRUE,
+                condition = TRUE,
             ).where(
                 someStringField("city", airport).isEqualTo("Toulouse"),
             ).orderBy(
@@ -87,7 +87,7 @@ class NestTest {
             .from(a)
             .leftNest(
                 r,
-                onCondition = someStringField("faa", a).isEqualTo(someStringField("sourceairport", r)),
+                condition = someStringField("faa", a).isEqualTo(someStringField("sourceairport", r)),
             ).where(
                 someStringField("city", a).isEqualTo("Toulouse"),
             ).orderBy(
@@ -108,7 +108,7 @@ class NestTest {
             )
             .innerNest(
                 airport,
-                onKeys = someStringField("airportid", route),
+                key = someStringField("airportid", route),
             ).limit(1).build().queryString
 
         assertEquals(expected, actual)
@@ -126,8 +126,8 @@ class NestTest {
             .from(a)
             .innerNest(
                 r,
-                onKey = someStringField("airportid", r),
-                forBucket = a,
+                key = someStringField("airportid", r),
+                bucket = a,
             ).limit(1).build().queryString
 
         assertEquals(expected, actual)
@@ -151,12 +151,12 @@ class NestTest {
                 r,
             ).join(
                 a,
-                onCondition = someStringField("destinationairport", r).isEqualTo(
+                condition = someStringField("destinationairport", r).isEqualTo(
                     someStringField("faa", a),
                 ),
             ).nest(
                 l,
-                onCondition = someStringField("city", a).isEqualTo(
+                condition = someStringField("city", a).isEqualTo(
                     someStringField("city", l),
                 ),
             ).unnest(

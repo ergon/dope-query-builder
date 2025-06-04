@@ -613,7 +613,7 @@ class JoinClauseTest : ManagerDependentTest {
         val someString = someString()
         val expected = LeftJoinOnKeyClause(bucket, key = someString.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, keys = someString)
+        val actual = parentClause.leftJoin(bucket, key = someString)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -659,7 +659,7 @@ class JoinClauseTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            queryString = "SELECT \$$parameterName INNER JOIN `someBucket` ON KEYS `stringField`",
+            queryString = "SELECT $$parameterName INNER JOIN `someBucket` ON KEYS `stringField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = InnerJoinOnKeyClause(

@@ -148,15 +148,15 @@ class FromIntegrationTest : BaseIntegrationTest() {
             )
             .join(
                 c,
-                onCondition = eIdField.isEqualTo(cIdField).and(eTypeField.isEqualTo("employee")).and(cTypeField.isEqualTo("client")),
+                condition = eIdField.isEqualTo(cIdField).and(eTypeField.isEqualTo("employee")).and(cTypeField.isEqualTo("client")),
             )
             .join(
                 o,
-                onCondition = meta(c).id.isEqualTo(oClientField).and(oTypeField.isEqualTo("order")),
+                condition = meta(c).id.isEqualTo(oClientField).and(oTypeField.isEqualTo("order")),
             )
             .nest(
                 nestedOrders,
-                onCondition = meta(e).id.isEqualTo(nestedOrdersEmployeeField).and(nestedOrdersTypeField.isEqualTo("order")),
+                condition = meta(e).id.isEqualTo(nestedOrdersEmployeeField).and(nestedOrdersTypeField.isEqualTo("order")),
             )
             .unnest(
                 oQuantitiesField.alias("unnestedQuantities"),

@@ -33,9 +33,11 @@ import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.InnerNestClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.InnerNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.LeftNestClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.LeftNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
@@ -43,7 +45,8 @@ import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.StandardNestClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.StandardNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
@@ -66,11 +69,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support standard nest on keys with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringList()
         val parentClause = someFrom()
-        val expected = StandardNestClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = StandardNestOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.nest(bucket, onKeys = field)
+        val actual = parentClause.nest(bucket, keys = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -78,12 +81,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support standard nest on key for bucket with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = StandardNestClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = StandardNestOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.nest(bucket, onKey = field, forBucket)
+        val actual = parentClause.nest(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -91,11 +94,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support inner nest on keys with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringList()
         val parentClause = someFrom()
-        val expected = InnerNestClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = InnerNestOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerNest(bucket, onKeys = field)
+        val actual = parentClause.innerNest(bucket, keys = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -103,12 +106,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support inner nest on key for bucket with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = InnerNestClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = InnerNestOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.innerNest(bucket, onKey = field, forBucket)
+        val actual = parentClause.innerNest(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -116,11 +119,11 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support left nest on keys with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringList()
         val parentClause = someFrom()
-        val expected = LeftNestClause(bucket, onKeys = field.toDopeType(), parentClause = parentClause)
+        val expected = LeftNestOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftNest(bucket, onKeys = field)
+        val actual = parentClause.leftNest(bucket, keys = field)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -128,12 +131,12 @@ class SelectClauseTest : ManagerDependentTest {
     @Test
     fun `should support left nest on key for bucket with CM`() {
         val bucket = someBucket()
-        val field = someCMNumberField()
+        val field = someCMStringField()
         val forBucket = someBucket()
         val parentClause = someFrom()
-        val expected = LeftNestClause(bucket, onKey = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = LeftNestOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
 
-        val actual = parentClause.leftNest(bucket, onKey = field, forBucket)
+        val actual = parentClause.leftNest(bucket, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
