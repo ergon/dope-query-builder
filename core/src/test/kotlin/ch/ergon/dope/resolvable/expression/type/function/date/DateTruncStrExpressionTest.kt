@@ -20,7 +20,7 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncStrExpression(
             someStringField(),
-            DateComponent.MONTH,
+            Component.Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -37,7 +37,7 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncStrExpression(
             dateVal.asParameter(),
-            DateComponent.YEAR,
+            Component.Year,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -55,7 +55,7 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncStrExpression(
             dateVal.asParameter(name),
-            DateComponent.WEEK,
+            Component.Week,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -65,8 +65,8 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support truncateTo extension on TypeExpression`() {
-        val expr = someStringField().truncateTo(DateComponent.DAY)
-        val expected = DateTruncStrExpression(someStringField(), DateComponent.DAY)
+        val expr = someStringField().truncateTo(Component.Day)
+        val expected = DateTruncStrExpression(someStringField(), Component.Day)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -74,8 +74,8 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String truncateTo extension`() {
         val raw = "2020-05-05"
-        val expr = raw.truncateTo(DateComponent.MONTH)
-        val expected = DateTruncStrExpression(raw.toDopeType(), DateComponent.MONTH)
+        val expr = raw.truncateTo(Component.Month)
+        val expected = DateTruncStrExpression(raw.toDopeType(), Component.Month)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

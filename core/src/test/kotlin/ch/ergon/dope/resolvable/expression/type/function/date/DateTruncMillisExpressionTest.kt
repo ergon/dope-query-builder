@@ -20,7 +20,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncMillisExpression(
             someNumberField(),
-            DateComponent.MONTH,
+            Component.Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -37,7 +37,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncMillisExpression(
             dateVal.asParameter(),
-            DateComponent.YEAR,
+            Component.Year,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -55,7 +55,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncMillisExpression(
             dateVal.asParameter(name),
-            DateComponent.WEEK,
+            Component.Week,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -65,16 +65,16 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support truncateTo extension on TypeExpression`() {
-        val expr = someNumberField().truncateTo(DateComponent.DAY_OF_YEAR)
-        val expected = DateTruncMillisExpression(someNumberField(), DateComponent.DAY_OF_YEAR)
+        val expr = someNumberField().truncateTo(Component.Millennium)
+        val expected = DateTruncMillisExpression(someNumberField(), Component.Millennium)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support Number truncateTo extension`() {
-        val expr = 1620000000000L.truncateTo(DateComponent.SECOND)
-        val expected = DateTruncMillisExpression(1620000000000L.toDopeType(), DateComponent.SECOND)
+        val expr = 1620000000000L.truncateTo(Component.Second)
+        val expected = DateTruncMillisExpression(1620000000000L.toDopeType(), Component.Second)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

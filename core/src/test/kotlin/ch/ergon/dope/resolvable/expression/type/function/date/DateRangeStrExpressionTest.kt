@@ -22,7 +22,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             someStringField(),
             someStringField(),
-            DateComponent.QUARTER,
+            Component.Quarter,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -37,7 +37,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             startVal.asParameter(),
             someStringField(),
-            DateComponent.MONTH,
+            Component.Month,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -53,7 +53,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             startVal.asParameter(name),
             someStringField(),
-            DateComponent.YEAR,
+            Component.Year,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -68,7 +68,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             someStringField(),
             endVal.asParameter(),
-            DateComponent.DAY,
+            Component.Day,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -84,7 +84,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             someStringField(),
             endVal.asParameter(name),
-            DateComponent.HOUR,
+            Component.Hour,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -99,7 +99,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             someStringField(),
             someStringField(),
-            DateComponent.MINUTE,
+            Component.Minute,
             inc.asParameter(),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -116,7 +116,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             someStringField(),
             someStringField(),
-            DateComponent.SECOND,
+            Component.Second,
             inc.asParameter(name),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -134,7 +134,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             s.asParameter(),
             e.asParameter(),
-            DateComponent.MONTH,
+            Component.Month,
             inc.asParameter(),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -159,7 +159,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val underTest = DateRangeStrExpression(
             s.asParameter(names[0]),
             e.asParameter(names[1]),
-            DateComponent.YEAR,
+            Component.Year,
             inc.asParameter(names[2]),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -167,11 +167,11 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support dateRangeBy extension with TypeExpression endDate`() {
-        val expr = someStringField().dateRangeBy(someStringField(), DateComponent.QUARTER)
+        val expr = someStringField().dateRangeBy(someStringField(), Component.Quarter)
         val expected = DateRangeStrExpression(
             someStringField(),
             someStringField(),
-            DateComponent.QUARTER,
+            Component.Quarter,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -179,11 +179,11 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support dateRangeBy extension with raw endDate`() {
-        val expr = someStringField().dateRangeBy("2022-01-01", DateComponent.CENTURY)
+        val expr = someStringField().dateRangeBy("2022-01-01", Component.Century)
         val expected = DateRangeStrExpression(
             someStringField(),
             "2022-01-01".toDopeType(),
-            DateComponent.CENTURY,
+            Component.Century,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -193,13 +193,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with field increment`() {
         val expr = someStringField().dateRangeBy(
             someStringField(),
-            DateComponent.MONTH,
+            Component.Month,
             someNumberField(),
         )
         val expected = DateRangeStrExpression(
             someStringField(),
             someStringField(),
-            DateComponent.MONTH,
+            Component.Month,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -209,13 +209,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with raw increment`() {
         val expr = someStringField().dateRangeBy(
             someStringField(),
-            DateComponent.DAY,
+            Component.Day,
             7,
         )
         val expected = DateRangeStrExpression(
             someStringField(),
             someStringField(),
-            DateComponent.DAY,
+            Component.Day,
             7.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -225,13 +225,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with raw endDate and field increment`() {
         val expr = someStringField().dateRangeBy(
             "2022-02-02",
-            DateComponent.DECADE,
+            Component.Decade,
             someNumberField(),
         )
         val expected = DateRangeStrExpression(
             someStringField(),
             "2022-02-02".toDopeType(),
-            DateComponent.DECADE,
+            Component.Decade,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -241,13 +241,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with raw endDate and raw increment`() {
         val expr = someStringField().dateRangeBy(
             "2022-03-03",
-            DateComponent.WEEK,
+            Component.Week,
             2,
         )
         val expected = DateRangeStrExpression(
             someStringField(),
             "2022-03-03".toDopeType(),
-            DateComponent.WEEK,
+            Component.Week,
             2.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -256,11 +256,11 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String dateRangeBy extension with TypeExpression endDate`() {
         val raw = "2022-04-04"
-        val expr = raw.dateRangeBy(someStringField(), DateComponent.HOUR)
+        val expr = raw.dateRangeBy(someStringField(), Component.Hour)
         val expected = DateRangeStrExpression(
             raw.toDopeType(),
             someStringField(),
-            DateComponent.HOUR,
+            Component.Hour,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -269,11 +269,11 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String dateRangeBy extension with raw endDate`() {
         val raw = "2022-05-05"
-        val expr = raw.dateRangeBy("2022-06-06", DateComponent.MINUTE)
+        val expr = raw.dateRangeBy("2022-06-06", Component.Minute)
         val expected = DateRangeStrExpression(
             raw.toDopeType(),
             "2022-06-06".toDopeType(),
-            DateComponent.MINUTE,
+            Component.Minute,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -284,13 +284,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val raw = "2022-07-07"
         val expr = raw.dateRangeBy(
             someStringField(),
-            DateComponent.SECOND,
+            Component.Second,
             someNumberField(),
         )
         val expected = DateRangeStrExpression(
             raw.toDopeType(),
             someStringField(),
-            DateComponent.SECOND,
+            Component.Second,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -301,13 +301,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val raw = "2022-08-08"
         val expr = raw.dateRangeBy(
             someStringField(),
-            DateComponent.MILLISECOND,
+            Component.Millisecond,
             9,
         )
         val expected = DateRangeStrExpression(
             raw.toDopeType(),
             someStringField(),
-            DateComponent.MILLISECOND,
+            Component.Millisecond,
             9.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -318,13 +318,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val raw = "2022-09-09"
         val expr = raw.dateRangeBy(
             "2022-10-10",
-            DateComponent.CENTURY,
+            Component.Century,
             someNumberField(),
         )
         val expected = DateRangeStrExpression(
             raw.toDopeType(),
             "2022-10-10".toDopeType(),
-            DateComponent.CENTURY,
+            Component.Century,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -335,13 +335,13 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
         val raw = "2022-11-11"
         val expr = raw.dateRangeBy(
             "2022-12-12",
-            DateComponent.DECADE,
+            Component.Decade,
             3,
         )
         val expected = DateRangeStrExpression(
             raw.toDopeType(),
             "2022-12-12".toDopeType(),
-            DateComponent.DECADE,
+            Component.Decade,
             3.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))

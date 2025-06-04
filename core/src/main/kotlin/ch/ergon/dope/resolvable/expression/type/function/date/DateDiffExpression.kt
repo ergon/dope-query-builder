@@ -6,52 +6,52 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class DateDiffMillisExpression(date: TypeExpression<NumberType>, other: TypeExpression<NumberType>, component: DateComponent) :
+class DateDiffMillisExpression(date: TypeExpression<NumberType>, other: TypeExpression<NumberType>, component: ArithmeticComponent) :
     FunctionExpression<NumberType>("DATE_DIFF_MILLIS", date, other, component)
 
-class DateDiffStrExpression(date: TypeExpression<StringType>, other: TypeExpression<StringType>, component: DateComponent) :
+class DateDiffStrExpression(date: TypeExpression<StringType>, other: TypeExpression<StringType>, component: ArithmeticComponent) :
     FunctionExpression<NumberType>("DATE_DIFF_STR", date, other, component)
 
 @JvmName("millisDiffTypeDateComponent")
 fun TypeExpression<NumberType>.differenceIn(
     other: TypeExpression<NumberType>,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = DateDiffMillisExpression(this, other, component)
 
 @JvmName("millisDiffNumberDateComponent")
 fun TypeExpression<NumberType>.differenceIn(
     other: Number,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = differenceIn(other.toDopeType(), component)
 
 fun Number.differenceIn(
     other: TypeExpression<NumberType>,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = toDopeType().differenceIn(other, component)
 
 fun Number.differenceIn(
     other: Number,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = toDopeType().differenceIn(other.toDopeType(), component)
 
 @JvmName("strDiffTypeDateComponent")
 fun TypeExpression<StringType>.differenceIn(
     other: TypeExpression<StringType>,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = DateDiffStrExpression(this, other, component)
 
 @JvmName("strDiffNumberDateComponent")
 fun TypeExpression<StringType>.differenceIn(
     other: String,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = differenceIn(other.toDopeType(), component)
 
 fun String.differenceIn(
     other: TypeExpression<StringType>,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = toDopeType().differenceIn(other, component)
 
 fun String.differenceIn(
     other: String,
-    component: DateComponent,
+    component: ArithmeticComponent,
 ) = toDopeType().differenceIn(other.toDopeType(), component)

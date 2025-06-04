@@ -22,7 +22,7 @@ class DateDiffMillisExpressionTest : ManagerDependentTest {
         val underTest = DateDiffMillisExpression(
             someNumberField(),
             someNumberField(),
-            DateComponent.DAY,
+            Component.Day,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -40,7 +40,7 @@ class DateDiffMillisExpressionTest : ManagerDependentTest {
         val underTest = DateDiffMillisExpression(
             someNumberField(),
             otherValue.asParameter(),
-            DateComponent.HOUR,
+            Component.Hour,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -59,7 +59,7 @@ class DateDiffMillisExpressionTest : ManagerDependentTest {
         val underTest = DateDiffMillisExpression(
             dateValue.asParameter(name),
             someNumberField(),
-            DateComponent.MINUTE,
+            Component.Minute,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -69,8 +69,8 @@ class DateDiffMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support differenceIn extension on TypeExpression`() {
-        val expr = someNumberField().differenceIn(someNumberField(), DateComponent.SECOND)
-        val expected = DateDiffMillisExpression(someNumberField(), someNumberField(), DateComponent.SECOND)
+        val expr = someNumberField().differenceIn(someNumberField(), Component.Second)
+        val expected = DateDiffMillisExpression(someNumberField(), someNumberField(), Component.Second)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -78,8 +78,8 @@ class DateDiffMillisExpressionTest : ManagerDependentTest {
     @Test
     fun `should support differenceIn extension on TypeExpression and Number`() {
         val raw = someNumber()
-        val expr = someNumberField().differenceIn(raw, DateComponent.SECOND)
-        val expected = DateDiffMillisExpression(someNumberField(), raw.toDopeType(), DateComponent.SECOND)
+        val expr = someNumberField().differenceIn(raw, Component.Second)
+        val expected = DateDiffMillisExpression(someNumberField(), raw.toDopeType(), Component.Second)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -87,16 +87,16 @@ class DateDiffMillisExpressionTest : ManagerDependentTest {
     @Test
     fun `should support differenceIn extension on Number and Number`() {
         val raw = someNumber(9)
-        val expr = someNumber().differenceIn(raw, DateComponent.SECOND)
-        val expected = DateDiffMillisExpression(someNumber().toDopeType(), raw.toDopeType(), DateComponent.SECOND)
+        val expr = someNumber().differenceIn(raw, Component.Second)
+        val expected = DateDiffMillisExpression(someNumber().toDopeType(), raw.toDopeType(), Component.Second)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support Number differenceIn extension`() {
-        val expr = 5000L.differenceIn(someNumberField(), DateComponent.MILLISECOND)
-        val expected = DateDiffMillisExpression(5000L.toDopeType(), someNumberField(), DateComponent.MILLISECOND)
+        val expr = 5000L.differenceIn(someNumberField(), Component.Millisecond)
+        val expected = DateDiffMillisExpression(5000L.toDopeType(), someNumberField(), Component.Millisecond)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

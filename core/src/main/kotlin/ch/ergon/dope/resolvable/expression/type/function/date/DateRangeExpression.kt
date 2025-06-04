@@ -1,119 +1,122 @@
-package ch.ergon.dope.extension.expression.type.function.date
+package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.ArithmeticComponent
-import ch.ergon.dope.resolvable.expression.type.function.date.dateRangeBy
+import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.toDopeType
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
-import com.schwarz.crystalapi.schema.CMJsonField
 
-@JvmName("millisRangeCMNumberDateComponent")
-fun CMJsonField<Number>.dateRangeBy(
-    endDate: CMJsonField<Number>,
+class DateRangeMillisExpression(
+    startDate: TypeExpression<NumberType>,
+    endDate: TypeExpression<NumberType>,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
+) : FunctionExpression<ArrayType<NumberType>>("DATE_RANGE_MILLIS", startDate, endDate, interval, increment)
 
-fun CMJsonField<Number>.dateRangeBy(
+class DateRangeStrExpression(
+    startDate: TypeExpression<StringType>,
+    endDate: TypeExpression<StringType>,
+    interval: ArithmeticComponent,
+    increment: TypeExpression<NumberType>? = null,
+) : FunctionExpression<ArrayType<StringType>>("DATE_RANGE_STR", startDate, endDate, interval, increment)
+
+@JvmName("millisRangeTypeDateComponent")
+fun TypeExpression<NumberType>.dateRangeBy(
+    endDate: TypeExpression<NumberType>,
+    interval: ArithmeticComponent,
+    increment: TypeExpression<NumberType>? = null,
+) = DateRangeMillisExpression(this, endDate, interval, increment)
+
+fun TypeExpression<NumberType>.dateRangeBy(
+    endDate: Number,
+    interval: ArithmeticComponent,
+    increment: TypeExpression<NumberType>? = null,
+) = dateRangeBy(endDate.toDopeType(), interval, increment)
+
+fun Number.dateRangeBy(
     endDate: TypeExpression<NumberType>,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
 ) = toDopeType().dateRangeBy(endDate, interval, increment)
 
-@JvmName("millisRangeTypeCMNumberDateComponent")
-fun TypeExpression<NumberType>.dateRangeBy(
-    endDate: CMJsonField<Number>,
-    interval: ArithmeticComponent,
-    increment: TypeExpression<NumberType>? = null,
-) = dateRangeBy(endDate.toDopeType(), interval, increment)
-
-fun CMJsonField<Number>.dateRangeBy(
+fun Number.dateRangeBy(
     endDate: Number,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
 ) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
 
-fun Number.dateRangeBy(
-    endDate: CMJsonField<Number>,
-    interval: ArithmeticComponent,
-    increment: TypeExpression<NumberType>? = null,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
-
-fun Number.dateRangeBy(
-    endDate: CMJsonField<Number>,
+@JvmName("millisRangeNumberDateComponent")
+fun TypeExpression<NumberType>.dateRangeBy(
+    endDate: TypeExpression<NumberType>,
     interval: ArithmeticComponent,
     increment: Number,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
-
-@JvmName("millisRangeCMNumberNumberDateComponent")
-fun CMJsonField<Number>.dateRangeBy(
-    endDate: CMJsonField<Number>,
-    interval: ArithmeticComponent,
-    increment: Number,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment.toDopeType())
+) = dateRangeBy(endDate, interval, increment.toDopeType())
 
 fun TypeExpression<NumberType>.dateRangeBy(
-    endDate: CMJsonField<Number>,
+    endDate: Number,
     interval: ArithmeticComponent,
     increment: Number,
 ) = dateRangeBy(endDate.toDopeType(), interval, increment.toDopeType())
 
-fun CMJsonField<Number>.dateRangeBy(
+fun Number.dateRangeBy(
     endDate: TypeExpression<NumberType>,
     interval: ArithmeticComponent,
     increment: Number,
 ) = toDopeType().dateRangeBy(endDate, interval, increment.toDopeType())
 
-@JvmName("strRangeCMStringDateComponent")
-fun CMJsonField<String>.dateRangeBy(
-    endDate: CMJsonField<String>,
+fun Number.dateRangeBy(
+    endDate: Number,
+    interval: ArithmeticComponent,
+    increment: Number,
+) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment.toDopeType())
+
+@JvmName("strRangeTypeDateComponent")
+fun TypeExpression<StringType>.dateRangeBy(
+    endDate: TypeExpression<StringType>,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
+) = DateRangeStrExpression(this, endDate, interval, increment)
 
-@JvmName("strRangeTypeCMStringDateComponent")
 fun TypeExpression<StringType>.dateRangeBy(
-    endDate: CMJsonField<String>,
+    endDate: String,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
 ) = dateRangeBy(endDate.toDopeType(), interval, increment)
 
-@JvmName("strRangeCMStringTypeDateComponent")
-fun CMJsonField<String>.dateRangeBy(
+fun String.dateRangeBy(
     endDate: TypeExpression<StringType>,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
 ) = toDopeType().dateRangeBy(endDate, interval, increment)
 
-fun CMJsonField<String>.dateRangeBy(
+fun String.dateRangeBy(
     endDate: String,
     interval: ArithmeticComponent,
     increment: TypeExpression<NumberType>? = null,
 ) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
 
-fun String.dateRangeBy(
-    endDate: CMJsonField<String>,
-    interval: ArithmeticComponent,
-    increment: TypeExpression<NumberType>? = null,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment)
-
-@JvmName("strRangeCMStringNumberDateComponent")
-fun CMJsonField<String>.dateRangeBy(
-    endDate: CMJsonField<String>,
+@JvmName("strRangeNumberDateComponent")
+fun TypeExpression<StringType>.dateRangeBy(
+    endDate: TypeExpression<StringType>,
     interval: ArithmeticComponent,
     increment: Number,
-) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment.toDopeType())
+) = dateRangeBy(endDate, interval, increment.toDopeType())
 
 fun TypeExpression<StringType>.dateRangeBy(
-    endDate: CMJsonField<String>,
+    endDate: String,
     interval: ArithmeticComponent,
     increment: Number,
 ) = dateRangeBy(endDate.toDopeType(), interval, increment.toDopeType())
 
-fun CMJsonField<String>.dateRangeBy(
+fun String.dateRangeBy(
     endDate: TypeExpression<StringType>,
     interval: ArithmeticComponent,
     increment: Number,
 ) = toDopeType().dateRangeBy(endDate, interval, increment.toDopeType())
+
+fun String.dateRangeBy(
+    endDate: String,
+    interval: ArithmeticComponent,
+    increment: Number,
+) = toDopeType().dateRangeBy(endDate.toDopeType(), interval, increment.toDopeType())

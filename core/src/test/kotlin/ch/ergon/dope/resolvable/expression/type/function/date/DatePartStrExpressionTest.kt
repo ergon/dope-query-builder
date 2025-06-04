@@ -20,7 +20,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             someStringField(),
-            DateComponent.DAY,
+            Component.Day,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -37,7 +37,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             dateValue.asParameter(),
-            DateComponent.MONTH,
+            Component.Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -55,7 +55,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             dateValue.asParameter(name),
-            DateComponent.YEAR,
+            Component.Year,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -65,8 +65,8 @@ class DatePartStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support extractDateComponent extension on TypeExpression`() {
-        val expr = someStringField().extractDateComponent(DateComponent.WEEK)
-        val expected = DatePartStrExpression(someStringField(), DateComponent.WEEK)
+        val expr = someStringField().extractDateComponent(Component.Week)
+        val expected = DatePartStrExpression(someStringField(), Component.Week)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -74,8 +74,8 @@ class DatePartStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String extractDateComponent extension`() {
         val raw = "2016-05-15T03:59:00Z"
-        val expr = raw.extractDateComponent(DateComponent.DAY_OF_YEAR)
-        val expected = DatePartStrExpression(raw.toDopeType(), DateComponent.DAY_OF_YEAR)
+        val expr = raw.extractDateComponent(Component.DayOfYear)
+        val expected = DatePartStrExpression(raw.toDopeType(), Component.DayOfYear)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

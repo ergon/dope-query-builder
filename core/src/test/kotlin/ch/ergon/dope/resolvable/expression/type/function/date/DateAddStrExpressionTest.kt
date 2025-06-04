@@ -22,7 +22,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val underTest = DateAddStrExpression(
             someStringField(),
             someNumberField(),
-            DateComponent.MONTH,
+            Component.Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -40,7 +40,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val underTest = DateAddStrExpression(
             dateValue.asParameter(),
             someNumberField(),
-            DateComponent.MONTH,
+            Component.Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -59,7 +59,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val underTest = DateAddStrExpression(
             someStringField(),
             incValue.asParameter(name),
-            DateComponent.MONTH,
+            Component.Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -69,16 +69,16 @@ class DateAddStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support plusDateComponent extension on TypeExpression`() {
-        val expr = someStringField().plusDateComponent(someNumberField(), DateComponent.DAY)
-        val expected = DateAddStrExpression(someStringField(), someNumberField(), DateComponent.DAY)
+        val expr = someStringField().plusDateComponent(someNumberField(), Component.Day)
+        val expected = DateAddStrExpression(someStringField(), someNumberField(), Component.Day)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support plusDateComponent extension with raw number`() {
-        val expr = someStringField().plusDateComponent(7, DateComponent.WEEK)
-        val expected = DateAddStrExpression(someStringField(), 7.toDopeType(), DateComponent.WEEK)
+        val expr = someStringField().plusDateComponent(7, Component.Week)
+        val expected = DateAddStrExpression(someStringField(), 7.toDopeType(), Component.Week)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -86,8 +86,8 @@ class DateAddStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String plusDateComponent extension`() {
         val raw = "2020-05-05T05:05:05Z"
-        val expr = raw.plusDateComponent(1, DateComponent.YEAR)
-        val expected = DateAddStrExpression(raw.toDopeType(), 1.toDopeType(), DateComponent.YEAR)
+        val expr = raw.plusDateComponent(1, Component.Year)
+        val expected = DateAddStrExpression(raw.toDopeType(), 1.toDopeType(), Component.Year)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -96,8 +96,8 @@ class DateAddStrExpressionTest : ManagerDependentTest {
     fun `should support String with type plusDateComponent extension`() {
         val raw = "2020-05-05T05:05:05Z"
         val numberField = someNumberField()
-        val expr = raw.plusDateComponent(numberField, DateComponent.YEAR)
-        val expected = DateAddStrExpression(raw.toDopeType(), numberField, DateComponent.YEAR)
+        val expr = raw.plusDateComponent(numberField, Component.Year)
+        val expected = DateAddStrExpression(raw.toDopeType(), numberField, Component.Year)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
