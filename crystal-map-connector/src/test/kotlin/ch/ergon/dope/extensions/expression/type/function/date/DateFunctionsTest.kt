@@ -39,7 +39,6 @@ import ch.ergon.dope.resolvable.expression.type.function.date.ClockLocalExpressi
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockUtcExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.Component
 import ch.ergon.dope.resolvable.expression.type.function.date.DateAddMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateAddStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateDiffMillisExpression
@@ -51,11 +50,15 @@ import ch.ergon.dope.resolvable.expression.type.function.date.DateRangeMillisExp
 import ch.ergon.dope.resolvable.expression.type.function.date.DateRangeStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncStrExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.Day
 import ch.ergon.dope.resolvable.expression.type.function.date.DurationToStrExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.Hour
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToUtcExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.Minute
+import ch.ergon.dope.resolvable.expression.type.function.date.Month
 import ch.ergon.dope.resolvable.expression.type.function.date.NowLocalExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowTimezoneExpression
@@ -64,6 +67,7 @@ import ch.ergon.dope.resolvable.expression.type.function.date.StrToDurationExpre
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToUtcExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.Week
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.extractDateComponent
@@ -175,9 +179,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with CM string CM number`() {
         val date = someCMStringField()
         val increment = someCMNumberField()
-        val expected = DateAddStrExpression(date.toDopeType(), increment.toDopeType(), Component.Day)
+        val expected = DateAddStrExpression(date.toDopeType(), increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -186,9 +190,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with type and CM number`() {
         val date = someStringField()
         val increment = someCMNumberField()
-        val expected = DateAddStrExpression(date, increment.toDopeType(), Component.Day)
+        val expected = DateAddStrExpression(date, increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -197,9 +201,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with CM string type`() {
         val date = someCMStringField()
         val increment = someNumberField()
-        val expected = DateAddStrExpression(date.toDopeType(), increment, Component.Day)
+        val expected = DateAddStrExpression(date.toDopeType(), increment, Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -208,9 +212,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with CM string number`() {
         val date = someCMStringField()
         val increment = someNumber()
-        val expected = DateAddStrExpression(date.toDopeType(), increment.toDopeType(), Component.Day)
+        val expected = DateAddStrExpression(date.toDopeType(), increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -219,9 +223,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with string CM number`() {
         val date = someString()
         val increment = someCMNumberField()
-        val expected = DateAddStrExpression(date.toDopeType(), increment.toDopeType(), Component.Day)
+        val expected = DateAddStrExpression(date.toDopeType(), increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -230,9 +234,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with CM number CM number`() {
         val date = someCMNumberField()
         val increment = someCMNumberField()
-        val expected = DateAddMillisExpression(date.toDopeType(), increment.toDopeType(), Component.Day)
+        val expected = DateAddMillisExpression(date.toDopeType(), increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -241,9 +245,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with type CM number`() {
         val date = someNumberField()
         val increment = someCMNumberField()
-        val expected = DateAddMillisExpression(date, increment.toDopeType(), Component.Day)
+        val expected = DateAddMillisExpression(date, increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -252,9 +256,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with CM number type`() {
         val date = someCMNumberField()
         val increment = someNumberField()
-        val expected = DateAddMillisExpression(date.toDopeType(), increment, Component.Day)
+        val expected = DateAddMillisExpression(date.toDopeType(), increment, Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -263,9 +267,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with CM number number`() {
         val date = someCMNumberField()
         val increment = someNumber()
-        val expected = DateAddMillisExpression(date.toDopeType(), increment.toDopeType(), Component.Day)
+        val expected = DateAddMillisExpression(date.toDopeType(), increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -274,9 +278,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateAdd with number CM number`() {
         val date = someNumber()
         val increment = someCMNumberField()
-        val expected = DateAddMillisExpression(date.toDopeType(), increment.toDopeType(), Component.Day)
+        val expected = DateAddMillisExpression(date.toDopeType(), increment.toDopeType(), Day)
 
-        val actual = date.plusDateComponent(increment, Component.Day)
+        val actual = date.plusDateComponent(increment, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -285,7 +289,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM number and CM number`() {
         val date = someCMNumberField()
         val other = someCMNumberField()
-        val component = Component.Minute
+        val component = Minute
         val expected = DateDiffMillisExpression(date.toDopeType(), other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -297,7 +301,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM number and number`() {
         val date = someCMNumberField()
         val other = someNumber()
-        val component = Component.Minute
+        val component = Minute
         val expected = DateDiffMillisExpression(date.toDopeType(), other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -309,7 +313,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with number and CM number`() {
         val date = someNumber()
         val other = someCMNumberField()
-        val component = Component.Minute
+        val component = Minute
         val expected = DateDiffMillisExpression(date.toDopeType(), other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -321,7 +325,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with type and CM number`() {
         val date = someNumberField()
         val other = someCMNumberField()
-        val component = Component.Month
+        val component = Month
         val expected = DateDiffMillisExpression(date, other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -333,7 +337,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM number and type`() {
         val date = someCMNumberField()
         val other = someNumberField()
-        val component = Component.Week
+        val component = Week
         val expected = DateDiffMillisExpression(date.toDopeType(), other, component)
 
         val actual = date.differenceIn(other, component)
@@ -345,7 +349,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM converter number`() {
         val date = someCMConverterNumberField()
         val other = Date()
-        val component = Component.Week
+        val component = Week
         val expected = DateDiffMillisExpression(date.toDopeType(), DateNumberConverterInstance.write(other)!!.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -357,7 +361,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM string and CM string`() {
         val date = someCMStringField()
         val other = someCMStringField()
-        val component = Component.Week
+        val component = Week
         val expected = DateDiffStrExpression(date.toDopeType(), other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -369,7 +373,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM string and string`() {
         val date = someCMStringField()
         val other = someString()
-        val component = Component.Hour
+        val component = Hour
         val expected = DateDiffStrExpression(date.toDopeType(), other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -381,7 +385,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with string and CM string`() {
         val date = someString()
         val other = someCMStringField()
-        val component = Component.Hour
+        val component = Hour
         val expected = DateDiffStrExpression(date.toDopeType(), other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -393,7 +397,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with type and CM string`() {
         val date = someStringField()
         val other = someCMStringField()
-        val component = Component.Hour
+        val component = Hour
         val expected = DateDiffStrExpression(date, other.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -405,7 +409,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM string and type`() {
         val date = someCMStringField()
         val other = someStringField()
-        val component = Component.Hour
+        val component = Hour
         val expected = DateDiffStrExpression(date.toDopeType(), other, component)
 
         val actual = date.differenceIn(other, component)
@@ -417,7 +421,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateDiff with CM converter string`() {
         val date = someCMConverterStringField()
         val other = someDate()
-        val component = Component.Week
+        val component = Week
         val expected = DateDiffStrExpression(date.toDopeType(), DateStringConverterInstance.write(other)!!.toDopeType(), component)
 
         val actual = date.differenceIn(other, component)
@@ -483,9 +487,9 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support DatePart with CM number`() {
         val date = someCMNumberField()
-        val expected = DatePartMillisExpression(date.toDopeType(), Component.Day)
+        val expected = DatePartMillisExpression(date.toDopeType(), Day)
 
-        val actual = date.extractDateComponent(Component.Day)
+        val actual = date.extractDateComponent(Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -494,9 +498,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DatePart with CM number and type`() {
         val date = someCMNumberField()
         val tz = someStringField()
-        val expected = DatePartMillisExpression(date.toDopeType(), Component.Day, tz)
+        val expected = DatePartMillisExpression(date.toDopeType(), Day, tz)
 
-        val actual = date.extractDateComponent(Component.Day, tz)
+        val actual = date.extractDateComponent(Day, tz)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -505,9 +509,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DatePart with CM number and CM string`() {
         val date = someCMNumberField()
         val tz = someCMStringField()
-        val expected = DatePartMillisExpression(date.toDopeType(), Component.Day, tz.toDopeType())
+        val expected = DatePartMillisExpression(date.toDopeType(), Day, tz.toDopeType())
 
-        val actual = date.extractDateComponent(Component.Day, tz)
+        val actual = date.extractDateComponent(Day, tz)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -516,9 +520,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DatePart with type and CM string`() {
         val date = someNumberField()
         val tz = someCMStringField()
-        val expected = DatePartMillisExpression(date, Component.Day, tz.toDopeType())
+        val expected = DatePartMillisExpression(date, Day, tz.toDopeType())
 
-        val actual = date.extractDateComponent(Component.Day, tz)
+        val actual = date.extractDateComponent(Day, tz)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -527,9 +531,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DatePart with CM number and string`() {
         val date = someCMNumberField()
         val tz = someString()
-        val expected = DatePartMillisExpression(date.toDopeType(), Component.Day, tz.toDopeType())
+        val expected = DatePartMillisExpression(date.toDopeType(), Day, tz.toDopeType())
 
-        val actual = date.extractDateComponent(Component.Day, tz)
+        val actual = date.extractDateComponent(Day, tz)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -538,9 +542,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DatePart with number and CM string`() {
         val date = someNumber()
         val tz = someCMStringField()
-        val expected = DatePartMillisExpression(date.toDopeType(), Component.Day, tz.toDopeType())
+        val expected = DatePartMillisExpression(date.toDopeType(), Day, tz.toDopeType())
 
-        val actual = date.extractDateComponent(Component.Day, tz)
+        val actual = date.extractDateComponent(Day, tz)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -548,9 +552,9 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support DatePart with string`() {
         val date = someString()
-        val expected = DatePartStrExpression(date.toDopeType(), Component.Day)
+        val expected = DatePartStrExpression(date.toDopeType(), Day)
 
-        val actual = date.extractDateComponent(Component.Day)
+        val actual = date.extractDateComponent(Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -558,9 +562,9 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support DatePart with CM string`() {
         val date = someCMStringField()
-        val expected = DatePartStrExpression(date.toDopeType(), Component.Day)
+        val expected = DatePartStrExpression(date.toDopeType(), Day)
 
-        val actual = date.extractDateComponent(Component.Day)
+        val actual = date.extractDateComponent(Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -569,9 +573,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with CM number CM number`() {
         val start = someCMNumberField()
         val end = someCMNumberField()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Component.Day)
+        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -580,9 +584,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with CM number type`() {
         val start = someCMNumberField()
         val end = someNumberField()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end, Component.Day)
+        val expected = DateRangeMillisExpression(start.toDopeType(), end, Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -591,9 +595,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with type CM number`() {
         val start = someNumberField()
         val end = someCMNumberField()
-        val expected = DateRangeMillisExpression(start, end.toDopeType(), Component.Day)
+        val expected = DateRangeMillisExpression(start, end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -602,9 +606,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with CM number number`() {
         val start = someCMNumberField()
         val end = someNumber()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Component.Day)
+        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -613,9 +617,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with number CM number`() {
         val start = someNumber()
         val end = someCMNumberField()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Component.Day)
+        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -625,9 +629,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someNumber()
         val end = someCMNumberField()
         val increment = someNumber()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Component.Day, increment.toDopeType())
+        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -637,9 +641,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someCMNumberField()
         val end = someCMNumberField()
         val increment = someNumber()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Component.Day, increment.toDopeType())
+        val expected = DateRangeMillisExpression(start.toDopeType(), end.toDopeType(), Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -649,9 +653,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someNumberField()
         val end = someCMNumberField()
         val increment = someNumber()
-        val expected = DateRangeMillisExpression(start, end.toDopeType(), Component.Day, increment.toDopeType())
+        val expected = DateRangeMillisExpression(start, end.toDopeType(), Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -661,9 +665,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someCMNumberField()
         val end = someNumberField()
         val increment = someNumber()
-        val expected = DateRangeMillisExpression(start.toDopeType(), end, Component.Day, increment.toDopeType())
+        val expected = DateRangeMillisExpression(start.toDopeType(), end, Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -672,9 +676,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with CM string CM string`() {
         val start = someCMStringField()
         val end = someCMStringField()
-        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Component.Day)
+        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -683,9 +687,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with type CM string`() {
         val start = someStringField()
         val end = someCMStringField()
-        val expected = DateRangeStrExpression(start, end.toDopeType(), Component.Day)
+        val expected = DateRangeStrExpression(start, end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -694,9 +698,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with CM string type`() {
         val start = someCMStringField()
         val end = someStringField()
-        val expected = DateRangeStrExpression(start.toDopeType(), end, Component.Day)
+        val expected = DateRangeStrExpression(start.toDopeType(), end, Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -705,9 +709,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with CM string string`() {
         val start = someCMStringField()
         val end = someString()
-        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Component.Day)
+        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -716,9 +720,9 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support DateRange with string CM string`() {
         val start = someString()
         val end = someCMStringField()
-        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Component.Day)
+        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Day)
 
-        val actual = start.dateRangeBy(end, Component.Day)
+        val actual = start.dateRangeBy(end, Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -728,9 +732,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someCMStringField()
         val end = someCMStringField()
         val increment = someNumber()
-        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Component.Day, increment.toDopeType())
+        val expected = DateRangeStrExpression(start.toDopeType(), end.toDopeType(), Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -740,9 +744,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someStringField()
         val end = someCMStringField()
         val increment = someNumber()
-        val expected = DateRangeStrExpression(start, end.toDopeType(), Component.Day, increment.toDopeType())
+        val expected = DateRangeStrExpression(start, end.toDopeType(), Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -752,9 +756,9 @@ class DateFunctionsTest : ManagerDependentTest {
         val start = someCMStringField()
         val end = someStringField()
         val increment = someNumber()
-        val expected = DateRangeStrExpression(start.toDopeType(), end, Component.Day, increment.toDopeType())
+        val expected = DateRangeStrExpression(start.toDopeType(), end, Day, increment.toDopeType())
 
-        val actual = start.dateRangeBy(end, Component.Day, increment)
+        val actual = start.dateRangeBy(end, Day, increment)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -762,9 +766,9 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support DateTrunc with CM number`() {
         val date = someCMNumberField()
-        val expected = DateTruncMillisExpression(date.toDopeType(), Component.Day)
+        val expected = DateTruncMillisExpression(date.toDopeType(), Day)
 
-        val actual = date.truncateTo(Component.Day)
+        val actual = date.truncateTo(Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -772,9 +776,9 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support DateTrunc with CM string`() {
         val date = someCMStringField()
-        val expected = DateTruncStrExpression(date.toDopeType(), Component.Day)
+        val expected = DateTruncStrExpression(date.toDopeType(), Day)
 
-        val actual = date.truncateTo(Component.Day)
+        val actual = date.truncateTo(Day)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }

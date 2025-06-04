@@ -8,28 +8,28 @@ import ch.ergon.dope.validtype.StringType
 
 class DatePartMillisExpression(
     date: TypeExpression<NumberType>,
-    component: ExtractionComponent,
+    component: DateComponent,
     timeZone: TypeExpression<StringType>? = null,
 ) :
     FunctionExpression<NumberType>("DATE_PART_MILLIS", date, component, timeZone)
 
-class DatePartStrExpression(date: TypeExpression<StringType>, component: ExtractionComponent) :
+class DatePartStrExpression(date: TypeExpression<StringType>, component: DateComponent) :
     FunctionExpression<NumberType>("DATE_PART_STR", date, component)
 
-fun TypeExpression<NumberType>.extractDateComponent(component: ExtractionComponent, timeZone: TypeExpression<StringType>? = null) =
+fun TypeExpression<NumberType>.extractDateComponent(component: DateComponent, timeZone: TypeExpression<StringType>? = null) =
     DatePartMillisExpression(this, component, timeZone)
 
-fun TypeExpression<NumberType>.extractDateComponent(component: ExtractionComponent, timeZone: String) =
+fun TypeExpression<NumberType>.extractDateComponent(component: DateComponent, timeZone: String) =
     extractDateComponent(component, timeZone.toDopeType())
 
-fun Number.extractDateComponent(component: ExtractionComponent, timeZone: TypeExpression<StringType>? = null) =
+fun Number.extractDateComponent(component: DateComponent, timeZone: TypeExpression<StringType>? = null) =
     toDopeType().extractDateComponent(component, timeZone)
 
-fun Number.extractDateComponent(component: ExtractionComponent, timeZone: String) =
+fun Number.extractDateComponent(component: DateComponent, timeZone: String) =
     toDopeType().extractDateComponent(component, timeZone.toDopeType())
 
-fun TypeExpression<StringType>.extractDateComponent(component: ExtractionComponent) =
+fun TypeExpression<StringType>.extractDateComponent(component: DateComponent) =
     DatePartStrExpression(this, component)
 
-fun String.extractDateComponent(component: ExtractionComponent) =
+fun String.extractDateComponent(component: DateComponent) =
     toDopeType().extractDateComponent(component)

@@ -20,7 +20,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             someStringField(),
-            Component.Day,
+            Day,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -37,7 +37,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             dateValue.asParameter(),
-            Component.Month,
+            Month,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -55,7 +55,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             dateValue.asParameter(name),
-            Component.Year,
+            Year,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -65,8 +65,8 @@ class DatePartStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support extractDateComponent extension on TypeExpression`() {
-        val expr = someStringField().extractDateComponent(Component.Week)
-        val expected = DatePartStrExpression(someStringField(), Component.Week)
+        val expr = someStringField().extractDateComponent(Week)
+        val expected = DatePartStrExpression(someStringField(), Week)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -74,8 +74,8 @@ class DatePartStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String extractDateComponent extension`() {
         val raw = "2016-05-15T03:59:00Z"
-        val expr = raw.extractDateComponent(Component.DayOfYear)
-        val expected = DatePartStrExpression(raw.toDopeType(), Component.DayOfYear)
+        val expr = raw.extractDateComponent(DayOfYear)
+        val expected = DatePartStrExpression(raw.toDopeType(), DayOfYear)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

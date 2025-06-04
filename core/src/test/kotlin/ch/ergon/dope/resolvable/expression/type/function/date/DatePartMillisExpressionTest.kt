@@ -21,7 +21,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartMillisExpression(
             someNumberField(),
-            Component.Day,
+            Day,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -38,7 +38,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartMillisExpression(
             dateValue.asParameter(),
-            Component.Hour,
+            Hour,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -56,7 +56,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartMillisExpression(
             someNumberField(),
-            Component.Month,
+            Month,
             tz.asParameter(name),
         )
 
@@ -67,16 +67,16 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support extractDateComponent extension on TypeExpression`() {
-        val expr = someNumberField().extractDateComponent(Component.Second)
-        val expected = DatePartMillisExpression(someNumberField(), Component.Second)
+        val expr = someNumberField().extractDateComponent(Second)
+        val expected = DatePartMillisExpression(someNumberField(), Second)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support extractDateComponent extension on Type and raw`() {
-        val expr = someNumberField().extractDateComponent(Component.Second, "Europe/Paris")
-        val expected = DatePartMillisExpression(someNumberField(), Component.Second, "Europe/Paris".toDopeType())
+        val expr = someNumberField().extractDateComponent(Second, "Europe/Paris")
+        val expected = DatePartMillisExpression(someNumberField(), Second, "Europe/Paris".toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -84,18 +84,18 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
     @Test
     fun `should support extractDateComponent extension on Type and raw and nothing`() {
         val raw = someNumber()
-        val expr = raw.extractDateComponent(Component.Second)
-        val expected = DatePartMillisExpression(raw.toDopeType(), Component.Second)
+        val expr = raw.extractDateComponent(Second)
+        val expected = DatePartMillisExpression(raw.toDopeType(), Second)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
 
     @Test
     fun `should support Number extractDateComponent extension with raw timezone`() {
-        val expr = 1620000000000L.extractDateComponent(Component.Millisecond, "Europe/Paris")
+        val expr = 1620000000000L.extractDateComponent(Millisecond, "Europe/Paris")
         val expected = DatePartMillisExpression(
             1620000000000L.toDopeType(),
-            Component.Millisecond,
+            Millisecond,
             "Europe/Paris".toDopeType(),
         )
 
