@@ -6,6 +6,8 @@ import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
+import ch.ergon.dope.resolvable.expression.type.function.date.Day
+import ch.ergon.dope.resolvable.expression.type.function.date.Month
 import ch.ergon.dope.resolvable.expression.type.function.date.dateRangeBy
 import ch.ergon.dope.resolvable.expression.type.function.date.differenceIn
 import ch.ergon.dope.resolvable.expression.type.function.date.localClockString
