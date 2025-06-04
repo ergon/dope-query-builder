@@ -25,11 +25,8 @@ class DateFunctionsIntegrationTest : BaseIntegrationTest() {
                 "2025-09-09".inArray("2025-08-08".dateRangeBy("2025-10-10", Component.Day)).alias("inArray"),
             ).build()
 
-        println(dopeQuery.queryString)
-
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
-        println(result)
 
         assertEquals(OffsetDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), result["localClock"])
         assertEquals(2 + 3, result["differenceInDays"])
