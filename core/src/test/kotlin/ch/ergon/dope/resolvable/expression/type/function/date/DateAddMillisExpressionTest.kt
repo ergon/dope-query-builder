@@ -70,7 +70,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
     @Test
     fun `should support plusDateComponent extension on TypeExpression`() {
         val array = someNumberField()
-        val underTest = array.plusDateComponent(someNumberField(), Hour)
+        val underTest = array.addDateUnit(someNumberField(), Hour)
         val expected = DateAddMillisExpression(array, someNumberField(), Hour)
 
         assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
@@ -79,7 +79,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
     @Test
     fun `should support plusDateComponent extension with raw number increment`() {
         val array = someNumberField()
-        val underTest = array.plusDateComponent(10, Month)
+        val underTest = array.addDateUnit(10, Month)
         val expected = DateAddMillisExpression(array, 10.toDopeType(), Month)
 
         assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
@@ -87,7 +87,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number plusDateComponent extension`() {
-        val underTest = 15.plusDateComponent(someNumberField(), Year)
+        val underTest = 15.addDateUnit(someNumberField(), Year)
         val expected = DateAddMillisExpression(15.toDopeType(), someNumberField(), Year)
 
         assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
@@ -96,7 +96,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number Number plusDateComponent extension`() {
         val otherDate = someNumber()
-        val underTest = 15.plusDateComponent(otherDate, Year)
+        val underTest = 15.addDateUnit(otherDate, Year)
         val expected = DateAddMillisExpression(15.toDopeType(), otherDate.toDopeType(), Year)
 
         assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))

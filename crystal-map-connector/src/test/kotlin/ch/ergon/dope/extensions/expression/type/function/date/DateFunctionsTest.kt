@@ -36,7 +36,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockLocalExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.ClockStrExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.ClockStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.ClockUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateAddMillisExpression
@@ -51,10 +51,10 @@ import ch.ergon.dope.resolvable.expression.type.function.date.DateRangeStrExpres
 import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.Day
-import ch.ergon.dope.resolvable.expression.type.function.date.DurationToStrExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.DurationToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.Hour
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.MillisToStrExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.MillisToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.Minute
@@ -63,8 +63,8 @@ import ch.ergon.dope.resolvable.expression.type.function.date.NowLocalExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.NowUtcExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.StrToDurationExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.StrToMillisExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.StringToDurationExpression
+import ch.ergon.dope.resolvable.expression.type.function.date.StringToMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.Week
@@ -93,7 +93,7 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support ClockStrExpression with CM string`() {
         val format = someCMStringField()
-        val expected = ClockStrExpression(format.toDopeType())
+        val expected = ClockStringExpression(format.toDopeType())
 
         val actual = clockString(format)
 
@@ -786,7 +786,7 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support DurationToString with CM number`() {
         val date = someCMNumberField()
-        val expected = DurationToStrExpression(date.toDopeType())
+        val expected = DurationToStringExpression(date.toDopeType())
 
         val actual = date.toDurationString()
 
@@ -806,7 +806,7 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support MillisTo with CM number`() {
         val date = someCMNumberField()
-        val expected = MillisToStrExpression(date.toDopeType())
+        val expected = MillisToStringExpression(date.toDopeType())
 
         val actual = date.toFormattedDate()
 
@@ -817,7 +817,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support MillisTo with CM number and CM string`() {
         val date = someCMNumberField()
         val format = someCMStringField()
-        val expected = MillisToStrExpression(date.toDopeType(), format.toDopeType())
+        val expected = MillisToStringExpression(date.toDopeType(), format.toDopeType())
 
         val actual = date.toFormattedDate(format)
 
@@ -828,7 +828,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support MillisTo with type and CM string`() {
         val date = someNumberField()
         val format = someCMStringField()
-        val expected = MillisToStrExpression(date, format.toDopeType())
+        val expected = MillisToStringExpression(date, format.toDopeType())
 
         val actual = date.toFormattedDate(format)
 
@@ -839,7 +839,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support MillisTo with CM number and string`() {
         val date = someCMNumberField()
         val format = someString()
-        val expected = MillisToStrExpression(date.toDopeType(), format.toDopeType())
+        val expected = MillisToStringExpression(date.toDopeType(), format.toDopeType())
 
         val actual = date.toFormattedDate(format)
 
@@ -850,7 +850,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support MillisTo with number and CM string`() {
         val date = someNumber()
         val format = someCMStringField()
-        val expected = MillisToStrExpression(date.toDopeType(), format.toDopeType())
+        val expected = MillisToStringExpression(date.toDopeType(), format.toDopeType())
 
         val actual = date.toFormattedDate(format)
 
@@ -944,7 +944,7 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support StrToDuration with CM string`() {
         val duration = someCMStringField()
-        val expected = StrToDurationExpression(duration.toDopeType())
+        val expected = StringToDurationExpression(duration.toDopeType())
 
         val actual = duration.toDurationMillis()
 
@@ -954,7 +954,7 @@ class DateFunctionsTest : ManagerDependentTest {
     @Test
     fun `should support StrTo with CM string`() {
         val date = someCMStringField()
-        val expected = StrToMillisExpression(date.toDopeType())
+        val expected = StringToMillisExpression(date.toDopeType())
 
         val actual = date.toEpochMillis()
 
@@ -965,7 +965,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support StrTo with CM string and CM string`() {
         val date = someCMStringField()
         val format = someCMStringField()
-        val expected = StrToMillisExpression(date.toDopeType(), format.toDopeType())
+        val expected = StringToMillisExpression(date.toDopeType(), format.toDopeType())
 
         val actual = date.toEpochMillis(format)
 
@@ -976,7 +976,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support StrTo with type and CM string`() {
         val date = someStringField()
         val format = someCMStringField()
-        val expected = StrToMillisExpression(date, format.toDopeType())
+        val expected = StringToMillisExpression(date, format.toDopeType())
 
         val actual = date.toEpochMillis(format)
 
@@ -987,7 +987,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support StrTo with CM string and string`() {
         val date = someCMStringField()
         val format = someString()
-        val expected = StrToMillisExpression(date.toDopeType(), format.toDopeType())
+        val expected = StringToMillisExpression(date.toDopeType(), format.toDopeType())
 
         val actual = date.toEpochMillis(format)
 
@@ -998,7 +998,7 @@ class DateFunctionsTest : ManagerDependentTest {
     fun `should support StrTo with string and CM string`() {
         val date = someString()
         val format = someCMStringField()
-        val expected = StrToMillisExpression(date.toDopeType(), format.toDopeType())
+        val expected = StringToMillisExpression(date.toDopeType(), format.toDopeType())
 
         val actual = date.toEpochMillis(format)
 

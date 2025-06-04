@@ -13,68 +13,68 @@ import com.schwarz.crystalapi.schema.CMJsonField
 @JvmName("millisDiffCMNumberDateComponent")
 fun CMJsonField<Number>.differenceIn(
     other: CMJsonField<Number>,
-    component: DateUnit,
-) = toDopeType().differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other.toDopeType(), dateUnit)
 
 @JvmName("millisDiffNumberDateComponent")
 fun CMJsonField<Number>.differenceIn(
     other: Number,
-    component: DateUnit,
-) = toDopeType().differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other.toDopeType(), dateUnit)
 
 fun Number.differenceIn(
     other: CMJsonField<Number>,
-    component: DateUnit,
-) = toDopeType().differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other.toDopeType(), dateUnit)
 
 @JvmName("millisDiffNumberDateComponent")
 fun TypeExpression<NumberType>.differenceIn(
     other: CMJsonField<Number>,
-    component: DateUnit,
-) = differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = differenceIn(other.toDopeType(), dateUnit)
 
 @JvmName("millisDiffCMNumberDateComponent")
 fun CMJsonField<Number>.differenceIn(
     other: TypeExpression<NumberType>,
-    component: DateUnit,
-) = toDopeType().differenceIn(other, component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other, dateUnit)
 
 @JvmName("millisDiffCMNumberDateComponentConverter")
 fun <Convertable : Any> CMConverterField<Convertable, Number>.differenceIn(
     other: Convertable,
-    component: DateUnit,
-) = toDopeType().differenceIn(toDopeType(other), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(toDopeType(other), dateUnit)
 
 @JvmName("strDiffCMStringDateComponent")
 fun CMJsonField<String>.differenceIn(
     other: CMJsonField<String>,
-    component: DateUnit,
-) = toDopeType().differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other.toDopeType(), dateUnit)
 
 @JvmName("strDiffTypeCMStringDateComponent")
 fun TypeExpression<StringType>.differenceIn(
     other: CMJsonField<String>,
-    component: DateUnit,
-) = differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = differenceIn(other.toDopeType(), dateUnit)
 
 @JvmName("strDiffCMStringTypeDateComponent")
 fun CMJsonField<String>.differenceIn(
     other: TypeExpression<StringType>,
-    component: DateUnit,
-) = toDopeType().differenceIn(other, component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other, dateUnit)
 
 fun CMJsonField<String>.differenceIn(
     other: String,
-    component: DateUnit,
-) = toDopeType().differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other.toDopeType(), dateUnit)
 
 fun String.differenceIn(
     other: CMJsonField<String>,
-    component: DateUnit,
-) = toDopeType().differenceIn(other.toDopeType(), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(other.toDopeType(), dateUnit)
 
 @JvmName("millisDiffCMStringDateComponentConverter")
 fun <Convertable : Any> CMConverterField<Convertable, String>.differenceIn(
     increment: Convertable,
-    component: DateUnit,
-) = toDopeType().differenceIn(toDopeType(increment), component)
+    dateUnit: DateUnit,
+) = toDopeType().differenceIn(toDopeType(increment), dateUnit)

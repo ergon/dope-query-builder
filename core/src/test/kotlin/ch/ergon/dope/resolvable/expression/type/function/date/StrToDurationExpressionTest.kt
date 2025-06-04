@@ -19,7 +19,7 @@ class StrToDurationExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "STR_TO_DURATION(`stringField`)",
         )
-        val underTest = StrToDurationExpression(someStringField())
+        val underTest = StringToDurationExpression(someStringField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -33,7 +33,7 @@ class StrToDurationExpressionTest : ManagerDependentTest {
             queryString = "STR_TO_DURATION($1)",
             DopeParameters(positionalParameters = listOf(dur)),
         )
-        val underTest = StrToDurationExpression(dur.asParameter())
+        val underTest = StringToDurationExpression(dur.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -48,7 +48,7 @@ class StrToDurationExpressionTest : ManagerDependentTest {
             queryString = "STR_TO_DURATION(\$$name)",
             DopeParameters(namedParameters = mapOf(name to dur)),
         )
-        val underTest = StrToDurationExpression(dur.asParameter(name))
+        val underTest = StringToDurationExpression(dur.asParameter(name))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -58,7 +58,7 @@ class StrToDurationExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toDurationMillis extension on TypeExpression`() {
         val expr = someStringField().toDurationNanos()
-        val expected = StrToDurationExpression(someStringField())
+        val expected = StringToDurationExpression(someStringField())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -67,7 +67,7 @@ class StrToDurationExpressionTest : ManagerDependentTest {
     fun `should support String toDurationMillis extension`() {
         val raw = someString()
         val expr = raw.toDurationNanos()
-        val expected = StrToDurationExpression(raw.toDopeType())
+        val expected = StringToDurationExpression(raw.toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

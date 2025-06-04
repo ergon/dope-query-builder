@@ -6,22 +6,22 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class DateTruncMillisExpression(date: TypeExpression<NumberType>, component: DateUnit) :
-    FunctionExpression<NumberType>("DATE_TRUNC_MILLIS", date, component)
+class DateTruncMillisExpression(date: TypeExpression<NumberType>, dateUnit: DateUnit) :
+    FunctionExpression<NumberType>("DATE_TRUNC_MILLIS", date, dateUnit)
 
-class DateTruncStrExpression(date: TypeExpression<StringType>, component: DateUnit) :
-    FunctionExpression<StringType>("DATE_TRUNC_STR", date, component)
+class DateTruncStrExpression(date: TypeExpression<StringType>, dateUnit: DateUnit) :
+    FunctionExpression<StringType>("DATE_TRUNC_STR", date, dateUnit)
 
 @JvmName("millisTruncTypeDateComponent")
-fun TypeExpression<NumberType>.truncateTo(component: DateUnit) =
-    DateTruncMillisExpression(this, component)
+fun TypeExpression<NumberType>.truncateTo(dateUnit: DateUnit) =
+    DateTruncMillisExpression(this, dateUnit)
 
-fun Number.truncateTo(component: DateUnit) =
-    toDopeType().truncateTo(component)
+fun Number.truncateTo(dateUnit: DateUnit) =
+    toDopeType().truncateTo(dateUnit)
 
 @JvmName("strTruncTypeDateComponent")
-fun TypeExpression<StringType>.truncateTo(component: DateUnit) =
-    DateTruncStrExpression(this, component)
+fun TypeExpression<StringType>.truncateTo(dateUnit: DateUnit) =
+    DateTruncStrExpression(this, dateUnit)
 
-fun String.truncateTo(component: DateUnit) =
-    toDopeType().truncateTo(component)
+fun String.truncateTo(dateUnit: DateUnit) =
+    toDopeType().truncateTo(dateUnit)

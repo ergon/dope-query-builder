@@ -6,9 +6,9 @@ import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 
 @JvmName("millisTruncateToCMNumber")
-fun CMJsonField<Number>.truncateTo(component: DateUnit) =
-    toDopeType().truncateTo(component)
+fun CMJsonField<Number>.truncateTo(dateUnit: DateUnit) =
+    toDopeType().truncateTo(dateUnit)
 
 @JvmName("strTruncateToCMString")
-fun CMJsonField<String>.truncateTo(component: DateUnit) =
-    toDopeType().truncateTo(component)
+fun CMJsonField<String>.truncateTo(dateUnit: DateUnit) =
+    toDopeType().truncateTo(dateUnit)

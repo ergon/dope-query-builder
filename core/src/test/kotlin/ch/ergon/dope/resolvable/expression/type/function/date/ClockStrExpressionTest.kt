@@ -19,7 +19,7 @@ class ClockStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "CLOCK_STR()",
         )
-        val underTest = ClockStrExpression()
+        val underTest = ClockStringExpression()
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -32,7 +32,7 @@ class ClockStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "CLOCK_STR(`stringField`)",
         )
-        val underTest = ClockStrExpression(fmt)
+        val underTest = ClockStringExpression(fmt)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -46,7 +46,7 @@ class ClockStrExpressionTest : ManagerDependentTest {
             queryString = "CLOCK_STR($1)",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
-        val underTest = ClockStrExpression(parameterValue.asParameter())
+        val underTest = ClockStringExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -61,7 +61,7 @@ class ClockStrExpressionTest : ManagerDependentTest {
             queryString = "CLOCK_STR(\$$parameterName)",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = ClockStrExpression(parameterValue.asParameter(parameterName))
+        val underTest = ClockStringExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -71,7 +71,7 @@ class ClockStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support clockString extension with field`() {
         val fmt = someStringField()
-        val expected = ClockStrExpression(fmt)
+        val expected = ClockStringExpression(fmt)
         val actual = clockString(fmt)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
@@ -80,7 +80,7 @@ class ClockStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support clockString extension with raw string`() {
         val rawFmt = someString()
-        val expected = ClockStrExpression(rawFmt.toDopeType())
+        val expected = ClockStringExpression(rawFmt.toDopeType())
         val actual = clockString(rawFmt)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))

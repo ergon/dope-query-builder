@@ -19,7 +19,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "MILLIS_TO_STR(`numberField`)",
         )
-        val underTest = MillisToStrExpression(someNumberField())
+        val underTest = MillisToStringExpression(someNumberField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -32,7 +32,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "MILLIS_TO_STR(`numberField`, `stringField`)",
         )
-        val underTest = MillisToStrExpression(someNumberField(), fmt)
+        val underTest = MillisToStringExpression(someNumberField(), fmt)
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -46,7 +46,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
             queryString = "MILLIS_TO_STR(`numberField`, $1)",
             DopeParameters(positionalParameters = listOf(fmt)),
         )
-        val underTest = MillisToStrExpression(someNumberField(), fmt.asParameter())
+        val underTest = MillisToStringExpression(someNumberField(), fmt.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -61,7 +61,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
             queryString = "MILLIS_TO_STR(`numberField`, \$$name)",
             DopeParameters(namedParameters = mapOf(name to fmt)),
         )
-        val underTest = MillisToStrExpression(someNumberField(), fmt.asParameter(name))
+        val underTest = MillisToStringExpression(someNumberField(), fmt.asParameter(name))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -71,7 +71,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDate extension on TypeExpression`() {
         val expr = someNumberField().toFormattedDate()
-        val expected = MillisToStrExpression(someNumberField(), null)
+        val expected = MillisToStringExpression(someNumberField(), null)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -79,7 +79,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDate extension on raw and TypeExpression`() {
         val expr = 123L.toFormattedDate()
-        val expected = MillisToStrExpression(123L.toDopeType(), null)
+        val expected = MillisToStringExpression(123L.toDopeType(), null)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -87,7 +87,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toFormattedDate extension with raw format`() {
         val expr = 123L.toFormattedDate("dd/MM")
-        val expected = MillisToStrExpression(123L.toDopeType(), "dd/MM".toDopeType())
+        val expected = MillisToStringExpression(123L.toDopeType(), "dd/MM".toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -95,7 +95,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toFormattedDate extension on TypeExpression with format`() {
         val expr = someNumberField().toFormattedDate("dd/MM")
-        val expected = MillisToStrExpression(someNumberField(), "dd/MM".toDopeType())
+        val expected = MillisToStringExpression(someNumberField(), "dd/MM".toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

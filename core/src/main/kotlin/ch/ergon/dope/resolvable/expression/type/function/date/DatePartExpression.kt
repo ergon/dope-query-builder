@@ -10,8 +10,7 @@ class DatePartMillisExpression(
     date: TypeExpression<NumberType>,
     component: DateComponent,
     timeZone: TypeExpression<StringType>? = null,
-) :
-    FunctionExpression<NumberType>("DATE_PART_MILLIS", date, component, timeZone)
+) : FunctionExpression<NumberType>("DATE_PART_MILLIS", date, component, timeZone)
 
 class DatePartStrExpression(date: TypeExpression<StringType>, component: DateComponent) :
     FunctionExpression<NumberType>("DATE_PART_STR", date, component)

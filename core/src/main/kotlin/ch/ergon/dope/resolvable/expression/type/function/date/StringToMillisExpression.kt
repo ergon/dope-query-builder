@@ -6,12 +6,12 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class StrToMillisExpression(date: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) :
+class StringToMillisExpression(date: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) :
     FunctionExpression<NumberType>("STR_TO_MILLIS", date, format)
 
-fun TypeExpression<StringType>.toEpochMillis(format: TypeExpression<StringType>? = null) = StrToMillisExpression(this, format)
+fun TypeExpression<StringType>.toEpochMillis(format: TypeExpression<StringType>? = null) = StringToMillisExpression(this, format)
 
-fun TypeExpression<StringType>.toEpochMillis(format: String) = StrToMillisExpression(this, format.toDopeType())
+fun TypeExpression<StringType>.toEpochMillis(format: String) = StringToMillisExpression(this, format.toDopeType())
 
 fun String.toEpochMillis(format: TypeExpression<StringType>? = null) = toDopeType().toEpochMillis(format)
 

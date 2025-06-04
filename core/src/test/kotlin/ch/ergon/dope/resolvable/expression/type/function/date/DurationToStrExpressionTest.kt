@@ -18,7 +18,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
         val expected = DopeQuery(
             queryString = "DURATION_TO_STR(`numberField`)",
         )
-        val underTest = DurationToStrExpression(someNumberField())
+        val underTest = DurationToStringExpression(someNumberField())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -32,7 +32,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
             queryString = "DURATION_TO_STR($1)",
             DopeParameters(positionalParameters = listOf(dur)),
         )
-        val underTest = DurationToStrExpression(dur.asParameter())
+        val underTest = DurationToStringExpression(dur.asParameter())
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -47,7 +47,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
             queryString = "DURATION_TO_STR(\$$name)",
             DopeParameters(namedParameters = mapOf(name to dur)),
         )
-        val underTest = DurationToStrExpression(dur.asParameter(name))
+        val underTest = DurationToStringExpression(dur.asParameter(name))
 
         val actual = underTest.toDopeQuery(manager)
 
@@ -57,7 +57,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support toDurationString extension on TypeExpression`() {
         val expr = someNumberField().toDurationString()
-        val expected = DurationToStrExpression(someNumberField())
+        val expected = DurationToStringExpression(someNumberField())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -65,7 +65,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support Number toDurationString extension`() {
         val expr = 3000L.toDurationString()
-        val expected = DurationToStrExpression(3000L.toDopeType())
+        val expected = DurationToStringExpression(3000L.toDopeType())
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

@@ -10,8 +10,7 @@ class MillisToTimezoneExpression(
     date: TypeExpression<NumberType>,
     timeZone: TypeExpression<StringType>,
     format: TypeExpression<StringType>? = null,
-) :
-    FunctionExpression<StringType>("MILLIS_TO_TZ", date, timeZone, format)
+) : FunctionExpression<StringType>("MILLIS_TO_TZ", date, timeZone, format)
 
 class StrToTimezoneExpression(date: TypeExpression<StringType>, timeZone: TypeExpression<StringType>) :
     FunctionExpression<StringType>("STR_TO_TZ", date, timeZone)
