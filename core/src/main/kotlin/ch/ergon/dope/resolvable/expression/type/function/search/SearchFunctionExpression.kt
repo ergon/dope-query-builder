@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.function.search
 
-import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.Field
@@ -72,7 +72,7 @@ class SearchFunctionExpression : TypeExpression<BooleanType>, FunctionOperator {
                 objectSearchExpressionDopeQuery,
                 optionsDopeQuery,
             ),
-            parameters = (fieldDopeQuery?.parameters ?: DopeParameters()).merge(
+            parameters = fieldDopeQuery?.parameters.orEmpty().merge(
                 bucketDopeQuery?.parameters,
                 objectSearchExpressionDopeQuery?.parameters,
                 optionsDopeQuery?.parameters,

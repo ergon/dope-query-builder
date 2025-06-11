@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 class StringFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use string functions to create a new string`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 concat(ltrim("   test"), title(rtrim("string   "))),
             )

@@ -27,18 +27,10 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lag
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lastValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.nthValue
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.rowNumber
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class WindowFunctionTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support window functions`() {
         val expected = "SELECT ROW_NUMBER() OVER () AS `row`, " +
@@ -51,7 +43,7 @@ class WindowFunctionTest {
             "FROM `someBucket` " +
             "WINDOW `ref` AS (ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 rowNumber().alias("row"),
                 cumeDist("ref"),

@@ -1,13 +1,16 @@
 package ch.ergon.dope.resolvable.clause
 
+import ch.ergon.dope.QueryProvider
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.Resolvable
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
-import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnConditionClause
@@ -20,9 +23,12 @@ import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.RightJoinClause
+import ch.ergon.dope.resolvable.clause.model.SelectClause
+import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
+import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnConditionClause
 import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
@@ -31,7 +37,9 @@ import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
+import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -217,4 +225,17 @@ interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
     fun from(fromable: Fromable) = FromClause(fromable, this)
+}
+
+interface ISelectWithClause : QueryProvider, Resolvable {
+    override fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions, parentClause = this)
+
+    override fun selectAsterisk() = SelectClause(asterisk(), parentClause = this)
+
+    override fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
+        SelectDistinctClause(expression, *expressions, parentClause = this)
+
+    override fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression, parentClause = this)
+
+    override fun selectFrom(fromable: Fromable) = selectAsterisk().from(fromable)
 }

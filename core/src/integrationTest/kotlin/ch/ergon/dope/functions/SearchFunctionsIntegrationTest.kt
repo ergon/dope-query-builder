@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class SearchFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `full text search type field`() {
-        val dopeQuery = QueryBuilder().select(
+        val dopeQuery = QueryBuilder.select(
             meta().id,
         ).from(
             testBucket,

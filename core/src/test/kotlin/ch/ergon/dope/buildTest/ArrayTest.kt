@@ -16,24 +16,16 @@ import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ArrayTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support arrays`() {
         val person = someBucket("person")
         val expected = "SELECT [`person`.`fname`, `stringField`] FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(someStringField("fname", person), someStringField()).toDopeType(),
             ).from(
@@ -48,7 +40,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [`stringField`], [`stringField`] FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(someStringField()).toDopeType(),
                 listOf(someStringField()).toDopeType(),
@@ -64,7 +56,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [\"test\", 53, TRUE, `stringField`, `person`.`age`, `booleanField`] FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(
                     "test".toDopeType(),
@@ -86,7 +78,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [`stringField`] AS `test` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(someStringField()).toDopeType().alias("test"),
             ).from(
@@ -101,7 +93,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [`stringField`] AS `fname`, [`stringField`] AS `true` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(someStringField()).toDopeType().alias("fname"),
                 listOf(someStringField()).toDopeType().alias("true"),
@@ -117,7 +109,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [`stringField`, [`person`.`age`, TRUE, \"string\"], 23] AS `test` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(
                     someStringField(),
@@ -140,7 +132,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [\"string\", \"hallo\"] FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(
                     "string".toDopeType(),
@@ -158,7 +150,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT [CONCAT(\"string\", `stringField`), \"hallo\"] AS `test`, 23 FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(
                     concat("string".toDopeType(), someStringField()),
@@ -177,7 +169,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT TRUE IN [FALSE] FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 TRUE.inArray(
                     listOf(
@@ -196,7 +188,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT TRUE IN [FALSE] AS `test` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 TRUE.inArray(
                     listOf(
@@ -214,7 +206,7 @@ class ArrayTest {
     fun `should support in array with boolean and collection`() {
         val expected = "SELECT TRUE IN [FALSE, TRUE] AS `test` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 true.inArray(
                     listOf(
@@ -233,7 +225,7 @@ class ArrayTest {
     fun `should support in array with string and collection`() {
         val expected = "SELECT \"test\" IN [`stringField`, \"string\"] AS `test` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 "test".inArray(
                     listOf(
@@ -252,7 +244,7 @@ class ArrayTest {
     fun `should support in array with number and collection`() {
         val expected = "SELECT 3 IN [`numberField`, 23] AS `test` FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 3.inArray(
                     listOf(
@@ -271,7 +263,7 @@ class ArrayTest {
     fun `should support in array with field and collection`() {
         val expected = "SELECT `numberField` IN [23] AS `test` FROM `person`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someNumberField().inArray(
                     listOf(
@@ -290,7 +282,7 @@ class ArrayTest {
         val person = someBucket("person")
         val expected = "SELECT * FROM `person` WHERE `stringField` IN [\"string\", \"hallo\"]"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectFrom(
                 person,
             ).where(
@@ -309,7 +301,7 @@ class ArrayTest {
     fun `should support index based array accessing`() {
         val expected = "SELECT `numberArrayField`[0] FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someNumberArrayField().get(0.toDopeType()),
             ).from(
@@ -323,7 +315,7 @@ class ArrayTest {
     fun `should support index based array accessing with addition`() {
         val expected = "SELECT `numberArrayField`[(1 + 1)] FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someNumberArrayField().get(1.toDopeType().add(1)),
             ).from(
@@ -337,7 +329,7 @@ class ArrayTest {
     fun `should support index based array accessing with negative numbers`() {
         val expected = "SELECT `numberArrayField`[-1] FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someNumberArrayField().get((-1).toDopeType()),
             ).from(
@@ -351,7 +343,7 @@ class ArrayTest {
     fun `should support index based array accessing with nested arrays`() {
         val expected = "SELECT `stringArrayField`[`numberArrayField`[0]] FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someStringArrayField().get(someNumberArrayField().get(0.toDopeType())),
             ).from(
@@ -365,7 +357,7 @@ class ArrayTest {
     fun `should support index based array accessing in where clause`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberArrayField`[0] = 1"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk().from(
                 someBucket(),
             ).where(
@@ -379,7 +371,7 @@ class ArrayTest {
     fun `should support index based array accessing in offset clause`() {
         val expected = "SELECT * FROM `someBucket` OFFSET `numberArrayField`[0]"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk().from(
                 someBucket(),
             ).offset(
@@ -393,7 +385,7 @@ class ArrayTest {
     fun `should support index based array accessing in limit clause`() {
         val expected = "SELECT * FROM `someBucket` LIMIT `numberArrayField`[0]"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk().from(
                 someBucket(),
             ).limit(

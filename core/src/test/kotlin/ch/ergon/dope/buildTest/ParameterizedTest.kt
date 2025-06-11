@@ -15,21 +15,13 @@ import ch.ergon.dope.resolvable.expression.type.logic.or
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ParameterizedTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeEach
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should get no parameter as result`() {
-        val parameters = create.select(someNumber().isEqualTo(someNumber())).build().parameters
+        val parameters = QueryBuilder.select(someNumber().isEqualTo(someNumber())).build().parameters
 
         assertEquals(DopeParameters(), parameters)
     }
@@ -38,7 +30,7 @@ class ParameterizedTest {
     fun `should get one parameter as result`() {
         val parameter = someNumber().asParameter(someString())
 
-        val namedParameters = create.select(parameter.isEqualTo(someNumber().toDopeType())).build().parameters.namedParameters
+        val namedParameters = QueryBuilder.select(parameter.isEqualTo(someNumber().toDopeType())).build().parameters.namedParameters
 
         assertEquals(1, namedParameters.size)
     }
@@ -49,7 +41,7 @@ class ParameterizedTest {
         val parameterValue = someNumber(5)
         val parameter = parameterValue.asParameter(parameterName)
 
-        val namedParameters = create.select(parameter.isEqualTo(someNumberField())).build().parameters.namedParameters
+        val namedParameters = QueryBuilder.select(parameter.isEqualTo(someNumberField())).build().parameters.namedParameters
 
         assertEquals(parameterValue, namedParameters[parameterName])
     }
@@ -59,14 +51,14 @@ class ParameterizedTest {
         val parameterValue = someNumber(2)
         val parameter = parameterValue.asParameter()
 
-        val positionalParameters = create.select(parameter.isEqualTo(someNumberField())).build().parameters.positionalParameters
+        val positionalParameters = QueryBuilder.select(parameter.isEqualTo(someNumberField())).build().parameters.positionalParameters
 
         assertEquals(parameterValue, positionalParameters[0])
     }
 
     @Test
     fun `should get empty map when there is no named parameter`() {
-        val parameters = create.select(someNumber(2).asParameter().isEqualTo(someNumberField())).build().parameters
+        val parameters = QueryBuilder.select(someNumber(2).asParameter().isEqualTo(someNumberField())).build().parameters
 
         assertEquals(0, parameters.namedParameters.size)
     }
@@ -80,7 +72,7 @@ class ParameterizedTest {
         val parameterValue3 = someNumber(80)
         val parameter3 = parameterValue3.asParameter()
 
-        val positionalParameters = create
+        val positionalParameters = QueryBuilder
             .select(parameter1.isEqualTo(parameter2))
             .where(parameter3.isNotEqualTo(someNumberField()))
             .build().parameters.positionalParameters
@@ -99,7 +91,7 @@ class ParameterizedTest {
         val parameter2 = parameterValue2.asParameter(someString("param"))
         val parameterValue3 = someNumber(80)
         val parameter3 = parameterValue3.asParameter()
-        val underTest = create.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build()
+        val underTest = QueryBuilder.select(parameter1.isEqualTo(parameter2)).where(parameter3.isNotEqualTo(someNumberField())).build()
 
         val namedParameters = underTest.parameters.namedParameters
         val positionalParameters = underTest.parameters.positionalParameters
@@ -128,7 +120,7 @@ class ParameterizedTest {
         val parameterName5 = someString("superMagic")
         val parameter5 = value5.asParameter(parameterName5)
         val parameter6 = value6.asParameter()
-        val underTest = create
+        val underTest = QueryBuilder
             .select(
                 parameter1,
                 parameter2.or(
@@ -160,7 +152,7 @@ class ParameterizedTest {
         val parameterValue = someNumber(3)
         val parameter = parameterValue.asParameter()
 
-        val parameters = create.select(listOf(parameter).toDopeType()).build().parameters.positionalParameters
+        val parameters = QueryBuilder.select(listOf(parameter).toDopeType()).build().parameters.positionalParameters
 
         assertEquals(parameterValue, parameters[0])
         assertEquals(1, parameters.size)
@@ -183,7 +175,7 @@ class ParameterizedTest {
             ),
         )
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             concat(namedParameter1.asParameter(namedParameter1name), positionalParameter1.asParameter()),
         ).where(
             positionalParameter2.asParameter(),
@@ -212,7 +204,7 @@ class ParameterizedTest {
             ),
         )
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             listOf(
                 parameterValue1.asParameter(),
                 parameterValue2.asParameter(parameterName2),

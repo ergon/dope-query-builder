@@ -48,7 +48,7 @@ class ObjectTest : ManagerDependentTest {
         val schema = Person("p")
         val expected = "SELECT `p`.`hobbies` FROM `someBucket` AS `p`"
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .select(schema.hobbies)
             .from(bucket)
             .build().queryString
@@ -62,7 +62,7 @@ class ObjectTest : ManagerDependentTest {
         val schema = Person("p")
         val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`hobbies`[0] = `p`.`primaryHobby`"
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(bucket)
             .where(schema.hobbies.get(0).isEqualTo(schema.primaryHobby))
@@ -77,7 +77,7 @@ class ObjectTest : ManagerDependentTest {
         val schema = Person("p")
         val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`primaryHobby`.`preferredDestination`.`groupSize` >= 5"
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(bucket)
             .where(schema.primaryHobby.getField(Hobby::preferredDestination).getField(Destination::groupSize).isGreaterOrEqualThan(5))
@@ -92,7 +92,7 @@ class ObjectTest : ManagerDependentTest {
         val schema = Person("p")
         val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`hobbies`[0].`name` = `p`.`primaryHobby`.`name`"
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(bucket)
             .where(schema.hobbies.get(0).getString("name").isEqualTo(schema.primaryHobby.getField(Hobby::name)))
@@ -110,7 +110,7 @@ class ObjectTest : ManagerDependentTest {
             "FROM `someBucket` AS `p` " +
             "WHERE `p`.`primaryHobby`.`name` = \"Football\""
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .select(objectField, case(objectField).condition(schema.hobbies.get(0).resultsIn("isPrimary")))
             .from(bucket)
             .where(objectField.getField(Hobby::name).isEqualTo("Football"))
@@ -127,7 +127,7 @@ class ObjectTest : ManagerDependentTest {
         val expected = "SELECT * FROM `someBucket` AS `p` WHERE `p`.`primaryHobby`.`name` IN " +
             "`p`.`hobbies`[*].`name`"
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .selectAsterisk()
             .from(bucket)
             .where(
@@ -145,7 +145,7 @@ class ObjectTest : ManagerDependentTest {
         val objectField = schema.primaryHobby
         val expected = "SELECT `p`.`primaryHobby`.* FROM `someBucket` AS `p`"
 
-        val actual = QueryBuilder()
+        val actual = QueryBuilder
             .select(
                 objectField.asterisk(),
             )

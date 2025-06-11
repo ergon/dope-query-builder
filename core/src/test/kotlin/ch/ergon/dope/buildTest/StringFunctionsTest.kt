@@ -49,26 +49,17 @@ import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.type.relational.isLessThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class StringFunctionsTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
-    private lateinit var builder: StringBuilder
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        builder = StringBuilder()
-        create = QueryBuilder()
-    }
 
     @Test
     fun `should Support Concat With StringTypes`() {
         val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\") AS `concat`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat("abc".toDopeType(), "def".toDopeType(), "ghi".toDopeType()).alias("concat"),
         ).build().queryString
 
@@ -79,7 +70,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Concat With Strings`() {
         val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\") AS `concat`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat("abc", "def", "ghi").alias("concat"),
         ).build().queryString
 
@@ -90,7 +81,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Mixed Concat`() {
         val expected = "SELECT CONCAT(\"abc\", \"def\", \"ghi\", `stringField`) AS `concat`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat(
                 "abc".toDopeType(),
                 "def".toDopeType(),
@@ -108,7 +99,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Concat2 With StringTypes`() {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat2(
                 "-",
                 "a".toDopeType(),
@@ -125,7 +116,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Concat2 With Strings`() {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat2(
                 "-",
                 "a",
@@ -142,7 +133,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Concat2 With Strings And StringType As separator`() {
         val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat2(
                 "-".toDopeType(),
                 "a",
@@ -170,7 +161,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Contains`() {
         val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS `n1ql`\n"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             contains("N1QL is awesome".toDopeType(), "N1QL".toDopeType())
                 .alias("n1ql"),
         ).build().queryString
@@ -182,7 +173,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Contains With String`() {
         val expected = "SELECT CONTAINS(\"N1QL is awesome\", \"N1QL\") AS `n1ql`\n"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             contains("N1QL is awesome", "N1QL".toDopeType())
                 .alias("n1ql"),
         ).build().queryString
@@ -196,7 +187,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       CONTAINS(\"N1QL is awesome\", \"SQL\") AS `no_sql`"
 
         val actual: String =
-            create.select(
+            QueryBuilder.select(
                 contains("N1QL is awesome".toDopeType(), "N1QL".toDopeType()).alias("n1ql"),
                 contains("N1QL is awesome", "SQL").alias("no_sql"),
             ).build().queryString
@@ -208,7 +199,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Initcap`() {
         val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
 
-        val actual: String = create.select(initCap("N1QL is awesome").alias("n1ql")).build().queryString
+        val actual: String = QueryBuilder.select(initCap("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -220,7 +211,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       LENGTH(\"\") AS `zero`"
 
         val actual: String =
-            create.select(
+            QueryBuilder.select(
                 length("N1QL is awesome").alias("ascii"),
                 length("Café").alias("diacritic"),
                 length("").alias("zero"),
@@ -233,7 +224,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Lower`() {
         val expected = "SELECT LOWER(\"N1QL is awesome\") AS `n1ql`"
 
-        val actual: String = create.select(lower("N1QL is awesome").alias("n1ql")).build().queryString
+        val actual: String = QueryBuilder.select(lower("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -245,7 +236,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       LPAD(\"N1QL is awesome\", 20, \"987654321\") AS `truncate_padding`,\n" +
             "       LPAD(\"N1QL is awesome\", 4, \"987654321\") AS `truncate_string`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             lpad("N1QL is awesome", 20).alias("implicit_padding"),
             lpad("N1QL is awesome", 20, "-*").alias("repeated_padding"),
             lpad("N1QL is awesome", 20, "987654321").alias("truncate_padding"),
@@ -265,7 +256,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       LPAD(\"N1QL is awesome\", 20, \"987654321\"),\n" +
             "       LPAD(\"N1QL is awesome\", 4, \"987654321\") AS `truncate_string`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             lpad("N1QL is awesome".toDopeType(), 20).alias("implicit_padding"),
             lpad("N1QL is awesome".toDopeType(), 20, "-*").alias("repeated_padding"),
             lpad("N1QL is awesome".toDopeType(), 20.toDopeType(), "987654321").alias("truncate_padding"),
@@ -282,7 +273,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Lpad With String And StringTypes`() {
         val expected = "SELECT LPAD(\"N1QL is awesome\", 20, \"1234\") AS `implicit_padding`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             lpad("N1QL is awesome", 20, "1234".toDopeType()).alias("implicit_padding"),
         ).build().queryString
 
@@ -294,7 +285,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS `dots`, LTRIM(\"    N1QL is awesome\", \" \") AS " +
             "`explicit_spaces`, LTRIM(\"      N1QL is awesome\") AS `implicit_spaces`, LTRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             ltrim("...N1QL is awesome", ".").alias("dots"),
             ltrim("    N1QL is awesome", " ").alias("explicit_spaces"),
             ltrim("      N1QL is awesome").alias("implicit_spaces"),
@@ -308,7 +299,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Ltrim With A String`() {
         val expected = "SELECT LTRIM(\"...N1QL is awesome\", \"...\") AS `dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             ltrim("...N1QL is awesome", "...").alias("dots"),
         ).build().queryString
 
@@ -319,7 +310,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Ltrim With A StringType And Char`() {
         val expected = "SELECT LTRIM(\"...N1QL is awesome\", \".\") AS `dots`, LTRIM(\"...N1QL is awesome\", \".\")"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             ltrim("...N1QL is awesome".toDopeType(), ".").alias("dots"),
             ltrim("...N1QL is awesome", ".".toDopeType()),
         ).build().queryString
@@ -333,7 +324,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS `mask_custom`,\n" +
             "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS `mask_hole`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             mask("SomeTextToMask").alias("mask"),
             mask("SomeTextToMask", mapOf("mask" to "++++")).alias("mask_custom"),
             mask("SomeTextToMask", mapOf("mask" to "++++ ++++")).alias("mask_hole"),
@@ -348,7 +339,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS `mask_custom`,\n" +
             "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS `mask_hole`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             mask("SomeTextToMask".toDopeType()).alias("mask"),
             mask("SomeTextToMask".toDopeType(), mapOf("mask" to "++++")).alias("mask_custom"),
             mask("SomeTextToMask".toDopeType(), mapOf("mask" to "++++ ++++")).alias("mask_hole"),
@@ -363,7 +354,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       MASK(\"SomeTextToMask\", {\"mask\": \"++++\"}) AS `mask_custom`,\n" +
             "       MASK(\"SomeTextToMask\", {\"mask\": \"++++ ++++\"}) AS `mask_hole`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             mask("SomeTextToMask")
                 .alias("mask"),
             mask("SomeTextToMask", mapOf("mask" to "++++"))
@@ -381,7 +372,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       POSITION(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
             "       POSITION(\"N1QL is awesome\", \"SQL\") AS `sql`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             position("N1QL is awesome", "awesome").alias("awesome"),
             position("N1QL is awesome", "N1QL").alias("n1ql"),
             position("N1QL is awesome", "SQL").alias("sql"),
@@ -396,7 +387,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       POSITION(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
             "       POSITION(\"N1QL is awesome\", \"SQL\") AS `sql`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             position("N1QL is awesome".toDopeType(), "awesome").alias("awesome"),
             position("N1QL is awesome".toDopeType(), "N1QL").alias("n1ql"),
             position("N1QL is awesome".toDopeType(), "SQL").alias("sql"),
@@ -411,7 +402,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       POSITION(\"N1QL is awesome\", \"N1QL\") AS `n1ql`,\n" +
             "       POSITION(\"N1QL is awesome\", \"SQL\") AS `sql`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             position("N1QL is awesome", "awesome".toDopeType()).alias("awesome"),
             position("N1QL is awesome", "N1QL".toDopeType()).alias("n1ql"),
             position("N1QL is awesome", "SQL".toDopeType()).alias("sql"),
@@ -424,7 +415,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Repeat`() {
         val expected = "SELECT REPEAT(\"N1QL\", 0) AS `empty_string`, REPEAT(\"N1QL\", 3), REPEAT(\"N1QL\", 3), REPEAT(\"N1QL\", 3) AS `n1ql_3`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             repeat("N1QL", 0).alias("empty_string"),
             repeat("N1QL".toDopeType(), 3),
             repeat("N1QL".toDopeType(), 3.toDopeType()),
@@ -439,7 +430,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT REVERSE(\"N1QL is awesome\") AS `n1ql`,\n" +
             "       REVERSE(\"racecar\") AS `palindrome`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             reverse("N1QL is awesome").alias("n1ql"),
             reverse("racecar").alias("palindrome"),
         ).build().queryString
@@ -457,7 +448,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       RPAD(\"N1QL is awesome\", 4) AS `truncate_string`,\n" +
             "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rpad("N1QL is awesome", 20).alias("implicit_padding"),
             rpad("N1QL is awesome", 20, "-*").alias("repeated_padding"),
             rpad("N1QL is awesome", 20, "123456789").alias("truncate_padding"),
@@ -477,7 +468,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS `truncate_padding`,\n" +
             "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rpad("N1QL is awesome".toDopeType(), 20).alias("implicit_padding"),
             rpad("N1QL is awesome".toDopeType(), 20, "-*").alias("repeated_padding"),
             rpad("N1QL is awesome".toDopeType(), 20, "123456789").alias("truncate_padding"),
@@ -494,7 +485,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "       RPAD(\"N1QL is awesome\", 20, \"123456789\") AS `truncate_padding`,\n" +
             "       RPAD(\"N1QL is awesome\", 4, \"123456789\") AS `truncate_string`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rpad("N1QL is awesome", 20).alias("implicit_padding"),
             rpad("N1QL is awesome", 20, "-*".toDopeType()).alias("repeated_padding"),
             rpad("N1QL is awesome", 20, "123456789".toDopeType()).alias("truncate_padding"),
@@ -510,7 +501,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS `dots`, RTRIM(\"N1QL is awesome     \", \" \") AS " +
                 "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rtrim("N1QL is awesome...", ".").alias("dots"),
             rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
             rtrim("N1QL is awesome     ").alias("implicit_spaces"),
@@ -526,7 +517,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS `dots`, RTRIM(\"N1QL is awesome     \", \" \") AS " +
                 "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rtrim("N1QL is awesome...", ".").alias("dots"),
             rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
             rtrim("N1QL is awesome     ").alias("implicit_spaces"),
@@ -542,7 +533,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT RTRIM(\"N1QL is awesome...\") AS `dots`, RTRIM(\"N1QL is awesome     \") AS " +
                 "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rtrim("N1QL is awesome...".toDopeType()).alias("dots"),
             rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
             rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
@@ -558,7 +549,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT RTRIM(\"N1QL is awesome...\", \".\") AS `dots`, RTRIM(\"N1QL is awesome     \") AS " +
                 "`explicit_spaces`, RTRIM(\"N1QL is awesome     \") AS `implicit_spaces`, RTRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             rtrim("N1QL is awesome...".toDopeType(), ".").alias("dots"),
             rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
             rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
@@ -574,7 +565,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT SPLIT(\"N1QL is awesome\", \" \") AS `explicit_spaces`, SPLIT(\"N1QL is awesome\") AS" +
                 " `implicit_spaces`, SPLIT(\"N1QL is awesome\", \"is\") AS `split_is`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             split("N1QL is awesome", " ").alias("explicit_spaces"),
             split("N1QL is awesome").alias("implicit_spaces"),
             split("N1QL is awesome", "is").alias("split_is"),
@@ -589,7 +580,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT SPLIT(\"N1QL is awesome\", \" \") AS `explicit_spaces`, SPLIT(\"N1QL is awesome\") AS" +
                 " `implicit_spaces`, SPLIT(\"N1QL is awesome\", \"is\") AS `split_is`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             split("N1QL is awesome".toDopeType(), " ").alias("explicit_spaces"),
             split("N1QL is awesome".toDopeType()).alias("implicit_spaces"),
             split("N1QL is awesome".toDopeType(), "is").alias("split_is"),
@@ -604,7 +595,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT SPLIT(\"N1QL is awesome\", \" \") AS `explicit_spaces`, SPLIT(\"N1QL is awesome\") AS" +
                 " `implicit_spaces`, SPLIT(\"N1QL is awesome\", \"is\") AS `split_is`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             split("N1QL is awesome", " ".toDopeType()).alias("explicit_spaces"),
             split("N1QL is awesome").alias("implicit_spaces"),
             split("N1QL is awesome", "is".toDopeType()).alias("split_is"),
@@ -619,7 +610,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "SELECT SUBSTR(\"N1QL is awesome\", 3) AS `end_of_string`, SUBSTR(\"N1QL is awesome\", 3, 1) AS" +
                 " `single_letter`, SUBSTR(\"N1QL is awesome\", 3, 3) AS `three_letters`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             substring("N1QL is awesome", 3).alias("end_of_string"),
             substring("N1QL is awesome", 3, 1).alias("single_letter"),
             substring("N1QL is awesome", 3, 3).alias("three_letters"),
@@ -632,7 +623,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Suffixes`() {
         val expected = "SELECT SUFFIXES(\"N1QL is awesome\")"
 
-        val actual: String = create.select(suffixes("N1QL is awesome")).build().queryString
+        val actual: String = QueryBuilder.select(suffixes("N1QL is awesome")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -641,7 +632,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Title`() {
         val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
-        val actual: String = create.select(title("N1QL is awesome").alias("n1ql")).build().queryString
+        val actual: String = QueryBuilder.select(title("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -650,7 +641,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Title with string Type`() {
         val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
-        val actual: String = create.select(title("N1QL is awesome".toDopeType()).alias("n1ql")).build().queryString
+        val actual: String = QueryBuilder.select(title("N1QL is awesome".toDopeType()).alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -660,7 +651,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT TOKENS([\"jim@example.com, kim@example.com, https://example.com/, 408-555-1212\"], " +
             "{\"name\": false, \"specials\": true})"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             tokens(listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212"), CustomTokenOptions(specials = true)),
         ).build().queryString
 
@@ -671,7 +662,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Tokens With Empty Options`() {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"specials\": false})"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             tokens(listOf("jim@example.com")),
         ).build().queryString
 
@@ -682,7 +673,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Token Options`() {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"specials\": true})"
 
-        val actual: String = create.select(tokens(listOf("jim@example.com"), CustomTokenOptions(specials = true))).build().queryString
+        val actual: String = QueryBuilder.select(tokens(listOf("jim@example.com"), CustomTokenOptions(specials = true))).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -691,7 +682,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Multiple Token Options`() {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"case\": \"UPPER\", \"specials\": true})"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             tokens(
                 listOf("jim@example.com"),
                 CustomTokenOptions(specials = true, case = TOKEN_CASES.UPPER),
@@ -705,7 +696,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Multiple Token Options 2`() {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"case\": \"UPPER\", \"specials\": false})"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             tokens(listOf("jim@example.com"), CustomTokenOptions(specials = false, case = TOKEN_CASES.UPPER, name = false)),
         ).build().queryString
 
@@ -719,7 +710,7 @@ class StringFunctionsTest : ManagerDependentTest {
             " TRIM(\"     N1QL is awesome     \") AS `implicit_spaces`," +
             " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             trim("...N1QL is awesome...", ".")
                 .alias("dots"),
             trim("     N1QL is awesome     ")
@@ -740,7 +731,7 @@ class StringFunctionsTest : ManagerDependentTest {
             " TRIM(\"     N1QL is awesome     \") AS `implicit_spaces`," +
             " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             trim("...N1QL is awesome...", "...")
                 .alias("dots"),
             trim("     N1QL is awesome     ", " ")
@@ -761,7 +752,7 @@ class StringFunctionsTest : ManagerDependentTest {
             " TRIM(\"     N1QL is awesome     \") AS `implicit_spaces`," +
             " TRIM(\"N1QL is awesome\") AS `no_dots`"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             trim("...N1QL is awesome...".toDopeType(), ".")
                 .alias("dots"),
             trim("     N1QL is awesome     ".toDopeType())
@@ -779,7 +770,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should Support Upper`() {
         val expected = "SELECT UPPER(\"N1QL is awesome\") AS `n1ql`"
 
-        val actual: String = create.select(upper("N1QL is awesome").alias("n1ql")).build().queryString
+        val actual: String = QueryBuilder.select(upper("N1QL is awesome").alias("n1ql")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -788,7 +779,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions in where clause`() {
         val expected = "SELECT * FROM `someBucket` WHERE CONTAINS(`stringField`, \"123\")"
 
-        val actual: String = create.selectFrom(someBucket()).where(contains(someStringField(), "123")).build().queryString
+        val actual: String = QueryBuilder.selectFrom(someBucket()).where(contains(someStringField(), "123")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -797,7 +788,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with conditions in where clause`() {
         val expected = "SELECT * FROM `someBucket` WHERE UPPER(`stringField`) = \"VENDOLIN\""
         val actual: String =
-            create.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toDopeType())).build().queryString
+            QueryBuilder.selectFrom(someBucket()).where(upper(someStringField()).isEqualTo("VENDOLIN".toDopeType())).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -806,7 +797,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support nested string functions`() {
         val expected = "SELECT CONTAINS(UPPER(\"vendolin\"), \"VEN\") AS `foo`"
 
-        val actual: String = create.select(contains(upper("vendolin"), "VEN").alias("foo")).build().queryString
+        val actual: String = QueryBuilder.select(contains(upper("vendolin"), "VEN").alias("foo")).build().queryString
 
         assertEquals(expected, actual)
     }
@@ -816,7 +807,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT (POSITION1(\"input\", \"i\") + POSITION(\"input\", \"n\")) " +
             "< (MB_POSITION(\"input\", \"in\") + MB_POSITION1(\"input\", \"pu\"))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             position1("input", "i").add(position("input", "n")).isLessThan(
                 mbPosition("input", "in").add(
                     mbPosition1("input", "pu"),
@@ -831,7 +822,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with number types length`() {
         val expected = "SELECT (LENGTH(\"input\") + MB_LENGTH(\"input\")) > 5"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             length("input").add(mbLength("input")).isGreaterThan(5),
         ).build().queryString
 
@@ -843,7 +834,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT CONCAT(CONCAT(\"a\", \"b\"), " +
             "CONCAT2(\" \", \"c\", \"d\"), LOWER(\"TEST\"), UPPER(\"test\"))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat(
                 concat("a", "b"),
                 concat2(" ", "c", "d"),
@@ -859,7 +850,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with string types pad`() {
         val expected = "SELECT CONCAT(LPAD(\"input\", 4, \"i\"), RPAD(\"input\", 3), MB_LPAD(\"input\", 5), MB_RPAD(\"input\", 4, \"t\"))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat(
                 lpad("input", 4, "i"),
                 rpad("input", 3),
@@ -875,7 +866,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with string types substring`() {
         val expected = "SELECT CONCAT(SUBSTR(\"input\", 2), SUBSTR1(\"input\", 4, 3), MB_SUBSTR(\"input\", 0, 2), MB_SUBSTR1(\"input\", 2, 2))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat(
                 substring("input", 2),
                 substring1("input", 4, 3),
@@ -891,7 +882,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with string types trim`() {
         val expected = "SELECT CONCAT(TRIM(\"  input   \"), LTRIM(\"input\", \"in\"), RTRIM(\"input\", \"ut\"))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat(
                 trim("  input   "),
                 ltrim("input", "in"),
@@ -906,7 +897,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with boolean types contains`() {
         val expected = "SELECT (CONTAINS(\"input\", \"in\") AND TRUE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             contains("input", "in").and(true),
         ).build().queryString
 
@@ -917,7 +908,7 @@ class StringFunctionsTest : ManagerDependentTest {
     fun `should support string functions with array string types suffix and split`() {
         val expected = "SELECT SUFFIXES(\"input\")[2] = SPLIT(\"input\", \"p\")[1]"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             suffixes("input").get(2).isEqualTo(split("input", "p").get(1)),
         ).build().queryString
 
@@ -930,7 +921,7 @@ class StringFunctionsTest : ManagerDependentTest {
             "REPLACE(\"input\", \"p\", \"abo\"), REVERSE(\"input\"), " +
             "TITLE(\"input\"), URL_DECODE(\"encoded\"), URL_ENCODE(\"input\"))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             concat(
                 initCap("input"),
                 mask("input"),

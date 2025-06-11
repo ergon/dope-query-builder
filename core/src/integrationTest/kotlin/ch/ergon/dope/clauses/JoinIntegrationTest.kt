@@ -25,7 +25,7 @@ class JoinIntegrationTest : BaseIntegrationTest() {
         val employeeNameField = Field<StringType>("name", employeeAlias.alias)
         val orderNumberField = Field<StringType>("orderNumber", orderAlias.alias)
         val orderEmployeeIdField = Field<StringType>("employee", orderAlias.alias)
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 employeeNameField,
                 orderNumberField,
@@ -63,7 +63,7 @@ class JoinIntegrationTest : BaseIntegrationTest() {
         val orderNumberField = Field<StringType>("orderNumber", orderAlias.alias)
         val orderEmployeeIdField = Field<StringType>("employee", orderAlias.alias)
         val orderClientIdField = Field<StringType>("client", orderAlias.alias)
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 orderNumberField,
                 employeeNameField.alias("employeeName"),

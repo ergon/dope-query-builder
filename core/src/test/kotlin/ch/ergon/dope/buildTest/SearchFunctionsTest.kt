@@ -10,25 +10,18 @@ import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchMeta
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchScore
 import ch.ergon.dope.resolvable.expression.type.meta
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SearchFunctionsTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
 
     @Test
     fun `should support search function on field and string query`() {
         val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`.`stringField`, \"+something\")"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             meta().id,
         ).from(
             bucket,
@@ -47,7 +40,7 @@ class SearchFunctionsTest : ManagerDependentTest {
         val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, \"stringField:\"something\"\")"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             meta().id,
         ).from(
             bucket,
@@ -65,7 +58,7 @@ class SearchFunctionsTest : ManagerDependentTest {
     fun `should support search function on field with object query`() {
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`stringField`, {\"match\" : \"something\"})"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             meta().id,
         ).from(
             someBucket(),
@@ -89,7 +82,7 @@ class SearchFunctionsTest : ManagerDependentTest {
             "{\"regexp\" : \"(?i).*123.*\", \"field\" : \"anotherField\"}]}) " +
             "LIMIT 10"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 meta().id,
             ).from(
@@ -114,7 +107,7 @@ class SearchFunctionsTest : ManagerDependentTest {
         val expected = "SELECT META().`id`, SEARCH_SCORE(`outName`) AS `score` FROM `someBucket` " +
             "WHERE SEARCH(`stringField`, \"+something\", {\"out\" : \"outName\"})"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             meta().id,
             fullTextSearchScore("outName").alias("score"),
         ).from(
@@ -137,7 +130,7 @@ class SearchFunctionsTest : ManagerDependentTest {
         val expected = "SELECT SEARCH_META() AS `meta` FROM `someBucket` " +
             "WHERE SEARCH(`stringField`, \"+something\")"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             fullTextSearchMeta().alias("meta"),
         ).from(
             someBucket(),

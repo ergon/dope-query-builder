@@ -16,18 +16,10 @@ import ch.ergon.dope.resolvable.expression.type.relational.isValued
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class UnnestClauseTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support unnest`() {
         val airline = someBucket()
@@ -35,7 +27,7 @@ class UnnestClauseTest {
         val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
         val alias: AliasedTypeExpression<ArrayType<StringType>> = aField.alias("a")
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectFrom(airline)
             .unnest(alias)
             .build().queryString
@@ -47,7 +39,7 @@ class UnnestClauseTest {
     fun `should support unnest with arrayField`() {
         val expected = "SELECT `c` FROM `airline` UNNEST `a`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(someNumberArrayField("c"))
             .from(someBucket("airline"))
             .unnest(someNumberArrayField("a"))
@@ -62,7 +54,7 @@ class UnnestClauseTest {
         val aField = someNumberArrayField("a")
         val expected = "SELECT `c` FROM `airline` AS `ai` UNNEST `a` AS `ab` UNNEST `ab`.`c` WHERE `a` IS VALUED"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(someNumberArrayField("c"))
             .from(airline)
             .unnest(aField.alias("ab"))
@@ -80,7 +72,7 @@ class UnnestClauseTest {
                 "WHERE (`b`.`stringField` = \"something\" AND `a`.`stringField` = \$param)"
 
         val b = someBucket().alias("b")
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(b.asterisk())
             .from(b)
             .unnest(someStringArrayField().alias("a"))

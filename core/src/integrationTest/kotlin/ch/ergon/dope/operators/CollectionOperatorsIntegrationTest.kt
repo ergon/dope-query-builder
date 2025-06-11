@@ -28,7 +28,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use range predicates and transformations`() {
         val array = listOf(1.toDopeType(), 2.toDopeType(), 3.toDopeType()).toDopeType()
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 array.filterIndexed { i, value -> exists(array).and(array.every { value.sub(1).isEqualTo(i) }) }
                     .map { i, value -> value.mul(i.add(1)) },
@@ -42,7 +42,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `use range transformations to create an object`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 quantitiesField.mapIndexed(indexName = "i", iteratorName = "it") { _, it -> it.toStr() }
                     .toObject { i, _ -> concat(orderNumberField, "-", i.toStr()) },

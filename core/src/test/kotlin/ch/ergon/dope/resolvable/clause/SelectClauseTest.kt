@@ -8,6 +8,8 @@ import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.helper.someWithClause
+import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
@@ -248,5 +250,84 @@ class SelectClauseTest : ManagerDependentTest {
         val actual = underTest.toDopeQuery(manager)
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select after with clause`() {
+        val expected = DopeQuery(
+            queryString = "WITH `alias` AS (5) SELECT *",
+        )
+        val underTest = SelectClause(asterisk(), parentClause = someWithClause())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select raw after with clause`() {
+        val expected = DopeQuery(
+            queryString = "WITH `alias` AS (5) SELECT RAW `stringField`",
+        )
+        val underTest = SelectRawClause(someStringField(), parentClause = someWithClause())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select distinct after with clause`() {
+        val expected = DopeQuery(
+            queryString = "WITH `alias` AS (5) SELECT DISTINCT `stringField`",
+        )
+        val underTest = SelectDistinctClause(someStringField(), parentClause = someWithClause())
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select after with clause function`() {
+        val parentClause = someWithClause()
+        val stringField = someStringField()
+        val expected = SelectClause(stringField, parentClause = parentClause)
+
+        val actual = parentClause.select(stringField)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support select asterisk after with clause function`() {
+        val parentClause = someWithClause()
+        val expected = SelectClause(asterisk(), parentClause = parentClause)
+
+        val actual = parentClause.selectAsterisk()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support select raw after with clause function`() {
+        val parentClause = someWithClause()
+        val stringField = someStringField()
+        val expected = SelectRawClause(stringField, parentClause = parentClause)
+
+        val actual = parentClause.selectRaw(stringField)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support select distinct after with clause function`() {
+        val parentClause = someWithClause()
+        val stringField = someStringField()
+        val expected = SelectDistinctClause(stringField, parentClause = parentClause)
+
+        val actual = parentClause.selectDistinct(stringField)
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

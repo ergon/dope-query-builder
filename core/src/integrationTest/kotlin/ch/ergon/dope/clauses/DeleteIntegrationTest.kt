@@ -23,7 +23,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `delete single document and return id field`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .deleteFrom(
                 testBucket.useKeys("employee:1"),
             )
@@ -43,7 +43,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `delete every document in bucket`() {
-        val deleteEverythingDopeQuery = QueryBuilder()
+        val deleteEverythingDopeQuery = QueryBuilder
             .deleteFrom(
                 testBucket,
             )
@@ -54,7 +54,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
                 idField,
             ).build()
 
-        val selectEverythingDopeQuery = QueryBuilder()
+        val selectEverythingDopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
             ).build()

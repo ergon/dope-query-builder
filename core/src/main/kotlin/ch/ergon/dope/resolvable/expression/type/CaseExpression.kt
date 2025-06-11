@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
 import ch.ergon.dope.validtype.BooleanType
@@ -19,7 +19,7 @@ class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Re
         val caseDopeQuery = case?.toDopeQuery(manager)
         return DopeQuery(
             queryString = "$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}",
-            parameters = caseDopeQuery?.parameters ?: DopeParameters(),
+            parameters = caseDopeQuery?.parameters.orEmpty(),
         )
     }
 }

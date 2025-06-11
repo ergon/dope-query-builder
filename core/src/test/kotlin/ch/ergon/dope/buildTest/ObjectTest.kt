@@ -24,24 +24,17 @@ import ch.ergon.dope.resolvable.expression.type.relational.isGreaterOrEqualThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.resolvable.expression.type.toObjectEntry
 import ch.ergon.dope.validtype.StringType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ObjectTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
 
     @Test
     fun `should support selecting object`() {
         val expected = "SELECT `objectField` FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someObjectField(),
             ).from(
@@ -56,7 +49,7 @@ class ObjectTest : ManagerDependentTest {
         val objectField = someObjectField()
         val expected = "SELECT `objectField` FROM `someBucket` WHERE `objectField`.`field` = \"someString\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 objectField,
             ).from(
@@ -86,7 +79,7 @@ class ObjectTest : ManagerDependentTest {
             "AS `object` " +
             "FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 objectPrimitive,
             ).from(
@@ -104,7 +97,7 @@ class ObjectTest : ManagerDependentTest {
             "AND ANY `iterator1` IN `person`.`hobbies` SATISFIES `iterator1` = \"football\" END) " +
             "AND `person`.`age` >= 18)"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 objectPrimitive.alias("a"),
             ).from(
@@ -124,7 +117,7 @@ class ObjectTest : ManagerDependentTest {
     fun `should support object primitive with types`() {
         val expected = "SELECT {UPPER(`stringField`) : \$param} FROM `someBucket`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 listOf(
                     upper(someStringField()).toObjectEntry(someString().asParameter("param")),
@@ -142,7 +135,7 @@ class ObjectTest : ManagerDependentTest {
         val bucket = someBucket().alias("b")
         val expected = "SELECT `b`.`person`.`isMale` FROM `someBucket` AS `b`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someObjectField("person", bucket).getBoolean("isMale"),
             ).from(
@@ -158,7 +151,7 @@ class ObjectTest : ManagerDependentTest {
         val bucket = someBucket().alias("b")
         val expected = "SELECT `b`.`person`.`first`.`second` AS `nested_object` FROM `someBucket` AS `b`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 someObjectField("person", bucket).getObject("first").getObject("second").alias("nested_object"),
             ).from(
@@ -171,11 +164,11 @@ class ObjectTest : ManagerDependentTest {
 
     @Test
     fun `should support range operations on aliased sub select`() {
-        val subQuery = create.selectRaw(someStringArrayField()).from(someBucket("other")).alias("subQuery")
+        val subQuery = QueryBuilder.selectRaw(someStringArrayField()).from(someBucket("other")).alias("subQuery")
         val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1` = \"something\" END, " +
             "`subQuery`[0] AS `cool` FROM (SELECT RAW `stringArrayField` FROM `other`) AS `subQuery`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 subQuery.any { it.isEqualTo("something") },
                 subQuery.get(0).alias("cool"),

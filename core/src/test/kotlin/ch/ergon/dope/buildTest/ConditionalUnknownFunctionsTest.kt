@@ -20,23 +20,15 @@ import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ConditionalUnknownFunctionsTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support coalesce in query`() {
         val expected = "SELECT COALESCE(`stringField`, CONCAT(\"some\", \"string\"), \"someString\")"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 coalesce(
                     someStringField(),
@@ -62,7 +54,7 @@ class ConditionalUnknownFunctionsTest {
             "WHERE (`a`.`country` = \"United States\" AND `a`.`geo.alt` > 1000) " +
             "LIMIT 5"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 someStringField("airportname", bucket).alias("Airport"),
                 decode(
@@ -92,7 +84,7 @@ class ConditionalUnknownFunctionsTest {
     fun `should support if missing in query`() {
         val expected = "SELECT IFMISSING(`stringField`, CONCAT(\"some\", \"string\"), \"someString\")"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 ifMissing(
                     someStringField(),
@@ -108,7 +100,7 @@ class ConditionalUnknownFunctionsTest {
     fun `should support if missing or null in query`() {
         val expected = "SELECT IFMISSINGORNULL(`stringField`, CONCAT(\"some\", \"string\"), \"someString\")"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 ifMissingOrNull(
                     someStringField(),
@@ -124,7 +116,7 @@ class ConditionalUnknownFunctionsTest {
     fun `should support if null in query`() {
         val expected = "SELECT IFNULL(`stringField`, CONCAT(\"some\", \"string\"), \"someString\")"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 ifNull(
                     someStringField(),
@@ -142,7 +134,7 @@ class ConditionalUnknownFunctionsTest {
             "FROM `airline` " +
             "LIMIT 5"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 someStringField("name").alias("Name"),
                 nvl(
@@ -164,7 +156,7 @@ class ConditionalUnknownFunctionsTest {
             "FROM `hotel` " +
             "LIMIT 5"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 someStringField("name").alias("Name"),
                 nvl2(
