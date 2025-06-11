@@ -27,7 +27,6 @@ import ch.ergon.dope.helper.someOrderBy
 import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
