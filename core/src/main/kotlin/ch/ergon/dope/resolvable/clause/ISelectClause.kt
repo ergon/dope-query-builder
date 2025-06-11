@@ -13,8 +13,12 @@ import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinClause
+import ch.ergon.dope.resolvable.clause.model.InnerJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.LeftJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
@@ -26,7 +30,9 @@ import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinClause
+import ch.ergon.dope.resolvable.clause.model.StandardJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
@@ -41,6 +47,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 interface ISelectOffsetClause<T : ValidType> : Clause {
@@ -93,76 +100,121 @@ interface ISelectLetClause<T : ValidType> : ISelectFromClause<T> {
 interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
     fun join(
         joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
+        condition: TypeExpression<BooleanType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = StandardJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = StandardJoinOnConditionClause(joinable, condition, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun join(
         joinable: Joinable,
-        onKeys: Field<out ValidType>,
+        keys: TypeExpression<ArrayType<StringType>>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = StandardJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = StandardJoinOnKeysClause(joinable, keys, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun join(
         joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
+        keys: Collection<String>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = StandardJoinClause(joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = join(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+
+    fun join(
+        joinable: Joinable,
+        key: TypeExpression<StringType>,
+        bucket: Bucket? = null,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = StandardJoinOnKeyClause(joinable, key, bucket, hashOrNestedLoopHint, keysOrIndexHint, this)
+
+    fun join(
+        joinable: Joinable,
+        keys: String,
+        bucket: Bucket? = null,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = join(joinable, keys.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
     fun innerJoin(
         joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
+        condition: TypeExpression<BooleanType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = InnerJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = InnerJoinOnConditionClause(joinable, condition, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun innerJoin(
         joinable: Joinable,
-        onKeys: Field<out ValidType>,
+        keys: TypeExpression<ArrayType<StringType>>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = InnerJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = InnerJoinOnKeysClause(joinable, keys, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun innerJoin(
         joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
+        keys: Collection<String>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = InnerJoinClause(joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = innerJoin(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+
+    fun innerJoin(
+        joinable: Joinable,
+        key: TypeExpression<StringType>,
+        bucket: Bucket? = null,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = InnerJoinOnKeyClause(joinable, key, bucket, hashOrNestedLoopHint, keysOrIndexHint, this)
+
+    fun innerJoin(
+        joinable: Joinable,
+        key: String,
+        bucket: Bucket? = null,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = innerJoin(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
     fun leftJoin(
         joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
+        condition: TypeExpression<BooleanType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = LeftJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = LeftJoinOnConditionClause(joinable, condition, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun leftJoin(
         joinable: Joinable,
-        onKeys: Field<out ValidType>,
+        keys: TypeExpression<ArrayType<StringType>>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = LeftJoinClause(joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = LeftJoinOnKeysClause(joinable, keys, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun leftJoin(
         joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
+        keys: Collection<String>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = LeftJoinClause(joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = leftJoin(joinable, keys.toDopeType(), hashOrNestedLoopHint, keysOrIndexHint)
+
+    fun leftJoin(
+        joinable: Joinable,
+        key: TypeExpression<StringType>,
+        bucket: Bucket? = null,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = LeftJoinOnKeyClause(joinable, key, bucket, hashOrNestedLoopHint, keysOrIndexHint, this)
+
+    fun leftJoin(
+        joinable: Joinable,
+        keys: String,
+        bucket: Bucket? = null,
+        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+        keysOrIndexHint: KeysOrIndexHint? = null,
+    ) = leftJoin(joinable, keys.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
     fun rightJoin(
         joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
+        condition: TypeExpression<BooleanType>,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = RightJoinClause(joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, this)
+    ) = RightJoinClause(joinable, condition, hashOrNestedLoopHint, keysOrIndexHint, this)
 }
 
 interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {

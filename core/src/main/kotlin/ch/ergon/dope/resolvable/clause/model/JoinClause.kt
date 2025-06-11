@@ -17,9 +17,10 @@ import ch.ergon.dope.resolvable.clause.model.JoinType.RIGHT_JOIN
 import ch.ergon.dope.resolvable.clause.model.OnType.ON
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEYS
 import ch.ergon.dope.resolvable.clause.model.OnType.ON_KEY_FOR
-import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 private enum class JoinType(val type: String) {
@@ -38,10 +39,10 @@ private enum class OnType {
 sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
     private val joinType: JoinType
     private val joinable: Joinable
-    private val onCondition: TypeExpression<BooleanType>?
-    private val onKeys: Field<out ValidType>?
-    private val onKey: Field<out ValidType>?
-    private val forBucket: Bucket?
+    private val condition: TypeExpression<BooleanType>?
+    private val keys: TypeExpression<ArrayType<StringType>>?
+    private val key: TypeExpression<StringType>?
+    private val bucket: Bucket?
     private val hashOrNestedLoopHint: HashOrNestedLoopHint?
     private val keysOrIndexHint: KeysOrIndexHint?
     private val parentClause: ISelectFromClause<T>
@@ -50,60 +51,27 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
     constructor(
         joinType: JoinType,
         joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
+        condition: TypeExpression<BooleanType>? = null,
+        keys: TypeExpression<ArrayType<StringType>>? = null,
+        key: TypeExpression<StringType>? = null,
+        bucket: Bucket? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
         parentClause: ISelectFromClause<T>,
     ) {
-        this.onType = ON
+        this.onType = when {
+            condition != null -> ON
+            keys != null || (key != null && bucket == null) -> ON_KEYS
+            key != null && bucket != null -> ON_KEY_FOR
+            else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
+        }
         this.joinType = joinType
         this.joinable = joinable
-        this.onCondition = onCondition
+        this.condition = condition
+        this.keys = keys
+        this.key = key
+        this.bucket = bucket
         this.parentClause = parentClause
-        this.onKeys = null
-        this.onKey = null
-        this.forBucket = null
-        this.hashOrNestedLoopHint = hashOrNestedLoopHint
-        this.keysOrIndexHint = keysOrIndexHint
-    }
-
-    constructor(
-        joinType: JoinType,
-        joinable: Joinable,
-        onKeys: Field<out ValidType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) {
-        this.onType = ON_KEYS
-        this.joinType = joinType
-        this.joinable = joinable
-        this.onKeys = onKeys
-        this.parentClause = parentClause
-        this.onCondition = null
-        this.onKey = null
-        this.forBucket = null
-        this.hashOrNestedLoopHint = hashOrNestedLoopHint
-        this.keysOrIndexHint = keysOrIndexHint
-    }
-
-    constructor(
-        joinType: JoinType,
-        joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) {
-        this.onType = ON_KEY_FOR
-        this.joinType = joinType
-        this.joinable = joinable
-        this.onKey = onKey
-        this.forBucket = forBucket
-        this.parentClause = parentClause
-        this.onCondition = null
-        this.onKeys = null
         this.hashOrNestedLoopHint = hashOrNestedLoopHint
         this.keysOrIndexHint = keysOrIndexHint
     }
@@ -140,15 +108,19 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
 
         return when (onType) {
             ON -> {
-                val onConditionDopeQuery = onCondition?.toDopeQuery(manager)
+                val conditionDopeQuery = condition?.toDopeQuery(manager)
                 DopeQuery(
-                    queryString = "$joinQueryString ON ${onConditionDopeQuery?.queryString}",
-                    parameters = joinParameters.merge(onConditionDopeQuery?.parameters),
+                    queryString = "$joinQueryString ON ${conditionDopeQuery?.queryString}",
+                    parameters = joinParameters.merge(conditionDopeQuery?.parameters),
                 )
             }
 
             ON_KEYS -> {
-                val keyDopeQuery = onKeys?.toDopeQuery(manager)
+                val keyDopeQuery = when {
+                    keys != null -> keys.toDopeQuery(manager)
+                    key != null -> key.toDopeQuery(manager)
+                    else -> null
+                }
                 DopeQuery(
                     queryString = "$joinQueryString ON KEYS ${keyDopeQuery?.queryString}",
                     parameters = joinParameters.merge(keyDopeQuery?.parameters),
@@ -156,103 +128,170 @@ sealed class SelectJoinClause<T : ValidType> : ISelectJoinClause<T> {
             }
 
             ON_KEY_FOR -> {
-                val keyDopeQuery = onKey?.toDopeQuery(manager)
-                val forBucketDopeQuery = forBucket?.toDopeQuery(manager)
+                val keyDopeQuery = key?.toDopeQuery(manager)
+                val bucketDopeQuery = bucket?.toDopeQuery(manager)
                 DopeQuery(
                     queryString = "$joinQueryString ON KEY ${keyDopeQuery?.queryString} " +
-                        "FOR ${forBucketDopeQuery?.queryString}",
-                    parameters = joinParameters.merge(keyDopeQuery?.parameters, forBucketDopeQuery?.parameters),
+                        "FOR ${bucketDopeQuery?.queryString}",
+                    parameters = joinParameters.merge(keyDopeQuery?.parameters, bucketDopeQuery?.parameters),
                 )
             }
         }
     }
 }
 
-class StandardJoinClause<T : ValidType> : SelectJoinClause<T> {
-    constructor(
-        joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-
-    constructor(
-        joinable: Joinable,
-        onKeys: Field<out ValidType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(JOIN, joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-
-    constructor(
-        joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(JOIN, joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-}
-
-class LeftJoinClause<T : ValidType> : SelectJoinClause<T> {
-    constructor(
-        joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(LEFT_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-
-    constructor(
-        joinable: Joinable,
-        onKeys: Field<out ValidType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(LEFT_JOIN, joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-
-    constructor(
-        joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(LEFT_JOIN, joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-}
-
-class InnerJoinClause<T : ValidType> : SelectJoinClause<T> {
-    constructor(
-        joinable: Joinable,
-        onCondition: TypeExpression<BooleanType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(INNER_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-
-    constructor(
-        joinable: Joinable,
-        onKeys: Field<out ValidType>,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(INNER_JOIN, joinable, onKeys, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-
-    constructor(
-        joinable: Joinable,
-        onKey: Field<out ValidType>,
-        forBucket: Bucket,
-        hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-        keysOrIndexHint: KeysOrIndexHint? = null,
-        parentClause: ISelectFromClause<T>,
-    ) : super(INNER_JOIN, joinable, onKey, forBucket, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
-}
-
-class RightJoinClause<T : ValidType>(
+class StandardJoinOnConditionClause<T : ValidType>(
     joinable: Joinable,
-    onCondition: TypeExpression<BooleanType>,
+    condition: TypeExpression<BooleanType>,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
     parentClause: ISelectFromClause<T>,
-) : SelectJoinClause<T>(RIGHT_JOIN, joinable, onCondition, hashOrNestedLoopHint, keysOrIndexHint, parentClause = parentClause)
+) : SelectJoinClause<T>(
+    joinType = JOIN,
+    joinable = joinable,
+    condition = condition,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class StandardJoinOnKeysClause<T : ValidType>(
+    joinable: Joinable,
+    keys: TypeExpression<ArrayType<StringType>>,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = JOIN,
+    joinable = joinable,
+    keys = keys,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class StandardJoinOnKeyClause<T : ValidType>(
+    joinable: Joinable,
+    key: TypeExpression<StringType>,
+    bucket: Bucket? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = JOIN,
+    joinable = joinable,
+    key = key,
+    bucket = bucket,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class LeftJoinOnConditionClause<T : ValidType>(
+    joinable: Joinable,
+    condition: TypeExpression<BooleanType>,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = LEFT_JOIN,
+    joinable = joinable,
+    condition = condition,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class LeftJoinOnKeysClause<T : ValidType>(
+    joinable: Joinable,
+    keys: TypeExpression<ArrayType<StringType>>,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = LEFT_JOIN,
+    joinable = joinable,
+    keys = keys,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class LeftJoinOnKeyClause<T : ValidType>(
+    joinable: Joinable,
+    key: TypeExpression<StringType>,
+    bucket: Bucket? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = LEFT_JOIN,
+    joinable = joinable,
+    key = key,
+    bucket = bucket,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class InnerJoinOnConditionClause<T : ValidType>(
+    joinable: Joinable,
+    condition: TypeExpression<BooleanType>,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = INNER_JOIN,
+    joinable = joinable,
+    condition = condition,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class InnerJoinOnKeysClause<T : ValidType>(
+    joinable: Joinable,
+    keys: TypeExpression<ArrayType<StringType>>,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = INNER_JOIN,
+    joinable = joinable,
+    keys = keys,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class InnerJoinOnKeyClause<T : ValidType>(
+    joinable: Joinable,
+    key: TypeExpression<StringType>,
+    bucket: Bucket? = null,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = INNER_JOIN,
+    joinable = joinable,
+    key = key,
+    bucket = bucket,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)
+
+class RightJoinClause<T : ValidType>(
+    joinable: Joinable,
+    condition: TypeExpression<BooleanType>,
+    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    keysOrIndexHint: KeysOrIndexHint? = null,
+    parentClause: ISelectFromClause<T>,
+) : SelectJoinClause<T>(
+    joinType = RIGHT_JOIN,
+    joinable = joinable,
+    condition = condition,
+    hashOrNestedLoopHint = hashOrNestedLoopHint,
+    keysOrIndexHint = keysOrIndexHint,
+    parentClause = parentClause,
+)

@@ -258,6 +258,10 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `select with star expression`() {
+        val contacts = listOf(
+            mapOf("email" to "contact.a@client.com", "name" to "Contact A"),
+            mapOf("email" to "contact.b@client.com", "name" to "Contact B"),
+        )
         val dopeQuery = QueryBuilder
             .select(
                 testBucket.asterisk(),
@@ -272,8 +276,14 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
-        assertEquals(mapOf("id" to 2, "isActive" to true, "name" to "client2", "type" to "client"), queryResult.toMapValues(rowNumber = 0))
-        assertEquals(mapOf("id" to 4, "isActive" to true, "name" to "client4", "type" to "client"), queryResult.toMapValues(rowNumber = 1))
+        assertEquals(
+            mapOf("id" to 2, "isActive" to true, "name" to "client2", "type" to "client", "contacts" to contacts),
+            queryResult.toMapValues(rowNumber = 0),
+        )
+        assertEquals(
+            mapOf("id" to 4, "isActive" to true, "name" to "client4", "type" to "client", "contacts" to contacts),
+            queryResult.toMapValues(rowNumber = 1),
+        )
     }
 
     @Test
