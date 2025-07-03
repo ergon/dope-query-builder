@@ -11,13 +11,17 @@ import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
 import ch.ergon.dope.resolvable.clause.model.OrderType.DESC
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.meta
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
+import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class JoinIntegrationTest : BaseIntegrationTest() {
+class FromIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `join all orders on employee id`() {
         val employeeAlias = testBucket.alias("e")
@@ -110,6 +114,76 @@ class JoinIntegrationTest : BaseIntegrationTest() {
             assertEquals(
                 mapOf("employeeName" to "employee1", "orderNumber" to "order1", "clientName" to "client1"),
                 queryResult.toMapValues(rowNumber = 4),
+            )
+        }
+    }
+
+    @Test
+    fun `use multiple from terms`() {
+        val e = testBucket.alias("e")
+        val eIdField = Field<NumberType>("id", e.alias)
+        val eTypeField = Field<StringType>("type", e.alias)
+        val eIsActiveField = Field<BooleanType>("isActive", e.alias)
+        val c = testBucket.alias("c")
+        val cIdField = Field<NumberType>("id", c.alias)
+        val cTypeField = Field<StringType>("type", c.alias)
+        val cIsActiveField = Field<BooleanType>("isActive", c.alias)
+        val o = testBucket.alias("o")
+        val oClientField = Field<StringType>("client", o.alias)
+        val oTypeField = Field<StringType>("type", o.alias)
+        val oOrderNumberField = Field<NumberType>("orderNumber", o.alias)
+        val oQuantitiesField = Field<ArrayType<NumberType>>("quantities", o.alias)
+        val nestedOrders = testBucket.alias("nestedOrders")
+        val nestedOrdersEmployeeField = Field<StringType>("employee", nestedOrders.alias)
+        val nestedOrdersTypeField = Field<StringType>("type", nestedOrders.alias)
+
+        val dopeQuery = QueryBuilder()
+            .selectDistinct(
+                eIdField.alias("employeeId"),
+                cIdField.alias("clientId"),
+                oOrderNumberField.alias("orderNumber"),
+            )
+            .from(
+                e,
+            )
+            .join(
+                c,
+                condition = eIdField.isEqualTo(cIdField).and(eTypeField.isEqualTo("employee")).and(cTypeField.isEqualTo("client")),
+            )
+            .join(
+                o,
+                condition = meta(c).id.isEqualTo(oClientField).and(oTypeField.isEqualTo("order")),
+            )
+            .nest(
+                nestedOrders,
+                condition = meta(e).id.isEqualTo(nestedOrdersEmployeeField).and(nestedOrdersTypeField.isEqualTo("order")),
+            )
+            .unnest(
+                oQuantitiesField.alias("unnestedQuantities"),
+            )
+            .where(
+                eIsActiveField.and(cIsActiveField),
+            ).build()
+
+        tryUntil {
+            val queryResult = queryWithoutParameters(dopeQuery)
+
+            assertEquals(2, queryResult.rows.size)
+            assertEquals(
+                mapOf(
+                    "employeeId" to 2,
+                    "clientId" to 2,
+                    "orderNumber" to "order2",
+                ),
+                queryResult.toMapValues(rowNumber = 0),
+            )
+            assertEquals(
+                mapOf(
+                    "employeeId" to 4,
+                    "clientId" to 4,
+                    "orderNumber" to "order4",
+                ),
+                queryResult.toMapValues(rowNumber = 1),
             )
         }
     }

@@ -3,6 +3,7 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Joinable
+import ch.ergon.dope.resolvable.Nestable
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
@@ -10,28 +11,38 @@ import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
 import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnConditionClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeysClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnConditionClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.LetClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
-import ch.ergon.dope.resolvable.clause.model.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnConditionClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.asWindowDeclaration
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerNestOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftNestOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.RightJoinClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnKeysClause
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
+import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -77,19 +88,17 @@ interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
         GroupByClause(field, *fields, parentClause = this)
 }
 
-interface ISelectFromClause<T : ValidType> : ISelectWhereClause<T> {
+interface ISelectLetClause<T : ValidType> : ISelectWhereClause<T> {
     fun where(whereExpression: TypeExpression<BooleanType>) = SelectWhereClause(whereExpression, this)
 }
 
-interface ISelectLetClause<T : ValidType> : ISelectFromClause<T> {
+interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun withVariables(dopeVariable: DopeVariable<out ValidType>, vararg dopeVariables: DopeVariable<out ValidType>) = LetClause(
         dopeVariable,
         *dopeVariables,
         parentClause = this,
     )
-}
 
-interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
     fun join(
         joinable: Joinable,
         condition: TypeExpression<BooleanType>,
@@ -195,11 +204,11 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
 
     fun leftJoin(
         joinable: Joinable,
-        keys: String,
+        key: String,
         bucket: Bucket? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
-    ) = leftJoin(joinable, keys.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
+    ) = leftJoin(joinable, key.toDopeType(), bucket, hashOrNestedLoopHint, keysOrIndexHint)
 
     fun rightJoin(
         joinable: Joinable,
@@ -207,12 +216,55 @@ interface ISelectJoinClause<T : ValidType> : ISelectLetClause<T> {
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = RightJoinClause(joinable, condition, hashOrNestedLoopHint, keysOrIndexHint, this)
-}
 
-interface ISelectUnnestClause<T : ValidType> : ISelectJoinClause<T> {
     fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
-    fun <U : ValidType> unnest(aliasedArrayExpression: ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression<ArrayType<U>>) =
+    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedTypeExpression<ArrayType<U>>) =
         AliasedUnnestClause(aliasedArrayExpression, this)
+
+    fun nest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
+        StandardNestOnConditionClause(nestable, condition, this)
+
+    fun nest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
+        StandardNestOnKeysClause(nestable, keys, this)
+
+    fun nest(nestable: Nestable, keys: Collection<String>) =
+        nest(nestable, keys.toDopeType())
+
+    fun nest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
+        StandardNestOnKeyClause(nestable, key, bucket, this)
+
+    fun nest(nestable: Nestable, key: String, bucket: Bucket? = null) =
+        nest(nestable, key.toDopeType(), bucket)
+
+    fun innerNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
+        InnerNestOnConditionClause(nestable, condition, this)
+
+    fun innerNest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
+        InnerNestOnKeysClause(nestable, keys, this)
+
+    fun innerNest(nestable: Nestable, keys: Collection<String>) =
+        innerNest(nestable, keys.toDopeType())
+
+    fun innerNest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
+        InnerNestOnKeyClause(nestable, key, bucket, this)
+
+    fun innerNest(nestable: Nestable, key: String, bucket: Bucket? = null) =
+        innerNest(nestable, key.toDopeType(), bucket)
+
+    fun leftNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
+        LeftNestOnConditionClause(nestable, condition, this)
+
+    fun leftNest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
+        LeftNestOnKeysClause(nestable, keys, this)
+
+    fun leftNest(nestable: Nestable, keys: Collection<String>) =
+        leftNest(nestable, keys.toDopeType())
+
+    fun leftNest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
+        LeftNestOnKeyClause(nestable, key, bucket, this)
+
+    fun leftNest(nestable: Nestable, key: String, bucket: Bucket? = null) =
+        leftNest(nestable, key.toDopeType(), bucket)
 }
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {

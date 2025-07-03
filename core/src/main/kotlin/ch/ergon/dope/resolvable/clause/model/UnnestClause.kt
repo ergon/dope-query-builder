@@ -2,7 +2,8 @@ package ch.ergon.dope.resolvable.clause.model
 
 import ch.ergon.dope.DopeQuery
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.clause.ISelectUnnestClause
+import ch.ergon.dope.resolvable.clause.ISelectFromClause
+import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.validtype.ArrayType
@@ -12,8 +13,8 @@ private const val UNNEST = "UNNEST"
 
 class UnnestClause<T : ValidType, U : ValidType>(
     private val arrayTypeField: Field<ArrayType<T>>,
-    private val parentClause: ISelectUnnestClause<U>,
-) : ISelectUnnestClause<U> {
+    private val parentClause: ISelectFromClause<U>,
+) : ISelectFromClause<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val arrayTypeDopeQuery = arrayTypeField.toDopeQuery(manager)
@@ -25,9 +26,9 @@ class UnnestClause<T : ValidType, U : ValidType>(
 }
 
 class AliasedUnnestClause<T : ValidType, U : ValidType>(
-    private val aliasedTypeExpression: ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression<ArrayType<T>>,
-    private val parentClause: ISelectUnnestClause<U>,
-) : ISelectUnnestClause<U> {
+    private val aliasedTypeExpression: AliasedTypeExpression<ArrayType<T>>,
+    private val parentClause: ISelectFromClause<U>,
+) : ISelectFromClause<U> {
     override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
         val parentDopeQuery = parentClause.toDopeQuery(manager)
         val aliasedTypeExpressionDopeQuery = aliasedTypeExpression.toDopeQuery(manager)
