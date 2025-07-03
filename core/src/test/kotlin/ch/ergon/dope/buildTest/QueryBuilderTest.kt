@@ -28,8 +28,8 @@ import ch.ergon.dope.resolvable.expression.type.collection.any
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.type.condition
 import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
+import ch.ergon.dope.resolvable.expression.type.function.date.nowString
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
-import ch.ergon.dope.resolvable.expression.type.function.string.nowString
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.logic.not
 import ch.ergon.dope.resolvable.expression.type.logic.or
