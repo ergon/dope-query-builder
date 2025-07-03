@@ -6,6 +6,10 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MONTH
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.WEEK
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.YEAR
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,7 +24,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             someStringField(),
-            Day,
+            DAY,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -37,7 +41,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             dateValue.asParameter(),
-            Month,
+            MONTH,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -55,7 +59,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DatePartStrExpression(
             dateValue.asParameter(name),
-            Year,
+            YEAR,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -65,8 +69,8 @@ class DatePartStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support extractDateComponent extension on TypeExpression`() {
-        val expr = someStringField().extractDateComponent(Week)
-        val expected = DatePartStrExpression(someStringField(), Week)
+        val expr = someStringField().extractDateComponent(WEEK)
+        val expected = DatePartStrExpression(someStringField(), WEEK)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -74,8 +78,8 @@ class DatePartStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String extractDateComponent extension`() {
         val raw = "2016-05-15T03:59:00Z"
-        val expr = raw.extractDateComponent(DayOfYear)
-        val expected = DatePartStrExpression(raw.toDopeType(), DayOfYear)
+        val expr = raw.extractDateComponent(DateComponentType.DAY_OF_YEAR)
+        val expected = DatePartStrExpression(raw.toDopeType(), DateComponentType.DAY_OF_YEAR)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

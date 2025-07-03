@@ -6,6 +6,17 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.CENTURY
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DECADE
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.HOUR
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MILLISECOND
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MINUTE
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MONTH
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.QUARTER
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.SECOND
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.WEEK
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.YEAR
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,7 +32,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             someNumberField(),
             someNumberField(),
-            Month,
+            MONTH,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -36,7 +47,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             startVal.asParameter(),
             someNumberField(),
-            Week,
+            WEEK,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -52,7 +63,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             startVal.asParameter(name),
             someNumberField(),
-            Year,
+            YEAR,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -67,7 +78,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             someNumberField(),
             endVal.asParameter(),
-            Day,
+            DAY,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -83,7 +94,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             someNumberField(),
             endVal.asParameter(name),
-            Hour,
+            HOUR,
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
@@ -98,7 +109,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             someNumberField(),
             someNumberField(),
-            Minute,
+            MINUTE,
             inc.asParameter(),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -115,7 +126,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             someNumberField(),
             someNumberField(),
-            Second,
+            SECOND,
             inc.asParameter(name),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -133,7 +144,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             s.asParameter(),
             e.asParameter(),
-            Month,
+            MONTH,
             inc.asParameter(),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -158,7 +169,7 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
         val underTest = DateRangeMillisExpression(
             s.asParameter(names[0]),
             e.asParameter(names[1]),
-            Year,
+            YEAR,
             inc.asParameter(names[2]),
         )
         assertEquals(expected, underTest.toDopeQuery(manager))
@@ -166,11 +177,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support dateRangeBy extension with TypeExpression endDate`() {
-        val expr = someNumberField().dateRangeBy(someNumberField(), Quarter)
+        val expr = someNumberField().dateRangeBy(someNumberField(), QUARTER)
         val expected = DateRangeMillisExpression(
             someNumberField(),
             someNumberField(),
-            Quarter,
+            QUARTER,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -178,11 +189,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support dateRangeBy extension with raw endDate`() {
-        val expr = someNumberField().dateRangeBy(1234L, Century)
+        val expr = someNumberField().dateRangeBy(1234L, CENTURY)
         val expected = DateRangeMillisExpression(
             someNumberField(),
             1234L.toDopeType(),
-            Century,
+            CENTURY,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -192,13 +203,13 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with field increment expression`() {
         val expr = someNumberField().dateRangeBy(
             someNumberField(),
-            Month,
+            MONTH,
             someNumberField(),
         )
         val expected = DateRangeMillisExpression(
             someNumberField(),
             someNumberField(),
-            Month,
+            MONTH,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -208,13 +219,13 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with raw increment expression`() {
         val expr = someNumberField().dateRangeBy(
             someNumberField(),
-            Day,
+            DAY,
             7L.toDopeType(),
         )
         val expected = DateRangeMillisExpression(
             someNumberField(),
             someNumberField(),
-            Day,
+            DAY,
             7L.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -224,13 +235,13 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with raw endDate and field increment`() {
         val expr = someNumberField().dateRangeBy(
             4321L,
-            Decade,
+            DECADE,
             someNumberField(),
         )
         val expected = DateRangeMillisExpression(
             someNumberField(),
             4321L.toDopeType(),
-            Decade,
+            DECADE,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -240,13 +251,13 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
     fun `should support dateRangeBy extension with raw endDate and raw increment`() {
         val expr = someNumberField().dateRangeBy(
             5555L,
-            Week,
+            WEEK,
             2L,
         )
         val expected = DateRangeMillisExpression(
             someNumberField(),
             5555L.toDopeType(),
-            Week,
+            WEEK,
             2L.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -254,11 +265,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number dateRangeBy extension with TypeExpression endDate`() {
-        val expr = 999L.dateRangeBy(someNumberField(), Hour)
+        val expr = 999L.dateRangeBy(someNumberField(), HOUR)
         val expected = DateRangeMillisExpression(
             999L.toDopeType(),
             someNumberField(),
-            Hour,
+            HOUR,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -266,11 +277,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number dateRangeBy extension with raw endDate`() {
-        val expr = 100L.dateRangeBy(200L, Minute)
+        val expr = 100L.dateRangeBy(200L, MINUTE)
         val expected = DateRangeMillisExpression(
             100L.toDopeType(),
             200L.toDopeType(),
-            Minute,
+            MINUTE,
             null,
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -278,11 +289,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number dateRangeBy extension with field increment`() {
-        val expr = 111L.dateRangeBy(someNumberField(), Second, someNumberField())
+        val expr = 111L.dateRangeBy(someNumberField(), SECOND, someNumberField())
         val expected = DateRangeMillisExpression(
             111L.toDopeType(),
             someNumberField(),
-            Second,
+            SECOND,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -290,11 +301,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number dateRangeBy extension with raw increment`() {
-        val expr = 222L.dateRangeBy(someNumberField(), Millisecond, 9L)
+        val expr = 222L.dateRangeBy(someNumberField(), MILLISECOND, 9L)
         val expected = DateRangeMillisExpression(
             222L.toDopeType(),
             someNumberField(),
-            Millisecond,
+            MILLISECOND,
             9L.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -302,11 +313,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number dateRangeBy extension with raw endDate and field increment`() {
-        val expr = 333L.dateRangeBy(444L, Century, someNumberField())
+        val expr = 333L.dateRangeBy(444L, CENTURY, someNumberField())
         val expected = DateRangeMillisExpression(
             333L.toDopeType(),
             444L.toDopeType(),
-            Century,
+            CENTURY,
             someNumberField(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -314,11 +325,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support type dateRangeBy extension with type endDate and raw increment`() {
-        val expr = someNumberField().dateRangeBy(someNumberField("other"), Century, 444L)
+        val expr = someNumberField().dateRangeBy(someNumberField("other"), CENTURY, 444L)
         val expected = DateRangeMillisExpression(
             someNumberField(),
             someNumberField("other"),
-            Century,
+            CENTURY,
             444L.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
@@ -326,11 +337,11 @@ class DateRangeMillisExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support Number dateRangeBy extension with raw endDate and raw increment`() {
-        val expr = 777L.dateRangeBy(888L, Decade, 3L)
+        val expr = 777L.dateRangeBy(888L, DECADE, 3L)
         val expected = DateRangeMillisExpression(
             777L.toDopeType(),
             888L.toDopeType(),
-            Decade,
+            DECADE,
             3L.toDopeType(),
         )
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))

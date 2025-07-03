@@ -6,6 +6,11 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MONTH
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.QUARTER
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.WEEK
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.YEAR
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,7 +26,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val underTest = DateDiffStrExpression(
             someStringField(),
             someStringField(),
-            Month,
+            MONTH,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -39,7 +44,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val underTest = DateDiffStrExpression(
             someStringField(),
             otherValue.asParameter(),
-            Day,
+            DAY,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -58,7 +63,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val underTest = DateDiffStrExpression(
             dateValue.asParameter(name),
             someStringField(),
-            Year,
+            YEAR,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -68,8 +73,8 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support differenceIn extension on TypeExpression`() {
-        val expr = someStringField().differenceIn(someStringField(), Quarter)
-        val expected = DateDiffStrExpression(someStringField(), someStringField(), Quarter)
+        val expr = someStringField().differenceIn(someStringField(), QUARTER)
+        val expected = DateDiffStrExpression(someStringField(), someStringField(), QUARTER)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -77,8 +82,8 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support differenceIn extension on TypeExpression with raw`() {
         val raw = "2020-06-01T00:00:00Z"
-        val expr = someStringField().differenceIn(raw, Quarter)
-        val expected = DateDiffStrExpression(someStringField(), raw.toDopeType(), Quarter)
+        val expr = someStringField().differenceIn(raw, QUARTER)
+        val expected = DateDiffStrExpression(someStringField(), raw.toDopeType(), QUARTER)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -86,8 +91,8 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String differenceIn extension`() {
         val raw = "2020-06-01T00:00:00Z"
-        val expr = raw.differenceIn(someStringField(), Week)
-        val expected = DateDiffStrExpression(raw.toDopeType(), someStringField(), Week)
+        val expr = raw.differenceIn(someStringField(), WEEK)
+        val expected = DateDiffStrExpression(raw.toDopeType(), someStringField(), WEEK)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -96,8 +101,8 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
     fun `should support differenceIn extension on Raw and raw`() {
         val date = "2020-06-01T00:00:00Z"
         val other = "2023-10-05T00:00:00Z"
-        val expr = date.differenceIn(other, Quarter)
-        val expected = DateDiffStrExpression(date.toDopeType(), other.toDopeType(), Quarter)
+        val expr = date.differenceIn(other, QUARTER)
+        val expected = DateDiffStrExpression(date.toDopeType(), other.toDopeType(), QUARTER)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }

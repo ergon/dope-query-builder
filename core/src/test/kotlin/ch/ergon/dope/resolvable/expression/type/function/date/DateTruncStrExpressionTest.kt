@@ -6,6 +6,10 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MONTH
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.WEEK
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.YEAR
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,7 +24,7 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncStrExpression(
             someStringField(),
-            Month,
+            MONTH,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -37,7 +41,7 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DateTruncStrExpression(
             dateVal.asParameter(),
-            Year,
+            YEAR,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -50,12 +54,12 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
         val dateVal = "2022-01-01T00:00:00Z"
         val name = "d"
         val expected = DopeQuery(
-            queryString = "DATE_TRUNC_STR(\$$name, \"WEEK\")",
+            queryString = "DATE_TRUNC_STR($$name, \"WEEK\")",
             DopeParameters(namedParameters = mapOf(name to dateVal)),
         )
         val underTest = DateTruncStrExpression(
             dateVal.asParameter(name),
-            Week,
+            WEEK,
         )
 
         val actual = underTest.toDopeQuery(manager)
@@ -65,8 +69,8 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
 
     @Test
     fun `should support truncateTo extension on TypeExpression`() {
-        val expr = someStringField().truncateTo(Day)
-        val expected = DateTruncStrExpression(someStringField(), Day)
+        val expr = someStringField().truncateTo(DAY)
+        val expected = DateTruncStrExpression(someStringField(), DAY)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
@@ -74,8 +78,8 @@ class DateTruncStrExpressionTest : ManagerDependentTest {
     @Test
     fun `should support String truncateTo extension`() {
         val raw = "2020-05-05"
-        val expr = raw.truncateTo(Month)
-        val expected = DateTruncStrExpression(raw.toDopeType(), Month)
+        val expr = raw.truncateTo(MONTH)
+        val expected = DateTruncStrExpression(raw.toDopeType(), MONTH)
 
         assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
     }
