@@ -11,16 +11,16 @@ import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnConditionClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.InnerJoinOnKeysClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnConditionClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.LeftJoinOnKeysClause
-import ch.ergon.dope.resolvable.clause.model.RightJoinClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnConditionClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeyClause
-import ch.ergon.dope.resolvable.clause.model.StandardJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.RightJoinClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnConditionClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeysClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
@@ -613,7 +613,7 @@ class JoinClauseTest : ManagerDependentTest {
         val someString = someString()
         val expected = LeftJoinOnKeyClause(bucket, key = someString.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, keys = someString)
+        val actual = parentClause.leftJoin(bucket, key = someString)
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
@@ -659,7 +659,7 @@ class JoinClauseTest : ManagerDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = DopeQuery(
-            queryString = "SELECT \$$parameterName INNER JOIN `someBucket` ON KEYS `stringField`",
+            queryString = "SELECT $$parameterName INNER JOIN `someBucket` ON KEYS `stringField`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = InnerJoinOnKeyClause(
