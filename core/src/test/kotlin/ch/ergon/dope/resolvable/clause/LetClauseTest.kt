@@ -9,9 +9,9 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.LetClause
-import ch.ergon.dope.resolvable.clause.model.assignTo
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
+import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test

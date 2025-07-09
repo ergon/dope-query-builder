@@ -6,23 +6,15 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class OrderByTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should add an Order By clause to the end`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -37,7 +29,7 @@ class OrderByTest {
     fun `should add an Order By Ascending clause`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` ASC"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -53,7 +45,7 @@ class OrderByTest {
     fun `should add an Order By Descending clause`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` DESC"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -69,7 +61,7 @@ class OrderByTest {
     fun `should support multiple Order By clause`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` DESC, `numberField`, LOWER(\"SOMETHING\") ASC"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),

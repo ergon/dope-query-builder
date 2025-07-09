@@ -30,7 +30,6 @@ import ch.ergon.dope.helper.someOrderBy
 import ch.ergon.dope.helper.someSelect
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.clause.model.DopeVariable
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
@@ -48,6 +47,7 @@ import ch.ergon.dope.resolvable.clause.model.mergeable.LeftNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnKeysClause
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals

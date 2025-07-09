@@ -19,7 +19,7 @@ import kotlin.test.assertEquals
 class DateFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use string functions to create a new string`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 localClockString("YYYY-MM-DD").alias("localClock"),
                 "2023-10-05".differenceIn("2023-08-05", MONTH).add(3).alias("differenceInDays"),

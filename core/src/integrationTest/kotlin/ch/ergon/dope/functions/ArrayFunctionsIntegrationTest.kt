@@ -30,7 +30,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use number array functions arithmetically`() {
         val array = listOf(1.toDopeType(), 2.toDopeType(), 3.toDopeType()).toDopeType()
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 arrayCount(array).add(arrayLength(array)).sub(arrayAverage(array)),
             )
@@ -50,7 +50,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use nested array functions`() {
         val keys = listOf("employee:1".toDopeType(), "employee:2".toDopeType(), "employee:3".toDopeType()).toDopeType()
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectRaw(
                 meta().id,
             )

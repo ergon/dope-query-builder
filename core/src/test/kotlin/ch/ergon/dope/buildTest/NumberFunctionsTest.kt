@@ -29,24 +29,17 @@ import ch.ergon.dope.resolvable.expression.type.function.numeric.sqrt
 import ch.ergon.dope.resolvable.expression.type.function.numeric.tan
 import ch.ergon.dope.resolvable.expression.type.function.numeric.trunc
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NumberFunctionsTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
 
     @Test
     fun `should support numberType alias`() {
         val expected = "SELECT 12 AS `someNumber`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .select(
                 12.toDopeType().alias("someNumber"),
             ).build().queryString

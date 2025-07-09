@@ -12,23 +12,15 @@ import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.meta
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class UpdateTest {
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        create = QueryBuilder()
-    }
-
     @Test
     fun `should support simple update clause`() {
         val expected = "UPDATE `someBucket`"
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 someBucket(),
             ).build().queryString
@@ -40,7 +32,7 @@ class UpdateTest {
     fun `should support update clause with set`() {
         val expected = "UPDATE `someBucket` SET META().`expiration` = 10, `stringField` = \"test\""
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 someBucket(),
             ).set(
@@ -56,7 +48,7 @@ class UpdateTest {
     fun `should support update clause with unset`() {
         val expected = "UPDATE `someBucket` UNSET `stringField`"
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 someBucket(),
             ).unset(
@@ -71,7 +63,7 @@ class UpdateTest {
     fun `should support update clause with where`() {
         val expected = "UPDATE `someBucket` WHERE (1 + 2) = 3"
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 someBucket(),
             ).where(
@@ -85,7 +77,7 @@ class UpdateTest {
     fun `should support update clause with limit`() {
         val expected = "UPDATE `someBucket` LIMIT 1"
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 someBucket(),
             ).limit(
@@ -99,7 +91,7 @@ class UpdateTest {
     fun `should support update clause with returning`() {
         val expected = "UPDATE `someBucket` RETURNING `stringField`"
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 someBucket(),
             ).returning(
@@ -121,7 +113,7 @@ class UpdateTest {
             "LIMIT 1 " +
             "RETURNING `setThisNumberField`"
 
-        val actual = create
+        val actual = QueryBuilder
             .update(
                 bucket.useKeys("keyString"),
             ).set(

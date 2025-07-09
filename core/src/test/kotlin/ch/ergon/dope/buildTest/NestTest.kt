@@ -14,13 +14,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NestTest {
-    private lateinit var create: QueryBuilder
     private val route = someBucket("route")
     private val airport = someBucket("airport")
 
     @BeforeTest
     fun setup() {
-        create = QueryBuilder()
     }
 
     @Test
@@ -29,9 +27,8 @@ class NestTest {
             "INNER NEST `route` ON `airport`.`faa` = `route`.`sourceairport` " +
             "WHERE `airport`.`city` = \"Toulouse\" ORDER BY `airport`.`airportname`"
 
-        val actual: String = create
-            .selectAsterisk()
-            .from(
+        val actual: String = QueryBuilder
+            .selectFrom(
                 airport,
             ).innerNest(
                 route,
@@ -54,12 +51,12 @@ class NestTest {
             "NEST (SELECT `r1`.* FROM `route` AS `r1` WHERE `airport`.`faa` = `r1`.`sourceairport`) AS `r` ON TRUE " +
             "WHERE `airport`.`city` = \"Toulouse\" ORDER BY `airport`.`airportname`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 airport,
             ).nest(
-                create.select(r1.asterisk()).from(r1).where(
+                QueryBuilder.select(r1.asterisk()).from(r1).where(
                     someStringField("faa", airport).isEqualTo(
                         someStringField("sourceairport", r1),
                     ),
@@ -82,7 +79,7 @@ class NestTest {
             "LEFT NEST `route` AS `r` ON `a`.`faa` = `r`.`sourceairport` " +
             "WHERE `a`.`city` = \"Toulouse\" ORDER BY `a`.`airportname`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(a)
             .leftNest(
@@ -101,7 +98,7 @@ class NestTest {
     fun `should support inner nest on keys`() {
         val expected = "SELECT * FROM `route` INNER NEST `airport` ON KEYS `route`.`airportid` LIMIT 1"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 route,
@@ -121,7 +118,7 @@ class NestTest {
         val expected = "SELECT * FROM `airport` AS `a` " +
             "INNER NEST `route` AS `r` ON KEY `r`.`airportid` FOR `a` LIMIT 1"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(a)
             .innerNest(
@@ -145,7 +142,7 @@ class NestTest {
             "WHERE `s`.`day` = 1 " +
             "LIMIT 10"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 r,

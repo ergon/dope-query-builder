@@ -23,7 +23,7 @@ import kotlin.test.assertEquals
 class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `decode the type field`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 decode(
                     typeField,
@@ -47,7 +47,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `return first non null, non missing value`() {
         val missingField = Field<StringType>("nonexistent", testBucket.name)
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 ifMissingOrNull(
                     deliveryDateField,
@@ -67,7 +67,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `return null value logic substitute values`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 nvl(
                     deliveryDateField,

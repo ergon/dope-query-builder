@@ -15,14 +15,15 @@ import ch.ergon.dope.resolvable.clause.except
 import ch.ergon.dope.resolvable.clause.exceptAll
 import ch.ergon.dope.resolvable.clause.intersect
 import ch.ergon.dope.resolvable.clause.intersectAll
-import ch.ergon.dope.resolvable.clause.model.assignTo
 import ch.ergon.dope.resolvable.clause.union
 import ch.ergon.dope.resolvable.clause.unionAll
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.avg
 import ch.ergon.dope.resolvable.expression.type.FALSE
 import ch.ergon.dope.resolvable.expression.type.MISSING
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.alias
+import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.resolvable.expression.type.case
 import ch.ergon.dope.resolvable.expression.type.collection.any
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
@@ -30,6 +31,7 @@ import ch.ergon.dope.resolvable.expression.type.condition
 import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.type.function.date.nowString
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
+import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.logic.not
 import ch.ergon.dope.resolvable.expression.type.logic.or
@@ -42,26 +44,17 @@ import ch.ergon.dope.resolvable.expression.type.relational.isLike
 import ch.ergon.dope.resolvable.expression.type.relational.isNotEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isNotNull
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class QueryBuilderTest : ManagerDependentTest {
     override lateinit var manager: DopeQueryManager
-    private lateinit var builder: StringBuilder
-    private lateinit var create: QueryBuilder
-
-    @BeforeTest
-    fun setup() {
-        builder = StringBuilder()
-        create = QueryBuilder()
-    }
 
     @Test
     fun `should Equal Simple String`() {
         val expected = "SELECT `stringField`\n" + "FROM `someBucket`"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             someStringField(),
         ).from(
             someBucket(),
@@ -74,7 +67,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Equal Simple String 2`() {
         val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -89,7 +82,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where`() {
         val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
-        val actual: String = create.selectFrom(
+        val actual: String = QueryBuilder.selectFrom(
             someBucket(),
         ).where(
             someStringField().isEqualTo("Ian".toDopeType()),
@@ -102,7 +95,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Equal Simple String 3`() {
         val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -117,7 +110,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Select Distinct`() {
         val expected = "SELECT DISTINCT `stringField`, `numberField`\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
-        val actual: String = create.selectDistinct(
+        val actual: String = QueryBuilder.selectDistinct(
             someStringField(),
             someNumberField(),
         ).from(
@@ -133,7 +126,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Alias`() {
         val expected = "SELECT `stringField` AS `firstName`\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Peter\""
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             someStringField().alias("firstName"),
         ).from(
             someBucket(),
@@ -149,7 +142,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected =
             "SELECT `stringField` AS `FirstName`, `stringField` FROM `someBucket` WHERE `stringField` = \"Jackson\""
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             someStringField().alias("FirstName"),
             someStringField(),
         ).from(someBucket()).where(
@@ -164,7 +157,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected =
             "SELECT `stringField`, `stringField` AS `LastName` FROM `someBucket` WHERE `stringField` = \"Jackson\""
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             someStringField(),
             someStringField().alias("LastName"),
         ).from(someBucket()).where(
@@ -178,7 +171,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where With Simple Condition`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` < 50"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -193,7 +186,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where With Chained Conditions`() {
         val expected = "SELECT * FROM `someBucket` WHERE (`numberField` < 50 AND `stringField` = \"Mr.\")"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -210,7 +203,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where With Chained Conditions And Expressions`() {
         val expected = "SELECT * FROM `someBucket` WHERE (`numberField` < 50 AND `stringField` = \"Mr.\")"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -231,7 +224,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is not equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -245,7 +238,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is not equal to with numberField and number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` != 5"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -259,7 +252,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is not equal to with number and numberField`() {
         val expected = "SELECT * FROM `someBucket` WHERE 3 != `numberField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -273,7 +266,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is not equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" != \"hallo\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -287,7 +280,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is not equal to with stringField and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` != \"5\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -301,7 +294,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is greater or equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -315,7 +308,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is greater or equal to with numberField and number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` >= 5"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -329,7 +322,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is greater or equal to with number and numberField`() {
         val expected = "SELECT * FROM `someBucket` WHERE 3 >= `numberField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -343,7 +336,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is greater or equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= \"hallo\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -357,7 +350,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is greater or equal to with stringField and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` >= \"5\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -371,7 +364,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is greater or equal to with boolean and stringField`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= `stringField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -385,7 +378,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is Less or equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 <= 5"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -399,7 +392,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is Less or equal to with numberField and number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` <= 5"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -413,7 +406,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is Less or equal to with number and numberField`() {
         val expected = "SELECT * FROM `someBucket` WHERE 3 <= `numberField`"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -427,7 +420,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is Less or equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" <= \"hallo\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -441,7 +434,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support is Less or equal to with stringField and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` <= \"5\""
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(someBucket())
             .where(
@@ -455,7 +448,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where With Many Chained Conditions`() {
         val expected = "SELECT * FROM `someBucket` WHERE (`numberField` < 50 AND (`stringField` = \"Mr.\" AND `stringField` = \"friend\"))"
 
-        val actual: String = create
+        val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
                 someBucket(),
@@ -478,7 +471,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where With Like`() {
         val expected = "SELECT `stringField` FROM `someBucket` WHERE `email` LIKE \"%@yahoo.com\""
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             someStringField(),
         ).from(
             someBucket(),
@@ -495,7 +488,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support like with string function`() {
         val expected = "SELECT `stringField` FROM `someBucket` WHERE `email` LIKE CONCAT(`name`, \"%\", \"@gmail.com\")"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             someStringField(),
         ).from(
             someBucket(),
@@ -510,7 +503,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Where With Like Chained`() {
         val expected = "SELECT `stringField`, `numberField` FROM `someBucket` WHERE (`email` LIKE \"%@gmail.com\" AND `numberField` = 46)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             someStringField(),
             someNumberField(),
         ).from(
@@ -530,7 +523,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Null`() {
         val expected = "SELECT NULL"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             NULL,
         ).build().queryString
 
@@ -541,7 +534,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Missing`() {
         val expected = "SELECT MISSING"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             MISSING,
         ).build().queryString
 
@@ -552,7 +545,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Long Complex Query`() {
         val expected = "SELECT ((1 = 1 AND 2 = 2) AND 3 = 3) AS `what` FROM `someBucket` WHERE (1 = 1 AND \"run\" = \"run\")"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             1.toDopeType().isEqualTo(
                 1.toDopeType(),
             ).and(
@@ -583,7 +576,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Simple Boolean Value True`() {
         val expected = "SELECT TRUE"
 
-        val actual: String = create.select(TRUE).build().queryString
+        val actual: String = QueryBuilder.select(TRUE).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -592,7 +585,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Simple Boolean Value False`() {
         val expected = "SELECT FALSE"
 
-        val actual: String = create.select(FALSE).build().queryString
+        val actual: String = QueryBuilder.select(FALSE).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -601,7 +594,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Simple String Value False`() {
         val expected = "SELECT \"FALSE\""
 
-        val actual: String = create.select("FALSE".toDopeType()).build().queryString
+        val actual: String = QueryBuilder.select("FALSE".toDopeType()).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -610,7 +603,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Separate Between Boolean And String`() {
         val expected = "SELECT TRUE = TRUE"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             TRUE.isEqualTo(
                 TRUE,
             ),
@@ -623,7 +616,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support And with two types`() {
         val expected = "SELECT (TRUE AND FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             TRUE.and(
                 FALSE,
             ),
@@ -636,7 +629,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support And with a boolean type and boolean`() {
         val expected = "SELECT (TRUE AND FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             TRUE.and(
                 false,
             ),
@@ -649,7 +642,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support And with a boolean and boolean type`() {
         val expected = "SELECT (TRUE AND FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             true.and(
                 FALSE,
             ),
@@ -662,7 +655,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Or with two types`() {
         val expected = "SELECT (TRUE OR FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             TRUE.or(
                 FALSE,
             ),
@@ -675,7 +668,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Or with boolean type and boolean`() {
         val expected = "SELECT (TRUE OR FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             TRUE.or(
                 false,
             ),
@@ -688,7 +681,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Or with boolean and boolean type`() {
         val expected = "SELECT (TRUE OR FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             true.or(
                 FALSE,
             ),
@@ -701,7 +694,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Not 1`() {
         val expected = "SELECT NOT TRUE"
 
-        val actual: String = create.select(not(TRUE)).build().queryString
+        val actual: String = QueryBuilder.select(not(TRUE)).build().queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -710,7 +703,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Not 2`() {
         val expected = "SELECT NOT (TRUE AND FALSE)"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             not(
                 TRUE.and(
                     FALSE,
@@ -725,7 +718,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should Support Not 3`() {
         val expected = "SELECT NOT (TRUE AND (FALSE AND TRUE))"
 
-        val actual: String = create.select(
+        val actual: String = QueryBuilder.select(
             not(
                 TRUE.and(
                     FALSE.and(
@@ -755,7 +748,7 @@ class QueryBuilderTest : ManagerDependentTest {
             "NOW_STR(\"1111-11-11\") " +
             "AS `short_date`"
 
-        val actual = create.select(
+        val actual = QueryBuilder.select(
             nowString().alias("full_date"),
             nowString("invalid date").alias("invalid_date"),
             nowString("1111-11-11").alias("short_date"),
@@ -768,7 +761,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support select raw`() {
         val expected = "SELECT RAW NOT (TRUE OR FALSE)"
 
-        val actual = create.selectRaw(
+        val actual = QueryBuilder.selectRaw(
             not(TRUE.or(FALSE)),
         ).build().queryString
 
@@ -779,7 +772,7 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support select raw with field`() {
         val expected = "SELECT RAW `name` FROM `someBucket`"
 
-        val actual = create.selectRaw(
+        val actual = QueryBuilder.selectRaw(
             someStringField("name"),
         ).from(
             someBucket(),
@@ -803,7 +796,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val someBucket = someBucket()
         val expected = "SELECT `someBucket`.* FROM `someBucket`"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(someBucket.asterisk())
             .from(someBucket)
             .build().queryString
@@ -816,7 +809,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val someBucket = someBucket().alias("alias")
         val expected = "SELECT `alias`.* FROM `someBucket` AS `alias`"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(someBucket.asterisk())
             .from(someBucket)
             .build().queryString
@@ -830,7 +823,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected = "SELECT CASE `numberField` WHEN `other` THEN 2 END, " +
             "CASE WHEN `booleanField` THEN `numberField` ELSE `stringField` END AS `alias` FROM `someBucket`"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(
                 case(someNumberField()).condition(someNumberField("other").resultsIn(2)),
                 case().condition(someBooleanField().resultsIn(someNumberField())).otherwise(someStringField()).alias("alias"),
@@ -847,7 +840,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val bucket1 = someBucket("bucket1")
         val bucket2 = someBucket("bucket2").alias("alias")
 
-        val actual = create
+        val actual = QueryBuilder
             .select(bucket1, bucket2)
             .from(bucket2)
             .build().queryString
@@ -859,10 +852,10 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support set operator union with two selects`() {
         val expected = "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(someBucket("bucket1"))
             .union(
-                create.selectFrom(someBucket("bucket2")),
+                QueryBuilder.selectFrom(someBucket("bucket2")),
             )
             .build().queryString
 
@@ -873,13 +866,13 @@ class QueryBuilderTest : ManagerDependentTest {
     fun `should support set operator except and intersect with three selects`() {
         val expected = "(SELECT * FROM `bucket1`) EXCEPT ((SELECT * FROM `bucket2`) INTERSECT (SELECT * FROM `bucket3`))"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(someBucket("bucket1"))
             .except(
-                create
+                QueryBuilder
                     .selectFrom(someBucket("bucket2"))
                     .intersect(
-                        create
+                        QueryBuilder
                             .selectFrom(someBucket("bucket3")),
                     ),
             )
@@ -893,10 +886,10 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected = "(((SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)) " +
             "UNION ALL (SELECT * FROM `bucket3`)) EXCEPT ALL (SELECT * FROM `bucket4`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .selectFrom(someBucket("bucket1"))
-            .intersectAll(create.selectFrom(someBucket("bucket2")))
-            .unionAll(create.selectFrom(someBucket("bucket3")))
+            .intersectAll(QueryBuilder.selectFrom(someBucket("bucket2")))
+            .unionAll(QueryBuilder.selectFrom(someBucket("bucket3")))
             .exceptAll(someFromClause(someBucket("bucket4"))).build().queryString
 
         assertEquals(expected, actual)
@@ -907,7 +900,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val t1 = someBucket("route").alias("t1")
         val equip = "equip".assignTo(someStringArrayField("equipment", t1).any { it.isEqualTo("radio") })
         val sourceAirport = someStringField("sourceAirport", someBucket("route").alias("t2"))
-        val sourceAirports = "source_airports".assignTo(create.selectRaw(sourceAirport).where(sourceAirport.isNotNull()).asExpression())
+        val sourceAirports = "source_airports".assignTo(QueryBuilder.selectRaw(sourceAirport).where(sourceAirport.isNotNull()))
         val destinationAirport = someStringField("destinationAirport", t1)
 
         val expected = "SELECT `t1`.`destinationAirport`, `equip` AS `has_radio` " +
@@ -916,13 +909,45 @@ class QueryBuilderTest : ManagerDependentTest {
             "`source_airports` = (SELECT RAW `t2`.`sourceAirport` WHERE `t2`.`sourceAirport` IS NOT NULL) " +
             "WHERE (`t1`.`airline` = \"AI\" AND `t1`.`destinationAirport` IN `source_airports`)"
 
-        val actual = create
+        val actual = QueryBuilder
             .select(destinationAirport, equip.alias("has_radio"))
             .from(t1)
             .withVariables(equip, sourceAirports)
             .where(
                 someStringField("airline", t1).isEqualTo("AI")
                     .and(destinationAirport.inArray(sourceAirports)),
+            ).build().queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support with clause before query`() {
+        val hotel = someBucket("hotel")
+        val publicLikes = someNumberField("publicLikes", hotel)
+        val cte = hotel.alias("cte")
+        val ctePublicLikes = someNumberField("publicLikes", cte)
+        val avgLikeCount = "avgLikeCount".assignTo(
+            QueryBuilder.selectRaw(avg(ctePublicLikes)).from(cte).asExpression(),
+        )
+
+        val expected = "WITH `avgLikeCount` AS ((SELECT RAW AVG(`cte`.`publicLikes`) FROM `hotel` AS `cte`)) " +
+            "SELECT `hotel`.`publicLikes` AS `likeCount` FROM `hotel` " +
+            "WHERE `hotel`.`publicLikes` >= `avgLikeCount`[0] LIMIT 5"
+
+        val actual = QueryBuilder
+            .with(avgLikeCount)
+            .select(
+                publicLikes.alias("likeCount"),
+            )
+            .from(
+                hotel,
+            )
+            .where(
+                publicLikes.isGreaterOrEqualThan(avgLikeCount.get(0)),
+            )
+            .limit(
+                5,
             ).build().queryString
 
         assertEquals(expected, actual)

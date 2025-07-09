@@ -48,3 +48,13 @@ fun formatFunctionArgumentsWithAdditionalStrings(
     }
     return "$functionName$argumentsQueryString$additional"
 }
+
+fun formatQueryStringWithNullableFirst(
+    parentDopeQuery: DopeQuery?,
+    symbol: String,
+    expressionDopeQuery: DopeQuery,
+    expressionsDopeQuery: List<DopeQuery> = emptyList(),
+): String =
+    parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
+        "$symbol " +
+        listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString }

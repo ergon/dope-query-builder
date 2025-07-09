@@ -50,7 +50,7 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
             ),
         )
 
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .select(
                 rowNumber().alias("rowNumber"),
                 cumeDist(windowReference.reference).alias("cumeDist"),

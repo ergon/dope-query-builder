@@ -25,7 +25,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select with CM`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expected = SelectClause(expression.toDopeType())
 
@@ -36,7 +36,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select with CM expression`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someNumberField()
         val expected = SelectClause(expression.toDopeType(), expression2)
@@ -48,7 +48,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select with expression CM`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someNumberField()
         val expression2 = someCMNumberField()
         val expected = SelectClause(expression, expression2.toDopeType())
@@ -60,7 +60,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select with multiple CM`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someCMStringList()
         val expected = SelectClause(expression.toDopeType(), expression2.toDopeType())
@@ -72,7 +72,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select distinct with CM`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expected = SelectDistinctClause(expression.toDopeType())
 
@@ -83,7 +83,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select distinct with multiple CM`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someCMStringList()
         val expected = SelectDistinctClause(expression.toDopeType(), expression2.toDopeType())
@@ -95,7 +95,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select distinct with CM expression`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someNumberField()
         val expected = SelectDistinctClause(expression.toDopeType(), expression2)
@@ -107,7 +107,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select distinct with expression CM`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someNumberField()
         val expression2 = someCMNumberField()
         val expected = SelectDistinctClause(expression, expression2.toDopeType())
@@ -119,7 +119,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select raw with CM number`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expected = SelectRawClause(expression.toDopeType())
 
@@ -130,7 +130,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select raw with CM string`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMStringField()
         val expected = SelectRawClause(expression.toDopeType())
 
@@ -141,7 +141,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select raw with CM boolean`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMBooleanField()
         val expected = SelectRawClause(expression.toDopeType())
 
@@ -152,7 +152,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select raw with CM number list`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMNumberList()
         val expected = SelectRawClause(expression.toDopeType())
 
@@ -163,7 +163,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select raw with CM string list`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMStringList()
         val expected = SelectRawClause(expression.toDopeType())
 
@@ -174,7 +174,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
     @Test
     fun `should support select raw with CM boolean list`() {
-        val queryBuilder = QueryBuilder()
+        val queryBuilder = QueryBuilder
         val expression = someCMBooleanList()
         val expected = SelectRawClause(expression.toDopeType())
 
