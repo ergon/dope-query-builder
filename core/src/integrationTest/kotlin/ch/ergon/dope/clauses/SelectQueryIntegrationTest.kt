@@ -289,7 +289,15 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select with common table expressions and let variables`() {
         val cteSubquery = "subquery".assignTo(
-            QueryBuilder.select(testBucket.asterisk()).from(testBucket).where(typeField.isEqualTo("client")).orderBy(idField),
+            QueryBuilder.select(
+                idField,
+                isActiveField,
+                nameField,
+                typeField,
+            )
+                .from(testBucket)
+                .where(typeField.isEqualTo("client"))
+                .orderBy(idField),
         )
         val dopeQuery = QueryBuilder
             .with(

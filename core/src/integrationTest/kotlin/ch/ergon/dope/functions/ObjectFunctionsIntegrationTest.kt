@@ -23,7 +23,7 @@ import kotlin.test.assertEquals
 class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use nested object functions`() {
-        val dopeQuery = QueryBuilder()
+        val dopeQuery = QueryBuilder
             .selectRaw(
                 detailsField.concat(mapOf("someField" to 4).toDopeType()).addAttribute("otherField", TRUE).removeAttribute("department")
                     .alias("result"),
