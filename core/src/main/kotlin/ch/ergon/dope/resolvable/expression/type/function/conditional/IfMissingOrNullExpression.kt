@@ -4,36 +4,32 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.validtype.ValidType
 
-class IfMissingOrNullExpression<T : ValidType>(
-    firstExpression: TypeExpression<T>,
-    secondExpression: TypeExpression<T>,
-    vararg additionalExpressions: TypeExpression<T>,
+data class IfMissingOrNullExpression<T : ValidType>(
+    val firstExpression: TypeExpression<T>,
+    val secondExpression: TypeExpression<T>,
+    val additionalExpressions: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
     "IFMISSINGORNULL",
-    firstExpression,
-    secondExpression,
-    *additionalExpressions,
+    listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
 )
 
 fun <T : ValidType> ifMissingOrNull(
     firstExpression: TypeExpression<T>,
     secondExpression: TypeExpression<T>,
     vararg additionalExpressions: TypeExpression<T>,
-) = IfMissingOrNullExpression(firstExpression, secondExpression, *additionalExpressions)
+) = IfMissingOrNullExpression(firstExpression, secondExpression, additionalExpressions.toList())
 
-class CoalesceExpression<T : ValidType>(
-    firstExpression: TypeExpression<T>,
-    secondExpression: TypeExpression<T>,
-    vararg additionalExpressions: TypeExpression<T>,
+data class CoalesceExpression<T : ValidType>(
+    val firstExpression: TypeExpression<T>,
+    val secondExpression: TypeExpression<T>,
+    val additionalExpressions: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
     "COALESCE",
-    firstExpression,
-    secondExpression,
-    *additionalExpressions,
+    listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
 )
 
 fun <T : ValidType> coalesce(
     firstExpression: TypeExpression<T>,
     secondExpression: TypeExpression<T>,
     vararg additionalExpressions: TypeExpression<T>,
-) = CoalesceExpression(firstExpression, secondExpression, *additionalExpressions)
+) = CoalesceExpression(firstExpression, secondExpression, additionalExpressions.toList())

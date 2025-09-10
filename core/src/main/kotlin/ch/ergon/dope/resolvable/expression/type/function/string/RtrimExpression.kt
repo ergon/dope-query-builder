@@ -5,8 +5,8 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class RtrimExpression(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("RTRIM", inStr, char)
+data class RtrimExpression(val inStr: TypeExpression<StringType>, val char: TypeExpression<StringType>? = null) :
+    FunctionExpression<StringType>("RTRIM", listOf(inStr, char))
 
 fun rtrim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = RtrimExpression(inStr, char)
 

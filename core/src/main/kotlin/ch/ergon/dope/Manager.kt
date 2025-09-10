@@ -1,6 +1,10 @@
 package ch.ergon.dope
 
-class DopeQueryManager {
+import ch.ergon.dope.build.QueryResolver
+
+data class DopeQueryManager<T : DopeQuery>(
+    val resolver: QueryResolver<T>,
+) {
     val parameterManager = ParameterManager()
     val iteratorManager = IteratorManager()
 }

@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class RandomExpression(value: TypeExpression<NumberType>? = null) : NumberFunctionExpression("RANDOM", value)
+data class RandomExpression(override val value: TypeExpression<NumberType>? = null) : NumberFunctionExpression("RANDOM", value)
 
 fun random() = RandomExpression()
 

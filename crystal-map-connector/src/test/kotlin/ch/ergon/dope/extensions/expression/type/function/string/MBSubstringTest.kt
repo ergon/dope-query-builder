@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.mbSubstring
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumberField
@@ -14,9 +12,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MBSubstringTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class MBSubstringTest {
     @Test
     fun `should support MBSubstring with CM string CM number CM number`() {
         val string = someCMStringField()
@@ -26,7 +22,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -38,7 +34,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -50,7 +46,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -62,7 +58,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -74,7 +70,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -86,7 +82,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -98,7 +94,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -110,7 +106,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -122,7 +118,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -134,7 +130,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -146,7 +142,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -158,7 +154,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -170,7 +166,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -182,7 +178,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -194,7 +190,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -206,7 +202,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -218,7 +214,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -230,7 +226,7 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -242,6 +238,6 @@ class MBSubstringTest : ManagerDependentTest {
 
         val actual = mbSubstring(string, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

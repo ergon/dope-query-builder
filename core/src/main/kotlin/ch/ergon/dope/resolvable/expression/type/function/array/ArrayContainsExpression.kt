@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -12,19 +10,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayContainsExpression<T : ValidType>(
-    private val array: TypeExpression<ArrayType<T>>,
-    private val value: TypeExpression<T>,
-) : TypeExpression<BooleanType>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery(manager)
-        val valueDopeQuery = value.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString("ARRAY_CONTAINS", arrayDopeQuery, valueDopeQuery),
-            parameters = arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
-        )
-    }
-}
+data class ArrayContainsExpression<T : ValidType>(
+    val array: TypeExpression<ArrayType<T>>,
+    val value: TypeExpression<T>,
+) : TypeExpression<BooleanType>, FunctionOperator
 
 fun <T : ValidType> arrayContains(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
     ArrayContainsExpression(array, value)

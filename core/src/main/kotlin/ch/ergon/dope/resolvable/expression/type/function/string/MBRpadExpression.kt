@@ -6,16 +6,11 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MBRpadExpression(
-    inStr: TypeExpression<StringType>,
-    size: TypeExpression<NumberType>,
-    postfix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>(
-    "MB_RPAD",
-    inStr,
-    size,
-    postfix,
-)
+data class MBRpadExpression(
+    val inStr: TypeExpression<StringType>,
+    val size: TypeExpression<NumberType>,
+    val postfix: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>("MB_RPAD", listOf(inStr, size, postfix))
 
 fun mbRpad(
     inStr: TypeExpression<StringType>,

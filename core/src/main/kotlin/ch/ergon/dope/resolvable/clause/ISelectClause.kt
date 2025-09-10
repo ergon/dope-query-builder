@@ -52,6 +52,7 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefin
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -78,7 +79,7 @@ interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
 
 interface ISelectWindowClause<T : ValidType> : ISelectOrderByClause<T> {
     fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
-        SelectOrderByClause(orderExpression, *additionalOrderExpressions, parentClause = this)
+        SelectOrderByClause(orderExpression, additionalOrderExpressions.toList(), parentClause = this)
 
     fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderType? = null) = orderBy(OrderExpression(expression, orderByType))
 }
@@ -88,12 +89,12 @@ interface ISelectGroupByClause<T : ValidType> : ISelectWindowClause<T> {
         WindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
 
     fun referenceWindow(windowDeclaration: WindowDeclaration, vararg windowDeclarations: WindowDeclaration) =
-        WindowClause(windowDeclaration, *windowDeclarations, parentClause = this)
+        WindowClause(windowDeclaration, windowDeclarations.toList(), parentClause = this)
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
-    fun groupBy(field: Field<out ValidType>, vararg fields: Field<out ValidType>) =
-        GroupByClause(field, *fields, parentClause = this)
+    fun groupBy(field: IField<out ValidType>, vararg fields: IField<out ValidType>) =
+        GroupByClause(field, fields.toList(), parentClause = this)
 }
 
 interface ISelectLetClause<T : ValidType> : ISelectWhereClause<T> {
@@ -103,7 +104,7 @@ interface ISelectLetClause<T : ValidType> : ISelectWhereClause<T> {
 interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun withVariables(dopeVariable: DopeVariable<out ValidType>, vararg dopeVariables: DopeVariable<out ValidType>) = LetClause(
         dopeVariable,
-        *dopeVariables,
+        dopeVariables.toList(),
         parentClause = this,
     )
 
@@ -280,12 +281,16 @@ interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
 }
 
 interface ISelectWithClause : QueryProvider, Resolvable {
-    override fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(expression, *expressions, parentClause = this)
+    override fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(
+        expression,
+        expressions.toList(),
+        parentClause = this,
+    )
 
     override fun selectAsterisk() = SelectClause(asterisk(), parentClause = this)
 
     override fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
-        SelectDistinctClause(expression, *expressions, parentClause = this)
+        SelectDistinctClause(expression, expressions.toList(), parentClause = this)
 
     override fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression, parentClause = this)
 

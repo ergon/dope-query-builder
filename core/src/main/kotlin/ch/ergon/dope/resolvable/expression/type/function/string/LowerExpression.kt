@@ -5,10 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class LowerExpression(inStr: TypeExpression<StringType>) : FunctionExpression<StringType>(
-    "LOWER",
-    inStr,
-)
+data class LowerExpression(val inStr: TypeExpression<StringType>) : FunctionExpression<StringType>("LOWER", listOf(inStr))
 
 fun lower(inStr: TypeExpression<StringType>) = LowerExpression(inStr)
 

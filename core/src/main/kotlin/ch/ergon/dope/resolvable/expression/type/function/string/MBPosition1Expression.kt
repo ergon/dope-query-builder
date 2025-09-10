@@ -6,12 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MBPosition1Expression(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) :
-    FunctionExpression<NumberType>(
-        "MB_POSITION1",
-        inStr,
-        searchStr,
-    )
+data class MBPosition1Expression(val inStr: TypeExpression<StringType>, val searchStr: TypeExpression<StringType>) :
+    FunctionExpression<NumberType>("MB_POSITION1", listOf(inStr, searchStr))
 
 fun mbPosition1(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     MBPosition1Expression(inStr, searchStr)

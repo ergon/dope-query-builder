@@ -35,9 +35,6 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.testcontainers:couchbase:1.20.3")
-    implementation("com.couchbase.client:kotlin-client:1.4.0")
-    implementation("org.slf4j:slf4j-api:2.0.9")
-    implementation("org.slf4j:slf4j-simple:2.0.9")
     implementation(kotlin("reflect"))
 }
 

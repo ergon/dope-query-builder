@@ -1,17 +1,17 @@
 package ch.ergon.dope.extensions.expression.type.range
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.concat
 import ch.ergon.dope.extension.expression.type.range.filter
 import ch.ergon.dope.extension.expression.type.range.filterIndexed
 import ch.ergon.dope.extension.expression.type.range.map
 import ch.ergon.dope.extension.expression.type.range.mapIndexed
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
+import ch.ergon.dope.resolvable.expression.type.collection.Iterator
 import ch.ergon.dope.resolvable.expression.type.function.string.contains
 import ch.ergon.dope.resolvable.expression.type.function.string.repeat
 import ch.ergon.dope.resolvable.expression.type.function.type.toBool
@@ -23,115 +23,137 @@ import ch.ergon.dope.resolvable.expression.type.range.ObjectRangeExpression
 import ch.ergon.dope.resolvable.expression.type.range.ObjectRangeIndexedExpression
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.toDopeType
+import ch.ergon.dope.validtype.BooleanType
+import ch.ergon.dope.validtype.NumberType
+import ch.ergon.dope.validtype.StringType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectForRangeTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class ObjectForRangeTest {
     @Test
     fun `should support array range transformation with cm number list`() {
         val range = someCMNumberList()
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>) -> TypeExpression<StringType> = { it.toStr() }
+        val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
-            { it.toStr() },
-            { it.add(1) },
+            withAttributeKeys,
+            transformation,
         )
 
-        val actual = range.map(iteratorName) { it.add(1) }.toObject { it.toStr() }
+        val actual = range.map(iteratorName, transformation).toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support array range transformation with cm string list`() {
         val range = someCMStringList()
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<StringType>) -> TypeExpression<StringType> = { it.toStr() }
+        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { concat(it, "test") }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
-            { it.toStr() },
-            { concat(it, "test") },
+            withAttributeKeys,
+            transformation,
         )
 
-        val actual = range.map(iteratorName) { concat(it, "test") }.toObject { it.toStr() }
+        val actual = range.map(iteratorName, transformation).toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support array range transformation with cm boolean list`() {
         val range = someCMBooleanList()
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<BooleanType>) -> TypeExpression<StringType> = { it.toStr() }
+        val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
-            { it.toStr() },
-            { it.or(FALSE) },
+            withAttributeKeys,
+            transformation,
         )
 
-        val actual = range.map(iteratorName) { it.or(FALSE) }.toObject { it.toStr() }
+        val actual = range.map(iteratorName, transformation).toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support array range transformation with condition with cm number list`() {
         val range = someCMNumberList()
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>) -> TypeExpression<StringType> = { it.toStr() }
+        val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
+        val condition: (Iterator<NumberType>) -> TypeExpression<BooleanType> = { it.isEqualTo(1) }
         val expected = ObjectRangeExpression(
             membershipType = IN,
             range.toDopeType(),
             iteratorName,
-            { it.toStr() },
-            transformation = { it.add(1) },
-            condition = { it.isEqualTo(1) },
+            withAttributeKeys,
+            transformation = transformation,
+            condition = condition,
         )
 
-        val actual = range.filter(iteratorName) { it.isEqualTo(1) }.map { it.add(1) }.toObject { it.toStr() }
+        val actual = range.filter(iteratorName, condition).map(transformation).toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support array range transformation with condition with cm string list`() {
         val range = someCMStringList()
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<StringType>) -> TypeExpression<StringType> = { it.toStr() }
+        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { repeat(it, 1) }
+        val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { contains(it, "test") }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
-            { it.toStr() },
-            transformation = { repeat(it, 1) },
-            condition = { contains(it, "test") },
+            withAttributeKeys,
+            transformation = transformation,
+            condition = condition,
         )
 
-        val actual = range.filter(iteratorName) { contains(it, "test") }.map { repeat(it, 1) }.toObject { it.toStr() }
+        val actual = range
+            .filter(iteratorName, condition)
+            .map(transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support array range transformation with condition with cm boolean list`() {
         val range = someCMBooleanList()
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<BooleanType>) -> TypeExpression<StringType> = { it.toStr() }
+        val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
+        val condition: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
             iteratorName,
-            { it.toStr() },
-            transformation = { it.or(FALSE) },
-            condition = { it },
+            withAttributeKeys,
+            transformation = transformation,
+            condition = condition,
         )
 
-        val actual = range.filter(iteratorName) { it }.map { it.or(FALSE) }.toObject { it.toStr() }
+        val actual = range
+            .filter(iteratorName, condition)
+            .map(transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -139,18 +161,24 @@ class ObjectForRangeTest : ManagerDependentTest {
         val range = someCMNumberList()
         val indexName = "i"
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<StringType> =
+            { i, _ -> i.toStr() }
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),
             indexName,
             iteratorName,
-            { i, _ -> i.toStr() },
-            { i, it -> it.add(i) },
+            withAttributeKeys,
+            transformation,
         )
 
-        val actual = range.mapIndexed(indexName, iteratorName) { i, it -> it.add(i) }.toObject { i, _ -> i.toStr() }
+        val actual = range
+            .mapIndexed(indexName, iteratorName, transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -158,18 +186,24 @@ class ObjectForRangeTest : ManagerDependentTest {
         val range = someCMStringList()
         val indexName = "i"
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
+            { i, _ -> i.toStr() }
+        val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
+            { i, it -> concat(it, i.toStr()) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),
             indexName,
             iteratorName,
-            { i, _ -> i.toStr() },
-            { i, it -> concat(it, i.toStr()) },
+            withAttributeKeys,
+            transformation,
         )
 
-        val actual = range.mapIndexed(indexName, iteratorName) { i, it -> concat(it, i.toStr()) }.toObject { i, _ -> i.toStr() }
+        val actual = range
+            .mapIndexed(indexName, iteratorName, transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -177,18 +211,24 @@ class ObjectForRangeTest : ManagerDependentTest {
         val range = someCMBooleanList()
         val indexName = "i"
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<StringType> =
+            { i, _ -> i.toStr() }
+        val transformation: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.and(i.toBool()) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),
             indexName,
             iteratorName,
-            { i, _ -> i.toStr() },
-            { i, it -> it.and(i.toBool()) },
+            withAttributeKeys,
+            transformation,
         )
 
-        val actual = range.mapIndexed(indexName, iteratorName) { i, it -> it.and(i.toBool()) }.toObject { i, _ -> i.toStr() }
+        val actual = range
+            .mapIndexed(indexName, iteratorName, transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -196,22 +236,28 @@ class ObjectForRangeTest : ManagerDependentTest {
         val range = someCMNumberList()
         val indexName = "i"
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<StringType> =
+            { i, _ -> i.toStr() }
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.isEqualTo(i) }
         val expected = ObjectRangeIndexedExpression(
             membershipType = IN,
             range.toDopeType(),
             indexName,
             iteratorName,
-            { i, _ -> i.toStr() },
-            transformation = { i, it -> it.add(i) },
-            condition = { i, it -> it.isEqualTo(i) },
+            withAttributeKeys,
+            transformation = transformation,
+            condition = condition,
         )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-        ) { i, it -> it.isEqualTo(i) }.map { i, it -> it.add(i) }.toObject { i, _ -> i.toStr() }
+        val actual = range
+            .filterIndexed(indexName, iteratorName, condition)
+            .map(transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -219,22 +265,28 @@ class ObjectForRangeTest : ManagerDependentTest {
         val range = someCMStringList()
         val indexName = "i"
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
+            { i, _ -> i.toStr() }
+        val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
+            { i, it -> repeat(it, i) }
+        val condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType> =
+            { i, it -> contains(it, i.toStr()) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),
             indexName,
             iteratorName,
-            { i, _ -> i.toStr() },
-            transformation = { i, it -> repeat(it, i) },
-            condition = { i, it -> contains(it, i.toStr()) },
+            withAttributeKeys,
+            transformation = transformation,
+            condition = condition,
         )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-        ) { i, it -> contains(it, i.toStr()) }.map { i, it -> repeat(it, i) }.toObject { i, _ -> i.toStr() }
+        val actual = range
+            .filterIndexed(indexName, iteratorName, condition)
+            .map(transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -242,21 +294,27 @@ class ObjectForRangeTest : ManagerDependentTest {
         val range = someCMBooleanList()
         val indexName = "i"
         val iteratorName = "it"
+        val withAttributeKeys: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<StringType> =
+            { i, _ -> i.toStr() }
+        val transformation: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.and(i.toBool()) }
+        val condition: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.or(i.toBool()) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),
             indexName,
             iteratorName,
-            { i, _ -> i.toStr() },
-            transformation = { i, it -> it.and(i.toBool()) },
-            condition = { i, it -> it.or(i.toBool()) },
+            withAttributeKeys,
+            transformation = transformation,
+            condition = condition,
         )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-        ) { i, it -> it.or(i.toBool()) }.map { i, it -> it.and(i.toBool()) }.toObject { i, _ -> i.toStr() }
+        val actual = range
+            .filterIndexed(indexName, iteratorName, condition)
+            .map(transformation)
+            .toObject(withAttributeKeys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

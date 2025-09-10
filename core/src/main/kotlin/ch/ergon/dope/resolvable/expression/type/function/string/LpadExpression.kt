@@ -6,11 +6,11 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class LpadExpression(
-    inStr: TypeExpression<StringType>,
-    size: TypeExpression<NumberType>,
-    prefix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("LPAD", inStr, size, prefix)
+data class LpadExpression(
+    val inStr: TypeExpression<StringType>,
+    val size: TypeExpression<NumberType>,
+    val prefix: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>("LPAD", listOf(inStr, size, prefix))
 
 fun lpad(
     inStr: TypeExpression<StringType>,

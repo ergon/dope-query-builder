@@ -9,17 +9,17 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayAppendExpression<T : ValidType>(
-    array: TypeExpression<ArrayType<T>>,
-    value: TypeExpression<T>,
-    vararg additionalValues: TypeExpression<T>,
-) : ArrayFunctionExpression<T>("ARRAY_APPEND", array, value, *additionalValues)
+data class ArrayAppendExpression<T : ValidType>(
+    override val array: TypeExpression<ArrayType<T>>,
+    val value: TypeExpression<T>,
+    val additionalValues: List<TypeExpression<T>> = emptyList(),
+) : ArrayFunctionExpression<T>("ARRAY_APPEND", array, listOf(value, *additionalValues.toTypedArray()))
 
 fun <T : ValidType> arrayAppend(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayAppendExpression(array, value, *additionalValues)
+) = ArrayAppendExpression(array, value, additionalValues.toList())
 
 fun arrayAppend(
     array: TypeExpression<ArrayType<StringType>>,

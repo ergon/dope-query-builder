@@ -1,6 +1,5 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.length
 import ch.ergon.dope.extension.expression.type.function.string.lower
 import ch.ergon.dope.extension.expression.type.function.string.mbLength
@@ -9,7 +8,6 @@ import ch.ergon.dope.extension.expression.type.function.string.suffixes
 import ch.ergon.dope.extension.expression.type.function.string.upper
 import ch.ergon.dope.extension.expression.type.function.string.urlDecode
 import ch.ergon.dope.extension.expression.type.function.string.urlEncode
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.resolvable.expression.type.function.string.LengthExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.LowerExpression
@@ -23,9 +21,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StringFunctionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class StringFunctionTest {
     @Test
     fun `should support Length with CM string`() {
         val string = someCMStringField()
@@ -33,7 +29,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = length(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -43,7 +39,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = lower(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -53,7 +49,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = mbLength(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -63,7 +59,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = reverse(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -73,7 +69,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = suffixes(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -83,7 +79,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = upper(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -93,7 +89,7 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = urlDecode(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -103,6 +99,6 @@ class StringFunctionTest : ManagerDependentTest {
 
         val actual = urlEncode(string)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

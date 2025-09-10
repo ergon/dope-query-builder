@@ -1,18 +1,15 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 
-class LikeExpression(
-    left: TypeExpression<StringType>,
-    right: TypeExpression<StringType>,
-) : TypeExpression<BooleanType>, InfixOperator(left, "LIKE", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class LikeExpression(
+    override val left: TypeExpression<StringType>,
+    override val right: TypeExpression<StringType>,
+) : TypeExpression<BooleanType>, InfixOperator(left, "LIKE", right)
 
 fun TypeExpression<StringType>.isLike(right: TypeExpression<StringType>) = LikeExpression(this, right)
 
@@ -22,12 +19,10 @@ fun String.isLike(right: TypeExpression<StringType>) = toDopeType().isLike(right
 
 fun String.isLike(right: String) = toDopeType().isLike(right.toDopeType())
 
-class NotLikeExpression(
-    left: TypeExpression<StringType>,
-    right: TypeExpression<StringType>,
-) : TypeExpression<BooleanType>, InfixOperator(left, "NOT LIKE", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class NotLikeExpression(
+    override val left: TypeExpression<StringType>,
+    override val right: TypeExpression<StringType>,
+) : TypeExpression<BooleanType>, InfixOperator(left, "NOT LIKE", right)
 
 fun TypeExpression<StringType>.isNotLike(right: TypeExpression<StringType>) = NotLikeExpression(this, right)
 

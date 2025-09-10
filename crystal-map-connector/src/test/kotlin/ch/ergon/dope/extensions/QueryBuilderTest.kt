@@ -1,11 +1,9 @@
 package ch.ergon.dope.extensions
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.extension.select
 import ch.ergon.dope.extension.selectDistinct
 import ch.ergon.dope.extension.selectRaw
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -20,9 +18,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryBuilderTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class QueryBuilderTest {
     @Test
     fun `should support select with CM`() {
         val queryBuilder = QueryBuilder
@@ -31,7 +27,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.select(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -39,11 +35,11 @@ class QueryBuilderTest : ManagerDependentTest {
         val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someNumberField()
-        val expected = SelectClause(expression.toDopeType(), expression2)
+        val expected = SelectClause(expression.toDopeType(), listOf(expression2))
 
         val actual = queryBuilder.select(expression, expression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -51,11 +47,11 @@ class QueryBuilderTest : ManagerDependentTest {
         val queryBuilder = QueryBuilder
         val expression = someNumberField()
         val expression2 = someCMNumberField()
-        val expected = SelectClause(expression, expression2.toDopeType())
+        val expected = SelectClause(expression, listOf(expression2.toDopeType()))
 
         val actual = queryBuilder.select(expression, expression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -63,11 +59,11 @@ class QueryBuilderTest : ManagerDependentTest {
         val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someCMStringList()
-        val expected = SelectClause(expression.toDopeType(), expression2.toDopeType())
+        val expected = SelectClause(expression.toDopeType(), listOf(expression2.toDopeType()))
 
         val actual = queryBuilder.select(expression, expression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -78,7 +74,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectDistinct(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -86,11 +82,11 @@ class QueryBuilderTest : ManagerDependentTest {
         val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someCMStringList()
-        val expected = SelectDistinctClause(expression.toDopeType(), expression2.toDopeType())
+        val expected = SelectDistinctClause(expression.toDopeType(), listOf(expression2.toDopeType()))
 
         val actual = queryBuilder.selectDistinct(expression, expression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -98,11 +94,11 @@ class QueryBuilderTest : ManagerDependentTest {
         val queryBuilder = QueryBuilder
         val expression = someCMNumberField()
         val expression2 = someNumberField()
-        val expected = SelectDistinctClause(expression.toDopeType(), expression2)
+        val expected = SelectDistinctClause(expression.toDopeType(), listOf(expression2))
 
         val actual = queryBuilder.selectDistinct(expression, expression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -110,11 +106,11 @@ class QueryBuilderTest : ManagerDependentTest {
         val queryBuilder = QueryBuilder
         val expression = someNumberField()
         val expression2 = someCMNumberField()
-        val expected = SelectDistinctClause(expression, expression2.toDopeType())
+        val expected = SelectDistinctClause(expression, listOf(expression2.toDopeType()))
 
         val actual = queryBuilder.selectDistinct(expression, expression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -125,7 +121,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectRaw(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -136,7 +132,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectRaw(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -147,7 +143,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectRaw(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -158,7 +154,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectRaw(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -169,7 +165,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectRaw(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -180,6 +176,6 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = queryBuilder.selectRaw(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

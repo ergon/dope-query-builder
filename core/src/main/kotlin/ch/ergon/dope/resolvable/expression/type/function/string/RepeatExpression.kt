@@ -6,8 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class RepeatExpression(inStr: TypeExpression<StringType>, repetitions: TypeExpression<NumberType>) :
-    FunctionExpression<StringType>("REPEAT", inStr, repetitions)
+data class RepeatExpression(val inStr: TypeExpression<StringType>, val repetitions: TypeExpression<NumberType>) :
+    FunctionExpression<StringType>("REPEAT", listOf(inStr, repetitions))
 
 fun repeat(inStr: TypeExpression<StringType>, repetitions: TypeExpression<NumberType>) =
     RepeatExpression(inStr, repetitions)

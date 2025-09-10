@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class DegreesExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("DEGREES", value)
+data class DegreesExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression("DEGREES", value)
 
 fun degrees(value: TypeExpression<NumberType>) = DegreesExpression(value)
 

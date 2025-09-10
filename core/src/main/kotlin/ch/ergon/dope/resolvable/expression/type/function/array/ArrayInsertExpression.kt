@@ -9,19 +9,19 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayInsertExpression<T : ValidType>(
-    array: TypeExpression<ArrayType<T>>,
-    position: TypeExpression<NumberType>,
-    value: TypeExpression<T>,
-    vararg additionalValues: TypeExpression<T>,
-) : ArrayFunctionExpression<T>("ARRAY_INSERT", array, position, value, *additionalValues)
+data class ArrayInsertExpression<T : ValidType>(
+    override val array: TypeExpression<ArrayType<T>>,
+    val position: TypeExpression<NumberType>,
+    val value: TypeExpression<T>,
+    val additionalValues: List<TypeExpression<T>> = emptyList(),
+) : ArrayFunctionExpression<T>("ARRAY_INSERT", array, listOf(position, value, *additionalValues.toTypedArray()))
 
 fun <T : ValidType> arrayInsert(
     array: TypeExpression<ArrayType<T>>,
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayInsertExpression(array, position, value, *additionalValues)
+) = ArrayInsertExpression(array, position, value, additionalValues.toList())
 
 fun arrayInsert(
     array: TypeExpression<ArrayType<StringType>>,
@@ -77,7 +77,7 @@ fun <T : ValidType> arrayInsert(
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayInsertExpression(selectClause.asExpression(), position, value, *additionalValues)
+) = ArrayInsertExpression(selectClause.asExpression(), position, value, additionalValues.toList())
 
 fun arrayInsert(
     selectClause: ISelectOffsetClause<StringType>,

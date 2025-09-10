@@ -1,9 +1,6 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowdefinition
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.util.formatFunctionArgumentsWithAdditionalStrings
 
 private const val EXCLUDE = "EXCLUDE"
 
@@ -20,21 +17,8 @@ enum class WindowFrameType(val queryString: String) {
     GROUPS("GROUPS"),
 }
 
-class WindowFrameClause(
-    private val windowFrameType: WindowFrameType,
-    private val windowFrameExtent: WindowFrameExtent,
-    private val windowFrameExclusion: WindowFrameExclusion? = null,
-) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val windowFrameExtentDopeQuery = windowFrameExtent.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = formatFunctionArgumentsWithAdditionalStrings(
-                windowFrameType.queryString,
-                "",
-                windowFrameExtentDopeQuery.queryString,
-                windowFrameExclusion?.queryString,
-            ),
-            parameters = windowFrameExtentDopeQuery.parameters,
-        )
-    }
-}
+data class WindowFrameClause(
+    val windowFrameType: WindowFrameType,
+    val windowFrameExtent: WindowFrameExtent,
+    val windowFrameExclusion: WindowFrameExclusion? = null,
+) : Resolvable

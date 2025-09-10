@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.mbLpad
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumber
@@ -15,9 +13,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MBLpadTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class MBLpadTest {
     @Test
     fun `should support MBLpad with CM string CM number CM string`() {
         val string = someCMStringField()
@@ -27,7 +23,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -39,7 +35,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -51,7 +47,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -63,7 +59,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -75,7 +71,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -87,7 +83,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -99,7 +95,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -111,7 +107,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -123,7 +119,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -135,7 +131,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -147,7 +143,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -159,7 +155,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -171,7 +167,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -183,7 +179,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -195,7 +191,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -207,7 +203,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -219,7 +215,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -231,7 +227,7 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -243,6 +239,6 @@ class MBLpadTest : ManagerDependentTest {
 
         val actual = mbLpad(string, size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

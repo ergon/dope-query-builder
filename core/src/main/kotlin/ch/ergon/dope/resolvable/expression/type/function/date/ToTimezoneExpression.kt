@@ -6,14 +6,14 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MillisToTimezoneExpression(
-    date: TypeExpression<NumberType>,
-    timeZone: TypeExpression<StringType>,
-    format: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("MILLIS_TO_TZ", date, timeZone, format)
+data class MillisToTimezoneExpression(
+    val date: TypeExpression<NumberType>,
+    val timeZone: TypeExpression<StringType>,
+    val format: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>("MILLIS_TO_TZ", listOf(date, timeZone, format))
 
-class StrToTimezoneExpression(date: TypeExpression<StringType>, timeZone: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("STR_TO_TZ", date, timeZone)
+data class StrToTimezoneExpression(val date: TypeExpression<StringType>, val timeZone: TypeExpression<StringType>) :
+    FunctionExpression<StringType>("STR_TO_TZ", listOf(date, timeZone))
 
 fun TypeExpression<NumberType>.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     MillisToTimezoneExpression(this, timeZone, format)

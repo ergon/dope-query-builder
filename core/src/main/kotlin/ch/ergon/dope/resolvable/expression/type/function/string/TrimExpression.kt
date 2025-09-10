@@ -6,10 +6,10 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 // Argument is called char, but is a string...
-class TrimExpression(
-    inStr: TypeExpression<StringType>,
-    char: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("TRIM", inStr, char)
+data class TrimExpression(
+    val inStr: TypeExpression<StringType>,
+    val char: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>("TRIM", listOf(inStr, char))
 
 fun trim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = TrimExpression(inStr, char)
 

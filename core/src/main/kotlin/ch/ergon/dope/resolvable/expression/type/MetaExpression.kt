@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.validtype.NumberType
@@ -9,48 +7,24 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private const val META = "META"
+data class MetaExpression(val bucket: Bucket?) : TypeExpression<ObjectType>, FunctionOperator {
+    val cas: IField<NumberType> = MetaField(this, "cas")
 
-class MetaExpression(private val bucket: Bucket?) : TypeExpression<ObjectType>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager) =
-        if (bucket == null) {
-            DopeQuery(
-                queryString = "$META()",
-            )
-        } else {
-            val bucketDopeQuery = bucket.toDopeQuery(manager)
-            DopeQuery(
-                queryString = toFunctionQueryString(
-                    symbol = META,
-                    bucketDopeQuery.queryString,
-                ),
-                parameters = bucketDopeQuery.parameters,
-            )
-        }
+    val expiration: IField<NumberType> = MetaField(this, "expiration")
 
-    val cas: Field<NumberType> = MetaField(this, "cas")
+    val flags: IField<NumberType> = MetaField(this, "flags")
 
-    val expiration: Field<NumberType> = MetaField(this, "expiration")
+    val id: IField<StringType> = MetaField(this, "id")
 
-    val flags: Field<NumberType> = MetaField(this, "flags")
+    val type: IField<StringType> = MetaField(this, "type")
 
-    val id: Field<StringType> = MetaField(this, "id")
+    val keyspace: IField<StringType> = MetaField(this, "keyspace")
 
-    val type: Field<StringType> = MetaField(this, "type")
-
-    val keyspace: Field<StringType> = MetaField(this, "keyspace")
-
-    private class MetaField<T : ValidType>(
-        private val metaExpression: MetaExpression,
-        private val name: String,
-    ) : Field<T>(name, "") {
-        override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-            val metaExpressionDopeQuery = metaExpression.toDopeQuery(manager)
-            return DopeQuery(
-                queryString = "${metaExpressionDopeQuery.queryString}.`$name`",
-                parameters = metaExpressionDopeQuery.parameters,
-            )
-        }
+    data class MetaField<T : ValidType>(
+        val metaExpression: MetaExpression,
+        override val name: String,
+    ) : IField<T> {
+        override val path: String = ""
     }
 }
 

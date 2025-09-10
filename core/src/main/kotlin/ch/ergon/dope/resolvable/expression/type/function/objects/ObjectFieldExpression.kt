@@ -7,10 +7,10 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectFieldExpression(
-    objectExpression: TypeExpression<ObjectType>,
-    attributeKey: TypeExpression<StringType>,
-) : FunctionExpression<ValidType>("OBJECT_FIELD", objectExpression, attributeKey)
+data class ObjectFieldExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+    val attributeKey: TypeExpression<StringType>,
+) : FunctionExpression<ValidType>("OBJECT_FIELD", listOf(objectExpression, attributeKey))
 
 fun TypeExpression<ObjectType>.getField(key: TypeExpression<StringType>) =
     ObjectFieldExpression(this, key)

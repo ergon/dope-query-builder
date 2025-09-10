@@ -1,12 +1,10 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.util.formatPathToQueryString
 import ch.ergon.dope.validtype.ValidType
 
-open class Field<T : ValidType>(private val name: String, private val path: String) : TypeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager) = DopeQuery(
-        queryString = formatPathToQueryString(name, path),
-    )
+interface IField<T : ValidType> : TypeExpression<T> {
+    val name: String
+    val path: String
 }
+
+data class Field<T : ValidType>(override val name: String, override val path: String) : IField<T>

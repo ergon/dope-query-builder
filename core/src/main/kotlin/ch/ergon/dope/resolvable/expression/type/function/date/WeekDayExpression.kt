@@ -6,12 +6,16 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class WeekDayMillisExpression(date: TypeExpression<NumberType>, timeZone: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("WEEKDAY_MILLIS", date, timeZone)
+data class WeekDayMillisExpression(
+    val date: TypeExpression<NumberType>,
+    val timeZone: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>("WEEKDAY_MILLIS", listOf(date, timeZone))
 
-class WeekDayStrExpression(date: TypeExpression<StringType>) : FunctionExpression<StringType>("WEEKDAY_STR", date)
+data class WeekDayStrExpression(val date: TypeExpression<StringType>) :
+    FunctionExpression<StringType>("WEEKDAY_STR", listOf(date))
 
-fun TypeExpression<NumberType>.extractWeekdayName(timeZone: TypeExpression<StringType>? = null) = WeekDayMillisExpression(this, timeZone)
+fun TypeExpression<NumberType>.extractWeekdayName(timeZone: TypeExpression<StringType>? = null) =
+    WeekDayMillisExpression(this, timeZone)
 
 fun TypeExpression<NumberType>.extractWeekdayName(timeZone: String) = extractWeekdayName(timeZone.toDopeType())
 

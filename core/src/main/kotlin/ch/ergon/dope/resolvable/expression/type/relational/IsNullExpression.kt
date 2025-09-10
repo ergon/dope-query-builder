@@ -1,37 +1,18 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-class IsNullExpression(
-    private val field: Field<out ValidType>,
-) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val fieldDopeQuery = field.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NULL"),
-            parameters = fieldDopeQuery.parameters,
-        )
-    }
-}
+data class IsNullExpression(
+    val field: IField<out ValidType>,
+) : TypeExpression<BooleanType>
 
-fun Field<out ValidType>.isNull() = IsNullExpression(this)
+fun IField<out ValidType>.isNull() = IsNullExpression(this)
 
-class IsNotNullExpression(
-    private val field: Field<out ValidType>,
-) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val fieldDopeQuery = field.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = formatToQueryString(fieldDopeQuery.queryString, "IS NOT NULL"),
-            parameters = fieldDopeQuery.parameters,
-        )
-    }
-}
+data class IsNotNullExpression(
+    val field: IField<out ValidType>,
+) : TypeExpression<BooleanType>
 
-fun Field<out ValidType>.isNotNull() = IsNotNullExpression(this)
+fun IField<out ValidType>.isNotNull() = IsNotNullExpression(this)

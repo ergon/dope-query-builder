@@ -6,16 +6,11 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MBSubstringExpression(
-    inStr: TypeExpression<StringType>,
-    startPos: TypeExpression<NumberType>,
-    length: TypeExpression<NumberType>? = null,
-) : FunctionExpression<StringType>(
-    "MB_SUBSTR",
-    inStr,
-    startPos,
-    length,
-)
+data class MBSubstringExpression(
+    val inStr: TypeExpression<StringType>,
+    val startPos: TypeExpression<NumberType>,
+    val length: TypeExpression<NumberType>? = null,
+) : FunctionExpression<StringType>("MB_SUBSTR", listOf(inStr, startPos, length))
 
 fun mbSubstring(
     inStr: TypeExpression<StringType>,

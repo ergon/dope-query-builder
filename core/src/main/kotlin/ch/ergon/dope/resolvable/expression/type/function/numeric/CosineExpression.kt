@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class CosineExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("COS", value)
+data class CosineExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression("COS", value)
 
 fun cos(value: TypeExpression<NumberType>) = CosineExpression(value)
 

@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class ArcSineExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("ASIN", value)
+data class ArcSineExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression("ASIN", value)
 
 fun asin(value: TypeExpression<NumberType>) = ArcSineExpression(value)
 

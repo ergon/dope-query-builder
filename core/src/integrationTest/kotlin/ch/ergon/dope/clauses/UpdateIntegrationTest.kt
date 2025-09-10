@@ -9,7 +9,6 @@ import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.clause.model.toNewValue
-import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType

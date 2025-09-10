@@ -9,17 +9,17 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayRemoveExpression<T : ValidType>(
-    array: TypeExpression<ArrayType<T>>,
-    value: TypeExpression<T>,
-    vararg additionalValues: TypeExpression<T>,
-) : ArrayFunctionExpression<T>("ARRAY_REMOVE", array, value, *additionalValues)
+data class ArrayRemoveExpression<T : ValidType>(
+    override val array: TypeExpression<ArrayType<T>>,
+    val value: TypeExpression<T>,
+    val additionalValues: List<TypeExpression<T>> = emptyList(),
+) : ArrayFunctionExpression<T>("ARRAY_REMOVE", array, listOf(value, *additionalValues.toTypedArray()))
 
 fun <T : ValidType> arrayRemove(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayRemoveExpression(array, value, *additionalValues)
+) = ArrayRemoveExpression(array, value, additionalValues.toList())
 
 fun arrayRemove(
     array: TypeExpression<ArrayType<StringType>>,

@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class ArcTangent2Expression(divisor: TypeExpression<NumberType>, dividend: TypeExpression<NumberType>) :
+data class ArcTangent2Expression(val divisor: TypeExpression<NumberType>, val dividend: TypeExpression<NumberType>) :
     NumberFunctionExpression("ATAN2", divisor, dividend)
 
 fun atan2(divisor: TypeExpression<NumberType>, dividend: TypeExpression<NumberType>) =

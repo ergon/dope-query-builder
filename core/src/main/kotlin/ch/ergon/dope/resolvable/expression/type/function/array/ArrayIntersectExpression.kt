@@ -5,17 +5,17 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayIntersectExpression<T : ValidType>(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) : ArrayFunctionExpression<T>("ARRAY_INTERSECT", firstArray, secondArray, *additionalArrays)
+data class ArrayIntersectExpression<T : ValidType>(
+    val firstArray: TypeExpression<ArrayType<T>>,
+    val secondArray: TypeExpression<ArrayType<T>>,
+    val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
+) : ArrayFunctionExpression<T>("ARRAY_INTERSECT", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arrayIntersect(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayIntersectExpression(firstArray, secondArray, *additionalArrays)
+) = ArrayIntersectExpression(firstArray, secondArray, additionalArrays.toList())
 
 fun <T : ValidType> arrayIntersect(
     firstArray: ISelectOffsetClause<T>,

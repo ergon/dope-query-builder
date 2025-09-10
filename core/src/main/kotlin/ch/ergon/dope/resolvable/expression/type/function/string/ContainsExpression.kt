@@ -6,10 +6,10 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 
-class ContainsExpression(
-    inStr: TypeExpression<StringType>,
-    searchStr: TypeExpression<StringType>,
-) : FunctionExpression<BooleanType>("CONTAINS", inStr, searchStr)
+data class ContainsExpression(
+    val inStr: TypeExpression<StringType>,
+    val searchStr: TypeExpression<StringType>,
+) : FunctionExpression<BooleanType>("CONTAINS", listOf(inStr, searchStr))
 
 fun contains(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     ContainsExpression(inStr, searchStr)

@@ -1,12 +1,14 @@
 package ch.ergon.dope.resolvable.expression.rowscope.aggregate
 
 import ch.ergon.dope.resolvable.Asterisk
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -14,72 +16,109 @@ import ch.ergon.dope.validtype.ValidType
 
 private const val COUNT = "COUNT"
 
-class CountExpression : AggregateFunctionExpression<NumberType> {
-    constructor(
-        field: Field<out ValidType>,
-        windowReference: String,
-        quantifier: AggregateQuantifier? = null,
-    ) : super(COUNT, field, quantifier, OverWindowReference(windowReference))
-
-    constructor(
-        field: Field<out ValidType>,
-        quantifier: AggregateQuantifier? = null,
-        windowReferenceExpression: TypeExpression<StringType>? = null,
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>? = null,
-        windowFrameClause: WindowFrameClause? = null,
-    ) : super(
-        COUNT,
-        field,
-        quantifier,
-        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
-            null
-        } else {
-            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
-        },
-    )
+data class CountExpressionWithReference(
+    val field: IField<out ValidType>,
+    val windowReference: String,
+    override val quantifier: AggregateQuantifier? = null,
+) : AggregateFunctionExpression<NumberType> {
+    override val selectable: Selectable = field
+    override val functionName: String = COUNT
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
-class CountAsteriskExpression : AggregateFunctionExpression<NumberType> {
-    constructor(
-        windowReference: String,
-    ) : super(COUNT, Asterisk(), quantifier = null, OverWindowReference(windowReference))
+data class CountExpression(
+    val field: IField<out ValidType>,
+    override val quantifier: AggregateQuantifier? = null,
+    val windowReferenceExpression: TypeExpression<StringType>? = null,
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>? = null,
+    val windowFrameClause: WindowFrameClause? = null,
+) : AggregateFunctionExpression<NumberType> {
+    override val selectable: Selectable = field
+    override val functionName: String = COUNT
+    override val overDefinition: OverDefinition? = if (listOf(
+            windowReferenceExpression,
+            windowPartitionClause,
+            windowOrderClause,
+            windowFrameClause,
+        ).all { it == null }
+    ) {
+        null
+    } else {
+        OverWindowDefinition(
+            WindowDefinition(
+                windowReferenceExpression,
+                windowPartitionClause,
+                windowOrderClause,
+                windowFrameClause,
+            ),
+        )
+    }
+}
 
-    constructor(
-        windowReferenceExpression: TypeExpression<StringType>? = null,
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>? = null,
-        windowFrameClause: WindowFrameClause? = null,
-    ) : super(
-        COUNT,
-        Asterisk(),
-        null,
-        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
-            null
-        } else {
-            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
-        },
-    )
+data class CountAsteriskExpressionWithReference(
+    val windowReference: String,
+) : AggregateFunctionExpression<NumberType> {
+    override val selectable: Selectable = Asterisk()
+    override val functionName: String = COUNT
+    override val quantifier: AggregateQuantifier? = null
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
+}
+
+data class CountAsteriskExpression(
+    val windowReferenceExpression: TypeExpression<StringType>? = null,
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>? = null,
+    val windowFrameClause: WindowFrameClause? = null,
+) : AggregateFunctionExpression<NumberType> {
+    override val selectable: Selectable = Asterisk()
+    override val functionName: String = COUNT
+    override val quantifier: AggregateQuantifier? = null
+    override val overDefinition: OverDefinition? = if (listOf(
+            windowReferenceExpression,
+            windowPartitionClause,
+            windowOrderClause,
+            windowFrameClause,
+        ).all { it == null }
+    ) {
+        null
+    } else {
+        OverWindowDefinition(
+            WindowDefinition(
+                windowReferenceExpression,
+                windowPartitionClause,
+                windowOrderClause,
+                windowFrameClause,
+            ),
+        )
+    }
 }
 
 fun count(
-    field: Field<out ValidType>,
+    field: IField<out ValidType>,
     quantifier: AggregateQuantifier? = null,
     windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = CountExpression(field, quantifier, windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = CountExpression(
+    field,
+    quantifier,
+    windowReferenceExpression,
+    windowPartitionClause,
+    windowOrderClause,
+    windowFrameClause,
+)
 
 fun count(
-    field: Field<out ValidType>,
+    field: IField<out ValidType>,
     windowReference: String,
     quantifier: AggregateQuantifier? = null,
-) = CountExpression(field, windowReference, quantifier)
+) = CountExpressionWithReference(field, windowReference, quantifier)
 
 fun countAsterisk(
     windowReference: String,
-) = CountAsteriskExpression(windowReference)
+) = CountAsteriskExpressionWithReference(windowReference)
 
 fun countAsterisk(
     windowReferenceExpression: TypeExpression<StringType>? = null,

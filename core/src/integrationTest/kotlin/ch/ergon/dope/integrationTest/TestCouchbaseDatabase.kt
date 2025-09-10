@@ -24,7 +24,7 @@ const val MAX_RETRIES = 5
 const val MAX_TIMEOUT_IN_SECONDS = 15
 
 object TestCouchbaseDatabase {
-    private val container = CouchbaseContainer(
+    val container = CouchbaseContainer(
         DockerImageName.parse("couchbase/server:latest"),
     )
     val cluster: Cluster

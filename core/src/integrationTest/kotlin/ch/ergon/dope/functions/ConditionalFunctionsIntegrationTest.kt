@@ -7,7 +7,6 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
-import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.function.conditional.decode
 import ch.ergon.dope.resolvable.expression.type.function.conditional.ifMissingOrNull

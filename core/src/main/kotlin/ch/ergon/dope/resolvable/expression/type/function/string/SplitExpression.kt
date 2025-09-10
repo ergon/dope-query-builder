@@ -6,12 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 
-class SplitExpression(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) :
-    FunctionExpression<ArrayType<StringType>>(
-        "SPLIT",
-        inStr,
-        inSubstring,
-    )
+data class SplitExpression(val inStr: TypeExpression<StringType>, val inSubstring: TypeExpression<StringType>? = null) :
+    FunctionExpression<ArrayType<StringType>>("SPLIT", listOf(inStr, inSubstring))
 
 fun split(inStr: TypeExpression<StringType>, inSubstring: TypeExpression<StringType>? = null) =
     SplitExpression(inStr, inSubstring)

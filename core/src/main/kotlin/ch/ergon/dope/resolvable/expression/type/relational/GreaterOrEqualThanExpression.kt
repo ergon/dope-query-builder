@@ -1,6 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -9,12 +8,10 @@ import ch.ergon.dope.validtype.ComparableType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class GreaterOrEqualThanExpression<T : ComparableType>(
-    left: TypeExpression<T>,
-    right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, ">=", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class GreaterOrEqualThanExpression<T : ComparableType>(
+    override val left: TypeExpression<T>,
+    override val right: TypeExpression<T>,
+) : TypeExpression<BooleanType>, InfixOperator(left, ">=", right)
 
 fun <T : ComparableType> TypeExpression<T>.isGreaterOrEqualThan(right: TypeExpression<T>): GreaterOrEqualThanExpression<T> =
     GreaterOrEqualThanExpression(this, right)

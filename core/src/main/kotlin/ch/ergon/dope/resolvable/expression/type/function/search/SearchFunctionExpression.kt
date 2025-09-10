@@ -1,14 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.search
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionType.SEARCH
-import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
@@ -18,77 +13,61 @@ enum class SearchFunctionType(val type: String) {
     SEARCH_SCORE("SEARCH_SCORE"),
 }
 
-class SearchFunctionExpression : TypeExpression<BooleanType>, FunctionOperator {
-    private val field: Field<out ValidType>?
-    private val bucket: Bucket?
-    private val stringSearchExpression: String?
-    private val objectSearchExpression: Map<String, Any>?
-    private val options: Map<String, Any>?
-
-    constructor(field: Field<out ValidType>, stringSearchExpression: String, options: Map<String, Any>? = null) {
-        this.field = field
-        this.bucket = null
-        this.stringSearchExpression = stringSearchExpression
-        this.objectSearchExpression = null
-        this.options = options
-    }
-
-    constructor(bucket: Bucket, stringSearchExpression: String, options: Map<String, Any>? = null) {
-        this.field = null
-        this.bucket = bucket
-        this.stringSearchExpression = stringSearchExpression
-        this.objectSearchExpression = null
-        this.options = options
-    }
-
-    constructor(field: Field<out ValidType>, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) {
-        this.field = field
-        this.bucket = null
-        this.stringSearchExpression = null
-        this.objectSearchExpression = objectSearchExpression
-        this.options = options
-    }
-
-    constructor(bucket: Bucket, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) {
-        this.field = null
-        this.bucket = bucket
-        this.stringSearchExpression = null
-        this.objectSearchExpression = objectSearchExpression
-        this.options = options
-    }
-
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val fieldDopeQuery = field?.toDopeQuery(manager)
-        val bucketDopeQuery = bucket?.toDopeQuery(manager)
-        val stringSearchExpressionDopeQuery = stringSearchExpression?.toDopeType()?.toDopeQuery(manager)
-        val objectSearchExpressionDopeQuery = objectSearchExpression?.toDopeType()?.toDopeQuery(manager)
-        val optionsDopeQuery = options?.toDopeType()?.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString(
-                SEARCH.type,
-                fieldDopeQuery,
-                bucketDopeQuery,
-                stringSearchExpressionDopeQuery,
-                objectSearchExpressionDopeQuery,
-                optionsDopeQuery,
-            ),
-            parameters = fieldDopeQuery?.parameters.orEmpty().merge(
-                bucketDopeQuery?.parameters,
-                objectSearchExpressionDopeQuery?.parameters,
-                optionsDopeQuery?.parameters,
-            ),
-        )
-    }
+interface ISearchFunctionExpression : TypeExpression<BooleanType>, FunctionOperator {
+    val field: IField<out ValidType>?
+    val bucket: Bucket?
+    val stringSearchExpression: String?
+    val objectSearchExpression: Map<String, Any>?
+    val options: Map<String, Any>?
 }
 
-fun fullTextSearch(field: Field<out ValidType>, stringSearchExpression: String, options: Map<String, Any>? = null) =
-    SearchFunctionExpression(field, stringSearchExpression, options)
+data class SearchFunctionExpressionFieldStringSearch(
+    override val field: IField<out ValidType>,
+    override val stringSearchExpression: String,
+    override val options: Map<String, Any>? = null,
+) : ISearchFunctionExpression {
+    override val bucket: Bucket? = null
+    override val objectSearchExpression: Map<String, Any>? = null
+}
+
+data class SearchFunctionExpressionBucketStringSearch(
+    override val bucket: Bucket,
+    override val stringSearchExpression: String,
+    override val options: Map<String, Any>? = null,
+) : ISearchFunctionExpression {
+    override val field: IField<out ValidType>? = null
+    override val objectSearchExpression: Map<String, Any>? = null
+}
+
+data class SearchFunctionExpressionFieldObjectSearch( // todo rename
+    override val field: IField<out ValidType>,
+    override val objectSearchExpression: Map<String, Any>,
+    override val options: Map<String, Any>? = null,
+) : ISearchFunctionExpression {
+    override val bucket: Bucket? = null
+    override val stringSearchExpression: String? = null
+}
+
+data class SearchFunctionExpressionBucketObjectSearch(
+    override val bucket: Bucket,
+    override val objectSearchExpression: Map<String, Any>,
+    override val options: Map<String, Any>? = null,
+) : ISearchFunctionExpression {
+    override val field: IField<out ValidType>? = null
+    override val stringSearchExpression: String? = null
+}
+
+fun fullTextSearch(field: IField<out ValidType>, stringSearchExpression: String, options: Map<String, Any>? = null) =
+    SearchFunctionExpressionFieldStringSearch(field, stringSearchExpression, options)
 
 fun fullTextSearch(bucket: Bucket, stringSearchExpression: String, options: Map<String, Any>? = null) =
-    SearchFunctionExpression(bucket, stringSearchExpression, options)
+    SearchFunctionExpressionBucketStringSearch(bucket, stringSearchExpression, options)
 
-fun fullTextSearch(field: Field<out ValidType>, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) =
-    SearchFunctionExpression(field, objectSearchExpression, options)
+fun fullTextSearch(
+    field: IField<out ValidType>,
+    objectSearchExpression: Map<String, Any>,
+    options: Map<String, Any>? = null,
+) = SearchFunctionExpressionFieldObjectSearch(field, objectSearchExpression, options)
 
 fun fullTextSearch(bucket: Bucket, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) =
-    SearchFunctionExpression(bucket, objectSearchExpression, options)
+    SearchFunctionExpressionBucketObjectSearch(bucket, objectSearchExpression, options)

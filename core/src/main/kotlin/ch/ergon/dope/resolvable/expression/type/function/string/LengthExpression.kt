@@ -6,10 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class LengthExpression(inStr: TypeExpression<StringType>) : FunctionExpression<NumberType>(
-    "LENGTH",
-    inStr,
-)
+data class LengthExpression(val inStr: TypeExpression<StringType>) :
+    FunctionExpression<NumberType>("LENGTH", listOf(inStr))
 
 fun length(inStr: TypeExpression<StringType>) = LengthExpression(inStr)
 

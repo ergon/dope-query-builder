@@ -6,10 +6,10 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 
-class ObjectRemoveExpression(
-    objectExpression: TypeExpression<ObjectType>,
-    attributeKey: TypeExpression<StringType>,
-) : FunctionExpression<ObjectType>("OBJECT_REMOVE", objectExpression, attributeKey)
+data class ObjectRemoveExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+    val attributeKey: TypeExpression<StringType>,
+) : FunctionExpression<ObjectType>("OBJECT_REMOVE", listOf(objectExpression, attributeKey))
 
 fun TypeExpression<ObjectType>.removeAttribute(key: TypeExpression<StringType>) = ObjectRemoveExpression(this, key)
 

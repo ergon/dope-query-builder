@@ -6,9 +6,9 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 
-class ObjectPathsExpression(
-    objectExpression: TypeExpression<ObjectType>,
-    options: TypeExpression<ObjectType>? = null,
-) : FunctionExpression<ArrayType<StringType>>("OBJECT_PATHS", objectExpression, options)
+data class ObjectPathsExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+    val options: TypeExpression<ObjectType>? = null,
+) : FunctionExpression<ArrayType<StringType>>("OBJECT_PATHS", listOf(objectExpression, options))
 
 fun TypeExpression<ObjectType>.getPaths(options: TypeExpression<ObjectType>? = null) = ObjectPathsExpression(this, options)

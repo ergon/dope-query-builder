@@ -1,8 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -11,34 +8,34 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 sealed class Parameter<T : ValidType>(
-    private val value: Any,
-    private val parameterName: String?,
-) : TypeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery = when (parameterName) {
-        null -> {
-            val unnamedParameterCount = "\$${manager.parameterManager.count}"
-            DopeQuery(
-                queryString = unnamedParameterCount,
-                parameters = DopeParameters(positionalParameters = listOf(value)),
-            )
-        }
+    open val value: Any,
+    open val parameterName: String?,
+) : TypeExpression<T>
 
-        else -> DopeQuery(
-            queryString = "\$$parameterName",
-            parameters = DopeParameters(namedParameters = mapOf(parameterName to value)),
-        )
-    }
-}
+data class NumberParameter(
+    override val value: Number,
+    override val parameterName: String? = null,
+) : Parameter<NumberType>(value, parameterName)
 
-class NumberParameter(value: Number, parameterName: String? = null) : Parameter<NumberType>(value, parameterName)
+data class StringParameter(
+    override val value: String,
+    override val parameterName: String? = null,
+) : Parameter<StringType>(value, parameterName)
 
-class StringParameter(value: String, parameterName: String? = null) : Parameter<StringType>(value, parameterName)
+data class BooleanParameter(
+    override val value: Boolean,
+    override val parameterName: String? = null,
+) : Parameter<BooleanType>(value, parameterName)
 
-class BooleanParameter(value: Boolean, parameterName: String? = null) : Parameter<BooleanType>(value, parameterName)
+data class ArrayParameter<T : ValidType>(
+    override val value: Collection<Any>,
+    override val parameterName: String? = null,
+) : Parameter<ArrayType<T>>(value, parameterName)
 
-class ArrayParameter<T : ValidType>(value: Collection<Any>, parameterName: String? = null) : Parameter<ArrayType<T>>(value, parameterName)
-
-class ObjectParameter(value: Map<String, Any>, parameterName: String? = null) : Parameter<ObjectType>(value, parameterName)
+data class ObjectParameter(
+    override val value: Map<String, Any>,
+    override val parameterName: String? = null,
+) : Parameter<ObjectType>(value, parameterName)
 
 fun Number.asParameter(parameterName: String? = null) = NumberParameter(this, parameterName)
 

@@ -13,7 +13,7 @@ import ch.ergon.dope.resolvable.clause.model.UpdateLimitClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningClause
 import ch.ergon.dope.resolvable.clause.model.UpdateReturningSingleClause
 import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
@@ -24,7 +24,7 @@ interface IUpdateReturningClause : Clause
 
 interface IUpdateLimitClause : IUpdateReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
-        UpdateReturningClause(returningExpression, *additionalReturningExpressions, parentClause = this)
+        UpdateReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
     fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(Asterisk(bucket), parentClause = this)
 
@@ -48,11 +48,11 @@ interface IUpdateUnsetClause : IUpdateWhereClause {
 }
 
 interface IUpdateSetClause : IUpdateUnsetClause {
-    fun unset(field: Field<out ValidType>, vararg fields: Field<out ValidType>) =
-        UnsetClause(field, *fields, parentClause = this)
+    fun unset(field: IField<out ValidType>, vararg fields: IField<out ValidType>) =
+        UnsetClause(field, fields.toList(), parentClause = this)
 }
 
 interface IUpdateClause : IUpdateSetClause {
     fun set(setAssignment: SetAssignment<out ValidType>, vararg setAssignments: SetAssignment<out ValidType>) =
-        SetClause(setAssignment, *setAssignments, parentClause = this)
+        SetClause(setAssignment, setAssignments.toList(), parentClause = this)
 }

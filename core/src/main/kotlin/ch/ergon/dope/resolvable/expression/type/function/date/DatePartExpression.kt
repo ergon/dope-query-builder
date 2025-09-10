@@ -6,14 +6,14 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class DatePartMillisExpression(
-    date: TypeExpression<NumberType>,
-    component: DateComponent,
-    timeZone: TypeExpression<StringType>? = null,
-) : FunctionExpression<NumberType>("DATE_PART_MILLIS", date, component, timeZone)
+data class DatePartMillisExpression(
+    val date: TypeExpression<NumberType>,
+    val component: DateComponent,
+    val timeZone: TypeExpression<StringType>? = null,
+) : FunctionExpression<NumberType>("DATE_PART_MILLIS", listOf(date, component, timeZone))
 
-class DatePartStrExpression(date: TypeExpression<StringType>, component: DateComponent) :
-    FunctionExpression<NumberType>("DATE_PART_STR", date, component)
+data class DatePartStrExpression(val date: TypeExpression<StringType>, val component: DateComponent) :
+    FunctionExpression<NumberType>("DATE_PART_STR", listOf(date, component))
 
 fun TypeExpression<NumberType>.extractDateComponent(component: DateComponent, timeZone: TypeExpression<StringType>? = null) =
     DatePartMillisExpression(this, component, timeZone)

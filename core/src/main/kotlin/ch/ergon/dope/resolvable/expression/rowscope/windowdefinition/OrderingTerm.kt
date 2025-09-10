@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowdefinition
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.expression.Expression
@@ -14,21 +12,11 @@ enum class NullsOrder(val queryString: String) {
     NULLS_LAST("$NULLS LAST"),
 }
 
-class OrderingTerm(
-    private val expression: Expression<out ValidType>,
-    private val orderType: OrderType? = null,
-    private val nullsOrder: NullsOrder? = null,
-) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionDopeQuery = expression.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = expressionDopeQuery.queryString +
-                (orderType?.let { " $it" }.orEmpty()) +
-                (nullsOrder?.let { " ${it.queryString}" }.orEmpty()),
-            parameters = expressionDopeQuery.parameters,
-        )
-    }
-}
+data class OrderingTerm(
+    val expression: Expression<out ValidType>,
+    val orderType: OrderType? = null,
+    val nullsOrder: NullsOrder? = null,
+) : Resolvable
 
 fun orderingTerm(
     expression: Expression<out ValidType>,

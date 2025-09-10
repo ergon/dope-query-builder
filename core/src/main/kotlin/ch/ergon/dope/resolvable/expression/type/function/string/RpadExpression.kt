@@ -6,11 +6,11 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class RpadExpression(
-    inStr: TypeExpression<StringType>,
-    size: TypeExpression<NumberType>,
-    char: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("RPAD", inStr, size, char)
+data class RpadExpression(
+    val inStr: TypeExpression<StringType>,
+    val size: TypeExpression<NumberType>,
+    val char: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>("RPAD", listOf(inStr, size, char))
 
 fun rpad(
     inStr: TypeExpression<StringType>,

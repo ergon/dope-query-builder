@@ -12,21 +12,22 @@ import kotlin.test.assertEquals
 class SearchFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `full text search type field`() {
-        val dopeQuery = QueryBuilder.select(
-            meta().id,
-        ).from(
-            testBucket,
-        ).where(
-            fullTextSearch(
+        val dopeQuery = QueryBuilder
+            .select(
+                meta().id,
+            ).from(
                 testBucket,
-                mapOf(
-                    "query" to mapOf(
-                        "field" to "type",
-                        "match" to "order",
+            ).where(
+                fullTextSearch(
+                    testBucket,
+                    mapOf(
+                        "query" to mapOf(
+                            "field" to "type",
+                            "match" to "order",
+                        ),
                     ),
                 ),
-            ),
-        ).build()
+            ).build()
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

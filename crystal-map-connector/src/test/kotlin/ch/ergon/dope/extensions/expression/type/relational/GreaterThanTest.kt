@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.relational.isGreaterThan
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCMNumberField
@@ -18,9 +16,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class GreaterThanTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class GreaterThanTest {
     @Test
     fun `should support greater than with CMJsonFieldNumber CMJsonFieldNumber`() {
         val left = someCMNumberField()
@@ -29,7 +25,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -40,7 +36,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -51,7 +47,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -62,7 +58,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -73,7 +69,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,7 +80,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -95,7 +91,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -106,7 +102,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -117,7 +113,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -128,7 +124,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -139,7 +135,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -150,7 +146,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -161,7 +157,7 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -172,6 +168,6 @@ class GreaterThanTest : ManagerDependentTest {
 
         val actual = left.isGreaterThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

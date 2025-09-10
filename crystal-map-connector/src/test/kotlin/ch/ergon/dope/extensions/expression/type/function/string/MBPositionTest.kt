@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.mbPosition
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,9 +10,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MBPositionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class MBPositionTest {
     @Test
     fun `should support MBPosition with CM string CM string`() {
         val string1 = someCMStringField()
@@ -23,7 +19,7 @@ class MBPositionTest : ManagerDependentTest {
 
         val actual = mbPosition(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -34,7 +30,7 @@ class MBPositionTest : ManagerDependentTest {
 
         val actual = mbPosition(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -45,7 +41,7 @@ class MBPositionTest : ManagerDependentTest {
 
         val actual = mbPosition(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -56,7 +52,7 @@ class MBPositionTest : ManagerDependentTest {
 
         val actual = mbPosition(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -67,6 +63,6 @@ class MBPositionTest : ManagerDependentTest {
 
         val actual = mbPosition(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

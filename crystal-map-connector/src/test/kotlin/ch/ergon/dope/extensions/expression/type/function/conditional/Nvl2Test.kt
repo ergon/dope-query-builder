@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.conditional
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.conditional.nvl2
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBooleanFieldList
@@ -24,9 +22,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Nvl2Test : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class Nvl2Test {
     @Test
     fun `should support nvl2 CMType CMNumberField CMNumberField`() {
         val expression = someCMStringField()
@@ -36,7 +32,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -48,7 +44,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -60,7 +56,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -72,7 +68,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,7 +80,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -96,7 +92,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -108,7 +104,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -120,7 +116,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -132,7 +128,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -144,7 +140,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -156,7 +152,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -168,7 +164,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -180,7 +176,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -192,7 +188,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -204,7 +200,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -216,7 +212,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -228,7 +224,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -240,7 +236,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -252,7 +248,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -264,7 +260,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -276,7 +272,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -288,7 +284,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -300,7 +296,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -312,7 +308,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -324,7 +320,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -336,7 +332,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -348,7 +344,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -360,7 +356,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -372,7 +368,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -384,7 +380,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -396,7 +392,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -408,7 +404,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -420,7 +416,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -432,7 +428,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -444,7 +440,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -456,7 +452,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -468,7 +464,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -480,7 +476,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -492,7 +488,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -504,7 +500,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -516,7 +512,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -528,7 +524,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -540,7 +536,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -552,7 +548,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -564,7 +560,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -576,7 +572,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -588,7 +584,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -600,7 +596,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -612,7 +608,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -624,7 +620,7 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -636,6 +632,6 @@ class Nvl2Test : ManagerDependentTest {
 
         val actual = nvl2(expression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

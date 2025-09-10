@@ -6,18 +6,12 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class ReplaceExpression(
-    inStr: TypeExpression<StringType>,
-    searchStr: TypeExpression<StringType>,
-    replace: TypeExpression<StringType>,
-    numberOfInstances: TypeExpression<NumberType>? = null,
-) : FunctionExpression<StringType>(
-    "REPLACE",
-    inStr,
-    searchStr,
-    replace,
-    numberOfInstances,
-)
+data class ReplaceExpression(
+    val inStr: TypeExpression<StringType>,
+    val searchStr: TypeExpression<StringType>,
+    val replace: TypeExpression<StringType>,
+    val numberOfInstances: TypeExpression<NumberType>? = null,
+) : FunctionExpression<StringType>("REPLACE", listOf(inStr, searchStr, replace, numberOfInstances))
 
 fun replace(
     inStr: TypeExpression<StringType>,

@@ -6,8 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 
-class SuffixesExpression(inStr: TypeExpression<StringType>) :
-    FunctionExpression<ArrayType<StringType>>("SUFFIXES", inStr)
+data class SuffixesExpression(val inStr: TypeExpression<StringType>) :
+    FunctionExpression<ArrayType<StringType>>("SUFFIXES", listOf(inStr))
 
 fun suffixes(inStr: TypeExpression<StringType>) = SuffixesExpression(inStr)
 

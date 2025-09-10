@@ -9,17 +9,17 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayPutExpression<T : ValidType>(
-    array: TypeExpression<ArrayType<T>>,
-    value: TypeExpression<T>,
-    vararg additionalValues: TypeExpression<T>,
-) : ArrayFunctionExpression<T>("ARRAY_PUT", array, value, *additionalValues)
+data class ArrayPutExpression<T : ValidType>(
+    override val array: TypeExpression<ArrayType<T>>,
+    val value: TypeExpression<T>,
+    val additionalValues: List<TypeExpression<T>> = emptyList(),
+) : ArrayFunctionExpression<T>("ARRAY_PUT", array, listOf(value, *additionalValues.toTypedArray()))
 
 fun <T : ValidType> arrayPut(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayPutExpression(array, value, *additionalValues)
+) = ArrayPutExpression(array, value, additionalValues.toList())
 
 fun arrayPut(
     array: TypeExpression<ArrayType<StringType>>,

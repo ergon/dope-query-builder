@@ -5,9 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-class IsNumberExpression<T : ValidType>(expression: TypeExpression<T>) : FunctionExpression<BooleanType>(
-    "ISNUMBER",
-    expression,
-)
+data class IsNumberExpression<T : ValidType>(val expression: TypeExpression<T>) :
+    FunctionExpression<BooleanType>("ISNUMBER", listOf(expression))
 
 fun <T : ValidType> TypeExpression<T>.isNumber() = IsNumberExpression(this)

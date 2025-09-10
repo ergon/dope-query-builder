@@ -6,11 +6,17 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class DateDiffMillisExpression(date: TypeExpression<NumberType>, other: TypeExpression<NumberType>, dateUnit: DateUnit) :
-    FunctionExpression<NumberType>("DATE_DIFF_MILLIS", date, other, dateUnit)
+data class DateDiffMillisExpression(
+    val date: TypeExpression<NumberType>,
+    val other: TypeExpression<NumberType>,
+    val dateUnit: DateUnit,
+) : FunctionExpression<NumberType>("DATE_DIFF_MILLIS", listOf(date, other, dateUnit))
 
-class DateDiffStrExpression(date: TypeExpression<StringType>, other: TypeExpression<StringType>, dateUnit: DateUnit) :
-    FunctionExpression<NumberType>("DATE_DIFF_STR", date, other, dateUnit)
+data class DateDiffStrExpression(
+    val date: TypeExpression<StringType>,
+    val other: TypeExpression<StringType>,
+    val dateUnit: DateUnit,
+) : FunctionExpression<NumberType>("DATE_DIFF_STR", listOf(date, other, dateUnit))
 
 @JvmName("millisDiffTypeDateComponent")
 fun TypeExpression<NumberType>.differenceIn(

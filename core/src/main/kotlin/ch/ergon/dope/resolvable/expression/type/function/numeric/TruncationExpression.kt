@@ -4,8 +4,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class TruncationExpression(value: TypeExpression<NumberType>, digits: TypeExpression<NumberType>? = null) :
-    NumberFunctionExpression("TRUNC", value, digits)
+data class TruncationExpression(
+    override val value: TypeExpression<NumberType>,
+    val digits: TypeExpression<NumberType>? = null,
+) : NumberFunctionExpression("TRUNC", value, digits)
 
 fun trunc(value: TypeExpression<NumberType>) = TruncationExpression(value)
 

@@ -1,13 +1,11 @@
 package ch.ergon.dope.extensions.expression.aggregate
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.aggregate.avg
 import ch.ergon.dope.extension.expression.aggregate.mean
 import ch.ergon.dope.extension.expression.aggregate.median
 import ch.ergon.dope.extension.expression.aggregate.stdDev
 import ch.ergon.dope.extension.expression.aggregate.sum
 import ch.ergon.dope.extension.expression.aggregate.variance
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AverageExpression
@@ -20,9 +18,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NumberAggregateTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class NumberAggregateTest {
     @Test
     fun `should support avg with CMJsonField Number`() {
         val field = someCMNumberField()
@@ -31,7 +27,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = avg(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -42,7 +38,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = avg(field, ALL)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -53,7 +49,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = mean(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -64,7 +60,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = mean(field, ALL)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -75,7 +71,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = median(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -86,7 +82,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = median(field, ALL)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -97,7 +93,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = sum(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -108,7 +104,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = sum(field, ALL)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -119,7 +115,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = stdDev(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -130,7 +126,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = stdDev(field, ALL)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -141,7 +137,7 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = variance(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -152,6 +148,6 @@ class NumberAggregateTest : ManagerDependentTest {
 
         val actual = variance(field, ALL)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

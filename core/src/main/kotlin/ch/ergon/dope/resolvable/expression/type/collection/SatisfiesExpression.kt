@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.collection
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -18,32 +16,22 @@ enum class SatisfiesType {
 }
 
 sealed class SatisfiesExpression<T : ValidType>(
-    private val satisfiesType: SatisfiesType,
-    private val arrayExpression: SingleExpression<ArrayType<T>>,
-    private val iteratorName: String? = null,
-    private val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
-) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = arrayExpression.toDopeQuery(manager)
-        val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
-        val predicateDopeQuery = predicate(Iterator(iteratorVariable)).toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "$satisfiesType `$iteratorVariable` IN ${arrayDopeQuery.queryString} SATISFIES ${predicateDopeQuery.queryString} END",
-            parameters = arrayDopeQuery.parameters.merge(predicateDopeQuery.parameters),
-        )
-    }
-}
+    val satisfiesType: SatisfiesType,
+    open val arrayExpression: SingleExpression<ArrayType<T>>,
+    open val iteratorName: String? = null,
+    open val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) : TypeExpression<BooleanType>
 
-class AnySatisfiesExpression<T : ValidType>(
-    arrayExpression: SingleExpression<ArrayType<T>>,
-    iteratorName: String? = null,
-    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+data class AnySatisfiesExpression<T : ValidType>(
+    override val arrayExpression: SingleExpression<ArrayType<T>>,
+    override val iteratorName: String? = null,
+    override val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(ANY, arrayExpression, iteratorName, predicate)
 
-class EverySatisfiesExpression<T : ValidType>(
-    arrayExpression: SingleExpression<ArrayType<T>>,
-    iteratorName: String? = null,
-    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+data class EverySatisfiesExpression<T : ValidType>(
+    override val arrayExpression: SingleExpression<ArrayType<T>>,
+    override val iteratorName: String? = null,
+    override val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(EVERY, arrayExpression, iteratorName, predicate)
 
 fun <T : ValidType> SingleExpression<ArrayType<T>>.any(

@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.SetOperatorType.EXCEPT
 import ch.ergon.dope.resolvable.clause.SetOperatorType.INTERSECT
 import ch.ergon.dope.resolvable.clause.SetOperatorType.UNION
@@ -13,23 +11,12 @@ enum class SetOperatorType {
     INTERSECT,
 }
 
-class SetOperator<T : ValidType>(
-    private val setOperatorType: SetOperatorType,
-    private val leftSelect: ISelectOffsetClause<T>,
-    private val rightSelect: ISelectOffsetClause<T>,
-    private val duplicatesAllowed: Boolean,
-) : ISelectOffsetClause<T> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val leftSelectDopeQuery = leftSelect.toDopeQuery(manager)
-        val rightSelectDopeQuery = rightSelect.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "(${leftSelectDopeQuery.queryString}) $setOperatorType " +
-                (if (duplicatesAllowed) "ALL " else "") +
-                "(${rightSelectDopeQuery.queryString})",
-            parameters = leftSelectDopeQuery.parameters.merge(rightSelectDopeQuery.parameters),
-        )
-    }
-}
+data class SetOperator<T : ValidType>(
+    val setOperatorType: SetOperatorType,
+    val leftSelect: ISelectOffsetClause<T>,
+    val rightSelect: ISelectOffsetClause<T>,
+    val duplicatesAllowed: Boolean,
+) : ISelectOffsetClause<T>
 
 fun <T : ValidType> ISelectOffsetClause<T>.union(select: ISelectOffsetClause<T>) =
     SetOperator(UNION, this, select, duplicatesAllowed = false)

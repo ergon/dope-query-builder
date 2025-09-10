@@ -1,10 +1,6 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.MissingType
@@ -14,95 +10,44 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-sealed class Primitive<T : ValidType>(
-    private val generateDopeQuery: (DopeQueryManager) -> DopeQuery,
-) : TypeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager) = generateDopeQuery(manager)
-}
+sealed class Primitive<T : ValidType> : TypeExpression<T>
 
-data object NULL : Primitive<NullType>({ DopeQuery(queryString = "NULL") })
-data object MISSING : Primitive<MissingType>({ DopeQuery(queryString = "MISSING") })
-data object TRUE : Primitive<BooleanType>({ DopeQuery(queryString = "TRUE") })
-data object FALSE : Primitive<BooleanType>({ DopeQuery(queryString = "FALSE") })
+data object NULL : Primitive<NullType>()
+data object MISSING : Primitive<MissingType>()
+data object TRUE : Primitive<BooleanType>()
+data object FALSE : Primitive<BooleanType>()
 
-class NumberPrimitive(value: Number) : Primitive<NumberType>(
-    {
-        DopeQuery(
-            queryString = "$value",
-        )
-    },
-)
+data class NumberPrimitive(val value: Number) : Primitive<NumberType>()
 
-class StringPrimitive(value: String) : Primitive<StringType>(
-    {
-        DopeQuery(
-            queryString = "\"$value\"",
-        )
-    },
-)
+data class StringPrimitive(val value: String) : Primitive<StringType>()
 
-class BooleanPrimitive(value: Boolean) : Primitive<BooleanType>(
-    { manager: DopeQueryManager ->
-        DopeQuery(
-            queryString = when (value) {
-                true -> TRUE.toDopeQuery(manager).queryString
-                false -> FALSE.toDopeQuery(manager).queryString
-            },
-        )
-    },
-)
+data class BooleanPrimitive(val value: Boolean) : Primitive<BooleanType>()
 
-class ArrayPrimitive<T : ValidType>(collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>(
-    { manager: DopeQueryManager ->
-        collection.map { it.toDopeQuery(manager) }.let { dopeQueries ->
-            DopeQuery(
-                queryString = formatListToQueryStringWithBrackets(dopeQueries, prefix = "[", postfix = "]"),
-                parameters = dopeQueries.map { it.parameters }.merge(),
-            )
-        }
-    },
-)
+data class ArrayPrimitive<T : ValidType>(val collection: Collection<TypeExpression<out T>>) : Primitive<ArrayType<T>>()
 
-class ObjectPrimitive(
-    private vararg val entries: ObjectEntryPrimitive<out ValidType>,
-) : Primitive<ObjectType>(
-    { manager: DopeQueryManager ->
-        val entryDopeQueries = entries.map { it.toDopeQuery(manager) }
-        DopeQuery(
-            queryString = "{${entryDopeQueries.joinToString(", ") { it.queryString }}}",
-            parameters = entryDopeQueries.map { it.parameters }.merge(),
-        )
-    },
-)
+data class ObjectPrimitive(
+    val entries: List<ObjectEntryPrimitive<out ValidType>>,
+) : Primitive<ObjectType>()
 
-class ObjectEntryPrimitive<T : ValidType>(
+data class ObjectEntryPrimitive<T : ValidType>(
     val key: TypeExpression<StringType>,
     val value: TypeExpression<T>,
-) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val keyQuery = key.toDopeQuery(manager)
-        val valueQuery = value.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "${keyQuery.queryString} : ${valueQuery.queryString}",
-            parameters = keyQuery.parameters.merge(valueQuery.parameters),
-        )
-    }
-}
+) : Resolvable
 
 fun TypeExpression<StringType>.toObjectEntry(value: TypeExpression<out ValidType>) = ObjectEntryPrimitive(this, value)
 
 fun String.toObjectEntry(value: TypeExpression<out ValidType>) = toDopeType().toObjectEntry(value)
 
-fun List<ObjectEntryPrimitive<out ValidType>>.toDopeType(): ObjectPrimitive = ObjectPrimitive(*toTypedArray())
+fun List<ObjectEntryPrimitive<out ValidType>>.toDopeType(): ObjectPrimitive = ObjectPrimitive(this)
 
 fun <V> Map<String, V>.toDopeType(): ObjectPrimitive =
     ObjectPrimitive(
-        *map { (key, value) ->
+        map { (key, value) ->
             when (value) {
                 is TypeExpression<*> -> key.toDopeType().toObjectEntry(value)
                 else -> key.toDopeType().toObjectEntry(value.toDopeType())
             }
-        }.toTypedArray(),
+        },
     )
 
 fun String.toDopeType() = StringPrimitive(this)

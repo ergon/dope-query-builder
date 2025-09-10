@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayRangeExpression<T : ValidType, U : ValidType>(
+data class ArrayRangeExpression<T : ValidType, U : ValidType>(
     override val membershipType: MembershipType,
     override val range: TypeExpression<ArrayType<T>>,
     override val iteratorName: String? = null,

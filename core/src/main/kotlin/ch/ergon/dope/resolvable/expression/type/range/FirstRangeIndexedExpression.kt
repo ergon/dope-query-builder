@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class FirstRangeIndexedExpression<T : ValidType, U : ValidType>(
+data class FirstRangeIndexedExpression<T : ValidType, U : ValidType>(
     override val membershipType: MembershipType,
     override val range: TypeExpression<ArrayType<T>>,
     override val indexName: String? = null,

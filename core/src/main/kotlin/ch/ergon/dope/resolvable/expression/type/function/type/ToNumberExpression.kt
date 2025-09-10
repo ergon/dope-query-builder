@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.function.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -9,19 +7,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ToNumberExpression<T : ValidType>(
-    private val expression: TypeExpression<T>,
-    private val filterChars: TypeExpression<StringType>? = null,
-) : TypeExpression<NumberType>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionDopeQuery = expression.toDopeQuery(manager)
-        val filterCharsDopeQuery = filterChars?.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString("TONUMBER", expressionDopeQuery, filterCharsDopeQuery),
-            parameters = expressionDopeQuery.parameters.merge(filterCharsDopeQuery?.parameters),
-        )
-    }
-}
+data class ToNumberExpression<T : ValidType>(
+    val expression: TypeExpression<T>,
+    val filterChars: TypeExpression<StringType>? = null,
+) : TypeExpression<NumberType>, FunctionOperator
 
 fun <T : ValidType> TypeExpression<T>.toNumber() = ToNumberExpression(this)
 

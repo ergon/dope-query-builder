@@ -1,6 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -9,12 +8,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class EqualsExpression<T : ValidType>(
-    left: TypeExpression<T>,
-    right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, "=", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class EqualsExpression<T : ValidType>(
+    override val left: TypeExpression<T>,
+    override val right: TypeExpression<T>,
+) : TypeExpression<BooleanType>, InfixOperator(left, "=", right)
 
 fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): EqualsExpression<T> =
     EqualsExpression(this, right)
@@ -46,12 +43,10 @@ fun Boolean.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<Bool
 fun Boolean.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right.toDopeType())
 
-class NotEqualsExpression<T : ValidType>(
-    left: TypeExpression<T>,
-    right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, "!=", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class NotEqualsExpression<T : ValidType>(
+    override val left: TypeExpression<T>,
+    override val right: TypeExpression<T>,
+) : TypeExpression<BooleanType>, InfixOperator(left, "!=", right)
 
 fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> =
     NotEqualsExpression(this, right)

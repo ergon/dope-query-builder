@@ -7,11 +7,11 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectPutExpression(
-    objectExpression: TypeExpression<ObjectType>,
-    attributeKey: TypeExpression<StringType>,
-    attributeValue: TypeExpression<out ValidType>,
-) : FunctionExpression<ObjectType>("OBJECT_PUT", objectExpression, attributeKey, attributeValue)
+data class ObjectPutExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+    val attributeKey: TypeExpression<StringType>,
+    val attributeValue: TypeExpression<out ValidType>,
+) : FunctionExpression<ObjectType>("OBJECT_PUT", listOf(objectExpression, attributeKey, attributeValue))
 
 fun TypeExpression<ObjectType>.putAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
     ObjectPutExpression(this, key, value)

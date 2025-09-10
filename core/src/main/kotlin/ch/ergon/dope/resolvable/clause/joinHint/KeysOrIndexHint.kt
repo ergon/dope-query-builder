@@ -1,8 +1,5 @@
 package ch.ergon.dope.resolvable.clause.joinHint
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.bucket.IndexReference
 import ch.ergon.dope.resolvable.bucket.IndexType.USING_FTS
@@ -11,8 +8,6 @@ import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.util.formatListToQueryStringWithBrackets
-import ch.ergon.dope.util.formatToQueryString
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
@@ -20,7 +15,7 @@ import ch.ergon.dope.validtype.ValidType
 interface KeysOrIndexHint : Resolvable
 
 class KeysHintClass private constructor(
-    private val keys: TypeExpression<out ValidType>,
+    val keys: TypeExpression<out ValidType>,
 ) : KeysOrIndexHint {
     companion object {
         @JvmName("singleKeyHintConstructor")
@@ -30,14 +25,6 @@ class KeysHintClass private constructor(
         @JvmName("multipleKeysHintConstructor")
         fun KeysHint(keys: TypeExpression<ArrayType<StringType>>) =
             KeysHintClass(keys)
-    }
-
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val keysDopeQuery = keys.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "KEYS ${keysDopeQuery.queryString}",
-            parameters = keysDopeQuery.parameters,
-        )
     }
 }
 
@@ -55,31 +42,20 @@ fun keysHint(keys: Collection<TypeExpression<StringType>>) = keysHint(keys.toDop
 fun keysHint(key: String, vararg additionalKeys: String) =
     keysHint(listOf(key.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())
 
-class IndexHint(
-    vararg val indexReference: IndexReference,
-) : KeysOrIndexHint {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val indexReferenceDopeQueries = indexReference.map { it.toDopeQuery(manager) }
-        return DopeQuery(
-            queryString = formatToQueryString(
-                "INDEX",
-                formatListToQueryStringWithBrackets(indexReferenceDopeQueries),
-            ),
-            parameters = indexReferenceDopeQueries.map { it.parameters }.merge(),
-        )
-    }
-}
+data class IndexHint(
+    val indexReferences: List<IndexReference> = emptyList(),
+) : KeysOrIndexHint
 
-fun IndexHint.indexHint(indexName: String) = IndexHint(*indexReference, IndexReference(indexName))
+fun IndexHint.indexHint(indexName: String) = IndexHint(indexReferences + IndexReference(indexName))
 
 fun IndexHint.gsiIndexHint(indexName: String? = null) =
-    IndexHint(*indexReference, IndexReference(indexName, USING_GSI))
+    IndexHint(indexReferences + IndexReference(indexName, USING_GSI))
 
 fun IndexHint.ftsIndexHint(indexName: String? = null) =
-    IndexHint(*indexReference, IndexReference(indexName, USING_FTS))
+    IndexHint(indexReferences + IndexReference(indexName, USING_FTS))
 
-fun indexHint(indexName: String? = null) = IndexHint(IndexReference(indexName))
+fun indexHint(indexName: String? = null) = IndexHint(listOf(IndexReference(indexName)))
 
-fun gsiIndexHint(indexName: String? = null) = IndexHint(IndexReference(indexName, USING_GSI))
+fun gsiIndexHint(indexName: String? = null) = IndexHint(listOf(IndexReference(indexName, USING_GSI)))
 
-fun ftsIndexHint(indexName: String? = null) = IndexHint(IndexReference(indexName, USING_FTS))
+fun ftsIndexHint(indexName: String? = null) = IndexHint(listOf(IndexReference(indexName, USING_FTS)))

@@ -39,8 +39,10 @@ fun someCMBooleanField(name: String = "cmBooleanField", path: String = "") = CMJ
 
 fun someCMConverterNumberField(name: String = "cmConverterNumberField", path: String = "") =
     CMConverterField(name, path, DateNumberConverterInstance)
+
 fun someCMConverterStringField(name: String = "cmConverterStringField", path: String = "") =
     CMConverterField(name, path, DateStringConverterInstance)
+
 fun someCMConverterBooleanField(name: String = "cmConverterBooleanField", path: String = "") =
     CMConverterField(name, path, DateBooleanConverterInstance)
 
@@ -62,8 +64,10 @@ fun someCMObjectField(name: String = "cmObjectField", path: String = "") = CMObj
 
 fun someCMConverterNumberList(name: String = "cmConverterNumberList", path: String = "") =
     CMConverterList(name, path, DateNumberConverterInstance)
+
 fun someCMConverterStringList(name: String = "cmConverterStringList", path: String = "") =
     CMConverterList(name, path, DateStringConverterInstance)
+
 fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: String = "") =
     CMConverterList(name, path, DateBooleanConverterInstance)
 

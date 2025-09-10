@@ -1,6 +1,9 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
@@ -10,38 +13,38 @@ import ch.ergon.dope.validtype.ValidType
 
 private const val LAG = "LAG"
 
-class Lag<T : ValidType> : WindowFunctionExpression<T> {
-    constructor(
-        expression: TypeExpression<T>,
-        offset: TypeExpression<NumberType>? = null,
-        default: TypeExpression<T>? = null,
-        nullsModifier: NullsModifier? = null,
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>,
-    ) : super(
-        functionName = LAG,
-        functionArguments = listOf(expression, offset, default),
-        nullsModifier = nullsModifier,
-        overDefinition = OverWindowDefinition(
-            WindowDefinition(
-                windowPartitionClause = windowPartitionClause,
-                windowOrderClause = windowOrderClause,
-            ),
+data class Lag<T : ValidType>(
+    val expression: TypeExpression<T>,
+    val offset: TypeExpression<NumberType>? = null,
+    val default: TypeExpression<T>? = null,
+    override val nullsModifier: NullsModifier? = null,
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>,
+) : WindowFunctionExpression<T> {
+    override val functionName: String = LAG
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = listOf(expression, offset, default)
+    override val fromModifier: FromModifier? = null
+    override val overDefinition: OverDefinition = OverWindowDefinition(
+        WindowDefinition(
+            windowPartitionClause = windowPartitionClause,
+            windowOrderClause = windowOrderClause,
         ),
     )
+}
 
-    constructor(
-        expression: TypeExpression<T>,
-        offset: TypeExpression<NumberType>? = null,
-        default: TypeExpression<T>? = null,
-        nullsModifier: NullsModifier? = null,
-        windowReference: String,
-    ) : super(
-        functionName = LAG,
-        functionArguments = listOf(expression, offset, default),
-        nullsModifier = nullsModifier,
-        overDefinition = OverWindowReference(windowReference),
-    )
+data class LagWithReference<T : ValidType>(
+    val expression: TypeExpression<T>,
+    val offset: TypeExpression<NumberType>? = null,
+    val default: TypeExpression<T>? = null,
+    override val nullsModifier: NullsModifier? = null,
+    val windowReference: String,
+) : WindowFunctionExpression<T> {
+    override val functionName: String = LAG
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = listOf(expression, offset, default)
+    override val fromModifier: FromModifier? = null
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
 fun <T : ValidType> lag(
@@ -59,4 +62,4 @@ fun <T : ValidType> lag(
     default: TypeExpression<T>? = null,
     nullsModifier: NullsModifier? = null,
     windowReference: String,
-) = Lag(expression, offset, default, nullsModifier, windowReference)
+) = LagWithReference(expression, offset, default, nullsModifier, windowReference)

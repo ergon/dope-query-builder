@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -12,35 +10,17 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayPrependExpression<T : ValidType>(
-    private val array: TypeExpression<ArrayType<T>>,
-    private val value: TypeExpression<T>,
-    private vararg val additionalValues: TypeExpression<T>,
-) : TypeExpression<ArrayType<T>>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery(manager)
-        val valueDopeQuery = value.toDopeQuery(manager)
-        val additionalValuesDopeQuery = additionalValues.map { it.toDopeQuery(manager) }.toTypedArray()
-        return DopeQuery(
-            queryString = toFunctionQueryString(
-                "ARRAY_PREPEND",
-                valueDopeQuery,
-                *additionalValuesDopeQuery,
-                arrayDopeQuery,
-            ),
-            parameters = arrayDopeQuery.parameters.merge(
-                valueDopeQuery.parameters,
-                *additionalValuesDopeQuery.map { it.parameters }.toTypedArray(),
-            ),
-        )
-    }
-}
+data class ArrayPrependExpression<T : ValidType>(
+    val array: TypeExpression<ArrayType<T>>,
+    val value: TypeExpression<T>,
+    val additionalValues: List<TypeExpression<T>> = emptyList(),
+) : TypeExpression<ArrayType<T>>, FunctionOperator
 
 fun <T : ValidType> arrayPrepend(
     array: TypeExpression<ArrayType<T>>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayPrependExpression(array, value, *additionalValues)
+) = ArrayPrependExpression(array, value, additionalValues.toList())
 
 fun arrayPrepend(
     array: TypeExpression<ArrayType<StringType>>,

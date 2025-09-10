@@ -1,9 +1,7 @@
 package ch.ergon.dope.extensions.expression.type.function.conditional
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.conditional.case
 import ch.ergon.dope.extension.expression.type.function.conditional.otherwise
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -31,9 +29,7 @@ import ch.ergon.dope.validtype.ValidType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CaseExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class CaseExpressionTest {
     @Test
     fun `should create CaseClass from CMNumberField`() {
         val expression = someCMNumberField()
@@ -41,7 +37,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -51,7 +47,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -61,7 +57,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -71,7 +67,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -81,7 +77,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -91,7 +87,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -101,7 +97,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -111,7 +107,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case(expression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -122,13 +118,13 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<NumberType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -136,16 +132,16 @@ class CaseExpressionTest : ManagerDependentTest {
         val case = someCaseClass(someNumberField())
         val initialExpression = CaseExpression(case, SearchResult(someNumberField(), someStringField()))
         val elseExpression = someCMNumberField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -156,13 +152,13 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<StringType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -170,16 +166,16 @@ class CaseExpressionTest : ManagerDependentTest {
         val case = someCaseClass(someNumberField())
         val initialExpression = CaseExpression(case, SearchResult(someNumberField(), someBooleanField()))
         val elseExpression = someCMStringField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -190,13 +186,13 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<BooleanType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -204,16 +200,16 @@ class CaseExpressionTest : ManagerDependentTest {
         val case = someCaseClass(someNumberField())
         val initialExpression = CaseExpression(case, SearchResult(someNumberField(), someNumberField()))
         val elseExpression = someCMBooleanField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -224,13 +220,13 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ObjectType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -238,16 +234,16 @@ class CaseExpressionTest : ManagerDependentTest {
         val case = someCaseClass(someNumberField())
         val initialExpression = CaseExpression(case, SearchResult(someNumberField(), someNumberField()))
         val elseExpression = someCMObjectField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             case,
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -257,29 +253,29 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<NumberType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should add else condition with CMNumber to SearchedCaseExpression without generic`() {
         val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someStringField()))
         val elseExpression = someCMNumberField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -289,29 +285,29 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<StringType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should add else condition with CMString to SearchedCaseExpression without generic`() {
         val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someBooleanField()))
         val elseExpression = someCMStringField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -321,29 +317,29 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<BooleanType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should add else condition with CMBoolean to SearchedCaseExpression without generic`() {
         val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someNumberField()))
         val elseExpression = someCMBooleanField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -353,28 +349,28 @@ class CaseExpressionTest : ManagerDependentTest {
         val expected = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ObjectType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should add else condition with CMObject to SearchedCaseExpression without generic`() {
         val initialExpression = CaseExpression(CaseClass(), SearchResult(someBooleanField(), someNumberField()))
         val elseExpression = someCMObjectField()
-        val expected = ElseCaseExpression(
+        val expected: TypeExpression<ValidType> = ElseCaseExpression(
             CaseClass(),
             initialExpression.firstSearchResult,
-            *initialExpression.additionalSearchResult,
+            initialExpression.additionalSearchResults,
             elseCase = elseExpression.toDopeType(),
         )
 
         val actual: TypeExpression<ValidType> = initialExpression.otherwise(elseExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

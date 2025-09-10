@@ -5,23 +5,23 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayUnionExpression<T : ValidType>(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) : ArrayFunctionExpression<T>("ARRAY_UNION", firstArray, secondArray, *additionalArrays)
+data class ArrayUnionExpression<T : ValidType>(
+    val firstArray: TypeExpression<ArrayType<T>>,
+    val secondArray: TypeExpression<ArrayType<T>>,
+    val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
+) : ArrayFunctionExpression<T>("ARRAY_UNION", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arrayUnion(
     firstArray: TypeExpression<ArrayType<T>>,
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayUnionExpression(firstArray, secondArray, *additionalArrays)
+) = ArrayUnionExpression(firstArray, secondArray, additionalArrays.toList())
 
 fun <T : ValidType> arrayUnion(
     firstArray: ISelectOffsetClause<T>,
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayUnionExpression(firstArray.asExpression(), secondArray, *additionalArrays)
+) = ArrayUnionExpression(firstArray.asExpression(), secondArray, additionalArrays.toList())
 
 fun <T : ValidType> arrayUnion(
     firstArray: TypeExpression<ArrayType<T>>,

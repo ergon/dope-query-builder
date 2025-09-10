@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class FilterRangeIndexedExpression<T : ValidType>(
+data class FilterRangeIndexedExpression<T : ValidType>(
     override val membershipType: MembershipType,
     override val range: TypeExpression<ArrayType<T>>,
     override val indexName: String? = null,

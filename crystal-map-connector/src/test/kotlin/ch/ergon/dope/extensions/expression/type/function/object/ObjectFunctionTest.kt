@@ -1,6 +1,5 @@
 package ch.ergon.dope.extensions.expression.type.function.`object`
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.objects.addAttribute
 import ch.ergon.dope.extension.expression.type.objects.concat
 import ch.ergon.dope.extension.expression.type.objects.innerPairs
@@ -15,7 +14,6 @@ import ch.ergon.dope.extension.expression.type.objects.renameAttribute
 import ch.ergon.dope.extension.expression.type.objects.replace
 import ch.ergon.dope.extension.expression.type.objects.unwrap
 import ch.ergon.dope.extension.expression.type.objects.values
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMObjectField
 import ch.ergon.dope.helper.someCMStringField
@@ -41,9 +39,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectFunctionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class ObjectFunctionTest {
     @Test
     fun `should support object add function cmObject type type`() {
         val objectExpression = someCMObjectField()
@@ -54,7 +50,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -69,7 +65,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,7 +80,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -99,7 +95,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -114,7 +110,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -129,7 +125,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -142,7 +138,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -157,7 +153,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -168,7 +164,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = firstObjectExpression.concat(secondObjectExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -178,7 +174,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.innerPairs()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -188,7 +184,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.length()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -198,7 +194,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.names()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -208,7 +204,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.pairs()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -218,7 +214,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.pairsNested()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -229,7 +225,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.pairsNested(options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -240,7 +236,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.pairsNested(options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -250,7 +246,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.paths()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -261,7 +257,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.paths(options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -272,7 +268,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.paths(options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -284,7 +280,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -296,7 +292,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -308,7 +304,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -320,7 +316,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -332,7 +328,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -344,7 +340,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -356,7 +352,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -368,7 +364,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -380,7 +376,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -392,7 +388,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.putAttribute(key, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -403,7 +399,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.removeAttribute(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -414,7 +410,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.removeAttribute(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -425,7 +421,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.removeAttribute(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -437,7 +433,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -449,7 +445,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -461,7 +457,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -473,7 +469,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -485,7 +481,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -497,7 +493,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -509,7 +505,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -521,7 +517,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -533,7 +529,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -545,7 +541,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -557,7 +553,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -569,7 +565,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -581,7 +577,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -593,7 +589,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.renameAttribute(oldKey, newKey)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -606,7 +602,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -618,7 +614,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -630,7 +626,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -642,7 +638,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -654,7 +650,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -666,7 +662,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -678,7 +674,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(oldList, newList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -688,7 +684,7 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.unwrap()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -698,6 +694,6 @@ class ObjectFunctionTest : ManagerDependentTest {
 
         val actual = objectExpression.values()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

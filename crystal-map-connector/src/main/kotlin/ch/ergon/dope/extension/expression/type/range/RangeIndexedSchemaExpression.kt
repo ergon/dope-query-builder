@@ -1,20 +1,15 @@
 package ch.ergon.dope.extension.expression.type.range
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
-import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.type.range.END
-import ch.ergon.dope.resolvable.expression.type.range.FOR
 import ch.ergon.dope.resolvable.expression.type.range.MembershipType
+import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.TransformationType
 import ch.ergon.dope.resolvable.expression.type.range.TransformationType.ARRAY
 import ch.ergon.dope.resolvable.expression.type.range.TransformationType.FIRST
 import ch.ergon.dope.resolvable.expression.type.range.TransformationType.OBJECT
-import ch.ergon.dope.resolvable.expression.type.range.WHEN
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -26,50 +21,33 @@ import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
 
 abstract class RangeIndexedSchemaExpression<S : Schema, T : ValidType>(
-    private val transformationType: TransformationType,
-    private val range: ObjectList<S>,
-    private val indexName: String?,
-    private val iteratorName: String?,
-    private val withAttributeKeys: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<StringType>)?,
-    private val transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
-    private val condition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)?,
-) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val rangeDopeQuery = range.toDopeQuery(manager)
-        val indexVariable = indexName ?: manager.iteratorManager.getIteratorName()
-        val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
-        val index = Iterator<NumberType>(indexVariable)
-        val withAttributeKeysDopeQuery = withAttributeKeys?.let {
-            it(index, ObjectField(range.schema, iteratorVariable, ""))
-        }?.toDopeQuery(manager)
-        val transformationDopeQuery = transformation(
-            index,
-            ObjectField(range.schema, iteratorVariable, ""),
-        ).toDopeQuery(manager)
-        val conditionDopeQuery = condition?.let {
-            it(index, ObjectField(range.schema, iteratorVariable, ""))
-        }?.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "${transformationType.queryString} " +
-                withAttributeKeys?.let { "${withAttributeKeysDopeQuery?.queryString}:" }.orEmpty() +
-                "${transformationDopeQuery.queryString} $FOR `$indexVariable`:`$iteratorVariable` " +
-                "${MembershipType.IN.queryString} ${rangeDopeQuery.queryString} " +
-                conditionDopeQuery?.let { "$WHEN ${conditionDopeQuery.queryString} " }.orEmpty() +
-                END,
-            parameters = rangeDopeQuery.parameters.merge(
-                withAttributeKeysDopeQuery?.parameters,
-                transformationDopeQuery.parameters,
-                conditionDopeQuery?.parameters,
-            ),
-        )
-    }
+    override val transformationType: TransformationType,
+    val cmRange: ObjectList<S>,
+    override val indexName: String?,
+    override val iteratorName: String?,
+    open val cmWithAttributeKeys: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<StringType>)?,
+    open val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
+    open val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)?,
+) : RangeIndexedLike<ObjectType, T> {
+    override val membershipType: MembershipType = MembershipType.IN
+    override val range: TypeExpression<ArrayType<ObjectType>> get() = this.cmRange
+    override val withAttributeKeys: ((Iterator<NumberType>, Iterator<ObjectType>) -> TypeExpression<StringType>)? =
+        this.cmWithAttributeKeys?.let { fn ->
+            { index, iterator -> fn(index, ObjectField(cmRange.schema, iterator.variable, "")) }
+        }
+    override val transformation: (Iterator<NumberType>, Iterator<ObjectType>) -> TypeExpression<T> =
+        { index, iterator -> this.cmTransformation(index, ObjectField(cmRange.schema, iterator.variable, "")) }
+    override val condition: ((Iterator<NumberType>, Iterator<ObjectType>) -> TypeExpression<BooleanType>)? =
+        this.cmCondition?.let { fn ->
+            { index, iterator -> fn(index, ObjectField(cmRange.schema, iterator.variable, "")) }
+        }
 }
 
-class ForRangeIndexedConditionSchemaExpression<S : Schema>(
-    private val range: ObjectList<S>,
-    private val indexName: String? = null,
-    private val iteratorName: String? = null,
-    private val condition: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>,
+data class ForRangeIndexedConditionSchemaExpression<S : Schema>(
+    val range: ObjectList<S>,
+    val indexName: String? = null,
+    val iteratorName: String? = null,
+    val condition: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>,
 ) {
     fun <T : ValidType> map(
         transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
@@ -77,8 +55,8 @@ class ForRangeIndexedConditionSchemaExpression<S : Schema>(
         range = range,
         indexName = indexName,
         iteratorName = iteratorName,
-        transformation = transformation,
-        condition = condition,
+        cmTransformation = transformation,
+        cmCondition = condition,
     )
 }
 
@@ -93,37 +71,37 @@ fun <S : Schema> CMObjectList<S>.filterIndexed(
     condition = condition,
 )
 
-class ArrayRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
-    private val range: ObjectList<S>,
-    private val indexName: String? = null,
-    private val iteratorName: String? = null,
-    private val transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
-    private val condition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
+data class ArrayRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
+    override val range: ObjectList<S>,
+    override val indexName: String? = null,
+    override val iteratorName: String? = null,
+    override val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
+    override val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : TypeExpression<ArrayType<T>>, RangeIndexedSchemaExpression<S, T>(
     transformationType = ARRAY,
-    range = range,
+    cmRange = range,
     indexName = indexName,
     iteratorName = iteratorName,
-    withAttributeKeys = null,
-    transformation = transformation,
-    condition = condition,
+    cmWithAttributeKeys = null,
+    cmTransformation = cmTransformation,
+    cmCondition = cmCondition,
 ) {
     fun first() = FirstRangeIndexedSchemaExpression(
-        range = range,
+        range = cmRange,
         indexName = indexName,
         iteratorName = iteratorName,
-        transformation = transformation,
-        condition = condition,
+        cmTransformation = cmTransformation,
+        cmCondition = cmCondition,
     )
 
     fun toObject(withAttributeKeys: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<StringType>) =
         ObjectRangeIndexedSchemaExpression(
-            range = range,
+            range = cmRange,
             indexName = indexName,
             iteratorName = iteratorName,
-            transformation = transformation,
-            condition = condition,
-            withAttributeKeys = withAttributeKeys,
+            cmTransformation = cmTransformation,
+            cmCondition = cmCondition,
+            cmWithAttributeKeys = withAttributeKeys,
         )
 }
 
@@ -135,38 +113,38 @@ fun <S : Schema, T : ValidType> CMObjectList<S>.mapIndexed(
     range = toDopeType(),
     indexName = indexName,
     iteratorName = iteratorName,
-    transformation = transformation,
+    cmTransformation = transformation,
 )
 
-class FirstRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
-    range: ObjectList<S>,
-    indexName: String? = null,
-    iteratorName: String? = null,
-    transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
-    condition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
+data class FirstRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
+    override val range: ObjectList<S>,
+    override val indexName: String? = null,
+    override val iteratorName: String? = null,
+    override val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
+    override val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : TypeExpression<T>, RangeIndexedSchemaExpression<S, T>(
     transformationType = FIRST,
-    range = range,
+    cmRange = range,
     indexName = indexName,
     iteratorName = iteratorName,
-    withAttributeKeys = null,
-    transformation = transformation,
-    condition = condition,
+    cmWithAttributeKeys = null,
+    cmTransformation = cmTransformation,
+    cmCondition = cmCondition,
 )
 
-class ObjectRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
-    range: ObjectList<S>,
-    indexName: String? = null,
-    iteratorName: String? = null,
-    withAttributeKeys: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<StringType>),
-    transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
-    condition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
+data class ObjectRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
+    override val range: ObjectList<S>,
+    override val indexName: String? = null,
+    override val iteratorName: String? = null,
+    override val cmWithAttributeKeys: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<StringType>),
+    override val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
+    override val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : TypeExpression<ObjectType>, RangeIndexedSchemaExpression<S, T>(
     transformationType = OBJECT,
-    range = range,
+    cmRange = range,
     indexName = indexName,
     iteratorName = iteratorName,
-    withAttributeKeys = withAttributeKeys,
-    transformation = transformation,
-    condition = condition,
+    cmWithAttributeKeys = cmWithAttributeKeys,
+    cmTransformation = cmTransformation,
+    cmCondition = cmCondition,
 )
