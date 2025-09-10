@@ -1,6 +1,7 @@
 package ch.ergon.dope.clauses
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
@@ -31,7 +32,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
                 idField,
                 asterisk(),
             )
-            .build()
+            .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -43,7 +44,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `delete every document in bucket`() {
-        val deleteEverythingDopeQuery = QueryBuilder
+        val deleteEverythingCouchbaseDopeQuery = QueryBuilder
             .deleteFrom(
                 testBucket,
             )
@@ -52,17 +53,17 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
             )
             .returning(
                 idField,
-            ).build()
+            ).build(CouchbaseResolver())
 
-        val selectEverythingDopeQuery = QueryBuilder
+        val selectEverythingCouchbaseDopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
-            ).build()
+            ).build(CouchbaseResolver())
 
         tryUntil {
-            val selectBeforeDeleteQueryResult = queryWithoutParameters(selectEverythingDopeQuery)
-            val deleteQueryResult = queryWithoutParameters(deleteEverythingDopeQuery)
-            val selectAfterDeleteQueryResult = queryWithoutParameters(selectEverythingDopeQuery)
+            val selectBeforeDeleteQueryResult = queryWithoutParameters(selectEverythingCouchbaseDopeQuery)
+            val deleteQueryResult = queryWithoutParameters(deleteEverythingCouchbaseDopeQuery)
+            val selectAfterDeleteQueryResult = queryWithoutParameters(selectEverythingCouchbaseDopeQuery)
 
             assertEquals(15, selectBeforeDeleteQueryResult.rows.size)
             assertEquals(15, deleteQueryResult.rows.size)

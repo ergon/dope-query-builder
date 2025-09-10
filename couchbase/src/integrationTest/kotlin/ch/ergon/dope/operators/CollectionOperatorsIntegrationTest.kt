@@ -1,6 +1,7 @@
 package ch.ergon.dope.operators
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
@@ -32,7 +33,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
             .select(
                 array.filterIndexed { i, value -> exists(array).and(array.every { value.sub(1).isEqualTo(i) }) }
                     .map { i, value -> value.mul(i.add(1)) },
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
@@ -50,7 +51,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             ).where(
                 typeField.isEqualTo("order").and(idField.isLessThan(2)),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()

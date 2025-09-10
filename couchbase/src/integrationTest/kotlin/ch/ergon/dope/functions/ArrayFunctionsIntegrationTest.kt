@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toRawValues
@@ -39,7 +40,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .limit(
                 array.get(0),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
@@ -79,7 +80,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
             ).orderBy(
                 meta().id,
             )
-            .build()
+            .build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

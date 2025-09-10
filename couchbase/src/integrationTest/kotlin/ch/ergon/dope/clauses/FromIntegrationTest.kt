@@ -1,6 +1,7 @@
 package ch.ergon.dope.clauses
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
@@ -43,7 +44,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
             ).orderBy(
                 orderNumberField,
                 ASC,
-            ).build()
+            ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -89,7 +90,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
                 orderNumberField,
                 DESC,
             )
-            .build()
+            .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -163,7 +164,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 eIsActiveField.and(cIsActiveField),
-            ).build()
+            ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -23,7 +24,7 @@ class NumberFunctionsIntegrationTest : BaseIntegrationTest() {
                 abs(-1).add(ceil(3.14)).sub(sqrt(9)).alias("arithmetic"),
                 trunc(pi(), 4).alias("pi"),
                 power(2, 3).alias("power"),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()

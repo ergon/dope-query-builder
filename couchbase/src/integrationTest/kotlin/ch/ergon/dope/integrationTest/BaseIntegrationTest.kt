@@ -1,6 +1,6 @@
 package ch.ergon.dope.integrationTest
 
-import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.cluster
 import com.couchbase.client.kotlin.query.QueryParameters
 import com.couchbase.client.kotlin.query.QueryScanConsistency
@@ -13,18 +13,18 @@ val CLUSTER_TIMEOUT = 15.seconds
 val SCAN_CONSISTENCY_TIMEOUT = 60.seconds
 
 abstract class BaseIntegrationTest {
-    fun queryWithoutParameters(dopeQuery: DopeQuery) =
+    fun queryWithoutParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
         )
 
-    fun queryWithNamedParameters(dopeQuery: DopeQuery) =
+    fun queryWithNamedParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
             queryParameters = QueryParameters.named(dopeQuery.parameters.namedParameters),
         )
 
-    fun queryWithPositionalParameters(dopeQuery: DopeQuery) =
+    fun queryWithPositionalParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
             queryParameters = QueryParameters.positional(dopeQuery.parameters.positionalParameters),

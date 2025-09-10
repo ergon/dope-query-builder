@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
@@ -32,7 +33,7 @@ class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).build()
+            ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

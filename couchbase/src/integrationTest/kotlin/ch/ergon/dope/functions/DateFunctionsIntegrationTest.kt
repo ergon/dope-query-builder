@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -24,7 +25,7 @@ class DateFunctionsIntegrationTest : BaseIntegrationTest() {
                 localClockString("YYYY-MM-DD").alias("localClock"),
                 "2023-10-05".differenceIn("2023-08-05", MONTH).add(3).alias("differenceInDays"),
                 "2025-09-09".inArray("2025-08-08".dateRangeBy("2025-10-10", DAY)).alias("inArray"),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()

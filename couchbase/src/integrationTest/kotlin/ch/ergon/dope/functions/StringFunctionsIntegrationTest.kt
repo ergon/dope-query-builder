@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
@@ -20,7 +21,7 @@ class StringFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .offset(
                 length(""),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()

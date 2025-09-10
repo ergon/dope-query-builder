@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.deliveryDateField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
@@ -83,7 +84,7 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
             .referenceWindow(windowReference)
             .orderBy(nameField)
             .thenOrderBy(idField)
-            .build()
+            .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

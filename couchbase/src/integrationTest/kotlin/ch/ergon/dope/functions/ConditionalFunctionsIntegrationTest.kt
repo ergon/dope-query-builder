@@ -1,12 +1,14 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.deliveryDateField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.function.conditional.decode
 import ch.ergon.dope.resolvable.expression.type.function.conditional.ifMissingOrNull
@@ -35,7 +37,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("client"),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -56,7 +58,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -83,7 +85,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("order"),
-            ).build()
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
