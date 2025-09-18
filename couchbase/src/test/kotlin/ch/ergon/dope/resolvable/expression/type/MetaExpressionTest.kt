@@ -2,6 +2,8 @@ package ch.ergon.dope.resolvable.expression.type
 
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import kotlin.test.Test

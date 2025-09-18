@@ -2,6 +2,7 @@ package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.detailsField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
@@ -15,7 +16,6 @@ import ch.ergon.dope.resolvable.expression.type.function.objects.getInnerPairs
 import ch.ergon.dope.resolvable.expression.type.function.objects.getLength
 import ch.ergon.dope.resolvable.expression.type.function.objects.removeAttribute
 import ch.ergon.dope.resolvable.expression.type.logic.and
-import ch.ergon.dope.resolvable.expression.type.meta
 import ch.ergon.dope.resolvable.expression.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test

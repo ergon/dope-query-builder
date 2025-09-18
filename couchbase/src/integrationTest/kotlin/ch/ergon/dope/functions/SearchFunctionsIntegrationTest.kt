@@ -2,11 +2,11 @@ package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
-import ch.ergon.dope.resolvable.expression.type.meta
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

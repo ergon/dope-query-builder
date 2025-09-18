@@ -14,7 +14,7 @@ import ch.ergon.dope.validtype.ValidType
 
 interface KeysOrIndexHint : Resolvable
 
-class KeysHintClass private constructor(
+data class KeysHintClass private constructor(
     val keys: TypeExpression<out ValidType>,
 ) : KeysOrIndexHint {
     companion object {

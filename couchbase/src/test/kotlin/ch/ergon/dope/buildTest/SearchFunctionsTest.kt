@@ -4,6 +4,7 @@ import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
@@ -11,7 +12,6 @@ import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchMeta
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchScore
-import ch.ergon.dope.resolvable.expression.type.meta
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

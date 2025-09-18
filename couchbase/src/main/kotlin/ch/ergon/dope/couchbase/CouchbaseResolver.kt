@@ -3,6 +3,8 @@ package ch.ergon.dope.couchbase
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.build.QueryResolver
+import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatPartsToQueryStringWithSpace
 import ch.ergon.dope.couchbase.util.formatPathToQueryString
@@ -80,8 +82,6 @@ import ch.ergon.dope.resolvable.expression.type.ElseCaseExpression
 import ch.ergon.dope.resolvable.expression.type.FALSE
 import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.MISSING
-import ch.ergon.dope.resolvable.expression.type.MetaExpression
-import ch.ergon.dope.resolvable.expression.type.MetaExpression.MetaField
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.NumberPrimitive
 import ch.ergon.dope.resolvable.expression.type.ObjectEntry
