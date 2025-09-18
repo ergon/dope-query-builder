@@ -8,7 +8,7 @@ data class GreatestExpression<T : ComparableType>(
     val firstExpression: TypeExpression<T>,
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
-) : FunctionExpression<T>("GREATEST", listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()))
+) : FunctionExpression<T>(listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()))
 
 fun <T : ComparableType> greatestOf(
     firstExpression: TypeExpression<T>,

@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 data class NowUtcExpression(val format: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("NOW_UTC", listOf(format))
+    FunctionExpression<StringType>(listOf(format))
 
 fun utcNowString(format: TypeExpression<StringType>? = null) =
     NowUtcExpression(format)

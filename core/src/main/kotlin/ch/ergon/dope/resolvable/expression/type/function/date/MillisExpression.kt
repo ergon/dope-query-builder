@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 data class MillisExpression(val date: TypeExpression<StringType>) :
-    FunctionExpression<NumberType>("MILLIS", listOf(date))
+    FunctionExpression<NumberType>(listOf(date))
 
 fun TypeExpression<StringType>.toMillis() = MillisExpression(this)
 

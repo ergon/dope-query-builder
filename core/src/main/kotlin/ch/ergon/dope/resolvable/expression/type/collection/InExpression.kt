@@ -13,7 +13,7 @@ import ch.ergon.dope.validtype.ValidType
 data class InExpression<T : ValidType>(
     val value: TypeExpression<T>,
     val collection: TypeExpression<ArrayType<T>>,
-) : TypeExpression<BooleanType>, InfixOperator(value, "IN", collection)
+) : TypeExpression<BooleanType>, InfixOperator(value, collection)
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<ArrayType<T>>) = InExpression(this, array)
 
@@ -64,7 +64,7 @@ fun Boolean.inArray(selectClause: ISelectOffsetClause<BooleanType>) =
 data class NotInExpression<T : ValidType>(
     val value: TypeExpression<T>,
     val collection: TypeExpression<ArrayType<T>>,
-) : TypeExpression<BooleanType>, InfixOperator(value, "NOT IN", collection)
+) : TypeExpression<BooleanType>, InfixOperator(value, collection)
 
 fun <T : ValidType> TypeExpression<T>.notInArray(array: TypeExpression<ArrayType<T>>) = NotInExpression(this, array)
 

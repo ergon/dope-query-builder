@@ -6,7 +6,6 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
 sealed class ArrayFunctionExpression<T : ValidType>(
-    val symbol: String,
     open val array: TypeExpression<ArrayType<T>>,
     val arguments: List<TypeExpression<out ValidType>> = emptyList(),
 ) : TypeExpression<ArrayType<T>>, FunctionOperator

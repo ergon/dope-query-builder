@@ -4,8 +4,6 @@ import ch.ergon.dope.resolvable.clause.ISelectWithClause
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.validtype.ValidType
 
-const val WITH = "WITH"
-
 data class WithClause(
     val withExpression: DopeVariable<out ValidType>,
     val additionalWithExpressions: List<DopeVariable<out ValidType>> = emptyList(),

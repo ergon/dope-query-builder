@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.ObjectType
 data class ObjectPairsNestedExpression(
     val objectExpression: TypeExpression<ObjectType>,
     val options: TypeExpression<ObjectType>? = null,
-) : FunctionExpression<ArrayType<ObjectType>>("OBJECT_PAIRS_NESTED", listOf(objectExpression, options))
+) : FunctionExpression<ArrayType<ObjectType>>(listOf(objectExpression, options))
 
 fun TypeExpression<ObjectType>.getNestedPairs(options: TypeExpression<ObjectType>? = null) = ObjectPairsNestedExpression(this, options)

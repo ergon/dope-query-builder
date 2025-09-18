@@ -10,12 +10,10 @@ import ch.ergon.dope.resolvable.clause.IUpdateReturningClause
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.validtype.ValidType
 
-private const val RETURNING = "RETURNING"
-
-enum class ReturningType(val queryString: String) {
-    ELEMENT("ELEMENT"),
-    RAW("RAW"),
-    VALUE("VALUE"),
+enum class ReturningType {
+    ELEMENT,
+    RAW,
+    VALUE,
 }
 
 sealed interface ReturningClause : Resolvable {

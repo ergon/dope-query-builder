@@ -10,13 +10,13 @@ data class DateAddMillisExpression(
     val date: TypeExpression<NumberType>,
     val increment: TypeExpression<NumberType>,
     val dateUnit: DateUnit,
-) : FunctionExpression<NumberType>("DATE_ADD_MILLIS", listOf(date, increment, dateUnit))
+) : FunctionExpression<NumberType>(listOf(date, increment, dateUnit))
 
 data class DateAddStrExpression(
     val date: TypeExpression<StringType>,
     val increment: TypeExpression<NumberType>,
     val dateUnit: DateUnit,
-) : FunctionExpression<StringType>("DATE_ADD_STR", listOf(date, increment, dateUnit))
+) : FunctionExpression<StringType>(listOf(date, increment, dateUnit))
 
 @JvmName("millisPlusTypeDateComponent")
 fun TypeExpression<NumberType>.addDateUnit(

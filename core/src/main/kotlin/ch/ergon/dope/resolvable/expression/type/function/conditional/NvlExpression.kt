@@ -11,7 +11,7 @@ import ch.ergon.dope.validtype.ValidType
 data class NvlExpression<T : ValidType>(
     val initialExpression: TypeExpression<T>,
     val substituteExpression: TypeExpression<T>,
-) : FunctionExpression<T>("NVL", listOf(initialExpression, substituteExpression))
+) : FunctionExpression<T>(listOf(initialExpression, substituteExpression))
 
 fun <T : ValidType> nvl(initialExpression: TypeExpression<T>, substituteExpression: TypeExpression<T>) =
     NvlExpression(initialExpression, substituteExpression)

@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
 data class ToObjectExpression<T : ValidType>(val expression: TypeExpression<T>) :
-    FunctionExpression<ObjectType>("TOOBJECT", listOf(expression))
+    FunctionExpression<ObjectType>(listOf(expression))
 
 fun <T : ValidType> TypeExpression<T>.toObject() = ToObjectExpression(this)
 

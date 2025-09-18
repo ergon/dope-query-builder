@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class ContainsExpression(
     val inStr: TypeExpression<StringType>,
     val searchStr: TypeExpression<StringType>,
-) : FunctionExpression<BooleanType>("CONTAINS", listOf(inStr, searchStr))
+) : FunctionExpression<BooleanType>(listOf(inStr, searchStr))
 
 fun contains(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     ContainsExpression(inStr, searchStr)

@@ -5,7 +5,6 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 
 sealed class NumberFunctionExpression(
-    val symbol: String,
     open val value: TypeExpression<NumberType>? = null,
     val additionalValue: TypeExpression<NumberType>? = null,
 ) : TypeExpression<NumberType>, FunctionOperator

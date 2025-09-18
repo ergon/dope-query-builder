@@ -6,6 +6,6 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 data class TypeOfExpression<T : ValidType>(val expression: TypeExpression<T>) :
-    FunctionExpression<StringType>("TYPE", listOf(expression))
+    FunctionExpression<StringType>(listOf(expression))
 
 fun <T : ValidType> typeOf(expression: TypeExpression<T>) = TypeOfExpression(expression)

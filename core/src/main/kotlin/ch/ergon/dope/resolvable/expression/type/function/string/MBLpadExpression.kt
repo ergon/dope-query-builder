@@ -10,7 +10,7 @@ data class MBLpadExpression(
     val inStr: TypeExpression<StringType>,
     val size: TypeExpression<NumberType>,
     val prefix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("MB_LPAD", listOf(inStr, size, prefix))
+) : FunctionExpression<StringType>(listOf(inStr, size, prefix))
 
 fun mbLpad(
     inStr: TypeExpression<StringType>,

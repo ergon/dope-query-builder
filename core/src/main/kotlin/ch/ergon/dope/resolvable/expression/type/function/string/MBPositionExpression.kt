@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 data class MBPositionExpression(val inStr: TypeExpression<StringType>, val searchStr: TypeExpression<StringType>) :
-    FunctionExpression<NumberType>("MB_POSITION", listOf(inStr, searchStr))
+    FunctionExpression<NumberType>(listOf(inStr, searchStr))
 
 fun mbPosition(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     MBPositionExpression(inStr, searchStr)

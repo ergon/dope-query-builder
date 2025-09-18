@@ -6,7 +6,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArraySortExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>) :
-    ArrayFunctionExpression<T>("ARRAY_SORT", array)
+    ArrayFunctionExpression<T>(array)
 
 fun <T : ValidType> arraySort(array: TypeExpression<ArrayType<T>>) = ArraySortExpression(array)
 

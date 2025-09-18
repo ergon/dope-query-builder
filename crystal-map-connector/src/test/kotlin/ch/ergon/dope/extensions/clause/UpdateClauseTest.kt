@@ -448,7 +448,7 @@ class UpdateClauseTest {
         val value = someDate()
         val parentClause = someUpdate()
         val expected = SetClause(
-            field.toDopeType().toNewValue(value.toInstant().epochSecond.toDopeType()),
+            field.toDopeType().toNewValue(value.toInstant().toEpochMilli().toDopeType()),
             parentClause = parentClause,
         )
 
@@ -466,7 +466,7 @@ class UpdateClauseTest {
         val parentClause = someUpdate()
         val expected = SetClause(
             stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().epochSecond.toDopeType())),
+            listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().toEpochMilli().toDopeType())),
             parentClause = parentClause,
         )
 
@@ -511,7 +511,7 @@ class UpdateClauseTest {
         val value = someDate()
         val parentClause = someUpdate()
         val expected = SetClause(
-            field.toDopeType().toNewValue(value.toInstant().epochSecond.toString().toDopeType()),
+            field.toDopeType().toNewValue(value.toInstant().toEpochMilli().toString().toDopeType()),
             parentClause = parentClause,
         )
 
@@ -529,7 +529,7 @@ class UpdateClauseTest {
         val parentClause = someUpdate()
         val expected = SetClause(
             stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().epochSecond.toString().toDopeType())),
+            listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().toEpochMilli().toString().toDopeType())),
             parentClause = parentClause,
         )
 

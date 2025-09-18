@@ -5,6 +5,5 @@ import ch.ergon.dope.validtype.ValidType
 
 open class InfixOperator(
     open val left: TypeExpression<out ValidType>,
-    val symbol: String,
     open val right: TypeExpression<out ValidType>,
 )

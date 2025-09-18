@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
 data class AdditionExpression(override val left: TypeExpression<NumberType>, override val right: TypeExpression<NumberType>) :
-    NumberInfixExpression(left, "+", right)
+    NumberInfixExpression(left, right)
 
 fun TypeExpression<NumberType>.add(numberExpression: TypeExpression<NumberType>) = AdditionExpression(this, numberExpression)
 

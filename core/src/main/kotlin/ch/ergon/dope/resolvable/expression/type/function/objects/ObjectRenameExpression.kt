@@ -10,7 +10,7 @@ data class ObjectRenameExpression(
     val objectExpression: TypeExpression<ObjectType>,
     val oldFieldName: TypeExpression<StringType>,
     val newFieldName: TypeExpression<StringType>,
-) : FunctionExpression<ObjectType>("OBJECT_RENAME", listOf(objectExpression, oldFieldName, newFieldName))
+) : FunctionExpression<ObjectType>(listOf(objectExpression, oldFieldName, newFieldName))
 
 fun TypeExpression<ObjectType>.renameAttribute(
     oldFieldName: TypeExpression<StringType>,

@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
 data class PowerExpression(val base: TypeExpression<NumberType>, val exponent: TypeExpression<NumberType>) :
-    NumberFunctionExpression("POWER", base, exponent)
+    NumberFunctionExpression(base, exponent)
 
 fun power(base: TypeExpression<NumberType>, exponent: TypeExpression<NumberType>) = PowerExpression(base, exponent)
 

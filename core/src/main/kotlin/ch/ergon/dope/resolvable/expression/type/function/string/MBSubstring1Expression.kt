@@ -10,7 +10,7 @@ data class MBSubstring1Expression(
     val inStr: TypeExpression<StringType>,
     val startPos: TypeExpression<NumberType>,
     val length: TypeExpression<NumberType>? = null,
-) : FunctionExpression<StringType>("MB_SUBSTR1", listOf(inStr, startPos, length))
+) : FunctionExpression<StringType>(listOf(inStr, startPos, length))
 
 fun mbSubstring1(
     inStr: TypeExpression<StringType>,

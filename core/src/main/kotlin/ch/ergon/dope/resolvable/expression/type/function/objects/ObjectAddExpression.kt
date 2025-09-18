@@ -13,7 +13,6 @@ data class ObjectAddExpression(
     val objectExpression: TypeExpression<ObjectType>,
     val objectEntryPrimitive: ObjectEntryPrimitive<out ValidType>,
 ) : FunctionExpression<ObjectType>(
-    "OBJECT_ADD",
     listOf(objectExpression, objectEntryPrimitive.key, objectEntryPrimitive.value),
 )
 

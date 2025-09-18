@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.StringType
 data class ClockTimezoneExpression(
     val timeZone: TypeExpression<StringType>,
     val format: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("CLOCK_TZ", listOf(timeZone, format))
+) : FunctionExpression<StringType>(listOf(timeZone, format))
 
 fun formattedClockIn(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     ClockTimezoneExpression(timeZone, format)

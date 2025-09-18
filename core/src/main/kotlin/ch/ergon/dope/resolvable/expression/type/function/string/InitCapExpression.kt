@@ -6,14 +6,14 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 data class InitCapExpression(val inStr: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("INITCAP", listOf(inStr))
+    FunctionExpression<StringType>(listOf(inStr))
 
 fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
 
 fun initCap(inStr: String) = initCap(inStr.toDopeType())
 
 data class TitleExpression(val inStr: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("TITLE", listOf(inStr))
+    FunctionExpression<StringType>(listOf(inStr))
 
 fun title(inStr: TypeExpression<StringType>) = TitleExpression(inStr)
 

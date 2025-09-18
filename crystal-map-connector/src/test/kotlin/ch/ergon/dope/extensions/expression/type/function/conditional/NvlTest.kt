@@ -124,7 +124,7 @@ class NvlTest {
     fun `should support nvl CMNumberField date`() {
         val initialExpression = someCMConverterNumberField()
         val substituteExpression = someDate()
-        val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toInstant().epochSecond.toDopeType())
+        val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toInstant().toEpochMilli().toDopeType())
 
         val actual = nvl(initialExpression, substituteExpression)
 
@@ -135,7 +135,7 @@ class NvlTest {
     fun `should support nvl CMStringField date`() {
         val initialExpression = someCMConverterStringField()
         val substituteExpression = someDate()
-        val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toInstant().epochSecond.toString().toDopeType())
+        val expected = NvlExpression(initialExpression.toDopeType(), substituteExpression.toInstant().toEpochMilli().toString().toDopeType())
 
         val actual = nvl(initialExpression, substituteExpression)
 

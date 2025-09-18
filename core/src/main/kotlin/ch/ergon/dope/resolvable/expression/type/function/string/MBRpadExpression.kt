@@ -10,7 +10,7 @@ data class MBRpadExpression(
     val inStr: TypeExpression<StringType>,
     val size: TypeExpression<NumberType>,
     val postfix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("MB_RPAD", listOf(inStr, size, postfix))
+) : FunctionExpression<StringType>(listOf(inStr, size, postfix))
 
 fun mbRpad(
     inStr: TypeExpression<StringType>,

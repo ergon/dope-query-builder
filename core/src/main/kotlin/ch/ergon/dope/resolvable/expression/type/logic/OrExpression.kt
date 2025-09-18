@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.BooleanType
 data class OrExpression(
     override val left: TypeExpression<BooleanType>,
     override val right: TypeExpression<BooleanType>,
-) : LogicalInfixExpression(left, "OR", right)
+) : LogicalInfixExpression(left, right)
 
 fun TypeExpression<BooleanType>.or(booleanExpression: TypeExpression<BooleanType>) = OrExpression(this, booleanExpression)
 

@@ -6,6 +6,5 @@ import ch.ergon.dope.validtype.BooleanType
 
 sealed class LogicalInfixExpression(
     left: TypeExpression<BooleanType>,
-    symbol: String,
     right: TypeExpression<BooleanType>,
-) : TypeExpression<BooleanType>, InfixOperator(left, symbol, right)
+) : TypeExpression<BooleanType>, InfixOperator(left, right)

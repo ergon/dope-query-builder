@@ -11,7 +11,7 @@ data class ReplaceExpression(
     val searchStr: TypeExpression<StringType>,
     val replace: TypeExpression<StringType>,
     val numberOfInstances: TypeExpression<NumberType>? = null,
-) : FunctionExpression<StringType>("REPLACE", listOf(inStr, searchStr, replace, numberOfInstances))
+) : FunctionExpression<StringType>(listOf(inStr, searchStr, replace, numberOfInstances))
 
 fun replace(
     inStr: TypeExpression<StringType>,

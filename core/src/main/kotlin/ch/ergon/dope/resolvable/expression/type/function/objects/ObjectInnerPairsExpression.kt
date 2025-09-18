@@ -7,6 +7,6 @@ import ch.ergon.dope.validtype.ObjectType
 
 data class ObjectInnerPairsExpression(
     val objectExpression: TypeExpression<ObjectType>,
-) : FunctionExpression<ArrayType<ObjectType>>("OBJECT_INNER_PAIRS", listOf(objectExpression))
+) : FunctionExpression<ArrayType<ObjectType>>(listOf(objectExpression))
 
 fun TypeExpression<ObjectType>.getInnerPairs() = ObjectInnerPairsExpression(this)

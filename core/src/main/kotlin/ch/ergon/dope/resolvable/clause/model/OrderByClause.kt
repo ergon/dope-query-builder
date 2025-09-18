@@ -6,9 +6,9 @@ import ch.ergon.dope.resolvable.clause.ISelectWindowClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
-enum class OrderType(val queryString: String) {
-    ASC("ASC"),
-    DESC("DESC"),
+enum class OrderType {
+    ASC,
+    DESC,
 }
 
 data class SelectOrderByClause<T : ValidType>(

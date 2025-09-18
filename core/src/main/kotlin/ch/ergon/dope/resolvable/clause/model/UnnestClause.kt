@@ -6,8 +6,6 @@ import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-private const val UNNEST = "UNNEST"
-
 data class UnnestClause<T : ValidType, U : ValidType>(
     val arrayTypeField: Field<ArrayType<T>>,
     val parentClause: ISelectFromClause<U>,

@@ -9,7 +9,7 @@ data class ArraySymmetricDifferenceExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_SYMDIFF", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arraySymDiff(
     firstArray: TypeExpression<ArrayType<T>>,
@@ -67,7 +67,7 @@ data class ArraySymmetricDifference1Expression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_SYMDIFF1", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arraySymDiff1(
     firstArray: TypeExpression<ArrayType<T>>,
@@ -125,7 +125,7 @@ data class ArraySymmetricDifferenceNExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_SYMDIFFN", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arraySymDiffN(
     firstArray: TypeExpression<ArrayType<T>>,

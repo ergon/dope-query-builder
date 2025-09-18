@@ -135,7 +135,7 @@ class NumberInfixTest {
     fun `should support sub with Date CMConverterNumber`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = SubtractionExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = SubtractionExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.sub(right)
 
@@ -201,7 +201,7 @@ class NumberInfixTest {
     fun `should support mul with Date CMConverterNumber`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = MultiplicationExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = MultiplicationExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.mul(right)
 
@@ -322,7 +322,7 @@ class NumberInfixTest {
     fun `should support mod with Date CMConverterNumber`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = ModuloExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = ModuloExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.mod(right)
 

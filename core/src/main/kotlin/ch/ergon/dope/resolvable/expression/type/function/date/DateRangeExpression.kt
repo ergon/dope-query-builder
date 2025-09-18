@@ -12,14 +12,14 @@ data class DateRangeMillisExpression(
     val endDate: TypeExpression<NumberType>,
     val interval: DateUnit,
     val increment: TypeExpression<NumberType>? = null,
-) : FunctionExpression<ArrayType<NumberType>>("DATE_RANGE_MILLIS", listOf(startDate, endDate, interval, increment))
+) : FunctionExpression<ArrayType<NumberType>>(listOf(startDate, endDate, interval, increment))
 
 data class DateRangeStrExpression(
     val startDate: TypeExpression<StringType>,
     val endDate: TypeExpression<StringType>,
     val interval: DateUnit,
     val increment: TypeExpression<NumberType>? = null,
-) : FunctionExpression<ArrayType<StringType>>("DATE_RANGE_STR", listOf(startDate, endDate, interval, increment))
+) : FunctionExpression<ArrayType<StringType>>(listOf(startDate, endDate, interval, increment))
 
 @JvmName("millisRangeTypeDateComponent")
 fun TypeExpression<NumberType>.dateRangeBy(

@@ -250,7 +250,7 @@ class EqualsTest {
     fun `should support equals to with CMConverterNumberField date`() {
         val left = someCMConverterNumberField()
         val right = someDate()
-        val expected = EqualsExpression(left.toDopeType(), right.toInstant().epochSecond.toDopeType())
+        val expected = EqualsExpression(left.toDopeType(), right.toInstant().toEpochMilli().toDopeType())
 
         val actual = left.isEqualTo(right)
 
@@ -261,7 +261,7 @@ class EqualsTest {
     fun `should support equals to with date CMConverterNumberField`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = EqualsExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = EqualsExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.isEqualTo(right)
 
@@ -272,7 +272,7 @@ class EqualsTest {
     fun `should support equals to with CMConverterStringField date`() {
         val left = someCMConverterStringField()
         val right = someDate()
-        val expected = EqualsExpression(left.toDopeType(), right.toInstant().epochSecond.toString().toDopeType())
+        val expected = EqualsExpression(left.toDopeType(), right.toInstant().toEpochMilli().toString().toDopeType())
 
         val actual = left.isEqualTo(right)
 
@@ -283,7 +283,7 @@ class EqualsTest {
     fun `should support equals to with date CMConverterStringField`() {
         val left = someDate()
         val right = someCMConverterStringField()
-        val expected = EqualsExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+        val expected = EqualsExpression(left.toInstant().toEpochMilli().toString().toDopeType(), right.toDopeType())
 
         val actual = left.isEqualTo(right)
 
@@ -371,7 +371,7 @@ class EqualsTest {
     fun `should support not equals to with CMConverterNumberField date`() {
         val left = someCMConverterNumberField()
         val right = someDate()
-        val expected = NotEqualsExpression(left.toDopeType(), right.toInstant().epochSecond.toDopeType())
+        val expected = NotEqualsExpression(left.toDopeType(), right.toInstant().toEpochMilli().toDopeType())
 
         val actual = left.isNotEqualTo(right)
 
@@ -382,7 +382,7 @@ class EqualsTest {
     fun `should support not equals to with date CMConverterNumberField`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = NotEqualsExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = NotEqualsExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.isNotEqualTo(right)
 
@@ -448,7 +448,7 @@ class EqualsTest {
     fun `should support not equals to with CMConverterStringField date`() {
         val left = someCMConverterStringField()
         val right = someDate()
-        val expected = NotEqualsExpression(left.toDopeType(), right.toInstant().epochSecond.toString().toDopeType())
+        val expected = NotEqualsExpression(left.toDopeType(), right.toInstant().toEpochMilli().toString().toDopeType())
 
         val actual = left.isNotEqualTo(right)
 
@@ -459,7 +459,7 @@ class EqualsTest {
     fun `should support not equals to with date CMConverterStringField`() {
         val left = someDate()
         val right = someCMConverterStringField()
-        val expected = NotEqualsExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+        val expected = NotEqualsExpression(left.toInstant().toEpochMilli().toString().toDopeType(), right.toDopeType())
 
         val actual = left.isNotEqualTo(right)
 

@@ -9,7 +9,6 @@ data class IfNullExpression<T : ValidType>(
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
-    "IFNULL",
     listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
 )
 

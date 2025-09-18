@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 data class ToStringExpression<T : ValidType>(val expression: TypeExpression<T>) :
-    FunctionExpression<StringType>("TOSTRING", listOf(expression))
+    FunctionExpression<StringType>(listOf(expression))
 
 fun <T : ValidType> TypeExpression<T>.toStr() = ToStringExpression(this)
 

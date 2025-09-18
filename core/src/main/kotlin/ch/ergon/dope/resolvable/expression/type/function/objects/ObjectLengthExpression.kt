@@ -7,6 +7,6 @@ import ch.ergon.dope.validtype.ObjectType
 
 data class ObjectLengthExpression(
     val objectExpression: TypeExpression<ObjectType>,
-) : FunctionExpression<NumberType>("OBJECT_LENGTH", listOf(objectExpression))
+) : FunctionExpression<NumberType>(listOf(objectExpression))
 
 fun TypeExpression<ObjectType>.getLength() = ObjectLengthExpression(this)

@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
 data class ModuloExpression(override val left: TypeExpression<NumberType>, override val right: TypeExpression<NumberType>) :
-    NumberInfixExpression(left, "%", right)
+    NumberInfixExpression(left, right)
 
 fun TypeExpression<NumberType>.mod(numberExpression: TypeExpression<NumberType>) = ModuloExpression(this, numberExpression)
 

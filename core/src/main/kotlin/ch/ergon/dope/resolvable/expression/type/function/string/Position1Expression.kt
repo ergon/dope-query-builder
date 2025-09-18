@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 data class Position1Expression(val inStr: TypeExpression<StringType>, val searchStr: TypeExpression<StringType>) :
-    FunctionExpression<NumberType>("POSITION1", listOf(inStr, searchStr))
+    FunctionExpression<NumberType>(listOf(inStr, searchStr))
 
 fun position1(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
     Position1Expression(inStr, searchStr)

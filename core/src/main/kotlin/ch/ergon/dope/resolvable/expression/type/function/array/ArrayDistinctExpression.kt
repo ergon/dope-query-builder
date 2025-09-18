@@ -6,7 +6,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayDistinctExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>) :
-    ArrayFunctionExpression<T>("ARRAY_DISTINCT", array)
+    ArrayFunctionExpression<T>(array)
 
 fun <T : ValidType> arrayDistinct(array: TypeExpression<ArrayType<T>>) = ArrayDistinctExpression(array)
 

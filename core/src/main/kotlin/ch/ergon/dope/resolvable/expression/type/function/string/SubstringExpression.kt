@@ -10,7 +10,7 @@ data class SubstringExpression(
     val inStr: TypeExpression<StringType>,
     val startPos: TypeExpression<NumberType>,
     val length: TypeExpression<NumberType>? = null,
-) : FunctionExpression<StringType>("SUBSTR", listOf(inStr, startPos, length))
+) : FunctionExpression<StringType>(listOf(inStr, startPos, length))
 
 fun substring(
     inStr: TypeExpression<StringType>,

@@ -10,10 +10,10 @@ data class DatePartMillisExpression(
     val date: TypeExpression<NumberType>,
     val component: DateComponent,
     val timeZone: TypeExpression<StringType>? = null,
-) : FunctionExpression<NumberType>("DATE_PART_MILLIS", listOf(date, component, timeZone))
+) : FunctionExpression<NumberType>(listOf(date, component, timeZone))
 
 data class DatePartStrExpression(val date: TypeExpression<StringType>, val component: DateComponent) :
-    FunctionExpression<NumberType>("DATE_PART_STR", listOf(date, component))
+    FunctionExpression<NumberType>(listOf(date, component))
 
 fun TypeExpression<NumberType>.extractDateComponent(component: DateComponent, timeZone: TypeExpression<StringType>? = null) =
     DatePartMillisExpression(this, component, timeZone)

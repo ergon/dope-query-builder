@@ -8,7 +8,7 @@ data class IfMissingExpression<T : ValidType>(
     val firstExpression: TypeExpression<T>,
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
-) : FunctionExpression<T>("IFMISSING", listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()))
+) : FunctionExpression<T>(listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()))
 
 fun <T : ValidType> ifMissing(
     firstExpression: TypeExpression<T>,

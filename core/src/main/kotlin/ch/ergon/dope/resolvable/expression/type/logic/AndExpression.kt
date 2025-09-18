@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.BooleanType
 data class AndExpression(
     override val left: TypeExpression<BooleanType>,
     override val right: TypeExpression<BooleanType>,
-) : LogicalInfixExpression(left, "AND", right)
+) : LogicalInfixExpression(left, right)
 
 fun TypeExpression<BooleanType>.and(booleanExpression: TypeExpression<BooleanType>) = AndExpression(this, booleanExpression)
 

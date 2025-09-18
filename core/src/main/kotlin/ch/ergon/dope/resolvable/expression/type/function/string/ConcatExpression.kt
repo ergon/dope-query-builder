@@ -10,7 +10,6 @@ data class ConcatExpression<T : StringType>(
     val secondString: TypeExpression<T>,
     val stringTypes: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
-    "CONCAT",
     listOf(firstString, secondString, *stringTypes.toTypedArray()),
 )
 

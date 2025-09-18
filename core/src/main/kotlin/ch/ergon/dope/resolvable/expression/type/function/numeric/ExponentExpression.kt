@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-data class ExponentExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression("EXP", value)
+data class ExponentExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression(value)
 
 fun exp(value: TypeExpression<NumberType>) = ExponentExpression(value)
 

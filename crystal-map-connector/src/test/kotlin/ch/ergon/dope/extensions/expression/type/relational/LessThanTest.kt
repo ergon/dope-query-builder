@@ -131,7 +131,7 @@ class LessThanTest {
     fun `should support less than with CMConverterNumberField date`() {
         val left = someCMConverterNumberField()
         val right = someDate()
-        val expected = LessThanExpression(left.toDopeType(), right.toInstant().epochSecond.toDopeType())
+        val expected = LessThanExpression(left.toDopeType(), right.toInstant().toEpochMilli().toDopeType())
 
         val actual = left.isLessThan(right)
 
@@ -142,7 +142,7 @@ class LessThanTest {
     fun `should support less than with date CMConverterNumberField`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = LessThanExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = LessThanExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.isLessThan(right)
 
@@ -153,7 +153,7 @@ class LessThanTest {
     fun `should support less than with CMConverterStringField date`() {
         val left = someCMConverterStringField()
         val right = someDate()
-        val expected = LessThanExpression(left.toDopeType(), right.toInstant().epochSecond.toString().toDopeType())
+        val expected = LessThanExpression(left.toDopeType(), right.toInstant().toEpochMilli().toString().toDopeType())
 
         val actual = left.isLessThan(right)
 
@@ -164,7 +164,7 @@ class LessThanTest {
     fun `should support less than with date CMConverterStringField`() {
         val left = someDate()
         val right = someCMConverterStringField()
-        val expected = LessThanExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+        val expected = LessThanExpression(left.toInstant().toEpochMilli().toString().toDopeType(), right.toDopeType())
 
         val actual = left.isLessThan(right)
 

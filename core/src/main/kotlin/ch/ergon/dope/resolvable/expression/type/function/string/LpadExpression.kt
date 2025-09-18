@@ -10,7 +10,7 @@ data class LpadExpression(
     val inStr: TypeExpression<StringType>,
     val size: TypeExpression<NumberType>,
     val prefix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("LPAD", listOf(inStr, size, prefix))
+) : FunctionExpression<StringType>(listOf(inStr, size, prefix))
 
 fun lpad(
     inStr: TypeExpression<StringType>,

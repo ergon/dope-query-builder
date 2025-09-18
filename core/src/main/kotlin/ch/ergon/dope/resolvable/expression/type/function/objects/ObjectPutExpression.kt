@@ -11,7 +11,7 @@ data class ObjectPutExpression(
     val objectExpression: TypeExpression<ObjectType>,
     val attributeKey: TypeExpression<StringType>,
     val attributeValue: TypeExpression<out ValidType>,
-) : FunctionExpression<ObjectType>("OBJECT_PUT", listOf(objectExpression, attributeKey, attributeValue))
+) : FunctionExpression<ObjectType>(listOf(objectExpression, attributeKey, attributeValue))
 
 fun TypeExpression<ObjectType>.putAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
     ObjectPutExpression(this, key, value)

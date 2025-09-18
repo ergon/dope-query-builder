@@ -165,7 +165,7 @@ class InTest {
     fun `should support in array with date CMConverterNumberField`() {
         val left = someDate()
         val right = someCMConverterNumberList()
-        val expected = InExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = InExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.inArray(right)
 
@@ -176,7 +176,7 @@ class InTest {
     fun `should support in array with date CMConverterStringField`() {
         val left = someDate()
         val right = someCMConverterStringList()
-        val expected = InExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+        val expected = InExpression(left.toInstant().toEpochMilli().toString().toDopeType(), right.toDopeType())
 
         val actual = left.inArray(right)
 

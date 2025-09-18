@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class MillisToStringExpression(
     val date: TypeExpression<NumberType>,
     val format: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("MILLIS_TO_STR", listOf(date, format))
+) : FunctionExpression<StringType>(listOf(date, format))
 
 fun TypeExpression<NumberType>.toFormattedDate(format: TypeExpression<StringType>? = null) =
     MillisToStringExpression(this, format)

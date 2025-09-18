@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayFlattenExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>, val depth: TypeExpression<NumberType>) :
-    ArrayFunctionExpression<T>("ARRAY_FLATTEN", array, listOf(depth))
+    ArrayFunctionExpression<T>(array, listOf(depth))
 
 fun <T : ValidType> arrayFlatten(array: TypeExpression<ArrayType<T>>, depth: TypeExpression<NumberType>) =
     ArrayFlattenExpression(array, depth)

@@ -131,7 +131,7 @@ class LessOrEqualThanTest {
     fun `should support less or equal than with CMConverterNumberField date`() {
         val left = someCMConverterNumberField()
         val right = someDate()
-        val expected = LessOrEqualThanExpression(left.toDopeType(), right.toInstant().epochSecond.toDopeType())
+        val expected = LessOrEqualThanExpression(left.toDopeType(), right.toInstant().toEpochMilli().toDopeType())
 
         val actual = left.isLessOrEqualThan(right)
 
@@ -142,7 +142,7 @@ class LessOrEqualThanTest {
     fun `should support less or equal than with date CMConverterNumberField`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = LessOrEqualThanExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = LessOrEqualThanExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.isLessOrEqualThan(right)
 
@@ -153,7 +153,7 @@ class LessOrEqualThanTest {
     fun `should support less or equal than with CMConverterStringField date`() {
         val left = someCMConverterStringField()
         val right = someDate()
-        val expected = LessOrEqualThanExpression(left.toDopeType(), right.toInstant().epochSecond.toString().toDopeType())
+        val expected = LessOrEqualThanExpression(left.toDopeType(), right.toInstant().toEpochMilli().toString().toDopeType())
 
         val actual = left.isLessOrEqualThan(right)
 
@@ -164,7 +164,7 @@ class LessOrEqualThanTest {
     fun `should support less or equal than with date CMConverterStringField`() {
         val left = someDate()
         val right = someCMConverterStringField()
-        val expected = LessOrEqualThanExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+        val expected = LessOrEqualThanExpression(left.toInstant().toEpochMilli().toString().toDopeType(), right.toDopeType())
 
         val actual = left.isLessOrEqualThan(right)
 

@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 data class LtrimExpression(val inStr: TypeExpression<StringType>, val char: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("LTRIM", listOf(inStr, char))
+    FunctionExpression<StringType>(listOf(inStr, char))
 
 fun ltrim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) =
     LtrimExpression(inStr, char)

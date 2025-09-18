@@ -6,6 +6,6 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
 data class IsStringExpression<T : ValidType>(val expression: TypeExpression<T>) :
-    FunctionExpression<BooleanType>("ISSTRING", listOf(expression))
+    FunctionExpression<BooleanType>(listOf(expression))
 
 fun <T : ValidType> TypeExpression<T>.isString() = IsStringExpression(this)

@@ -14,7 +14,7 @@ data class ArrayInsertExpression<T : ValidType>(
     val position: TypeExpression<NumberType>,
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_INSERT", array, listOf(position, value, *additionalValues.toTypedArray()))
+) : ArrayFunctionExpression<T>(array, listOf(position, value, *additionalValues.toTypedArray()))
 
 fun <T : ValidType> arrayInsert(
     array: TypeExpression<ArrayType<T>>,

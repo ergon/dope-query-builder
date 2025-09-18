@@ -7,6 +7,6 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ObjectUnwrapExpression(
     val objectExpression: TypeExpression<ObjectType>,
-) : FunctionExpression<ValidType>("OBJECT_UNWRAP", listOf(objectExpression))
+) : FunctionExpression<ValidType>(listOf(objectExpression))
 
 fun TypeExpression<ObjectType>.unwrap() = ObjectUnwrapExpression(this)

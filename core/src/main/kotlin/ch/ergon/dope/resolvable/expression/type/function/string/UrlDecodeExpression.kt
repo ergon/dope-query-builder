@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 data class UrlDecodeExpression(val encodedString: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("URL_DECODE", listOf(encodedString))
+    FunctionExpression<StringType>(listOf(encodedString))
 
 fun urlDecode(encodedString: TypeExpression<StringType>) = UrlDecodeExpression(encodedString)
 

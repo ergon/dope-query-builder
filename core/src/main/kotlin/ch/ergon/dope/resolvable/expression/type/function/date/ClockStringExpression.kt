@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 data class ClockStringExpression(val format: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("CLOCK_STR", listOf(format))
+    FunctionExpression<StringType>(listOf(format))
 
 fun clockString(format: TypeExpression<StringType>? = null) = ClockStringExpression(format)
 

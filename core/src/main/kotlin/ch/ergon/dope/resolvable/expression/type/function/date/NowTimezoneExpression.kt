@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.StringType
 data class NowTimezoneExpression(
     val timeZone: TypeExpression<StringType>,
     val format: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("NOW_TZ", listOf(timeZone, format))
+) : FunctionExpression<StringType>(listOf(timeZone, format))
 
 fun nowStringInZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     NowTimezoneExpression(timeZone, format)

@@ -9,10 +9,10 @@ import ch.ergon.dope.validtype.StringType
 data class WeekDayMillisExpression(
     val date: TypeExpression<NumberType>,
     val timeZone: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("WEEKDAY_MILLIS", listOf(date, timeZone))
+) : FunctionExpression<StringType>(listOf(date, timeZone))
 
 data class WeekDayStrExpression(val date: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("WEEKDAY_STR", listOf(date))
+    FunctionExpression<StringType>(listOf(date))
 
 fun TypeExpression<NumberType>.extractWeekdayName(timeZone: TypeExpression<StringType>? = null) =
     WeekDayMillisExpression(this, timeZone)

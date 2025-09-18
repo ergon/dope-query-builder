@@ -6,7 +6,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
 data class NowStringExpression(val format: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("NOW_STR", listOf(format))
+    FunctionExpression<StringType>(listOf(format))
 
 fun nowString(format: TypeExpression<StringType>? = null) = NowStringExpression(format)
 

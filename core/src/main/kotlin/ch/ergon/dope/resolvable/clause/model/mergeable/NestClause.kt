@@ -15,10 +15,10 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private enum class NestType(override val type: String) : MergeType {
-    NEST("NEST"),
-    INNER_NEST("INNER NEST"),
-    LEFT_NEST("LEFT NEST"),
+enum class NestType : MergeType {
+    NEST,
+    INNER_NEST,
+    LEFT_NEST,
 }
 
 data class StandardNestOnConditionClause<T : ValidType>(

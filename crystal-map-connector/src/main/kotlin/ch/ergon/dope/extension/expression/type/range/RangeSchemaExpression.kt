@@ -29,12 +29,12 @@ abstract class RangeSchemaExpression<S : Schema, T : ValidType>(
 ) : RangeLike<ObjectType, T> {
     override val membershipType = IN
     override val range: TypeExpression<ArrayType<ObjectType>> get() = this.cmRange
-    override val withAttributeKeys: ((Iterator<ObjectType>) -> TypeExpression<StringType>)? =
-        this.cmWithAttributeKeys?.let { fn -> { iterator -> fn(ObjectField(cmRange.schema, iterator.variable, "")) } }
-    override val transformation: (Iterator<ObjectType>) -> TypeExpression<T> =
-        { iterator -> this.cmTransformation(ObjectField(cmRange.schema, iterator.variable, "")) }
-    override val condition: ((Iterator<ObjectType>) -> TypeExpression<BooleanType>)? =
-        this.cmCondition?.let { fn -> { iterator -> fn(ObjectField(cmRange.schema, iterator.variable, "")) } }
+    override val withAttributeKeys: ((Iterator<ObjectType>) -> TypeExpression<StringType>)?
+        get() = this.cmWithAttributeKeys?.let { fn -> { iterator -> fn(ObjectField(cmRange.schema, iterator.variable, "")) } }
+    override val transformation: (Iterator<ObjectType>) -> TypeExpression<T>
+        get() = { iterator -> this.cmTransformation(ObjectField(cmRange.schema, iterator.variable, "")) }
+    override val condition: ((Iterator<ObjectType>) -> TypeExpression<BooleanType>)?
+        get() = this.cmCondition?.let { fn -> { iterator -> fn(ObjectField(cmRange.schema, iterator.variable, "")) } }
 }
 
 data class FilterRangeSchemaExpression<S : Schema>(

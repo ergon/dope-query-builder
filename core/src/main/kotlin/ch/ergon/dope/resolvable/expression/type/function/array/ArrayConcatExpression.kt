@@ -9,7 +9,7 @@ data class ArrayConcatExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_CONCAT", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arrayConcat(
     firstArray: TypeExpression<ArrayType<T>>,

@@ -107,7 +107,7 @@ object DateNumberConverterInstance : DateNumberConverter()
 
 abstract class DateNumberConverter : ITypeConverter<Date, Number> {
     override fun write(value: Date?): Number? =
-        value?.toInstant()?.epochSecond
+        value?.toInstant()?.toEpochMilli()
 
     override fun read(value: Number?): Date? = value?.toLong()?.let { Date.from(Instant.ofEpochSecond(it)) }
 }
@@ -116,7 +116,7 @@ object DateStringConverterInstance : DateStringConverter()
 
 abstract class DateStringConverter : ITypeConverter<Date, String> {
     override fun write(value: Date?): String? =
-        value?.toInstant()?.epochSecond.toString()
+        value?.toInstant()?.toEpochMilli().toString()
 
     override fun read(value: String?): Date? = value?.toLong()?.let { Date.from(Instant.ofEpochSecond(it)) }
 }

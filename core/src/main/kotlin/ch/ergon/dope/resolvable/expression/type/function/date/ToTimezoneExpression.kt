@@ -10,10 +10,10 @@ data class MillisToTimezoneExpression(
     val date: TypeExpression<NumberType>,
     val timeZone: TypeExpression<StringType>,
     val format: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("MILLIS_TO_TZ", listOf(date, timeZone, format))
+) : FunctionExpression<StringType>(listOf(date, timeZone, format))
 
 data class StrToTimezoneExpression(val date: TypeExpression<StringType>, val timeZone: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("STR_TO_TZ", listOf(date, timeZone))
+    FunctionExpression<StringType>(listOf(date, timeZone))
 
 fun TypeExpression<NumberType>.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     MillisToTimezoneExpression(this, timeZone, format)

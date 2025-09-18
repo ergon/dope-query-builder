@@ -11,7 +11,7 @@ import ch.ergon.dope.validtype.StringType
 data class GreaterOrEqualThanExpression<T : ComparableType>(
     override val left: TypeExpression<T>,
     override val right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, ">=", right)
+) : TypeExpression<BooleanType>, InfixOperator(left, right)
 
 fun <T : ComparableType> TypeExpression<T>.isGreaterOrEqualThan(right: TypeExpression<T>): GreaterOrEqualThanExpression<T> =
     GreaterOrEqualThanExpression(this, right)

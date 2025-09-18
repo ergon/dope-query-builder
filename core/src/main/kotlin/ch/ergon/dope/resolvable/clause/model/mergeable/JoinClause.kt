@@ -11,11 +11,11 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-enum class JoinType(override val type: String) : MergeType {
-    JOIN("JOIN"),
-    LEFT_JOIN("LEFT JOIN"),
-    INNER_JOIN("INNER JOIN"),
-    RIGHT_JOIN("RIGHT JOIN"),
+enum class JoinType : MergeType {
+    JOIN,
+    LEFT_JOIN,
+    INNER_JOIN,
+    RIGHT_JOIN,
 }
 
 data class StandardJoinOnConditionClause<T : ValidType>(

@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 data class MBLengthExpression(val inStr: TypeExpression<StringType>) :
-    FunctionExpression<NumberType>("MB_LENGTH", listOf(inStr))
+    FunctionExpression<NumberType>(listOf(inStr))
 
 fun mbLength(inStr: TypeExpression<StringType>) = MBLengthExpression(inStr)
 

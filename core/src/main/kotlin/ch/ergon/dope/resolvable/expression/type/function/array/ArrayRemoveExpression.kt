@@ -13,7 +13,7 @@ data class ArrayRemoveExpression<T : ValidType>(
     override val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_REMOVE", array, listOf(value, *additionalValues.toTypedArray()))
+) : ArrayFunctionExpression<T>(array, listOf(value, *additionalValues.toTypedArray()))
 
 fun <T : ValidType> arrayRemove(
     array: TypeExpression<ArrayType<T>>,

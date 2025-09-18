@@ -446,8 +446,6 @@ class JoinClauseTest : ManagerDependentTest {
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 
-    // ON KEYS
-
     @Test
     fun `should support standard join on keys`() {
         val expected = CouchbaseDopeQuery(
@@ -738,8 +736,6 @@ class JoinClauseTest : ManagerDependentTest {
 
         assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
-
-    // ON KEY
 
     @Test
     fun `should support standard join on key`() {

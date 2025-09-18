@@ -110,8 +110,6 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
         assertEquals(expected, underTest.toDopeQuery(manager))
     }
 
-    // --- Extension function tests ---
-
     @Test
     fun `should support toFormattedDateIn extension with tz field and no format`() {
         val expr = someNumberField().toTimeZone(someStringField())

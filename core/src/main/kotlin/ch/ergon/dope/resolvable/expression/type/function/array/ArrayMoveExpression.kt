@@ -11,7 +11,7 @@ data class ArrayMoveExpression<T : ValidType>(
     override val array: TypeExpression<ArrayType<T>>,
     val from: TypeExpression<NumberType>,
     val to: TypeExpression<NumberType>,
-) : ArrayFunctionExpression<T>("ARRAY_MOVE", array, listOf(from, to))
+) : ArrayFunctionExpression<T>(array, listOf(from, to))
 
 fun <T : ValidType> arrayMove(array: TypeExpression<ArrayType<T>>, from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
     ArrayMoveExpression(array, from, to)

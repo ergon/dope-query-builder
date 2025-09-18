@@ -6,6 +6,5 @@ import ch.ergon.dope.validtype.NumberType
 
 sealed class NumberInfixExpression(
     left: TypeExpression<NumberType>,
-    symbol: String,
     right: TypeExpression<NumberType>,
-) : TypeExpression<NumberType>, InfixOperator(left, symbol, right)
+) : TypeExpression<NumberType>, InfixOperator(left, right)

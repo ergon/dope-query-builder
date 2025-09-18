@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ObjectValuesExpression(
     val objectExpression: TypeExpression<ObjectType>,
-) : FunctionExpression<ArrayType<out ValidType>>("OBJECT_VALUES", listOf(objectExpression))
+) : FunctionExpression<ArrayType<out ValidType>>(listOf(objectExpression))
 
 fun TypeExpression<ObjectType>.getValues() = ObjectValuesExpression(this)

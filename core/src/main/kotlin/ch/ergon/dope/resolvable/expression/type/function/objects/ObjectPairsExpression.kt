@@ -7,6 +7,6 @@ import ch.ergon.dope.validtype.ObjectType
 
 data class ObjectPairsExpression(
     val objectExpression: TypeExpression<ObjectType>,
-) : FunctionExpression<ArrayType<ObjectType>>("OBJECT_PAIRS", listOf(objectExpression))
+) : FunctionExpression<ArrayType<ObjectType>>(listOf(objectExpression))
 
 fun TypeExpression<ObjectType>.getPairs() = ObjectPairsExpression(this)

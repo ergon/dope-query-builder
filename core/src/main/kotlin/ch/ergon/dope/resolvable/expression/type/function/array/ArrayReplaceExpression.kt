@@ -14,7 +14,7 @@ data class ArrayReplaceExpression<T : ValidType>(
     val toReplace: TypeExpression<T>,
     val replaceWith: TypeExpression<T>,
     val max: TypeExpression<NumberType>? = null,
-) : ArrayFunctionExpression<T>("ARRAY_REPLACE", array, listOfNotNull(toReplace, replaceWith, max))
+) : ArrayFunctionExpression<T>(array, listOfNotNull(toReplace, replaceWith, max))
 
 fun <T : ValidType> arrayReplace(
     array: TypeExpression<ArrayType<T>>,

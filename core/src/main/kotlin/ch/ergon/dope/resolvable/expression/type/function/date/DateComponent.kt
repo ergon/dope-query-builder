@@ -6,29 +6,29 @@ import ch.ergon.dope.validtype.StringType
 sealed interface DateComponent : TypeExpression<StringType>
 sealed interface DateUnit : DateComponent
 
-enum class DateUnitType(val queryString: String) : DateUnit {
-    MILLENNIUM("MILLENNIUM"),
-    CENTURY("CENTURY"),
-    DECADE("DECADE"),
-    YEAR("YEAR"),
-    QUARTER("QUARTER"),
-    MONTH("MONTH"),
-    WEEK("WEEK"),
-    DAY("DAY"),
-    HOUR("HOUR"),
-    MINUTE("MINUTE"),
-    SECOND("SECOND"),
-    MILLISECOND("MILLISECOND"),
+enum class DateUnitType : DateUnit {
+    MILLENNIUM,
+    CENTURY,
+    DECADE,
+    YEAR,
+    QUARTER,
+    MONTH,
+    WEEK,
+    DAY,
+    HOUR,
+    MINUTE,
+    SECOND,
+    MILLISECOND,
     ;
 }
 
-enum class DateComponentType(val queryString: String) : DateComponent {
-    ISO_YEAR("ISO_YEAR"),
-    ISO_WEEK("ISO_WEEK"),
-    DAY_OF_YEAR("DAY_OF_YEAR"),
-    DAY_OF_WEEK("DAY_OF_WEEK"),
-    TIMEZONE("TIMEZONE"),
-    TIMEZONE_HOUR("TIMEZONE_HOUR"),
-    TIMEZONE_MINUTE("TIMEZONE_MINUTE"),
+enum class DateComponentType : DateComponent {
+    ISO_YEAR,
+    ISO_WEEK,
+    DAY_OF_YEAR,
+    DAY_OF_WEEK,
+    TIMEZONE,
+    TIMEZONE_HOUR,
+    TIMEZONE_MINUTE,
     ;
 }

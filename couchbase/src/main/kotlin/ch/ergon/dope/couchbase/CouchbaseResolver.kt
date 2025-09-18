@@ -51,11 +51,11 @@ import ch.ergon.dope.resolvable.clause.model.WhereClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.WithClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.JoinType
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.NestType
 import ch.ergon.dope.resolvable.clause.model.mergeable.OnType
-import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
-import ch.ergon.dope.resolvable.expression.operator.PrefixOperator
 import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Between
@@ -78,7 +78,7 @@ import ch.ergon.dope.resolvable.expression.type.CaseExpression
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.resolvable.expression.type.ElseCaseExpression
 import ch.ergon.dope.resolvable.expression.type.FALSE
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.MISSING
 import ch.ergon.dope.resolvable.expression.type.MetaExpression
 import ch.ergon.dope.resolvable.expression.type.MetaExpression.MetaField
@@ -92,6 +92,7 @@ import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.StringPrimitive
 import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.arithmetic.NegationExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.NumberInfixExpression
 import ch.ergon.dope.resolvable.expression.type.collection.ExistsExpression
 import ch.ergon.dope.resolvable.expression.type.collection.Iterator
@@ -126,11 +127,9 @@ import ch.ergon.dope.resolvable.expression.type.function.string.TokensExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.type.ToNumberExpression
 import ch.ergon.dope.resolvable.expression.type.logic.LogicalInfixExpression
-import ch.ergon.dope.resolvable.expression.type.range.END
-import ch.ergon.dope.resolvable.expression.type.range.FOR
+import ch.ergon.dope.resolvable.expression.type.logic.NotExpression
 import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
-import ch.ergon.dope.resolvable.expression.type.range.WHEN
 import ch.ergon.dope.resolvable.expression.type.relational.BetweenExpression
 import ch.ergon.dope.resolvable.expression.type.relational.IsMissingExpression
 import ch.ergon.dope.resolvable.expression.type.relational.IsNotMissingExpression
@@ -343,7 +342,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val parent = resolvable.parentClause.toDopeQuery(manager)
                 val single = resolvable.singleReturnable.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    queryString = "${parent.queryString} RETURNING ${resolvable.returningType.queryString} ${single.queryString}",
+                    queryString = "${parent.queryString} RETURNING ${resolvable.returningType.name} ${single.queryString}",
                     parameters = parent.parameters.merge(single.parameters),
                 )
             }
@@ -443,7 +442,8 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
 
             is IndexReference -> {
                 val name = resolvable.indexName?.let { "`$it`" }
-                CouchbaseDopeQuery(queryString = listOfNotNull(name, resolvable.indexType?.queryString).joinToString(" "))
+                val type = resolvable.indexType?.queryString
+                CouchbaseDopeQuery(queryString = listOfNotNull(name, type).joinToString(" "))
             }
 
             is UseIndex -> {
@@ -459,6 +459,24 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 )
             }
 
+            is NumberInfixExpression -> {
+                val left = resolvable.left.toDopeQuery(manager)
+                val right = resolvable.right.toDopeQuery(manager)
+                CouchbaseDopeQuery(
+                    formatToQueryStringWithBrackets(left.queryString, resolvable.symbol, right.queryString),
+                    left.parameters.merge(right.parameters),
+                )
+            }
+
+            is LogicalInfixExpression -> {
+                val left = resolvable.left.toDopeQuery(manager)
+                val right = resolvable.right.toDopeQuery(manager)
+                CouchbaseDopeQuery(
+                    formatToQueryStringWithBrackets(left.queryString, resolvable.symbol, right.queryString),
+                    left.parameters.merge(right.parameters),
+                )
+            }
+
             is InfixOperator -> {
                 val left = resolvable.left.toDopeQuery(manager)
                 val right = resolvable.right.toDopeQuery(manager)
@@ -471,10 +489,14 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 CouchbaseDopeQuery(operatorQueryString, left.parameters.merge(right.parameters))
             }
 
-            is PrefixOperator -> {
+            is NotExpression -> {
                 val arg = resolvable.argument.toDopeQuery(manager)
-                val sep = if (resolvable.symbol == "-") "" else " "
-                CouchbaseDopeQuery(formatToQueryStringWithSeparator(resolvable.symbol, separator = sep, arg.queryString), arg.parameters)
+                CouchbaseDopeQuery(formatToQueryStringWithSeparator("NOT", separator = " ", arg.queryString), arg.parameters)
+            }
+
+            is NegationExpression -> {
+                val arg = resolvable.argument.toDopeQuery(manager)
+                CouchbaseDopeQuery(formatToQueryStringWithSeparator("-", separator = "", arg.queryString), arg.parameters)
             }
 
             is BetweenExpression<*> -> {
@@ -646,8 +668,8 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 )
             }
 
-            is DateUnitType -> CouchbaseDopeQuery("\"${resolvable.queryString}\"")
-            is DateComponentType -> CouchbaseDopeQuery("\"${resolvable.queryString}\"")
+            is DateUnitType -> CouchbaseDopeQuery("\"${resolvable.name}\"")
+            is DateComponentType -> CouchbaseDopeQuery("\"${resolvable.name}\"")
 
             is ObjectPrimitive -> {
                 val entries = resolvable.entries.map { it.toDopeQuery(manager) }
@@ -684,12 +706,12 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val transformationDopeQuery = transformationExpression.toDopeQuery(manager)
                 val conditionDopeQuery = condExpr?.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    queryString = "${resolvable.transformationType.queryString} " +
+                    queryString = "${resolvable.transformationType.name} " +
                         withAttributeKeysDopeQuery?.let { "${withAttributeKeysDopeQuery.queryString}:" }.orEmpty() +
-                        "${transformationDopeQuery.queryString} $FOR `$iteratorVariable` " +
-                        "${resolvable.membershipType.queryString} ${rangeDopeQuery.queryString} " +
-                        conditionDopeQuery?.let { "$WHEN ${conditionDopeQuery.queryString} " }.orEmpty() +
-                        END,
+                        "${transformationDopeQuery.queryString} FOR `$iteratorVariable` " +
+                        "${resolvable.membershipType.name} ${rangeDopeQuery.queryString} " +
+                        conditionDopeQuery?.let { "WHEN ${conditionDopeQuery.queryString} " }.orEmpty() +
+                        "END",
                     parameters = rangeDopeQuery.parameters.merge(
                         withAttributeKeysDopeQuery?.parameters,
                         transformationDopeQuery.parameters,
@@ -729,11 +751,11 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val transformationDopeQuery = transformationExpression.toDopeQuery(manager)
                 val conditionDopeQuery = conditionExpression?.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    queryString = resolvable.transformationType.queryString + " " +
+                    queryString = resolvable.transformationType.name + " " +
                         (withAttributeKeysDopeQuery?.let { "${it.queryString}:" } ?: "") +
                         "${transformationDopeQuery.queryString} FOR `$indexVar`:`$iterVar` " +
-                        "${resolvable.membershipType.queryString} ${rangeQ.queryString} " +
-                        (conditionDopeQuery?.let { "$WHEN ${it.queryString} " } ?: "") +
+                        "${resolvable.membershipType.name} ${rangeQ.queryString} " +
+                        (conditionDopeQuery?.let { "WHEN ${it.queryString} " } ?: "") +
                         "END",
                     parameters = rangeQ.parameters.merge(
                         withAttributeKeysDopeQuery?.parameters,
@@ -748,12 +770,12 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val over = resolvable.overDefinition?.toDopeQuery(manager)
                 val argumentsDopeQueryString = formatListToQueryStringWithBrackets(
                     argumentsDopeQuery,
-                    prefix = "(" + (resolvable.quantifier?.let { "${it.queryString} " } ?: ""),
+                    prefix = "(" + (resolvable.quantifier?.let { "${it.name} " } ?: ""),
                 )
                 val functionCallQueryString = listOfNotNull(
                     resolvable.functionName + argumentsDopeQueryString,
-                    resolvable.fromModifier?.queryString,
-                    resolvable.nullsModifier?.queryString,
+                    resolvable.fromModifier?.let { if (it.name == "FIRST") "FROM FIRST" else "FROM LAST" },
+                    resolvable.nullsModifier?.let { if (it.name == "RESPECT") "RESPECT NULLS" else "IGNORE NULLS" },
                     over?.queryString,
                 ).joinToString(" ")
                 CouchbaseDopeQuery(functionCallQueryString, argumentsDopeQuery.map { it.parameters }.merge(over?.parameters))
@@ -834,7 +856,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                     expressionDopeQuery.queryString + (
                         resolvable.orderType?.let { " $it" }
                             ?: ""
-                        ) + (resolvable.nullsOrder?.let { " ${it.queryString}" } ?: "")
+                        ) + (resolvable.nullsOrder?.let { " " + it.queryString } ?: "")
                 CouchbaseDopeQuery(orderingQueryString, expressionDopeQuery.parameters)
             }
 
@@ -887,8 +909,22 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 } else {
                     null
                 }
+                val mergeTypeToken = when (val t = resolvable.mergeType) {
+                    is JoinType -> when (t) {
+                        JoinType.JOIN -> "JOIN"
+                        JoinType.LEFT_JOIN -> "LEFT JOIN"
+                        JoinType.INNER_JOIN -> "INNER JOIN"
+                        JoinType.RIGHT_JOIN -> "RIGHT JOIN"
+                    }
+
+                    is NestType -> when (t) {
+                        NestType.NEST -> "NEST"
+                        NestType.INNER_NEST -> "INNER NEST"
+                        NestType.LEFT_NEST -> "LEFT NEST"
+                    }
+                }
                 val baseQueryString =
-                    formatPartsToQueryStringWithSpace(parent.queryString, resolvable.mergeType.type, mergeable.queryString, hint?.queryString)
+                    formatPartsToQueryStringWithSpace(parent.queryString, mergeTypeToken, mergeable.queryString, hint?.queryString)
                 val baseParams = parent.parameters.merge(mergeable.parameters, hint?.parameters)
                 when (onType) {
                     OnType.ON -> {
@@ -964,7 +1000,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 )
             }
 
-            is Field<*> -> {
+            is IField<*> -> {
                 CouchbaseDopeQuery(
                     queryString = formatPathToQueryString(resolvable.name, resolvable.path),
                 )
@@ -1004,7 +1040,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is FunctionExpression<*> -> {
                 val argumentsDopeQuery = resolvable.expressions.mapNotNull { it?.toDopeQuery(manager) }
                 CouchbaseDopeQuery(
-                    queryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                    queryString = resolvable.toFunctionQueryString(
                         resolvable.symbol,
                         *argumentsDopeQuery.map { it.queryString }.toTypedArray(),
                     ),
@@ -1015,7 +1051,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is NumberFunctionExpression -> {
                 val v = resolvable.value?.toDopeQuery(manager)
                 val a = resolvable.additionalValue?.toDopeQuery(manager)
-                val queryString = (resolvable as FunctionOperator).toFunctionQueryString(resolvable.symbol, v?.queryString, a?.queryString)
+                val queryString = resolvable.toFunctionQueryString(resolvable.symbol, v?.queryString, a?.queryString)
                 CouchbaseDopeQuery(
                     queryString = queryString,
                     parameters = v?.parameters.orEmpty().merge(a?.parameters),
@@ -1026,7 +1062,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 val argumentsDopeQuery = resolvable.arguments.map { it.toDopeQuery(manager) }
                 CouchbaseDopeQuery(
-                    queryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                    queryString = resolvable.toFunctionQueryString(
                         resolvable.symbol,
                         arrayDopeQuery.queryString,
                         *argumentsDopeQuery.map { it.queryString }.toTypedArray(),
@@ -1063,7 +1099,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
 
             is TokensExpression -> {
                 val optionsDopeQuery = resolvable.opt.toDopeQuery(manager)
-                val functionQueryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val functionQueryString = resolvable.toFunctionQueryString(
                     "TOKENS",
                     formatStringListToQueryStringWithBrackets(resolvable.inStr, prefix = "[\"", postfix = "\"]"),
                     optionsDopeQuery.queryString,
@@ -1077,7 +1113,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val inputStringDopeQuery = resolvable.inStr.toDopeQuery(manager)
                 val optionsString = "{" + resolvable.options.map { "\"${it.key}\": \"${it.value}\"" }.joinToString(", ") + "}"
                 val functionQueryString =
-                    (resolvable as FunctionOperator).toFunctionQueryString("MASK", inputStringDopeQuery.queryString, optionsString)
+                    resolvable.toFunctionQueryString("MASK", inputStringDopeQuery.queryString, optionsString)
                 CouchbaseDopeQuery(functionQueryString, inputStringDopeQuery.parameters)
             }
 
@@ -1088,7 +1124,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                     resolvable.stringSearchExpression?.let { StringPrimitive(it).toDopeQuery(manager) }
                 val objectSearch = resolvable.objectSearchExpression?.toDopeType()?.toDopeQuery(manager)
                 val options = resolvable.options?.toDopeType()?.toDopeQuery(manager)
-                val queryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val queryString = resolvable.toFunctionQueryString(
                     SearchFunctionType.SEARCH.type,
                     field?.queryString,
                     bucket?.queryString,
@@ -1101,7 +1137,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is SearchDependencyFunctionExpression<*> -> {
-                val queryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val queryString = resolvable.toFunctionQueryString(
                     resolvable.searchFunctionType.type,
                     resolvable.outName?.let { "`$it`" },
                 )
@@ -1112,14 +1148,14 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val expressionDopeQuery = resolvable.expression.toDopeQuery(manager)
                 val filter = resolvable.filterChars?.toDopeQuery(manager)
                 val queryString =
-                    (resolvable as FunctionOperator).toFunctionQueryString("TONUMBER", expressionDopeQuery.queryString, filter?.queryString)
+                    resolvable.toFunctionQueryString("TONUMBER", expressionDopeQuery.queryString, filter?.queryString)
                 CouchbaseDopeQuery(queryString, expressionDopeQuery.parameters.merge(filter?.parameters))
             }
 
             is ArrayAverageExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_AVG", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_AVG", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1127,7 +1163,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is ArrayMinExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_MIN", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_MIN", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1135,7 +1171,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is ArrayMaxExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_MAX", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_MAX", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1143,7 +1179,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is ArraySumExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_SUM", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_SUM", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1151,7 +1187,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is ArrayCountExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1159,7 +1195,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is ArrayLengthExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_LENGTH", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_LENGTH", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1168,7 +1204,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 val valueDopeQuery = resolvable.value.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString(
+                    resolvable.toFunctionQueryString(
                         "ARRAY_POSITION",
                         arrayDopeQuery.queryString,
                         valueDopeQuery.queryString,
@@ -1181,7 +1217,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 val valueDopeQuery = resolvable.value.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString(
+                    resolvable.toFunctionQueryString(
                         "ARRAY_BINARY_SEARCH",
                         arrayDopeQuery.queryString,
                         valueDopeQuery.queryString,
@@ -1193,7 +1229,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is ArrayIfNullExpression<*> -> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 CouchbaseDopeQuery(
-                    (resolvable as FunctionOperator).toFunctionQueryString("ARRAY_IFNULL", arrayDopeQuery.queryString),
+                    resolvable.toFunctionQueryString("ARRAY_IFNULL", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
                 )
             }
@@ -1202,7 +1238,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val arrayDopeQuery = resolvable.array.toDopeQuery(manager)
                 val valueDopeQuery = resolvable.value.toDopeQuery(manager)
                 val additionalValueDopeQueries = resolvable.additionalValues.map { it.toDopeQuery(manager) }
-                val functionQueryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val functionQueryString = resolvable.toFunctionQueryString(
                     "ARRAY_PREPEND",
                     valueDopeQuery.queryString,
                     *additionalValueDopeQueries.map { it.queryString }.toTypedArray(),
@@ -1218,7 +1254,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val startDopeQuery = resolvable.start.toDopeQuery(manager)
                 val endDopeQuery = resolvable.end.toDopeQuery(manager)
                 val step = resolvable.step?.toDopeQuery(manager)
-                val functionQueryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val functionQueryString = resolvable.toFunctionQueryString(
                     "ARRAY_RANGE",
                     startDopeQuery.queryString,
                     endDopeQuery.queryString,
@@ -1236,7 +1272,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val initialExpressionDopeQuery = resolvable.initialExpression.toDopeQuery(manager)
                 val valueIfExistsDopeQuery = resolvable.valueIfExists.toDopeQuery(manager)
                 val valueIfNotExistsDopeQuery = resolvable.valueIfNotExists.toDopeQuery(manager)
-                val functionQueryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val functionQueryString = resolvable.toFunctionQueryString(
                     "NVL2",
                     initialExpressionDopeQuery.queryString,
                     valueIfExistsDopeQuery.queryString,
@@ -1263,7 +1299,7 @@ class CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 val firstPairDopeQuery = pair(resolvable.searchResult)
                 val additionalPairDopeQueries = resolvable.searchResults.map { pair(it) }
                 val defaultDopeQuery = resolvable.default?.toDopeQuery(manager)
-                val functionQueryString = (resolvable as FunctionOperator).toFunctionQueryString(
+                val functionQueryString = resolvable.toFunctionQueryString(
                     "DECODE",
                     decodeExpressionDopeQuery.queryString,
                     firstPairDopeQuery.queryString,

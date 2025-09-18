@@ -7,10 +7,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 data class DateTruncMillisExpression(val date: TypeExpression<NumberType>, val dateUnit: DateUnit) :
-    FunctionExpression<NumberType>("DATE_TRUNC_MILLIS", listOf(date, dateUnit))
+    FunctionExpression<NumberType>(listOf(date, dateUnit))
 
 data class DateTruncStrExpression(val date: TypeExpression<StringType>, val dateUnit: DateUnit) :
-    FunctionExpression<StringType>("DATE_TRUNC_STR", listOf(date, dateUnit))
+    FunctionExpression<StringType>(listOf(date, dateUnit))
 
 @JvmName("millisTruncTypeDateComponent")
 fun TypeExpression<NumberType>.truncateTo(dateUnit: DateUnit) =

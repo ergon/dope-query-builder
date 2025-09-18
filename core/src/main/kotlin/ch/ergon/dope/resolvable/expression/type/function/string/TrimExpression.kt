@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class TrimExpression(
     val inStr: TypeExpression<StringType>,
     val char: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("TRIM", listOf(inStr, char))
+) : FunctionExpression<StringType>(listOf(inStr, char))
 
 fun trim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = TrimExpression(inStr, char)
 

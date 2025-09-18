@@ -10,7 +10,7 @@ data class RpadExpression(
     val inStr: TypeExpression<StringType>,
     val size: TypeExpression<NumberType>,
     val char: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("RPAD", listOf(inStr, size, char))
+) : FunctionExpression<StringType>(listOf(inStr, size, char))
 
 fun rpad(
     inStr: TypeExpression<StringType>,

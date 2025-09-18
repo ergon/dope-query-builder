@@ -24,45 +24,6 @@ The project is available as open source under the terms of the [MIT License](./L
 
 ### [**Core**](https://github.com/ergon/dope-query-builder/wiki/%5B1%5D-Core)
 
-### Backends via Resolvers
-
-- Core exposes a generic `build` API that takes a backend-specific resolver to turn the DSL into an executable backend result.
-- The previous no-argument `build()` is removed; always pass a resolver.
-
-- Couchbase usage (returns `DopeQuery`):
-
-```
-import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.build.build
-import ch.ergon.dope.couchbase.CouchbaseResolver
-
-val n1ql: ch.ergon.dope.DopeQuery = QueryBuilder
-    .selectAsterisk()
-    .from(/* ... */)
-    .where(/* ... */)
-    .build(CouchbaseResolver())
-```
-
-- Mongo usage (returns `String`):
-
-```
-import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.build.build
-import ch.ergon.dope.mongo.MongoResolver
-
-val mongoQuery: String = QueryBuilder
-    .selectAsterisk()
-    .from(/* ... */)
-    .where(/* ... */)
-    .build(MongoResolver())
-```
-
-Note: Mongo currently returns a placeholder string. The resolver will translate the same DSL into MongoDB query strings incrementally.
-
 ### [**Crystal-Map-Connector**](https://github.com/ergon/dope-query-builder/wiki/%5B2%5D-Crystal%E2%80%90Map%E2%80%90Connector)
 
 ### [**DOPE functionality**](https://github.com/ergon/dope-query-builder/wiki/%5B3%5D-DOPE-functionality)

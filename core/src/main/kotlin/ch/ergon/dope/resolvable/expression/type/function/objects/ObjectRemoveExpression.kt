@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class ObjectRemoveExpression(
     val objectExpression: TypeExpression<ObjectType>,
     val attributeKey: TypeExpression<StringType>,
-) : FunctionExpression<ObjectType>("OBJECT_REMOVE", listOf(objectExpression, attributeKey))
+) : FunctionExpression<ObjectType>(listOf(objectExpression, attributeKey))
 
 fun TypeExpression<ObjectType>.removeAttribute(key: TypeExpression<StringType>) = ObjectRemoveExpression(this, key)
 

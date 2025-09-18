@@ -17,9 +17,7 @@ enum class OnType {
     ON_KEY_FOR,
 }
 
-sealed interface MergeType {
-    val type: String
-}
+sealed interface MergeType
 
 sealed interface MergeableClause<T : ValidType> : ISelectFromClause<T> {
     val mergeType: MergeType

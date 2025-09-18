@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
 data class StringToMillisExpression(val date: TypeExpression<StringType>, val format: TypeExpression<StringType>? = null) :
-    FunctionExpression<NumberType>("STR_TO_MILLIS", listOf(date, format))
+    FunctionExpression<NumberType>(listOf(date, format))
 
 fun TypeExpression<StringType>.toEpochMillis(format: TypeExpression<StringType>? = null) = StringToMillisExpression(this, format)
 

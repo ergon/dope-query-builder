@@ -5,7 +5,7 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-data class UpperExpression(val inStr: TypeExpression<StringType>) : FunctionExpression<StringType>("UPPER", listOf(inStr))
+data class UpperExpression(val inStr: TypeExpression<StringType>) : FunctionExpression<StringType>(listOf(inStr))
 
 fun upper(inStr: TypeExpression<StringType>) = UpperExpression(inStr)
 

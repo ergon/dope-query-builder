@@ -8,7 +8,7 @@ data class LeastExpression<T : ComparableType>(
     val firstExpression: TypeExpression<T>,
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
-) : FunctionExpression<T>("LEAST", listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()))
+) : FunctionExpression<T>(listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()))
 
 fun <T : ComparableType> leastOf(
     firstExpression: TypeExpression<T>,

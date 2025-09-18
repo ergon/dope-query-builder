@@ -7,11 +7,9 @@ import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.bucket.IndexType.USING_FTS
 import ch.ergon.dope.resolvable.bucket.IndexType.USING_GSI
 
-private const val USE_INDEX = "USE INDEX"
-
-enum class IndexType(val queryString: String) {
-    USING_GSI("USING GSI"),
-    USING_FTS("USING FTS"),
+enum class IndexType {
+    USING_GSI,
+    USING_FTS,
 }
 
 data class IndexReference(

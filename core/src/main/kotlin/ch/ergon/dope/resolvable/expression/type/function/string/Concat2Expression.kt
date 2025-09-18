@@ -5,12 +5,11 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-// Separator is used as an argument and not as a formatting option
 data class Concat2Expression<T : StringType>(
     val separator: TypeExpression<T>,
     val string: TypeExpression<T>,
     val strings: List<TypeExpression<T>> = emptyList(),
-) : FunctionExpression<T>("CONCAT2", listOf(separator, string, *strings.toTypedArray()))
+) : FunctionExpression<T>(listOf(separator, string, *strings.toTypedArray()))
 
 fun concat2(
     separator: TypeExpression<StringType>,

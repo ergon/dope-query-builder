@@ -9,7 +9,7 @@ data class ArrayIntersectExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<T>("ARRAY_INTERSECT", firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
 fun <T : ValidType> arrayIntersect(
     firstArray: TypeExpression<ArrayType<T>>,

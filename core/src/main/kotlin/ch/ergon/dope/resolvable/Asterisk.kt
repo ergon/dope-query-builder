@@ -4,8 +4,6 @@ import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ObjectType
 
-const val ASTERISK_STRING = "*"
-
 data class Asterisk(val path: SingleExpression<ObjectType>? = null) : Selectable, Returnable
 
 fun asterisk(path: SingleExpression<ObjectType>? = null) = Asterisk(path)
