@@ -37,7 +37,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("client"),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -58,7 +58,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -85,7 +85,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("order"),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()

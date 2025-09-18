@@ -64,7 +64,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 concat("abc".toDopeType(), "def".toDopeType(), "ghi".toDopeType()).alias("concat"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -76,7 +76,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 concat("abc", "def", "ghi").alias("concat"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -95,7 +95,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 ).alias(
                     "concat",
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -113,7 +113,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     "c".toDopeType(),
                     "d".toDopeType(),
                 ).alias("c1"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -131,7 +131,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     "c",
                     "d",
                 ).alias("c1"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -149,7 +149,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     "c",
                     "d",
                 ).alias("c1"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -173,7 +173,7 @@ class StringFunctionsTest : ManagerDependentTest {
             .select(
                 contains("N1QL is awesome".toDopeType(), "N1QL".toDopeType())
                     .alias("n1ql"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -186,7 +186,7 @@ class StringFunctionsTest : ManagerDependentTest {
             .select(
                 contains("N1QL is awesome", "N1QL".toDopeType())
                     .alias("n1ql"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -201,7 +201,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 .select(
                     contains("N1QL is awesome".toDopeType(), "N1QL".toDopeType()).alias("n1ql"),
                     contains("N1QL is awesome", "SQL").alias("no_sql"),
-                ).build(CouchbaseResolver()).queryString
+                ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -211,7 +211,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(initCap("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select(initCap("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -228,7 +228,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     length("N1QL is awesome").alias("ascii"),
                     length("Café").alias("diacritic"),
                     length("").alias("zero"),
-                ).build(CouchbaseResolver()).queryString
+                ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -238,7 +238,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT LOWER(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(lower("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select(lower("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -256,7 +256,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 lpad("N1QL is awesome", 20, "-*").alias("repeated_padding"),
                 lpad("N1QL is awesome", 20, "987654321").alias("truncate_padding"),
                 lpad("N1QL is awesome", 4, "987654321").alias("truncate_string"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -280,7 +280,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 lpad("N1QL is awesome", 20.toDopeType(), "987654321".toDopeType()),
                 lpad("N1QL is awesome", 20.toDopeType(), "987654321"),
                 lpad("N1QL is awesome".toDopeType(), 4, "987654321".toDopeType()).alias("truncate_string"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -292,7 +292,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 lpad("N1QL is awesome", 20, "1234".toDopeType()).alias("implicit_padding"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -308,7 +308,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 ltrim("    N1QL is awesome", " ").alias("explicit_spaces"),
                 ltrim("      N1QL is awesome").alias("implicit_spaces"),
                 ltrim("N1QL is awesome".toDopeType()).alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -320,7 +320,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 ltrim("...N1QL is awesome", "...").alias("dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -333,7 +333,7 @@ class StringFunctionsTest : ManagerDependentTest {
             .select(
                 ltrim("...N1QL is awesome".toDopeType(), ".").alias("dots"),
                 ltrim("...N1QL is awesome", ".".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -349,7 +349,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 mask("SomeTextToMask").alias("mask"),
                 mask("SomeTextToMask", mapOf("mask" to "++++")).alias("mask_custom"),
                 mask("SomeTextToMask", mapOf("mask" to "++++ ++++")).alias("mask_hole"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -365,7 +365,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 mask("SomeTextToMask".toDopeType()).alias("mask"),
                 mask("SomeTextToMask".toDopeType(), mapOf("mask" to "++++")).alias("mask_custom"),
                 mask("SomeTextToMask".toDopeType(), mapOf("mask" to "++++ ++++")).alias("mask_hole"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -384,7 +384,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     .alias("mask_custom"),
                 mask("SomeTextToMask", mapOf("mask" to "++++ ++++"))
                     .alias("mask_hole"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -400,7 +400,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 position("N1QL is awesome", "awesome").alias("awesome"),
                 position("N1QL is awesome", "N1QL").alias("n1ql"),
                 position("N1QL is awesome", "SQL").alias("sql"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -416,7 +416,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 position("N1QL is awesome".toDopeType(), "awesome").alias("awesome"),
                 position("N1QL is awesome".toDopeType(), "N1QL").alias("n1ql"),
                 position("N1QL is awesome".toDopeType(), "SQL").alias("sql"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -432,7 +432,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 position("N1QL is awesome", "awesome".toDopeType()).alias("awesome"),
                 position("N1QL is awesome", "N1QL".toDopeType()).alias("n1ql"),
                 position("N1QL is awesome", "SQL".toDopeType()).alias("sql"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -447,7 +447,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 repeat("N1QL".toDopeType(), 3),
                 repeat("N1QL".toDopeType(), 3.toDopeType()),
                 repeat("N1QL", 3.toDopeType()).alias("n1ql_3"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -461,7 +461,7 @@ class StringFunctionsTest : ManagerDependentTest {
             .select(
                 reverse("N1QL is awesome").alias("n1ql"),
                 reverse("racecar").alias("palindrome"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -485,7 +485,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rpad("N1QL is awesome", 4.toDopeType(), "123456789".toDopeType()).alias("truncate_string"),
                 rpad("N1QL is awesome", 4.toDopeType()).alias("truncate_string"),
                 rpad("N1QL is awesome".toDopeType(), 4, "123456789".toDopeType()).alias("truncate_string"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -503,7 +503,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rpad("N1QL is awesome".toDopeType(), 20, "-*").alias("repeated_padding"),
                 rpad("N1QL is awesome".toDopeType(), 20, "123456789").alias("truncate_padding"),
                 rpad("N1QL is awesome".toDopeType(), 4, "123456789").alias("truncate_string"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -521,7 +521,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rpad("N1QL is awesome", 20, "-*".toDopeType()).alias("repeated_padding"),
                 rpad("N1QL is awesome", 20, "123456789".toDopeType()).alias("truncate_padding"),
                 rpad("N1QL is awesome", 4, "123456789".toDopeType()).alias("truncate_string"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -538,7 +538,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
                 rtrim("N1QL is awesome     ").alias("implicit_spaces"),
                 rtrim("N1QL is awesome").alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -555,7 +555,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
                 rtrim("N1QL is awesome     ").alias("implicit_spaces"),
                 rtrim("N1QL is awesome").alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -572,7 +572,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
                 rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
                 rtrim("N1QL is awesome".toDopeType()).alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -589,7 +589,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
                 rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
                 rtrim("N1QL is awesome".toDopeType()).alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -605,7 +605,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 split("N1QL is awesome", " ").alias("explicit_spaces"),
                 split("N1QL is awesome").alias("implicit_spaces"),
                 split("N1QL is awesome", "is").alias("split_is"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -621,7 +621,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 split("N1QL is awesome".toDopeType(), " ").alias("explicit_spaces"),
                 split("N1QL is awesome".toDopeType()).alias("implicit_spaces"),
                 split("N1QL is awesome".toDopeType(), "is").alias("split_is"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -637,7 +637,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 split("N1QL is awesome", " ".toDopeType()).alias("explicit_spaces"),
                 split("N1QL is awesome").alias("implicit_spaces"),
                 split("N1QL is awesome", "is".toDopeType()).alias("split_is"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -653,7 +653,7 @@ class StringFunctionsTest : ManagerDependentTest {
                 substring("N1QL is awesome", 3).alias("end_of_string"),
                 substring("N1QL is awesome", 3, 1).alias("single_letter"),
                 substring("N1QL is awesome", 3, 3).alias("three_letters"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -663,7 +663,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT SUFFIXES(\"N1QL is awesome\")"
 
         val actual: String = QueryBuilder
-            .select(suffixes("N1QL is awesome")).build(CouchbaseResolver()).queryString
+            .select(suffixes("N1QL is awesome")).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -673,7 +673,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(title("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select(title("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -683,7 +683,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(title("N1QL is awesome".toDopeType()).alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select(title("N1QL is awesome".toDopeType()).alias("n1ql")).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -699,7 +699,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212"),
                     CustomTokenOptions(specials = true),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -711,7 +711,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 tokens(listOf("jim@example.com")),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -722,7 +722,7 @@ class StringFunctionsTest : ManagerDependentTest {
 
         val actual: String = QueryBuilder
             .select(tokens(listOf("jim@example.com"), CustomTokenOptions(specials = true))).build(
-                CouchbaseResolver(),
+                CouchbaseResolver,
             ).queryString
 
         assertEquals(expected, actual)
@@ -739,7 +739,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     listOf("jim@example.com"),
                     CustomTokenOptions(specials = true, case = TOKEN_CASES.UPPER),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -752,7 +752,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 tokens(listOf("jim@example.com"), CustomTokenOptions(specials = false, case = TOKEN_CASES.UPPER, name = false)),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -774,7 +774,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     .alias("implicit_spaces"),
                 trim("N1QL is awesome")
                     .alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -796,7 +796,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     .alias("implicit_spaces"),
                 trim("N1QL is awesome")
                     .alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -818,7 +818,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     .alias("implicit_spaces"),
                 trim("N1QL is awesome".toDopeType())
                     .alias("no_dots"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -829,7 +829,7 @@ class StringFunctionsTest : ManagerDependentTest {
 
         val actual: String = QueryBuilder
             .select(upper("N1QL is awesome").alias("n1ql"))
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -841,7 +841,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .selectFrom(someBucket())
             .where(contains(someStringField(), "123"))
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -852,7 +852,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .selectFrom(someBucket())
             .where(upper(someStringField()).isEqualTo("VENDOLIN".toDopeType()))
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -863,7 +863,7 @@ class StringFunctionsTest : ManagerDependentTest {
 
         val actual: String = QueryBuilder
             .select(contains(upper("vendolin"), "VEN").alias("foo"))
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -880,7 +880,7 @@ class StringFunctionsTest : ManagerDependentTest {
                         mbPosition1("input", "pu"),
                     ),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -892,7 +892,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 length("input").add(mbLength("input")).isGreaterThan(5),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -910,7 +910,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     lower("TEST"),
                     upper("test"),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -927,7 +927,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     mbLpad("input", 5),
                     mbRpad("input", 4, "t"),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -944,7 +944,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     mbSubstring("input", 0, 2),
                     mbSubstring1("input", 2, 2),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -960,7 +960,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     ltrim("input", "in"),
                     rtrim("input", "ut"),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -972,7 +972,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 contains("input", "in").and(true),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -984,7 +984,7 @@ class StringFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 suffixes("input").get(2).isEqualTo(split("input", "p").get(1)),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -1007,7 +1007,7 @@ class StringFunctionsTest : ManagerDependentTest {
                     urlDecode("encoded"),
                     urlEncode("input"),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

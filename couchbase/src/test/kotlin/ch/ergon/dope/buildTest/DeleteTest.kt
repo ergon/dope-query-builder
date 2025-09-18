@@ -19,7 +19,7 @@ class DeleteTest {
 
         val actual: String = QueryBuilder
             .deleteFrom(someBucket())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -31,7 +31,7 @@ class DeleteTest {
         val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .where(TRUE)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -43,7 +43,7 @@ class DeleteTest {
         val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .limit(10.toDopeType())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -55,7 +55,7 @@ class DeleteTest {
         val actual: String = QueryBuilder
             .deleteFrom(someBucket().alias("b"))
             .offset(10.toDopeType())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -67,7 +67,7 @@ class DeleteTest {
         val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .returning(someStringField())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class DeleteTest {
         val actual: String = QueryBuilder
             .deleteFrom(someBucket())
             .returning(someStringField(), someNumberField())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -94,7 +94,7 @@ class DeleteTest {
             .limit(7.toDopeType())
             .offset(10.toDopeType())
             .returning(someStringField())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

@@ -19,8 +19,7 @@ sealed class LimitClause(
 data class SelectLimitClause<T : ValidType>(
     override val numberExpression: TypeExpression<NumberType>,
     override val parentClause: ISelectOrderByClause<T>,
-) :
-    ISelectLimitClause<T>, LimitClause(numberExpression, parentClause)
+) : ISelectLimitClause<T>, LimitClause(numberExpression, parentClause)
 
 data class DeleteLimitClause(override val numberExpression: TypeExpression<NumberType>, override val parentClause: IDeleteWhereClause) :
     IDeleteLimitClause, LimitClause(numberExpression, parentClause)

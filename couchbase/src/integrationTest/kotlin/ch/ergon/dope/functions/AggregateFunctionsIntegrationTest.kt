@@ -33,7 +33,7 @@ class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

@@ -44,7 +44,7 @@ class NumberFunctionsTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 12.toDopeType().alias("someNumber"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

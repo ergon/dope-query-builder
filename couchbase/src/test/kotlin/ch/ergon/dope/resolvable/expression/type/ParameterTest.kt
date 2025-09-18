@@ -170,7 +170,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = NumberParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -181,7 +181,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = NumberParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -192,7 +192,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = StringParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -203,7 +203,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = StringParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -214,7 +214,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = BooleanParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -225,7 +225,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = BooleanParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -236,7 +236,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -247,7 +247,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -258,7 +258,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -269,7 +269,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -280,7 +280,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -291,7 +291,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -302,7 +302,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = null
         val expected = ObjectParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }
@@ -313,7 +313,7 @@ class ParameterTest : ManagerDependentTest {
         val parameterName = someString()
         val expected = ObjectParameter(value, parameterName).toDopeQuery(manager)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver()))
+        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
 
         assertEquals(expected, actual)
     }

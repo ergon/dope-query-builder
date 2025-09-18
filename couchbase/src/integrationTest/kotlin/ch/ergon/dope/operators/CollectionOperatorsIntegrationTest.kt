@@ -33,7 +33,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
             .select(
                 array.filterIndexed { i, value -> exists(array).and(array.every { value.sub(1).isEqualTo(i) }) }
                     .map { i, value -> value.mul(i.add(1)) },
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
@@ -51,7 +51,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             ).where(
                 typeField.isEqualTo("order").and(idField.isLessThan(2)),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()

@@ -24,7 +24,7 @@ class UpdateTest {
         val actual = QueryBuilder
             .update(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -40,7 +40,7 @@ class UpdateTest {
                 meta().expiration.toNewValue(10.toDopeType()),
                 someStringField().toNewValue("test".toDopeType()),
             )
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -55,7 +55,7 @@ class UpdateTest {
             ).unset(
                 someStringField(),
             )
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -69,7 +69,7 @@ class UpdateTest {
                 someBucket(),
             ).where(
                 1.toDopeType().add(2).isEqualTo(3),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -83,7 +83,7 @@ class UpdateTest {
                 someBucket(),
             ).limit(
                 1.toDopeType(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -97,7 +97,7 @@ class UpdateTest {
                 someBucket(),
             ).returning(
                 someStringField(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -129,7 +129,7 @@ class UpdateTest {
                 1.toDopeType(),
             ).returning(
                 setThisNumberField,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

@@ -31,7 +31,7 @@ class ArrayTest {
                 listOf(someStringField("fname", person), someStringField()).toDopeType(),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class ArrayTest {
                 listOf(someStringField()).toDopeType(),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -69,7 +69,7 @@ class ArrayTest {
                 ).toDopeType(),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -84,7 +84,7 @@ class ArrayTest {
                 listOf(someStringField()).toDopeType().alias("test"),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -100,7 +100,7 @@ class ArrayTest {
                 listOf(someStringField()).toDopeType().alias("true"),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -123,7 +123,7 @@ class ArrayTest {
                 ).toDopeType().alias("test"),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -141,7 +141,7 @@ class ArrayTest {
                 ).toDopeType(),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -160,7 +160,7 @@ class ArrayTest {
                 23.toDopeType(),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -179,7 +179,7 @@ class ArrayTest {
                 ),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -198,7 +198,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 person,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -217,7 +217,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket("person"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -236,7 +236,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket("person"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -255,7 +255,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -273,7 +273,7 @@ class ArrayTest {
                 ).alias("test"),
             ).from(
                 someBucket("person"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -293,7 +293,7 @@ class ArrayTest {
                         "hallo".toDopeType(),
                     ).toDopeType(),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -307,7 +307,7 @@ class ArrayTest {
                 someNumberArrayField().get(0.toDopeType()),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -321,7 +321,7 @@ class ArrayTest {
                 someNumberArrayField().get(1.toDopeType().add(1)),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -335,7 +335,7 @@ class ArrayTest {
                 someNumberArrayField().get((-1).toDopeType()),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -349,7 +349,7 @@ class ArrayTest {
                 someStringArrayField().get(someNumberArrayField().get(0.toDopeType())),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -363,7 +363,7 @@ class ArrayTest {
                 someBucket(),
             ).where(
                 someNumberArrayField().get(0.toDopeType()).isEqualTo(1),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -377,7 +377,7 @@ class ArrayTest {
                 someBucket(),
             ).offset(
                 someNumberArrayField().get(0.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -391,7 +391,7 @@ class ArrayTest {
                 someBucket(),
             ).limit(
                 someNumberArrayField().get(0.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

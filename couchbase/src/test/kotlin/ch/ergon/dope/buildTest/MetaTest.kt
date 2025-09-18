@@ -17,7 +17,7 @@ class MetaTest {
                 meta(someBucket()),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -31,7 +31,7 @@ class MetaTest {
                 meta(),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -51,7 +51,7 @@ class MetaTest {
                 meta().type,
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

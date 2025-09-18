@@ -10,6 +10,6 @@ interface ManagerDependentTest {
 
     @BeforeTest
     fun setUp() {
-        manager = DopeQueryManager(CouchbaseResolver())
+        manager = DopeQueryManager(CouchbaseResolver)
     }
 }

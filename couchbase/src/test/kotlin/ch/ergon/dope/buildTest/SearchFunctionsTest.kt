@@ -33,7 +33,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                     someStringField(bucket = bucket),
                     "+something",
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                     bucket,
                     "stringField:\"something\"",
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -74,7 +74,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                         "match" to "something",
                     ),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                         ),
                     ),
                 ),
-            ).limit(10).build(CouchbaseResolver()).queryString
+            ).limit(10).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                         "out" to "outName",
                     ),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -146,7 +146,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                     someStringField(),
                     "+something",
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

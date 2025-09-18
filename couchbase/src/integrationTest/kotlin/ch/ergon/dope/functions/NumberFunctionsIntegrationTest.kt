@@ -24,7 +24,7 @@ class NumberFunctionsIntegrationTest : BaseIntegrationTest() {
                 abs(-1).add(ceil(3.14)).sub(sqrt(9)).alias("arithmetic"),
                 trunc(pi(), 4).alias("pi"),
                 power(2, 3).alias("power"),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()

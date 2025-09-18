@@ -33,7 +33,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
@@ -51,7 +51,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .orderBy(
                 nameField,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
@@ -66,7 +66,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 typeField.isEqualTo("client").and(isActiveField.isEqualTo(true)),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
@@ -88,7 +88,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .limit(
                 1,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -109,7 +109,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .limit(
                 1,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -125,7 +125,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 idField.isNull(),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
@@ -142,7 +142,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 testBucket,
             ).orderBy(
                 idField,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
@@ -165,7 +165,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .limit(
                 1,
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toRawValues()
@@ -200,7 +200,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                             idField.isGreaterThan(2),
                         ),
                     ),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -214,7 +214,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder
             .select(
                 parameter.alias("namedParameter"),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithNamedParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -228,7 +228,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder
             .select(
                 parameter.alias("positionalParameter"),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithPositionalParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -249,7 +249,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             .from(subQuery)
             .where(
                 subQuery.any { it.isGreaterOrEqualThan(1) },
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -273,7 +273,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             .where(
                 typeField.isEqualTo("client").and(isActiveField),
             )
-            .build(CouchbaseResolver())
+            .build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 
@@ -307,7 +307,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
             )
             .select(
                 cteSubquery.get(0),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()

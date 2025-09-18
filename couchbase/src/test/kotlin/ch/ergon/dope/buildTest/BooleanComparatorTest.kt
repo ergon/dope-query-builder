@@ -44,7 +44,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someNumberField().isGreaterThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -59,7 +59,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 2.isGreaterThan(4),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -74,7 +74,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 2.isGreaterThan(4.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -89,7 +89,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 2.toDopeType().isGreaterThan(4),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isGreaterThan("a".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -117,7 +117,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 "hallo".isGreaterThan("test"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -132,7 +132,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 "hallo".toDopeType().isGreaterThan("test"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -147,7 +147,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 "hallo".isGreaterThan("test".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -160,7 +160,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 "a".toDopeType().isGreaterThan(someStringField()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -174,7 +174,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 someNumberField().isLessThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -187,7 +187,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 5.toDopeType().isLessThan(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -202,7 +202,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 5.isLessThan(7),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -217,7 +217,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 5.toDopeType().isLessThan(7),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -232,7 +232,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 5.isLessThan(7.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -245,7 +245,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isLessThan("a".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -260,7 +260,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 "hallo".isLessThan("test"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -275,7 +275,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 "hallo".toDopeType().isLessThan("test"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -290,7 +290,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 "hallo".isLessThan("test".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -303,7 +303,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isLike("_b%"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -316,7 +316,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isLike("_b%".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -329,7 +329,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField("email").isNotLike("%@yahoo.com"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -342,7 +342,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isNotLike("_b%".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -355,7 +355,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isNull(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -368,7 +368,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isNotNull(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -381,7 +381,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isMissing(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -394,7 +394,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isNotMissing(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -407,7 +407,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isValued(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -420,7 +420,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .selectFrom(someBucket())
             .where(
                 someStringField().isNotValued(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -434,7 +434,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -448,7 +448,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.isNotEqualTo(5),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -462,7 +462,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isNotEqualTo(5),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -476,7 +476,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -490,7 +490,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someNumberField().isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -504,7 +504,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 3.toDopeType().isNotEqualTo(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -518,7 +518,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -532,7 +532,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isNotEqualTo("5".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -546,7 +546,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -560,7 +560,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -574,7 +574,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isGreaterOrEqualThan(5),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -588,7 +588,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "hallo".isGreaterOrEqualThan("test".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -602,7 +602,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("test"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -616,7 +616,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -630,7 +630,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 3.toDopeType().isGreaterOrEqualThan(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -644,7 +644,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -658,7 +658,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -672,7 +672,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan(someStringField()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -686,7 +686,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isLessOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -700,7 +700,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someNumberField().isLessOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -714,7 +714,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 3.toDopeType().isLessOrEqualThan(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -728,7 +728,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -742,7 +742,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isLessOrEqualThan("5".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -761,7 +761,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 someStringField("email").isLike(
                     "%@yahoo.com".toDopeType(),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -782,7 +782,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 ).and(
                     someNumberField().isEqualTo(46.toDopeType()),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -885,7 +885,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .where(
                 true.toDopeType().and(true),
             )
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -901,7 +901,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .where(
                 true.toDopeType().and(true).or(false),
             )
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -917,7 +917,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             .where(
                 true.toDopeType().and(true.toDopeType().or(false)),
             )
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -932,7 +932,7 @@ class BooleanComparatorTest : ManagerDependentTest {
             )
             .where(
                 someNumberField().between(1.toDopeType(), 10.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -952,7 +952,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 ).isGreaterThan(
                     someNumber(),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -972,7 +972,7 @@ class BooleanComparatorTest : ManagerDependentTest {
                 ).isLessOrEqualThan(
                     someNumber(),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

@@ -164,7 +164,7 @@ import ch.ergon.dope.resolvable.expression.type.relational.NotEqualsExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotLikeExpression
 import ch.ergon.dope.validtype.ValidType
 
-val FunctionExpression<*>.symbol: String
+internal val FunctionExpression<*>.symbol: String
     get() = when (this) {
         // Comparison
         is GreatestExpression<*> -> "GREATEST"
@@ -278,7 +278,7 @@ val FunctionExpression<*>.symbol: String
         else -> throw IllegalArgumentException("Unsupported function expression: ${this::class.simpleName}")
     }
 
-val NumberFunctionExpression.symbol: String
+internal val NumberFunctionExpression.symbol: String
     get() = when (this) {
         is AbsoluteExpression -> "ABS"
         is ArcCosineExpression -> "ACOS"
@@ -305,7 +305,7 @@ val NumberFunctionExpression.symbol: String
         is TruncationExpression -> "TRUNC"
     }
 
-val <T : ValidType> ArrayFunctionExpression<T>.symbol: String
+internal val <T : ValidType> ArrayFunctionExpression<T>.symbol: String
     get() = when (this) {
         is ArrayAppendExpression -> "ARRAY_APPEND"
         is ArrayConcatExpression -> "ARRAY_CONCAT"
@@ -326,7 +326,7 @@ val <T : ValidType> ArrayFunctionExpression<T>.symbol: String
         is ArrayUnionExpression -> "ARRAY_UNION"
     }
 
-val NumberInfixExpression.symbol: String
+internal val NumberInfixExpression.symbol: String
     get() = when (this) {
         is AdditionExpression -> "+"
         is SubtractionExpression -> "-"
@@ -335,13 +335,13 @@ val NumberInfixExpression.symbol: String
         is ModuloExpression -> "%"
     }
 
-val LogicalInfixExpression.symbol: String
+internal val LogicalInfixExpression.symbol: String
     get() = when (this) {
         is AndExpression -> "AND"
         is OrExpression -> "OR"
     }
 
-val InfixOperator.symbol: String
+internal val InfixOperator.symbol: String
     get() = when (this) {
         is EqualsExpression<*> -> "="
         is NotEqualsExpression<*> -> "!="
@@ -358,5 +358,5 @@ val InfixOperator.symbol: String
         else -> throw IllegalArgumentException("Unsupported infix operator: ${this::class.simpleName}")
     }
 
-val Enum<*>.queryString: String
+internal val Enum<*>.queryString: String
     get() = name.replace('_', ' ')

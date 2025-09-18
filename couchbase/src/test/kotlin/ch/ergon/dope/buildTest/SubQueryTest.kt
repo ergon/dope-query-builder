@@ -39,7 +39,7 @@ class SubQueryTest {
         val actual: String = QueryBuilder
             .select(someStringField())
             .from(QueryBuilder.selectAsterisk().from(someBucket()).alias("asdf"))
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -55,7 +55,7 @@ class SubQueryTest {
                 ),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -67,7 +67,7 @@ class SubQueryTest {
         val actual = QueryBuilder
             .select(
                 exists(someSelectClause().from(someBucket()).asExpression()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class SubQueryTest {
         val actual = QueryBuilder
             .select(
                 arrayLength(someSelectClause().from(someBucket()).asExpression()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -91,7 +91,7 @@ class SubQueryTest {
         val actual = QueryBuilder
             .select(
                 someStringField().isEqualTo(QueryBuilder.selectRaw(someStringField()).from(someBucket()).get(0)),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -112,7 +112,7 @@ class SubQueryTest {
             ).from(
                 QueryBuilder
                     .select(someNumber().asParameter("num")).from(someBucket("other")).alias("asdf"),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class SubQueryTest {
                     "string".resultsIn(1),
                     "anotherString".resultsIn(2),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -140,7 +140,7 @@ class SubQueryTest {
         val actual = QueryBuilder
             .select(
                 typeOf(someSelectRawClause().asExpression()),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -156,7 +156,7 @@ class SubQueryTest {
                     .from(someBucket()).asExpression()
                     .get(0)
                     .getString("name"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -173,7 +173,7 @@ class SubQueryTest {
                         .selectRaw(someNumberField())
                         .from(someBucket()).asExpression(),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -189,7 +189,7 @@ class SubQueryTest {
                 sub.asterisk(),
             ).from(
                 sub,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

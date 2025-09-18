@@ -31,7 +31,7 @@ class UnnestClauseTest {
         val actual: String = QueryBuilder
             .selectFrom(airline)
             .unnest(alias)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -44,7 +44,7 @@ class UnnestClauseTest {
             .select(someNumberArrayField("c"))
             .from(someBucket("airline"))
             .unnest(someNumberArrayField("a"))
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class UnnestClauseTest {
             .unnest(aField.alias("ab"))
             .unnest(someBooleanArrayField("c", someBucket("ab")))
             .where(aField.isValued())
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -81,7 +81,7 @@ class UnnestClauseTest {
                 someStringField(bucket = b).isEqualTo("something")
                     .and(someStringField(bucket = someBucket("a")).isEqualTo("".asParameter("param"))),
             )
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

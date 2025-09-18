@@ -36,7 +36,7 @@ class RangeTransformationsTest {
             .select(
                 someNumberArrayField().filter { it.isLessOrEqualThan(2) }
                     .map { it.mul(it) }.get(0).isEqualTo(9),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class RangeTransformationsTest {
                 }.map { _, it ->
                     it.mul(it)
                 }.get(0).isEqualTo(9),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class RangeTransformationsTest {
                 someAnyTypeArrayField().filterIndexedUnnested(iteratorName = "it", indexName = "i") { i, _ ->
                     i.isLessOrEqualThan(2)
                 },
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -86,7 +86,7 @@ class RangeTransformationsTest {
                         i.isLessOrEqualThan(2)
                     }.first(),
                 ),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -100,7 +100,7 @@ class RangeTransformationsTest {
                 someStringArrayField().mapIndexed(iteratorName = "it", indexName = "i") { i, it ->
                     it.toNumber().add(i)
                 }.first().sub(5),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -116,7 +116,7 @@ class RangeTransformationsTest {
                 }.toObject { i, _ ->
                     concat("id:", i.toStr())
                 }.getNumber("id:1"),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -133,7 +133,7 @@ class RangeTransformationsTest {
                         "id" to it.getString("id"),
                     ).toDopeType()
                 },
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -145,7 +145,7 @@ class RangeTransformationsTest {
         val actual = QueryBuilder
             .select(
                 someNumberArrayField().mapIndexed { i, it -> it.mul(i) },
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

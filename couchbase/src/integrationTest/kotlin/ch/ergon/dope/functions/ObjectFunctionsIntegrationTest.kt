@@ -36,7 +36,7 @@ class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
             ).orderBy(
                 meta().id,
             )
-            .build(CouchbaseResolver())
+            .build(CouchbaseResolver)
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

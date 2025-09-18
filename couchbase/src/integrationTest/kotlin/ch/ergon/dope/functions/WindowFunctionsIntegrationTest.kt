@@ -84,7 +84,7 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
             .referenceWindow(windowReference)
             .orderBy(nameField)
             .thenOrderBy(idField)
-            .build(CouchbaseResolver())
+            .build(CouchbaseResolver)
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

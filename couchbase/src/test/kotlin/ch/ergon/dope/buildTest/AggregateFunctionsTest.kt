@@ -45,7 +45,7 @@ class AggregateFunctionsTest {
                 min(someBooleanArrayField()),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class AggregateFunctionsTest {
                 min(someBooleanArrayField(), ALL),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -85,7 +85,7 @@ class AggregateFunctionsTest {
                 min(someBooleanArrayField(), DISTINCT),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -106,7 +106,7 @@ class AggregateFunctionsTest {
                 min(someBooleanArrayField()).alias("booleanArray"),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class AggregateFunctionsTest {
                 max(someBooleanArrayField()),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -146,7 +146,7 @@ class AggregateFunctionsTest {
                 max(someBooleanArrayField(), ALL),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -166,7 +166,7 @@ class AggregateFunctionsTest {
                 max(someBooleanArrayField(), DISTINCT),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -187,7 +187,7 @@ class AggregateFunctionsTest {
                 max(someBooleanArrayField()).alias("booleanArray"),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -199,7 +199,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(countAsterisk())
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -211,7 +211,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(countAsterisk().alias("everything"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -231,7 +231,7 @@ class AggregateFunctionsTest {
                 count(someBooleanArrayField()),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -252,7 +252,7 @@ class AggregateFunctionsTest {
                 count(someBooleanArrayField(), ALL),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -273,7 +273,7 @@ class AggregateFunctionsTest {
                 count(someBooleanArrayField(), DISTINCT),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -294,7 +294,7 @@ class AggregateFunctionsTest {
                 count(someBooleanArrayField()).alias("booleanArray"),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -314,7 +314,7 @@ class AggregateFunctionsTest {
                 arrayAggregate(someBooleanArrayField()),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -335,7 +335,7 @@ class AggregateFunctionsTest {
                 arrayAggregate(someBooleanArrayField(), ALL),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -356,7 +356,7 @@ class AggregateFunctionsTest {
                 arrayAggregate(someBooleanArrayField(), DISTINCT),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -377,7 +377,7 @@ class AggregateFunctionsTest {
                 arrayAggregate(someBooleanArrayField()).alias("booleanArray"),
             )
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -389,7 +389,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(avg(someNumberField()))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -401,7 +401,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(avg(someNumberField(), ALL))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -413,7 +413,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(avg(someNumberField(), DISTINCT))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -425,7 +425,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(avg(someNumberField()).alias("number"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -437,7 +437,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(mean(someNumberField()))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -449,7 +449,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(mean(someNumberField(), ALL))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -461,7 +461,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(mean(someNumberField(), DISTINCT))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -473,7 +473,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(mean(someNumberField()).alias("number"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -485,7 +485,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(median(someNumberField()))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -497,7 +497,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(median(someNumberField(), ALL))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -509,7 +509,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(median(someNumberField(), DISTINCT))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -521,7 +521,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(median(someNumberField()).alias("number"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -533,7 +533,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(sum(someNumberField()))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -545,7 +545,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(sum(someNumberField(), ALL))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -557,7 +557,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(sum(someNumberField(), DISTINCT))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -569,7 +569,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(sum(someNumberField()).alias("number"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -581,7 +581,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(stdDev(someNumberField()))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -593,7 +593,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(stdDev(someNumberField(), ALL))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -605,7 +605,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(stdDev(someNumberField(), DISTINCT))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -617,7 +617,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(stdDev(someNumberField()).alias("number"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -629,7 +629,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(variance(someNumberField()))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -641,7 +641,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(variance(someNumberField(), ALL))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -653,7 +653,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(variance(someNumberField(), DISTINCT))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -665,7 +665,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(variance(someNumberField()).alias("number"))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -678,7 +678,7 @@ class AggregateFunctionsTest {
             .select(min(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -690,7 +690,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(min(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -703,7 +703,7 @@ class AggregateFunctionsTest {
             .select(max(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -715,7 +715,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(max(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -728,7 +728,7 @@ class AggregateFunctionsTest {
             .select(count(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -740,7 +740,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(count(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -753,7 +753,7 @@ class AggregateFunctionsTest {
             .select(countAsterisk(windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -765,7 +765,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(countAsterisk(windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -778,7 +778,7 @@ class AggregateFunctionsTest {
             .select(arrayAggregateWithReference(someNumberField(), quantifier = ALL, windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -790,7 +790,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(arrayAggregate(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -803,7 +803,7 @@ class AggregateFunctionsTest {
             .select(avg(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -815,7 +815,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(avg(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -828,7 +828,7 @@ class AggregateFunctionsTest {
             .select(mean(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -840,7 +840,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(mean(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -853,7 +853,7 @@ class AggregateFunctionsTest {
             .select(median(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -865,7 +865,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(median(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -878,7 +878,7 @@ class AggregateFunctionsTest {
             .select(sum(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -890,7 +890,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(sum(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -903,7 +903,7 @@ class AggregateFunctionsTest {
             .select(stdDev(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -915,7 +915,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(stdDev(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -928,7 +928,7 @@ class AggregateFunctionsTest {
             .select(variance(someNumberField(), windowReference = "ref"))
             .from(person)
             .referenceWindow("ref")
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -940,7 +940,7 @@ class AggregateFunctionsTest {
         val actual: String = QueryBuilder
             .select(variance(someNumberField(), windowPartitionClause = listOf(someStringField())))
             .from(person)
-            .build(CouchbaseResolver()).queryString
+            .build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

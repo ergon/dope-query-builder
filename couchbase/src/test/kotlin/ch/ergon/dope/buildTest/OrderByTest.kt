@@ -21,7 +21,7 @@ class OrderByTest {
                 someBucket(),
             ).orderBy(
                 someStringField(),
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class OrderByTest {
             ).orderBy(
                 someStringField(),
                 OrderType.ASC,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class OrderByTest {
             ).orderBy(
                 someStringField(),
                 OrderType.DESC,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -74,7 +74,7 @@ class OrderByTest {
             ).thenOrderBy(
                 lower("SOMETHING"),
                 OrderType.ASC,
-            ).build(CouchbaseResolver()).queryString
+            ).build(CouchbaseResolver).queryString
 
         assertEquals(expected, actual)
     }

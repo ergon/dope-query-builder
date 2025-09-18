@@ -21,6 +21,4 @@ fun String.alias(alias: String): AliasedTypeExpression<StringType> = toDopeType(
 
 fun Boolean.alias(alias: String): AliasedTypeExpression<BooleanType> = toDopeType().alias(alias)
 
-fun <V> Map<String, V>.alias(alias: String): AliasedTypeExpression<ObjectType> = toDopeType().alias(
-    alias,
-)
+fun <V> Map<String, V>.alias(alias: String): AliasedTypeExpression<ObjectType> = toDopeType().alias(alias)

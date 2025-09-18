@@ -24,7 +24,7 @@ class ParameterizedTest {
     fun `should get no parameter as result`() {
         val parameters = QueryBuilder
             .select(someNumber().isEqualTo(someNumber()))
-            .build(CouchbaseResolver()).parameters
+            .build(CouchbaseResolver).parameters
 
         assertEquals(DopeParameters(), parameters)
     }
@@ -35,7 +35,7 @@ class ParameterizedTest {
 
         val namedParameters = QueryBuilder
             .select(parameter.isEqualTo(someNumber().toDopeType()))
-            .build(CouchbaseResolver()).parameters.namedParameters
+            .build(CouchbaseResolver).parameters.namedParameters
 
         assertEquals(1, namedParameters.size)
     }
@@ -48,7 +48,7 @@ class ParameterizedTest {
 
         val namedParameters = QueryBuilder
             .select(parameter.isEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters.namedParameters
+            .build(CouchbaseResolver).parameters.namedParameters
 
         assertEquals(parameterValue, namedParameters[parameterName])
     }
@@ -60,7 +60,7 @@ class ParameterizedTest {
 
         val positionalParameters = QueryBuilder
             .select(parameter.isEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters.positionalParameters
+            .build(CouchbaseResolver).parameters.positionalParameters
 
         assertEquals(parameterValue, positionalParameters[0])
     }
@@ -69,7 +69,7 @@ class ParameterizedTest {
     fun `should get empty map when there is no named parameter`() {
         val parameters = QueryBuilder
             .select(someNumber(2).asParameter().isEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters
+            .build(CouchbaseResolver).parameters
 
         assertEquals(0, parameters.namedParameters.size)
     }
@@ -86,7 +86,7 @@ class ParameterizedTest {
         val positionalParameters = QueryBuilder
             .select(parameter1.isEqualTo(parameter2))
             .where(parameter3.isNotEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters.positionalParameters
+            .build(CouchbaseResolver).parameters.positionalParameters
 
         assertEquals(parameterValue1, positionalParameters[0])
         assertEquals(parameterValue2, positionalParameters[1])
@@ -105,7 +105,7 @@ class ParameterizedTest {
         val underTest = QueryBuilder
             .select(parameter1.isEqualTo(parameter2))
             .where(parameter3.isNotEqualTo(someNumberField()))
-            .build(CouchbaseResolver())
+            .build(CouchbaseResolver)
 
         val namedParameters = underTest.parameters.namedParameters
         val positionalParameters = underTest.parameters.positionalParameters
@@ -146,7 +146,7 @@ class ParameterizedTest {
                     parameter5,
                     parameter6,
                 ),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         val namedParameters = underTest.parameters.namedParameters
         val positionalParameters = underTest.parameters.positionalParameters
@@ -167,7 +167,7 @@ class ParameterizedTest {
         val parameter = parameterValue.asParameter()
 
         val parameters = QueryBuilder
-            .select(listOf(parameter).toDopeType()).build(CouchbaseResolver()).parameters.positionalParameters
+            .select(listOf(parameter).toDopeType()).build(CouchbaseResolver).parameters.positionalParameters
 
         assertEquals(parameterValue, parameters[0])
         assertEquals(1, parameters.size)
@@ -199,7 +199,7 @@ class ParameterizedTest {
                 namedParameter2.asParameter(namedParameter2name),
             ).offset(
                 positionalParameter3.asParameter(),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         assertEquals(expected, actual)
     }
@@ -228,7 +228,7 @@ class ParameterizedTest {
                     parameterValue3.asParameter(),
                     parameterValue4.asParameter(parameterName4),
                 ).toDopeType(),
-            ).build(CouchbaseResolver())
+            ).build(CouchbaseResolver)
 
         assertEquals(expected, actual)
     }
