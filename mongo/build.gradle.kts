@@ -1,0 +1,47 @@
+plugins {
+    kotlin("jvm") version "1.9.22"
+    id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+    `maven-publish`
+    idea
+}
+
+group = "com.github.ergon"
+version = findProperty("projectVersion")?.toString() ?: "unknown-version"
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven(url = "https://jitpack.io")
+}
+
+dependencies {
+    implementation(project(":core"))
+    implementation(kotlin("reflect"))
+    testImplementation(kotlin("test"))
+    implementation("org.mongodb:mongodb-driver-sync:5.2.0")
+}
+
+tasks.test { useJUnitPlatform() }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin { jvmToolchain { languageVersion.set(JavaLanguageVersion.of(17)) } }
