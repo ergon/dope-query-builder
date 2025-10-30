@@ -1,7 +1,9 @@
 package ch.ergon.dope.extensions.expression.type.relational
 
 import ch.ergon.dope.extension.expression.type.relational.isEqualTo
+import ch.ergon.dope.extension.expression.type.relational.isFalse
 import ch.ergon.dope.extension.expression.type.relational.isNotEqualTo
+import ch.ergon.dope.extension.expression.type.relational.isTrue
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCMBooleanField
@@ -18,6 +20,8 @@ import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.relational.EqualsExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotEqualsExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -187,6 +191,26 @@ class EqualsTest {
         val expected = EqualsExpression(left.toDopeType(), right.toDopeType())
 
         val actual = left.isEqualTo(right)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support isFalse with CMJsonFieldBoolean`() {
+        val left = someCMBooleanField()
+        val expected = EqualsExpression(left.toDopeType(), FALSE)
+
+        val actual = left.isFalse()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support isTrue with CMJsonFieldBoolean`() {
+        val left = someCMBooleanField()
+        val expected = EqualsExpression(left.toDopeType(), TRUE)
+
+        val actual = left.isTrue()
 
         assertEquals(expected, actual)
     }
