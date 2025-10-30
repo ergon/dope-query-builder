@@ -164,7 +164,7 @@ internal object TypeExpressionResolver {
                     typeExpression.predicate as (Iterator<ValidType>) -> TypeExpression<BooleanType>
                 val predicate = predicateFunc(Iterator(iteratorName)).toDopeQuery(resolver)
                 CouchbaseDopeQuery(
-                    queryString = "${typeExpression.satisfiesType} `$iteratorName` " +
+                    queryString = "${typeExpression.satisfiesType.queryString} `$iteratorName` " +
                         "IN ${array.queryString} SATISFIES ${predicate.queryString} END",
                     parameters = array.parameters.merge(predicate.parameters),
                 )

@@ -4,6 +4,7 @@ import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesType.ANY
+import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesType.ANY_AND_EVERY
 import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesType.EVERY
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -13,6 +14,7 @@ import ch.ergon.dope.validtype.ValidType
 enum class SatisfiesType {
     ANY,
     EVERY,
+    ANY_AND_EVERY,
 }
 
 sealed class SatisfiesExpression<T : ValidType>(
@@ -33,6 +35,12 @@ data class EverySatisfiesExpression<T : ValidType>(
     override val iteratorName: String? = null,
     override val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) : SatisfiesExpression<T>(EVERY, arrayExpression, iteratorName, predicate)
+
+data class AnyAndEverySatisfiesExpression<T : ValidType>(
+    override val arrayExpression: SingleExpression<ArrayType<T>>,
+    override val iteratorName: String? = null,
+    override val predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) : SatisfiesExpression<T>(ANY_AND_EVERY, arrayExpression, iteratorName, predicate)
 
 fun <T : ValidType> SingleExpression<ArrayType<T>>.any(
     iteratorName: String? = null,
@@ -63,3 +71,18 @@ fun <T : ValidType> ISelectOffsetClause<T>.every(
     iteratorName: String? = null,
     predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
 ) = asExpression().every(iteratorName, predicate)
+
+fun <T : ValidType> SingleExpression<ArrayType<T>>.anyAndEvery(
+    iteratorName: String? = null,
+    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) = AnyAndEverySatisfiesExpression(this, iteratorName, predicate)
+
+fun <T : ValidType> Collection<TypeExpression<T>>.anyAndEvery(
+    iteratorName: String? = null,
+    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) = toDopeType().anyAndEvery(iteratorName, predicate)
+
+fun <T : ValidType> ISelectOffsetClause<T>.anyAndEvery(
+    iteratorName: String? = null,
+    predicate: (Iterator<T>) -> TypeExpression<BooleanType>,
+) = asExpression().anyAndEvery(iteratorName, predicate)
