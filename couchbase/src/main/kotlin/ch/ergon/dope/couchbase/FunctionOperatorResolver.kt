@@ -23,19 +23,19 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 interface FunctionOperatorResolver : AbstractCouchbaseResolver {
     fun resolve(typeExpression: FunctionOperator<*>): CouchbaseDopeQuery = when (typeExpression) {
         is MetaExpression -> {
-            val bucket = typeExpression.bucket
-            if (bucket == null) {
+            val keyspace = typeExpression.keyspace
+            if (keyspace == null) {
                 CouchbaseDopeQuery(
                     queryString = "META()",
                 )
             } else {
-                val bucketDopeQuery = bucket.toDopeQuery(this)
+                val keyspaceDopeQuery = keyspace.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = typeExpression.toFunctionQueryString(
                         symbol = "META",
-                        bucketDopeQuery.queryString,
+                        keyspaceDopeQuery.queryString,
                     ),
-                    parameters = bucketDopeQuery.parameters,
+                    parameters = keyspaceDopeQuery.parameters,
                 )
             }
         }
@@ -97,7 +97,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
 
         is ISearchFunctionExpression -> {
             val field = typeExpression.field?.toDopeQuery(this)
-            val bucket = typeExpression.bucket?.toDopeQuery(this)
+            val bucket = typeExpression.keyspace?.toDopeQuery(this)
             val stringSearch =
                 typeExpression.stringSearchExpression?.let { StringPrimitive(it).toDopeQuery(this) }
             val objectSearch = typeExpression.objectSearchExpression?.toDopeType()?.toDopeQuery(this)

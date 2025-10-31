@@ -3,34 +3,34 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MetaTest {
     @Test
-    fun `should support meta expression with bucket`() {
+    fun `should support meta expression with keyspace`() {
         val expected = "SELECT META(`someBucket`) FROM `someBucket`"
 
         val actual: String = QueryBuilder
             .select(
-                meta(someBucket()),
+                meta(someKeySpace()),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `should support meta expression without a bucket`() {
+    fun `should support meta expression without a keyspace`() {
         val expected = "SELECT META() FROM `someBucket`"
 
         val actual: String = QueryBuilder
             .select(
                 meta(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -39,7 +39,7 @@ class MetaTest {
     @Test
     fun `should support meta expression fields`() {
         val expected = "SELECT META().`cas`, META().`expiration`, META().`flags`, META().`id`, " +
-            "META().`keyspace`, META().`type` FROM `someBucket`"
+            "META().`type` FROM `someBucket`"
 
         val actual: String = QueryBuilder
             .select(
@@ -47,10 +47,9 @@ class MetaTest {
                 meta().expiration,
                 meta().flags,
                 meta().id,
-                meta().keyspace,
                 meta().type,
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

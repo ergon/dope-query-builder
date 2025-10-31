@@ -3,8 +3,8 @@ package ch.ergon.dope.resolvable.clause.setoperators
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.resolvable.clause.SetOperator
 import ch.ergon.dope.resolvable.clause.SetOperatorType.EXCEPT
 import ch.ergon.dope.resolvable.clause.SetOperatorType.INTERSECT
@@ -24,12 +24,12 @@ class SetOperatorTest : ResolverDependentTest {
     @Test
     fun `should support union operator with two select statements`() {
         val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)",
+            "(SELECT * FROM `keyspace1`) UNION (SELECT * FROM `keyspace2`)",
         )
         val underTest = SetOperator(
             UNION,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
+            someFromClause(someKeySpace("keyspace1")),
+            someFromClause(someKeySpace("keyspace2")),
             duplicatesAllowed = false,
         )
 
@@ -41,12 +41,12 @@ class SetOperatorTest : ResolverDependentTest {
     @Test
     fun `should support union all operator with two select statements`() {
         val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) UNION ALL (SELECT * FROM `bucket2`)",
+            "(SELECT * FROM `keyspace1`) UNION ALL (SELECT * FROM `keyspace2`)",
         )
         val underTest = SetOperator(
             UNION,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
+            someFromClause(someKeySpace("keyspace1")),
+            someFromClause(someKeySpace("keyspace2")),
             duplicatesAllowed = true,
         )
 
@@ -57,8 +57,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support union operator extension`() {
-        val leftSelectClause = someFromClause(someBucket("bucket1"))
-        val rightSelectClause = someFromClause(someBucket("bucket2"))
+        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
         val expected = SetOperator(UNION, leftSelectClause, rightSelectClause, duplicatesAllowed = false)
 
         val actual = leftSelectClause.union(rightSelectClause)
@@ -68,8 +68,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support union all operator extension`() {
-        val leftSelectClause = someFromClause(someBucket("bucket1"))
-        val rightSelectClause = someFromClause(someBucket("bucket2"))
+        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
         val expected = SetOperator(UNION, leftSelectClause, rightSelectClause, duplicatesAllowed = true)
 
         val actual = leftSelectClause.unionAll(rightSelectClause)
@@ -80,12 +80,12 @@ class SetOperatorTest : ResolverDependentTest {
     @Test
     fun `should support intersect operator with two select statements`() {
         val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) INTERSECT (SELECT * FROM `bucket2`)",
+            "(SELECT * FROM `keyspace1`) INTERSECT (SELECT * FROM `keyspace2`)",
         )
         val underTest = SetOperator(
             INTERSECT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
+            someFromClause(someKeySpace("keyspace1")),
+            someFromClause(someKeySpace("keyspace2")),
             duplicatesAllowed = false,
         )
 
@@ -97,12 +97,12 @@ class SetOperatorTest : ResolverDependentTest {
     @Test
     fun `should support intersect all operator with two select statements`() {
         val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)",
+            "(SELECT * FROM `keyspace1`) INTERSECT ALL (SELECT * FROM `keyspace2`)",
         )
         val underTest = SetOperator(
             INTERSECT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
+            someFromClause(someKeySpace("keyspace1")),
+            someFromClause(someKeySpace("keyspace2")),
             duplicatesAllowed = true,
         )
 
@@ -113,8 +113,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support intersect operator extension`() {
-        val leftSelectClause = someFromClause(someBucket("bucket1"))
-        val rightSelectClause = someFromClause(someBucket("bucket2"))
+        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
         val expected = SetOperator(INTERSECT, leftSelectClause, rightSelectClause, duplicatesAllowed = false)
 
         val actual = leftSelectClause.intersect(rightSelectClause)
@@ -124,8 +124,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support intersect all operator extension`() {
-        val leftSelectClause = someFromClause(someBucket("bucket1"))
-        val rightSelectClause = someFromClause(someBucket("bucket2"))
+        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
         val expected = SetOperator(INTERSECT, leftSelectClause, rightSelectClause, duplicatesAllowed = true)
 
         val actual = leftSelectClause.intersectAll(rightSelectClause)
@@ -136,12 +136,12 @@ class SetOperatorTest : ResolverDependentTest {
     @Test
     fun `should support except operator with two select statements`() {
         val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) EXCEPT (SELECT * FROM `bucket2`)",
+            "(SELECT * FROM `keyspace1`) EXCEPT (SELECT * FROM `keyspace2`)",
         )
         val underTest = SetOperator(
             EXCEPT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
+            someFromClause(someKeySpace("keyspace1")),
+            someFromClause(someKeySpace("keyspace2")),
             duplicatesAllowed = false,
         )
 
@@ -153,12 +153,12 @@ class SetOperatorTest : ResolverDependentTest {
     @Test
     fun `should support except all operator with two select statements`() {
         val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) EXCEPT ALL (SELECT * FROM `bucket2`)",
+            "(SELECT * FROM `keyspace1`) EXCEPT ALL (SELECT * FROM `keyspace2`)",
         )
         val underTest = SetOperator(
             EXCEPT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
+            someFromClause(someKeySpace("keyspace1")),
+            someFromClause(someKeySpace("keyspace2")),
             duplicatesAllowed = true,
         )
 
@@ -169,8 +169,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support except operator extension`() {
-        val leftSelectClause = someFromClause(someBucket("bucket1"))
-        val rightSelectClause = someFromClause(someBucket("bucket2"))
+        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
         val expected = SetOperator(EXCEPT, leftSelectClause, rightSelectClause, duplicatesAllowed = false)
 
         val actual = leftSelectClause.except(rightSelectClause)
@@ -180,8 +180,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support except all operator extension`() {
-        val leftSelectClause = someFromClause(someBucket("bucket1"))
-        val rightSelectClause = someFromClause(someBucket("bucket2"))
+        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
         val expected = SetOperator(EXCEPT, leftSelectClause, rightSelectClause, duplicatesAllowed = true)
 
         val actual = leftSelectClause.exceptAll(rightSelectClause)

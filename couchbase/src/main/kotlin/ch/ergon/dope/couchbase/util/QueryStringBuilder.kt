@@ -23,6 +23,16 @@ internal fun formatPathToQueryString(name: String, path: String) =
         "${path.split(".").joinToString(".") { "`$it`" }}.`$name`"
     }
 
+internal fun formatKeyspace(name: String): String =
+    name.split('.')
+        .filter { it.isNotBlank() }
+        .joinToString(".") { "`$it`" }
+
+internal fun formatKeyspace(keyspace: String, scope: String? = null, collection: String? = null): String =
+    listOfNotNull(keyspace, scope, collection)
+        .filter { it.isNotBlank() }
+        .joinToString(".") { "`$it`" }
+
 internal fun formatStringListToQueryStringWithBrackets(
     dopeQueries: List<String>,
     separator: String = ", ",

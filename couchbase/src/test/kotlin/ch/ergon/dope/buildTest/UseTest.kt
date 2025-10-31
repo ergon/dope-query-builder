@@ -2,14 +2,10 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.bucket.useFtsIndex
-import ch.ergon.dope.resolvable.bucket.useGsiIndex
-import ch.ergon.dope.resolvable.bucket.useIndex
-import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_BUILD
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_PROBE
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
@@ -18,6 +14,10 @@ import ch.ergon.dope.resolvable.clause.joinHint.keysHint
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.resolvable.keyspace.useFtsIndex
+import ch.ergon.dope.resolvable.keyspace.useGsiIndex
+import ch.ergon.dope.resolvable.keyspace.useIndex
+import ch.ergon.dope.resolvable.keyspace.useKeys
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -29,7 +29,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys("someId"),
+                someKeySpace().useKeys("someId"),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -43,7 +43,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys(someStringField()),
+                someKeySpace().useKeys(someStringField()),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -57,7 +57,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
                 ),
             )
@@ -73,7 +73,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     someStringArrayField(),
                 ),
             )
@@ -89,7 +89,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     QueryBuilder.selectRaw(someStringField()),
                 ),
             )
@@ -105,7 +105,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys(listOf("someId1", "someId2")),
+                someKeySpace().useKeys(listOf("someId1", "someId2")),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -119,7 +119,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     concat("some", "Id"),
                 ),
             )
@@ -134,7 +134,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .deleteFrom(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     "someId",
                 ),
             )
@@ -149,7 +149,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .deleteFrom(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     someStringField(),
                 ),
             )
@@ -164,7 +164,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .deleteFrom(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
                 ),
             )
@@ -179,7 +179,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .deleteFrom(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     someStringArrayField(),
                 ),
             )
@@ -194,7 +194,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .deleteFrom(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     concat("some", "Id"),
                 ),
             )
@@ -209,7 +209,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .update(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     "someId",
                 ),
             )
@@ -224,7 +224,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .update(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     someStringField(),
                 ),
             )
@@ -239,7 +239,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .update(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
                 ),
             )
@@ -254,7 +254,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .update(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     someStringArrayField(),
                 ),
             )
@@ -269,7 +269,7 @@ class UseTest {
 
         val actual: String = QueryBuilder
             .update(
-                someBucket().useKeys(
+                someKeySpace().useKeys(
                     concat("some", "Id"),
                 ),
             )
@@ -285,7 +285,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket().useFtsIndex("someIndex").useIndex("otherIndex").useGsiIndex("index3"),
+                someKeySpace().useFtsIndex("someIndex").useIndex("otherIndex").useGsiIndex("index3"),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -300,11 +300,11 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             )
             .join(
-                someBucket("anotherBucket"),
-                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                someKeySpace("anotherBucket"),
+                someNumberField(keyspace = someKeySpace()).isEqualTo(someNumberField(keyspace = someKeySpace("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_BUILD,
             ).build(CouchbaseResolver()).queryString
 
@@ -319,11 +319,11 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             )
             .join(
-                someBucket("anotherBucket"),
-                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                someKeySpace("anotherBucket"),
+                someNumberField(keyspace = someKeySpace()).isEqualTo(someNumberField(keyspace = someKeySpace("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,
             ).build(CouchbaseResolver()).queryString
 
@@ -338,11 +338,11 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             )
             .join(
-                someBucket("anotherBucket"),
-                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                someKeySpace("anotherBucket"),
+                someNumberField(keyspace = someKeySpace()).isEqualTo(someNumberField(keyspace = someKeySpace("anotherBucket"))),
                 keysOrIndexHint = keysHint("someID"),
             ).build(CouchbaseResolver()).queryString
 
@@ -357,11 +357,11 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             )
             .join(
-                someBucket("anotherBucket"),
-                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                someKeySpace("anotherBucket"),
+                someNumberField(keyspace = someKeySpace()).isEqualTo(someNumberField(keyspace = someKeySpace("anotherBucket"))),
                 keysOrIndexHint = indexHint("someID"),
             ).build(CouchbaseResolver()).queryString
 
@@ -376,11 +376,11 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             )
             .join(
-                someBucket("anotherBucket"),
-                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                someKeySpace("anotherBucket"),
+                someNumberField(keyspace = someKeySpace()).isEqualTo(someNumberField(keyspace = someKeySpace("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_PROBE,
                 keysOrIndexHint = indexHint("someID"),
             ).build(CouchbaseResolver()).queryString
@@ -396,11 +396,11 @@ class UseTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             )
             .join(
-                someBucket("anotherBucket"),
-                someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
+                someKeySpace("anotherBucket"),
+                someNumberField(keyspace = someKeySpace()).isEqualTo(someNumberField(keyspace = someKeySpace("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,
                 keysOrIndexHint = keysHint("someID"),
             ).build(CouchbaseResolver()).queryString

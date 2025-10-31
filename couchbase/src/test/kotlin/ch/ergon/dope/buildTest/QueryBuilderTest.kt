@@ -4,8 +4,8 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -58,7 +58,7 @@ class QueryBuilderTest : ResolverDependentTest {
             .select(
                 someStringField(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -71,7 +71,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someStringField().isEqualTo("Ian".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -84,7 +84,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val expected = "SELECT *\n" + "  FROM `someBucket`\n" + "    WHERE `stringField` = \"Ian\"\n"
 
         val actual: String = QueryBuilder.selectFrom(
-            someBucket(),
+            someKeySpace(),
         ).where(
             someStringField().isEqualTo("Ian".toDopeType()),
         ).build(CouchbaseResolver()).queryString
@@ -99,7 +99,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someStringField().isEqualTo("Ian".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -115,7 +115,7 @@ class QueryBuilderTest : ResolverDependentTest {
             someStringField(),
             someNumberField(),
         ).from(
-            someBucket(),
+            someKeySpace(),
         ).where(
             someStringField().isEqualTo("Ian".toDopeType()),
         ).build(CouchbaseResolver()).queryString
@@ -131,7 +131,7 @@ class QueryBuilderTest : ResolverDependentTest {
             .select(
                 someStringField().alias("firstName"),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someStringField().isEqualTo("Peter".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -148,7 +148,7 @@ class QueryBuilderTest : ResolverDependentTest {
             .select(
                 someStringField().alias("FirstName"),
                 someStringField(),
-            ).from(someBucket()).where(
+            ).from(someKeySpace()).where(
                 someStringField().isEqualTo("Jackson".toDopeType()),
             ).build(CouchbaseResolver()).queryString
 
@@ -164,7 +164,7 @@ class QueryBuilderTest : ResolverDependentTest {
             .select(
                 someStringField(),
                 someStringField().alias("LastName"),
-            ).from(someBucket()).where(
+            ).from(someKeySpace()).where(
                 someStringField().isEqualTo("Jackson".toDopeType()),
             ).build(CouchbaseResolver()).queryString
 
@@ -178,7 +178,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someNumberField().isLessThan(50.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -193,7 +193,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someNumberField().isLessThan(50.toDopeType()).and(
                     someStringField().isEqualTo("Mr.".toDopeType()),
@@ -210,7 +210,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someNumberField().isLessThan(
                     (45 + 5).toDopeType(),
@@ -230,7 +230,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 12.toDopeType().isNotEqualTo(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -244,7 +244,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 someNumberField().isNotEqualTo(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -258,7 +258,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 3.toDopeType().isNotEqualTo(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -272,7 +272,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -286,7 +286,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 someStringField().isNotEqualTo("5".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -300,7 +300,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -314,7 +314,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -328,7 +328,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 3.toDopeType().isGreaterOrEqualThan(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -342,7 +342,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -356,7 +356,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -370,7 +370,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan(someStringField()),
             ).build(CouchbaseResolver()).queryString
@@ -384,7 +384,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 12.toDopeType().isLessOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -398,7 +398,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 someNumberField().isLessOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -412,7 +412,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 3.toDopeType().isLessOrEqualThan(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -426,7 +426,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -440,7 +440,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someBucket())
+            .from(someKeySpace())
             .where(
                 someStringField().isLessOrEqualThan("5".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -455,7 +455,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someNumberField().isLessThan(
                     (45 + 5).toDopeType(),
@@ -479,7 +479,7 @@ class QueryBuilderTest : ResolverDependentTest {
             .select(
                 someStringField(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someStringField("email").isLike(
                     "%@yahoo.com".toDopeType(),
@@ -497,7 +497,7 @@ class QueryBuilderTest : ResolverDependentTest {
             .select(
                 someStringField(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someStringField("email").isLike(concat(someStringField("name"), "%", "@gmail.com")),
             ).build(CouchbaseResolver()).queryString
@@ -514,7 +514,7 @@ class QueryBuilderTest : ResolverDependentTest {
                 someStringField(),
                 someNumberField(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 someStringField("email").isLike(
                     "%@gmail.com".toDopeType(),
@@ -568,7 +568,7 @@ class QueryBuilderTest : ResolverDependentTest {
                     ),
                 ).alias("what"),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 1.toDopeType().isEqualTo(
                     1.toDopeType(),
@@ -799,7 +799,7 @@ class QueryBuilderTest : ResolverDependentTest {
         val actual = QueryBuilder.selectRaw(
             someStringField("name"),
         ).from(
-            someBucket(),
+            someKeySpace(),
         ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -816,8 +816,8 @@ class QueryBuilderTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support selecting all Fields from bucket`() {
-        val someBucket = someBucket()
+    fun `should support selecting all Fields from keyspace`() {
+        val someBucket = someKeySpace()
         val expected = "SELECT `someBucket`.* FROM `someBucket`"
 
         val actual = QueryBuilder
@@ -829,8 +829,8 @@ class QueryBuilderTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support selecting all Fields from aliased bucket`() {
-        val someBucket = someBucket().alias("alias")
+    fun `should support selecting all Fields from aliased keyspace`() {
+        val someBucket = someKeySpace().alias("alias")
         val expected = "SELECT `alias`.* FROM `someBucket` AS `alias`"
 
         val actual = QueryBuilder
@@ -843,7 +843,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
     @Test
     fun `should support selecting case`() {
-        val someBucket = someBucket()
+        val someBucket = someKeySpace()
         val expected = "SELECT CASE `numberField` WHEN `other` THEN 2 END, " +
             "CASE WHEN `booleanField` THEN `numberField` ELSE `stringField` END AS `alias` FROM `someBucket`"
 
@@ -859,14 +859,14 @@ class QueryBuilderTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support select with buckets`() {
-        val expected = "SELECT `bucket1`, `alias` FROM `bucket2` AS `alias`"
-        val bucket1 = someBucket("bucket1")
-        val bucket2 = someBucket("bucket2").alias("alias")
+    fun `should support select with keyspaces`() {
+        val expected = "SELECT `keyspace1`, `alias` FROM `keyspace2` AS `alias`"
+        val keyspace1 = someKeySpace("keyspace1")
+        val keyspace2 = someKeySpace("keyspace2").alias("alias")
 
         val actual = QueryBuilder
-            .select(bucket1, bucket2)
-            .from(bucket2)
+            .select(keyspace1, keyspace2)
+            .from(keyspace2)
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -874,12 +874,12 @@ class QueryBuilderTest : ResolverDependentTest {
 
     @Test
     fun `should support set operator union with two selects`() {
-        val expected = "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)"
+        val expected = "(SELECT * FROM `keyspace1`) UNION (SELECT * FROM `keyspace2`)"
 
         val actual = QueryBuilder
-            .selectFrom(someBucket("bucket1"))
+            .selectFrom(someKeySpace("keyspace1"))
             .union(
-                QueryBuilder.selectFrom(someBucket("bucket2")),
+                QueryBuilder.selectFrom(someKeySpace("keyspace2")),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -888,16 +888,16 @@ class QueryBuilderTest : ResolverDependentTest {
 
     @Test
     fun `should support set operator except and intersect with three selects`() {
-        val expected = "(SELECT * FROM `bucket1`) EXCEPT ((SELECT * FROM `bucket2`) INTERSECT (SELECT * FROM `bucket3`))"
+        val expected = "(SELECT * FROM `keyspace1`) EXCEPT ((SELECT * FROM `keyspace2`) INTERSECT (SELECT * FROM `keyspace3`))"
 
         val actual = QueryBuilder
-            .selectFrom(someBucket("bucket1"))
+            .selectFrom(someKeySpace("keyspace1"))
             .except(
                 QueryBuilder
-                    .selectFrom(someBucket("bucket2"))
+                    .selectFrom(someKeySpace("keyspace2"))
                     .intersect(
                         QueryBuilder
-                            .selectFrom(someBucket("bucket3")),
+                            .selectFrom(someKeySpace("keyspace3")),
                     ),
             )
             .build(CouchbaseResolver()).queryString
@@ -907,23 +907,23 @@ class QueryBuilderTest : ResolverDependentTest {
 
     @Test
     fun `should support set operator intersect all and union all and except all with three selects in order`() {
-        val expected = "(((SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)) " +
-            "UNION ALL (SELECT * FROM `bucket3`)) EXCEPT ALL (SELECT * FROM `bucket4`)"
+        val expected = "(((SELECT * FROM `keyspace1`) INTERSECT ALL (SELECT * FROM `keyspace2`)) " +
+            "UNION ALL (SELECT * FROM `keyspace3`)) EXCEPT ALL (SELECT * FROM `keyspace4`)"
 
         val actual = QueryBuilder
-            .selectFrom(someBucket("bucket1"))
-            .intersectAll(QueryBuilder.selectFrom(someBucket("bucket2")))
-            .unionAll(QueryBuilder.selectFrom(someBucket("bucket3")))
-            .exceptAll(someFromClause(someBucket("bucket4"))).build(CouchbaseResolver()).queryString
+            .selectFrom(someKeySpace("keyspace1"))
+            .intersectAll(QueryBuilder.selectFrom(someKeySpace("keyspace2")))
+            .unionAll(QueryBuilder.selectFrom(someKeySpace("keyspace3")))
+            .exceptAll(someFromClause(someKeySpace("keyspace4"))).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support selecting let clause`() {
-        val t1 = someBucket("route").alias("t1")
+        val t1 = someKeySpace("route").alias("t1")
         val equip = "equip".assignTo(someStringArrayField("equipment", t1).any { it.isEqualTo("radio") })
-        val sourceAirport = someStringField("sourceAirport", someBucket("route").alias("t2"))
+        val sourceAirport = someStringField("sourceAirport", someKeySpace("route").alias("t2"))
         val sourceAirports = "source_airports".assignTo(QueryBuilder.selectRaw(sourceAirport).where(sourceAirport.isNotNull()))
         val destinationAirport = someStringField("destinationAirport", t1)
 
@@ -947,7 +947,7 @@ class QueryBuilderTest : ResolverDependentTest {
 
     @Test
     fun `should support with clause before query`() {
-        val hotel = someBucket("hotel")
+        val hotel = someKeySpace("hotel")
         val publicLikes = someNumberField("publicLikes", hotel)
         val cte = hotel.alias("cte")
         val ctePublicLikes = someNumberField("publicLikes", cte)

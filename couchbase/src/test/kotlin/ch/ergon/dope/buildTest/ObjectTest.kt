@@ -2,8 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
@@ -27,9 +26,7 @@ import ch.ergon.dope.validtype.StringType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectTest : ResolverDependentTest {
-    override lateinit var resolver: CouchbaseResolver
-
+class ObjectTest {
     @Test
     fun `should support selecting object`() {
         val expected = "SELECT `objectField` FROM `someBucket`"
@@ -38,7 +35,7 @@ class ObjectTest : ResolverDependentTest {
             .select(
                 someObjectField(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -53,7 +50,7 @@ class ObjectTest : ResolverDependentTest {
             .select(
                 objectField,
             ).from(
-                someBucket(),
+                someKeySpace(),
             ).where(
                 objectField.getString("field").isEqualTo(someString()),
             )
@@ -83,7 +80,7 @@ class ObjectTest : ResolverDependentTest {
             .select(
                 objectPrimitive,
             ).from(
-                someBucket(),
+                someKeySpace(),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -101,7 +98,7 @@ class ObjectTest : ResolverDependentTest {
             .select(
                 objectPrimitive.alias("a"),
             ).from(
-                someBucket(),
+                someKeySpace(),
             )
             .where(
                 objectPrimitive.getObject("siblings").getString("name").isEqualTo("John")
@@ -123,7 +120,7 @@ class ObjectTest : ResolverDependentTest {
                     upper(someStringField()).toObjectEntry(someString().asParameter("param")),
                 ).toDopeType(),
             ).from(
-                someBucket(),
+                someKeySpace(),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -131,15 +128,15 @@ class ObjectTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support object with bucket path`() {
-        val bucket = someBucket().alias("b")
+    fun `should support object with keyspace path`() {
+        val keyspace = someKeySpace().alias("b")
         val expected = "SELECT `b`.`person`.`isMale` FROM `someBucket` AS `b`"
 
         val actual: String = QueryBuilder
             .select(
-                someObjectField("person", bucket).getBoolean("isMale"),
+                someObjectField("person", keyspace).getBoolean("isMale"),
             ).from(
-                bucket,
+                keyspace,
             )
             .build(CouchbaseResolver()).queryString
 
@@ -147,15 +144,15 @@ class ObjectTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support multiple nested object with bucket path`() {
-        val bucket = someBucket().alias("b")
+    fun `should support multiple nested object with keyspace path`() {
+        val keyspace = someKeySpace().alias("b")
         val expected = "SELECT `b`.`person`.`first`.`second` AS `nested_object` FROM `someBucket` AS `b`"
 
         val actual: String = QueryBuilder
             .select(
-                someObjectField("person", bucket).getObject("first").getObject("second").alias("nested_object"),
+                someObjectField("person", keyspace).getObject("first").getObject("second").alias("nested_object"),
             ).from(
-                bucket,
+                keyspace,
             )
             .build(CouchbaseResolver()).queryString
 
@@ -164,7 +161,7 @@ class ObjectTest : ResolverDependentTest {
 
     @Test
     fun `should support range operations on aliased sub select`() {
-        val subQuery = QueryBuilder.selectRaw(someStringArrayField()).from(someBucket("other")).alias("subQuery")
+        val subQuery = QueryBuilder.selectRaw(someStringArrayField()).from(someKeySpace("other")).alias("subQuery")
         val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1` = \"something\" END, " +
             "`subQuery`[0] AS `cool` FROM (SELECT RAW `stringArrayField` FROM `other`) AS `subQuery`"
 

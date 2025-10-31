@@ -2,6 +2,7 @@ package ch.ergon.dope.couchbase
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.couchbase.util.formatKeyspace
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
@@ -9,11 +10,6 @@ import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
-import ch.ergon.dope.resolvable.bucket.AliasedBucketDefinition
-import ch.ergon.dope.resolvable.bucket.IndexReference
-import ch.ergon.dope.resolvable.bucket.UseIndex
-import ch.ergon.dope.resolvable.bucket.UseKeysClass
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
 import ch.ergon.dope.resolvable.clause.joinHint.IndexHint
@@ -37,7 +33,14 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrame
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.AliasedKeySpaceDefinition
+import ch.ergon.dope.resolvable.keyspace.IndexReference
+import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.UseIndex
+import ch.ergon.dope.resolvable.keyspace.UseKeysClass
 import ch.ergon.dope.resolver.QueryResolver
+import sun.tools.jstat.ExpressionResolver
 
 interface AbstractCouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
     abstract override val manager: DopeQueryManager
@@ -81,17 +84,23 @@ class CouchbaseResolver(
                 )
             }
 
-            is AliasedBucketDefinition -> CouchbaseDopeQuery("`${resolvable.name}` AS `${resolvable.alias}`")
+            is AliasedKeySpace -> CouchbaseDopeQuery("`${resolvable.alias}`")
+
+            is KeySpace -> CouchbaseDopeQuery(formatKeyspace(resolvable.bucket, resolvable.scope, resolvable.collection))
+
+            is AliasedKeySpaceDefinition -> CouchbaseDopeQuery(
+                "${formatKeyspace(resolvable.keyspace, resolvable.scope, resolvable.collection)} AS `${resolvable.alias}`",
+            )
 
             is UseKeysClass -> {
-                val bucket = when (val b = resolvable.bucket) {
-                    is AliasedBucket -> b.asBucketDefinition().toDopeQuery(this)
-                    else -> resolvable.bucket.toDopeQuery(this)
+                val keyspace = when (val b = resolvable.keyspace) {
+                    is AliasedKeySpace -> b.asKeySpaceDefinition().toDopeQuery(this)
+                    else -> resolvable.keyspace.toDopeQuery(this)
                 }
                 val keys = resolvable.useKeys.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryStringWithSymbol(bucket.queryString, "USE KEYS", keys.queryString),
-                    parameters = bucket.parameters.merge(keys.parameters),
+                    queryString = formatToQueryStringWithSymbol(keyspace.queryString, "USE KEYS", keys.queryString),
+                    parameters = keyspace.parameters.merge(keys.parameters),
                 )
             }
 
@@ -102,15 +111,15 @@ class CouchbaseResolver(
             }
 
             is UseIndex -> {
-                val bucket = resolvable.bucket.toDopeQuery(this)
+                val keyspace = resolvable.keyspace.toDopeQuery(this)
                 val refs = resolvable.indexReferences.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
-                        bucket.queryString,
+                        keyspace.queryString,
                         "USE INDEX",
                         formatListToQueryStringWithBrackets(refs, separator = ", ", prefix = "(", postfix = ")"),
                     ),
-                    parameters = bucket.parameters.merge(*refs.map { it.parameters }.toTypedArray()),
+                    parameters = keyspace.parameters.merge(*refs.map { it.parameters }.toTypedArray()),
                 )
             }
 

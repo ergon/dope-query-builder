@@ -3,12 +3,12 @@ package ch.ergon.dope.resolvable.expression.type.function.searchfunction
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionBucketObjectExpression
-import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionBucketStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionFieldObjectExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionFieldStringExpression
+import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionKeySpaceObjectExpression
+import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionKeySpaceStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchMetaFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchScoreFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
@@ -22,7 +22,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search string function expression on field`() {
-        val field = someStringField(bucket = someBucket())
+        val field = someStringField(keyspace = someKeySpace())
         val expected = CouchbaseDopeQuery(
             queryString = "SEARCH(`someBucket`.`stringField`, \"someString\")",
         )
@@ -38,7 +38,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search string function expression on field with options`() {
-        val field = someStringField(bucket = someBucket())
+        val field = someStringField(keyspace = someKeySpace())
         val expected = CouchbaseDopeQuery(
             queryString = "SEARCH(`someBucket`.`stringField`, \"+someString\", {\"index\" : \"someIndex\"})",
         )
@@ -55,7 +55,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search string function extension on field`() {
-        val field = someStringField(bucket = someBucket())
+        val field = someStringField(keyspace = someKeySpace())
         val searchExpression = "+someString"
         val expected = SearchFunctionFieldStringExpression(field, searchExpression)
 
@@ -66,7 +66,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search string function extension on field with options`() {
-        val field = someStringField(bucket = someBucket())
+        val field = someStringField(keyspace = someKeySpace())
         val searchExpression = "+someString"
         val options = mapOf("index" to "someIndex")
         val expected = SearchFunctionFieldStringExpression(field, searchExpression, options)
@@ -77,12 +77,12 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support search string function expression on bucket`() {
+    fun `should support search string function expression on keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SEARCH(`someBucket`, \"field:\"someString\"\")",
         )
-        val underTest = SearchFunctionBucketStringExpression(
-            bucket = someBucket(),
+        val underTest = SearchFunctionKeySpaceStringExpression(
+            keyspace = someKeySpace(),
             stringSearchExpression = "field:\"someString\"",
         )
 
@@ -92,12 +92,12 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support search string function expression on bucket with options`() {
+    fun `should support search string function expression on keyspace with options`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SEARCH(`someBucket`, \"field:\"someString\"\", {\"index\" : \"someIndex\"})",
         )
-        val underTest = SearchFunctionBucketStringExpression(
-            bucket = someBucket(),
+        val underTest = SearchFunctionKeySpaceStringExpression(
+            keyspace = someKeySpace(),
             stringSearchExpression = "field:\"someString\"",
             options = mapOf("index" to "someIndex"),
         )
@@ -108,24 +108,24 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support search string function extension on bucket`() {
-        val bucket = someBucket()
+    fun `should support search string function extension on keyspace`() {
+        val keyspace = someKeySpace()
         val searchExpression = "field:\"someString\""
-        val expected = SearchFunctionBucketStringExpression(bucket, searchExpression)
+        val expected = SearchFunctionKeySpaceStringExpression(keyspace, searchExpression)
 
-        val actual = fullTextSearch(bucket, searchExpression)
+        val actual = fullTextSearch(keyspace, searchExpression)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
-    fun `should support search string function extension on bucket with options`() {
-        val bucket = someBucket()
+    fun `should support search string function extension on keyspace with options`() {
+        val keyspace = someKeySpace()
         val searchExpression = "field:\"someString\""
         val options = mapOf("index" to "someIndex")
-        val expected = SearchFunctionBucketStringExpression(bucket, searchExpression, options)
+        val expected = SearchFunctionKeySpaceStringExpression(keyspace, searchExpression, options)
 
-        val actual = fullTextSearch(bucket, searchExpression, options)
+        val actual = fullTextSearch(keyspace, searchExpression, options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -136,7 +136,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
             queryString = "SEARCH(`someBucket`.`stringField`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
         )
         val underTest = SearchFunctionFieldObjectExpression(
-            field = someStringField(bucket = someBucket()),
+            field = someStringField(keyspace = someKeySpace()),
             objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
         )
 
@@ -153,7 +153,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
                 "{\"index\" : \"someIndex\"})",
         )
         val underTest = SearchFunctionFieldObjectExpression(
-            field = someStringField(bucket = someBucket()),
+            field = someStringField(keyspace = someKeySpace()),
             objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
             options = mapOf("index" to "someIndex"),
         )
@@ -165,7 +165,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search object function extension`() {
-        val field = someStringField(bucket = someBucket())
+        val field = someStringField(keyspace = someKeySpace())
         val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
         val expected = SearchFunctionFieldObjectExpression(field, searchExpression)
 
@@ -176,7 +176,7 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search object function extension with options`() {
-        val field = someStringField(bucket = someBucket())
+        val field = someStringField(keyspace = someKeySpace())
         val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
         val options = mapOf("index" to "someIndex")
         val expected = SearchFunctionFieldObjectExpression(field, searchExpression, options)
@@ -187,12 +187,12 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support search object function expression on bucket`() {
+    fun `should support search object function expression on keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SEARCH(`someBucket`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
         )
-        val underTest = SearchFunctionBucketObjectExpression(
-            bucket = someBucket(),
+        val underTest = SearchFunctionKeySpaceObjectExpression(
+            keyspace = someKeySpace(),
             objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
         )
 
@@ -202,14 +202,14 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support search object function expression on bucket with options`() {
+    fun `should support search object function expression on keyspace with options`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SEARCH(`someBucket`, " +
                 "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
                 "{\"index\" : \"someIndex\"})",
         )
-        val underTest = SearchFunctionBucketObjectExpression(
-            bucket = someBucket(),
+        val underTest = SearchFunctionKeySpaceObjectExpression(
+            keyspace = someKeySpace(),
             objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
             options = mapOf("index" to "someIndex"),
         )
@@ -220,24 +220,24 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support search object function extension on bucket`() {
-        val bucket = someBucket()
+    fun `should support search object function extension on keyspace`() {
+        val keyspace = someKeySpace()
         val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
-        val expected = SearchFunctionBucketObjectExpression(bucket, searchExpression)
+        val expected = SearchFunctionKeySpaceObjectExpression(keyspace, searchExpression)
 
-        val actual = fullTextSearch(bucket, searchExpression)
+        val actual = fullTextSearch(keyspace, searchExpression)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
-    fun `should support search object function extension on bucket with options`() {
-        val bucket = someBucket()
+    fun `should support search object function extension on keyspace with options`() {
+        val keyspace = someKeySpace()
         val searchExpression = mapOf("field" to "someField", "analyzer" to "standard")
         val options = mapOf("index" to "someIndex")
-        val expected = SearchFunctionBucketObjectExpression(bucket, searchExpression, options)
+        val expected = SearchFunctionKeySpaceObjectExpression(keyspace, searchExpression, options)
 
-        val actual = fullTextSearch(bucket, searchExpression, options)
+        val actual = fullTextSearch(keyspace, searchExpression, options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

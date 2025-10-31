@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someSelectClause
@@ -27,11 +27,11 @@ class AsteriskTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support asterisk with bucket`() {
+    fun `should support asterisk with keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "`someBucket`.*",
         )
-        val underTest = Asterisk(someBucket())
+        val underTest = Asterisk(someKeySpace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -72,11 +72,11 @@ class AsteriskTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support asterisk function with bucket`() {
-        val bucket = someBucket()
-        val expected = Asterisk(bucket)
+    fun `should support asterisk function with keyspace`() {
+        val keyspace = someKeySpace()
+        val expected = Asterisk(keyspace)
 
-        val actual = asterisk(bucket)
+        val actual = asterisk(keyspace)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -112,11 +112,11 @@ class AsteriskTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support asterisk function receiver extension with bucket`() {
-        val bucket = someBucket()
-        val expected = Asterisk(bucket)
+    fun `should support asterisk function receiver extension with keyspace`() {
+        val keyspace = someKeySpace()
+        val expected = Asterisk(keyspace)
 
-        val actual = bucket.asterisk()
+        val actual = keyspace.asterisk()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

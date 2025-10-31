@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someObjectField
@@ -43,7 +43,7 @@ class UnpackExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support unpack`() {
-        val selectObjectArray = someObjectSelectRawClause().from(someBucket())
+        val selectObjectArray = someObjectSelectRawClause().from(someKeySpace())
         val expected = CouchbaseDopeQuery(
             queryString = "(SELECT RAW `objectField` FROM `someBucket`)[*]",
         )

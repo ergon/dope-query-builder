@@ -7,6 +7,8 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -23,7 +25,7 @@ import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 import kotlin.reflect.KClass
 
-fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(name, reference)
+fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(name, keySpaceFrom(reference))
 
 @JvmName("toDopeTypeNumber")
 fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterField<Convertable, JsonType>): TypeExpression<NumberType> =
@@ -59,24 +61,24 @@ fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toDopeType(other:
     requireValidConvertable(typeConverter.write(other), Boolean::class).toDopeType()
 
 @JvmName("toDopeNumberField")
-fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, reference)
+fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, keySpaceFrom(reference))
 
 @JvmName("toDopeStringField")
-fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, reference)
+fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, keySpaceFrom(reference))
 
 @JvmName("toDopeBooleanField")
-fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, reference)
+fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, keySpaceFrom(reference))
 
 @JvmName("toDopeNumberArrayField")
-fun CMJsonList<out Number>.toDopeType(): Field<ArrayType<NumberType>> = Field(name, path)
+fun CMJsonList<out Number>.toDopeType(reference: String = path): Field<ArrayType<NumberType>> = Field(name, keySpaceFrom(reference))
 
 @JvmName("toDopeStringArrayField")
-fun CMJsonList<String>.toDopeType(): Field<ArrayType<StringType>> = Field(name, path)
+fun CMJsonList<String>.toDopeType(reference: String = path): Field<ArrayType<StringType>> = Field(name, keySpaceFrom(reference))
 
 @JvmName("toDopeBooleanArrayField")
-fun CMJsonList<Boolean>.toDopeType(): Field<ArrayType<BooleanType>> = Field(name, path)
+fun CMJsonList<Boolean>.toDopeType(reference: String = path): Field<ArrayType<BooleanType>> = Field(name, keySpaceFrom(reference))
 
-fun CMJsonList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, path)
+fun CMJsonList<out Any>.toDopeType(reference: String = path): Field<ArrayType<ValidType>> = Field(name, keySpaceFrom(reference))
 
 fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, path)
 
@@ -124,3 +126,14 @@ private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConverta
         "Conversion failed: " +
             "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
     }
+
+private fun keySpaceFrom(path: String?): KeySpace? {
+    if (path.isNullOrBlank()) return null
+    val parts = path.split('.').filter { it.isNotBlank() }
+    return when (parts.size) {
+        1 -> UnaliasedKeySpace(parts[0])
+        2 -> UnaliasedKeySpace(parts[0], parts[1])
+        3 -> UnaliasedKeySpace(parts[0], parts[1], parts[2])
+        else -> null
+    }
+}

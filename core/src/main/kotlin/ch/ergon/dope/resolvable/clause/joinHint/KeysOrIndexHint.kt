@@ -1,13 +1,13 @@
 package ch.ergon.dope.resolvable.clause.joinHint
 
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.bucket.IndexReference
-import ch.ergon.dope.resolvable.bucket.IndexType.USING_FTS
-import ch.ergon.dope.resolvable.bucket.IndexType.USING_GSI
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.joinHint.KeysHintClass.Companion.KeysHint
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.resolvable.keyspace.IndexReference
+import ch.ergon.dope.resolvable.keyspace.IndexType.USING_FTS
+import ch.ergon.dope.resolvable.keyspace.IndexType.USING_GSI
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType

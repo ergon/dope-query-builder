@@ -5,8 +5,8 @@ import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
@@ -35,7 +35,7 @@ class JoinClauseTest : ResolverDependentTest {
             queryString = "SELECT * JOIN `someBucket` ON TRUE",
         )
         val underTest = StandardJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = someBooleanExpression(),
             parentClause = someSelectClause(),
         )
@@ -54,7 +54,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = StandardJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue.asParameter(parameterName),
             parentClause = someSelectClause(),
         )
@@ -72,7 +72,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = StandardJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue.asParameter(),
             parentClause = someSelectClause(),
         )
@@ -93,7 +93,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = StandardJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(parameterName2),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -112,7 +112,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = StandardJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -124,16 +124,16 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support standard join function with condition`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val condition = someBooleanExpression()
         val expected = StandardJoinOnConditionClause(
-            bucket,
+            keyspace,
             condition = condition,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, condition = condition)
+        val actual = parentClause.join(keyspace, condition = condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -144,7 +144,7 @@ class JoinClauseTest : ResolverDependentTest {
             queryString = "SELECT * LEFT JOIN `someBucket` ON TRUE",
         )
         val underTest = LeftJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = someBooleanExpression(),
             parentClause = someSelectClause(),
         )
@@ -163,7 +163,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeftJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue.asParameter(parameterName),
             parentClause = someSelectClause(),
         )
@@ -181,7 +181,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeftJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue.asParameter(),
             parentClause = someSelectClause(),
         )
@@ -202,7 +202,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = LeftJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(parameterName2),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -221,7 +221,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = LeftJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -233,12 +233,12 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support left join function with condition`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val condition = someBooleanExpression()
-        val expected = LeftJoinOnConditionClause(bucket, condition = condition, parentClause = parentClause)
+        val expected = LeftJoinOnConditionClause(keyspace, condition = condition, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, condition = condition)
+        val actual = parentClause.leftJoin(keyspace, condition = condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -249,7 +249,7 @@ class JoinClauseTest : ResolverDependentTest {
             queryString = "SELECT * INNER JOIN `someBucket` ON TRUE",
         )
         val underTest = InnerJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = someBooleanExpression(),
             parentClause = someSelectClause(),
         )
@@ -268,7 +268,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest =
-            InnerJoinOnConditionClause(someBucket(), condition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
+            InnerJoinOnConditionClause(someKeySpace(), condition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -283,7 +283,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InnerJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue.asParameter(),
             parentClause = someSelectClause(),
         )
@@ -304,7 +304,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = InnerJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(parameterName2),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -323,7 +323,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = InnerJoinOnConditionClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -335,12 +335,12 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support inner join function with condition`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val condition = someBooleanExpression()
-        val expected = InnerJoinOnConditionClause(bucket, condition = condition, parentClause = parentClause)
+        val expected = InnerJoinOnConditionClause(keyspace, condition = condition, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, condition = condition)
+        val actual = parentClause.innerJoin(keyspace, condition = condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -351,7 +351,7 @@ class JoinClauseTest : ResolverDependentTest {
             queryString = "SELECT * RIGHT JOIN `someBucket` ON TRUE",
         )
         val underTest = RightJoinClause(
-            someBucket(),
+            someKeySpace(),
             condition = someBooleanExpression(),
             parentClause = someSelectClause(),
         )
@@ -369,7 +369,7 @@ class JoinClauseTest : ResolverDependentTest {
             queryString = "SELECT * RIGHT JOIN `someBucket` ON \$$parameterName",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
-        val underTest = RightJoinClause(someBucket(), condition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
+        val underTest = RightJoinClause(someKeySpace(), condition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -384,7 +384,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = RightJoinClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue.asParameter(),
             parentClause = someSelectClause(),
         )
@@ -405,7 +405,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
         )
         val underTest = RightJoinClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(parameterName2),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -424,7 +424,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
         )
         val underTest = RightJoinClause(
-            someBucket(),
+            someKeySpace(),
             condition = parameterValue2.asParameter(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -436,12 +436,12 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support right join function with condition`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val condition = someBooleanExpression()
-        val expected = RightJoinClause(bucket, condition = condition, parentClause = parentClause)
+        val expected = RightJoinClause(keyspace, condition = condition, parentClause = parentClause)
 
-        val actual = parentClause.rightJoin(bucket, condition = condition)
+        val actual = parentClause.rightJoin(keyspace, condition = condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -451,7 +451,7 @@ class JoinClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * JOIN `someBucket` ON KEYS `stringField`",
         )
-        val underTest = StandardJoinOnKeyClause(someBucket(), key = someStringField(), parentClause = someSelectClause())
+        val underTest = StandardJoinOnKeyClause(someKeySpace(), key = someStringField(), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -467,7 +467,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = StandardJoinOnKeyClause(
-            someBucket(),
+            someKeySpace(),
             key = someStringField(),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -485,7 +485,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = StandardJoinOnKeyClause(
-            someBucket(),
+            someKeySpace(),
             key = someStringField(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -497,48 +497,48 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support standard join function with keys`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val field = someStringField()
-        val expected = StandardJoinOnKeyClause(bucket, key = field, parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(keyspace, key = field, parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, key = field)
+        val actual = parentClause.join(keyspace, key = field)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support standard join function with keys string`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someString = someString()
-        val expected = StandardJoinOnKeyClause(bucket, key = someString.toDopeType(), parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(keyspace, key = someString.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, keys = someString)
+        val actual = parentClause.join(keyspace, keys = someString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support standard join function with keys string list`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someStrings = listOf(someString(), "test")
-        val expected = StandardJoinOnKeysClause(bucket, keys = someStrings.toDopeType(), parentClause = parentClause)
+        val expected = StandardJoinOnKeysClause(keyspace, keys = someStrings.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, keys = someStrings)
+        val actual = parentClause.join(keyspace, keys = someStrings)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support standard join function with keys list`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someStrings = someStringArrayField()
-        val expected = StandardJoinOnKeysClause(bucket, keys = someStrings, parentClause = parentClause)
+        val expected = StandardJoinOnKeysClause(keyspace, keys = someStrings, parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, keys = someStrings)
+        val actual = parentClause.join(keyspace, keys = someStrings)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -548,7 +548,7 @@ class JoinClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * LEFT JOIN `someBucket` ON KEYS `stringField`",
         )
-        val underTest = LeftJoinOnKeyClause(someBucket(), key = someStringField(), parentClause = someSelectClause())
+        val underTest = LeftJoinOnKeyClause(someKeySpace(), key = someStringField(), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -564,7 +564,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeftJoinOnKeyClause(
-            someBucket(),
+            someKeySpace(),
             key = someStringField(),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -582,7 +582,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeftJoinOnKeyClause(
-            someBucket(),
+            someKeySpace(),
             key = someStringField(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -594,48 +594,48 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support left join function with keys`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val field = someStringField()
-        val expected = LeftJoinOnKeyClause(bucket, key = field, parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(keyspace, key = field, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, key = field)
+        val actual = parentClause.leftJoin(keyspace, key = field)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support left join function with keys with string`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someString = someString()
-        val expected = LeftJoinOnKeyClause(bucket, key = someString.toDopeType(), parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(keyspace, key = someString.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, key = someString)
+        val actual = parentClause.leftJoin(keyspace, key = someString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support left join function with keys with string list`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someStrings = listOf(someString(), "test")
-        val expected = LeftJoinOnKeysClause(bucket, keys = someStrings.toDopeType(), parentClause = parentClause)
+        val expected = LeftJoinOnKeysClause(keyspace, keys = someStrings.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, keys = someStrings)
+        val actual = parentClause.leftJoin(keyspace, keys = someStrings)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support left join function with keys string list`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someStrings = someStringArrayField()
-        val expected = LeftJoinOnKeysClause(bucket, keys = someStrings, parentClause = parentClause)
+        val expected = LeftJoinOnKeysClause(keyspace, keys = someStrings, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, keys = someStrings)
+        val actual = parentClause.leftJoin(keyspace, keys = someStrings)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -645,7 +645,7 @@ class JoinClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * INNER JOIN `someBucket` ON KEYS `stringField`",
         )
-        val underTest = InnerJoinOnKeyClause(someBucket(), key = someStringField(), parentClause = someSelectClause())
+        val underTest = InnerJoinOnKeyClause(someKeySpace(), key = someStringField(), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -661,7 +661,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = InnerJoinOnKeyClause(
-            someBucket(),
+            someKeySpace(),
             key = someStringField(),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
@@ -679,7 +679,7 @@ class JoinClauseTest : ResolverDependentTest {
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InnerJoinOnKeyClause(
-            someBucket(),
+            someKeySpace(),
             key = someStringField(),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
@@ -691,48 +691,48 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support inner join function with keys`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val field = someStringField()
-        val expected = InnerJoinOnKeyClause(bucket, key = field, parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(keyspace, key = field, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, key = field)
+        val actual = parentClause.innerJoin(keyspace, key = field)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support inner join function with keys with string`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someString = someString()
-        val expected = InnerJoinOnKeyClause(bucket, key = someString.toDopeType(), parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(keyspace, key = someString.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, key = someString)
+        val actual = parentClause.innerJoin(keyspace, key = someString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support inner join function with keys with string list`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someStrings = listOf(someString(), "test")
-        val expected = InnerJoinOnKeysClause(bucket, keys = someStrings.toDopeType(), parentClause = parentClause)
+        val expected = InnerJoinOnKeysClause(keyspace, keys = someStrings.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, keys = someStrings)
+        val actual = parentClause.innerJoin(keyspace, keys = someStrings)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support inner join function with keys string list`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val someStrings = someStringArrayField()
-        val expected = InnerJoinOnKeysClause(bucket, keys = someStrings, parentClause = parentClause)
+        val expected = InnerJoinOnKeysClause(keyspace, keys = someStrings, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, keys = someStrings)
+        val actual = parentClause.innerJoin(keyspace, keys = someStrings)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -740,12 +740,12 @@ class JoinClauseTest : ResolverDependentTest {
     @Test
     fun `should support standard join on key`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT * JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
         )
         val underTest = StandardJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(),
         )
 
@@ -759,13 +759,13 @@ class JoinClauseTest : ResolverDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT \$$parameterName JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = StandardJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
@@ -778,13 +778,13 @@ class JoinClauseTest : ResolverDependentTest {
     fun `should support standard join on key with positional parameter and positional parameter in parent`() {
         val parameterValue = 1
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT $1 JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = StandardJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
@@ -795,13 +795,13 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support standard join function with key`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val field = someStringField()
-        val forBucket = someBucket("bucket")
-        val expected = StandardJoinOnKeyClause(bucket, key = field, forBucket, parentClause = parentClause)
+        val forBucket = someKeySpace("keyspace")
+        val expected = StandardJoinOnKeyClause(keyspace, key = field, forBucket, parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, key = field, forBucket)
+        val actual = parentClause.join(keyspace, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -809,12 +809,12 @@ class JoinClauseTest : ResolverDependentTest {
     @Test
     fun `should support left join on key`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * LEFT JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT * LEFT JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
         )
         val underTest = LeftJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(),
         )
 
@@ -828,13 +828,13 @@ class JoinClauseTest : ResolverDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName LEFT JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT \$$parameterName LEFT JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = LeftJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
@@ -847,13 +847,13 @@ class JoinClauseTest : ResolverDependentTest {
     fun `should support left join on key with positional parameter and positional parameter in parent`() {
         val parameterValue = 1
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 LEFT JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT $1 LEFT JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = LeftJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
@@ -864,13 +864,13 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support left join function with key`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val field = someStringField()
-        val forBucket = someBucket("bucket")
-        val expected = LeftJoinOnKeyClause(bucket, key = field, forBucket, parentClause = parentClause)
+        val forBucket = someKeySpace("keyspace")
+        val expected = LeftJoinOnKeyClause(keyspace, key = field, forBucket, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, key = field, forBucket)
+        val actual = parentClause.leftJoin(keyspace, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -878,12 +878,12 @@ class JoinClauseTest : ResolverDependentTest {
     @Test
     fun `should support inner join on key`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * INNER JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT * INNER JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
         )
         val underTest = InnerJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(),
         )
 
@@ -897,13 +897,13 @@ class JoinClauseTest : ResolverDependentTest {
         val parameterValue = 1
         val parameterName = "param"
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName INNER JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT \$$parameterName INNER JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
             DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
         )
         val underTest = InnerJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
@@ -916,13 +916,13 @@ class JoinClauseTest : ResolverDependentTest {
     fun `should support inner join on key with positional parameter and positional parameter in parent`() {
         val parameterValue = 1
         val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 INNER JOIN `bucket1` ON KEY `stringField` FOR `bucket2`",
+            queryString = "SELECT $1 INNER JOIN `keyspace1` ON KEY `stringField` FOR `keyspace2`",
             DopeParameters(positionalParameters = listOf(parameterValue)),
         )
         val underTest = InnerJoinOnKeyClause(
-            someBucket("bucket1"),
+            someKeySpace("keyspace1"),
             key = someStringField(),
-            someBucket("bucket2"),
+            someKeySpace("keyspace2"),
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
@@ -933,13 +933,13 @@ class JoinClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support inner join function with key`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val parentClause = someFromClause()
         val field = someStringField()
-        val forBucket = someBucket("bucket")
-        val expected = InnerJoinOnKeyClause(bucket, key = field, forBucket, parentClause = parentClause)
+        val forBucket = someKeySpace("keyspace")
+        val expected = InnerJoinOnKeyClause(keyspace, key = field, forBucket, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, key = field, forBucket)
+        val actual = parentClause.innerJoin(keyspace, key = field, forBucket)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

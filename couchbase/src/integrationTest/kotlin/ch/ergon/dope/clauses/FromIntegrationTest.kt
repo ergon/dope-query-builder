@@ -4,7 +4,8 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testAppOrderAuditKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
@@ -25,11 +26,11 @@ import kotlin.test.assertEquals
 class FromIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `join all orders on employee id`() {
-        val employeeAlias = testBucket.alias("e")
-        val orderAlias = testBucket.alias("o")
-        val employeeNameField = Field<StringType>("name", employeeAlias.alias)
-        val orderNumberField = Field<StringType>("orderNumber", orderAlias.alias)
-        val orderEmployeeIdField = Field<StringType>("employee", orderAlias.alias)
+        val employeeAlias = testKeySpace.alias("e")
+        val orderAlias = testKeySpace.alias("o")
+        val employeeNameField = Field<StringType>("name", employeeAlias)
+        val orderNumberField = Field<StringType>("orderNumber", orderAlias)
+        val orderEmployeeIdField = Field<StringType>("employee", orderAlias)
         val dopeQuery = QueryBuilder
             .select(
                 employeeNameField,
@@ -59,15 +60,51 @@ class FromIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
+    fun `join default orders with order_audit collection`() {
+        val orderAlias = testKeySpace.scope("_default").collection("_default").alias("o")
+        val orderNumberField = Field<StringType>("orderNumber", orderAlias)
+
+        val auditAlias = testAppOrderAuditKeySpace.alias("a")
+        val auditOrderRefField = Field<StringType>("orderRef", auditAlias)
+        val auditStatusField = Field<StringType>("status", auditAlias)
+
+        val dopeQuery = QueryBuilder
+            .select(
+                orderNumberField,
+                auditStatusField,
+            )
+            .from(orderAlias)
+            .join(
+                auditAlias,
+                auditOrderRefField.isEqualTo(meta(orderAlias).id),
+            )
+            .orderBy(orderNumberField, ASC)
+            .build(CouchbaseResolver())
+        println(dopeQuery.queryString)
+
+        tryUntil {
+            val queryResult = queryWithoutParameters(dopeQuery)
+
+            assertEquals(5, queryResult.rows.size)
+
+            assertEquals(mapOf("orderNumber" to "order1", "status" to "CREATED"), queryResult.toMapValues(rowNumber = 0))
+            assertEquals(mapOf("orderNumber" to "order2", "status" to "CREATED"), queryResult.toMapValues(rowNumber = 1))
+            assertEquals(mapOf("orderNumber" to "order3", "status" to "CREATED"), queryResult.toMapValues(rowNumber = 2))
+            assertEquals(mapOf("orderNumber" to "order4", "status" to "CREATED"), queryResult.toMapValues(rowNumber = 3))
+            assertEquals(mapOf("orderNumber" to "order5", "status" to "CREATED"), queryResult.toMapValues(rowNumber = 4))
+        }
+    }
+
+    @Test
     fun `join documents with multiple joins`() {
-        val employeeAlias = testBucket.alias("e")
-        val clientAlias = testBucket.alias("c")
-        val orderAlias = testBucket.alias("o")
-        val employeeNameField = Field<StringType>("name", employeeAlias.alias)
-        val clientNameField = Field<StringType>("name", clientAlias.alias)
-        val orderNumberField = Field<StringType>("orderNumber", orderAlias.alias)
-        val orderEmployeeIdField = Field<StringType>("employee", orderAlias.alias)
-        val orderClientIdField = Field<StringType>("client", orderAlias.alias)
+        val employeeAlias = testKeySpace.alias("e")
+        val clientAlias = testKeySpace.alias("c")
+        val orderAlias = testKeySpace.alias("o")
+        val employeeNameField = Field<StringType>("name", employeeAlias)
+        val clientNameField = Field<StringType>("name", clientAlias)
+        val orderNumberField = Field<StringType>("orderNumber", orderAlias)
+        val orderEmployeeIdField = Field<StringType>("employee", orderAlias)
+        val orderClientIdField = Field<StringType>("client", orderAlias)
         val dopeQuery = QueryBuilder
             .select(
                 orderNumberField,
@@ -121,22 +158,22 @@ class FromIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `use multiple from terms`() {
-        val e = testBucket.alias("e")
-        val eIdField = Field<NumberType>("id", e.alias)
-        val eTypeField = Field<StringType>("type", e.alias)
-        val eIsActiveField = Field<BooleanType>("isActive", e.alias)
-        val c = testBucket.alias("c")
-        val cIdField = Field<NumberType>("id", c.alias)
-        val cTypeField = Field<StringType>("type", c.alias)
-        val cIsActiveField = Field<BooleanType>("isActive", c.alias)
-        val o = testBucket.alias("o")
-        val oClientField = Field<StringType>("client", o.alias)
-        val oTypeField = Field<StringType>("type", o.alias)
-        val oOrderNumberField = Field<NumberType>("orderNumber", o.alias)
-        val oQuantitiesField = Field<ArrayType<NumberType>>("quantities", o.alias)
-        val nestedOrders = testBucket.alias("nestedOrders")
-        val nestedOrdersEmployeeField = Field<StringType>("employee", nestedOrders.alias)
-        val nestedOrdersTypeField = Field<StringType>("type", nestedOrders.alias)
+        val e = testKeySpace.alias("e")
+        val eIdField = Field<NumberType>("id", e)
+        val eTypeField = Field<StringType>("type", e)
+        val eIsActiveField = Field<BooleanType>("isActive", e)
+        val c = testKeySpace.alias("c")
+        val cIdField = Field<NumberType>("id", c)
+        val cTypeField = Field<StringType>("type", c)
+        val cIsActiveField = Field<BooleanType>("isActive", c)
+        val o = testKeySpace.alias("o")
+        val oClientField = Field<StringType>("client", o)
+        val oTypeField = Field<StringType>("type", o)
+        val oOrderNumberField = Field<NumberType>("orderNumber", o)
+        val oQuantitiesField = Field<ArrayType<NumberType>>("quantities", o)
+        val nestedOrders = testKeySpace.alias("nestedOrders")
+        val nestedOrdersEmployeeField = Field<StringType>("employee", nestedOrders)
+        val nestedOrdersTypeField = Field<StringType>("type", nestedOrders)
 
         val dopeQuery = QueryBuilder
             .selectDistinct(

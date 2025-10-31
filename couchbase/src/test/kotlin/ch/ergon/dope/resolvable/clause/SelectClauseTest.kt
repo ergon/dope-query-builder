@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -34,11 +34,11 @@ class SelectClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support select with bucket`() {
+    fun `should support select with keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT `someBucket`",
         )
-        val underTest = SelectClause(someBucket())
+        val underTest = SelectClause(someKeySpace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -46,11 +46,11 @@ class SelectClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support select with aliased bucket`() {
+    fun `should support select with aliased keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT `alias`",
         )
-        val underTest = SelectClause(someBucket().alias("alias"))
+        val underTest = SelectClause(someKeySpace().alias("alias"))
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -111,11 +111,11 @@ class SelectClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support select distinct with bucket`() {
+    fun `should support select distinct with keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT DISTINCT `someBucket`",
         )
-        val underTest = SelectDistinctClause(someBucket())
+        val underTest = SelectDistinctClause(someKeySpace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -123,11 +123,11 @@ class SelectClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support select distinct with aliased bucket`() {
+    fun `should support select distinct with aliased keyspace`() {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT DISTINCT `alias`",
         )
-        val underTest = SelectDistinctClause(someBucket().alias("alias"))
+        val underTest = SelectDistinctClause(someKeySpace().alias("alias"))
 
         val actual = underTest.toDopeQuery(resolver)
 

@@ -6,7 +6,6 @@ import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.AliasedSelectClause
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.SetOperator
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
@@ -32,6 +31,7 @@ import ch.ergon.dope.resolvable.clause.model.mergeable.JoinType
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType
 import ch.ergon.dope.resolvable.clause.model.mergeable.OnType
+import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
 
 interface ClauseResolver : AbstractCouchbaseResolver {
     fun resolve(clause: Clause) =
@@ -99,7 +99,7 @@ interface ClauseResolver : AbstractCouchbaseResolver {
             is FromClause<*> -> {
                 val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val fromableDopeQuery = when (val fromable = clause.fromable) {
-                    is AliasedBucket -> fromable.asBucketDefinition().toDopeQuery(this)
+                    is AliasedKeySpace -> fromable.asKeySpaceDefinition().toDopeQuery(this)
                     is AliasedSelectClause<*> -> fromable.asAliasedSelectClauseDefinition().toDopeQuery(this)
                     else -> clause.fromable.toDopeQuery(this)
                 }
@@ -210,7 +210,7 @@ interface ClauseResolver : AbstractCouchbaseResolver {
 
             is UpdateClause -> {
                 val updatable = when (val u = clause.updatable) {
-                    is AliasedBucket -> u.asBucketDefinition().toDopeQuery(this)
+                    is AliasedKeySpace -> u.asKeySpaceDefinition().toDopeQuery(this)
                     else -> clause.updatable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
@@ -220,13 +220,13 @@ interface ClauseResolver : AbstractCouchbaseResolver {
             }
 
             is DeleteClause -> {
-                val bucket = when (val d = clause.deletable) {
-                    is AliasedBucket -> d.asBucketDefinition().toDopeQuery(this)
+                val keyspace = when (val d = clause.deletable) {
+                    is AliasedKeySpace -> d.asKeySpaceDefinition().toDopeQuery(this)
                     else -> clause.deletable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
-                    queryString = "DELETE FROM ${bucket.queryString}",
-                    parameters = bucket.parameters,
+                    queryString = "DELETE FROM ${keyspace.queryString}",
+                    parameters = keyspace.parameters,
                 )
             }
 
@@ -295,13 +295,13 @@ interface ClauseResolver : AbstractCouchbaseResolver {
             is MergeableClause<*> -> {
                 val onType = when {
                     clause.condition != null -> OnType.ON
-                    clause.keys != null || (clause.key != null && clause.bucket == null) -> OnType.ON_KEYS
-                    clause.key != null && clause.bucket != null -> OnType.ON_KEY_FOR
+                    clause.keys != null || (clause.key != null && clause.keyspace == null) -> OnType.ON_KEYS
+                    clause.key != null && clause.keyspace != null -> OnType.ON_KEY_FOR
                     else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
                 }
                 val parent = clause.parentClause.toDopeQuery(this)
                 val mergeable = when (val m = clause.mergeable) {
-                    is AliasedBucket -> m.asBucketDefinition().toDopeQuery(this)
+                    is AliasedKeySpace -> m.asKeySpaceDefinition().toDopeQuery(this)
                     is AliasedSelectClause<*> -> m.asAliasedSelectClauseDefinition().toDopeQuery(this)
                     else -> clause.mergeable.toDopeQuery(this)
                 }
@@ -356,10 +356,10 @@ interface ClauseResolver : AbstractCouchbaseResolver {
 
                     OnType.ON_KEY_FOR -> {
                         val key = clause.key?.toDopeQuery(this)
-                        val bucket = clause.bucket?.toDopeQuery(this)
+                        val keyspace = clause.keyspace?.toDopeQuery(this)
                         CouchbaseDopeQuery(
-                            formatPartsToQueryStringWithSpace(baseQueryString, "ON KEY", key?.queryString, "FOR", bucket?.queryString),
-                            baseParams.merge(key?.parameters, bucket?.parameters),
+                            formatPartsToQueryStringWithSpace(baseQueryString, "ON KEY", key?.queryString, "FOR", keyspace?.queryString),
+                            baseParams.merge(key?.parameters, keyspace?.parameters),
                         )
                     }
                 }

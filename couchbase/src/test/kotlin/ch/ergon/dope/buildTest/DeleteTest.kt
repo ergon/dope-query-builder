@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.TRUE
@@ -18,7 +18,7 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket`"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket())
+            .deleteFrom(someKeySpace())
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -29,7 +29,7 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket` WHERE TRUE"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket())
+            .deleteFrom(someKeySpace())
             .where(TRUE)
             .build(CouchbaseResolver()).queryString
 
@@ -41,7 +41,7 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket` LIMIT 10"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket())
+            .deleteFrom(someKeySpace())
             .limit(10.toDopeType())
             .build(CouchbaseResolver()).queryString
 
@@ -53,7 +53,7 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket` AS `b` OFFSET 10"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket().alias("b"))
+            .deleteFrom(someKeySpace().alias("b"))
             .offset(10.toDopeType())
             .build(CouchbaseResolver()).queryString
 
@@ -65,7 +65,7 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket` RETURNING `stringField`"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket())
+            .deleteFrom(someKeySpace())
             .returning(someStringField())
             .build(CouchbaseResolver()).queryString
 
@@ -77,7 +77,7 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket` RETURNING `stringField`, `numberField`"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket())
+            .deleteFrom(someKeySpace())
             .returning(someStringField(), someNumberField())
             .build(CouchbaseResolver()).queryString
 
@@ -150,8 +150,8 @@ class DeleteTest {
         val expected = "DELETE FROM `someBucket` WHERE (`someBucket`.`age` = 2 AND TRUE) LIMIT 7 OFFSET 10 RETURNING `stringField`"
 
         val actual: String = QueryBuilder
-            .deleteFrom(someBucket())
-            .where(someNumberField("age", someBucket()).isEqualTo(2).and(TRUE))
+            .deleteFrom(someKeySpace())
+            .where(someNumberField("age", someKeySpace()).isEqualTo(2).and(TRUE))
             .limit(7.toDopeType())
             .offset(10.toDopeType())
             .returning(someStringField())

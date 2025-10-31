@@ -3,9 +3,6 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Selectable
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
-import ch.ergon.dope.resolvable.bucket.Bucket
-import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.OrderType
@@ -14,6 +11,8 @@ import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -31,7 +30,7 @@ import com.schwarz.crystalapi.schema.Schema
 import java.time.Instant
 import java.util.*
 
-fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
+fun someKeySpace(bucket: String = "someBucket", scope: String? = null, collection: String? = null) = UnaliasedKeySpace(bucket, scope, collection)
 
 fun someCMNumberField(name: String = "cmNumberField", path: String = "") = CMJsonField<Number>(name, path)
 fun someCMStringField(name: String = "cmStringField", path: String = "") = CMJsonField<String>(name, path)
@@ -49,9 +48,9 @@ fun someCMConverterBooleanField(name: String = "cmConverterBooleanField", path: 
 fun someCorruptField(name: String = "corruptField", path: String = "") =
     CMConverterField(name, path, CorruptStringNumberConverterInstance)
 
-fun someNumberFieldList(name: String = "numberFieldList", path: String = "") = Field<ArrayType<NumberType>>(name, path)
-fun someStringFieldList(name: String = "stringFieldList", path: String = "") = Field<ArrayType<StringType>>(name, path)
-fun someBooleanFieldList(name: String = "booleanFieldList", path: String = "") = Field<ArrayType<BooleanType>>(name, path)
+fun someNumberFieldList(name: String = "numberFieldList", keyspace: KeySpace? = null) = Field<ArrayType<NumberType>>(name, keyspace)
+fun someStringFieldList(name: String = "stringFieldList", keyspace: KeySpace? = null) = Field<ArrayType<StringType>>(name, keyspace)
+fun someBooleanFieldList(name: String = "booleanFieldList", keyspace: KeySpace? = null) = Field<ArrayType<BooleanType>>(name, keyspace)
 
 fun someCMNumberList(name: String = "cmNumberList", path: String = "") = CMJsonList<Number>(name, path)
 fun someCMStringList(name: String = "cmStringList", path: String = "") = CMJsonList<String>(name, path)
@@ -73,11 +72,11 @@ fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: St
 
 fun someSelect(selectable: Selectable = Asterisk()) = SelectClause(selectable)
 fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), OrderType.ASC)
-fun someFrom(fromable: Fromable = someBucket(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
+fun someFrom(fromable: Fromable = someKeySpace(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
 
-fun someDelete(bucket: Bucket = someBucket()) = DeleteClause(bucket)
+fun someDelete(keyspace: KeySpace = someKeySpace()) = DeleteClause(keyspace)
 
-fun someUpdate(bucket: Bucket = someBucket()) = UpdateClause(bucket)
+fun someUpdate(keyspace: KeySpace = someKeySpace()) = UpdateClause(keyspace)
 
 fun someNumber(value: Number = 5) = value
 
@@ -89,15 +88,10 @@ fun someDate(value: Date = Date(12345)) = value
 
 fun someObject(value: Map<String, Any> = mapOf("someKey" to "someValue")) = value
 
-fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
-fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
-fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
-fun someObjectField(name: String = "objectField", bucket: Bucket = someBucket("")) = Field<ObjectType>(name, getBucketName(bucket))
-
-private fun getBucketName(bucket: Bucket) = when (bucket) {
-    is AliasedBucket -> bucket.alias
-    is UnaliasedBucket -> bucket.name
-}
+fun someNumberField(name: String = "numberField", keyspace: KeySpace? = null) = Field<NumberType>(name, keyspace)
+fun someStringField(name: String = "stringField", keyspace: KeySpace? = null) = Field<StringType>(name, keyspace)
+fun someBooleanField(name: String = "booleanField", keyspace: KeySpace? = null) = Field<BooleanType>(name, keyspace)
+fun someObjectField(name: String = "objectField", keyspace: KeySpace? = null) = Field<ObjectType>(name, keyspace)
 
 fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
     expression,

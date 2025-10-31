@@ -6,7 +6,7 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.quantitiesField
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
@@ -48,7 +48,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
                 quantitiesField.mapIndexed(indexName = "i", iteratorName = "it") { _, it -> it.toStr() }
                     .toObject { i, _ -> concat(orderNumberField, "-", i.toStr()) },
             ).from(
-                testBucket,
+                testKeySpace,
             ).where(
                 typeField.isEqualTo("order").and(idField.isLessThan(2)),
             ).build(CouchbaseResolver())

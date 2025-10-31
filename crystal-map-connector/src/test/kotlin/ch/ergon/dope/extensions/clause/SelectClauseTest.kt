@@ -16,7 +16,6 @@ import ch.ergon.dope.extension.clause.rightJoin
 import ch.ergon.dope.extension.clause.thenOrderBy
 import ch.ergon.dope.extension.clause.unnest
 import ch.ergon.dope.extension.clause.where
-import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -24,6 +23,7 @@ import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
 import ch.ergon.dope.helper.someFrom
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderBy
 import ch.ergon.dope.helper.someSelect
@@ -69,75 +69,75 @@ class SelectClauseTest {
 
     @Test
     fun `should support standard nest on keys with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringList()
         val parentClause = someFrom()
-        val expected = StandardNestOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
+        val expected = StandardNestOnKeysClause(keyspace, keys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.nest(bucket, keys = field)
+        val actual = parentClause.nest(keyspace, keys = field)
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `should support standard nest on key for bucket with CM`() {
-        val bucket = someBucket()
+    fun `should support standard nest on key for keyspace with CM`() {
+        val keyspace = someKeySpace()
         val field = someCMStringField()
-        val forBucket = someBucket()
+        val forKeySpace = someKeySpace()
         val parentClause = someFrom()
-        val expected = StandardNestOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = StandardNestOnKeyClause(keyspace, key = field.toDopeType(), forKeySpace, parentClause = parentClause)
 
-        val actual = parentClause.nest(bucket, key = field, forBucket)
+        val actual = parentClause.nest(keyspace, key = field, forKeySpace)
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support inner nest on keys with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringList()
         val parentClause = someFrom()
-        val expected = InnerNestOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
+        val expected = InnerNestOnKeysClause(keyspace, keys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerNest(bucket, keys = field)
+        val actual = parentClause.innerNest(keyspace, keys = field)
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `should support inner nest on key for bucket with CM`() {
-        val bucket = someBucket()
+    fun `should support inner nest on key for keyspace with CM`() {
+        val keyspace = someKeySpace()
         val field = someCMStringField()
-        val forBucket = someBucket()
+        val forKeySpace = someKeySpace()
         val parentClause = someFrom()
-        val expected = InnerNestOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = InnerNestOnKeyClause(keyspace, key = field.toDopeType(), forKeySpace, parentClause = parentClause)
 
-        val actual = parentClause.innerNest(bucket, key = field, forBucket)
+        val actual = parentClause.innerNest(keyspace, key = field, forKeySpace)
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support left nest on keys with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringList()
         val parentClause = someFrom()
-        val expected = LeftNestOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
+        val expected = LeftNestOnKeysClause(keyspace, keys = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftNest(bucket, keys = field)
+        val actual = parentClause.leftNest(keyspace, keys = field)
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `should support left nest on key for bucket with CM`() {
-        val bucket = someBucket()
+    fun `should support left nest on key for keyspace with CM`() {
+        val keyspace = someKeySpace()
         val field = someCMStringField()
-        val forBucket = someBucket()
+        val forKeySpace = someKeySpace()
         val parentClause = someFrom()
-        val expected = LeftNestOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = LeftNestOnKeyClause(keyspace, key = field.toDopeType(), forKeySpace, parentClause = parentClause)
 
-        val actual = parentClause.leftNest(bucket, key = field, forBucket)
+        val actual = parentClause.leftNest(keyspace, key = field, forKeySpace)
 
         assertEquals(expected, actual)
     }
@@ -177,25 +177,25 @@ class SelectClauseTest {
 
     @Test
     fun `should support select join with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(keyspace, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, key = field)
+        val actual = parentClause.join(keyspace, key = field)
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select join on key for with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringField()
-        val forBucket = someBucket()
+        val forKeySpace = someKeySpace()
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = StandardJoinOnKeyClause(keyspace, key = field.toDopeType(), forKeySpace, parentClause = parentClause)
 
-        val actual = parentClause.join(bucket, key = field, forBucket)
+        val actual = parentClause.join(keyspace, key = field, forKeySpace)
 
         assertEquals(expected, actual)
     }
@@ -214,25 +214,25 @@ class SelectClauseTest {
 
     @Test
     fun `should support select inner join with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = InnerJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(keyspace, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, key = field)
+        val actual = parentClause.innerJoin(keyspace, key = field)
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select inner join on key for with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringField()
-        val forBucket = someBucket()
+        val forKeySpace = someKeySpace()
         val parentClause = someFrom()
-        val expected = InnerJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = InnerJoinOnKeyClause(keyspace, key = field.toDopeType(), forKeySpace, parentClause = parentClause)
 
-        val actual = parentClause.innerJoin(bucket, key = field, forBucket)
+        val actual = parentClause.innerJoin(keyspace, key = field, forKeySpace)
 
         assertEquals(expected, actual)
     }
@@ -251,25 +251,25 @@ class SelectClauseTest {
 
     @Test
     fun `should support select left join with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringField()
         val parentClause = someFrom()
-        val expected = LeftJoinOnKeyClause(bucket, key = field.toDopeType(), parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(keyspace, key = field.toDopeType(), parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, key = field)
+        val actual = parentClause.leftJoin(keyspace, key = field)
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select left join on key for with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someCMStringField()
-        val forBucket = someBucket()
+        val forKeySpace = someKeySpace()
         val parentClause = someFrom()
-        val expected = LeftJoinOnKeyClause(bucket, key = field.toDopeType(), forBucket, parentClause = parentClause)
+        val expected = LeftJoinOnKeyClause(keyspace, key = field.toDopeType(), forKeySpace, parentClause = parentClause)
 
-        val actual = parentClause.leftJoin(bucket, key = field, forBucket)
+        val actual = parentClause.leftJoin(keyspace, key = field, forKeySpace)
 
         assertEquals(expected, actual)
     }
@@ -300,36 +300,36 @@ class SelectClauseTest {
 
     @Test
     fun `should support select join use single key hint with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someStringField()
         val keysHint = keysHint(someCMStringField())
         val parentClause = someFrom()
         val expected = StandardJoinOnKeyClause(
-            bucket,
+            keyspace,
             key = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.join(keyspace, key = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support select join use multiple keys hint with CM`() {
-        val bucket = someBucket()
+        val keyspace = someKeySpace()
         val field = someStringField()
         val keysHint = keysHint(someCMStringList())
         val parentClause = someFrom()
         val expected = StandardJoinOnKeyClause(
-            bucket,
+            keyspace,
             key = field,
             keysOrIndexHint = keysHint,
             parentClause = parentClause,
         )
 
-        val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
+        val actual = parentClause.join(keyspace, key = field, keysOrIndexHint = keysHint)
 
         assertEquals(expected, actual)
     }

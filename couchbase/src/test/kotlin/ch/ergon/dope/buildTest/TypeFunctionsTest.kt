@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.helper.someBucket
+import ch.ergon.dope.helper.someKeySpace
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
@@ -27,7 +27,7 @@ class TypeFunctionsTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someBucket(),
+                someKeySpace(),
             )
             .where(
                 someNumberArrayField().isArray(),
@@ -42,7 +42,7 @@ class TypeFunctionsTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someBucket(),
+                someKeySpace(),
             )
             .where(
                 someNumberField().isAtom(),
@@ -57,7 +57,7 @@ class TypeFunctionsTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someBucket(),
+                someKeySpace(),
             )
             .where(
                 someBooleanField().isBoolean(),
@@ -72,7 +72,7 @@ class TypeFunctionsTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someBucket(),
+                someKeySpace(),
             )
             .where(
                 someNumberField().isNumber(),
@@ -87,7 +87,7 @@ class TypeFunctionsTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someBucket(),
+                someKeySpace(),
             )
             .where(
                 someStringField().isString(),
