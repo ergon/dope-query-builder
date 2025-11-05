@@ -12,7 +12,7 @@ import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.string.concat2
 import ch.ergon.dope.resolvable.expression.type.function.string.contains
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.string.factory.TOKEN_CASES
+import ch.ergon.dope.resolvable.expression.type.function.string.factory.TokenCases
 import ch.ergon.dope.resolvable.expression.type.function.string.initCap
 import ch.ergon.dope.resolvable.expression.type.function.string.length
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
@@ -734,7 +734,7 @@ class StringFunctionsTest : ResolverDependentTest {
             .select(
                 tokens(
                     listOf("jim@example.com"),
-                    CustomTokenOptions(specials = true, case = TOKEN_CASES.UPPER),
+                    CustomTokenOptions(specials = true, case = TokenCases.UPPER),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -748,7 +748,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                tokens(listOf("jim@example.com"), CustomTokenOptions(specials = false, case = TOKEN_CASES.UPPER, name = false)),
+                tokens(listOf("jim@example.com"), CustomTokenOptions(specials = false, case = TokenCases.UPPER, name = false)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

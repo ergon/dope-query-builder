@@ -144,7 +144,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             val objectSearch = typeExpression.objectSearchExpression?.toDopeType()?.toDopeQuery(this)
             val options = typeExpression.options?.toDopeType()?.toDopeQuery(this)
             val queryString = typeExpression.toFunctionQueryString(
-                SearchFunctionType.SEARCH.type,
+                SearchFunctionType.SEARCH.name,
                 field?.queryString,
                 bucket?.queryString,
                 stringSearch?.queryString,
@@ -158,7 +158,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
 
         is SearchDependencyFunctionExpression<*> -> {
             val queryString = typeExpression.toFunctionQueryString(
-                typeExpression.searchFunctionType.type,
+                typeExpression.searchFunctionType.name,
                 typeExpression.outName?.let { "`$it`" },
             )
             CouchbaseDopeQuery(queryString)
