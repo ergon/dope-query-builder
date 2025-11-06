@@ -1,10 +1,8 @@
 package ch.ergon.dope.buildTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
@@ -22,8 +20,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ParameterizedQueriesTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ParameterizedQueriesTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should Support Positional Parameters As Key Easy`() {
@@ -31,7 +29,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
         val positionalParameterActual = 1.asParameter()
 
         val actual = QueryBuilder
-            .select(positionalParameterActual.isEqualTo(1.toDopeType())).build(CouchbaseResolver).queryString
+            .select(positionalParameterActual.isEqualTo(1.toDopeType())).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -44,7 +42,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
             .select(
                 "hello".asParameter("greeting")
                     .isEqualTo("hello".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(
             unifyString(expected),
@@ -57,7 +55,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
         val expected = "There are more parameters in the query than were passed"
         try {
             QueryBuilder
-                .select("hello".asParameter("greeting").isEqualTo("hello".toDopeType())).build(CouchbaseResolver)
+                .select("hello".asParameter("greeting").isEqualTo("hello".toDopeType())).build(CouchbaseResolver())
         } catch (e: Exception) {
             assertEquals(expected, e.message)
         }
@@ -66,7 +64,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
     @Test
     fun `should Support Named Parameters With Values`() {
         val parameterActual = false.asParameter("isAwesome")
-        assertEquals(false, parameterActual.toDopeQuery(manager).parameters.namedParameters["isAwesome"])
+        assertEquals(false, parameterActual.toDopeQuery(resolver).parameters.namedParameters["isAwesome"])
     }
 
     @Test
@@ -75,7 +73,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
 
         val actual: String =
             QueryBuilder.selectFrom(someBucket())
-                .where(someStringField("country").isEqualTo("UnitedStates".asParameter())).build(CouchbaseResolver).queryString
+                .where(someStringField("country").isEqualTo("UnitedStates".asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(unifyString(expected), actual)
     }
 
@@ -84,7 +82,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` IN $1"
 
         val actual: String = QueryBuilder.selectFrom(someBucket())
-            .where(someNumberField().inArray(listOf<Number>().asParameter())).build(CouchbaseResolver).queryString
+            .where(someNumberField().inArray(listOf<Number>().asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(expected, actual)
     }
 
@@ -93,7 +91,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IN $1"
 
         val actual: String = QueryBuilder.selectFrom(someBucket())
-            .where(someStringField().inArray(listOf<String>().asParameter())).build(CouchbaseResolver).queryString
+            .where(someStringField().inArray(listOf<String>().asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(expected, actual)
     }
 
@@ -102,7 +100,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `booleanField` IN $1"
 
         val actual: String = QueryBuilder.selectFrom(someBucket())
-            .where(someBooleanField().inArray(listOf<Boolean>().asParameter())).build(CouchbaseResolver).queryString
+            .where(someBooleanField().inArray(listOf<Boolean>().asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(expected, actual)
     }
 
@@ -111,7 +109,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
         val expected = "SELECT *"
 
         val actual: String =
-            QueryBuilder.selectAsterisk().build(CouchbaseResolver).queryString
+            QueryBuilder.selectAsterisk().build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -124,7 +122,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
             .select(
                 "Hello".asParameter().alias("one"),
                 99.asParameter("MagicNumber").alias("two"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -139,7 +137,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                 true.asParameter("name").or(
                     false.asParameter().and(true.asParameter("MagicNumber")),
                 ).alias("one"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -158,7 +156,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                     "Mice".asParameter("superMagic"),
                     "Never to be seen".asParameter(),
                 ).alias("one"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -179,7 +177,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                     "Rabbit".asParameter("superMagic"),
                     "Void".asParameter(),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -195,7 +193,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                     .alias(
                         "one",
                     ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -210,7 +208,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                     "Good Day!".asParameter("greetingLeft"),
                     "Good Morning".asParameter("greetingRight"),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -225,7 +223,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
                     "Salut".asParameter("greetingLeft"),
                     ("Good Afternoon".asParameter("greetingRight")),
                 ).alias("concatted"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -240,7 +238,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
             )
             .where(
                 parameterValue1.asParameter().isEqualTo(parameterValue2.asParameter()),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         val actual = QueryBuilder
             .selectFrom(
@@ -248,7 +246,7 @@ class ParameterizedQueriesTest : ManagerDependentTest {
             )
             .where(
                 parameterValue1.asParameter().isEqualTo(parameterValue2.asParameter()),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         assertEquals(expected.queryString, actual.queryString)
         assertEquals(expected.parameters.positionalParameters, actual.parameters.positionalParameters)

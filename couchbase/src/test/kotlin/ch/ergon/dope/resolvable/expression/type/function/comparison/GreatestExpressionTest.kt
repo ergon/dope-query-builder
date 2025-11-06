@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.comparison
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class GreatestExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class GreatestExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support greatest expression`() {
@@ -20,7 +20,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(someNumberField(), someNumberField("anotherNumberField"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(parameterValue.asParameter(parameterName), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -110,7 +110,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class GreatestExpressionTest : ManagerDependentTest {
         )
         val underTest = GreatestExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -139,7 +139,7 @@ class GreatestExpressionTest : ManagerDependentTest {
 
         val actual = greatestOf(numberField, numberField2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -152,6 +152,6 @@ class GreatestExpressionTest : ManagerDependentTest {
 
         val actual = greatestOf(numberField, numberField2, numberField3, numberField4)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

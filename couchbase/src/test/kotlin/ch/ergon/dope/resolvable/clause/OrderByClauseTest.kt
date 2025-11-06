@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderExpression
@@ -19,8 +19,8 @@ import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class OrderByClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class OrderByClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support order expression without order type`() {
@@ -29,7 +29,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = OrderExpression(someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -41,7 +41,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = OrderExpression(someStringField(), ASC)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = OrderExpression(someStringField(), DESC)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = OrderExpression(lower(concat("A", "B")), DESC)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -92,7 +92,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause(parameterValue.asParameter(parameterName)))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -106,7 +106,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = SelectOrderByClause(OrderExpression(someStringField(), ASC), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -136,7 +136,7 @@ class OrderByClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -153,7 +153,7 @@ class OrderByClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -165,7 +165,7 @@ class OrderByClauseTest : ManagerDependentTest {
         )
         val underTest = SelectOrderByClause(OrderExpression(someStringField(), DESC), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -183,7 +183,7 @@ class OrderByClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -200,7 +200,7 @@ class OrderByClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -219,7 +219,7 @@ class OrderByClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -232,7 +232,7 @@ class OrderByClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -244,7 +244,7 @@ class OrderByClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(stringField, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -256,7 +256,7 @@ class OrderByClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(orderExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -268,7 +268,7 @@ class OrderByClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(orderExpression1, orderExpression2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -281,7 +281,7 @@ class OrderByClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(stringField, orderType).thenOrderBy(orderExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -299,6 +299,6 @@ class OrderByClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(stringField, orderType).thenOrderBy(numberField, orderType2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

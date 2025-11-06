@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.function.searchfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionBucketObjectExpression
@@ -17,8 +17,8 @@ import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchSc
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SearchFunctionExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class SearchFunctionExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support search string function expression on field`() {
@@ -31,7 +31,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             stringSearchExpression = "someString",
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             options = mapOf("index" to "someIndex"),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(field, searchExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -73,7 +73,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(field, searchExpression, options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -86,7 +86,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             stringSearchExpression = "field:\"someString\"",
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             options = mapOf("index" to "someIndex"),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -115,7 +115,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(bucket, searchExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -127,7 +127,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(bucket, searchExpression, options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -140,7 +140,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -158,7 +158,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             options = mapOf("index" to "someIndex"),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -171,7 +171,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(field, searchExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -183,7 +183,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(field, searchExpression, options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -196,7 +196,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -214,7 +214,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
             options = mapOf("index" to "someIndex"),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -227,7 +227,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(bucket, searchExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -239,7 +239,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearch(bucket, searchExpression, options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -249,7 +249,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = SearchMetaFunctionExpression()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -262,7 +262,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = SearchMetaFunctionExpression(outName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -273,7 +273,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearchMeta()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -283,7 +283,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearchMeta(outName)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -293,7 +293,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = SearchScoreFunctionExpression()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -306,7 +306,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = SearchScoreFunctionExpression(outName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -317,7 +317,7 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearchScore()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -327,6 +327,6 @@ class SearchFunctionExpressionTest : ManagerDependentTest {
 
         val actual = fullTextSearchScore(outName)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.arithmetic
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DivisionExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DivisionExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support division`() {
@@ -21,7 +21,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         )
         val underTest = DivisionExpression(someNumberField(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +35,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         )
         val underTest = DivisionExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         )
         val underTest = DivisionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -64,7 +64,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         )
         val underTest = DivisionExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         )
         val underTest = DivisionExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -95,7 +95,7 @@ class DivisionExpressionTest : ManagerDependentTest {
         )
         val underTest = DivisionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -108,7 +108,7 @@ class DivisionExpressionTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -119,7 +119,7 @@ class DivisionExpressionTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -130,6 +130,6 @@ class DivisionExpressionTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

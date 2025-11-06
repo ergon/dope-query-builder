@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.conditional
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Nvl2ExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class Nvl2ExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support nvl2`() {
@@ -25,7 +25,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(someBooleanField(), someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(parameterValue.asParameter(), someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(parameterValue.asParameter(parameterName), someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(someBooleanField(), parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -83,7 +83,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(someBooleanField(), parameterValue.asParameter(parameterName), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -97,7 +97,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(someBooleanField(), someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -112,7 +112,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(someBooleanField(), someStringField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
         )
         val underTest = Nvl2Expression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -153,7 +153,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
             parameterValue3.asParameter(parameterName3),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -167,7 +167,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -179,7 +179,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -191,7 +191,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -203,7 +203,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -215,7 +215,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -227,7 +227,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -239,7 +239,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -251,7 +251,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -263,7 +263,7 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -275,6 +275,6 @@ class Nvl2ExpressionTest : ManagerDependentTest {
 
         val actual = nvl2(initialExpression, valueIfExists, valueIfNotExists)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

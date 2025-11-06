@@ -45,7 +45,7 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
                 newNullField,
                 nameField,
             )
-            .build(CouchbaseResolver)
+            .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

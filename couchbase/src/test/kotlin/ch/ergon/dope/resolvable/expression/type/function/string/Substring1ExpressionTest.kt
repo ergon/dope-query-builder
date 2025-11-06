@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,8 +12,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Substring1ExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class Substring1ExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support sub string 1`() {
@@ -22,7 +22,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
         )
         val underTest = Substring1Expression(someStringField(), 3.toDopeType(), 1.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +36,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
         )
         val underTest = Substring1Expression(parameterValue.asParameter(), 3.toDopeType(), 1.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -61,7 +61,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -73,7 +73,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -85,7 +85,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -96,7 +96,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -108,7 +108,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -120,7 +120,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -132,7 +132,7 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -143,6 +143,6 @@ class Substring1ExpressionTest : ManagerDependentTest {
 
         val actual = substring1(inStr, startPos)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

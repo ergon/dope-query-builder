@@ -1,16 +1,16 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MetaExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class MetaExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support meta`() {
@@ -19,7 +19,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -31,7 +31,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.cas.toDopeQuery(manager)
+        val actual = underTest.cas.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -43,7 +43,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.expiration.toDopeQuery(manager)
+        val actual = underTest.expiration.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -55,7 +55,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.flags.toDopeQuery(manager)
+        val actual = underTest.flags.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -67,7 +67,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.id.toDopeQuery(manager)
+        val actual = underTest.id.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.type.toDopeQuery(manager)
+        val actual = underTest.type.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -91,7 +91,7 @@ class MetaExpressionTest : ManagerDependentTest {
         )
         val underTest = MetaExpression(someBucket())
 
-        val actual = underTest.keyspace.toDopeQuery(manager)
+        val actual = underTest.keyspace.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class MetaExpressionTest : ManagerDependentTest {
 
         val actual = meta()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -112,6 +112,6 @@ class MetaExpressionTest : ManagerDependentTest {
 
         val actual = meta(bucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

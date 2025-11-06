@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.type
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -14,8 +14,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ToStringExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ToStringExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support to string expression with no parameters`() {
@@ -24,7 +24,7 @@ class ToStringExpressionTest : ManagerDependentTest {
         )
         val underTest = ToStringExpression(someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -38,7 +38,7 @@ class ToStringExpressionTest : ManagerDependentTest {
         )
         val underTest = ToStringExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class ToStringExpressionTest : ManagerDependentTest {
         )
         val underTest = ToStringExpression(parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class ToStringExpressionTest : ManagerDependentTest {
 
         val actual = number.toStr()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -75,7 +75,7 @@ class ToStringExpressionTest : ManagerDependentTest {
 
         val actual = number.toStr()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -85,6 +85,6 @@ class ToStringExpressionTest : ManagerDependentTest {
 
         val actual = boolean.toStr()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

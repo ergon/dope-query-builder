@@ -86,7 +86,7 @@ class WindowFunctionTest {
                     ),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

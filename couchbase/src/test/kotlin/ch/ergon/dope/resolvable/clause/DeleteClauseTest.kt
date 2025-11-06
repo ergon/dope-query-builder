@@ -1,15 +1,15 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DeleteClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DeleteClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support delete`() {
@@ -18,7 +18,7 @@ class DeleteClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteClause(someBucket())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -30,7 +30,7 @@ class DeleteClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteClause(someBucket().alias("bucket"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }

@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someNumberArrayField
@@ -22,8 +22,8 @@ import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectRangeExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectRangeExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support object for in expression`() {
@@ -39,7 +39,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { it.mul(it) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -58,7 +58,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { concat("test", it) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { it.toNumber() },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -96,7 +96,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             condition = { it.isLessOrEqualThan(2) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -121,7 +121,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { concat(positionalParameterValue.asParameter(), it) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -150,7 +150,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -172,7 +172,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             it.toStr()
         }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -196,7 +196,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             it.toStr()
         }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -213,7 +213,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { it.toNumber().mul(it.toNumber()) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -233,7 +233,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { concat("test", it.toStr()) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -253,7 +253,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             transformation = { it.toNumber() },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -273,7 +273,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             condition = { someBooleanExpression() },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -296,7 +296,7 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             it.toStr()
         }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -320,6 +320,6 @@ class ObjectRangeExpressionTest : ManagerDependentTest {
             it.toStr()
         }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

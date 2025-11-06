@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Rank
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.rank
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RankTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class RankTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support rank with reference`() {
@@ -21,7 +21,7 @@ class RankTest : ManagerDependentTest {
         )
         val underTest = RankWithReference("ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -33,7 +33,7 @@ class RankTest : ManagerDependentTest {
         )
         val underTest = Rank(windowOrderClause = listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class RankTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +60,7 @@ class RankTest : ManagerDependentTest {
 
         val actual = rank(windowReference)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -71,6 +71,6 @@ class RankTest : ManagerDependentTest {
 
         val actual = rank(windowPartitionClause, windowOrderClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

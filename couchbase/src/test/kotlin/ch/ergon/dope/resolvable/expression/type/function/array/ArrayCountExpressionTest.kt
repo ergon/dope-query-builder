@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayCountExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayCountExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_COUNT without parameters`() {
@@ -20,7 +20,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayCountExpression(someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayCountExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayCountExpression(parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class ArrayCountExpressionTest : ManagerDependentTest {
 
         val actual = arrayCount(array)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -71,6 +71,6 @@ class ArrayCountExpressionTest : ManagerDependentTest {
 
         val actual = arrayCount(selectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

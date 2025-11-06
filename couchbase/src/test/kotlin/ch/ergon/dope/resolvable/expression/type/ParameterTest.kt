@@ -1,10 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someObject
@@ -16,8 +15,8 @@ import ch.ergon.dope.validtype.ValidType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ParameterTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ParameterTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support positional number parameter`() {
@@ -28,7 +27,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = NumberParameter(parameterValue)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -43,7 +42,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = NumberParameter(parameterValue, parameterName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -57,7 +56,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = StringParameter(parameterValue)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +71,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = StringParameter(parameterValue, parameterName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -86,7 +85,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = BooleanParameter(parameterValue)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -101,7 +100,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = BooleanParameter(parameterValue, parameterName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -115,7 +114,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = ArrayParameter<ValidType>(parameterValue)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -130,7 +129,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = ArrayParameter<ValidType>(parameterValue, parameterName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -144,7 +143,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = ObjectParameter(parameterValue)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -159,7 +158,7 @@ class ParameterTest : ManagerDependentTest {
         )
         val underTest = ObjectParameter(parameterValue, parameterName)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -168,9 +167,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function number`() {
         val value = someNumber()
         val parameterName = null
-        val expected = NumberParameter(value, parameterName).toDopeQuery(manager)
+        val expected = NumberParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -179,9 +178,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function number with named parameter`() {
         val value = someNumber()
         val parameterName = someString()
-        val expected = NumberParameter(value, parameterName).toDopeQuery(manager)
+        val expected = NumberParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -190,9 +189,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function string`() {
         val value = someString()
         val parameterName = null
-        val expected = StringParameter(value, parameterName).toDopeQuery(manager)
+        val expected = StringParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -201,9 +200,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function string with named parameter`() {
         val value = someString()
         val parameterName = someString()
-        val expected = StringParameter(value, parameterName).toDopeQuery(manager)
+        val expected = StringParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -212,9 +211,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function boolean`() {
         val value = someBoolean()
         val parameterName = null
-        val expected = BooleanParameter(value, parameterName).toDopeQuery(manager)
+        val expected = BooleanParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -223,9 +222,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function boolean with named parameter`() {
         val value = someBoolean()
         val parameterName = someString()
-        val expected = BooleanParameter(value, parameterName).toDopeQuery(manager)
+        val expected = BooleanParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -234,9 +233,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function collection number`() {
         val value = listOf(someNumber())
         val parameterName = null
-        val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(manager)
+        val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -245,9 +244,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function collection number with named parameter`() {
         val value = listOf(someNumber())
         val parameterName = someString()
-        val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(manager)
+        val expected = ArrayParameter<NumberType>(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -256,9 +255,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function collection string`() {
         val value = listOf(someString())
         val parameterName = null
-        val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(manager)
+        val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -267,9 +266,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function collection string with named parameter`() {
         val value = listOf(someString())
         val parameterName = someString()
-        val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(manager)
+        val expected = ArrayParameter<StringType>(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -278,9 +277,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function collection boolean`() {
         val value = listOf(someBoolean())
         val parameterName = null
-        val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
+        val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -289,9 +288,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function collection boolean with named parameter`() {
         val value = listOf(someBoolean())
         val parameterName = someString()
-        val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(manager)
+        val expected = ArrayParameter<BooleanType>(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -300,9 +299,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function object`() {
         val value = someObject()
         val parameterName = null
-        val expected = ObjectParameter(value, parameterName).toDopeQuery(manager)
+        val expected = ObjectParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter().toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter().toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -311,9 +310,9 @@ class ParameterTest : ManagerDependentTest {
     fun `should support as parameter function object with named parameter`() {
         val value = someObject()
         val parameterName = someString()
-        val expected = ObjectParameter(value, parameterName).toDopeQuery(manager)
+        val expected = ObjectParameter(value, parameterName).toDopeQuery(resolver)
 
-        val actual = value.asParameter(parameterName).toDopeQuery(DopeQueryManager(CouchbaseResolver))
+        val actual = value.asParameter(parameterName).toDopeQuery(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }

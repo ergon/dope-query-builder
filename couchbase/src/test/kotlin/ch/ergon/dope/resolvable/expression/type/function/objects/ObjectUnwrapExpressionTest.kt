@@ -1,14 +1,14 @@
 package ch.ergon.dope.resolvable.expression.type.function.objects
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someObjectField
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectUnwrapExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectUnwrapExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support object unwrap expression`() {
@@ -17,7 +17,7 @@ class ObjectUnwrapExpressionTest : ManagerDependentTest {
         )
         val underTest = ObjectUnwrapExpression(someObjectField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -29,6 +29,6 @@ class ObjectUnwrapExpressionTest : ManagerDependentTest {
 
         val actual = objectExpression.unwrap()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

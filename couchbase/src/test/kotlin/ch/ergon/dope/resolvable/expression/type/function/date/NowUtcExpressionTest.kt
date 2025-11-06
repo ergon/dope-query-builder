@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NowUtcExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class NowUtcExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support NOW_UTC without format`() {
@@ -21,7 +21,7 @@ class NowUtcExpressionTest : ManagerDependentTest {
         )
         val underTest = NowUtcExpression()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +35,7 @@ class NowUtcExpressionTest : ManagerDependentTest {
         )
         val underTest = NowUtcExpression(fmt.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class NowUtcExpressionTest : ManagerDependentTest {
         )
         val underTest = NowUtcExpression(fmt.asParameter(name))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +60,7 @@ class NowUtcExpressionTest : ManagerDependentTest {
         val expected = NowUtcExpression()
         val actual = utcNowString()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -69,7 +69,7 @@ class NowUtcExpressionTest : ManagerDependentTest {
         val expected = NowUtcExpression(fmtField)
         val actual = utcNowString(fmtField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -78,6 +78,6 @@ class NowUtcExpressionTest : ManagerDependentTest {
         val expected = NowUtcExpression(raw.toDopeType())
         val actual = utcNowString(raw)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

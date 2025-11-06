@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someNumberSelectRawClause
@@ -12,8 +12,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayFlattenExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayFlattenExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_FLATTEN`() {
@@ -22,7 +22,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +36,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayFlattenExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -51,7 +51,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayFlattenExpression(parameterValue.asParameter(parameterName), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -80,7 +80,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayFlattenExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -95,7 +95,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayFlattenExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -115,7 +115,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
             parameterValue.asParameter(parameterName2),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
 
         val actual = arrayFlatten(array, depth)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -139,7 +139,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
 
         val actual = arrayFlatten(array, depth)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -150,7 +150,7 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
 
         val actual = arrayFlatten(selectClause, depth)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -161,6 +161,6 @@ class ArrayFlattenExpressionTest : ManagerDependentTest {
 
         val actual = arrayFlatten(selectClause, depth)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

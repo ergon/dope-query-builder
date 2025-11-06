@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
@@ -21,8 +21,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayReplaceExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayReplaceExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_REPLACE`() {
@@ -31,7 +31,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), 1.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -59,7 +59,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), parameterValue.asParameter(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -88,7 +88,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -103,7 +103,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), 1.toDopeType(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -119,7 +119,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -134,7 +134,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -149,7 +149,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), parameterValue.asParameter(parameterName), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -164,7 +164,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayReplaceExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -185,7 +185,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
             2.toDopeType(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -206,7 +206,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
             parameterValue2.asParameter(parameterName2),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -231,7 +231,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
             parameterValue3.asParameter(parameterName3),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -252,7 +252,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
         val underTest =
             ArrayReplaceExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(), parameterValue3.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -266,7 +266,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -278,7 +278,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -290,7 +290,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -302,7 +302,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -314,7 +314,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -326,7 +326,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -338,7 +338,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -350,7 +350,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -362,7 +362,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -374,7 +374,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -387,7 +387,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(array, toReplace, replaceWith, max)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -399,7 +399,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -411,7 +411,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -423,7 +423,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -435,7 +435,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -447,7 +447,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -459,7 +459,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -471,7 +471,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -483,7 +483,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -495,7 +495,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -507,7 +507,7 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -520,6 +520,6 @@ class ArrayReplaceExpressionTest : ManagerDependentTest {
 
         val actual = arrayReplace(selectClause, toReplace, replaceWith, max)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

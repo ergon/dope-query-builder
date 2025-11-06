@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
@@ -19,8 +19,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NthValueTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class NthValueTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support nth value with reference`() {
@@ -29,7 +29,7 @@ class NthValueTest : ManagerDependentTest {
         )
         val underTest = NthValueWithReference(someNumberField(), someNumberField(), windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -41,7 +41,7 @@ class NthValueTest : ManagerDependentTest {
         )
         val underTest = NthValueWithReference(someNumberField(), someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class NthValueTest : ManagerDependentTest {
         )
         val underTest = NthValue(someNumberField(), someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -70,7 +70,7 @@ class NthValueTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -87,7 +87,7 @@ class NthValueTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -104,7 +104,7 @@ class NthValueTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -121,7 +121,7 @@ class NthValueTest : ManagerDependentTest {
             windowFrameClause = someWindowFrameClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -136,7 +136,7 @@ class NthValueTest : ManagerDependentTest {
 
         val actual = nthValue(expression, offset, nullsModifier, windowReference = windowReference)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -149,7 +149,7 @@ class NthValueTest : ManagerDependentTest {
 
         val actual = nthValue(expression, offset, nullsModifier, windowReference = windowReference)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -165,6 +165,6 @@ class NthValueTest : ManagerDependentTest {
 
         val actual = nthValue(expression, offset, nullsModifier, fromModifier, windowPartitionClause, windowOrderClause, windowFrameClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

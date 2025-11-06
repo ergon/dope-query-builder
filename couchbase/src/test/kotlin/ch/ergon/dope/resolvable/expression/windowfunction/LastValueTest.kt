@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lastValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LastValueTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class LastValueTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support last value with reference`() {
@@ -25,7 +25,7 @@ class LastValueTest : ManagerDependentTest {
         )
         val underTest = LastValueWithReference(someNumberField(), windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class LastValueTest : ManagerDependentTest {
         )
         val underTest = LastValueWithReference(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class LastValueTest : ManagerDependentTest {
         )
         val underTest = LastValue(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class LastValueTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -81,7 +81,7 @@ class LastValueTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -97,7 +97,7 @@ class LastValueTest : ManagerDependentTest {
             windowFrameClause = someWindowFrameClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -111,7 +111,7 @@ class LastValueTest : ManagerDependentTest {
 
         val actual = lastValue(expression, nullsModifier, windowReference)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -125,6 +125,6 @@ class LastValueTest : ManagerDependentTest {
 
         val actual = lastValue(expression, nullsModifier, windowPartitionClause, windowOrderClause, windowFrameClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

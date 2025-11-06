@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DurationToStrExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DurationToStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DURATION_TO_STR with field`() {
@@ -20,7 +20,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DurationToStringExpression(someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DurationToStringExpression(dur.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = DurationToStringExpression(dur.asParameter(name))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -59,7 +59,7 @@ class DurationToStrExpressionTest : ManagerDependentTest {
         val expr = someNumberField().toDurationString()
         val expected = DurationToStringExpression(someNumberField())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -67,6 +67,6 @@ class DurationToStrExpressionTest : ManagerDependentTest {
         val expr = 3000L.toDurationString()
         val expected = DurationToStringExpression(3000L.toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

@@ -2,7 +2,6 @@ package ch.ergon.dope.couchbase
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.build.QueryResolver
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
@@ -50,18 +49,19 @@ import ch.ergon.dope.resolvable.expression.type.collection.Iterator
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
+import ch.ergon.dope.resolver.QueryResolver
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
-    override fun resolve(manager: DopeQueryManager<CouchbaseDopeQuery>, resolvable: Resolvable): CouchbaseDopeQuery =
+class CouchbaseResolver(override val manager: DopeQueryManager = DopeQueryManager()) : QueryResolver<CouchbaseDopeQuery> {
+    override fun resolve(resolvable: Resolvable): CouchbaseDopeQuery =
         when (resolvable) {
-            is Clause -> ClauseResolver.resolve(manager, resolvable)
+            is Clause -> ClauseResolver.resolve(this, resolvable)
 
             is RangeLike<*, *> -> {
-                val rangeDopeQuery = resolvable.range.toDopeQuery(manager)
+                val rangeDopeQuery = resolvable.range.toDopeQuery(this)
                 val iteratorVariable = resolvable.iteratorName ?: manager.iteratorManager.getIteratorName()
                 val iteratorAny = Iterator<ValidType>(iteratorVariable)
 
@@ -74,9 +74,9 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
 
                 @Suppress("UNCHECKED_CAST")
                 val condExpr = (resolvable.condition as ((Iterator<ValidType>) -> TypeExpression<BooleanType>)?)?.invoke(iteratorAny)
-                val withAttributeKeysDopeQuery = withKeyExpression?.toDopeQuery(manager)
-                val transformationDopeQuery = transformationExpression.toDopeQuery(manager)
-                val conditionDopeQuery = condExpr?.toDopeQuery(manager)
+                val withAttributeKeysDopeQuery = withKeyExpression?.toDopeQuery(this)
+                val transformationDopeQuery = transformationExpression.toDopeQuery(this)
+                val conditionDopeQuery = condExpr?.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = "${resolvable.transformationType.name} " +
                         withAttributeKeysDopeQuery?.let { "${withAttributeKeysDopeQuery.queryString}:" }.orEmpty() +
@@ -93,7 +93,7 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is RangeIndexedLike<*, *> -> {
-                val rangeQ = resolvable.range.toDopeQuery(manager)
+                val rangeQ = resolvable.range.toDopeQuery(this)
                 val indexVar = resolvable.indexName ?: manager.iteratorManager.getIteratorName()
                 val iterVar = resolvable.iteratorName ?: manager.iteratorManager.getIteratorName()
                 val indexIterator = Iterator<NumberType>(indexVar)
@@ -119,9 +119,9 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                         indexIterator,
                         valueIterator,
                     )
-                val withAttributeKeysDopeQuery = withAttributeKeysExpression?.toDopeQuery(manager)
-                val transformationDopeQuery = transformationExpression.toDopeQuery(manager)
-                val conditionDopeQuery = conditionExpression?.toDopeQuery(manager)
+                val withAttributeKeysDopeQuery = withAttributeKeysExpression?.toDopeQuery(this)
+                val transformationDopeQuery = transformationExpression.toDopeQuery(this)
+                val conditionDopeQuery = conditionExpression?.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = resolvable.transformationType.name + " " +
                         (withAttributeKeysDopeQuery?.let { "${it.queryString}:" } ?: "") +
@@ -137,19 +137,15 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
                 )
             }
 
-            is InfixOperator -> InfixOperatorResolver.resolve(manager, resolvable)
+            is InfixOperator -> InfixOperatorResolver.resolve(this, resolvable)
 
-            is TypeExpression<*> -> TypeExpressionResolver.resolve(manager, resolvable)
+            is TypeExpression<*> -> TypeExpressionResolver.resolve(this, resolvable)
 
             is WithClause -> {
                 val first = resolvable.withExpression
-                val firstDope = run {
-                    val v = first.value.toDopeQuery(manager)
-                    CouchbaseDopeQuery("`${first.name}` AS (${v.queryString})", v.parameters)
-                }
+                val firstDope = first.toWithDefinitionDopeQuery(this)
                 val additionalWithExpressions = resolvable.additionalWithExpressions.map { variable ->
-                    val v = variable.value.toDopeQuery(manager)
-                    CouchbaseDopeQuery("`${variable.name}` AS (${v.queryString})", v.parameters)
+                    variable.toWithDefinitionDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
                     queryString = "WITH ${listOf(firstDope, *additionalWithExpressions.toTypedArray()).joinToString(", ") { it.queryString }}",
@@ -158,7 +154,7 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is OrderExpression -> {
-                val exp = resolvable.expression.toDopeQuery(manager)
+                val exp = resolvable.expression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = listOfNotNull(exp.queryString, resolvable.orderByType?.queryString).joinToString(" "),
                     parameters = exp.parameters,
@@ -166,8 +162,8 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is SetAssignment<*> -> {
-                val field = resolvable.field.toDopeQuery(manager)
-                val value = resolvable.value.toDopeQuery(manager)
+                val field = resolvable.field.toDopeQuery(this)
+                val value = resolvable.value.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = "${field.queryString} = ${value.queryString}",
                     parameters = field.parameters.merge(value.parameters),
@@ -182,10 +178,10 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
 
             is UseKeysClass -> {
                 val bucket = when (val b = resolvable.bucket) {
-                    is AliasedBucket -> b.asBucketDefinition().toDopeQuery(manager)
-                    else -> resolvable.bucket.toDopeQuery(manager)
+                    is AliasedBucket -> b.asBucketDefinition().toDopeQuery(this)
+                    else -> resolvable.bucket.toDopeQuery(this)
                 }
-                val keys = resolvable.useKeys.toDopeQuery(manager)
+                val keys = resolvable.useKeys.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(bucket.queryString, "USE KEYS", keys.queryString),
                     parameters = bucket.parameters.merge(keys.parameters),
@@ -199,8 +195,8 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is UseIndex -> {
-                val bucket = resolvable.bucket.toDopeQuery(manager)
-                val refs = resolvable.indexReferences.map { it.toDopeQuery(manager) }
+                val bucket = resolvable.bucket.toDopeQuery(this)
+                val refs = resolvable.indexReferences.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         bucket.queryString,
@@ -212,7 +208,7 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is AliasedTypeExpression<*> -> {
-                val inner = resolvable.typeExpression.toDopeQuery(manager)
+                val inner = resolvable.typeExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(inner.queryString, "AS", "`${resolvable.alias}`"),
                     parameters = inner.parameters,
@@ -220,8 +216,8 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is ObjectEntryPrimitive<*> -> {
-                val key = resolvable.key.toDopeQuery(manager)
-                val value = resolvable.value.toDopeQuery(manager)
+                val key = resolvable.key.toDopeQuery(this)
+                val value = resolvable.value.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = "${key.queryString} : ${value.queryString}",
                     parameters = key.parameters.merge(value.parameters),
@@ -229,8 +225,8 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is RowScopeExpression<*> -> {
-                val argumentsDopeQuery = resolvable.functionArguments.mapNotNull { it?.toDopeQuery(manager) }
-                val over = resolvable.overDefinition?.toDopeQuery(manager)
+                val argumentsDopeQuery = resolvable.functionArguments.mapNotNull { it?.toDopeQuery(this) }
+                val over = resolvable.overDefinition?.toDopeQuery(this)
                 val argumentsDopeQueryString = formatListToQueryStringWithBrackets(
                     argumentsDopeQuery,
                     prefix = "(" + (resolvable.quantifier?.let { "${it.name} " } ?: ""),
@@ -245,33 +241,33 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is AliasedRowScopeExpression<*> -> {
-                val inner = resolvable.rowScopeExpression.toDopeQuery(manager)
+                val inner = resolvable.rowScopeExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(formatToQueryStringWithSymbol(inner.queryString, "AS", "`${resolvable.alias}`"), inner.parameters)
             }
 
             is OverWindowDefinition -> {
-                val win = resolvable.windowDefinition.toDopeQuery(manager)
+                val win = resolvable.windowDefinition.toDopeQuery(this)
                 CouchbaseDopeQuery("OVER (${win.queryString})", win.parameters)
             }
 
             is OverWindowReference -> CouchbaseDopeQuery("OVER `${resolvable.windowReference}`")
 
             is WindowDefinition -> {
-                val ref = resolvable.windowReferenceExpression?.toDopeQuery(manager)
+                val ref = resolvable.windowReferenceExpression?.toDopeQuery(this)
                 val parts = mutableListOf<String>()
                 val params = mutableListOf<DopeParameters>()
                 if (ref != null) {
                     parts += ref.queryString; params += ref.parameters
                 }
-                resolvable.windowPartitionClause?.map { it.toDopeQuery(manager) }?.let { list ->
+                resolvable.windowPartitionClause?.map { it.toDopeQuery(this) }?.let { list ->
                     parts += list.joinToString(", ", prefix = "PARTITION BY ") { it.queryString }
                     params += list.map { it.parameters }
                 }
-                resolvable.windowOrderClause?.map { it.toDopeQuery(manager) }?.let { list ->
+                resolvable.windowOrderClause?.map { it.toDopeQuery(this) }?.let { list ->
                     parts += list.joinToString(", ", prefix = "ORDER BY ") { it.queryString }
                     params += list.map { it.parameters }
                 }
-                val frame = resolvable.windowFrameClause?.toDopeQuery(manager)
+                val frame = resolvable.windowFrameClause?.toDopeQuery(this)
                 if (frame != null) {
                     parts += frame.queryString; params += listOf(frame.parameters)
                 }
@@ -279,7 +275,7 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is WindowFrameClause -> {
-                val extent = resolvable.windowFrameExtent.toDopeQuery(manager)
+                val extent = resolvable.windowFrameExtent.toDopeQuery(this)
                 val windowFrameQueryString = listOfNotNull(
                     resolvable.windowFrameType.queryString,
                     extent.queryString,
@@ -289,8 +285,8 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is Between -> {
-                val b = resolvable.between.toDopeQuery(manager)
-                val a = resolvable.and.toDopeQuery(manager)
+                val b = resolvable.between.toDopeQuery(this)
+                val a = resolvable.and.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     formatToQueryString("BETWEEN", b.queryString, "AND", a.queryString, separator = " "),
                     b.parameters.merge(a.parameters),
@@ -304,17 +300,17 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is CurrentRow -> CouchbaseDopeQuery("CURRENT ROW")
 
             is Following -> {
-                val off = resolvable.offset.toDopeQuery(manager)
+                val off = resolvable.offset.toDopeQuery(this)
                 CouchbaseDopeQuery(formatToQueryString(off.queryString, "FOLLOWING"), off.parameters)
             }
 
             is Preceding -> {
-                val off = resolvable.offset.toDopeQuery(manager)
+                val off = resolvable.offset.toDopeQuery(this)
                 CouchbaseDopeQuery(formatToQueryString(off.queryString, "PRECEDING"), off.parameters)
             }
 
             is OrderingTerm -> {
-                val expressionDopeQuery = resolvable.expression.toDopeQuery(manager)
+                val expressionDopeQuery = resolvable.expression.toDopeQuery(this)
                 val orderingQueryString =
                     expressionDopeQuery.queryString + (
                         resolvable.orderType?.let { " $it" }
@@ -324,7 +320,7 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is WindowDeclaration -> {
-                val windowDefinitionDopeQuery = resolvable.windowDefinition?.toDopeQuery(manager)
+                val windowDefinitionDopeQuery = resolvable.windowDefinition?.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     "`${resolvable.reference}` AS (${windowDefinitionDopeQuery?.queryString.orEmpty()})",
                     windowDefinitionDopeQuery?.parameters.orEmpty(),
@@ -332,7 +328,7 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is CaseClass<*> -> {
-                val casePart = resolvable.case?.toDopeQuery(manager)
+                val casePart = resolvable.case?.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = "CASE" + (casePart?.queryString?.let { " $it" } ?: ""),
                     parameters = casePart?.parameters.orEmpty(),
@@ -340,13 +336,13 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is Asterisk -> {
-                val path = resolvable.path?.toDopeQuery(manager)?.queryString
+                val path = resolvable.path?.toDopeQuery(this)?.queryString
                 CouchbaseDopeQuery(queryString = path?.let { "$it.*" } ?: "*")
             }
 
             is LimitClause -> {
-                val parentDopeQuery = resolvable.parentClause.toDopeQuery(manager)
-                val numberDopeQuery = resolvable.numberExpression.toDopeQuery(manager)
+                val parentDopeQuery = resolvable.parentClause.toDopeQuery(this)
+                val numberDopeQuery = resolvable.numberExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parentDopeQuery.queryString,
@@ -358,8 +354,8 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is OffsetClause -> {
-                val parentDopeQuery = resolvable.parentClause.toDopeQuery(manager)
-                val numberDopeQuery = resolvable.numberExpression.toDopeQuery(manager)
+                val parentDopeQuery = resolvable.parentClause.toDopeQuery(this)
+                val numberDopeQuery = resolvable.numberExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parentDopeQuery.queryString,
@@ -379,12 +375,12 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             }
 
             is KeysHintClass -> {
-                val keys = resolvable.keys.toDopeQuery(manager)
+                val keys = resolvable.keys.toDopeQuery(this)
                 CouchbaseDopeQuery(queryString = "KEYS ${keys.queryString}", parameters = keys.parameters)
             }
 
             is IndexHint -> {
-                val refs = resolvable.indexReferences.map { it.toDopeQuery(manager) }
+                val refs = resolvable.indexReferences.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryString("INDEX", formatListToQueryStringWithBrackets(refs)),
                     parameters = refs.map { it.parameters }.merge(),
@@ -394,10 +390,10 @@ object CouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
             is AliasedSelectClause<*> -> CouchbaseDopeQuery("`${resolvable.alias}`")
 
             is AliasedSelectClauseDefinition<*> -> {
-                val parent = resolvable.parentClause.toDopeQuery(manager)
+                val parent = resolvable.parentClause.toDopeQuery(this)
                 CouchbaseDopeQuery("(${parent.queryString}) AS `${resolvable.alias}`", parent.parameters)
             }
 
-            else -> TODO("not yet implemented: $resolvable")
+            else -> throw UnsupportedOperationException("Not supported: $resolvable")
         }
 }

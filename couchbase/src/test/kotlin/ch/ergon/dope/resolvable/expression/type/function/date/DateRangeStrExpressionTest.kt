@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -22,8 +22,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateRangeStrExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DateRangeStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_RANGE_STR with fields and no increment`() {
@@ -35,7 +35,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             someStringField(),
             QUARTER,
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -50,7 +50,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             someStringField(),
             MONTH,
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -66,7 +66,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             someStringField(),
             YEAR,
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -81,7 +81,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             endVal.asParameter(),
             DAY,
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -97,7 +97,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             endVal.asParameter(name),
             HOUR,
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -113,7 +113,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             MINUTE,
             inc.asParameter(),
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -130,7 +130,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             SECOND,
             inc.asParameter(name),
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -148,7 +148,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             MONTH,
             inc.asParameter(),
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -173,7 +173,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             YEAR,
             inc.asParameter(names[2]),
         )
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -185,7 +185,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             QUARTER,
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -197,7 +197,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             CENTURY,
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -213,7 +213,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             MONTH,
             someNumberField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -229,7 +229,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             DAY,
             7.toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -245,7 +245,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             DECADE,
             someNumberField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -261,7 +261,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             WEEK,
             2.toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -274,7 +274,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             HOUR,
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -287,7 +287,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             MINUTE,
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -304,7 +304,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             SECOND,
             someNumberField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -321,7 +321,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             MILLISECOND,
             9.toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -338,7 +338,7 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             CENTURY,
             someNumberField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -355,6 +355,6 @@ class DateRangeStrExpressionTest : ManagerDependentTest {
             DECADE,
             3.toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

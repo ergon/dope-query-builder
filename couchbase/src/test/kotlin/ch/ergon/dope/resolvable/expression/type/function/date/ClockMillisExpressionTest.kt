@@ -1,13 +1,13 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ClockMillisExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ClockMillisExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support CLOCK_MILLIS`() {
@@ -16,7 +16,7 @@ class ClockMillisExpressionTest : ManagerDependentTest {
         )
         val underTest = ClockMillisExpression()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -26,6 +26,6 @@ class ClockMillisExpressionTest : ManagerDependentTest {
         val expected = ClockMillisExpression()
         val actual = clockMillis()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

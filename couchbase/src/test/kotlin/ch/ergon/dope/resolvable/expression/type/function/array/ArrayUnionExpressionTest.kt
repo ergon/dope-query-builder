@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayUnionExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayUnionExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_UNION`() {
@@ -20,7 +20,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -110,7 +110,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -127,7 +127,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayUnionExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -140,7 +140,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -151,7 +151,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -162,7 +162,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -173,7 +173,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -185,7 +185,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -197,7 +197,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -209,7 +209,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -221,7 +221,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -233,7 +233,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -245,7 +245,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -257,7 +257,7 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -273,6 +273,6 @@ class ArrayUnionExpressionTest : ManagerDependentTest {
 
         val actual = arrayUnion(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

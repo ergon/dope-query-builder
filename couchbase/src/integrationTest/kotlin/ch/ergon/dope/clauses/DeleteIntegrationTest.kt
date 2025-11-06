@@ -32,7 +32,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
                 idField,
                 asterisk(),
             )
-            .build(CouchbaseResolver)
+            .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -53,12 +53,12 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
             )
             .returning(
                 idField,
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         val selectEverythingCouchbaseDopeQuery = QueryBuilder
             .selectFrom(
                 testBucket,
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         tryUntil {
             val selectBeforeDeleteQueryResult = queryWithoutParameters(selectEverythingCouchbaseDopeQuery)

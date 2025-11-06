@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArraySymmetricDifferenceTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArraySymmetricDifferenceTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_SYMDIFF`() {
@@ -20,7 +20,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -111,7 +111,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         val underTest =
             ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
         )
         val underTest = ArraySymmetricDifferenceExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -141,7 +141,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -152,7 +152,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -163,7 +163,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -174,7 +174,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -186,7 +186,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -198,7 +198,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -210,7 +210,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -222,7 +222,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -234,7 +234,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -246,7 +246,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -258,7 +258,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -274,7 +274,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -285,7 +285,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -296,7 +296,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -307,7 +307,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -318,7 +318,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -330,7 +330,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -342,7 +342,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -354,7 +354,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -366,7 +366,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -378,7 +378,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -390,7 +390,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -402,7 +402,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -418,7 +418,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -429,7 +429,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -440,7 +440,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -451,7 +451,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -462,7 +462,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -474,7 +474,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -486,7 +486,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -498,7 +498,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -510,7 +510,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -522,7 +522,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -534,7 +534,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -546,7 +546,7 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -562,6 +562,6 @@ class ArraySymmetricDifferenceTest : ManagerDependentTest {
 
         val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

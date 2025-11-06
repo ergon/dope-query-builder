@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayIntersectExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayIntersectExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_INTERSECT`() {
@@ -20,7 +20,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayIntersectExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayIntersectExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayIntersectExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -113,7 +113,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
             parameterValue.asParameter(parameterName2),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -137,7 +137,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -148,7 +148,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -159,7 +159,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -171,7 +171,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -183,7 +183,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -195,7 +195,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -207,7 +207,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -219,7 +219,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -231,7 +231,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -243,7 +243,7 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -259,6 +259,6 @@ class ArrayIntersectExpressionTest : ManagerDependentTest {
 
         val actual = arrayIntersect(firstArray, secondArray, thirdArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

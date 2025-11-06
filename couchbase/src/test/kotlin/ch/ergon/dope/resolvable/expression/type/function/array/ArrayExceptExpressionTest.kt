@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayExceptExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayExceptExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_EXCEPT`() {
@@ -20,7 +20,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayExceptExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -113,7 +113,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
             parameterValue.asParameter(parameterName2),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
 
         val actual = arrayExcept(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -137,7 +137,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
 
         val actual = arrayExcept(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -148,7 +148,7 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
 
         val actual = arrayExcept(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -159,6 +159,6 @@ class ArrayExceptExpressionTest : ManagerDependentTest {
 
         val actual = arrayExcept(firstArray, secondArray)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

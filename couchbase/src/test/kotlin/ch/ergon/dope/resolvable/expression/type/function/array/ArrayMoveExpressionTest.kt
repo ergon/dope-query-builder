@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayMoveExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayMoveExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_MOVE`() {
@@ -21,7 +21,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +35,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), 1.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -64,7 +64,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), parameterValue.asParameter(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), parameterValue.asParameter(parameterName), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -108,7 +108,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -123,7 +123,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayMoveExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 2.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -148,7 +148,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
             parameterValue3.asParameter(parameterName3),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -162,7 +162,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(array, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -174,7 +174,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(array, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -186,7 +186,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(array, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -198,7 +198,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(array, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -210,7 +210,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(selectClause, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -222,7 +222,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(selectClause, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -234,7 +234,7 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(selectClause, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -246,6 +246,6 @@ class ArrayMoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayMove(selectClause, from, to)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

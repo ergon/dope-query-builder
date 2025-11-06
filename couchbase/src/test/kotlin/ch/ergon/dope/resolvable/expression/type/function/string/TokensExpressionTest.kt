@@ -1,14 +1,14 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TokensExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class TokensExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support tokens`() {
@@ -17,7 +17,7 @@ class TokensExpressionTest : ManagerDependentTest {
         )
         val underTest = TokensExpression(listOf("test", "test2"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -29,7 +29,7 @@ class TokensExpressionTest : ManagerDependentTest {
 
         val actual = tokens(inStr)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -40,6 +40,6 @@ class TokensExpressionTest : ManagerDependentTest {
 
         val actual = tokens(inStr, opt)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

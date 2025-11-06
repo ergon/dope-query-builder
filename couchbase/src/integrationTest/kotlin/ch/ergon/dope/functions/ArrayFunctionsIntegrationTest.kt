@@ -40,7 +40,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .limit(
                 array.get(0),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
@@ -80,7 +80,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
             ).orderBy(
                 meta().id,
             )
-            .build(CouchbaseResolver)
+            .build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

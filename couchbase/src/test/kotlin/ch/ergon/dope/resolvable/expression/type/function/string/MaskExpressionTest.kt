@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MaskExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class MaskExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support mask with no parameters`() {
@@ -21,7 +21,7 @@ class MaskExpressionTest : ManagerDependentTest {
         )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +35,7 @@ class MaskExpressionTest : ManagerDependentTest {
         )
         val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class MaskExpressionTest : ManagerDependentTest {
         )
         val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class MaskExpressionTest : ManagerDependentTest {
 
         val actual = mask(inStr, options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -74,6 +74,6 @@ class MaskExpressionTest : ManagerDependentTest {
 
         val actual = mask(inStr, options)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

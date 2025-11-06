@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NotBetweenExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class NotBetweenExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support NOT BETWEEN expression`() {
@@ -20,7 +20,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         )
         val underTest = NotBetweenExpression(someNumberField(), 1.toDopeType(), 10.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +35,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), 10.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), 1.toDopeType(), 10.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -70,7 +70,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
             10.toDopeType(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -85,7 +85,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 10.toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -110,7 +110,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
             parameterValue3.asParameter(parameterName3),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class NotBetweenExpressionTest : ManagerDependentTest {
         )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -140,6 +140,6 @@ class NotBetweenExpressionTest : ManagerDependentTest {
 
         val actual = expression.notBetween(start, end)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

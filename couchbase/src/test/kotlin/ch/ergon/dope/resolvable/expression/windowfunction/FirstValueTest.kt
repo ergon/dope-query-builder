@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.firstValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FirstValueTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class FirstValueTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support first value with reference`() {
@@ -25,7 +25,7 @@ class FirstValueTest : ManagerDependentTest {
         )
         val underTest = FirstValueWithReference(someNumberField(), "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class FirstValueTest : ManagerDependentTest {
         )
         val underTest = FirstValueWithReference(someNumberField(), "ref", RESPECT)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class FirstValueTest : ManagerDependentTest {
         )
         val underTest = FirstValue(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class FirstValueTest : ManagerDependentTest {
         )
         val underTest = FirstValue(someNumberField(), nullsModifier = IGNORE, windowOrderClause = listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class FirstValueTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class FirstValueTest : ManagerDependentTest {
             windowFrameClause = someWindowFrameClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -111,7 +111,7 @@ class FirstValueTest : ManagerDependentTest {
             windowFrameClause = someWindowFrameClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -125,7 +125,7 @@ class FirstValueTest : ManagerDependentTest {
 
         val actual = firstValue(expression, windowReference, nullsModifier)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -138,6 +138,6 @@ class FirstValueTest : ManagerDependentTest {
 
         val actual = firstValue(someNumberField(), nullsModifier, windowPartitionClause, windowOrderClause, windowFrameClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

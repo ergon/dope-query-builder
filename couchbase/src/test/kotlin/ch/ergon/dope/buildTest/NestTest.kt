@@ -40,7 +40,7 @@ class NestTest {
                 someStringField("city", airport).isEqualTo("Toulouse"),
             ).orderBy(
                 someStringField("airportname", airport),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class NestTest {
                 someStringField("city", airport).isEqualTo("Toulouse"),
             ).orderBy(
                 someStringField("airportname", airport),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -91,7 +91,7 @@ class NestTest {
                 someStringField("city", a).isEqualTo("Toulouse"),
             ).orderBy(
                 someStringField("airportname", a),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -108,7 +108,7 @@ class NestTest {
             .innerNest(
                 airport,
                 key = someStringField("airportid", route),
-            ).limit(1).build(CouchbaseResolver).queryString
+            ).limit(1).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -127,7 +127,7 @@ class NestTest {
                 r,
                 key = someStringField("airportid", r),
                 bucket = a,
-            ).limit(1).build(CouchbaseResolver).queryString
+            ).limit(1).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -162,7 +162,7 @@ class NestTest {
                 someObjectArrayField("schedule", r).alias("s"),
             ).where(
                 someNumberField("day", someBucket("s")).isEqualTo(1), // this is so hack-y
-            ).limit(10).build(CouchbaseResolver).queryString
+            ).limit(10).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

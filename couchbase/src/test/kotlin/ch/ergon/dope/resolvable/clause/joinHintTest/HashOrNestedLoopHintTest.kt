@@ -1,16 +1,16 @@
 package ch.ergon.dope.resolvable.clause.joinHintTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_BUILD
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_PROBE
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class HashOrNestedLoopHintTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class HashOrNestedLoopHintTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support use hash build`() {
@@ -19,7 +19,7 @@ class HashOrNestedLoopHintTest : ManagerDependentTest {
         )
         val underTest = HASH_BUILD
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -31,7 +31,7 @@ class HashOrNestedLoopHintTest : ManagerDependentTest {
         )
         val underTest = HASH_PROBE
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -43,7 +43,7 @@ class HashOrNestedLoopHintTest : ManagerDependentTest {
         )
         val underTest = NESTED_LOOP
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }

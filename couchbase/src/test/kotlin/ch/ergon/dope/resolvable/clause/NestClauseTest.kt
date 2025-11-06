@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringArrayField
@@ -20,8 +20,8 @@ import ch.ergon.dope.resolvable.expression.type.TRUE
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NestClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class NestClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support standard nest with boolean condition`() {
@@ -34,7 +34,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -82,7 +82,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.nest(bucket, condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -94,7 +94,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.nest(bucket, keys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -106,7 +106,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.nest(bucket, key, bucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -120,7 +120,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -136,7 +136,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -154,7 +154,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -168,7 +168,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerNest(bucket, condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -180,7 +180,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerNest(bucket, keys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -192,7 +192,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerNest(bucket, key, bucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -206,7 +206,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -222,7 +222,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -240,7 +240,7 @@ class NestClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -254,7 +254,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftNest(bucket, condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -266,7 +266,7 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftNest(bucket, keys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -278,6 +278,6 @@ class NestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftNest(bucket, key, bucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

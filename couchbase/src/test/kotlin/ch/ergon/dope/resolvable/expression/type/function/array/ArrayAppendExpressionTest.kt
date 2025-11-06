@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanSelectRawClause
@@ -21,8 +21,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayAppendExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayAppendExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_APPEND`() {
@@ -31,7 +31,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -59,7 +59,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayAppendExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +74,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayAppendExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -89,7 +89,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -105,7 +105,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -129,7 +129,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -140,7 +140,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -151,7 +151,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -162,7 +162,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -173,7 +173,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -184,7 +184,7 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -195,6 +195,6 @@ class ArrayAppendExpressionTest : ManagerDependentTest {
 
         val actual = arrayAppend(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

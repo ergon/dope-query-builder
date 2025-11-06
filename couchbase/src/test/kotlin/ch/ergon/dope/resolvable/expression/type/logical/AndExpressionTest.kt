@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.logical
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -13,8 +13,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AndExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class AndExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support and`() {
@@ -23,7 +23,7 @@ class AndExpressionTest : ManagerDependentTest {
         )
         val underTest = AndExpression(someBooleanField(), someBooleanField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class AndExpressionTest : ManagerDependentTest {
         )
         val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -52,7 +52,7 @@ class AndExpressionTest : ManagerDependentTest {
         )
         val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class AndExpressionTest : ManagerDependentTest {
         )
         val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -81,7 +81,7 @@ class AndExpressionTest : ManagerDependentTest {
         )
         val underTest = AndExpression(parameterValue.asParameter(parameterName), someBooleanField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -98,7 +98,7 @@ class AndExpressionTest : ManagerDependentTest {
         )
         val underTest = AndExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -111,7 +111,7 @@ class AndExpressionTest : ManagerDependentTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -122,7 +122,7 @@ class AndExpressionTest : ManagerDependentTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -133,6 +133,6 @@ class AndExpressionTest : ManagerDependentTest {
 
         val actual = left.and(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

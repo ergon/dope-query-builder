@@ -44,7 +44,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
             ).orderBy(
                 orderNumberField,
                 ASC,
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -90,7 +90,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
                 orderNumberField,
                 DESC,
             )
-            .build(CouchbaseResolver)
+            .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -164,7 +164,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
             )
             .where(
                 eIsActiveField.and(cIsActiveField),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

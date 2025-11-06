@@ -53,7 +53,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayAppend(someStringArrayField(), someStringField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayAverage(someNumberArrayField()).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayBinarySearch(someNumberArrayField(), someNumberField()).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -89,7 +89,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayConcat(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -105,7 +105,7 @@ class ArrayFunctionsTest {
             )
             .where(
                 arrayContains(someStringArrayField(), someStringField()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -117,7 +117,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayCount(someNumberArrayField()).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -129,7 +129,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayDistinct(someStringArrayField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -141,7 +141,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayExcept(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -153,7 +153,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayFlatten(someStringArrayField(), 2).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -167,7 +167,7 @@ class ArrayFunctionsTest {
                 lower(
                     arrayIfNull(someStringArrayField()),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -179,7 +179,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayInsert(someStringArrayField(), 0, someStringField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -191,7 +191,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayIntersect(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -203,7 +203,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayLength(someNumberArrayField()).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -217,7 +217,7 @@ class ArrayFunctionsTest {
                 lower(
                     arrayMax(someStringArrayField()),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -231,7 +231,7 @@ class ArrayFunctionsTest {
                 lower(
                     arrayMin(someStringArrayField()),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -243,7 +243,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayMove(someStringArrayField(), 0, 1).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -255,7 +255,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayPosition(someStringArrayField(), someStringField()).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -267,7 +267,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayPrepend(someStringArrayField(), someStringField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -279,7 +279,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayPut(someStringArrayField(), someStringField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -291,7 +291,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayRange(0, 10, 2).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -303,7 +303,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayRemove(someStringArrayField(), someStringField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -315,7 +315,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayRepeat(someStringField(), 5).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -327,7 +327,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayReplace(someStringArrayField(), "abc", "def", 3).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -339,7 +339,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayReverse(someStringArrayField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -351,7 +351,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arraySort(someStringArrayField()).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -363,7 +363,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arraySum(someNumberArrayField()).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -376,7 +376,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 subquery.unpack().getNumberArray("key"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -388,7 +388,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arraySymDiff(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -400,7 +400,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arraySymDiffN(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -412,7 +412,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 arrayUnion(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

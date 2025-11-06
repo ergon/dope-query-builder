@@ -1,13 +1,9 @@
 package ch.ergon.dope
 
-import ch.ergon.dope.build.QueryResolver
-
-data class DopeQueryManager<T : DopeQuery>(
-    val resolver: QueryResolver<T>,
-) {
-    val parameterManager = ParameterManager()
-    val iteratorManager = IteratorManager()
-}
+data class DopeQueryManager(
+    val parameterManager: ParameterManager = ParameterManager(),
+    val iteratorManager: IteratorManager = IteratorManager(),
+)
 
 class ParameterManager {
     var count: Int = 1

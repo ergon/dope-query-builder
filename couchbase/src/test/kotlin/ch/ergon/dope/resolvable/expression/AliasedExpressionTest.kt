@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someSelectClause
@@ -18,8 +18,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AliasedExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class AliasedExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support aliased expression`() {
@@ -28,7 +28,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         )
         val underTest = AliasedRowScopeExpression(countAsterisk(), "count")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -40,7 +40,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         )
         val underTest = AliasedTypeExpression(someStringField(), "test")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -55,7 +55,7 @@ class AliasedExpressionTest : ManagerDependentTest {
         val underTest =
             AliasedTypeExpression(parameterValue.asParameter(), "test")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class AliasedExpressionTest : ManagerDependentTest {
             "test",
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -86,7 +86,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = typeExpression.alias(alias)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -97,7 +97,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = number.alias(alias)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -108,7 +108,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = string.alias(alias)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -119,7 +119,7 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = boolean.alias(alias)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -130,6 +130,6 @@ class AliasedExpressionTest : ManagerDependentTest {
 
         val actual = selectExpression.alias(alias)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -21,7 +21,7 @@ class StringFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .offset(
                 length(""),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()

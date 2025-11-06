@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.type
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someBooleanField
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsBooleanExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class IsBooleanExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support is boolean expression with no parameters`() {
@@ -21,7 +21,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         )
         val underTest = IsBooleanExpression(someBooleanField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -35,7 +35,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class IsBooleanExpressionTest : ManagerDependentTest {
         )
         val underTest = IsBooleanExpression(parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -62,6 +62,6 @@ class IsBooleanExpressionTest : ManagerDependentTest {
 
         val actual = boolean.isBoolean()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

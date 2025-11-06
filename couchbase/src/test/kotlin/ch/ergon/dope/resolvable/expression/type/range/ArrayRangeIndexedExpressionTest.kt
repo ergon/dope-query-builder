@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someAnyTypeField
 import ch.ergon.dope.helper.someAnyTypeSelectRawClause
@@ -26,8 +26,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayRangeIndexedExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support array for in expression`() {
@@ -42,7 +42,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> it.mul(it) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +60,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> concat("test", it) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { i, it -> i.mul(it.toNumber()) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -98,7 +98,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             condition = { i, _ -> i.isLessOrEqualThan(2) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -122,7 +122,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> concat(positionalParameterValue.asParameter(), it) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -151,7 +151,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -172,7 +172,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -191,7 +191,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -210,7 +210,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -232,7 +232,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -254,7 +254,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -276,7 +276,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -292,7 +292,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> it.toNumber().mul(it.toNumber()) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -310,7 +310,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { _, it -> concat("test", it.toStr()) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -329,7 +329,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             transformation = { i, it -> i.mul(it.toNumber()) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -348,7 +348,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
             condition = { i, _ -> i.isLessOrEqualThan(2) },
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -369,7 +369,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.toNumber()
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -388,7 +388,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.toNumber()
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -407,7 +407,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.toNumber()
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -429,7 +429,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.toNumber().add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -451,7 +451,7 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.toNumber().add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -473,6 +473,6 @@ class ArrayRangeIndexedExpressionTest : ManagerDependentTest {
                 it.toNumber().add(1)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someInt
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ReplaceExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ReplaceExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support replace`() {
@@ -25,7 +25,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ReplaceExpression(inStr, searchStr, replace, numberOfInstances)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -40,7 +40,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -53,7 +53,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -66,7 +66,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -79,7 +79,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -92,7 +92,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -105,7 +105,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -118,7 +118,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -131,7 +131,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -144,7 +144,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -157,7 +157,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -170,7 +170,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -183,7 +183,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -196,7 +196,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -209,7 +209,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -222,7 +222,7 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -235,6 +235,6 @@ class ReplaceExpressionTest : ManagerDependentTest {
 
         val actual = replace(inStr, searchStr, replace, numberOfInstances)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MILLENNIUM
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTruncMillisExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DateTruncMillisExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_TRUNC_MILLIS with field`() {
@@ -28,7 +28,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
             MONTH,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
             YEAR,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
             WEEK,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
         val expr = someNumberField().truncateTo(MILLENNIUM)
         val expected = DateTruncMillisExpression(someNumberField(), MILLENNIUM)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -81,6 +81,6 @@ class DateTruncMillisExpressionTest : ManagerDependentTest {
         val expr = 1620000000000L.truncateTo(SECOND)
         val expected = DateTruncMillisExpression(1620000000000L.toDopeType(), SECOND)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

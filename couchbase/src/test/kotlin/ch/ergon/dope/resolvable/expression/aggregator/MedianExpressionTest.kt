@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.aggregator
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.aggregate.median
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MedianExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class MedianExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support median`() {
@@ -21,7 +21,7 @@ class MedianExpressionTest : ManagerDependentTest {
         )
         val underTest = MedianExpression(someNumberField(), null)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -33,7 +33,7 @@ class MedianExpressionTest : ManagerDependentTest {
         )
         val underTest = MedianExpression(someNumberField(), ALL)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class MedianExpressionTest : ManagerDependentTest {
         )
         val underTest = MedianExpression(someNumberField(), DISTINCT)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -58,6 +58,6 @@ class MedianExpressionTest : ManagerDependentTest {
 
         val actual = median(field, quantifier)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

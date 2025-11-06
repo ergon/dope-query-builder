@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateDiffStrExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DateDiffStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_DIFF_STR with fields`() {
@@ -29,7 +29,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
             MONTH,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
             DAY,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
             YEAR,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val expr = someStringField().differenceIn(someStringField(), QUARTER)
         val expected = DateDiffStrExpression(someStringField(), someStringField(), QUARTER)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -85,7 +85,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val expr = someStringField().differenceIn(raw, QUARTER)
         val expected = DateDiffStrExpression(someStringField(), raw.toDopeType(), QUARTER)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -94,7 +94,7 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val expr = raw.differenceIn(someStringField(), WEEK)
         val expected = DateDiffStrExpression(raw.toDopeType(), someStringField(), WEEK)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -104,6 +104,6 @@ class DateDiffStrExpressionTest : ManagerDependentTest {
         val expr = date.differenceIn(other, QUARTER)
         val expected = DateDiffStrExpression(date.toDopeType(), other.toDopeType(), QUARTER)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

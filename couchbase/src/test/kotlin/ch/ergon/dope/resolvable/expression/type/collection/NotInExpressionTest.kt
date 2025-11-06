@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.collection
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
@@ -22,8 +22,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NotInExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class NotInExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support NOT IN expression`() {
@@ -32,7 +32,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(someNumberField(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(parameterValue.asParameter(), someNumberArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -90,7 +90,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -107,7 +107,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -122,7 +122,7 @@ class NotInExpressionTest : ManagerDependentTest {
         )
         val underTest = NotInExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -135,7 +135,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -146,7 +146,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -157,7 +157,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -168,7 +168,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -179,7 +179,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -190,7 +190,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -201,7 +201,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -212,7 +212,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(collection)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -223,7 +223,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(selectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -234,7 +234,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(selectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -245,7 +245,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(selectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -256,7 +256,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = value.notInArray(selectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -267,7 +267,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -278,7 +278,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -289,7 +289,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -300,7 +300,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -311,7 +311,7 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -322,6 +322,6 @@ class NotInExpressionTest : ManagerDependentTest {
 
         val actual = left.notInArray(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

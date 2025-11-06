@@ -1,17 +1,17 @@
 package ch.ergon.dope
 
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.util.formatPathToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryStringBuilderTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class QueryStringBuilderTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should format left and right`() {
@@ -40,9 +40,9 @@ class QueryStringBuilderTest : ManagerDependentTest {
     fun `should format symbol with arguments`() {
         val symbol = "testsymbol"
         val arguments = arrayOf(1.toDopeType(), "hallo".toDopeType())
-        val expected = "$symbol ${arguments.joinToString(", ") { it.toDopeQuery(manager).queryString }}"
+        val expected = "$symbol ${arguments.joinToString(", ") { it.toDopeQuery(resolver).queryString }}"
 
-        val actual = formatToQueryString(symbol, *arguments.map { it.toDopeQuery(manager).queryString }.toTypedArray())
+        val actual = formatToQueryString(symbol, *arguments.map { it.toDopeQuery(resolver).queryString }.toTypedArray())
 
         assertEquals(expected, actual)
     }
@@ -63,9 +63,9 @@ class QueryStringBuilderTest : ManagerDependentTest {
     fun `should format symbol with arguments and brackets`() {
         val symbol = "testsymbol"
         val arguments = arrayOf(1.toDopeType(), "hallo".toDopeType())
-        val expected = "$symbol(${arguments.joinToString(", ") { it.toDopeQuery(manager).queryString }})"
+        val expected = "$symbol(${arguments.joinToString(", ") { it.toDopeQuery(resolver).queryString }})"
 
-        val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toDopeQuery(manager).queryString }.toTypedArray())
+        val actual = formatToQueryStringWithBrackets(symbol, *arguments.map { it.toDopeQuery(resolver).queryString }.toTypedArray())
 
         assertEquals(expected, actual)
     }

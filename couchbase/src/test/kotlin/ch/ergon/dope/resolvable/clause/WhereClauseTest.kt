@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someSelectClause
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WhereClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class WhereClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support delete where`() {
@@ -25,7 +25,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteWhereClause(someBooleanExpression(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteWhereClause(parameterValue.asParameter(parameterName), someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -67,7 +67,7 @@ class WhereClauseTest : ManagerDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -77,7 +77,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = SelectWhereClause(someBooleanExpression(), someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -91,7 +91,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = SelectWhereClause(parameterValue.asParameter(), someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -106,7 +106,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = SelectWhereClause(parameterValue.asParameter(parameterName), someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -121,7 +121,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -141,7 +141,7 @@ class WhereClauseTest : ManagerDependentTest {
             someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -154,7 +154,7 @@ class WhereClauseTest : ManagerDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -164,7 +164,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateWhereClause(someBooleanExpression(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -178,7 +178,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateWhereClause(parameterValue.asParameter(), someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -193,7 +193,7 @@ class WhereClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateWhereClause(parameterValue.asParameter(parameterName), someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -206,6 +206,6 @@ class WhereClauseTest : ManagerDependentTest {
 
         val actual = parentClause.where(condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

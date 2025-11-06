@@ -31,7 +31,7 @@ class UseTest {
             .from(
                 someBucket().useKeys("someId"),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class UseTest {
             .from(
                 someBucket().useKeys(someStringField()),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class UseTest {
                     listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class UseTest {
                     someStringArrayField(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class UseTest {
                     QueryBuilder.selectRaw(someStringField()),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -107,7 +107,7 @@ class UseTest {
             .from(
                 someBucket().useKeys(listOf("someId1", "someId2")),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -123,7 +123,7 @@ class UseTest {
                     concat("some", "Id"),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -138,7 +138,7 @@ class UseTest {
                     "someId",
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -153,7 +153,7 @@ class UseTest {
                     someStringField(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -168,7 +168,7 @@ class UseTest {
                     listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -183,7 +183,7 @@ class UseTest {
                     someStringArrayField(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -198,7 +198,7 @@ class UseTest {
                     concat("some", "Id"),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -213,7 +213,7 @@ class UseTest {
                     "someId",
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -228,7 +228,7 @@ class UseTest {
                     someStringField(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -243,7 +243,7 @@ class UseTest {
                     listOf("someId".toDopeType(), "anotherId".toDopeType()).toDopeType(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -258,7 +258,7 @@ class UseTest {
                     someStringArrayField(),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -273,7 +273,7 @@ class UseTest {
                     concat("some", "Id"),
                 ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -287,7 +287,7 @@ class UseTest {
             .from(
                 someBucket().useFtsIndex("someIndex").useIndex("otherIndex").useGsiIndex("index3"),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -306,7 +306,7 @@ class UseTest {
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_BUILD,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -325,7 +325,7 @@ class UseTest {
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -344,7 +344,7 @@ class UseTest {
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 keysOrIndexHint = keysHint("someID"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -363,7 +363,7 @@ class UseTest {
                 someBucket("anotherBucket"),
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 keysOrIndexHint = indexHint("someID"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -383,7 +383,7 @@ class UseTest {
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = HASH_PROBE,
                 keysOrIndexHint = indexHint("someID"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -403,7 +403,7 @@ class UseTest {
                 someNumberField(bucket = someBucket()).isEqualTo(someNumberField(bucket = someBucket("anotherBucket"))),
                 hashOrNestedLoopHint = NESTED_LOOP,
                 keysOrIndexHint = keysHint("someID"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

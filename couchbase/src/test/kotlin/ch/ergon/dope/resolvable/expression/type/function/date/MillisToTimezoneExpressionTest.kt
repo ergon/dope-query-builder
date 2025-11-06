@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MillisToTimezoneExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class MillisToTimezoneExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support MILLIS_TO_TZ with tz field and no format`() {
@@ -24,7 +24,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
         )
 
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -39,7 +39,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             tz.asParameter(),
         )
 
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -55,7 +55,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             tz.asParameter(name),
         )
 
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -71,7 +71,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             fmtField,
         )
 
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -88,7 +88,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             fmt.asParameter(),
         )
 
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -107,7 +107,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             fmt.asParameter(fmtName),
         )
 
-        assertEquals(expected, underTest.toDopeQuery(manager))
+        assertEquals(expected, underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -118,7 +118,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -129,7 +129,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             "UTC".toDopeType(),
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -140,7 +140,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
             someStringField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -151,7 +151,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
             "yyyy".toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -162,7 +162,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             "Asia/Kolkata".toDopeType(),
             someStringField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -173,7 +173,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             "Europe/Paris".toDopeType(),
             "dd/MM".toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -184,7 +184,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -195,7 +195,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             "UTC".toDopeType(),
             null,
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -206,7 +206,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
             someStringField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -217,7 +217,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             someStringField(),
             "yyyy".toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -228,7 +228,7 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             "America/Toronto".toDopeType(),
             someStringField(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -239,6 +239,6 @@ class MillisToTimezoneExpressionTest : ManagerDependentTest {
             "Asia/Tokyo".toDopeType(),
             "MM-dd".toDopeType(),
         )
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

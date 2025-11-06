@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanSelectRawClause
@@ -19,8 +19,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayRemoveExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayRemoveExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_REMOVE`() {
@@ -29,7 +29,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -43,7 +43,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -57,7 +57,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +72,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -87,7 +87,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(parameterName), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -131,7 +131,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -142,7 +142,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -153,7 +153,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -164,7 +164,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -175,7 +175,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -186,7 +186,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -197,7 +197,7 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -208,6 +208,6 @@ class ArrayRemoveExpressionTest : ManagerDependentTest {
 
         val actual = arrayRemove(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

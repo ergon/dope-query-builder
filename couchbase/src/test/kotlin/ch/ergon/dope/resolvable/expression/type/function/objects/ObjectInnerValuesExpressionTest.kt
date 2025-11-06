@@ -1,14 +1,14 @@
 package ch.ergon.dope.resolvable.expression.type.function.objects
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someObjectField
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectInnerValuesExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectInnerValuesExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support object inner values expression`() {
@@ -17,7 +17,7 @@ class ObjectInnerValuesExpressionTest : ManagerDependentTest {
         )
         val underTest = ObjectInnerValuesExpression(someObjectField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -29,6 +29,6 @@ class ObjectInnerValuesExpressionTest : ManagerDependentTest {
 
         val actual = objectExpression.getInnerValues()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

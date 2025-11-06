@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someDeleteClause
 import ch.ergon.dope.helper.someNumberArrayField
@@ -22,8 +22,8 @@ import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ReturningClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ReturningClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support delete returning`() {
@@ -32,7 +32,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteReturningClause(someStringField(), parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +44,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteReturningClause(asterisk(), parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -56,7 +56,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteReturningSingleClause(someStringField(), RAW, parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteReturningSingleClause(someStringField(), VALUE, parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -80,7 +80,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = DeleteReturningSingleClause(someStringField(), ELEMENT, parentClause = someDeleteClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -96,7 +96,7 @@ class ReturningClauseTest : ManagerDependentTest {
             parentClause = someDeleteClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -115,7 +115,7 @@ class ReturningClauseTest : ManagerDependentTest {
             parentClause = someDeleteClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -130,7 +130,7 @@ class ReturningClauseTest : ManagerDependentTest {
             parentClause = someDeleteClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -143,7 +143,7 @@ class ReturningClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -159,7 +159,7 @@ class ReturningClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(stringField, numberArrayField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -179,7 +179,7 @@ class ReturningClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(stringConcatenation, asterisk, numberArrayField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -189,7 +189,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateReturningClause(someStringField(), parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -201,7 +201,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateReturningClause(asterisk(), parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -213,7 +213,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateReturningSingleClause(someStringField(), RAW, parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -225,7 +225,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateReturningSingleClause(someStringField(), VALUE, parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -237,7 +237,7 @@ class ReturningClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateReturningSingleClause(someStringField(), ELEMENT, parentClause = someUpdateClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -253,7 +253,7 @@ class ReturningClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -272,7 +272,7 @@ class ReturningClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -285,7 +285,7 @@ class ReturningClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -301,7 +301,7 @@ class ReturningClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(stringField, numberArrayField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -321,6 +321,6 @@ class ReturningClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(stringConcatenation, asterisk, numberArrayField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

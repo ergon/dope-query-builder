@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.aggregator
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.aggregate.variance
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class VarianceExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class VarianceExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support variance`() {
@@ -21,7 +21,7 @@ class VarianceExpressionTest : ManagerDependentTest {
         )
         val underTest = VarianceExpression(someNumberField(), null)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -33,7 +33,7 @@ class VarianceExpressionTest : ManagerDependentTest {
         )
         val underTest = VarianceExpression(someNumberField(), ALL)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class VarianceExpressionTest : ManagerDependentTest {
         )
         val underTest = VarianceExpression(someNumberField(), DISTINCT)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -58,6 +58,6 @@ class VarianceExpressionTest : ManagerDependentTest {
 
         val actual = variance(field, quantifier)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,17 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.conditional
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IfMissingOrNullExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class IfMissingOrNullExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support if missing or null`() {
@@ -20,7 +20,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -49,7 +49,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(parameterName), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -110,7 +110,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -123,7 +123,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
 
         val actual = ifMissingOrNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -133,7 +133,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -147,7 +147,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -162,7 +162,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(parameterName), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -176,7 +176,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -191,7 +191,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -206,7 +206,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -223,7 +223,7 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
         )
         val underTest = CoalesceExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -236,6 +236,6 @@ class IfMissingOrNullExpressionTest : ManagerDependentTest {
 
         val actual = coalesce(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

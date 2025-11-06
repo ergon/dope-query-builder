@@ -1,10 +1,10 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
@@ -20,8 +20,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SetClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class SetClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support set clause`() {
@@ -33,7 +33,7 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -79,7 +79,7 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -96,7 +96,7 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -114,7 +114,7 @@ class SetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class SetClauseTest : ManagerDependentTest {
 
         val actual = parentClause.set(stringField.toNewValue(stringValue))
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -140,7 +140,7 @@ class SetClauseTest : ManagerDependentTest {
 
         val actual = parentClause.set(numberField.toNewValue(numberValue))
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -152,7 +152,7 @@ class SetClauseTest : ManagerDependentTest {
 
         val actual = parentClause.set(stringField.toNewValue(stringValue))
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -164,7 +164,7 @@ class SetClauseTest : ManagerDependentTest {
 
         val actual = parentClause.set(booleanField.toNewValue(booleanValue))
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -188,7 +188,7 @@ class SetClauseTest : ManagerDependentTest {
         val actual = parentClause
             .set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue), booleanField.toNewValue(booleanValue))
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -219,6 +219,6 @@ class SetClauseTest : ManagerDependentTest {
             booleanField.toNewValue(booleanValue),
         )
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someUpdateClause
@@ -10,8 +10,8 @@ import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UnsetClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class UnsetClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support unset clause`() {
@@ -23,7 +23,7 @@ class UnsetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class UnsetClauseTest : ManagerDependentTest {
             parentClause = someUpdateClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -52,7 +52,7 @@ class UnsetClauseTest : ManagerDependentTest {
 
         val actual = parentClause.unset(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -68,6 +68,6 @@ class UnsetClauseTest : ManagerDependentTest {
 
         val actual = parentClause.unset(stringField, numberField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -16,8 +16,8 @@ import ch.ergon.dope.validtype.ValidType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectEntryPrimitiveTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectEntryPrimitiveTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support object entry`() {
@@ -27,7 +27,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
         )
         val underTest = ObjectEntryPrimitive(someStringField(), someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -41,7 +41,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
         )
         val underTest = ObjectEntryPrimitive(someStringField(), value.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual = key.toObjectEntry(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -65,7 +65,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual = key.toObjectEntry(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -76,7 +76,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
         )
         val underTest = ObjectEntry<StringType>(someObjectField(), someString())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -89,7 +89,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<StringType> = objectField.getString(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -100,7 +100,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<NumberType> = objectField.getNumber(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -111,7 +111,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<BooleanType> = objectField.getBoolean(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -122,7 +122,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ObjectType> = objectField.getObject(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -133,7 +133,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ArrayType<StringType>> = objectField.getArray(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -144,7 +144,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ArrayType<StringType>> = objectField.getStringArray(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -155,7 +155,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ArrayType<NumberType>> = objectField.getNumberArray(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -166,7 +166,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ArrayType<BooleanType>> = objectField.getBooleanArray(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -177,7 +177,7 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ArrayType<ObjectType>> = objectField.getObjectArray(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -188,6 +188,6 @@ class ObjectEntryPrimitiveTest : ManagerDependentTest {
 
         val actual: ObjectEntry<ArrayType<ValidType>> = objectField.getAnyTypeArray(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

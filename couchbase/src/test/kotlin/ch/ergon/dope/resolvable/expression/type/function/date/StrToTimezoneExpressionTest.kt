@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StrToTimezoneExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class StrToTimezoneExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support STR_TO_TZ with field timezone`() {
@@ -23,7 +23,7 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         )
         val underTest = StrToTimezoneExpression(dateField, tzField)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -38,7 +38,7 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         )
         val underTest = StrToTimezoneExpression(date, tz.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         )
         val underTest = StrToTimezoneExpression(date, tz.asParameter(name))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -64,7 +64,7 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         val expr = someStringField().toTimeZone("Europe/London".toDopeType())
         val expected = StrToTimezoneExpression(someStringField(), "Europe/London".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -73,7 +73,7 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         val expr = raw.toTimeZone("Asia/Tokyo")
         val expected = StrToTimezoneExpression(raw.toDopeType(), "Asia/Tokyo".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -82,7 +82,7 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         val expr = field.toTimeZone("Asia/Tokyo")
         val expected = StrToTimezoneExpression(field, "Asia/Tokyo".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -91,6 +91,6 @@ class StrToTimezoneExpressionTest : ManagerDependentTest {
         val expr = raw.toTimeZone("Asia/Tokyo".toDopeType())
         val expected = StrToTimezoneExpression(raw.toDopeType(), "Asia/Tokyo".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

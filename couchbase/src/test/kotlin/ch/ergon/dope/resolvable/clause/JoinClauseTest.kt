@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanExpression
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
@@ -26,8 +26,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class JoinClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class JoinClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support standard join`() {
@@ -40,7 +40,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -59,7 +59,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -98,7 +98,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -117,7 +117,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -135,7 +135,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, condition = condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -149,7 +149,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -168,7 +168,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -186,7 +186,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -207,7 +207,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -226,7 +226,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -240,7 +240,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, condition = condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -254,7 +254,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -270,7 +270,7 @@ class JoinClauseTest : ManagerDependentTest {
         val underTest =
             InnerJoinOnConditionClause(someBucket(), condition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -288,7 +288,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -309,7 +309,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -328,7 +328,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -342,7 +342,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, condition = condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -356,7 +356,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -371,7 +371,7 @@ class JoinClauseTest : ManagerDependentTest {
         )
         val underTest = RightJoinClause(someBucket(), condition = parameterValue.asParameter(parameterName), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -389,7 +389,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -410,7 +410,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -429,7 +429,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -443,7 +443,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.rightJoin(bucket, condition = condition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -453,7 +453,7 @@ class JoinClauseTest : ManagerDependentTest {
         )
         val underTest = StandardJoinOnKeyClause(someBucket(), key = someStringField(), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -472,7 +472,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -490,7 +490,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -504,7 +504,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, key = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -516,7 +516,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, keys = someString)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -528,7 +528,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, keys = someStrings)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -540,7 +540,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, keys = someStrings)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -550,7 +550,7 @@ class JoinClauseTest : ManagerDependentTest {
         )
         val underTest = LeftJoinOnKeyClause(someBucket(), key = someStringField(), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -569,7 +569,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -587,7 +587,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -601,7 +601,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, key = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -613,7 +613,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, key = someString)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -625,7 +625,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, keys = someStrings)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -637,7 +637,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, keys = someStrings)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -647,7 +647,7 @@ class JoinClauseTest : ManagerDependentTest {
         )
         val underTest = InnerJoinOnKeyClause(someBucket(), key = someStringField(), parentClause = someSelectClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -666,7 +666,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -684,7 +684,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -698,7 +698,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, key = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -710,7 +710,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, key = someString)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -722,7 +722,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, keys = someStrings)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -734,7 +734,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, keys = someStrings)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -749,7 +749,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -769,7 +769,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -788,7 +788,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -803,7 +803,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -818,7 +818,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -838,7 +838,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -857,7 +857,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -872,7 +872,7 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -887,7 +887,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -907,7 +907,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -926,7 +926,7 @@ class JoinClauseTest : ManagerDependentTest {
             parentClause = someSelectClause(parameterValue.asParameter()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -941,6 +941,6 @@ class JoinClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

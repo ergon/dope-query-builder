@@ -28,7 +28,7 @@ class SearchFunctionsIntegrationTest : BaseIntegrationTest() {
                         ),
                     ),
                 ),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

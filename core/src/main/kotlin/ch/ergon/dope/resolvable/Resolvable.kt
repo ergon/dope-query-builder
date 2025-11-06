@@ -1,10 +1,10 @@
 package ch.ergon.dope.resolvable
 
 import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
+import ch.ergon.dope.resolver.QueryResolver
 
 interface Resolvable {
-    fun <T : DopeQuery> toDopeQuery(manager: DopeQueryManager<T>): T = manager.resolver.resolve(manager, this)
+    fun <T : DopeQuery> toDopeQuery(resolver: QueryResolver<T>): T = resolver.resolve(this)
 }
 
 interface Selectable : Resolvable

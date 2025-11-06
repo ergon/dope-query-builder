@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanSelectRawClause
@@ -21,8 +21,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayBinarySearchExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ArrayBinarySearchExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ARRAY_BINARY_SEARCH`() {
@@ -31,7 +31,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +60,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(parameterName), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -74,7 +74,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -89,7 +89,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -104,7 +104,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
         )
         val underTest = ArrayBinarySearchExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -124,7 +124,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
             parameterValue.asParameter(parameterName2),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -137,7 +137,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -148,7 +148,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -159,7 +159,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -170,7 +170,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(array, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -181,7 +181,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -192,7 +192,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -203,7 +203,7 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -214,6 +214,6 @@ class ArrayBinarySearchExpressionTest : ManagerDependentTest {
 
         val actual = arrayBinarySearch(selectClause, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

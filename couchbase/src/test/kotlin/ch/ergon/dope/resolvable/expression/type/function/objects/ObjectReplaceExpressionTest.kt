@@ -1,15 +1,15 @@
 package ch.ergon.dope.resolvable.expression.type.function.objects
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectReplaceExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectReplaceExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support object replace expression`() {
@@ -18,7 +18,7 @@ class ObjectReplaceExpressionTest : ManagerDependentTest {
         )
         val underTest = ObjectReplaceExpression(someObjectField(), "key".toDopeType(), "value".toDopeType())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -32,6 +32,6 @@ class ObjectReplaceExpressionTest : ManagerDependentTest {
 
         val actual = objectExpression.replace(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

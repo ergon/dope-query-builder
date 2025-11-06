@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateAddMillisExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DateAddMillisExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_ADD_MILLIS with fields`() {
@@ -29,7 +29,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
             DAY,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
             DAY,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
             DAY,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
         val underTest = array.addDateUnit(someNumberField(), HOUR)
         val expected = DateAddMillisExpression(array, someNumberField(), HOUR)
 
-        assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -86,7 +86,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
         val underTest = array.addDateUnit(10, MONTH)
         val expected = DateAddMillisExpression(array, 10.toDopeType(), MONTH)
 
-        assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -94,7 +94,7 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
         val underTest = 15.addDateUnit(someNumberField(), YEAR)
         val expected = DateAddMillisExpression(15.toDopeType(), someNumberField(), YEAR)
 
-        assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), underTest.toDopeQuery(resolver))
     }
 
     @Test
@@ -103,6 +103,6 @@ class DateAddMillisExpressionTest : ManagerDependentTest {
         val underTest = 15.addDateUnit(otherDate, YEAR)
         val expected = DateAddMillisExpression(15.toDopeType(), otherDate.toDopeType(), YEAR)
 
-        assertEquals(expected.toDopeQuery(manager), underTest.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), underTest.toDopeQuery(resolver))
     }
 }

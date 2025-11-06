@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause.setoperators
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.resolvable.clause.SetOperator
@@ -18,8 +18,8 @@ import ch.ergon.dope.resolvable.clause.unionAll
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SetOperatorTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class SetOperatorTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support union operator with two select statements`() {
@@ -33,7 +33,7 @@ class SetOperatorTest : ManagerDependentTest {
             duplicatesAllowed = false,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class SetOperatorTest : ManagerDependentTest {
             duplicatesAllowed = true,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class SetOperatorTest : ManagerDependentTest {
 
         val actual = leftSelectClause.union(rightSelectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -74,7 +74,7 @@ class SetOperatorTest : ManagerDependentTest {
 
         val actual = leftSelectClause.unionAll(rightSelectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -89,7 +89,7 @@ class SetOperatorTest : ManagerDependentTest {
             duplicatesAllowed = false,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -106,7 +106,7 @@ class SetOperatorTest : ManagerDependentTest {
             duplicatesAllowed = true,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -119,7 +119,7 @@ class SetOperatorTest : ManagerDependentTest {
 
         val actual = leftSelectClause.intersect(rightSelectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -130,7 +130,7 @@ class SetOperatorTest : ManagerDependentTest {
 
         val actual = leftSelectClause.intersectAll(rightSelectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -145,7 +145,7 @@ class SetOperatorTest : ManagerDependentTest {
             duplicatesAllowed = false,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -162,7 +162,7 @@ class SetOperatorTest : ManagerDependentTest {
             duplicatesAllowed = true,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -175,7 +175,7 @@ class SetOperatorTest : ManagerDependentTest {
 
         val actual = leftSelectClause.except(rightSelectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -186,6 +186,6 @@ class SetOperatorTest : ManagerDependentTest {
 
         val actual = leftSelectClause.exceptAll(rightSelectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

@@ -1,15 +1,15 @@
 package ch.ergon.dope.resolvable.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UpdateClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class UpdateClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support update clause`() {
@@ -18,7 +18,7 @@ class UpdateClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateClause(someBucket())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -30,7 +30,7 @@ class UpdateClauseTest : ManagerDependentTest {
         )
         val underTest = UpdateClause(someBucket().alias("bucket"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }

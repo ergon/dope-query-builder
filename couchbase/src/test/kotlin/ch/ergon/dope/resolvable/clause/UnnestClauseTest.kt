@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someFromClause
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someSelectClause
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UnnestClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class UnnestClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support unnest`() {
@@ -25,7 +25,7 @@ class UnnestClauseTest : ManagerDependentTest {
         )
         val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class UnnestClauseTest : ManagerDependentTest {
         )
         val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -51,7 +51,7 @@ class UnnestClauseTest : ManagerDependentTest {
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class UnnestClauseTest : ManagerDependentTest {
         )
         val underTest = AliasedUnnestClause(parameterValue.asParameter(parameterName).alias("value"), someFromClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -84,7 +84,7 @@ class UnnestClauseTest : ManagerDependentTest {
             someFromClause(parent = someSelectClause(parameterValue.asParameter())),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -104,7 +104,7 @@ class UnnestClauseTest : ManagerDependentTest {
             someFromClause(parent = someSelectClause(parameterValue.asParameter(parameterName))),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -117,6 +117,6 @@ class UnnestClauseTest : ManagerDependentTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

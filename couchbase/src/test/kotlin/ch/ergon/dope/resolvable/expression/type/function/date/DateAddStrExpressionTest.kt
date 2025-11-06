@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateAddStrExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DateAddStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_ADD_STR with fields`() {
@@ -29,7 +29,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
             MONTH,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
             MONTH,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
             MONTH,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val expr = someStringField().addDateUnit(someNumberField(), DAY)
         val expected = DateAddStrExpression(someStringField(), someNumberField(), DAY)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -84,7 +84,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val expr = someStringField().addDateUnit(7, WEEK)
         val expected = DateAddStrExpression(someStringField(), 7.toDopeType(), WEEK)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -93,7 +93,7 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val expr = raw.addDateUnit(1, YEAR)
         val expected = DateAddStrExpression(raw.toDopeType(), 1.toDopeType(), YEAR)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -103,6 +103,6 @@ class DateAddStrExpressionTest : ManagerDependentTest {
         val expr = raw.addDateUnit(numberField, YEAR)
         val expected = DateAddStrExpression(raw.toDopeType(), numberField, YEAR)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

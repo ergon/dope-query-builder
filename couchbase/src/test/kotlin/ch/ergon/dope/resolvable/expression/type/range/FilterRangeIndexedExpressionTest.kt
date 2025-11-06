@@ -1,8 +1,7 @@
 package ch.ergon.dope.resolvable.expression.type.range
 
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someAnyTypeField
 import ch.ergon.dope.helper.someAnyTypeSelectRawClause
@@ -16,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FilterRangeIndexedExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class FilterRangeIndexedExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support filter for in expression extension with condition type`() {
@@ -35,7 +34,7 @@ class FilterRangeIndexedExpressionTest : ManagerDependentTest {
                 i.isLessOrEqualThan(2)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -54,7 +53,7 @@ class FilterRangeIndexedExpressionTest : ManagerDependentTest {
                 i.isLessOrEqualThan(2)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -73,7 +72,7 @@ class FilterRangeIndexedExpressionTest : ManagerDependentTest {
                 i.isLessOrEqualThan(2)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -92,7 +91,7 @@ class FilterRangeIndexedExpressionTest : ManagerDependentTest {
                 i.isLessOrEqualThan(2)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -111,7 +110,7 @@ class FilterRangeIndexedExpressionTest : ManagerDependentTest {
                 i.isLessOrEqualThan(2)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -130,6 +129,6 @@ class FilterRangeIndexedExpressionTest : ManagerDependentTest {
                 i.isLessOrEqualThan(2)
             }
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

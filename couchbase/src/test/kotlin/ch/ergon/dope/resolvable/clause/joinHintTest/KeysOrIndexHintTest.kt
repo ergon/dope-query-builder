@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.clause.joinHintTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -20,8 +20,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class KeysOrIndexHintTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class KeysOrIndexHintTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support use single key hint`() {
@@ -30,7 +30,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         )
         val underTest = KeysHint(someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -42,7 +42,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         )
         val underTest = KeysHint(someStringArrayField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = keysHint(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -64,7 +64,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = keysHint(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -74,7 +74,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = keysHint(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -84,7 +84,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = keysHint(keys)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -94,7 +94,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = keysHint(key)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -110,7 +110,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = keysHint(key1, key2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -120,7 +120,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         )
         val underTest = IndexHint(listOf(IndexReference()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -132,7 +132,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         )
         val underTest = IndexHint(listOf(IndexReference("index")))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -144,7 +144,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         )
         val underTest = IndexHint(listOf(IndexReference("index", USING_GSI)))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -156,7 +156,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
         )
         val underTest = IndexHint(listOf(IndexReference("index", USING_FTS)))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -175,7 +175,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
             ),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -186,7 +186,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = indexHint()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -196,7 +196,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = indexHint(indexName)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -205,7 +205,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = gsiIndexHint()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -215,7 +215,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = gsiIndexHint(indexName)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -224,7 +224,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = ftsIndexHint()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -234,7 +234,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = ftsIndexHint(indexName)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -245,7 +245,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = indexHint(indexName1).indexHint(indexName2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -255,7 +255,7 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = indexHint(indexName).gsiIndexHint()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -265,6 +265,6 @@ class KeysOrIndexHintTest : ManagerDependentTest {
 
         val actual = indexHint(indexName).ftsIndexHint()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

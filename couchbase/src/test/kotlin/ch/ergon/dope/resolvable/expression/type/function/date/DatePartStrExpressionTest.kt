@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
@@ -14,8 +14,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DatePartStrExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DatePartStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_PART_STR with field`() {
@@ -27,7 +27,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
             DAY,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +44,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
             MONTH,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -62,7 +62,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
             YEAR,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +72,7 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         val expr = someStringField().extractDateComponent(WEEK)
         val expected = DatePartStrExpression(someStringField(), WEEK)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -81,6 +81,6 @@ class DatePartStrExpressionTest : ManagerDependentTest {
         val expr = raw.extractDateComponent(DateComponentType.DAY_OF_YEAR)
         val expected = DatePartStrExpression(raw.toDopeType(), DateComponentType.DAY_OF_YEAR)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

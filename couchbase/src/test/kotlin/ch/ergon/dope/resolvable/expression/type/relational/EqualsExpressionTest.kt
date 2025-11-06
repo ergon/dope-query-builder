@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class EqualsExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class EqualsExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support equals`() {
@@ -25,7 +25,7 @@ class EqualsExpressionTest : ManagerDependentTest {
         )
         val underTest = EqualsExpression(someNumberField(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class EqualsExpressionTest : ManagerDependentTest {
         )
         val underTest = EqualsExpression(parameterValue.asParameter(), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class EqualsExpressionTest : ManagerDependentTest {
         )
         val underTest = EqualsExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class EqualsExpressionTest : ManagerDependentTest {
         )
         val underTest = EqualsExpression(someNumberField(), parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -83,7 +83,7 @@ class EqualsExpressionTest : ManagerDependentTest {
         )
         val underTest = EqualsExpression(parameterValue.asParameter(parameterName), someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -100,7 +100,7 @@ class EqualsExpressionTest : ManagerDependentTest {
         )
         val underTest = EqualsExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -113,7 +113,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -124,7 +124,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -135,7 +135,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -146,7 +146,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -157,7 +157,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -168,7 +168,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -179,7 +179,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -190,7 +190,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -201,7 +201,7 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -212,6 +212,6 @@ class EqualsExpressionTest : ManagerDependentTest {
 
         val actual = left.isEqualTo(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

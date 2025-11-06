@@ -31,7 +31,7 @@ class TypeFunctionsTest {
             )
             .where(
                 someNumberArrayField().isArray(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -46,7 +46,7 @@ class TypeFunctionsTest {
             )
             .where(
                 someNumberField().isAtom(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class TypeFunctionsTest {
             )
             .where(
                 someBooleanField().isBoolean(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class TypeFunctionsTest {
             )
             .where(
                 someNumberField().isNumber(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -91,7 +91,7 @@ class TypeFunctionsTest {
             )
             .where(
                 someStringField().isString(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -103,7 +103,7 @@ class TypeFunctionsTest {
         val actual = QueryBuilder
             .select(
                 someNumber(1).toDopeType().toArray().get(0).add(1),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

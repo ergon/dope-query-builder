@@ -1,11 +1,9 @@
 package ch.ergon.dope.buildTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -15,8 +13,8 @@ import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchSc
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SearchFunctionsTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class SearchFunctionsTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support search function on field and string query`() {
@@ -33,7 +31,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                     someStringField(bucket = bucket),
                     "+something",
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -53,7 +51,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                     bucket,
                     "stringField:\"something\"",
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -74,7 +72,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                         "match" to "something",
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -102,7 +100,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                         ),
                     ),
                 ),
-            ).limit(10).build(CouchbaseResolver).queryString
+            ).limit(10).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -126,7 +124,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                         "out" to "outName",
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -146,7 +144,7 @@ class SearchFunctionsTest : ManagerDependentTest {
                     someStringField(),
                     "+something",
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

@@ -1,10 +1,8 @@
 package ch.ergon.dope.buildTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someFromClause
@@ -49,8 +47,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class QueryBuilderTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class QueryBuilderTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should Equal Simple String`() {
@@ -61,7 +59,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someStringField(),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -76,7 +74,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 someStringField().isEqualTo("Ian".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -89,7 +87,7 @@ class QueryBuilderTest : ManagerDependentTest {
             someBucket(),
         ).where(
             someStringField().isEqualTo("Ian".toDopeType()),
-        ).build(CouchbaseResolver).queryString
+        ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -104,7 +102,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 someStringField().isEqualTo("Ian".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -120,7 +118,7 @@ class QueryBuilderTest : ManagerDependentTest {
             someBucket(),
         ).where(
             someStringField().isEqualTo("Ian".toDopeType()),
-        ).build(CouchbaseResolver).queryString
+        ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -136,7 +134,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 someStringField().isEqualTo("Peter".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -152,7 +150,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someStringField(),
             ).from(someBucket()).where(
                 someStringField().isEqualTo("Jackson".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -168,7 +166,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someStringField().alias("LastName"),
             ).from(someBucket()).where(
                 someStringField().isEqualTo("Jackson".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -183,7 +181,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 someNumberField().isLessThan(50.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -200,7 +198,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someNumberField().isLessThan(50.toDopeType()).and(
                     someStringField().isEqualTo("Mr.".toDopeType()),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -221,7 +219,7 @@ class QueryBuilderTest : ManagerDependentTest {
                         ("M" + "r.").toDopeType(),
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -235,7 +233,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -249,7 +247,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someNumberField().isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -263,7 +261,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 3.toDopeType().isNotEqualTo(someNumberField()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -277,7 +275,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -291,7 +289,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isNotEqualTo("5".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -305,7 +303,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -319,7 +317,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -333,7 +331,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 3.toDopeType().isGreaterOrEqualThan(someNumberField()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -347,7 +345,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -361,7 +359,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -375,7 +373,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan(someStringField()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -389,7 +387,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 12.toDopeType().isLessOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -403,7 +401,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someNumberField().isLessOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -417,7 +415,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 3.toDopeType().isLessOrEqualThan(someNumberField()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -431,7 +429,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -445,7 +443,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .from(someBucket())
             .where(
                 someStringField().isLessOrEqualThan("5".toDopeType()),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -468,7 +466,7 @@ class QueryBuilderTest : ManagerDependentTest {
                         someStringField().isEqualTo("friend".toDopeType()),
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -486,7 +484,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someStringField("email").isLike(
                     "%@yahoo.com".toDopeType(),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -502,7 +500,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 someBucket(),
             ).where(
                 someStringField("email").isLike(concat(someStringField("name"), "%", "@gmail.com")),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -523,7 +521,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 ).and(
                     someNumberField().isEqualTo(46.toDopeType()),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -535,7 +533,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 NULL,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -547,7 +545,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val actual: String = QueryBuilder
             .select(
                 MISSING,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -579,7 +577,7 @@ class QueryBuilderTest : ManagerDependentTest {
                         "run".toDopeType(),
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -589,7 +587,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected = "SELECT TRUE"
 
         val actual: String = QueryBuilder
-            .select(TRUE).build(CouchbaseResolver).queryString
+            .select(TRUE).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -599,7 +597,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected = "SELECT FALSE"
 
         val actual: String = QueryBuilder
-            .select(FALSE).build(CouchbaseResolver).queryString
+            .select(FALSE).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -609,7 +607,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected = "SELECT \"FALSE\""
 
         val actual: String = QueryBuilder
-            .select("FALSE".toDopeType()).build(CouchbaseResolver).queryString
+            .select("FALSE".toDopeType()).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -623,7 +621,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 TRUE.isEqualTo(
                     TRUE,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -637,7 +635,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 TRUE.and(
                     FALSE,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -651,7 +649,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 TRUE.and(
                     false,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -665,7 +663,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 true.and(
                     FALSE,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -679,7 +677,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 TRUE.or(
                     FALSE,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -693,7 +691,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 TRUE.or(
                     false,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -707,7 +705,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 true.or(
                     FALSE,
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -717,7 +715,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val expected = "SELECT NOT TRUE"
 
         val actual: String = QueryBuilder
-            .select(not(TRUE)).build(CouchbaseResolver).queryString
+            .select(not(TRUE)).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -733,7 +731,7 @@ class QueryBuilderTest : ManagerDependentTest {
                         FALSE,
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -751,7 +749,7 @@ class QueryBuilderTest : ManagerDependentTest {
                         ),
                     ),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -762,7 +760,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual: String = TRUE.isEqualTo(
             FALSE,
-        ).toDopeQuery(manager).queryString
+        ).toDopeQuery(resolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -778,7 +776,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 nowString().alias("full_date"),
                 nowString("invalid date").alias("invalid_date"),
                 nowString("1111-11-11").alias("short_date"),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -789,7 +787,7 @@ class QueryBuilderTest : ManagerDependentTest {
 
         val actual = QueryBuilder.selectRaw(
             not(TRUE.or(FALSE)),
-        ).build(CouchbaseResolver).queryString
+        ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -802,7 +800,7 @@ class QueryBuilderTest : ManagerDependentTest {
             someStringField("name"),
         ).from(
             someBucket(),
-        ).build(CouchbaseResolver).queryString
+        ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -812,7 +810,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val getSomething = { "something" }
         val expected = "TRUE"
 
-        val actual = (getSomething() == "something").toDopeType().toDopeQuery(manager).queryString
+        val actual = (getSomething() == "something").toDopeType().toDopeQuery(resolver).queryString
 
         assertEquals(expected, actual)
     }
@@ -825,7 +823,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val actual = QueryBuilder
             .select(someBucket.asterisk())
             .from(someBucket)
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -838,7 +836,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val actual = QueryBuilder
             .select(someBucket.asterisk())
             .from(someBucket)
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -855,7 +853,7 @@ class QueryBuilderTest : ManagerDependentTest {
                 case().condition(someBooleanField().resultsIn(someNumberField())).otherwise(someStringField()).alias("alias"),
             )
             .from(someBucket)
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -869,7 +867,7 @@ class QueryBuilderTest : ManagerDependentTest {
         val actual = QueryBuilder
             .select(bucket1, bucket2)
             .from(bucket2)
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -883,7 +881,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .union(
                 QueryBuilder.selectFrom(someBucket("bucket2")),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -902,7 +900,7 @@ class QueryBuilderTest : ManagerDependentTest {
                             .selectFrom(someBucket("bucket3")),
                     ),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -916,7 +914,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .selectFrom(someBucket("bucket1"))
             .intersectAll(QueryBuilder.selectFrom(someBucket("bucket2")))
             .unionAll(QueryBuilder.selectFrom(someBucket("bucket3")))
-            .exceptAll(someFromClause(someBucket("bucket4"))).build(CouchbaseResolver).queryString
+            .exceptAll(someFromClause(someBucket("bucket4"))).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -942,7 +940,7 @@ class QueryBuilderTest : ManagerDependentTest {
             .where(
                 someStringField("airline", t1).isEqualTo("AI")
                     .and(destinationAirport.inArray(sourceAirports)),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -974,7 +972,7 @@ class QueryBuilderTest : ManagerDependentTest {
             )
             .limit(
                 5,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

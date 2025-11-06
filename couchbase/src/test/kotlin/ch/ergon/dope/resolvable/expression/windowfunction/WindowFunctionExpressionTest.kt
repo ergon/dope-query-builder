@@ -1,10 +1,10 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.queryString
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -43,8 +43,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WindowFunctionExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class WindowFunctionExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support ordering term`() {
@@ -53,7 +53,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OrderingTerm(someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OrderingTerm(someStringField(), OrderType.ASC)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OrderingTerm(someStringField(), nullsOrder = NULLS_LAST)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -89,7 +89,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OrderingTerm(someStringField(), OrderType.ASC, NULLS_LAST)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -103,7 +103,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OrderingTerm(value.asParameter(), OrderType.ASC, NULLS_LAST)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -115,7 +115,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = orderingTerm(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -125,7 +125,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OverWindowDefinition(someWindowDefinition())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -137,7 +137,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = OverWindowReference(someString())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -149,7 +149,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = WindowDefinition()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -161,7 +161,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = WindowDefinition(windowReferenceExpression = someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -173,7 +173,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = WindowDefinition(windowPartitionClause = listOf(someNumberField(), someStringField()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -186,7 +186,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         val underTest =
             WindowDefinition(windowOrderClause = listOf(someOrderingTerm(nullsOrder = NULLS_LAST), someOrderingTerm(orderType = DESC)))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -198,7 +198,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = WindowDefinition(windowFrameClause = someWindowFrameClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -215,7 +215,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
             someWindowFrameClause(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -227,7 +227,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = WindowFrameClause(WindowFrameType.GROUPS, someWindowFrameExtent())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -239,7 +239,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = WindowFrameClause(WindowFrameType.GROUPS, someWindowFrameExtent(), someWindowFrameExclusion())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -251,7 +251,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = UnboundedPreceding()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -262,7 +262,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = unboundedPreceding()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -272,7 +272,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = Preceding(someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -284,7 +284,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = preceding(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -294,7 +294,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = preceding(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -304,7 +304,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = CurrentRow()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -315,7 +315,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = currentRow()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -325,7 +325,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = Between(CurrentRow(), CurrentRow())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -337,7 +337,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = between(value, value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -347,7 +347,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = UnboundedFollowing()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -358,7 +358,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = unboundedFollowing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -368,7 +368,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
         )
         val underTest = Following(someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -380,7 +380,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = following(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -390,7 +390,7 @@ class WindowFunctionExpressionTest : ManagerDependentTest {
 
         val actual = following(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test

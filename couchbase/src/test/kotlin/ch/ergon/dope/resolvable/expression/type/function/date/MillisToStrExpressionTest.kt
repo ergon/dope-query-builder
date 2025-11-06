@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MillisToStrExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class MillisToStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support MILLIS_TO_STR without format`() {
@@ -21,7 +21,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = MillisToStringExpression(someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = MillisToStringExpression(someNumberField(), fmt)
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = MillisToStringExpression(someNumberField(), fmt.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -63,7 +63,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         )
         val underTest = MillisToStringExpression(someNumberField(), fmt.asParameter(name))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -73,7 +73,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         val expr = someNumberField().toFormattedDate()
         val expected = MillisToStringExpression(someNumberField(), null)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -81,7 +81,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         val expr = 123L.toFormattedDate()
         val expected = MillisToStringExpression(123L.toDopeType(), null)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -89,7 +89,7 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         val expr = 123L.toFormattedDate("dd/MM")
         val expected = MillisToStringExpression(123L.toDopeType(), "dd/MM".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -97,6 +97,6 @@ class MillisToStrExpressionTest : ManagerDependentTest {
         val expr = someNumberField().toFormattedDate("dd/MM")
         val expected = MillisToStringExpression(someNumberField(), "dd/MM".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

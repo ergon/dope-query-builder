@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.resolvable.expression.type.asParameter
@@ -16,8 +16,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DatePartMillisExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DatePartMillisExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support DATE_PART_MILLIS with field and no timezone`() {
@@ -29,7 +29,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
             DAY,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -46,7 +46,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
             HOUR,
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
             tz.asParameter(name),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -75,7 +75,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
         val expr = someNumberField().extractDateComponent(SECOND)
         val expected = DatePartMillisExpression(someNumberField(), SECOND)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -83,7 +83,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
         val expr = someNumberField().extractDateComponent(SECOND, "Europe/Paris")
         val expected = DatePartMillisExpression(someNumberField(), SECOND, "Europe/Paris".toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -92,7 +92,7 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
         val expr = raw.extractDateComponent(SECOND)
         val expected = DatePartMillisExpression(raw.toDopeType(), SECOND)
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 
     @Test
@@ -104,6 +104,6 @@ class DatePartMillisExpressionTest : ManagerDependentTest {
             "Europe/Paris".toDopeType(),
         )
 
-        assertEquals(expected.toDopeQuery(manager), expr.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }
 }

@@ -36,7 +36,7 @@ class ConditionalUnknownFunctionsTest {
                     concat("some", "string"),
                     someString().toDopeType(),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class ConditionalUnknownFunctionsTest {
                 ),
             ).limit(
                 5,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -92,7 +92,7 @@ class ConditionalUnknownFunctionsTest {
                     concat("some", "string"),
                     someString().toDopeType(),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -108,7 +108,7 @@ class ConditionalUnknownFunctionsTest {
                     concat("some", "string"),
                     someString().toDopeType(),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -124,7 +124,7 @@ class ConditionalUnknownFunctionsTest {
                     concat("some", "string"),
                     someString().toDopeType(),
                 ),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -146,7 +146,7 @@ class ConditionalUnknownFunctionsTest {
                 someBucket("airline"),
             ).limit(
                 5,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -169,7 +169,7 @@ class ConditionalUnknownFunctionsTest {
                 someBucket("hotel"),
             ).limit(
                 5,
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

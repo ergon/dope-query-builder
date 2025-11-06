@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
@@ -14,8 +14,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.lead
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LeadTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class LeadTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support lead with reference`() {
@@ -24,7 +24,7 @@ class LeadTest : ManagerDependentTest {
         )
         val underTest = LeadWithReference(someNumberField(), windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +36,7 @@ class LeadTest : ManagerDependentTest {
         )
         val underTest = LeadWithReference(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -48,7 +48,7 @@ class LeadTest : ManagerDependentTest {
         )
         val underTest = LeadWithReference(someNumberField(), offset = someNumberField(), windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -60,7 +60,7 @@ class LeadTest : ManagerDependentTest {
         )
         val underTest = LeadWithReference(someNumberField(), default = someNumberField(), windowReference = "ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class LeadTest : ManagerDependentTest {
             windowReference = "ref",
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -90,7 +90,7 @@ class LeadTest : ManagerDependentTest {
         )
         val underTest = Lead(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -106,7 +106,7 @@ class LeadTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -122,7 +122,7 @@ class LeadTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -138,7 +138,7 @@ class LeadTest : ManagerDependentTest {
             windowOrderClause = listOf(someOrderingTerm()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -152,7 +152,7 @@ class LeadTest : ManagerDependentTest {
 
         val actual = lead(expression, nullsModifier = nullsModifier, windowReference = windowReference)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -167,6 +167,6 @@ class LeadTest : ManagerDependentTest {
 
         val actual = lead(expression, offset, default, nullsModifier, windowPartitionClause, windowOrderClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

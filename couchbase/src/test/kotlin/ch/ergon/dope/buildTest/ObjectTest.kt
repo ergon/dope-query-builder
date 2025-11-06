@@ -1,10 +1,8 @@
 package ch.ergon.dope.buildTest
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
@@ -29,8 +27,8 @@ import ch.ergon.dope.validtype.StringType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support selecting object`() {
@@ -41,7 +39,7 @@ class ObjectTest : ManagerDependentTest {
                 someObjectField(),
             ).from(
                 someBucket(),
-            ).build(CouchbaseResolver).queryString
+            ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -59,7 +57,7 @@ class ObjectTest : ManagerDependentTest {
             ).where(
                 objectField.getString("field").isEqualTo(someString()),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -87,7 +85,7 @@ class ObjectTest : ManagerDependentTest {
             ).from(
                 someBucket(),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -110,7 +108,7 @@ class ObjectTest : ManagerDependentTest {
                     .and(objectPrimitive.getArray<StringType>("hobbies").any { it.isEqualTo("football") })
                     .and(objectPrimitive.getNumber("age").isGreaterOrEqualThan(18)),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -127,7 +125,7 @@ class ObjectTest : ManagerDependentTest {
             ).from(
                 someBucket(),
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -143,7 +141,7 @@ class ObjectTest : ManagerDependentTest {
             ).from(
                 bucket,
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -159,7 +157,7 @@ class ObjectTest : ManagerDependentTest {
             ).from(
                 bucket,
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -177,7 +175,7 @@ class ObjectTest : ManagerDependentTest {
             ).from(
                 subQuery,
             )
-            .build(CouchbaseResolver).queryString
+            .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

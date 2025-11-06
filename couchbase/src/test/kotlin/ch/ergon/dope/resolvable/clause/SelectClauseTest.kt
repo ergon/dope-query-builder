@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
@@ -18,8 +18,8 @@ import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SelectClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class SelectClauseTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support select`() {
@@ -28,7 +28,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -40,7 +40,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someBucket())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -52,7 +52,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someBucket().alias("alias"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -81,7 +81,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someNumberField(), listOf(someStringArrayField()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -105,7 +105,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someNumberField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -117,7 +117,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someBucket())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -129,7 +129,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someBucket().alias("alias"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -143,7 +143,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -158,7 +158,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -170,7 +170,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someNumberField(), listOf(someStringArrayField()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -182,7 +182,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someStringField().alias("stringFieldAlias"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -194,7 +194,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(someNumberField().alias("numberFieldAlias"), listOf(someStringArrayField()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -206,7 +206,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectRawClause(someStringField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -220,7 +220,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectRawClause(parameterValue.asParameter())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -235,7 +235,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectRawClause(parameterValue.asParameter(parameterName))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -247,7 +247,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectRawClause(someStringField().alias("stringFieldAlias"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -259,7 +259,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectClause(asterisk(), parentClause = someWithClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -271,7 +271,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectRawClause(someStringField(), parentClause = someWithClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -283,7 +283,7 @@ class SelectClauseTest : ManagerDependentTest {
         )
         val underTest = SelectDistinctClause(someStringField(), parentClause = someWithClause())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -296,7 +296,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.select(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -306,7 +306,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.selectAsterisk()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -317,7 +317,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.selectRaw(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -328,6 +328,6 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.selectDistinct(stringField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

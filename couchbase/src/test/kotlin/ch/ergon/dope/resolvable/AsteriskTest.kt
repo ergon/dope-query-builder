@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someObjectField
@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class AsteriskTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class AsteriskTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support asterisk`() {
@@ -21,7 +21,7 @@ class AsteriskTest : ManagerDependentTest {
         )
         val underTest = Asterisk()
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -33,7 +33,7 @@ class AsteriskTest : ManagerDependentTest {
         )
         val underTest = Asterisk(someBucket())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class AsteriskTest : ManagerDependentTest {
         )
         val underTest = Asterisk(someSelectClause().alias("selectClause"))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -57,7 +57,7 @@ class AsteriskTest : ManagerDependentTest {
         )
         val underTest = Asterisk(someObjectField())
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = asterisk()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -78,7 +78,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = asterisk(bucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -88,7 +88,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = asterisk(selectClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -98,7 +98,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = asterisk(objectField)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -108,7 +108,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = asterisk(someObject)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -118,7 +118,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = bucket.asterisk()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -128,7 +128,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = selectClause.asterisk()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -138,7 +138,7 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = objectField.asterisk()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -148,6 +148,6 @@ class AsteriskTest : ManagerDependentTest {
 
         val actual = someObject.asterisk()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

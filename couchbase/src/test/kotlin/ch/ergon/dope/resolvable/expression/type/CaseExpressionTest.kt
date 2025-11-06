@@ -1,9 +1,9 @@
 package ch.ergon.dope.resolvable.expression.type
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someCaseClass
@@ -15,8 +15,8 @@ import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResul
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CaseExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class CaseExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support simple case expression with single when then`() {
@@ -28,7 +28,7 @@ class CaseExpressionTest : ManagerDependentTest {
             SearchResult(someNumberField("other"), someStringField()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +44,7 @@ class CaseExpressionTest : ManagerDependentTest {
             listOf(SearchResult(someNumberField("other2"), someNumberField())),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -70,7 +70,7 @@ class CaseExpressionTest : ManagerDependentTest {
             listOf(SearchResult(positionalParameter2.asParameter(), namedParameter2.asParameter(parameterName2))),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -86,7 +86,7 @@ class CaseExpressionTest : ManagerDependentTest {
             elseCase = someNumberField(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -103,7 +103,7 @@ class CaseExpressionTest : ManagerDependentTest {
             elseCase = someStringField(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class CaseExpressionTest : ManagerDependentTest {
             SearchResult(someBooleanField(), someStringField()),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -134,7 +134,7 @@ class CaseExpressionTest : ManagerDependentTest {
             listOf(SearchResult(someBooleanField("second"), someNumberField())),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -150,7 +150,7 @@ class CaseExpressionTest : ManagerDependentTest {
             elseCase = someNumberField(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -167,7 +167,7 @@ class CaseExpressionTest : ManagerDependentTest {
             elseCase = someStringField(),
         )
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -183,7 +183,7 @@ class CaseExpressionTest : ManagerDependentTest {
             numberField,
         )
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -195,7 +195,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case.condition(firstCondition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -208,7 +208,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case.condition(firstCondition).condition(additionalCondition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -221,7 +221,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case.condition(firstCondition).condition(additionalCondition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -236,7 +236,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case.condition(firstCondition).otherwise(elseCase)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -255,7 +255,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case.condition(firstCondition).condition(additionalCondition).otherwise(elseCase)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -265,7 +265,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case().condition(firstCondition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -276,7 +276,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case().condition(firstCondition).condition(additionalCondition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -288,7 +288,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case().condition(firstCondition).condition(additionalCondition)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -299,7 +299,7 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case().condition(firstCondition).otherwise(elseCase)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -316,6 +316,6 @@ class CaseExpressionTest : ManagerDependentTest {
 
         val actual = case().condition(firstCondition).condition(additionalCondition).otherwise(elseCase)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

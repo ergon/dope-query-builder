@@ -1,16 +1,16 @@
 package ch.ergon.dope.resolvable.expression.type.function.objects
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ObjectAddExpressionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class ObjectAddExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support object add expression`() {
@@ -20,7 +20,7 @@ class ObjectAddExpressionTest : ManagerDependentTest {
         val underTest =
             ObjectAddExpression(someObjectField(), ObjectEntryPrimitive("key".toDopeType(), "value".toDopeType()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class ObjectAddExpressionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -47,6 +47,6 @@ class ObjectAddExpressionTest : ManagerDependentTest {
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

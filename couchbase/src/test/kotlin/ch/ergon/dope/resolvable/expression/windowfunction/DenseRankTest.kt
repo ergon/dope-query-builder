@@ -1,8 +1,8 @@
 package ch.ergon.dope.resolvable.expression.windowfunction
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.helper.ManagerDependentTest
+import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someOrderingTerm
 import ch.ergon.dope.helper.someStringField
@@ -12,8 +12,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.denseRank
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DenseRankTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager<CouchbaseDopeQuery>
+class DenseRankTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
 
     @Test
     fun `should support dense rank with reference`() {
@@ -22,7 +22,7 @@ class DenseRankTest : ManagerDependentTest {
         )
         val underTest = DenseRankWithReference("ref")
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -34,7 +34,7 @@ class DenseRankTest : ManagerDependentTest {
         )
         val underTest = DenseRank(listOf(someOrderingTerm()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -46,7 +46,7 @@ class DenseRankTest : ManagerDependentTest {
         )
         val underTest = DenseRank(listOf(someOrderingTerm()), listOf(someStringField(), someNumberField()))
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -58,7 +58,7 @@ class DenseRankTest : ManagerDependentTest {
 
         val actual = denseRank(windowReference)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -69,6 +69,6 @@ class DenseRankTest : ManagerDependentTest {
 
         val actual = denseRank(windowOrderClause, windowPartitionClause)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }

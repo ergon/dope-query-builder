@@ -1,7 +1,6 @@
 package ch.ergon.dope.couchbase
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
@@ -75,22 +74,22 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
 internal object TypeExpressionResolver {
-    fun resolve(manager: DopeQueryManager<CouchbaseDopeQuery>, typeExpression: TypeExpression<*>) =
+    fun resolve(resolver: CouchbaseResolver, typeExpression: TypeExpression<*>) =
         when (typeExpression) {
             is NotExpression -> {
-                val arg = typeExpression.argument.toDopeQuery(manager)
+                val arg = typeExpression.argument.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryStringWithSeparator("NOT", separator = " ", arg.queryString), arg.parameters)
             }
 
             is NegationExpression -> {
-                val arg = typeExpression.argument.toDopeQuery(manager)
+                val arg = typeExpression.argument.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryStringWithSeparator("-", separator = "", arg.queryString), arg.parameters)
             }
 
             is BetweenExpression<*> -> {
-                val left = typeExpression.expression.toDopeQuery(manager)
-                val lower = typeExpression.start.toDopeQuery(manager)
-                val upper = typeExpression.end.toDopeQuery(manager)
+                val left = typeExpression.expression.toDopeQuery(resolver)
+                val lower = typeExpression.start.toDopeQuery(resolver)
+                val upper = typeExpression.end.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryString(
                         left.queryString,
@@ -103,9 +102,9 @@ internal object TypeExpressionResolver {
             }
 
             is NotBetweenExpression<*> -> {
-                val left = typeExpression.expression.toDopeQuery(manager)
-                val lower = typeExpression.start.toDopeQuery(manager)
-                val upper = typeExpression.end.toDopeQuery(manager)
+                val left = typeExpression.expression.toDopeQuery(resolver)
+                val lower = typeExpression.start.toDopeQuery(resolver)
+                val upper = typeExpression.end.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryString(
                         left.queryString,
@@ -118,48 +117,48 @@ internal object TypeExpressionResolver {
             }
 
             is IsNullExpression -> {
-                val fieldDopeQuery = typeExpression.field.toDopeQuery(manager)
+                val fieldDopeQuery = typeExpression.field.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryString(fieldDopeQuery.queryString, "IS NULL"), fieldDopeQuery.parameters)
             }
 
             is IsNotNullExpression -> {
-                val fieldDopeQuery = typeExpression.field.toDopeQuery(manager)
+                val fieldDopeQuery = typeExpression.field.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryString(fieldDopeQuery.queryString, "IS NOT NULL"), fieldDopeQuery.parameters)
             }
 
             is IsMissingExpression -> {
-                val fieldDopeQuery = typeExpression.field.toDopeQuery(manager)
+                val fieldDopeQuery = typeExpression.field.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryString(fieldDopeQuery.queryString, "IS MISSING"), fieldDopeQuery.parameters)
             }
 
             is IsNotMissingExpression -> {
-                val fieldDopeQuery = typeExpression.field.toDopeQuery(manager)
+                val fieldDopeQuery = typeExpression.field.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryString(fieldDopeQuery.queryString, "IS NOT MISSING"), fieldDopeQuery.parameters)
             }
 
             is IsValuedExpression -> {
-                val fieldDopeQuery = typeExpression.field.toDopeQuery(manager)
+                val fieldDopeQuery = typeExpression.field.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryString(fieldDopeQuery.queryString, "IS VALUED"), fieldDopeQuery.parameters)
             }
 
             is IsNotValuedExpression -> {
-                val fieldDopeQuery = typeExpression.field.toDopeQuery(manager)
+                val fieldDopeQuery = typeExpression.field.toDopeQuery(resolver)
                 CouchbaseDopeQuery(formatToQueryString(fieldDopeQuery.queryString, "IS NOT VALUED"), fieldDopeQuery.parameters)
             }
 
             is ExistsExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(queryString = "EXISTS ${arrayDopeQuery.queryString}", parameters = arrayDopeQuery.parameters)
             }
 
             is SatisfiesExpression<*> -> {
-                val array = typeExpression.arrayExpression.toDopeQuery(manager)
-                val iteratorName = typeExpression.iteratorName ?: manager.iteratorManager.getIteratorName()
+                val array = typeExpression.arrayExpression.toDopeQuery(resolver)
+                val iteratorName = typeExpression.iteratorName ?: resolver.manager.iteratorManager.getIteratorName()
 
                 @Suppress("UNCHECKED_CAST")
                 val predicateFunc =
                     typeExpression.predicate as (Iterator<ValidType>) -> TypeExpression<BooleanType>
-                val predicate = predicateFunc(Iterator(iteratorName)).toDopeQuery(manager)
+                val predicate = predicateFunc(Iterator(iteratorName)).toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     queryString = "${typeExpression.satisfiesType} `$iteratorName` " +
                         "IN ${array.queryString} SATISFIES ${predicate.queryString} END",
@@ -170,13 +169,13 @@ internal object TypeExpressionResolver {
             is Iterator<*> -> CouchbaseDopeQuery("`${typeExpression.variable}`")
 
             is SelectExpression<*> -> {
-                val inner = typeExpression.selectClause.toDopeQuery(manager)
+                val inner = typeExpression.selectClause.toDopeQuery(resolver)
                 CouchbaseDopeQuery("(${inner.queryString})", inner.parameters)
             }
 
             is ArrayAccess<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
-                val indexDopeQuery = typeExpression.index.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
+                val indexDopeQuery = typeExpression.index.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     "${arrayDopeQuery.queryString}[${indexDopeQuery.queryString}]",
                     arrayDopeQuery.parameters.merge(indexDopeQuery.parameters),
@@ -184,7 +183,7 @@ internal object TypeExpressionResolver {
             }
 
             is ObjectEntry<*> -> {
-                val objectDopeQuery = typeExpression.objectExpression.toDopeQuery(manager)
+                val objectDopeQuery = typeExpression.objectExpression.toDopeQuery(resolver)
                 CouchbaseDopeQuery("${objectDopeQuery.queryString}.`${typeExpression.key}`", objectDopeQuery.parameters)
             }
 
@@ -195,7 +194,7 @@ internal object TypeExpressionResolver {
                         queryString = "META()",
                     )
                 } else {
-                    val bucketDopeQuery = bucket.toDopeQuery(manager)
+                    val bucketDopeQuery = bucket.toDopeQuery(resolver)
                     CouchbaseDopeQuery(
                         queryString = typeExpression.toFunctionQueryString(
                             symbol = "META",
@@ -207,14 +206,14 @@ internal object TypeExpressionResolver {
             }
 
             is MetaField<*> -> {
-                val meta = typeExpression.metaExpression.toDopeQuery(manager)
+                val meta = typeExpression.metaExpression.toDopeQuery(resolver)
                 CouchbaseDopeQuery("${meta.queryString}.`${typeExpression.name}`", meta.parameters)
             }
 
             is Parameter<*> -> {
                 when (val name = typeExpression.parameterName) {
                     null -> {
-                        val placeholder = "$" + manager.parameterManager.count
+                        val placeholder = "$" + resolver.manager.parameterManager.count
                         CouchbaseDopeQuery(
                             queryString = placeholder,
                             parameters = DopeParameters(positionalParameters = listOf(typeExpression.value)),
@@ -243,7 +242,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayPrimitive<*> -> {
-                val items = typeExpression.collection.map { it.toDopeQuery(manager) }
+                val items = typeExpression.collection.map { it.toDopeQuery(resolver) }
                 CouchbaseDopeQuery(
                     queryString = formatListToQueryStringWithBrackets(items, prefix = "[", postfix = "]"),
                     parameters = items.map { it.parameters }.merge(),
@@ -254,7 +253,7 @@ internal object TypeExpressionResolver {
             is DateComponentType -> CouchbaseDopeQuery("\"${typeExpression.name}\"")
 
             is ObjectPrimitive -> {
-                val entries = typeExpression.entries.map { it.toDopeQuery(manager) }
+                val entries = typeExpression.entries.map { it.toDopeQuery(resolver) }
                 CouchbaseDopeQuery(
                     queryString = "{${entries.joinToString(", ") { it.queryString }}}",
                     parameters = entries.map { it.parameters }.merge(),
@@ -262,9 +261,9 @@ internal object TypeExpressionResolver {
             }
 
             is CaseExpression<*, *> -> {
-                val case = typeExpression.case.toDopeQuery(manager)
+                val case = typeExpression.case.toDopeQuery(resolver)
                 val pairs = listOf(typeExpression.firstSearchResult) + typeExpression.additionalSearchResults
-                val expressionDopeQueries = pairs.map { it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager) }
+                val expressionDopeQueries = pairs.map { it.searchExpression.toDopeQuery(resolver) to it.resultExpression.toDopeQuery(resolver) }
                 CouchbaseDopeQuery(
                     queryString = case.queryString +
                         expressionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
@@ -278,10 +277,10 @@ internal object TypeExpressionResolver {
             }
 
             is ElseCaseExpression<*, *> -> {
-                val case = typeExpression.case.toDopeQuery(manager)
+                val case = typeExpression.case.toDopeQuery(resolver)
                 val pairs = listOf(typeExpression.firstSearchResult) + typeExpression.additionalSearchResults
-                val expressionDopeQueries = pairs.map { it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager) }
-                val elseDopeQuery = typeExpression.elseCase.toDopeQuery(manager)
+                val expressionDopeQueries = pairs.map { it.searchExpression.toDopeQuery(resolver) to it.resultExpression.toDopeQuery(resolver) }
+                val elseDopeQuery = typeExpression.elseCase.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     queryString = case.queryString +
                         expressionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
@@ -301,7 +300,7 @@ internal object TypeExpressionResolver {
             }
 
             is FunctionExpression<*> -> {
-                val argumentsDopeQuery = typeExpression.expressions.mapNotNull { it?.toDopeQuery(manager) }
+                val argumentsDopeQuery = typeExpression.expressions.mapNotNull { it?.toDopeQuery(resolver) }
                 CouchbaseDopeQuery(
                     queryString = typeExpression.toFunctionQueryString(
                         typeExpression.symbol,
@@ -312,8 +311,8 @@ internal object TypeExpressionResolver {
             }
 
             is NumberFunctionExpression -> {
-                val v = typeExpression.value?.toDopeQuery(manager)
-                val a = typeExpression.additionalValue?.toDopeQuery(manager)
+                val v = typeExpression.value?.toDopeQuery(resolver)
+                val a = typeExpression.additionalValue?.toDopeQuery(resolver)
                 val queryString = typeExpression.toFunctionQueryString(typeExpression.symbol, v?.queryString, a?.queryString)
                 CouchbaseDopeQuery(
                     queryString = queryString,
@@ -322,8 +321,8 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayFunctionExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
-                val argumentsDopeQuery = typeExpression.arguments.map { it.toDopeQuery(manager) }
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
+                val argumentsDopeQuery = typeExpression.arguments.map { it.toDopeQuery(resolver) }
                 CouchbaseDopeQuery(
                     queryString = typeExpression.toFunctionQueryString(
                         typeExpression.symbol,
@@ -335,8 +334,8 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayRepeatExpression<*> -> {
-                val valueDopeQuery = typeExpression.value.toDopeQuery(manager)
-                val repetitionsDopeQuery = typeExpression.repetitions.toDopeQuery(manager)
+                val valueDopeQuery = typeExpression.value.toDopeQuery(resolver)
+                val repetitionsDopeQuery = typeExpression.repetitions.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     queryString = typeExpression.toFunctionQueryString(
                         "ARRAY_REPEAT",
@@ -348,8 +347,8 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayContainsExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
-                val valueDopeQuery = typeExpression.value.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
+                val valueDopeQuery = typeExpression.value.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     queryString = typeExpression.toFunctionQueryString(
                         "ARRAY_CONTAINS",
@@ -361,7 +360,7 @@ internal object TypeExpressionResolver {
             }
 
             is TokensExpression -> {
-                val optionsDopeQuery = typeExpression.opt.toDopeQuery(manager)
+                val optionsDopeQuery = typeExpression.opt.toDopeQuery(resolver)
                 val functionQueryString = typeExpression.toFunctionQueryString(
                     "TOKENS",
                     formatStringListToQueryStringWithBrackets(typeExpression.inStr, prefix = "[\"", postfix = "\"]"),
@@ -371,7 +370,7 @@ internal object TypeExpressionResolver {
             }
 
             is MaskExpression -> {
-                val inputStringDopeQuery = typeExpression.inStr.toDopeQuery(manager)
+                val inputStringDopeQuery = typeExpression.inStr.toDopeQuery(resolver)
                 val optionsString = "{" + typeExpression.options.map { "\"${it.key}\": \"${it.value}\"" }.joinToString(", ") + "}"
                 val functionQueryString =
                     typeExpression.toFunctionQueryString("MASK", inputStringDopeQuery.queryString, optionsString)
@@ -379,12 +378,12 @@ internal object TypeExpressionResolver {
             }
 
             is ISearchFunctionExpression -> {
-                val field = typeExpression.field?.toDopeQuery(manager)
-                val bucket = typeExpression.bucket?.toDopeQuery(manager)
+                val field = typeExpression.field?.toDopeQuery(resolver)
+                val bucket = typeExpression.bucket?.toDopeQuery(resolver)
                 val stringSearch =
-                    typeExpression.stringSearchExpression?.let { StringPrimitive(it).toDopeQuery(manager) }
-                val objectSearch = typeExpression.objectSearchExpression?.toDopeType()?.toDopeQuery(manager)
-                val options = typeExpression.options?.toDopeType()?.toDopeQuery(manager)
+                    typeExpression.stringSearchExpression?.let { StringPrimitive(it).toDopeQuery(resolver) }
+                val objectSearch = typeExpression.objectSearchExpression?.toDopeType()?.toDopeQuery(resolver)
+                val options = typeExpression.options?.toDopeType()?.toDopeQuery(resolver)
                 val queryString = typeExpression.toFunctionQueryString(
                     SearchFunctionType.SEARCH.type,
                     field?.queryString,
@@ -406,15 +405,15 @@ internal object TypeExpressionResolver {
             }
 
             is ToNumberExpression<*> -> {
-                val expressionDopeQuery = typeExpression.expression.toDopeQuery(manager)
-                val filter = typeExpression.filterChars?.toDopeQuery(manager)
+                val expressionDopeQuery = typeExpression.expression.toDopeQuery(resolver)
+                val filter = typeExpression.filterChars?.toDopeQuery(resolver)
                 val queryString =
                     typeExpression.toFunctionQueryString("TONUMBER", expressionDopeQuery.queryString, filter?.queryString)
                 CouchbaseDopeQuery(queryString, expressionDopeQuery.parameters.merge(filter?.parameters))
             }
 
             is ArrayAverageExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_AVG", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -422,7 +421,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayMinExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_MIN", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -430,7 +429,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayMaxExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_MAX", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -438,7 +437,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArraySumExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_SUM", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -446,7 +445,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayCountExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -454,7 +453,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayLengthExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_LENGTH", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -462,8 +461,8 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayPositionExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
-                val valueDopeQuery = typeExpression.value.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
+                val valueDopeQuery = typeExpression.value.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString(
                         "ARRAY_POSITION",
@@ -475,8 +474,8 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayBinarySearchExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
-                val valueDopeQuery = typeExpression.value.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
+                val valueDopeQuery = typeExpression.value.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString(
                         "ARRAY_BINARY_SEARCH",
@@ -488,7 +487,7 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayIfNullExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
                 CouchbaseDopeQuery(
                     typeExpression.toFunctionQueryString("ARRAY_IFNULL", arrayDopeQuery.queryString),
                     arrayDopeQuery.parameters,
@@ -496,9 +495,9 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayPrependExpression<*> -> {
-                val arrayDopeQuery = typeExpression.array.toDopeQuery(manager)
-                val valueDopeQuery = typeExpression.value.toDopeQuery(manager)
-                val additionalValueDopeQueries = typeExpression.additionalValues.map { it.toDopeQuery(manager) }
+                val arrayDopeQuery = typeExpression.array.toDopeQuery(resolver)
+                val valueDopeQuery = typeExpression.value.toDopeQuery(resolver)
+                val additionalValueDopeQueries = typeExpression.additionalValues.map { it.toDopeQuery(resolver) }
                 val functionQueryString = typeExpression.toFunctionQueryString(
                     "ARRAY_PREPEND",
                     valueDopeQuery.queryString,
@@ -512,9 +511,9 @@ internal object TypeExpressionResolver {
             }
 
             is ArrayRangeExpression -> {
-                val startDopeQuery = typeExpression.start.toDopeQuery(manager)
-                val endDopeQuery = typeExpression.end.toDopeQuery(manager)
-                val step = typeExpression.step?.toDopeQuery(manager)
+                val startDopeQuery = typeExpression.start.toDopeQuery(resolver)
+                val endDopeQuery = typeExpression.end.toDopeQuery(resolver)
+                val step = typeExpression.step?.toDopeQuery(resolver)
                 val functionQueryString = typeExpression.toFunctionQueryString(
                     "ARRAY_RANGE",
                     startDopeQuery.queryString,
@@ -525,14 +524,14 @@ internal object TypeExpressionResolver {
             }
 
             is UnpackExpression -> {
-                val objectDopeQuery = typeExpression.objectArray.toDopeQuery(manager)
+                val objectDopeQuery = typeExpression.objectArray.toDopeQuery(resolver)
                 CouchbaseDopeQuery("${objectDopeQuery.queryString}[*]", objectDopeQuery.parameters)
             }
 
             is Nvl2Expression<*> -> {
-                val initialExpressionDopeQuery = typeExpression.initialExpression.toDopeQuery(manager)
-                val valueIfExistsDopeQuery = typeExpression.valueIfExists.toDopeQuery(manager)
-                val valueIfNotExistsDopeQuery = typeExpression.valueIfNotExists.toDopeQuery(manager)
+                val initialExpressionDopeQuery = typeExpression.initialExpression.toDopeQuery(resolver)
+                val valueIfExistsDopeQuery = typeExpression.valueIfExists.toDopeQuery(resolver)
+                val valueIfNotExistsDopeQuery = typeExpression.valueIfNotExists.toDopeQuery(resolver)
                 val functionQueryString = typeExpression.toFunctionQueryString(
                     "NVL2",
                     initialExpressionDopeQuery.queryString,
@@ -546,11 +545,11 @@ internal object TypeExpressionResolver {
             }
 
             is DecodeExpression<*, *> -> {
-                val decodeExpressionDopeQuery = typeExpression.decodeExpression.toDopeQuery(manager)
+                val decodeExpressionDopeQuery = typeExpression.decodeExpression.toDopeQuery(resolver)
                 fun pair(searchResult: SearchResult<*, *>): CouchbaseDopeQuery {
                     val searchExpressionDopeQuery =
-                        searchResult.searchExpression.toDopeQuery(manager)
-                    val resultExpressionDopeQuery = searchResult.resultExpression.toDopeQuery(manager)
+                        searchResult.searchExpression.toDopeQuery(resolver)
+                    val resultExpressionDopeQuery = searchResult.resultExpression.toDopeQuery(resolver)
                     return CouchbaseDopeQuery(
                         "${searchExpressionDopeQuery.queryString}, ${resultExpressionDopeQuery.queryString}",
                         searchExpressionDopeQuery.parameters.merge(resultExpressionDopeQuery.parameters),
@@ -559,7 +558,7 @@ internal object TypeExpressionResolver {
 
                 val firstPairDopeQuery = pair(typeExpression.searchResult)
                 val additionalPairDopeQueries = typeExpression.searchResults.map { pair(it) }
-                val defaultDopeQuery = typeExpression.default?.toDopeQuery(manager)
+                val defaultDopeQuery = typeExpression.default?.toDopeQuery(resolver)
                 val functionQueryString = typeExpression.toFunctionQueryString(
                     "DECODE",
                     decodeExpressionDopeQuery.queryString,
@@ -577,6 +576,6 @@ internal object TypeExpressionResolver {
 
             is DopeVariable<*> -> CouchbaseDopeQuery("`${typeExpression.name}`")
 
-            else -> TODO("Not yet implemented: $typeExpression")
+            else -> throw UnsupportedOperationException("Not supported: $typeExpression")
         }
 }

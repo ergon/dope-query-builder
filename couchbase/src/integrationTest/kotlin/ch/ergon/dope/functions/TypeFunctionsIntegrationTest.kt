@@ -18,7 +18,7 @@ class TypeFunctionsIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder
             .select(
                 not("".toBool()).and("3!".toNumber("!").isNumber()),
-            ).build(CouchbaseResolver)
+            ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
