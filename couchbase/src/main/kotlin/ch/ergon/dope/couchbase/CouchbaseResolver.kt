@@ -105,7 +105,10 @@ class CouchbaseResolver(override val manager: DopeQueryManager = DopeQueryManage
             }
 
             is UseIndex -> {
-                val bucket = resolvable.bucket.toDopeQuery(this)
+                val bucket = when (resolvable.bucket) {
+                    is AliasedBucket -> (resolvable.bucket as AliasedBucket).asBucketDefinition().toDopeQuery(this)
+                    else -> resolvable.bucket.toDopeQuery(this)
+                }
                 val refs = resolvable.indexReferences.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
