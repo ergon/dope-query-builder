@@ -10,6 +10,8 @@ import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
@@ -213,5 +215,45 @@ class EqualsExpressionTest : ResolverDependentTest {
         val actual = left.isEqualTo(right)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
+    }
+
+    @Test
+    fun `should support isFalse function boolean`() {
+        val left = someBoolean()
+        val expected = EqualsExpression(left.toDopeType(), FALSE)
+
+        val actual = left.isFalse()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isTrue function boolean`() {
+        val left = someBoolean()
+        val expected = EqualsExpression(left.toDopeType(), TRUE)
+
+        val actual = left.isTrue()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isFalse function TypeExpression`() {
+        val left = someBooleanField()
+        val expected = EqualsExpression(left, FALSE)
+
+        val actual = left.isFalse()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+    }
+
+    @Test
+    fun `should support isTrue function TypeExpression`() {
+        val left = someBooleanField()
+        val expected = EqualsExpression(left, TRUE)
+
+        val actual = left.isTrue()
+
+        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
     }
 }

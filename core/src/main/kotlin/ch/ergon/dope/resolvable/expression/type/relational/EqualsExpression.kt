@@ -1,6 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
@@ -37,11 +39,27 @@ fun String.isEqualTo(right: String): EqualsExpression<StringType> =
 fun TypeExpression<BooleanType>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     isEqualTo(right.toDopeType())
 
+@JvmName("TypeExpressionIsFalse")
+fun TypeExpression<BooleanType>.isFalse(): EqualsExpression<BooleanType> =
+    isEqualTo(FALSE)
+
+@JvmName("TypeExpressionIsTrue")
+fun TypeExpression<BooleanType>.isTrue(): EqualsExpression<BooleanType> =
+    isEqualTo(TRUE)
+
 fun Boolean.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right)
 
 fun Boolean.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right.toDopeType())
+
+@JvmName("BooleanIsFalse")
+fun Boolean.isFalse(): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(FALSE)
+
+@JvmName("BooleanIsTrue")
+fun Boolean.isTrue(): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(TRUE)
 
 data class NotEqualsExpression<T : ValidType>(
     override val left: TypeExpression<T>,
