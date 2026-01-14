@@ -18,7 +18,7 @@ data class FilterRangeIndexedExpression<T : ValidType>(
     override val indexName: String? = null,
     override val iteratorName: String? = null,
     override val condition: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<BooleanType>,
-) : TypeExpression<ArrayType<T>>, RangeIndexedExpression<T, T>() {
+) : RangeIndexedExpression<T, T, ArrayType<T>>() {
     override val withAttributeKeys: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>)? = null
     override val transformationType: TransformationType = TransformationType.ARRAY
     override val transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<T> = { _, it -> it }

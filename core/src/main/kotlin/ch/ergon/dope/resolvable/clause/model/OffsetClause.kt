@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.ValidType
 sealed class OffsetClause(
     open val numberExpression: TypeExpression<NumberType>,
     open val parentClause: Clause,
-)
+) : Clause
 
 data class SelectOffsetClause<T : ValidType>(
     override val numberExpression: TypeExpression<NumberType>,

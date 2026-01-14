@@ -10,7 +10,7 @@ data class ArrayRangeExpression(
     val start: TypeExpression<NumberType>,
     val end: TypeExpression<NumberType>,
     val step: TypeExpression<NumberType>? = null,
-) : TypeExpression<ArrayType<NumberType>>, FunctionOperator
+) : FunctionOperator<ArrayType<NumberType>>
 
 fun arrayRange(
     start: TypeExpression<NumberType>,

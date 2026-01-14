@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.StringType
 data class MaskExpression(
     val inStr: TypeExpression<StringType>,
     val options: Map<String, String> = mapOf(),
-) : TypeExpression<StringType>, FunctionOperator
+) : FunctionOperator<StringType>
 
 fun mask(inStr: TypeExpression<StringType>, options: Map<String, String> = mapOf()) =
     MaskExpression(inStr, options)

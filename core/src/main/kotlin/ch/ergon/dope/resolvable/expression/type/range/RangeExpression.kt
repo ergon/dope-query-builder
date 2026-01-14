@@ -1,6 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.range
 
-import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.validtype.ValidType
 
 enum class TransformationType {
@@ -14,4 +13,4 @@ enum class MembershipType {
     WITHIN,
 }
 
-sealed class RangeExpression<T : ValidType, U : ValidType> : Resolvable, RangeLike<T, U>
+sealed class RangeExpression<T : ValidType, U : ValidType, V : ValidType> : RangeLike<T, U, V>

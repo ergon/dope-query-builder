@@ -10,7 +10,7 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayPositionExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
-) : TypeExpression<NumberType>, FunctionOperator
+) : FunctionOperator<NumberType>
 
 fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
     ArrayPositionExpression(array, value)

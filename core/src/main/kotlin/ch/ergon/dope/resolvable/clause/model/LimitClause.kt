@@ -14,7 +14,7 @@ import ch.ergon.dope.validtype.ValidType
 sealed class LimitClause(
     open val numberExpression: TypeExpression<NumberType>,
     open val parentClause: Clause,
-)
+) : Clause
 
 data class SelectLimitClause<T : ValidType>(
     override val numberExpression: TypeExpression<NumberType>,

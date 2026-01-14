@@ -19,7 +19,7 @@ data class ArrayRangeIndexedExpression<T : ValidType, U : ValidType>(
     override val iteratorName: String? = null,
     override val transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<U>,
     override val condition: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<BooleanType>)? = null,
-) : TypeExpression<ArrayType<U>>, RangeIndexedExpression<T, U>() {
+) : RangeIndexedExpression<T, U, ArrayType<U>>() {
     override val transformationType: TransformationType = TransformationType.ARRAY
     override val withAttributeKeys: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>)? = null
 

@@ -9,7 +9,7 @@ data class DecodeExpression<T : ValidType, U : ValidType>(
     val searchResult: SearchResult<T, out U>,
     val searchResults: List<SearchResult<T, out U>> = emptyList(),
     val default: TypeExpression<out U>? = null,
-) : TypeExpression<U>, FunctionOperator
+) : FunctionOperator<U>
 
 @JvmName("decodeWithGeneric")
 fun <T : ValidType, U : ValidType> decode(

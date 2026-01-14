@@ -3,7 +3,6 @@ package ch.ergon.dope.resolvable.expression.type.function.search
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.IField
-import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
@@ -13,7 +12,7 @@ enum class SearchFunctionType(val type: String) {
     SEARCH_SCORE("SEARCH_SCORE"),
 }
 
-interface ISearchFunctionExpression : TypeExpression<BooleanType>, FunctionOperator {
+interface ISearchFunctionExpression : FunctionOperator<BooleanType> {
     val field: IField<out ValidType>?
     val bucket: Bucket?
     val stringSearchExpression: String?

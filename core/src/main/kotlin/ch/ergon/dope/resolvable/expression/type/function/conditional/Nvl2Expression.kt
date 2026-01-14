@@ -12,7 +12,7 @@ data class Nvl2Expression<T : ValidType>(
     val initialExpression: TypeExpression<out ValidType>,
     val valueIfExists: TypeExpression<T>,
     val valueIfNotExists: TypeExpression<T>,
-) : TypeExpression<T>, FunctionOperator
+) : FunctionOperator<T>
 
 fun <T : ValidType> nvl2(
     initialExpression: TypeExpression<out ValidType>,

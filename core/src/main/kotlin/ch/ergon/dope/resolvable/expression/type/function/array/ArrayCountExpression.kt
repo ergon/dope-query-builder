@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ArrayCountExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<NumberType>, FunctionOperator
+) : FunctionOperator<NumberType>
 
 fun <T : ValidType> arrayCount(array: TypeExpression<ArrayType<T>>) = ArrayCountExpression(array)
 

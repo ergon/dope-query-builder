@@ -3,13 +3,12 @@ package ch.ergon.dope.couchbase.resolvable.expression.type
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.IField
-import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-data class MetaExpression(val bucket: Bucket?) : TypeExpression<ObjectType>, FunctionOperator {
+data class MetaExpression(val bucket: Bucket?) : FunctionOperator<ObjectType> {
     val cas: IField<NumberType> = MetaField(this, "cas")
 
     val expiration: IField<NumberType> = MetaField(this, "expiration")

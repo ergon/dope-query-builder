@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ArrayMaxExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<T>, FunctionOperator
+) : FunctionOperator<T>
 
 fun <T : ValidType> arrayMax(array: TypeExpression<ArrayType<T>>) = ArrayMaxExpression(array)
 

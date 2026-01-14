@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ArrayIfNullExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<T>, FunctionOperator
+) : FunctionOperator<T>
 
 fun <T : ValidType> arrayIfNull(array: TypeExpression<ArrayType<T>>) = ArrayIfNullExpression(array)
 

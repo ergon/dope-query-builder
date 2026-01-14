@@ -13,7 +13,7 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayContainsExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
-) : TypeExpression<BooleanType>, FunctionOperator
+) : FunctionOperator<BooleanType>
 
 fun <T : ValidType> arrayContains(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
     ArrayContainsExpression(array, value)

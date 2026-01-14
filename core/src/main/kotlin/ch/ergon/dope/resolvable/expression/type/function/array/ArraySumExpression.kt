@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.NumberType
 
 data class ArraySumExpression<T : NumberType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<NumberType>, FunctionOperator
+) : FunctionOperator<NumberType>
 
 fun <T : NumberType> arraySum(array: TypeExpression<ArrayType<T>>) = ArraySumExpression(array)
 

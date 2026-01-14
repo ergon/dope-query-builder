@@ -14,7 +14,7 @@ data class ArrayPrependExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
-) : TypeExpression<ArrayType<T>>, FunctionOperator
+) : FunctionOperator<ArrayType<T>>
 
 fun <T : ValidType> arrayPrepend(
     array: TypeExpression<ArrayType<T>>,

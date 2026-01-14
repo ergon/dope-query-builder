@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ArrayMinExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<T>, FunctionOperator
+) : FunctionOperator<T>
 
 fun <T : ValidType> arrayMin(array: TypeExpression<ArrayType<T>>) = ArrayMinExpression(array)
 

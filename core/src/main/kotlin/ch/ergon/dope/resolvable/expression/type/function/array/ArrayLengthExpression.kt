@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.ValidType
 
 data class ArrayLengthExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<NumberType>, FunctionOperator
+) : FunctionOperator<NumberType>
 
 fun <T : ValidType> arrayLength(array: TypeExpression<ArrayType<T>>) = ArrayLengthExpression(array)
 

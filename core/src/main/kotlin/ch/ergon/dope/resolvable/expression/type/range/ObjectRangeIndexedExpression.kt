@@ -17,6 +17,6 @@ data class ObjectRangeIndexedExpression<T : ValidType, U : ValidType>(
     override val withAttributeKeys: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>),
     override val transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<U>,
     override val condition: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<BooleanType>)? = null,
-) : TypeExpression<ObjectType>, RangeIndexedExpression<T, U>() {
+) : RangeIndexedExpression<T, U, ObjectType>() {
     override val transformationType: TransformationType = TransformationType.OBJECT
 }

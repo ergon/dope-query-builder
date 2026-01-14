@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-interface RangeLike<T : ValidType, U : ValidType> {
+interface RangeLike<T : ValidType, U : ValidType, V : ValidType> : TypeExpression<V> {
     val transformationType: TransformationType
     val membershipType: MembershipType
     val range: TypeExpression<ArrayType<T>>
@@ -18,7 +18,7 @@ interface RangeLike<T : ValidType, U : ValidType> {
     val condition: ((Iterator<T>) -> TypeExpression<BooleanType>)?
 }
 
-interface RangeIndexedLike<T : ValidType, U : ValidType> {
+interface RangeIndexedLike<T : ValidType, U : ValidType, V : ValidType> : TypeExpression<V> {
     val transformationType: TransformationType
     val membershipType: MembershipType
     val range: TypeExpression<ArrayType<T>>

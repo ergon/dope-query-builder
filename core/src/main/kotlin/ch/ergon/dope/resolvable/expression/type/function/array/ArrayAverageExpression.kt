@@ -8,7 +8,7 @@ import ch.ergon.dope.validtype.NumberType
 
 data class ArrayAverageExpression<T : NumberType>(
     val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<T>, FunctionOperator
+) : FunctionOperator<T>
 
 fun <T : NumberType> arrayAverage(array: TypeExpression<ArrayType<T>>) = ArrayAverageExpression(array)
 

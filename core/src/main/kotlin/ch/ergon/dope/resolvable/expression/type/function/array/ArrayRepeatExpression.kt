@@ -10,7 +10,7 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayRepeatExpression<T : ValidType>(
     val value: TypeExpression<T>,
     val repetitions: TypeExpression<NumberType>,
-) : TypeExpression<ArrayType<T>>, FunctionOperator
+) : FunctionOperator<ArrayType<T>>
 
 fun <T : ValidType> arrayRepeat(
     value: TypeExpression<T>,

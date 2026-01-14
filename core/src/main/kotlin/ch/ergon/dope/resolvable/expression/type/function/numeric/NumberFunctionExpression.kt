@@ -7,4 +7,4 @@ import ch.ergon.dope.validtype.NumberType
 sealed class NumberFunctionExpression(
     open val value: TypeExpression<NumberType>? = null,
     val additionalValue: TypeExpression<NumberType>? = null,
-) : TypeExpression<NumberType>, FunctionOperator
+) : FunctionOperator<NumberType>

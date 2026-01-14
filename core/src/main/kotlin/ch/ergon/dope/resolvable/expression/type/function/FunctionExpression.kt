@@ -6,4 +6,4 @@ import ch.ergon.dope.validtype.ValidType
 
 abstract class FunctionExpression<T : ValidType>(
     val expressions: List<TypeExpression<out ValidType>?> = emptyList(),
-) : TypeExpression<T>, FunctionOperator
+) : FunctionOperator<T>

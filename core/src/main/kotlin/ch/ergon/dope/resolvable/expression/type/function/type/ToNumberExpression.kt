@@ -10,7 +10,7 @@ import ch.ergon.dope.validtype.ValidType
 data class ToNumberExpression<T : ValidType>(
     val expression: TypeExpression<T>,
     val filterChars: TypeExpression<StringType>? = null,
-) : TypeExpression<NumberType>, FunctionOperator
+) : FunctionOperator<NumberType>
 
 fun <T : ValidType> TypeExpression<T>.toNumber() = ToNumberExpression(this)
 
