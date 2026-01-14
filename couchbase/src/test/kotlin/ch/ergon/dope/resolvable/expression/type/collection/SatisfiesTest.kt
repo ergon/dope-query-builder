@@ -251,7 +251,7 @@ class SatisfiesTest : ResolverDependentTest {
         )
         val underTest = AnyAndEverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -263,7 +263,7 @@ class SatisfiesTest : ResolverDependentTest {
         )
         val underTest = AnyAndEverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -275,7 +275,7 @@ class SatisfiesTest : ResolverDependentTest {
         )
         val underTest = AnyAndEverySatisfiesExpression(someBooleanArrayField()) { it }
 
-        val actual = underTest.toDopeQuery(manager)
+        val actual = underTest.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -286,7 +286,7 @@ class SatisfiesTest : ResolverDependentTest {
             queryString = "ANY AND EVERY `iterator1` IN (SELECT RAW `stringField`) SATISFIES `iterator1` = \"something\" END",
         )
 
-        val actual = someStringSelectRawClause().anyAndEvery { it.isEqualTo("something") }.toDopeQuery(manager)
+        val actual = someStringSelectRawClause().anyAndEvery { it.isEqualTo("something") }.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -297,7 +297,7 @@ class SatisfiesTest : ResolverDependentTest {
             queryString = "ANY AND EVERY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END",
         )
 
-        val actual = someStringArrayField("hobbies").anyAndEvery("hobby") { it.isEqualTo("Football") }.toDopeQuery(manager)
+        val actual = someStringArrayField("hobbies").anyAndEvery("hobby") { it.isEqualTo("Football") }.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -310,9 +310,8 @@ class SatisfiesTest : ResolverDependentTest {
         )
 
         val actual =
-            someStringField("firstName").isEqualTo("Hans").and(someStringArrayField("hobbies").anyAndEvery { it.isEqualTo("Football") }).toDopeQuery(
-                manager,
-            )
+            someStringField("firstName").isEqualTo("Hans").and(someStringArrayField("hobbies").anyAndEvery { it.isEqualTo("Football") })
+                .toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -323,7 +322,8 @@ class SatisfiesTest : ResolverDependentTest {
             queryString = "ANY AND EVERY `iterator1` IN [`stringField`, `stringField`] SATISFIES `iterator1` = \"something\" END",
         )
 
-        val actual = listOf(someStringField(), someStringField()).anyAndEvery { it.isEqualTo("something") }.toDopeQuery(manager)
+        val actual = listOf(someStringField(), someStringField()).anyAndEvery { it.isEqualTo("something") }
+            .toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -335,7 +335,7 @@ class SatisfiesTest : ResolverDependentTest {
         )
 
         val actual = someStringField("firstName").isEqualTo("Hans")
-            .and(someStringArrayField("hobbies").anyAndEvery("hobby") { it.isEqualTo("Football") }).toDopeQuery(manager)
+            .and(someStringArrayField("hobbies").anyAndEvery("hobby") { it.isEqualTo("Football") }).toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -347,7 +347,9 @@ class SatisfiesTest : ResolverDependentTest {
                 "ANY AND EVERY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
         )
 
-        val actual = someStringArrayField().anyAndEvery { str1 -> someStringArrayField().anyAndEvery { it.isEqualTo(str1) } }.toDopeQuery(manager)
+        val actual =
+            someStringArrayField().anyAndEvery { str1 -> someStringArrayField().anyAndEvery { it.isEqualTo(str1) } }
+                .toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -359,7 +361,8 @@ class SatisfiesTest : ResolverDependentTest {
                 "ANY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
         )
 
-        val actual = someStringArrayField().anyAndEvery { str1 -> someStringArrayField().any { it.isEqualTo(str1) } }.toDopeQuery(manager)
+        val actual = someStringArrayField().anyAndEvery { str1 -> someStringArrayField().any { it.isEqualTo(str1) } }
+            .toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }

@@ -224,7 +224,7 @@ class EqualsExpressionTest : ResolverDependentTest {
 
         val actual = left.isFalse()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -234,7 +234,7 @@ class EqualsExpressionTest : ResolverDependentTest {
 
         val actual = left.isTrue()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -244,7 +244,7 @@ class EqualsExpressionTest : ResolverDependentTest {
 
         val actual = left.isFalse()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
@@ -254,6 +254,6 @@ class EqualsExpressionTest : ResolverDependentTest {
 
         val actual = left.isTrue()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 }
