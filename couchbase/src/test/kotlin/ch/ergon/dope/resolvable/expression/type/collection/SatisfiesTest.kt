@@ -243,4 +243,124 @@ class SatisfiesTest : ResolverDependentTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `should support any and every satisfies string`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
+        )
+        val underTest = AnyAndEverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support any and every satisfies number`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN `numberArrayField` SATISFIES (`iterator1` % 2) = 1 END",
+        )
+        val underTest = AnyAndEverySatisfiesExpression(someNumberArrayField()) { x -> x.mod(2).isEqualTo(1) }
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support any and every satisfies boolean`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN `booleanArrayField` SATISFIES `iterator1` END",
+        )
+        val underTest = AnyAndEverySatisfiesExpression(someBooleanArrayField()) { it }
+
+        val actual = underTest.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support any and every satisfies with select`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN (SELECT RAW `stringField`) SATISFIES `iterator1` = \"something\" END",
+        )
+
+        val actual = someStringSelectRawClause().anyAndEvery { it.isEqualTo("something") }.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support query with any and every satisfies and named iterator`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END",
+        )
+
+        val actual = someStringArrayField("hobbies").anyAndEvery("hobby") { it.isEqualTo("Football") }.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support query with any and every satisfies`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "(`firstName` = \"Hans\" AND ANY AND EVERY `iterator1` IN `hobbies` " +
+                "SATISFIES `iterator1` = \"Football\" END)",
+        )
+
+        val actual =
+            someStringField("firstName").isEqualTo("Hans").and(someStringArrayField("hobbies").anyAndEvery { it.isEqualTo("Football") }).toDopeQuery(
+                manager,
+            )
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support any and every satisfies with collection`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN [`stringField`, `stringField`] SATISFIES `iterator1` = \"something\" END",
+        )
+
+        val actual = listOf(someStringField(), someStringField()).anyAndEvery { it.isEqualTo("something") }.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support query any and every satisfies with named iterator`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "(`firstName` = \"Hans\" AND ANY AND EVERY `hobby` IN `hobbies` SATISFIES `hobby` = \"Football\" END)",
+        )
+
+        val actual = someStringField("firstName").isEqualTo("Hans")
+            .and(someStringArrayField("hobbies").anyAndEvery("hobby") { it.isEqualTo("Football") }).toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support nested any and every satisfies`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN `stringArrayField` SATISFIES " +
+                "ANY AND EVERY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
+        )
+
+        val actual = someStringArrayField().anyAndEvery { str1 -> someStringArrayField().anyAndEvery { it.isEqualTo(str1) } }.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support mixed any and every and any satisfies`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "ANY AND EVERY `iterator1` IN `stringArrayField` SATISFIES " +
+                "ANY `iterator2` IN `stringArrayField` SATISFIES `iterator2` = `iterator1` END END",
+        )
+
+        val actual = someStringArrayField().anyAndEvery { str1 -> someStringArrayField().any { it.isEqualTo(str1) } }.toDopeQuery(manager)
+
+        assertEquals(expected, actual)
+    }
 }
