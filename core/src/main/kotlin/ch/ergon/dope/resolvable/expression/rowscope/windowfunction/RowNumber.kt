@@ -11,13 +11,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val ROW_NUMBER = "ROW_NUMBER"
-
 data class RowNumber(
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     val windowOrderClause: List<OrderingTerm>? = null,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = ROW_NUMBER
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
@@ -31,7 +28,6 @@ data class RowNumber(
 }
 
 data class RowNumberWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = ROW_NUMBER
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null

@@ -1,11 +1,60 @@
 package ch.ergon.dope.couchbase
 
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
+import ch.ergon.dope.resolvable.expression.operator.PostfixOperator
+import ch.ergon.dope.resolvable.expression.operator.PrefixOperator
+import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.ArrayAggregateExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.ArrayAggregateExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AverageExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AverageExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.CountAsteriskExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.CountAsteriskExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.CountExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.CountExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MaxExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MaxExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MeanExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MeanExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MedianExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MedianExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MinExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.MinExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.StandardDeviationExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.StandardDeviationExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.SumExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.SumExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.VarianceExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.VarianceExpressionWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.CumeDist
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.CumeDistWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.DenseRank
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.DenseRankWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FirstValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.FirstValueWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Lag
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.LagWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.LastValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.LastValueWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Lead
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.LeadWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NTile
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NTileWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NthValue
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NthValueWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.PercentRank
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.PercentRankWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.Rank
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.RankWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.RatioToReport
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.RatioToReportWithReference
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.RowNumber
+import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.RowNumberWithReference
 import ch.ergon.dope.resolvable.expression.type.arithmetic.AdditionExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.DivisionExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.ModuloExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.MultiplicationExpression
-import ch.ergon.dope.resolvable.expression.type.arithmetic.NumberInfixExpression
+import ch.ergon.dope.resolvable.expression.type.arithmetic.NegationExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.SubtractionExpression
 import ch.ergon.dope.resolvable.expression.type.collection.InExpression
 import ch.ergon.dope.resolvable.expression.type.collection.NotInExpression
@@ -152,11 +201,17 @@ import ch.ergon.dope.resolvable.expression.type.function.type.ToObjectExpression
 import ch.ergon.dope.resolvable.expression.type.function.type.ToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.type.TypeOfExpression
 import ch.ergon.dope.resolvable.expression.type.logic.AndExpression
-import ch.ergon.dope.resolvable.expression.type.logic.LogicalInfixExpression
+import ch.ergon.dope.resolvable.expression.type.logic.NotExpression
 import ch.ergon.dope.resolvable.expression.type.logic.OrExpression
 import ch.ergon.dope.resolvable.expression.type.relational.EqualsExpression
 import ch.ergon.dope.resolvable.expression.type.relational.GreaterOrEqualThanExpression
 import ch.ergon.dope.resolvable.expression.type.relational.GreaterThanExpression
+import ch.ergon.dope.resolvable.expression.type.relational.IsMissingExpression
+import ch.ergon.dope.resolvable.expression.type.relational.IsNotMissingExpression
+import ch.ergon.dope.resolvable.expression.type.relational.IsNotNullExpression
+import ch.ergon.dope.resolvable.expression.type.relational.IsNotValuedExpression
+import ch.ergon.dope.resolvable.expression.type.relational.IsNullExpression
+import ch.ergon.dope.resolvable.expression.type.relational.IsValuedExpression
 import ch.ergon.dope.resolvable.expression.type.relational.LessOrEqualThanExpression
 import ch.ergon.dope.resolvable.expression.type.relational.LessThanExpression
 import ch.ergon.dope.resolvable.expression.type.relational.LikeExpression
@@ -326,22 +381,7 @@ internal val <T : ValidType> ArrayFunctionExpression<T>.symbol: String
         is ArrayUnionExpression -> "ARRAY_UNION"
     }
 
-internal val NumberInfixExpression.symbol: String
-    get() = when (this) {
-        is AdditionExpression -> "+"
-        is SubtractionExpression -> "-"
-        is MultiplicationExpression -> "*"
-        is DivisionExpression -> "/"
-        is ModuloExpression -> "%"
-    }
-
-internal val LogicalInfixExpression.symbol: String
-    get() = when (this) {
-        is AndExpression -> "AND"
-        is OrExpression -> "OR"
-    }
-
-internal val InfixOperator.symbol: String
+internal val InfixOperator<*>.symbol: String
     get() = when (this) {
         is EqualsExpression<*> -> "="
         is NotEqualsExpression<*> -> "!="
@@ -355,7 +395,67 @@ internal val InfixOperator.symbol: String
         is NotInExpression<*> -> "NOT IN"
         is WithinExpression<*> -> "WITHIN"
         is NotWithinExpression<*> -> "NOT WITHIN"
+
+        is AndExpression -> "AND"
+        is OrExpression -> "OR"
+
+        is AdditionExpression -> "+"
+        is SubtractionExpression -> "-"
+        is MultiplicationExpression -> "*"
+        is DivisionExpression -> "/"
+        is ModuloExpression -> "%"
         else -> throw IllegalArgumentException("Unsupported infix operator: ${this::class.simpleName}")
+    }
+
+internal val PostfixOperator<*>.symbol: String
+    get() = when (this) {
+        is IsNullExpression -> "IS NULL"
+        is IsNotNullExpression -> "IS NOT NULL"
+        is IsMissingExpression -> "IS MISSING"
+        is IsNotMissingExpression -> "IS NOT MISSING"
+        is IsValuedExpression -> "IS VALUED"
+        is IsNotValuedExpression -> "IS NOT VALUED"
+        else -> throw IllegalArgumentException("Unsupported postfix operator: ${this::class.simpleName}")
+    }
+
+internal val PrefixOperator<*>.symbolWithSeparator: Pair<String, String>
+    get() = when (this) {
+        is NotExpression -> "NOT" to " "
+        is NegationExpression -> "-" to ""
+        else -> throw IllegalArgumentException("Unsupported prefix operator: ${this::class.simpleName}")
+    }
+
+internal val RowScopeExpression<*>.functionName: String
+    get() = when (this) {
+        is RowNumber, is RowNumberWithReference -> "ROW_NUMBER"
+
+        is ArrayAggregateExpression<*>, is ArrayAggregateExpressionWithReference<*> -> "ARRAY_AGG"
+        is AverageExpression, is AverageExpressionWithReference -> "AVG"
+
+        is CountExpression, is CountAsteriskExpression, is CountExpressionWithReference, is CountAsteriskExpressionWithReference -> "COUNT"
+
+        is MaxExpression, is MaxExpressionWithReference -> "MAX"
+        is MeanExpression, is MeanExpressionWithReference -> "MEAN"
+        is MedianExpression, is MedianExpressionWithReference -> "MEDIAN"
+        is MinExpression, is MinExpressionWithReference -> "MIN"
+
+        is StandardDeviationExpression, is StandardDeviationExpressionWithReference -> "STDDEV"
+        is SumExpression, is SumExpressionWithReference -> "SUM"
+        is VarianceExpression, is VarianceExpressionWithReference -> "VARIANCE"
+
+        is CumeDist, is CumeDistWithReference -> "CUME_DIST"
+        is DenseRank, is DenseRankWithReference -> "DENSE_RANK"
+        is FirstValue, is FirstValueWithReference -> "FIRST_VALUE"
+        is Lag, is LagWithReference -> "LAG"
+        is LastValue, is LastValueWithReference -> "LAST_VALUE"
+        is Lead, is LeadWithReference -> "LEAD"
+        is NthValue, is NthValueWithReference -> "NTH_VALUE"
+        is NTile, is NTileWithReference -> "NTILE"
+        is PercentRank, is PercentRankWithReference -> "PERCENT_RANK"
+        is Rank, is RankWithReference -> "RANK"
+        is RatioToReport, is RatioToReportWithReference -> "RATIO_TO_REPORT"
+
+        else -> throw IllegalArgumentException("Unsupported row scope function: ${this::class.simpleName}")
     }
 
 internal val Enum<*>.queryString: String

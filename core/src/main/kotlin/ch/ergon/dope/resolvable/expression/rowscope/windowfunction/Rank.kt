@@ -11,13 +11,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val RANK = "RANK"
-
 data class Rank(
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     val windowOrderClause: List<OrderingTerm>,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = RANK
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
@@ -31,7 +28,6 @@ data class Rank(
 }
 
 data class RankWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = RANK
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null

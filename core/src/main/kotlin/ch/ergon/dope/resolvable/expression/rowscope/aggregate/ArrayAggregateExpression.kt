@@ -13,15 +13,12 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private const val ARRAY_AGG = "ARRAY_AGG"
-
 data class ArrayAggregateExpressionWithReference<T : ValidType>(
     val field: IField<T>,
     val windowReference: String,
     override val quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<ArrayType<T>> {
     override val selectable: Selectable = field
-    override val functionName: String = ARRAY_AGG
     override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
@@ -34,7 +31,6 @@ data class ArrayAggregateExpression<T : ValidType>(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<ArrayType<T>> {
     override val selectable: Selectable = field
-    override val functionName: String = ARRAY_AGG
     override val overDefinition: OverDefinition? = if (listOf(
             windowReferenceExpression,
             windowPartitionClause,

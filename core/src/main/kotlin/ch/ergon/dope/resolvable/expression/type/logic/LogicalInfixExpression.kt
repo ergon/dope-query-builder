@@ -7,4 +7,4 @@ import ch.ergon.dope.validtype.BooleanType
 sealed class LogicalInfixExpression(
     left: TypeExpression<BooleanType>,
     right: TypeExpression<BooleanType>,
-) : TypeExpression<BooleanType>, InfixOperator(left, right)
+) : InfixOperator<BooleanType>(left, right)

@@ -1,9 +1,10 @@
 package ch.ergon.dope.couchbase
 
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
+import ch.ergon.dope.resolver.QueryResolver
 import ch.ergon.dope.validtype.ValidType
 
-fun <T : ValidType> DopeVariable<T>.toLetDefinitionDopeQuery(resolver: CouchbaseResolver): CouchbaseDopeQuery {
+fun <T : ValidType> DopeVariable<T>.toLetDefinitionDopeQuery(resolver: QueryResolver<CouchbaseDopeQuery>): CouchbaseDopeQuery {
     val valueDopeQuery = value.toDopeQuery(resolver)
     return CouchbaseDopeQuery(
         queryString = "`$name` = ${valueDopeQuery.queryString}",
@@ -11,7 +12,7 @@ fun <T : ValidType> DopeVariable<T>.toLetDefinitionDopeQuery(resolver: Couchbase
     )
 }
 
-fun <T : ValidType> DopeVariable<T>.toWithDefinitionDopeQuery(resolver: CouchbaseResolver): CouchbaseDopeQuery {
+fun <T : ValidType> DopeVariable<T>.toWithDefinitionDopeQuery(resolver: QueryResolver<CouchbaseDopeQuery>): CouchbaseDopeQuery {
     val expressionDopeQuery = value.toDopeQuery(resolver)
     return CouchbaseDopeQuery(
         queryString = "`$name` AS (${expressionDopeQuery.queryString})",

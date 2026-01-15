@@ -33,13 +33,13 @@ import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType
 import ch.ergon.dope.resolvable.clause.model.mergeable.OnType
 
-internal object ClauseResolver {
-    fun resolve(resolver: CouchbaseResolver, clause: Clause) =
+interface ClauseResolver : AbstractCouchbaseResolver {
+    fun resolve(clause: Clause) =
         when (clause) {
             is SelectClause -> {
-                val parentDopeQuery = clause.parentClause?.toDopeQuery(resolver)
-                val expressionDopeQuery = clause.expression.toDopeQuery(resolver)
-                val expressionsDopeQuery = clause.expressions.map { it.toDopeQuery(resolver) }
+                val parentDopeQuery = clause.parentClause?.toDopeQuery(this)
+                val expressionDopeQuery = clause.expression.toDopeQuery(this)
+                val expressionsDopeQuery = clause.expressions.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatQueryStringWithNullableFirst(
                         parentDopeQuery,
@@ -55,8 +55,8 @@ internal object ClauseResolver {
             }
 
             is UnnestClause<*, *> -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
-                val arrayDopeQuery = clause.arrayTypeField.toDopeQuery(resolver)
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val arrayDopeQuery = clause.arrayTypeField.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(parentDopeQuery.queryString, "UNNEST", arrayDopeQuery.queryString),
                     parameters = parentDopeQuery.parameters.merge(arrayDopeQuery.parameters),
@@ -64,8 +64,8 @@ internal object ClauseResolver {
             }
 
             is AliasedUnnestClause<*, *> -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
-                val aliased = clause.aliasedTypeExpression.toDopeQuery(resolver)
+                val parent = clause.parentClause.toDopeQuery(this)
+                val aliased = clause.aliasedTypeExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(parent.queryString, "UNNEST", aliased.queryString),
                     parameters = parent.parameters.merge(aliased.parameters),
@@ -73,8 +73,8 @@ internal object ClauseResolver {
             }
 
             is SelectRawClause<*> -> {
-                val parentDopeQuery = clause.parentClause?.toDopeQuery(resolver)
-                val expressionDopeQuery = clause.expression.toDopeQuery(resolver)
+                val parentDopeQuery = clause.parentClause?.toDopeQuery(this)
+                val expressionDopeQuery = clause.expression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatQueryStringWithNullableFirst(parentDopeQuery, "SELECT RAW", expressionDopeQuery),
                     parameters = parentDopeQuery?.parameters.orEmpty().merge(expressionDopeQuery.parameters),
@@ -82,9 +82,9 @@ internal object ClauseResolver {
             }
 
             is SelectDistinctClause -> {
-                val parentDopeQuery = clause.parentClause?.toDopeQuery(resolver)
-                val expressionDopeQuery = clause.expression.toDopeQuery(resolver)
-                val additionalExpressionDopeQueries = clause.expressions.map { it.toDopeQuery(resolver) }
+                val parentDopeQuery = clause.parentClause?.toDopeQuery(this)
+                val expressionDopeQuery = clause.expression.toDopeQuery(this)
+                val additionalExpressionDopeQueries = clause.expressions.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatQueryStringWithNullableFirst(
                         parentDopeQuery,
@@ -97,11 +97,11 @@ internal object ClauseResolver {
             }
 
             is FromClause<*> -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val fromableDopeQuery = when (val fromable = clause.fromable) {
-                    is AliasedBucket -> fromable.asBucketDefinition().toDopeQuery(resolver)
-                    is AliasedSelectClause<*> -> fromable.asAliasedSelectClauseDefinition().toDopeQuery(resolver)
-                    else -> clause.fromable.toDopeQuery(resolver)
+                    is AliasedBucket -> fromable.asBucketDefinition().toDopeQuery(this)
+                    is AliasedSelectClause<*> -> fromable.asAliasedSelectClauseDefinition().toDopeQuery(this)
+                    else -> clause.fromable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
@@ -114,8 +114,8 @@ internal object ClauseResolver {
             }
 
             is WhereClause -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
-                val whereDopeQuery = clause.whereExpression.toDopeQuery(resolver)
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parentDopeQuery.queryString,
@@ -127,9 +127,9 @@ internal object ClauseResolver {
             }
 
             is GroupByClause<*> -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
-                val first = clause.field.toDopeQuery(resolver)
-                val additionalFieldDopeQueries = clause.fields.map { it.toDopeQuery(resolver) }
+                val parent = clause.parentClause.toDopeQuery(this)
+                val first = clause.field.toDopeQuery(this)
+                val additionalFieldDopeQueries = clause.fields.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parent.queryString,
@@ -142,9 +142,9 @@ internal object ClauseResolver {
             }
 
             is SelectOrderByClause<*> -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
-                val first = clause.orderExpression.toDopeQuery(resolver)
-                val additionalOrderExpressionDopeQueries = clause.additionalOrderExpressions.map { it.toDopeQuery(resolver) }
+                val parent = clause.parentClause.toDopeQuery(this)
+                val first = clause.orderExpression.toDopeQuery(this)
+                val additionalOrderExpressionDopeQueries = clause.additionalOrderExpressions.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parent.queryString,
@@ -160,11 +160,11 @@ internal object ClauseResolver {
             }
 
             is LetClause<*> -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
+                val parent = clause.parentClause.toDopeQuery(this)
                 val first = clause.dopeVariable
-                val firstDope = first.toLetDefinitionDopeQuery(resolver)
+                val firstDope = first.toLetDefinitionDopeQuery(this)
                 val additionalVariableAssignments = clause.dopeVariables.map { variable ->
-                    variable.toLetDefinitionDopeQuery(resolver)
+                    variable.toLetDefinitionDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
@@ -181,12 +181,12 @@ internal object ClauseResolver {
             }
 
             is ReturningClause -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
+                val parent = clause.parentClause.toDopeQuery(this)
                 val returnables = arrayOf(clause.returnable) + clause.additionalReturnables
                 val returnableDope = returnables.map {
                     when (it) {
-                        is AliasedSelectClause<*> -> it.asAliasedSelectClauseDefinition().toDopeQuery(resolver)
-                        else -> it.toDopeQuery(resolver)
+                        is AliasedSelectClause<*> -> it.asAliasedSelectClauseDefinition().toDopeQuery(this)
+                        else -> it.toDopeQuery(this)
                     }
                 }
                 CouchbaseDopeQuery(
@@ -200,8 +200,8 @@ internal object ClauseResolver {
             }
 
             is ReturningSingleClause -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
-                val single = clause.singleReturnable.toDopeQuery(resolver)
+                val parent = clause.parentClause.toDopeQuery(this)
+                val single = clause.singleReturnable.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = "${parent.queryString} RETURNING ${clause.returningType.name} ${single.queryString}",
                     parameters = parent.parameters.merge(single.parameters),
@@ -210,8 +210,8 @@ internal object ClauseResolver {
 
             is UpdateClause -> {
                 val updatable = when (val u = clause.updatable) {
-                    is AliasedBucket -> u.asBucketDefinition().toDopeQuery(resolver)
-                    else -> clause.updatable.toDopeQuery(resolver)
+                    is AliasedBucket -> u.asBucketDefinition().toDopeQuery(this)
+                    else -> clause.updatable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
                     queryString = "UPDATE ${updatable.queryString}",
@@ -221,8 +221,8 @@ internal object ClauseResolver {
 
             is DeleteClause -> {
                 val bucket = when (val d = clause.deletable) {
-                    is AliasedBucket -> d.asBucketDefinition().toDopeQuery(resolver)
-                    else -> clause.deletable.toDopeQuery(resolver)
+                    is AliasedBucket -> d.asBucketDefinition().toDopeQuery(this)
+                    else -> clause.deletable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
                     queryString = "DELETE FROM ${bucket.queryString}",
@@ -231,9 +231,9 @@ internal object ClauseResolver {
             }
 
             is SetClause -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
-                val firstAssignmentDopeQuery = clause.setAssignment.toDopeQuery(resolver)
-                val additionalAssignmentDopeQueries = clause.setAssignments.map { it.toDopeQuery(resolver) }
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val firstAssignmentDopeQuery = clause.setAssignment.toDopeQuery(this)
+                val additionalAssignmentDopeQueries = clause.setAssignments.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryString(
                         "${parentDopeQuery.queryString} SET",
@@ -248,9 +248,9 @@ internal object ClauseResolver {
             }
 
             is UnsetClause -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
-                val firstFieldDopeQuery = clause.field.toDopeQuery(resolver)
-                val additionalFieldDopeQueries = clause.fields.map { it.toDopeQuery(resolver) }
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val firstFieldDopeQuery = clause.field.toDopeQuery(this)
+                val additionalFieldDopeQueries = clause.fields.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryString(
                         "${parentDopeQuery.queryString} UNSET",
@@ -265,8 +265,8 @@ internal object ClauseResolver {
             }
 
             is SetOperator<*> -> {
-                val left = clause.leftSelect.toDopeQuery(resolver)
-                val right = clause.rightSelect.toDopeQuery(resolver)
+                val left = clause.leftSelect.toDopeQuery(this)
+                val right = clause.rightSelect.toDopeQuery(this)
                 val all = if (clause.duplicatesAllowed) " ALL" else ""
                 CouchbaseDopeQuery(
                     queryString = "(${left.queryString}) ${clause.setOperatorType} $all (${right.queryString})".replace("  ", " "),
@@ -275,9 +275,9 @@ internal object ClauseResolver {
             }
 
             is WindowClause<*> -> {
-                val parent = clause.parentClause.toDopeQuery(resolver)
-                val first = clause.windowDeclaration.toDopeQuery(resolver)
-                val additionalWindowDeclarationDopeQueries = clause.windowDeclarations.map { it.toDopeQuery(resolver) }
+                val parent = clause.parentClause.toDopeQuery(this)
+                val first = clause.windowDeclaration.toDopeQuery(this)
+                val additionalWindowDeclarationDopeQueries = clause.windowDeclarations.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parent.queryString,
@@ -299,15 +299,15 @@ internal object ClauseResolver {
                     clause.key != null && clause.bucket != null -> OnType.ON_KEY_FOR
                     else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
                 }
-                val parent = clause.parentClause.toDopeQuery(resolver)
+                val parent = clause.parentClause.toDopeQuery(this)
                 val mergeable = when (val m = clause.mergeable) {
-                    is AliasedBucket -> m.asBucketDefinition().toDopeQuery(resolver)
-                    is AliasedSelectClause<*> -> m.asAliasedSelectClauseDefinition().toDopeQuery(resolver)
-                    else -> clause.mergeable.toDopeQuery(resolver)
+                    is AliasedBucket -> m.asBucketDefinition().toDopeQuery(this)
+                    is AliasedSelectClause<*> -> m.asAliasedSelectClauseDefinition().toDopeQuery(this)
+                    else -> clause.mergeable.toDopeQuery(this)
                 }
                 val hint = if (clause.hashOrNestedLoopHint != null || clause.keysOrIndexHint != null) {
-                    val hashOrNestedLoopHintDopeQuery = clause.hashOrNestedLoopHint?.toDopeQuery(resolver)
-                    val k = clause.keysOrIndexHint?.toDopeQuery(resolver)
+                    val hashOrNestedLoopHintDopeQuery = clause.hashOrNestedLoopHint?.toDopeQuery(this)
+                    val k = clause.keysOrIndexHint?.toDopeQuery(this)
                     CouchbaseDopeQuery(
                         formatPartsToQueryStringWithSpace("USE", hashOrNestedLoopHintDopeQuery?.queryString, k?.queryString),
                         hashOrNestedLoopHintDopeQuery?.parameters.orEmpty().merge(k?.parameters),
@@ -334,7 +334,7 @@ internal object ClauseResolver {
                 val baseParams = parent.parameters.merge(mergeable.parameters, hint?.parameters)
                 when (onType) {
                     OnType.ON -> {
-                        val cond = clause.condition?.toDopeQuery(resolver)
+                        val cond = clause.condition?.toDopeQuery(this)
                         CouchbaseDopeQuery("$baseQueryString ON ${cond?.queryString}", baseParams.merge(cond?.parameters))
                     }
 
@@ -342,9 +342,9 @@ internal object ClauseResolver {
                         val keys = clause.keys
                         val clauseKey = clause.key
                         val key = when {
-                            keys != null -> keys.toDopeQuery(resolver)
+                            keys != null -> keys.toDopeQuery(this)
 
-                            clauseKey != null -> clauseKey.toDopeQuery(resolver)
+                            clauseKey != null -> clauseKey.toDopeQuery(this)
 
                             else -> null
                         }
@@ -355,8 +355,8 @@ internal object ClauseResolver {
                     }
 
                     OnType.ON_KEY_FOR -> {
-                        val key = clause.key?.toDopeQuery(resolver)
-                        val bucket = clause.bucket?.toDopeQuery(resolver)
+                        val key = clause.key?.toDopeQuery(this)
+                        val bucket = clause.bucket?.toDopeQuery(this)
                         CouchbaseDopeQuery(
                             formatPartsToQueryStringWithSpace(baseQueryString, "ON KEY", key?.queryString, "FOR", bucket?.queryString),
                             baseParams.merge(key?.parameters, bucket?.parameters),
@@ -366,8 +366,8 @@ internal object ClauseResolver {
             }
 
             is LimitClause -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
-                val numberDopeQuery = clause.numberExpression.toDopeQuery(resolver)
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val numberDopeQuery = clause.numberExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parentDopeQuery.queryString,
@@ -379,8 +379,8 @@ internal object ClauseResolver {
             }
 
             is OffsetClause -> {
-                val parentDopeQuery = clause.parentClause.toDopeQuery(resolver)
-                val numberDopeQuery = clause.numberExpression.toDopeQuery(resolver)
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val numberDopeQuery = clause.numberExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
                         parentDopeQuery.queryString,

@@ -11,8 +11,6 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val LAG = "LAG"
-
 data class Lag<T : ValidType>(
     val expression: TypeExpression<T>,
     val offset: TypeExpression<NumberType>? = null,
@@ -21,7 +19,6 @@ data class Lag<T : ValidType>(
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     val windowOrderClause: List<OrderingTerm>,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = LAG
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression, offset, default)
     override val fromModifier: FromModifier? = null
@@ -40,7 +37,6 @@ data class LagWithReference<T : ValidType>(
     override val nullsModifier: NullsModifier? = null,
     val windowReference: String,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = LAG
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression, offset, default)
     override val fromModifier: FromModifier? = null

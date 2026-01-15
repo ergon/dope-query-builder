@@ -2,8 +2,6 @@ package ch.ergon.dope.resolvable.expression.rowscope.windowdefinition
 
 import ch.ergon.dope.resolvable.Resolvable
 
-private const val OVER = "OVER"
-
 sealed interface OverDefinition : Resolvable
 
 data class OverWindowDefinition(val windowDefinition: WindowDefinition) : OverDefinition

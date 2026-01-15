@@ -12,15 +12,12 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val RATIO_TO_REPORT = "RATIO_TO_REPORT"
-
 data class RatioToReport(
     val expression: TypeExpression<out ValidType>,
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     val windowOrderClause: List<OrderingTerm>? = null,
     val windowFrameClause: WindowFrameClause? = null,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = RATIO_TO_REPORT
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null
@@ -39,7 +36,6 @@ data class RatioToReportWithReference(
     override val nullsModifier: NullsModifier? = null,
     val windowReference: String,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = RATIO_TO_REPORT
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null

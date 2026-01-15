@@ -11,13 +11,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val PERCENT_RANK = "PERCENT_RANK"
-
 data class PercentRank(
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     val windowOrderClause: List<OrderingTerm>,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = PERCENT_RANK
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
@@ -31,7 +28,6 @@ data class PercentRank(
 }
 
 data class PercentRankWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = PERCENT_RANK
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null

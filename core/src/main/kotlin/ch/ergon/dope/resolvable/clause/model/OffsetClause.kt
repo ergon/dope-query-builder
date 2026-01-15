@@ -9,15 +9,17 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-sealed class OffsetClause(
-    open val numberExpression: TypeExpression<NumberType>,
-    open val parentClause: Clause,
-) : Clause
+sealed interface OffsetClause : Clause {
+    val numberExpression: TypeExpression<NumberType>
+    val parentClause: Clause
+}
 
 data class SelectOffsetClause<T : ValidType>(
     override val numberExpression: TypeExpression<NumberType>,
     override val parentClause: ISelectLimitClause<T>,
-) : ISelectOffsetClause<T>, OffsetClause(numberExpression, parentClause)
+) : ISelectOffsetClause<T>, OffsetClause
 
-data class DeleteOffsetClause(override val numberExpression: TypeExpression<NumberType>, override val parentClause: IDeleteLimitClause) :
-    IDeleteOffsetClause, OffsetClause(numberExpression, parentClause)
+data class DeleteOffsetClause(
+    override val numberExpression: TypeExpression<NumberType>,
+    override val parentClause: IDeleteLimitClause,
+) : IDeleteOffsetClause, OffsetClause

@@ -11,13 +11,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val CUME_DIST = "CUME_DIST"
-
 data class CumeDist(
     val windowOrderClause: List<OrderingTerm>,
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = CUME_DIST
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
@@ -31,7 +28,6 @@ data class CumeDist(
 }
 
 data class CumeDistWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = CUME_DIST
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null

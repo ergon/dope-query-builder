@@ -12,14 +12,11 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val NTILE = "NTILE"
-
 data class NTile(
     val numTiles: TypeExpression<NumberType>,
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     val windowOrderClause: List<OrderingTerm>,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = NTILE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(numTiles)
     override val fromModifier: FromModifier? = null
@@ -36,7 +33,6 @@ data class NTileWithReference(
     val numTiles: TypeExpression<NumberType>,
     val windowReference: String,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = NTILE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(numTiles)
     override val fromModifier: FromModifier? = null

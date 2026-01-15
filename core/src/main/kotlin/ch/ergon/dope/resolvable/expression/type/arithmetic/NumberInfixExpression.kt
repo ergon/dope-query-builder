@@ -7,4 +7,4 @@ import ch.ergon.dope.validtype.NumberType
 sealed class NumberInfixExpression(
     left: TypeExpression<NumberType>,
     right: TypeExpression<NumberType>,
-) : TypeExpression<NumberType>, InfixOperator(left, right)
+) : InfixOperator<NumberType>(left, right)

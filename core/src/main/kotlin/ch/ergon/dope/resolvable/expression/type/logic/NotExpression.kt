@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.BooleanType
 
 data class NotExpression(
     val expression: TypeExpression<BooleanType>,
-) : TypeExpression<BooleanType>, PrefixOperator(expression)
+) : PrefixOperator<BooleanType>(expression)
 
 fun not(expression: TypeExpression<BooleanType>) = NotExpression(expression)
 

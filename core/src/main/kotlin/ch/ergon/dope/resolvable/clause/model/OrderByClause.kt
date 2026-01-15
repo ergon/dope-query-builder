@@ -16,7 +16,6 @@ data class SelectOrderByClause<T : ValidType>(
     val additionalOrderExpressions: List<OrderExpression> = emptyList(),
     val parentClause: ISelectWindowClause<T>,
 ) : ISelectOrderByClause<T> {
-
     fun thenOrderBy(orderExpression: OrderExpression) =
         SelectOrderByClause(
             this.orderExpression,

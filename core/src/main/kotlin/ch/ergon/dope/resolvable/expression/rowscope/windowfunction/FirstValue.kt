@@ -11,8 +11,6 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrame
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
-private const val FIRST_VALUE = "FIRST_VALUE"
-
 data class FirstValue<T : ValidType>(
     val expression: TypeExpression<T>,
     override val nullsModifier: NullsModifier? = null,
@@ -20,7 +18,6 @@ data class FirstValue<T : ValidType>(
     val windowOrderClause: List<OrderingTerm>,
     val windowFrameClause: WindowFrameClause? = null,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = FIRST_VALUE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null
@@ -38,7 +35,6 @@ data class FirstValueWithReference<T : ValidType>(
     val windowReference: String,
     override val nullsModifier: NullsModifier? = null,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = FIRST_VALUE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null

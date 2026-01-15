@@ -13,7 +13,7 @@ import ch.ergon.dope.validtype.ValidType
 data class EqualsExpression<T : ValidType>(
     override val left: TypeExpression<T>,
     override val right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, right)
+) : InfixOperator<BooleanType>(left, right)
 
 fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): EqualsExpression<T> =
     EqualsExpression(this, right)
@@ -64,7 +64,7 @@ fun Boolean.isTrue(): EqualsExpression<BooleanType> =
 data class NotEqualsExpression<T : ValidType>(
     override val left: TypeExpression<T>,
     override val right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, right)
+) : InfixOperator<BooleanType>(left, right)
 
 fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> =
     NotEqualsExpression(this, right)

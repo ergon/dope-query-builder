@@ -11,8 +11,6 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrame
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
-private const val LAST_VALUE = "LAST_VALUE"
-
 class LastValue<T : ValidType>(
     val expression: TypeExpression<T>,
     override val nullsModifier: NullsModifier? = null,
@@ -20,7 +18,6 @@ class LastValue<T : ValidType>(
     val windowOrderClause: List<OrderingTerm>? = null,
     val windowFrameClause: WindowFrameClause? = null,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = LAST_VALUE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null
@@ -38,7 +35,6 @@ class LastValueWithReference<T : ValidType>(
     override val nullsModifier: NullsModifier? = null,
     val windowReference: String,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = LAST_VALUE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null

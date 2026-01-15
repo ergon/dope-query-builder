@@ -9,7 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class LikeExpression(
     override val left: TypeExpression<StringType>,
     override val right: TypeExpression<StringType>,
-) : TypeExpression<BooleanType>, InfixOperator(left, right)
+) : InfixOperator<BooleanType>(left, right)
 
 fun TypeExpression<StringType>.isLike(right: TypeExpression<StringType>) = LikeExpression(this, right)
 
@@ -22,7 +22,7 @@ fun String.isLike(right: String) = toDopeType().isLike(right.toDopeType())
 data class NotLikeExpression(
     override val left: TypeExpression<StringType>,
     override val right: TypeExpression<StringType>,
-) : TypeExpression<BooleanType>, InfixOperator(left, right)
+) : InfixOperator<BooleanType>(left, right)
 
 fun TypeExpression<StringType>.isNotLike(right: TypeExpression<StringType>) = NotLikeExpression(this, right)
 

@@ -11,7 +11,6 @@ import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.AliasedBucketDefinition
-import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.IndexReference
 import ch.ergon.dope.resolvable.bucket.UseIndex
 import ch.ergon.dope.resolvable.bucket.UseKeysClass
@@ -24,7 +23,6 @@ import ch.ergon.dope.resolvable.clause.model.SetAssignment
 import ch.ergon.dope.resolvable.clause.model.WindowDeclaration
 import ch.ergon.dope.resolvable.clause.model.WithClause
 import ch.ergon.dope.resolvable.expression.Expression
-import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Between
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.CurrentRow
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.Following
@@ -38,18 +36,21 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefin
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
-import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import ch.ergon.dope.resolver.QueryResolver
 
-class CouchbaseResolver(override val manager: DopeQueryManager = DopeQueryManager()) : QueryResolver<CouchbaseDopeQuery> {
+interface AbstractCouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
+    abstract override val manager: DopeQueryManager
+}
+
+class CouchbaseResolver(
+    override val manager: DopeQueryManager = DopeQueryManager(),
+) : ClauseResolver, ExpressionResolver, InfixOperatorResolver {
     override fun resolve(resolvable: Resolvable): CouchbaseDopeQuery =
         when (resolvable) {
-            is Clause -> ClauseResolver.resolve(this, resolvable)
+            is Clause -> resolve(resolvable)
 
-            is InfixOperator -> InfixOperatorResolver.resolve(this, resolvable)
-
-            is TypeExpression<*> -> TypeExpressionResolver.resolve(this, resolvable)
+            is Expression<*> -> resolve(resolvable)
 
             is WithClause -> {
                 val first = resolvable.withExpression
@@ -79,10 +80,6 @@ class CouchbaseResolver(override val manager: DopeQueryManager = DopeQueryManage
                     parameters = field.parameters.merge(value.parameters),
                 )
             }
-
-            is AliasedBucket -> CouchbaseDopeQuery("`${resolvable.alias}`")
-
-            is Bucket -> CouchbaseDopeQuery("`${resolvable.name}`")
 
             is AliasedBucketDefinition -> CouchbaseDopeQuery("`${resolvable.name}` AS `${resolvable.alias}`")
 
@@ -116,8 +113,6 @@ class CouchbaseResolver(override val manager: DopeQueryManager = DopeQueryManage
                     parameters = bucket.parameters.merge(*refs.map { it.parameters }.toTypedArray()),
                 )
             }
-
-            is Expression<*> -> ExpressionResolver.resolve(this, resolvable)
 
             is ObjectEntryPrimitive<*> -> {
                 val key = resolvable.key.toDopeQuery(this)

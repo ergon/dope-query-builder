@@ -11,18 +11,18 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-sealed class LimitClause(
-    open val numberExpression: TypeExpression<NumberType>,
-    open val parentClause: Clause,
-) : Clause
+sealed interface LimitClause : Clause {
+    val numberExpression: TypeExpression<NumberType>
+    val parentClause: Clause
+}
 
 data class SelectLimitClause<T : ValidType>(
     override val numberExpression: TypeExpression<NumberType>,
     override val parentClause: ISelectOrderByClause<T>,
-) : ISelectLimitClause<T>, LimitClause(numberExpression, parentClause)
+) : ISelectLimitClause<T>, LimitClause
 
 data class DeleteLimitClause(override val numberExpression: TypeExpression<NumberType>, override val parentClause: IDeleteWhereClause) :
-    IDeleteLimitClause, LimitClause(numberExpression, parentClause)
+    IDeleteLimitClause, LimitClause
 
 data class UpdateLimitClause(override val numberExpression: TypeExpression<NumberType>, override val parentClause: IUpdateWhereClause) :
-    IUpdateLimitClause, LimitClause(numberExpression, parentClause)
+    IUpdateLimitClause, LimitClause

@@ -12,15 +12,12 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private const val MIN = "MIN"
-
 data class MinExpressionWithReference<T : ValidType>(
     val field: IField<T>,
     val windowReference: String,
     override val quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<T> {
     override val selectable: Selectable = field
-    override val functionName: String = MIN
     override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
@@ -33,7 +30,6 @@ data class MinExpression<T : ValidType>(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<T> {
     override val selectable: Selectable = field
-    override val functionName: String = MIN
     override val overDefinition: OverDefinition? = if (listOf(
             windowReferenceExpression,
             windowPartitionClause,

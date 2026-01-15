@@ -5,15 +5,24 @@ import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.AliasedSelectClauseDefinition
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 
-internal object ExpressionResolver {
-    fun resolve(resolver: CouchbaseResolver, expression: Expression<*>): CouchbaseDopeQuery = when (expression) {
+interface ExpressionResolver : TypeExpressionResolver {
+    fun resolve(expression: Expression<*>): CouchbaseDopeQuery = when (expression) {
+        is TypeExpression<*> -> resolve(expression)
+
+        is AliasedBucket -> CouchbaseDopeQuery("`${expression.alias}`")
+
+        is Bucket -> CouchbaseDopeQuery("`${expression.name}`")
+
         is AliasedTypeExpression<*> -> {
-            val inner = expression.typeExpression.toDopeQuery(resolver)
+            val inner = expression.typeExpression.toDopeQuery(this)
             CouchbaseDopeQuery(
                 queryString = formatToQueryStringWithSymbol(inner.queryString, "AS", "`${expression.alias}`"),
                 parameters = inner.parameters,
@@ -21,8 +30,8 @@ internal object ExpressionResolver {
         }
 
         is RowScopeExpression<*> -> {
-            val argumentsDopeQuery = expression.functionArguments.mapNotNull { it?.toDopeQuery(resolver) }
-            val over = expression.overDefinition?.toDopeQuery(resolver)
+            val argumentsDopeQuery = expression.functionArguments.mapNotNull { it?.toDopeQuery(this) }
+            val over = expression.overDefinition?.toDopeQuery(this)
             val argumentsDopeQueryString = formatListToQueryStringWithBrackets(
                 argumentsDopeQuery,
                 prefix = "(" + (expression.quantifier?.let { "${it.name} " } ?: ""),
@@ -37,14 +46,14 @@ internal object ExpressionResolver {
         }
 
         is AliasedRowScopeExpression<*> -> {
-            val inner = expression.rowScopeExpression.toDopeQuery(resolver)
+            val inner = expression.rowScopeExpression.toDopeQuery(this)
             CouchbaseDopeQuery(formatToQueryStringWithSymbol(inner.queryString, "AS", "`${expression.alias}`"), inner.parameters)
         }
 
         is AliasedSelectClause<*> -> CouchbaseDopeQuery("`${expression.alias}`")
 
         is AliasedSelectClauseDefinition<*> -> {
-            val parent = expression.parentClause.toDopeQuery(resolver)
+            val parent = expression.parentClause.toDopeQuery(this)
             CouchbaseDopeQuery("(${parent.queryString}) AS `${expression.alias}`", parent.parameters)
         }
 

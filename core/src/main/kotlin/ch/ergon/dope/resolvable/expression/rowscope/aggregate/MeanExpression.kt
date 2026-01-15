@@ -13,15 +13,12 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private const val MEAN = "MEAN"
-
 data class MeanExpressionWithReference(
     val number: IField<NumberType>,
     val windowReference: String,
     override val quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = number
-    override val functionName: String = MEAN
     override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
@@ -34,7 +31,6 @@ data class MeanExpression(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = number
-    override val functionName: String = MEAN
     override val overDefinition: OverDefinition? = if (listOf(
             windowReferenceExpression,
             windowPartitionClause,

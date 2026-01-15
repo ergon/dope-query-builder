@@ -5,12 +5,6 @@ import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResul
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-private const val CASE = "CASE"
-private const val WHEN = "WHEN"
-private const val THEN = "THEN"
-private const val ELSE = "ELSE"
-private const val END = "END"
-
 data class CaseClass<T : ValidType>(val case: TypeExpression<T>? = null) : Resolvable
 
 data class CaseExpression<T : ValidType, U : ValidType>(

@@ -9,7 +9,6 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowfunction.NullsModifier
 import ch.ergon.dope.validtype.ValidType
 
 interface RowScopeExpression<T : ValidType> : Expression<T> {
-    val functionName: String
     val quantifier: AggregateQuantifier?
     val functionArguments: List<Selectable?>
     val fromModifier: FromModifier?

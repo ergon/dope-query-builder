@@ -7,7 +7,7 @@ import ch.ergon.dope.validtype.NumberType
 
 data class NegationExpression(
     val numberExpression: TypeExpression<NumberType>,
-) : TypeExpression<NumberType>, PrefixOperator(numberExpression)
+) : PrefixOperator<NumberType>(numberExpression)
 
 fun neg(numberExpression: TypeExpression<NumberType>) = NegationExpression(numberExpression)
 

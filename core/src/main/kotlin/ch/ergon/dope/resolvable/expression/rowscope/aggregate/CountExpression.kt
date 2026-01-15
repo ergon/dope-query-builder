@@ -14,15 +14,12 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private const val COUNT = "COUNT"
-
 data class CountExpressionWithReference(
     val field: IField<out ValidType>,
     val windowReference: String,
     override val quantifier: AggregateQuantifier? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = field
-    override val functionName: String = COUNT
     override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
@@ -35,7 +32,6 @@ data class CountExpression(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = field
-    override val functionName: String = COUNT
     override val overDefinition: OverDefinition? = if (listOf(
             windowReferenceExpression,
             windowPartitionClause,
@@ -60,7 +56,6 @@ data class CountAsteriskExpressionWithReference(
     val windowReference: String,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = Asterisk()
-    override val functionName: String = COUNT
     override val quantifier: AggregateQuantifier? = null
     override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
@@ -72,7 +67,6 @@ data class CountAsteriskExpression(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = Asterisk()
-    override val functionName: String = COUNT
     override val quantifier: AggregateQuantifier? = null
     override val overDefinition: OverDefinition? = if (listOf(
             windowReferenceExpression,

@@ -11,7 +11,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-sealed interface WhereClause {
+sealed interface WhereClause : Clause {
     val whereExpression: TypeExpression<BooleanType>
     val parentClause: Clause
 }

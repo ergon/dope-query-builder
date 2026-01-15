@@ -13,8 +13,6 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val NTH_VALUE = "NTH_VALUE"
-
 data class NthValue<T : ValidType>(
     val expression: TypeExpression<T>,
     val offset: TypeExpression<NumberType>,
@@ -24,7 +22,6 @@ data class NthValue<T : ValidType>(
     val windowOrderClause: List<OrderingTerm>? = null,
     val windowFrameClause: WindowFrameClause? = null,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = NTH_VALUE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression, offset)
     override val overDefinition: OverDefinition? = OverWindowDefinition(
@@ -43,7 +40,6 @@ data class NthValueWithReference<T : ValidType>(
     override val fromModifier: FromModifier? = null,
     val windowReference: String,
 ) : WindowFunctionExpression<T> {
-    override val functionName: String = NTH_VALUE
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression, offset)
     override val overDefinition: OverDefinition = OverWindowReference(windowReference)

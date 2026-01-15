@@ -5,10 +5,6 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-private const val UNBOUNDED = "UNBOUNDED"
-private const val FOLLOWING = "FOLLOWING"
-private const val PRECEDING = "PRECEDING"
-
 interface WindowFrameExtent : Resolvable
 
 interface FrameBetween : Resolvable

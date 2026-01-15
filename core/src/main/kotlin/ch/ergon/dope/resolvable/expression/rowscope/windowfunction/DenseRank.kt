@@ -11,13 +11,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val DENSE_RANK = "DENSE_RANK"
-
 data class DenseRank(
     val windowOrderClause: List<OrderingTerm>,
     val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
 ) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = DENSE_RANK
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
@@ -31,7 +28,6 @@ data class DenseRank(
 }
 
 data class DenseRankWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {
-    override val functionName: String = DENSE_RANK
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
