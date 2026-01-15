@@ -85,6 +85,67 @@ class DeleteTest {
     }
 
     @Test
+    fun `should support delete from with returning asterisk`() {
+        val expected = "DELETE FROM `someBucket` RETURNING *"
+
+        val actual: String = QueryBuilder
+            .deleteFrom(someBucket())
+            .returningAsterisk()
+            .build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support delete from with returning asterisk and bucket`() {
+        val expected = "DELETE FROM `someBucket` RETURNING `someBucket`.*"
+
+        val bucket = someBucket()
+        val actual: String = QueryBuilder
+            .deleteFrom(bucket)
+            .returningAsterisk(bucket)
+            .build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support delete from with returning raw`() {
+        val expected = "DELETE FROM `someBucket` RETURNING RAW `stringField`"
+
+        val actual: String = QueryBuilder
+            .deleteFrom(someBucket())
+            .returningRaw(someStringField())
+            .build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support delete from with returning value`() {
+        val expected = "DELETE FROM `someBucket` RETURNING VALUE `stringField`"
+
+        val actual: String = QueryBuilder
+            .deleteFrom(someBucket())
+            .returningValue(someStringField())
+            .build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support delete from with returning element`() {
+        val expected = "DELETE FROM `someBucket` RETURNING ELEMENT `stringField`"
+
+        val actual: String = QueryBuilder
+            .deleteFrom(someBucket())
+            .returningElement(someStringField())
+            .build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support delete`() {
         val expected = "DELETE FROM `someBucket` WHERE (`someBucket`.`age` = 2 AND TRUE) LIMIT 7 OFFSET 10 RETURNING `stringField`"
 

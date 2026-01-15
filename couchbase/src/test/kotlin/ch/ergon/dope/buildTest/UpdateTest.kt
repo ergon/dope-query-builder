@@ -103,6 +103,73 @@ class UpdateTest {
     }
 
     @Test
+    fun `should support update clause with returning asterisk`() {
+        val expected = "UPDATE `someBucket` RETURNING *"
+
+        val actual = QueryBuilder
+            .update(
+                someBucket(),
+            ).returningAsterisk().build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update clause with returning asterisk and bucket`() {
+        val expected = "UPDATE `someBucket` RETURNING `someBucket`.*"
+
+        val bucket = someBucket()
+        val actual = QueryBuilder
+            .update(
+                bucket,
+            ).returningAsterisk(bucket).build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update clause with returning raw`() {
+        val expected = "UPDATE `someBucket` RETURNING RAW `stringField`"
+
+        val actual = QueryBuilder
+            .update(
+                someBucket(),
+            ).returningRaw(
+                someStringField(),
+            ).build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update clause with returning value`() {
+        val expected = "UPDATE `someBucket` RETURNING VALUE `stringField`"
+
+        val actual = QueryBuilder
+            .update(
+                someBucket(),
+            ).returningValue(
+                someStringField(),
+            ).build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support update clause with returning element`() {
+        val expected = "UPDATE `someBucket` RETURNING ELEMENT `stringField`"
+
+        val actual = QueryBuilder
+            .update(
+                someBucket(),
+            ).returningElement(
+                someStringField(),
+            ).build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support update clause as a complex query`() {
         val bucket = someBucket().alias("sb")
         val setThisNumberField = someNumberField("setThisNumberField")
