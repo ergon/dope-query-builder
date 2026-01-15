@@ -30,12 +30,7 @@ internal object InfixOperatorResolver {
             else -> {
                 val left = operator.left.toDopeQuery(resolver)
                 val right = operator.right.toDopeQuery(resolver)
-                val useBrackets = operator is LogicalInfixExpression || operator is NumberInfixExpression
-                val operatorQueryString = if (useBrackets) {
-                    formatToQueryStringWithBrackets(left.queryString, operator.symbol, right.queryString)
-                } else {
-                    formatToQueryStringWithSymbol(left.queryString, operator.symbol, right.queryString)
-                }
+                val operatorQueryString = formatToQueryStringWithSymbol(left.queryString, operator.symbol, right.queryString)
                 CouchbaseDopeQuery(operatorQueryString, left.parameters.merge(right.parameters))
             }
         }
