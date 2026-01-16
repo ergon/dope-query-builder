@@ -22,6 +22,7 @@ data class ArraySymmetricDifferenceNExpression<T : ValidType>(
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+
 fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
