@@ -80,7 +80,6 @@ class FromIntegrationTest : BaseIntegrationTest() {
             )
             .orderBy(orderNumberField, ASC)
             .build(CouchbaseResolver())
-        println(dopeQuery.queryString)
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

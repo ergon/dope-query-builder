@@ -43,8 +43,6 @@ class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .build(CouchbaseResolver())
 
-        println(dopeQuery.queryString)
-
         val queryResult = queryWithoutParameters(dopeQuery)
 
         assertEquals(

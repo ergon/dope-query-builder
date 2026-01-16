@@ -166,7 +166,7 @@ object TestCouchbaseDatabase {
 
 fun QueryResult.toMapValues(rowNumber: Int = 0, isSelectAsterisk: Boolean = false, keyspace: KeySpace = testKeySpace) =
     if (isSelectAsterisk) {
-        this.rows.map { it.contentAs<Map<String, Map<String, Any>>>().also { println(it) }[keyspace.bucket]!! }[rowNumber]
+        this.rows.map { it.contentAs<Map<String, Map<String, Any>>>()[keyspace.bucket]!! }[rowNumber]
     } else {
         this.rows.map { it.contentAs<Map<String, Any>>() }[rowNumber]
     }
