@@ -5,12 +5,9 @@ import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTo
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 
-// Argument {"case":"lower"} is optional. Valid values are lower or upper.
-// Default is neither, as in it returns the case of the original data.
-// Use this option to specify the case sensitivity.
 data class TokensExpression(
     val inStr: List<String>,
-    val opt: CustomTokenOptions = CustomTokenOptions(),
+    val options: CustomTokenOptions? = null,
 ) : FunctionOperator<ArrayType<StringType>>
 
-fun tokens(inStr: List<String>, opt: CustomTokenOptions = CustomTokenOptions()) = TokensExpression(inStr, opt)
+fun tokens(inStr: List<String>, options: CustomTokenOptions? = null) = TokensExpression(inStr, options)

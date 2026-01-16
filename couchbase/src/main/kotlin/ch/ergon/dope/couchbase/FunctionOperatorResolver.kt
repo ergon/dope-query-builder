@@ -118,13 +118,13 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         is TokensExpression -> {
-            val optionsDopeQuery = typeExpression.opt.toDopeQuery(this)
+            val optionsDopeQuery = typeExpression.options?.toDopeQuery(this).takeIf { !it?.queryString.isNullOrEmpty() }
             val functionQueryString = typeExpression.toFunctionQueryString(
                 "TOKENS",
                 formatStringListToQueryStringWithBrackets(typeExpression.inStr, prefix = "[\"", postfix = "\"]"),
-                optionsDopeQuery.queryString,
+                optionsDopeQuery?.queryString,
             )
-            CouchbaseDopeQuery(functionQueryString, optionsDopeQuery.parameters)
+            CouchbaseDopeQuery(functionQueryString, optionsDopeQuery?.parameters.orEmpty())
         }
 
         is MaskExpression -> {

@@ -49,7 +49,6 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
         when (typeExpression) {
             is FunctionOperator -> resolve(typeExpression)
 
-
             is InfixOperator<*> -> resolve(typeExpression)
 
             is PrefixOperator<*> -> {

@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.string.concat2
 import ch.ergon.dope.resolvable.expression.type.function.string.contains
-import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.TokenCases
+import ch.ergon.dope.resolvable.expression.type.function.string.factory.customTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.string.initCap
 import ch.ergon.dope.resolvable.expression.type.function.string.length
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
@@ -689,13 +689,13 @@ class StringFunctionsTest : ResolverDependentTest {
     @Test
     fun `should Support Tokens`() {
         val expected = "SELECT TOKENS([\"jim@example.com, kim@example.com, https://example.com/, 408-555-1212\"], " +
-            "{\"name\": false, \"specials\": true})"
+            "{\"name\": true})"
 
         val actual: String = QueryBuilder
             .select(
                 tokens(
                     listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212"),
-                    CustomTokenOptions(specials = true),
+                    customTokenOptions(name = true),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -704,7 +704,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
     @Test
     fun `should Support Tokens With Empty Options`() {
-        val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"specials\": false})"
+        val expected = "SELECT TOKENS([\"jim@example.com\"])"
 
         val actual: String = QueryBuilder
             .select(
@@ -716,10 +716,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
     @Test
     fun `should Support Token Options`() {
-        val expected = "SELECT TOKENS([\"jim@example.com\"], {\"name\": false, \"specials\": true})"
+        val expected = "SELECT TOKENS([\"jim@example.com\"], {\"specials\": true})"
 
         val actual: String = QueryBuilder
-            .select(tokens(listOf("jim@example.com"), CustomTokenOptions(specials = true)))
+            .select(tokens(listOf("jim@example.com"), customTokenOptions(specials = true)))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -728,13 +728,13 @@ class StringFunctionsTest : ResolverDependentTest {
     @Test
     fun `should Support Multiple Token Options`() {
         val expected = "SELECT TOKENS([\"jim@example.com\"], " +
-            "{\"name\": false, \"case\": \"UPPER\", \"specials\": true})"
+            "{\"case\": \"LOWER\", \"specials\": true})"
 
         val actual: String = QueryBuilder
             .select(
                 tokens(
                     listOf("jim@example.com"),
-                    CustomTokenOptions(specials = true, case = TokenCases.UPPER),
+                    customTokenOptions(specials = true, case = TokenCases.LOWER),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -748,7 +748,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                tokens(listOf("jim@example.com"), CustomTokenOptions(specials = false, case = TokenCases.UPPER, name = false)),
+                tokens(listOf("jim@example.com"), customTokenOptions(specials = false, case = TokenCases.UPPER, name = false)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

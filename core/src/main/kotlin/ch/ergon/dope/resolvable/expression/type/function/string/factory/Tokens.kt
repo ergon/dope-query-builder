@@ -5,7 +5,13 @@ import ch.ergon.dope.resolvable.Resolvable
 enum class TokenCases { LOWER, UPPER }
 
 data class CustomTokenOptions(
-    var name: Boolean = false,
+    val name: Boolean? = null,
     val case: TokenCases? = null,
-    val specials: Boolean = false,
+    val specials: Boolean? = null,
 ) : Resolvable
+
+fun customTokenOptions(
+    name: Boolean? = null,
+    case: TokenCases? = null,
+    specials: Boolean? = null,
+) = CustomTokenOptions(name, case, specials)

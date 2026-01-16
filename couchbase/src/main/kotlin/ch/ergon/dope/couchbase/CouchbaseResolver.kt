@@ -219,12 +219,15 @@ class CouchbaseResolver(
             }
 
             is CustomTokenOptions -> {
-                val map = listOfNotNull(
-                    "name" to resolvable.name,
+                val options = listOfNotNull(
+                    resolvable.name?.let { "name" to it },
                     resolvable.case?.let { "case" to "\"${it.queryString}\"" },
-                    "specials" to resolvable.specials,
+                    resolvable.specials?.let { "specials" to it },
                 )
-                val queryString = map.joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
+                val queryString = options
+                    .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
+                    .takeIf { options.isNotEmpty() }
+                    .orEmpty()
 
                 CouchbaseDopeQuery(queryString = queryString)
             }
