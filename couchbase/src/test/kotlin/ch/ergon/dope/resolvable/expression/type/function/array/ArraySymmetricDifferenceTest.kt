@@ -139,7 +139,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceExpression(firstArray, secondArray)
 
-        val actual = arraySymDiff(firstArray, secondArray)
+        val actual = firstArray.symDiff(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -150,7 +150,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceExpression(firstArray.asExpression(), secondArray)
 
-        val actual = arraySymDiff(firstArray, secondArray)
+        val actual = firstArray.symDiff(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -161,7 +161,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceExpression(firstArray, secondArray.asExpression())
 
-        val actual = arraySymDiff(firstArray, secondArray)
+        val actual = firstArray.symDiff(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -172,7 +172,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceExpression(firstArray.asExpression(), secondArray.asExpression())
 
-        val actual = arraySymDiff(firstArray, secondArray)
+        val actual = firstArray.symDiff(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -184,7 +184,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceExpression(firstArray, secondArray, listOf(thirdArray))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -196,7 +196,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceExpression(firstArray.asExpression(), secondArray, listOf(thirdArray))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -208,7 +208,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceExpression(firstArray, secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -220,7 +220,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceExpression(firstArray, secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -232,7 +232,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceExpression(firstArray.asExpression(), secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -244,7 +244,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceExpression(firstArray.asExpression(), secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -256,7 +256,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceExpression(firstArray, secondArray.asExpression(), listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -272,7 +272,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
             listOf(thirdArray.asExpression()),
         )
 
-        val actual = arraySymDiff(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -283,7 +283,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArraySymmetricDifference1Expression(firstArray, secondArray)
 
-        val actual = arraySymDiff1(firstArray, secondArray)
+        val actual = firstArray.symDiff1(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -294,7 +294,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArraySymmetricDifference1Expression(firstArray.asExpression(), secondArray)
 
-        val actual = arraySymDiff1(firstArray, secondArray)
+        val actual = firstArray.symDiff1(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -305,7 +305,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifference1Expression(firstArray, secondArray.asExpression())
 
-        val actual = arraySymDiff1(firstArray, secondArray)
+        val actual = firstArray.symDiff1(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -316,7 +316,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifference1Expression(firstArray.asExpression(), secondArray.asExpression())
 
-        val actual = arraySymDiff1(firstArray, secondArray)
+        val actual = firstArray.symDiff1(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -328,7 +328,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifference1Expression(firstArray, secondArray, listOf(thirdArray))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -340,7 +340,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifference1Expression(firstArray.asExpression(), secondArray, listOf(thirdArray))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -352,7 +352,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifference1Expression(firstArray, secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -364,7 +364,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifference1Expression(firstArray, secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -376,7 +376,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifference1Expression(firstArray.asExpression(), secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -388,7 +388,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifference1Expression(firstArray.asExpression(), secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -400,7 +400,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifference1Expression(firstArray, secondArray.asExpression(), listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -416,7 +416,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
             listOf(thirdArray.asExpression()),
         )
 
-        val actual = arraySymDiff1(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiff1(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -427,7 +427,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceNExpression(firstArray, secondArray)
 
-        val actual = arraySymDiffN(firstArray, secondArray)
+        val actual = firstArray.symDiffN(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -438,7 +438,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceNExpression(firstArray.asExpression(), secondArray)
 
-        val actual = arraySymDiffN(firstArray, secondArray)
+        val actual = firstArray.symDiffN(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -449,7 +449,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceNExpression(firstArray, secondArray.asExpression())
 
-        val actual = arraySymDiffN(firstArray, secondArray)
+        val actual = firstArray.symDiffN(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -460,7 +460,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceNExpression(firstArray.asExpression(), secondArray.asExpression())
 
-        val actual = arraySymDiffN(firstArray, secondArray)
+        val actual = firstArray.symDiffN(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -472,7 +472,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceNExpression(firstArray, secondArray, listOf(thirdArray))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -484,7 +484,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceNExpression(firstArray.asExpression(), secondArray, listOf(thirdArray))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -496,7 +496,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceNExpression(firstArray, secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -508,7 +508,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceNExpression(firstArray, secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -520,7 +520,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArraySymmetricDifferenceNExpression(firstArray.asExpression(), secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -532,7 +532,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceNExpression(firstArray.asExpression(), secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -544,7 +544,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArraySymmetricDifferenceNExpression(firstArray, secondArray.asExpression(), listOf(thirdArray.asExpression()))
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -560,7 +560,7 @@ class ArraySymmetricDifferenceTest : ResolverDependentTest {
             listOf(thirdArray.asExpression()),
         )
 
-        val actual = arraySymDiffN(firstArray, secondArray, thirdArray)
+        val actual = firstArray.symDiffN(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

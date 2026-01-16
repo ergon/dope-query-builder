@@ -59,7 +59,7 @@ class ArrayLengthExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayLengthExpression(array)
 
-        val actual = arrayLength(array)
+        val actual = array.length()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArrayLengthExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayLengthExpression(selectClause.asExpression())
 
-        val actual = arrayLength(selectClause)
+        val actual = selectClause.length()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

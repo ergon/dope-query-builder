@@ -12,8 +12,8 @@ data class ArrayPositionExpression<T : ValidType>(
     val value: TypeExpression<T>,
 ) : FunctionOperator<NumberType>
 
-fun <T : ValidType> arrayPosition(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
-    ArrayPositionExpression(array, value)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.position(value: TypeExpression<T>) =
+    ArrayPositionExpression(this, value)
 
-fun <T : ValidType> arrayPosition(selectClause: ISelectOffsetClause<T>, value: TypeExpression<T>) =
-    arrayPosition(selectClause.asExpression(), value)
+fun <T : ValidType> ISelectOffsetClause<T>.position(value: TypeExpression<T>) =
+    asExpression().position(value)

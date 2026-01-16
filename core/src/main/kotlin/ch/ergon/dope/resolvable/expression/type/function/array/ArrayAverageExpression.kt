@@ -10,6 +10,6 @@ data class ArrayAverageExpression<T : NumberType>(
     val array: TypeExpression<ArrayType<T>>,
 ) : FunctionOperator<T>
 
-fun <T : NumberType> arrayAverage(array: TypeExpression<ArrayType<T>>) = ArrayAverageExpression(array)
+fun <T : NumberType> TypeExpression<ArrayType<T>>.average() = ArrayAverageExpression(this)
 
-fun <T : NumberType> arrayAverage(selectClause: ISelectOffsetClause<T>) = arrayAverage(selectClause.asExpression())
+fun <T : NumberType> ISelectOffsetClause<T>.average() = asExpression().average()

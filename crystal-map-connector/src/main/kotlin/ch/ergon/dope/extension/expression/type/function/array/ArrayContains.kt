@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.expression.type.function.array
 
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayContainsExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayContains
+import ch.ergon.dope.resolvable.expression.type.function.array.contains
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
@@ -12,34 +12,34 @@ import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 
 @JvmName("numberArrayContains")
-fun arrayContains(array: CMJsonList<Number>, value: CMJsonField<Number>): ArrayContainsExpression<NumberType> =
-    arrayContains(array.toDopeType(), value.toDopeType())
+fun CMJsonList<Number>.contains(value: CMJsonField<Number>): ArrayContainsExpression<NumberType> =
+    toDopeType().contains(value.toDopeType())
 
-fun arrayContains(array: CMJsonList<Number>, value: Number): ArrayContainsExpression<NumberType> =
-    arrayContains(array.toDopeType(), value.toDopeType())
+fun CMJsonList<Number>.contains(value: Number): ArrayContainsExpression<NumberType> =
+    toDopeType().contains(value.toDopeType())
 
 @JvmName("numberArrayContains")
-fun <Convertable : Any, JsonType : Number> arrayContains(array: CMConverterList<Convertable, JsonType>, value: Convertable):
-    ArrayContainsExpression<NumberType> = arrayContains(array.toDopeType(), value.toDopeType(array))
+fun <Convertable : Any, JsonType : Number> CMConverterList<Convertable, JsonType>.contains(value: Convertable):
+    ArrayContainsExpression<NumberType> = toDopeType().contains(value.toDopeType(this))
 
 @JvmName("stringArrayContains")
-fun arrayContains(array: CMJsonList<String>, value: CMJsonField<String>): ArrayContainsExpression<StringType> =
-    arrayContains(array.toDopeType(), value.toDopeType())
+fun CMJsonList<String>.contains(value: CMJsonField<String>): ArrayContainsExpression<StringType> =
+    toDopeType().contains(value.toDopeType())
 
-fun arrayContains(array: CMJsonList<String>, value: String): ArrayContainsExpression<StringType> =
-    arrayContains(array.toDopeType(), value.toDopeType())
+fun CMJsonList<String>.contains(value: String): ArrayContainsExpression<StringType> =
+    toDopeType().contains(value.toDopeType())
 
 @JvmName("stringArrayContains")
-fun <Convertable : Any> arrayContains(array: CMConverterList<Convertable, String>, value: Convertable):
-    ArrayContainsExpression<StringType> = arrayContains(array.toDopeType(), value.toDopeType(array))
+fun <Convertable : Any> CMConverterList<Convertable, String>.contains(value: Convertable):
+    ArrayContainsExpression<StringType> = toDopeType().contains(value.toDopeType(this))
 
 @JvmName("booleanArrayContains")
-fun arrayContains(array: CMJsonList<Boolean>, value: CMJsonField<Boolean>): ArrayContainsExpression<BooleanType> =
-    arrayContains(array.toDopeType(), value.toDopeType())
+fun CMJsonList<Boolean>.contains(value: CMJsonField<Boolean>): ArrayContainsExpression<BooleanType> =
+    toDopeType().contains(value.toDopeType())
 
-fun arrayContains(array: CMJsonList<Boolean>, value: Boolean): ArrayContainsExpression<BooleanType> =
-    arrayContains(array.toDopeType(), value.toDopeType())
+fun CMJsonList<Boolean>.contains(value: Boolean): ArrayContainsExpression<BooleanType> =
+    toDopeType().contains(value.toDopeType())
 
 @JvmName("booleanArrayContains")
-fun <Convertable : Any> arrayContains(array: CMConverterList<Convertable, Boolean>, value: Convertable):
-    ArrayContainsExpression<BooleanType> = arrayContains(array.toDopeType(), value.toDopeType(array))
+fun <Convertable : Any> CMConverterList<Convertable, Boolean>.contains(value: Convertable):
+    ArrayContainsExpression<BooleanType> = toDopeType().contains(value.toDopeType(this))

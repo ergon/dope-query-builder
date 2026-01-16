@@ -59,7 +59,7 @@ class ArrayCountExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayCountExpression(array)
 
-        val actual = arrayCount(array)
+        val actual = array.count()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArrayCountExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayCountExpression(selectClause.asExpression())
 
-        val actual = arrayCount(selectClause)
+        val actual = selectClause.count()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

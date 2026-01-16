@@ -10,6 +10,6 @@ data class ArrayMaxExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
 ) : FunctionOperator<T>
 
-fun <T : ValidType> arrayMax(array: TypeExpression<ArrayType<T>>) = ArrayMaxExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.max() = ArrayMaxExpression(this)
 
-fun <T : ValidType> arrayMax(selectClause: ISelectOffsetClause<T>) = arrayMax(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.max() = asExpression().max()

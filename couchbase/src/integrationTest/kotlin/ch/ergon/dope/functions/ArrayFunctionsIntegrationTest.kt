@@ -10,16 +10,16 @@ import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.arithmetic.sub
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayAppend
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayAverage
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayContains
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayCount
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayLength
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayMin
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayPut
+import ch.ergon.dope.resolvable.expression.type.function.array.append
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayRange
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayRepeat
-import ch.ergon.dope.resolvable.expression.type.function.array.arraySort
+import ch.ergon.dope.resolvable.expression.type.function.array.average
+import ch.ergon.dope.resolvable.expression.type.function.array.contains
+import ch.ergon.dope.resolvable.expression.type.function.array.count
+import ch.ergon.dope.resolvable.expression.type.function.array.length
+import ch.ergon.dope.resolvable.expression.type.function.array.min
+import ch.ergon.dope.resolvable.expression.type.function.array.put
+import ch.ergon.dope.resolvable.expression.type.function.array.sort
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
@@ -33,10 +33,10 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
         val array = listOf(1.toDopeType(), 2.toDopeType(), 3.toDopeType()).toDopeType()
         val dopeQuery = QueryBuilder
             .select(
-                arrayCount(array).add(arrayLength(array)).sub(arrayAverage(array)),
+                array.count().add(array.length()).sub(array.average()),
             )
             .where(
-                arrayContains(array, arrayMin(array)).and(arrayRange(1, 4).isEqualTo(array)),
+                array.contains(array.min()).and(arrayRange(1, 4).isEqualTo(array)),
             )
             .limit(
                 array.get(0),
@@ -57,25 +57,17 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
             )
             .from(
                 testBucket.useKeys(
-                    arraySort(
-                        arrayPut(
-                            arrayAppend(
-                                keys,
-                                "employee:5",
-                            ),
-                            "employee:1",
-                            "employee:4",
-                        ),
-                    ),
+                    keys.append(
+                        "employee:5",
+                    ).put(
+                        "employee:1",
+                        "employee:4",
+                    ).sort(),
                 ),
             )
             .where(
-                arrayCount(
-                    arrayRange(1, 11),
-                ).isEqualTo(
-                    arrayLength(
-                        arrayRepeat("value".toDopeType(), 10),
-                    ),
+                arrayRange(1, 11).count().isEqualTo(
+                    arrayRepeat("value".toDopeType(), 10).length(),
                 ),
             ).orderBy(
                 meta().id,

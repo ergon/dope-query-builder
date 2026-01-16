@@ -14,51 +14,42 @@ data class ArrayRemoveExpression<T : ValidType>(
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
 ) : ArrayFunctionExpression<T>(array, listOf(value, *additionalValues.toTypedArray()))
-
-fun <T : ValidType> arrayRemove(
-    array: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.remove(
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayRemoveExpression(array, value, additionalValues.toList())
+) = ArrayRemoveExpression(this, value, additionalValues.toList())
 
-fun arrayRemove(
-    array: TypeExpression<ArrayType<StringType>>,
+fun TypeExpression<ArrayType<StringType>>.remove(
     value: String,
     vararg additionalValues: String,
-) = arrayRemove(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = remove(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayRemove(
-    array: TypeExpression<ArrayType<NumberType>>,
+fun TypeExpression<ArrayType<NumberType>>.remove(
     value: Number,
     vararg additionalValues: Number,
-) = arrayRemove(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = remove(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayRemove(
-    array: TypeExpression<ArrayType<BooleanType>>,
+fun TypeExpression<ArrayType<BooleanType>>.remove(
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayRemove(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = remove(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun <T : ValidType> arrayRemove(
-    selectClause: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.remove(
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayRemove(selectClause.asExpression(), value, *additionalValues)
+) = asExpression().remove(value, *additionalValues)
 
-fun arrayRemove(
-    selectClause: ISelectOffsetClause<StringType>,
+fun ISelectOffsetClause<StringType>.remove(
     value: String,
     vararg additionalValues: String,
-) = arrayRemove(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().remove(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayRemove(
-    selectClause: ISelectOffsetClause<NumberType>,
+fun ISelectOffsetClause<NumberType>.remove(
     value: Number,
     vararg additionalValues: Number,
-) = arrayRemove(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().remove(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayRemove(
-    selectClause: ISelectOffsetClause<BooleanType>,
+fun ISelectOffsetClause<BooleanType>.remove(
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayRemove(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().remove(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

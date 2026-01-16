@@ -11,170 +11,133 @@ data class ArraySymmetricDifferenceExpression<T : ValidType>(
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
-fun <T : ValidType> arraySymDiff(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArraySymmetricDifferenceExpression(firstArray, secondArray, additionalArrays.toList())
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff(firstArray.asExpression(), secondArray, *additionalArrays)
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff(firstArray, secondArray.asExpression(), *additionalArrays)
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arraySymDiff(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
-
 data class ArraySymmetricDifference1Expression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
-fun <T : ValidType> arraySymDiff1(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArraySymmetricDifference1Expression(firstArray, secondArray, additionalArrays.toList())
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff1(firstArray.asExpression(), secondArray, *additionalArrays)
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff1(firstArray, secondArray.asExpression(), *additionalArrays)
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff1(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiff1(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff1(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff1(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arraySymDiff1(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiff1(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
-
 data class ArraySymmetricDifferenceNExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
-
-fun <T : ValidType> arraySymDiffN(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArraySymmetricDifferenceNExpression(firstArray, secondArray, additionalArrays.toList())
+) = ArraySymmetricDifferenceExpression(this, secondArray, additionalArrays.toList())
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiffN(firstArray.asExpression(), secondArray, *additionalArrays)
+) = asExpression().symDiff(secondArray, *additionalArrays)
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiffN(firstArray, secondArray.asExpression(), *additionalArrays)
+) = symDiff(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiffN(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = symDiff(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arraySymDiffN(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
+) = asExpression().symDiff(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiffN(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = asExpression().symDiff(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiffN(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = symDiff(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arraySymDiffN(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arraySymDiffN(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
+) = asExpression().symDiff(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff1(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = ArraySymmetricDifference1Expression(this, secondArray, additionalArrays.toList())
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff1(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = asExpression().symDiff1(secondArray, *additionalArrays)
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff1(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = symDiff1(secondArray.asExpression(), *additionalArrays)
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff1(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = symDiff1(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff1(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = asExpression().symDiff1(secondArray.asExpression(), *additionalArrays)
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff1(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = asExpression().symDiff1(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiff1(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = symDiff1(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiff1(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = asExpression().symDiff1(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiffN(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = ArraySymmetricDifferenceNExpression(this, secondArray, additionalArrays.toList())
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiffN(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = asExpression().symDiffN(secondArray, *additionalArrays)
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiffN(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = symDiffN(secondArray.asExpression(), *additionalArrays)
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiffN(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = symDiffN(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiffN(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: TypeExpression<ArrayType<T>>,
+) = asExpression().symDiffN(secondArray.asExpression(), *additionalArrays)
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiffN(
+    secondArray: TypeExpression<ArrayType<T>>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = asExpression().symDiffN(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.symDiffN(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = symDiffN(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> ISelectOffsetClause<T>.symDiffN(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = asExpression().symDiffN(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())

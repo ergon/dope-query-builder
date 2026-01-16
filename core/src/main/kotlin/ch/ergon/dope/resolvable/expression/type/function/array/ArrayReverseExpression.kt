@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayReverseExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>) :
     ArrayFunctionExpression<T>(array)
 
-fun <T : ValidType> arrayReverse(array: TypeExpression<ArrayType<T>>) = ArrayReverseExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.reverse() = ArrayReverseExpression(this)
 
-fun <T : ValidType> arrayReverse(selectClause: ISelectOffsetClause<T>) = arrayReverse(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.reverse() = asExpression().reverse()

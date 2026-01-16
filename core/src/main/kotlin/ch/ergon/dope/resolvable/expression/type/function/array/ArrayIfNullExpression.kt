@@ -10,6 +10,6 @@ data class ArrayIfNullExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
 ) : FunctionOperator<T>
 
-fun <T : ValidType> arrayIfNull(array: TypeExpression<ArrayType<T>>) = ArrayIfNullExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.ifNull() = ArrayIfNullExpression(this)
 
-fun <T : ValidType> arrayIfNull(selectClause: ISelectOffsetClause<T>) = arrayIfNull(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.ifNull() = asExpression().ifNull()

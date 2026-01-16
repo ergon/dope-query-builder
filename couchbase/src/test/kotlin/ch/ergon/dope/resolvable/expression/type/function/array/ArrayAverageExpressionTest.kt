@@ -44,7 +44,7 @@ class ArrayAverageExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayAverageExpression(array)
 
-        val actual = arrayAverage(array)
+        val actual = array.average()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -54,7 +54,7 @@ class ArrayAverageExpressionTest : ResolverDependentTest {
         val selectClause = someNumberSelectRawClause()
         val expected = ArrayAverageExpression(selectClause.asExpression())
 
-        val actual = arrayAverage(selectClause)
+        val actual = selectClause.average()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

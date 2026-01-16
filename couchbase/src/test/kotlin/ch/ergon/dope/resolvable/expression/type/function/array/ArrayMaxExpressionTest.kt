@@ -59,7 +59,7 @@ class ArrayMaxExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayMaxExpression(array)
 
-        val actual = arrayMax(array)
+        val actual = array.max()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArrayMaxExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayMaxExpression(selectClause.asExpression())
 
-        val actual = arrayMax(selectClause)
+        val actual = selectClause.max()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

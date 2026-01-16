@@ -124,7 +124,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArrayIntersectExpression(firstArray, secondArray)
 
-        val actual = arrayIntersect(firstArray, secondArray)
+        val actual = firstArray.intersect(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -135,7 +135,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArrayIntersectExpression(firstArray.asExpression(), secondArray)
 
-        val actual = arrayIntersect(firstArray, secondArray)
+        val actual = firstArray.intersect(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -146,7 +146,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArrayIntersectExpression(firstArray, secondArray.asExpression())
 
-        val actual = arrayIntersect(firstArray, secondArray)
+        val actual = firstArray.intersect(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -157,7 +157,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArrayIntersectExpression(firstArray.asExpression(), secondArray.asExpression())
 
-        val actual = arrayIntersect(firstArray, secondArray)
+        val actual = firstArray.intersect(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -169,7 +169,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayIntersectExpression(firstArray, secondArray, listOf(thirdArray))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -181,7 +181,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayIntersectExpression(firstArray.asExpression(), secondArray, listOf(thirdArray))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -193,7 +193,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayIntersectExpression(firstArray, secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -205,7 +205,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArrayIntersectExpression(firstArray, secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -217,7 +217,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayIntersectExpression(firstArray.asExpression(), secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -229,7 +229,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArrayIntersectExpression(firstArray.asExpression(), secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -241,7 +241,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArrayIntersectExpression(firstArray, secondArray.asExpression(), listOf(thirdArray.asExpression()))
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -257,7 +257,7 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
             listOf(thirdArray.asExpression()),
         )
 
-        val actual = arrayIntersect(firstArray, secondArray, thirdArray)
+        val actual = firstArray.intersect(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

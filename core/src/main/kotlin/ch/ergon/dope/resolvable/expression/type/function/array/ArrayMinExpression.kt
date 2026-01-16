@@ -10,6 +10,6 @@ data class ArrayMinExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
 ) : FunctionOperator<T>
 
-fun <T : ValidType> arrayMin(array: TypeExpression<ArrayType<T>>) = ArrayMinExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.min() = ArrayMinExpression(this)
 
-fun <T : ValidType> arrayMin(selectClause: ISelectOffsetClause<T>) = arrayMin(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.min() = asExpression().min()

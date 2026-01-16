@@ -116,7 +116,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayAppendExpression(array, value)
 
-        val actual = arrayAppend(array, value)
+        val actual = array.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -127,7 +127,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayAppendExpression(array, value.toDopeType())
 
-        val actual = arrayAppend(array, value)
+        val actual = array.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -138,7 +138,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayAppendExpression(array, value.toDopeType())
 
-        val actual = arrayAppend(array, value)
+        val actual = array.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -149,7 +149,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayAppendExpression(array, value.toDopeType())
 
-        val actual = arrayAppend(array, value)
+        val actual = array.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -160,7 +160,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someStringField()
         val expected = ArrayAppendExpression(selectClause.asExpression(), value)
 
-        val actual = arrayAppend(selectClause, value)
+        val actual = selectClause.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -171,7 +171,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayAppend(selectClause, value)
+        val actual = selectClause.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -182,7 +182,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayAppend(selectClause, value)
+        val actual = selectClause.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -193,7 +193,7 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayAppendExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayAppend(selectClause, value)
+        val actual = selectClause.append(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

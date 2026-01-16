@@ -124,7 +124,7 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArrayExceptExpression(firstArray, secondArray)
 
-        val actual = arrayExcept(firstArray, secondArray)
+        val actual = firstArray.except(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -135,7 +135,7 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArrayExceptExpression(firstArray.asExpression(), secondArray)
 
-        val actual = arrayExcept(firstArray, secondArray)
+        val actual = firstArray.except(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -146,7 +146,7 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArrayExceptExpression(firstArray, secondArray.asExpression())
 
-        val actual = arrayExcept(firstArray, secondArray)
+        val actual = firstArray.except(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -157,7 +157,7 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArrayExceptExpression(firstArray.asExpression(), secondArray.asExpression())
 
-        val actual = arrayExcept(firstArray, secondArray)
+        val actual = firstArray.except(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

@@ -15,115 +15,98 @@ data class ArrayInsertExpression<T : ValidType>(
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
 ) : ArrayFunctionExpression<T>(array, listOf(position, value, *additionalValues.toTypedArray()))
-
-fun <T : ValidType> arrayInsert(
-    array: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.insert(
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayInsertExpression(array, position, value, additionalValues.toList())
+) = ArrayInsertExpression(this, position, value, additionalValues.toList())
 
-fun arrayInsert(
-    array: TypeExpression<ArrayType<StringType>>,
+fun TypeExpression<ArrayType<StringType>>.insert(
     position: TypeExpression<NumberType>,
     value: String,
     vararg additionalValues: String,
-) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    array: TypeExpression<ArrayType<NumberType>>,
+fun TypeExpression<ArrayType<NumberType>>.insert(
     position: TypeExpression<NumberType>,
     value: Number,
     vararg additionalValues: Number,
-) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    array: TypeExpression<ArrayType<BooleanType>>,
+fun TypeExpression<ArrayType<BooleanType>>.insert(
     position: TypeExpression<NumberType>,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun <T : ValidType> arrayInsert(
-    array: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.insert(
     position: Number,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayInsert(array, position.toDopeType(), value, *additionalValues)
+) = insert(position.toDopeType(), value, *additionalValues)
 
-fun arrayInsert(
-    array: TypeExpression<ArrayType<StringType>>,
+fun TypeExpression<ArrayType<StringType>>.insert(
     position: Number,
     value: String,
     vararg additionalValues: String,
-) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    array: TypeExpression<ArrayType<NumberType>>,
+fun TypeExpression<ArrayType<NumberType>>.insert(
     position: Number,
     value: Number,
     vararg additionalValues: Number,
-) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    array: TypeExpression<ArrayType<BooleanType>>,
+fun TypeExpression<ArrayType<BooleanType>>.insert(
     position: Number,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayInsert(array, position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun <T : ValidType> arrayInsert(
-    selectClause: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.insert(
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayInsertExpression(selectClause.asExpression(), position, value, additionalValues.toList())
+) = asExpression().insert(position, value, *additionalValues)
 
-fun arrayInsert(
-    selectClause: ISelectOffsetClause<StringType>,
+fun ISelectOffsetClause<StringType>.insert(
     position: TypeExpression<NumberType>,
     value: String,
     vararg additionalValues: String,
-) = arrayInsert(selectClause.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    selectClause: ISelectOffsetClause<NumberType>,
+fun ISelectOffsetClause<NumberType>.insert(
     position: TypeExpression<NumberType>,
     value: Number,
     vararg additionalValues: Number,
-) = arrayInsert(selectClause.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    selectClause: ISelectOffsetClause<BooleanType>,
+fun ISelectOffsetClause<BooleanType>.insert(
     position: TypeExpression<NumberType>,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayInsert(selectClause.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun <T : ValidType> arrayInsert(
-    selectClause: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.insert(
     position: Number,
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayInsert(selectClause.asExpression(), position.toDopeType(), value, *additionalValues)
+) = asExpression().insert(position, value, *additionalValues)
 
-fun arrayInsert(
-    selectClause: ISelectOffsetClause<StringType>,
+fun ISelectOffsetClause<StringType>.insert(
     position: Number,
     value: String,
     vararg additionalValues: String,
-) = arrayInsert(selectClause.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    selectClause: ISelectOffsetClause<NumberType>,
+fun ISelectOffsetClause<NumberType>.insert(
     position: Number,
     value: Number,
     vararg additionalValues: Number,
-) = arrayInsert(selectClause.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayInsert(
-    selectClause: ISelectOffsetClause<BooleanType>,
+fun ISelectOffsetClause<BooleanType>.insert(
     position: Number,
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayInsert(selectClause.asExpression(), position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().insert(position, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

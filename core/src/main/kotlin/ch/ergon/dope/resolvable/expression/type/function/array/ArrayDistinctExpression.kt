@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayDistinctExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>) :
     ArrayFunctionExpression<T>(array)
 
-fun <T : ValidType> arrayDistinct(array: TypeExpression<ArrayType<T>>) = ArrayDistinctExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.distinct() = ArrayDistinctExpression(this)
 
-fun <T : ValidType> arrayDistinct(selectClause: ISelectOffsetClause<T>) = arrayDistinct(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.distinct() = asExpression().distinct()

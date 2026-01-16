@@ -12,27 +12,26 @@ data class ArrayMoveExpression<T : ValidType>(
     val from: TypeExpression<NumberType>,
     val to: TypeExpression<NumberType>,
 ) : ArrayFunctionExpression<T>(array, listOf(from, to))
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
+    ArrayMoveExpression(this, from, to)
 
-fun <T : ValidType> arrayMove(array: TypeExpression<ArrayType<T>>, from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
-    ArrayMoveExpression(array, from, to)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: TypeExpression<NumberType>, to: Number) =
+    move(from, to.toDopeType())
 
-fun <T : ValidType> arrayMove(array: TypeExpression<ArrayType<T>>, from: TypeExpression<NumberType>, to: Number) =
-    arrayMove(array, from, to.toDopeType())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: Number, to: TypeExpression<NumberType>) =
+    move(from.toDopeType(), to)
 
-fun <T : ValidType> arrayMove(array: TypeExpression<ArrayType<T>>, from: Number, to: TypeExpression<NumberType>) =
-    arrayMove(array, from.toDopeType(), to)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: Number, to: Number) =
+    move(from.toDopeType(), to.toDopeType())
 
-fun <T : ValidType> arrayMove(array: TypeExpression<ArrayType<T>>, from: Number, to: Number) =
-    arrayMove(array, from.toDopeType(), to.toDopeType())
+fun <T : ValidType> ISelectOffsetClause<T>.move(from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
+    asExpression().move(from, to)
 
-fun <T : ValidType> arrayMove(selectClause: ISelectOffsetClause<T>, from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
-    arrayMove(selectClause.asExpression(), from, to)
+fun <T : ValidType> ISelectOffsetClause<T>.move(from: TypeExpression<NumberType>, to: Number) =
+    asExpression().move(from, to)
 
-fun <T : ValidType> arrayMove(selectClause: ISelectOffsetClause<T>, from: TypeExpression<NumberType>, to: Number) =
-    arrayMove(selectClause.asExpression(), from, to.toDopeType())
+fun <T : ValidType> ISelectOffsetClause<T>.move(from: Number, to: TypeExpression<NumberType>) =
+    asExpression().move(from, to)
 
-fun <T : ValidType> arrayMove(selectClause: ISelectOffsetClause<T>, from: Number, to: TypeExpression<NumberType>) =
-    arrayMove(selectClause.asExpression(), from.toDopeType(), to)
-
-fun <T : ValidType> arrayMove(selectClause: ISelectOffsetClause<T>, from: Number, to: Number) =
-    arrayMove(selectClause.asExpression(), from.toDopeType(), to.toDopeType())
+fun <T : ValidType> ISelectOffsetClause<T>.move(from: Number, to: Number) =
+    asExpression().move(from, to)

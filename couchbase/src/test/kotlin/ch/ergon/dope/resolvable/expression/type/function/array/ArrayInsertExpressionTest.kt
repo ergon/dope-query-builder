@@ -164,7 +164,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayInsertExpression(array, position, value)
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -176,7 +176,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayInsertExpression(array, position, value.toDopeType())
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -188,7 +188,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayInsertExpression(array, position, value.toDopeType())
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -200,7 +200,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayInsertExpression(array, position, value.toDopeType())
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -212,7 +212,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayInsertExpression(array, position.toDopeType(), value)
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -224,7 +224,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -236,7 +236,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -248,7 +248,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayInsertExpression(array, position.toDopeType(), value.toDopeType())
 
-        val actual = arrayInsert(array, position, value)
+        val actual = array.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -260,7 +260,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position, value)
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -272,7 +272,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position, value.toDopeType())
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -284,7 +284,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position, value.toDopeType())
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -296,7 +296,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position, value.toDopeType())
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -308,7 +308,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value)
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -320,7 +320,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value.toDopeType())
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -332,7 +332,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value.toDopeType())
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -344,7 +344,7 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayInsertExpression(selectClause.asExpression(), position.toDopeType(), value.toDopeType())
 
-        val actual = arrayInsert(selectClause, position, value)
+        val actual = selectClause.insert(position, value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
