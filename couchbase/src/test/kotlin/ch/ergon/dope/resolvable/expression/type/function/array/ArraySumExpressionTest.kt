@@ -59,7 +59,7 @@ class ArraySumExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArraySumExpression(array)
 
-        val actual = arraySum(array)
+        val actual = array.sum()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArraySumExpressionTest : ResolverDependentTest {
         val selectClause = someNumberSelectRawClause()
         val expected = ArraySumExpression(selectClause.asExpression())
 
-        val actual = arraySum(selectClause)
+        val actual = selectClause.sum()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

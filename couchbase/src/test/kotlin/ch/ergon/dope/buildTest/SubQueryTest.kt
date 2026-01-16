@@ -19,7 +19,7 @@ import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.collection.exists
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayLength
+import ch.ergon.dope.resolvable.expression.type.function.array.length
 import ch.ergon.dope.resolvable.expression.type.function.conditional.decode
 import ch.ergon.dope.resolvable.expression.type.function.conditional.resultsIn
 import ch.ergon.dope.resolvable.expression.type.function.type.typeOf
@@ -78,7 +78,7 @@ class SubQueryTest {
 
         val actual = QueryBuilder
             .select(
-                arrayLength(someSelectClause().from(someBucket()).asExpression()),
+                someSelectClause().from(someBucket()).asExpression().length(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

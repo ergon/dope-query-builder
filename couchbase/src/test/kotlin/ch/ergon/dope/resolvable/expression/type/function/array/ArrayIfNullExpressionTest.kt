@@ -60,7 +60,7 @@ class ArrayIfNullExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayIfNullExpression(array)
 
-        val actual = arrayIfNull(array)
+        val actual = array.ifNull()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class ArrayIfNullExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayIfNullExpression(selectClause.asExpression())
 
-        val actual = arrayIfNull(selectClause)
+        val actual = selectClause.ifNull()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

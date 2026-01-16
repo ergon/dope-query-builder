@@ -59,7 +59,7 @@ class ArraySortExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArraySortExpression(array)
 
-        val actual = arraySort(array)
+        val actual = array.sort()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArraySortExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArraySortExpression(selectClause.asExpression())
 
-        val actual = arraySort(selectClause)
+        val actual = selectClause.sort()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

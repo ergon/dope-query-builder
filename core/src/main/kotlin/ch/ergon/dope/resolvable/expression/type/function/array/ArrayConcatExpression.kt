@@ -11,54 +11,42 @@ data class ArrayConcatExpression<T : ValidType>(
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayConcatExpression(firstArray, secondArray, additionalArrays.toList())
+) = ArrayConcatExpression(this, secondArray, additionalArrays.toList())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayConcat(firstArray.asExpression(), secondArray, *additionalArrays)
+) = asExpression().concat(secondArray, *additionalArrays)
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayConcat(firstArray, secondArray.asExpression(), *additionalArrays)
+) = concat(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = concat(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayConcat(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
+) = asExpression().concat(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = asExpression().concat(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = concat(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
+) = asExpression().concat(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())

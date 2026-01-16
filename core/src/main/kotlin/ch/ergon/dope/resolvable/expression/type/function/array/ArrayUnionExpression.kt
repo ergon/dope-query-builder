@@ -10,55 +10,42 @@ data class ArrayUnionExpression<T : ValidType>(
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
-
-fun <T : ValidType> arrayUnion(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.union(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayUnionExpression(firstArray, secondArray, additionalArrays.toList())
+) = ArrayUnionExpression(this, secondArray, additionalArrays.toList())
 
-fun <T : ValidType> arrayUnion(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.union(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayUnionExpression(firstArray.asExpression(), secondArray, additionalArrays.toList())
+) = asExpression().union(secondArray, *additionalArrays)
 
-fun <T : ValidType> arrayUnion(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.union(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayUnion(firstArray, secondArray.asExpression(), *additionalArrays)
+) = union(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayUnion(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.union(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayUnion(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = union(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayUnion(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.union(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayUnion(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
+) = asExpression().union(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayUnion(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.union(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayUnion(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = asExpression().union(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayUnion(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.union(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayUnion(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = union(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayUnion(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.union(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayUnion(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
+) = asExpression().union(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())

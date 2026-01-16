@@ -10,14 +10,14 @@ data class ArrayExceptExpression<T : ValidType>(
     val except: TypeExpression<ArrayType<T>>,
 ) : ArrayFunctionExpression<T>(array, listOf(except))
 
-fun <T : ValidType> arrayExcept(array: TypeExpression<ArrayType<T>>, except: TypeExpression<ArrayType<T>>) =
-    ArrayExceptExpression(array, except)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.except(except: TypeExpression<ArrayType<T>>) =
+    ArrayExceptExpression(this, except)
 
-fun <T : ValidType> arrayExcept(selectClause: ISelectOffsetClause<T>, except: TypeExpression<ArrayType<T>>) =
-    arrayExcept(selectClause.asExpression(), except)
+fun <T : ValidType> ISelectOffsetClause<T>.except(except: TypeExpression<ArrayType<T>>) =
+    asExpression().except(except)
 
-fun <T : ValidType> arrayExcept(array: TypeExpression<ArrayType<T>>, except: ISelectOffsetClause<T>) =
-    arrayExcept(array, except.asExpression())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.except(except: ISelectOffsetClause<T>) =
+    except(except.asExpression())
 
-fun <T : ValidType> arrayExcept(selectClause: ISelectOffsetClause<T>, except: ISelectOffsetClause<T>) =
-    arrayExcept(selectClause.asExpression(), except.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.except(except: ISelectOffsetClause<T>) =
+    asExpression().except(except.asExpression())

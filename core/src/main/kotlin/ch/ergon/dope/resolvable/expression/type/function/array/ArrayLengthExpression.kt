@@ -11,6 +11,6 @@ data class ArrayLengthExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
 ) : FunctionOperator<NumberType>
 
-fun <T : ValidType> arrayLength(array: TypeExpression<ArrayType<T>>) = ArrayLengthExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.length() = ArrayLengthExpression(this)
 
-fun <T : ValidType> arrayLength(selectClause: ISelectOffsetClause<T>) = arrayLength(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.length() = asExpression().length()

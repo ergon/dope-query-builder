@@ -160,7 +160,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2.toDopeType()
         val expected = ArrayMoveExpression(array, from, to)
 
-        val actual = arrayMove(array, from, to)
+        val actual = array.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -172,7 +172,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2
         val expected = ArrayMoveExpression(array, from, to.toDopeType())
 
-        val actual = arrayMove(array, from, to)
+        val actual = array.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -184,7 +184,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2.toDopeType()
         val expected = ArrayMoveExpression(array, from.toDopeType(), to)
 
-        val actual = arrayMove(array, from, to)
+        val actual = array.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -196,7 +196,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2
         val expected = ArrayMoveExpression(array, from.toDopeType(), to.toDopeType())
 
-        val actual = arrayMove(array, from, to)
+        val actual = array.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -208,7 +208,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2.toDopeType()
         val expected = ArrayMoveExpression(selectClause.asExpression(), from, to)
 
-        val actual = arrayMove(selectClause, from, to)
+        val actual = selectClause.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -220,7 +220,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2
         val expected = ArrayMoveExpression(selectClause.asExpression(), from, to.toDopeType())
 
-        val actual = arrayMove(selectClause, from, to)
+        val actual = selectClause.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -232,7 +232,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2.toDopeType()
         val expected = ArrayMoveExpression(selectClause.asExpression(), from.toDopeType(), to)
 
-        val actual = arrayMove(selectClause, from, to)
+        val actual = selectClause.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -244,7 +244,7 @@ class ArrayMoveExpressionTest : ResolverDependentTest {
         val to = 2
         val expected = ArrayMoveExpression(selectClause.asExpression(), from.toDopeType(), to.toDopeType())
 
-        val actual = arrayMove(selectClause, from, to)
+        val actual = selectClause.move(from, to)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

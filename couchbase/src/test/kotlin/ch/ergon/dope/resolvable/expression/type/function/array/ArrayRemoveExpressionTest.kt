@@ -129,7 +129,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayRemoveExpression(array, value)
 
-        val actual = arrayRemove(array, value)
+        val actual = array.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -140,7 +140,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayRemoveExpression(array, value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = array.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -151,7 +151,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayRemoveExpression(array, value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = array.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -162,7 +162,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayRemoveExpression(array, value.toDopeType())
 
-        val actual = arrayRemove(array, value)
+        val actual = array.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -173,7 +173,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayRemoveExpression(selectClause.asExpression(), value)
 
-        val actual = arrayRemove(selectClause, value)
+        val actual = selectClause.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -184,7 +184,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayRemoveExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayRemove(selectClause, value)
+        val actual = selectClause.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -195,7 +195,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayRemoveExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayRemove(selectClause, value)
+        val actual = selectClause.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -206,7 +206,7 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayRemoveExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayRemove(selectClause, value)
+        val actual = selectClause.remove(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

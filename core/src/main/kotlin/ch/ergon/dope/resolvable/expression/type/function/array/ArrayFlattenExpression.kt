@@ -10,14 +10,14 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayFlattenExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>, val depth: TypeExpression<NumberType>) :
     ArrayFunctionExpression<T>(array, listOf(depth))
 
-fun <T : ValidType> arrayFlatten(array: TypeExpression<ArrayType<T>>, depth: TypeExpression<NumberType>) =
-    ArrayFlattenExpression(array, depth)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.flatten(depth: TypeExpression<NumberType>) =
+    ArrayFlattenExpression(this, depth)
 
-fun <T : ValidType> arrayFlatten(array: TypeExpression<ArrayType<T>>, depth: Number) =
-    arrayFlatten(array, depth.toDopeType())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.flatten(depth: Number) =
+    flatten(depth.toDopeType())
 
-fun <T : ValidType> arrayFlatten(selectClause: ISelectOffsetClause<T>, depth: TypeExpression<NumberType>) =
-    arrayFlatten(selectClause.asExpression(), depth)
+fun <T : ValidType> ISelectOffsetClause<T>.flatten(depth: TypeExpression<NumberType>) =
+    asExpression().flatten(depth)
 
-fun <T : ValidType> arrayFlatten(selectClause: ISelectOffsetClause<T>, depth: Number) =
-    arrayFlatten(selectClause.asExpression(), depth.toDopeType())
+fun <T : ValidType> ISelectOffsetClause<T>.flatten(depth: Number) =
+    asExpression().flatten(depth)

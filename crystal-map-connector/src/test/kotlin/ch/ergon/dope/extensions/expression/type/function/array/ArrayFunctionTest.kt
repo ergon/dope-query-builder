@@ -1,11 +1,11 @@
 package ch.ergon.dope.extensions.expression.type.function.array
 
-import ch.ergon.dope.extension.expression.type.function.array.arrayConcat
-import ch.ergon.dope.extension.expression.type.function.array.arrayContains
-import ch.ergon.dope.extension.expression.type.function.array.arrayDistinct
-import ch.ergon.dope.extension.expression.type.function.array.arrayIntersect
-import ch.ergon.dope.extension.expression.type.function.array.arrayLength
-import ch.ergon.dope.extension.expression.type.function.array.arraySum
+import ch.ergon.dope.extension.expression.type.function.array.concat
+import ch.ergon.dope.extension.expression.type.function.array.contains
+import ch.ergon.dope.extension.expression.type.function.array.distinct
+import ch.ergon.dope.extension.expression.type.function.array.intersect
+import ch.ergon.dope.extension.expression.type.function.array.length
+import ch.ergon.dope.extension.expression.type.function.array.sum
 import ch.ergon.dope.extension.expression.type.function.array.unpack
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -32,7 +32,7 @@ class ArrayFunctionTest {
         val secondList = someCMNumberList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
         assertEquals(expected, actual)
     }
@@ -43,7 +43,7 @@ class ArrayFunctionTest {
         val secondList = someCMStringList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class ArrayFunctionTest {
         val secondList = someCMBooleanList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class ArrayFunctionTest {
         val secondList = someCMObjectList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
         assertEquals(expected, actual)
     }
@@ -76,7 +76,7 @@ class ArrayFunctionTest {
         val secondList = someCMNumberField("second")
         val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(firstList, secondList)
+        val actual = firstList.contains(secondList)
 
         assertEquals(expected, actual)
     }
@@ -87,7 +87,7 @@ class ArrayFunctionTest {
         val secondList = someCMStringField("second")
         val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(firstList, secondList)
+        val actual = firstList.contains(secondList)
 
         assertEquals(expected, actual)
     }
@@ -98,7 +98,7 @@ class ArrayFunctionTest {
         val secondList = someCMBooleanField("second")
         val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(firstList, secondList)
+        val actual = firstList.contains(secondList)
 
         assertEquals(expected, actual)
     }
@@ -108,7 +108,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMNumberList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
         assertEquals(expected, actual)
     }
@@ -118,7 +118,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMStringList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMBooleanList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
         assertEquals(expected, actual)
     }
@@ -138,7 +138,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMObjectList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
         assertEquals(expected, actual)
     }
@@ -149,7 +149,7 @@ class ArrayFunctionTest {
         val secondList = someCMNumberList("second")
         val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(firstList, secondList)
+        val actual = firstList.intersect(secondList)
 
         assertEquals(expected, actual)
     }
@@ -160,7 +160,7 @@ class ArrayFunctionTest {
         val secondList = someCMStringList("second")
         val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(firstList, secondList)
+        val actual = firstList.intersect(secondList)
 
         assertEquals(expected, actual)
     }
@@ -171,7 +171,7 @@ class ArrayFunctionTest {
         val secondList = someCMBooleanList("second")
         val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(firstList, secondList)
+        val actual = firstList.intersect(secondList)
 
         assertEquals(expected, actual)
     }
@@ -181,7 +181,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMNumberList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
         assertEquals(expected, actual)
     }
@@ -191,7 +191,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMStringList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
         assertEquals(expected, actual)
     }
@@ -201,7 +201,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMBooleanList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
         assertEquals(expected, actual)
     }
@@ -211,7 +211,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMObjectList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
         assertEquals(expected, actual)
     }
@@ -231,7 +231,7 @@ class ArrayFunctionTest {
         val cMJsonList = someCMNumberList()
         val expected = ArraySumExpression(cMJsonList.toDopeType())
 
-        val actual = arraySum(cMJsonList)
+        val actual = cMJsonList.sum()
 
         assertEquals(expected, actual)
     }

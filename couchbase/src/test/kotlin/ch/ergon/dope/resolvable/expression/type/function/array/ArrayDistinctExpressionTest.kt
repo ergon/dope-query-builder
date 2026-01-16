@@ -59,7 +59,7 @@ class ArrayDistinctExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayDistinctExpression(array)
 
-        val actual = arrayDistinct(array)
+        val actual = array.distinct()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArrayDistinctExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayDistinctExpression(selectClause.asExpression())
 
-        val actual = arrayDistinct(selectClause)
+        val actual = selectClause.distinct()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

@@ -130,7 +130,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayPutExpression(array, value)
 
-        val actual = arrayPut(array, value)
+        val actual = array.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -141,7 +141,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayPutExpression(array, value.toDopeType())
 
-        val actual = arrayPut(array, value)
+        val actual = array.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -152,7 +152,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayPutExpression(array, value.toDopeType())
 
-        val actual = arrayPut(array, value)
+        val actual = array.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -163,7 +163,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayPutExpression(array, value.toDopeType())
 
-        val actual = arrayPut(array, value)
+        val actual = array.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -174,7 +174,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayPutExpression(selectClause.asExpression(), value)
 
-        val actual = arrayPut(selectClause, value)
+        val actual = selectClause.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -185,7 +185,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayPutExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPut(selectClause, value)
+        val actual = selectClause.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -196,7 +196,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayPutExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPut(selectClause, value)
+        val actual = selectClause.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -207,7 +207,7 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayPutExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayPut(selectClause, value)
+        val actual = selectClause.put(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

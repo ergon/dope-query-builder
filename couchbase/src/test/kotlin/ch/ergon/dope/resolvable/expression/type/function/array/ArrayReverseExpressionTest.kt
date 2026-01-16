@@ -59,7 +59,7 @@ class ArrayReverseExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayReverseExpression(array)
 
-        val actual = arrayReverse(array)
+        val actual = array.reverse()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArrayReverseExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayReverseExpression(selectClause.asExpression())
 
-        val actual = arrayReverse(selectClause)
+        val actual = selectClause.reverse()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

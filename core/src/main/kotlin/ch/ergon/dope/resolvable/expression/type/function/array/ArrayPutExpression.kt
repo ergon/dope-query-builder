@@ -14,51 +14,42 @@ data class ArrayPutExpression<T : ValidType>(
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
 ) : ArrayFunctionExpression<T>(array, listOf(value, *additionalValues.toTypedArray()))
-
-fun <T : ValidType> arrayPut(
-    array: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.put(
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = ArrayPutExpression(array, value, additionalValues.toList())
+) = ArrayPutExpression(this, value, additionalValues.toList())
 
-fun arrayPut(
-    array: TypeExpression<ArrayType<StringType>>,
+fun TypeExpression<ArrayType<StringType>>.put(
     value: String,
     vararg additionalValues: String,
-) = arrayPut(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = put(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayPut(
-    array: TypeExpression<ArrayType<NumberType>>,
+fun TypeExpression<ArrayType<NumberType>>.put(
     value: Number,
     vararg additionalValues: Number,
-) = arrayPut(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = put(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayPut(
-    array: TypeExpression<ArrayType<BooleanType>>,
+fun TypeExpression<ArrayType<BooleanType>>.put(
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayPut(array, value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = put(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun <T : ValidType> arrayPut(
-    selectClause: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.put(
     value: TypeExpression<T>,
     vararg additionalValues: TypeExpression<T>,
-) = arrayPut(selectClause.asExpression(), value, *additionalValues)
+) = asExpression().put(value, *additionalValues)
 
-fun arrayPut(
-    selectClause: ISelectOffsetClause<StringType>,
+fun ISelectOffsetClause<StringType>.put(
     value: String,
     vararg additionalValues: String,
-) = arrayPut(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().put(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayPut(
-    selectClause: ISelectOffsetClause<NumberType>,
+fun ISelectOffsetClause<NumberType>.put(
     value: Number,
     vararg additionalValues: Number,
-) = arrayPut(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().put(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
 
-fun arrayPut(
-    selectClause: ISelectOffsetClause<BooleanType>,
+fun ISelectOffsetClause<BooleanType>.put(
     value: Boolean,
     vararg additionalValues: Boolean,
-) = arrayPut(selectClause.asExpression(), value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())
+) = asExpression().put(value.toDopeType(), *additionalValues.map { it.toDopeType() }.toTypedArray())

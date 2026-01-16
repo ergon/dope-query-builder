@@ -9,35 +9,35 @@ import ch.ergon.dope.helper.someObjectSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayAppend
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayAverage
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayBinarySearch
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayConcat
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayContains
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayCount
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayDistinct
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayExcept
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayFlatten
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayIfNull
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayInsert
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayIntersect
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayLength
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayMax
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayMin
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayMove
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayPosition
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayPrepend
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayPut
+import ch.ergon.dope.resolvable.expression.type.function.array.append
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayRange
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayRemove
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayRepeat
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayReplace
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayReverse
-import ch.ergon.dope.resolvable.expression.type.function.array.arraySort
-import ch.ergon.dope.resolvable.expression.type.function.array.arraySum
-import ch.ergon.dope.resolvable.expression.type.function.array.arraySymDiff
-import ch.ergon.dope.resolvable.expression.type.function.array.arraySymDiffN
-import ch.ergon.dope.resolvable.expression.type.function.array.arrayUnion
+import ch.ergon.dope.resolvable.expression.type.function.array.average
+import ch.ergon.dope.resolvable.expression.type.function.array.binarySearch
+import ch.ergon.dope.resolvable.expression.type.function.array.concat
+import ch.ergon.dope.resolvable.expression.type.function.array.contains
+import ch.ergon.dope.resolvable.expression.type.function.array.count
+import ch.ergon.dope.resolvable.expression.type.function.array.distinct
+import ch.ergon.dope.resolvable.expression.type.function.array.except
+import ch.ergon.dope.resolvable.expression.type.function.array.flatten
+import ch.ergon.dope.resolvable.expression.type.function.array.ifNull
+import ch.ergon.dope.resolvable.expression.type.function.array.insert
+import ch.ergon.dope.resolvable.expression.type.function.array.intersect
+import ch.ergon.dope.resolvable.expression.type.function.array.length
+import ch.ergon.dope.resolvable.expression.type.function.array.max
+import ch.ergon.dope.resolvable.expression.type.function.array.min
+import ch.ergon.dope.resolvable.expression.type.function.array.move
+import ch.ergon.dope.resolvable.expression.type.function.array.position
+import ch.ergon.dope.resolvable.expression.type.function.array.prepend
+import ch.ergon.dope.resolvable.expression.type.function.array.put
+import ch.ergon.dope.resolvable.expression.type.function.array.remove
+import ch.ergon.dope.resolvable.expression.type.function.array.replace
+import ch.ergon.dope.resolvable.expression.type.function.array.reverse
+import ch.ergon.dope.resolvable.expression.type.function.array.sort
+import ch.ergon.dope.resolvable.expression.type.function.array.sum
+import ch.ergon.dope.resolvable.expression.type.function.array.symDiff
+import ch.ergon.dope.resolvable.expression.type.function.array.symDiffN
+import ch.ergon.dope.resolvable.expression.type.function.array.union
 import ch.ergon.dope.resolvable.expression.type.function.array.unpack
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import ch.ergon.dope.resolvable.expression.type.get
@@ -52,7 +52,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayAppend(someStringArrayField(), someStringField()).get(0),
+                someStringArrayField().append(someStringField()).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -64,7 +64,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayAverage(someNumberArrayField()).add(1),
+                someNumberArrayField().average().add(1),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -76,7 +76,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayBinarySearch(someNumberArrayField(), someNumberField()).add(1),
+                someNumberArrayField().binarySearch(someNumberField()).add(1),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -88,7 +88,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayConcat(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
+                someStringArrayField().concat(someStringArrayField("anotherStringArrayField")).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -104,7 +104,7 @@ class ArrayFunctionsTest {
                 someBucket(),
             )
             .where(
-                arrayContains(someStringArrayField(), someStringField()),
+                someStringArrayField().contains(someStringField()),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -116,7 +116,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayCount(someNumberArrayField()).add(1),
+                someNumberArrayField().count().add(1),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -128,7 +128,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayDistinct(someStringArrayField()).get(0),
+                someStringArrayField().distinct().get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -140,7 +140,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayExcept(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
+                someStringArrayField().except(someStringArrayField("anotherStringArrayField")).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -152,7 +152,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayFlatten(someStringArrayField(), 2).get(0),
+                someStringArrayField().flatten(2).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -165,7 +165,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 lower(
-                    arrayIfNull(someStringArrayField()),
+                    someStringArrayField().ifNull(),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -178,7 +178,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayInsert(someStringArrayField(), 0, someStringField()).get(0),
+                someStringArrayField().insert(0, someStringField()).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -190,7 +190,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayIntersect(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
+                someStringArrayField().intersect(someStringArrayField("anotherStringArrayField")).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -202,7 +202,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayLength(someNumberArrayField()).add(1),
+                someNumberArrayField().length().add(1),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -215,7 +215,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 lower(
-                    arrayMax(someStringArrayField()),
+                    someStringArrayField().max(),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -229,7 +229,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .select(
                 lower(
-                    arrayMin(someStringArrayField()),
+                    someStringArrayField().min(),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -242,7 +242,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayMove(someStringArrayField(), 0, 1).get(0),
+                someStringArrayField().move(0, 1).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -254,7 +254,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayPosition(someStringArrayField(), someStringField()).add(1),
+                someStringArrayField().position(someStringField()).add(1),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -266,7 +266,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayPrepend(someStringArrayField(), someStringField()).get(0),
+                someStringArrayField().prepend(someStringField()).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -278,7 +278,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayPut(someStringArrayField(), someStringField()).get(0),
+                someStringArrayField().put(someStringField()).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -302,7 +302,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayRemove(someStringArrayField(), someStringField()).get(0),
+                someStringArrayField().remove(someStringField()).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -326,7 +326,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayReplace(someStringArrayField(), "abc", "def", 3).get(0),
+                someStringArrayField().replace("abc", "def", 3).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -338,7 +338,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayReverse(someStringArrayField()).get(0),
+                someStringArrayField().reverse().get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -350,7 +350,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arraySort(someStringArrayField()).get(0),
+                someStringArrayField().sort().get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -362,7 +362,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arraySum(someNumberArrayField()).add(1),
+                someNumberArrayField().sum().add(1),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -387,7 +387,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arraySymDiff(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
+                someStringArrayField().symDiff(someStringArrayField("anotherStringArrayField")).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -399,7 +399,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arraySymDiffN(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
+                someStringArrayField().symDiffN(someStringArrayField("anotherStringArrayField")).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -411,7 +411,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                arrayUnion(someStringArrayField(), someStringArrayField("anotherStringArrayField")).get(0),
+                someStringArrayField().union(someStringArrayField("anotherStringArrayField")).get(0),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

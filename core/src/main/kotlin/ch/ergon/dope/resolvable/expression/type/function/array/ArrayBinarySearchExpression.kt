@@ -15,42 +15,34 @@ data class ArrayBinarySearchExpression<T : ValidType>(
     val value: TypeExpression<T>,
 ) : FunctionOperator<NumberType>
 
-fun <T : ValidType> arrayBinarySearch(
-    array: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.binarySearch(
     value: TypeExpression<T>,
-) = ArrayBinarySearchExpression(array, value)
+) = ArrayBinarySearchExpression(this, value)
 
-fun arrayBinarySearch(
-    array: TypeExpression<ArrayType<StringType>>,
+fun TypeExpression<ArrayType<StringType>>.binarySearch(
     value: String,
-) = arrayBinarySearch(array, value.toDopeType())
+) = binarySearch(value.toDopeType())
 
-fun arrayBinarySearch(
-    array: TypeExpression<ArrayType<NumberType>>,
+fun TypeExpression<ArrayType<NumberType>>.binarySearch(
     value: Number,
-) = arrayBinarySearch(array, value.toDopeType())
+) = binarySearch(value.toDopeType())
 
-fun arrayBinarySearch(
-    array: TypeExpression<ArrayType<BooleanType>>,
+fun TypeExpression<ArrayType<BooleanType>>.binarySearch(
     value: Boolean,
-) = arrayBinarySearch(array, value.toDopeType())
+) = binarySearch(value.toDopeType())
 
-fun <T : ValidType> arrayBinarySearch(
-    selectClause: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.binarySearch(
     value: TypeExpression<T>,
-) = arrayBinarySearch(selectClause.asExpression(), value)
+) = asExpression().binarySearch(value)
 
-fun arrayBinarySearch(
-    selectClause: ISelectOffsetClause<StringType>,
+fun ISelectOffsetClause<StringType>.binarySearch(
     value: String,
-) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
+) = asExpression().binarySearch(value.toDopeType())
 
-fun arrayBinarySearch(
-    selectClause: ISelectOffsetClause<NumberType>,
+fun ISelectOffsetClause<NumberType>.binarySearch(
     value: Number,
-) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
+) = asExpression().binarySearch(value.toDopeType())
 
-fun arrayBinarySearch(
-    selectClause: ISelectOffsetClause<BooleanType>,
+fun ISelectOffsetClause<BooleanType>.binarySearch(
     value: Boolean,
-) = arrayBinarySearch(selectClause.asExpression(), value.toDopeType())
+) = asExpression().binarySearch(value.toDopeType())

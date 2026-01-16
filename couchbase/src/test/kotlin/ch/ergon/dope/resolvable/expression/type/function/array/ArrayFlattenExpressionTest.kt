@@ -126,7 +126,7 @@ class ArrayFlattenExpressionTest : ResolverDependentTest {
         val depth = someNumberField()
         val expected = ArrayFlattenExpression(array, depth)
 
-        val actual = arrayFlatten(array, depth)
+        val actual = array.flatten(depth)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -137,7 +137,7 @@ class ArrayFlattenExpressionTest : ResolverDependentTest {
         val depth = 1
         val expected = ArrayFlattenExpression(array, depth.toDopeType())
 
-        val actual = arrayFlatten(array, depth)
+        val actual = array.flatten(depth)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -148,7 +148,7 @@ class ArrayFlattenExpressionTest : ResolverDependentTest {
         val depth = someNumberField()
         val expected = ArrayFlattenExpression(selectClause.asExpression(), depth)
 
-        val actual = arrayFlatten(selectClause, depth)
+        val actual = selectClause.flatten(depth)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -159,7 +159,7 @@ class ArrayFlattenExpressionTest : ResolverDependentTest {
         val depth = 1
         val expected = ArrayFlattenExpression(selectClause.asExpression(), depth.toDopeType())
 
-        val actual = arrayFlatten(selectClause, depth)
+        val actual = selectClause.flatten(depth)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

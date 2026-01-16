@@ -59,7 +59,7 @@ class ArrayMinExpressionTest : ResolverDependentTest {
         val array = someNumberArrayField()
         val expected = ArrayMinExpression(array)
 
-        val actual = arrayMin(array)
+        val actual = array.min()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -69,7 +69,7 @@ class ArrayMinExpressionTest : ResolverDependentTest {
         val selectClause = someSelectRawClause()
         val expected = ArrayMinExpression(selectClause.asExpression())
 
-        val actual = arrayMin(selectClause)
+        val actual = selectClause.min()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

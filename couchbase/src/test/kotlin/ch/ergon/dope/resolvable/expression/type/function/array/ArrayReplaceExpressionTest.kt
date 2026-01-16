@@ -264,7 +264,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumberField("anotherNumberField")
         val expected = ArrayReplaceExpression(array, toReplace, replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -276,7 +276,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someString()
         val expected = ArrayReplaceExpression(array, toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -288,7 +288,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someStringField()
         val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -300,7 +300,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someString()
         val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -312,7 +312,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumber()
         val expected = ArrayReplaceExpression(array, toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -324,7 +324,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumberField()
         val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -336,7 +336,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumber()
         val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -348,7 +348,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someBoolean()
         val expected = ArrayReplaceExpression(array, toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -360,7 +360,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someBooleanField()
         val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -372,7 +372,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someBoolean()
         val expected = ArrayReplaceExpression(array, toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(array, toReplace, replaceWith)
+        val actual = array.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -385,7 +385,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val max = 1.toDopeType()
         val expected = ArrayReplaceExpression(array, toReplace, replaceWith, max)
 
-        val actual = arrayReplace(array, toReplace, replaceWith, max)
+        val actual = array.replace(toReplace, replaceWith, max)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -397,7 +397,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumberField("anotherNumberField")
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith)
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -409,7 +409,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someString()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -421,7 +421,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someStringField()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -433,7 +433,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someString()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -445,7 +445,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumber()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -457,7 +457,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumberField()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -469,7 +469,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someNumber()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -481,7 +481,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someBoolean()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith.toDopeType())
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -493,7 +493,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someBooleanField()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith)
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -505,7 +505,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val replaceWith = someBoolean()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace.toDopeType(), replaceWith.toDopeType())
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith)
+        val actual = selectClause.replace(toReplace, replaceWith)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -518,7 +518,7 @@ class ArrayReplaceExpressionTest : ResolverDependentTest {
         val max = 1.toDopeType()
         val expected = ArrayReplaceExpression(selectClause.asExpression(), toReplace, replaceWith, max)
 
-        val actual = arrayReplace(selectClause, toReplace, replaceWith, max)
+        val actual = selectClause.replace(toReplace, replaceWith, max)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

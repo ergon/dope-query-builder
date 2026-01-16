@@ -10,55 +10,42 @@ data class ArrayIntersectExpression<T : ValidType>(
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
 ) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
-
-fun <T : ValidType> arrayIntersect(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.intersect(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayIntersectExpression(firstArray, secondArray, additionalArrays.toList())
+) = ArrayIntersectExpression(this, secondArray, additionalArrays.toList())
 
-fun <T : ValidType> arrayIntersect(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.intersect(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayIntersect(firstArray.asExpression(), secondArray, *additionalArrays)
+) = asExpression().intersect(secondArray, *additionalArrays)
 
-fun <T : ValidType> arrayIntersect(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.intersect(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayIntersect(firstArray, secondArray.asExpression(), *additionalArrays)
+) = intersect(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayIntersect(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.intersect(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayIntersect(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = intersect(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayIntersect(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.intersect(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayIntersect(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
+) = asExpression().intersect(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayIntersect(
-    firstArray: TypeExpression<ArrayType<T>>,
-    secondArray: ISelectOffsetClause<T>,
-    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayIntersect(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
-
-fun <T : ValidType> arrayIntersect(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.intersect(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayIntersect(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = asExpression().intersect(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayIntersect(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.intersect(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayIntersect(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
+) = intersect(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+
+fun <T : ValidType> ISelectOffsetClause<T>.intersect(
+    secondArray: ISelectOffsetClause<T>,
+    vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
+) = asExpression().intersect(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())

@@ -15,26 +15,26 @@ data class ArrayContainsExpression<T : ValidType>(
     val value: TypeExpression<T>,
 ) : FunctionOperator<BooleanType>
 
-fun <T : ValidType> arrayContains(array: TypeExpression<ArrayType<T>>, value: TypeExpression<T>) =
-    ArrayContainsExpression(array, value)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.contains(value: TypeExpression<T>) =
+    ArrayContainsExpression(this, value)
 
-fun arrayContains(array: TypeExpression<ArrayType<StringType>>, value: String) =
-    arrayContains(array, value.toDopeType())
+fun TypeExpression<ArrayType<StringType>>.contains(value: String) =
+    contains(value.toDopeType())
 
-fun arrayContains(array: TypeExpression<ArrayType<NumberType>>, value: Number) =
-    arrayContains(array, value.toDopeType())
+fun TypeExpression<ArrayType<NumberType>>.contains(value: Number) =
+    contains(value.toDopeType())
 
-fun arrayContains(array: TypeExpression<ArrayType<BooleanType>>, value: Boolean) =
-    arrayContains(array, value.toDopeType())
+fun TypeExpression<ArrayType<BooleanType>>.contains(value: Boolean) =
+    contains(value.toDopeType())
 
-fun <T : ValidType> arrayContains(selectClause: ISelectOffsetClause<T>, value: TypeExpression<T>) =
-    arrayContains(selectClause.asExpression(), value)
+fun <T : ValidType> ISelectOffsetClause<T>.contains(value: TypeExpression<T>) =
+    asExpression().contains(value)
 
-fun arrayContains(selectClause: ISelectOffsetClause<StringType>, value: String) =
-    arrayContains(selectClause.asExpression(), value.toDopeType())
+fun ISelectOffsetClause<StringType>.contains(value: String) =
+    asExpression().contains(value.toDopeType())
 
-fun arrayContains(selectClause: ISelectOffsetClause<NumberType>, value: Number) =
-    arrayContains(selectClause.asExpression(), value.toDopeType())
+fun ISelectOffsetClause<NumberType>.contains(value: Number) =
+    asExpression().contains(value.toDopeType())
 
-fun arrayContains(selectClause: ISelectOffsetClause<BooleanType>, value: Boolean) =
-    arrayContains(selectClause.asExpression(), value.toDopeType())
+fun ISelectOffsetClause<BooleanType>.contains(value: Boolean) =
+    asExpression().contains(value.toDopeType())

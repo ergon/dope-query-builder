@@ -135,7 +135,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayBinarySearchExpression(array, value)
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = array.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -146,7 +146,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayBinarySearchExpression(array, value.toDopeType())
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = array.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -157,7 +157,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayBinarySearchExpression(array, value.toDopeType())
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = array.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -168,7 +168,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayBinarySearchExpression(array, value.toDopeType())
 
-        val actual = arrayBinarySearch(array, value)
+        val actual = array.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -179,7 +179,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someStringField()
         val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value)
 
-        val actual = arrayBinarySearch(selectClause, value)
+        val actual = selectClause.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -190,7 +190,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someString()
         val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayBinarySearch(selectClause, value)
+        val actual = selectClause.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -201,7 +201,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someNumber()
         val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayBinarySearch(selectClause, value)
+        val actual = selectClause.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -212,7 +212,7 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val value = someBoolean()
         val expected = ArrayBinarySearchExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayBinarySearch(selectClause, value)
+        val actual = selectClause.binarySearch(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

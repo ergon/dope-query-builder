@@ -138,7 +138,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArrayUnionExpression(firstArray, secondArray)
 
-        val actual = arrayUnion(firstArray, secondArray)
+        val actual = firstArray.union(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -149,7 +149,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val secondArray = someNumberArrayField()
         val expected = ArrayUnionExpression(firstArray.asExpression(), secondArray)
 
-        val actual = arrayUnion(firstArray, secondArray)
+        val actual = firstArray.union(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -160,7 +160,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArrayUnionExpression(firstArray, secondArray.asExpression())
 
-        val actual = arrayUnion(firstArray, secondArray)
+        val actual = firstArray.union(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -171,7 +171,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val secondArray = someNumberSelectRawClause()
         val expected = ArrayUnionExpression(firstArray.asExpression(), secondArray.asExpression())
 
-        val actual = arrayUnion(firstArray, secondArray)
+        val actual = firstArray.union(secondArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -183,7 +183,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayUnionExpression(firstArray, secondArray, listOf(thirdArray))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -195,7 +195,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayUnionExpression(firstArray.asExpression(), secondArray, listOf(thirdArray))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -207,7 +207,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayUnionExpression(firstArray, secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -219,7 +219,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArrayUnionExpression(firstArray, secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -231,7 +231,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberArrayField()
         val expected = ArrayUnionExpression(firstArray.asExpression(), secondArray.asExpression(), listOf(thirdArray))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -243,7 +243,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArrayUnionExpression(firstArray.asExpression(), secondArray, listOf(thirdArray.asExpression()))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -255,7 +255,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
         val thirdArray = someNumberSelectRawClause()
         val expected = ArrayUnionExpression(firstArray, secondArray.asExpression(), listOf(thirdArray.asExpression()))
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -271,7 +271,7 @@ class ArrayUnionExpressionTest : ResolverDependentTest {
             listOf(thirdArray.asExpression()),
         )
 
-        val actual = arrayUnion(firstArray, secondArray, thirdArray)
+        val actual = firstArray.union(secondArray, thirdArray)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

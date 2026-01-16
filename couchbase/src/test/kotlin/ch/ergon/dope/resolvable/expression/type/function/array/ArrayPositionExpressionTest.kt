@@ -122,7 +122,7 @@ class ArrayPositionExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayPositionExpression(array, value)
 
-        val actual = arrayPosition(array, value)
+        val actual = array.position(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -133,7 +133,7 @@ class ArrayPositionExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayPositionExpression(selectClause.asExpression(), value)
 
-        val actual = arrayPosition(selectClause, value)
+        val actual = selectClause.position(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

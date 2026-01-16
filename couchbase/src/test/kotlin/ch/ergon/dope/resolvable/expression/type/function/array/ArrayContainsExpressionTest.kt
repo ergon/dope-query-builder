@@ -132,7 +132,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = someNumberField()
         val expected = ArrayContainsExpression(array, value)
 
-        val actual = arrayContains(array, value)
+        val actual = array.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -143,7 +143,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = 1
         val expected = ArrayContainsExpression(array, value.toDopeType())
 
-        val actual = arrayContains(array, value)
+        val actual = array.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -154,7 +154,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = "s"
         val expected = ArrayContainsExpression(array, value.toDopeType())
 
-        val actual = arrayContains(array, value)
+        val actual = array.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -165,7 +165,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = true
         val expected = ArrayContainsExpression(array, value.toDopeType())
 
-        val actual = arrayContains(array, value)
+        val actual = array.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -176,7 +176,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = someStringField()
         val expected = ArrayContainsExpression(selectClause.asExpression(), value)
 
-        val actual = arrayContains(selectClause, value)
+        val actual = selectClause.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -187,7 +187,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = 1
         val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayContains(selectClause, value)
+        val actual = selectClause.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -198,7 +198,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = "s"
         val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayContains(selectClause, value)
+        val actual = selectClause.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -209,7 +209,7 @@ class ArrayContainsExpressionTest : ResolverDependentTest {
         val value = true
         val expected = ArrayContainsExpression(selectClause.asExpression(), value.toDopeType())
 
-        val actual = arrayContains(selectClause, value)
+        val actual = selectClause.contains(value)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

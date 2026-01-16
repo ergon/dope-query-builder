@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.ValidType
 data class ArraySortExpression<T : ValidType>(override val array: TypeExpression<ArrayType<T>>) :
     ArrayFunctionExpression<T>(array)
 
-fun <T : ValidType> arraySort(array: TypeExpression<ArrayType<T>>) = ArraySortExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.sort() = ArraySortExpression(this)
 
-fun <T : ValidType> arraySort(selectClause: ISelectOffsetClause<T>) = arraySort(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.sort() = asExpression().sort()
