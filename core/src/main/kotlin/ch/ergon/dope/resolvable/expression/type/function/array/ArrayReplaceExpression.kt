@@ -10,11 +10,12 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayReplaceExpression<T : ValidType>(
-    override val array: TypeExpression<ArrayType<T>>,
+    val array: TypeExpression<ArrayType<T>>,
     val toReplace: TypeExpression<T>,
     val replaceWith: TypeExpression<T>,
     val max: TypeExpression<NumberType>? = null,
-) : ArrayFunctionExpression<T>(array, listOfNotNull(toReplace, replaceWith, max))
+) : ArrayFunctionExpression<ArrayType<T>>(listOfNotNull(array, toReplace, replaceWith, max))
+
 fun <T : ValidType> TypeExpression<ArrayType<T>>.replace(
     toReplace: TypeExpression<T>,
     replaceWith: TypeExpression<T>,

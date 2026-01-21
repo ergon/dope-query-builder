@@ -6,9 +6,9 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayExceptExpression<T : ValidType>(
-    override val array: TypeExpression<ArrayType<T>>,
+    val array: TypeExpression<ArrayType<T>>,
     val except: TypeExpression<ArrayType<T>>,
-) : ArrayFunctionExpression<T>(array, listOf(except))
+) : ArrayFunctionExpression<ArrayType<T>>(listOf(array, except))
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.except(except: TypeExpression<ArrayType<T>>) =
     ArrayExceptExpression(this, except)

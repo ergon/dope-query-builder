@@ -1,6 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
-import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
@@ -10,7 +9,7 @@ data class ArrayRangeExpression(
     val start: TypeExpression<NumberType>,
     val end: TypeExpression<NumberType>,
     val step: TypeExpression<NumberType>? = null,
-) : FunctionOperator<ArrayType<NumberType>>
+) : ArrayFunctionExpression<ArrayType<NumberType>>(listOfNotNull(start, end, step))
 
 fun arrayRange(
     start: TypeExpression<NumberType>,

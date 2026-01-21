@@ -10,11 +10,12 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayInsertExpression<T : ValidType>(
-    override val array: TypeExpression<ArrayType<T>>,
+    val array: TypeExpression<ArrayType<T>>,
     val position: TypeExpression<NumberType>,
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
-) : ArrayFunctionExpression<T>(array, listOf(position, value, *additionalValues.toTypedArray()))
+) : ArrayFunctionExpression<ArrayType<T>>(listOf(array, position, value) + additionalValues)
+
 fun <T : ValidType> TypeExpression<ArrayType<T>>.insert(
     position: TypeExpression<NumberType>,
     value: TypeExpression<T>,

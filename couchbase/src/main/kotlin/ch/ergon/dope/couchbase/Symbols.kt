@@ -62,19 +62,32 @@ import ch.ergon.dope.resolvable.expression.type.collection.NotWithinExpression
 import ch.ergon.dope.resolvable.expression.type.collection.WithinExpression
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayAppendExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayAverageExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayBinarySearchExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayConcatExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayContainsExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayCountExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayDistinctExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayExceptExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFlattenExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFunctionExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIfNullExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayInsertExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIntersectExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayLengthExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayMaxExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayMinExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayMoveExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayPositionExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayPrependExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayPutExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayRangeExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayRemoveExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArrayRepeatExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayReplaceExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayReverseExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArraySortExpression
+import ch.ergon.dope.resolvable.expression.type.function.array.ArraySumExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArraySymmetricDifference1Expression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArraySymmetricDifferenceExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArraySymmetricDifferenceNExpression
@@ -217,7 +230,6 @@ import ch.ergon.dope.resolvable.expression.type.relational.LessThanExpression
 import ch.ergon.dope.resolvable.expression.type.relational.LikeExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotEqualsExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotLikeExpression
-import ch.ergon.dope.validtype.ValidType
 
 internal val FunctionExpression<*>.symbol: String
     get() = when (this) {
@@ -360,25 +372,38 @@ internal val NumberFunctionExpression.symbol: String
         is TruncationExpression -> "TRUNC"
     }
 
-internal val <T : ValidType> ArrayFunctionExpression<T>.symbol: String
+internal val ArrayFunctionExpression<*>.symbol: String
     get() = when (this) {
-        is ArrayAppendExpression -> "ARRAY_APPEND"
-        is ArrayConcatExpression -> "ARRAY_CONCAT"
-        is ArrayDistinctExpression -> "ARRAY_DISTINCT"
-        is ArrayExceptExpression -> "ARRAY_EXCEPT"
-        is ArrayFlattenExpression -> "ARRAY_FLATTEN"
-        is ArrayInsertExpression -> "ARRAY_INSERT"
-        is ArrayIntersectExpression -> "ARRAY_INTERSECT"
-        is ArrayMoveExpression -> "ARRAY_MOVE"
-        is ArrayPutExpression -> "ARRAY_PUT"
-        is ArrayRemoveExpression -> "ARRAY_REMOVE"
-        is ArrayReplaceExpression -> "ARRAY_REPLACE"
-        is ArrayReverseExpression -> "ARRAY_REVERSE"
-        is ArraySortExpression -> "ARRAY_SORT"
-        is ArraySymmetricDifferenceExpression -> "ARRAY_SYMDIFF"
-        is ArraySymmetricDifference1Expression -> "ARRAY_SYMDIFF1"
-        is ArraySymmetricDifferenceNExpression -> "ARRAY_SYMDIFFN"
-        is ArrayUnionExpression -> "ARRAY_UNION"
+        is ArrayAppendExpression<*> -> "ARRAY_APPEND"
+        is ArrayAverageExpression<*> -> "ARRAY_AVG"
+        is ArrayBinarySearchExpression<*> -> "ARRAY_BINARY_SEARCH"
+        is ArrayConcatExpression<*> -> "ARRAY_CONCAT"
+        is ArrayContainsExpression<*> -> "ARRAY_CONTAINS"
+        is ArrayCountExpression<*> -> "ARRAY_COUNT"
+        is ArrayDistinctExpression<*> -> "ARRAY_DISTINCT"
+        is ArrayExceptExpression<*> -> "ARRAY_EXCEPT"
+        is ArrayFlattenExpression<*> -> "ARRAY_FLATTEN"
+        is ArrayIfNullExpression<*> -> "ARRAY_IFNULL"
+        is ArrayInsertExpression<*> -> "ARRAY_INSERT"
+        is ArrayIntersectExpression<*> -> "ARRAY_INTERSECT"
+        is ArrayLengthExpression<*> -> "ARRAY_LENGTH"
+        is ArrayMaxExpression<*> -> "ARRAY_MAX"
+        is ArrayMinExpression<*> -> "ARRAY_MIN"
+        is ArrayMoveExpression<*> -> "ARRAY_MOVE"
+        is ArrayPositionExpression<*> -> "ARRAY_POSITION"
+        is ArrayPrependExpression<*> -> "ARRAY_PREPEND"
+        is ArrayPutExpression<*> -> "ARRAY_PUT"
+        is ArrayRangeExpression -> "ARRAY_RANGE"
+        is ArrayRemoveExpression<*> -> "ARRAY_REMOVE"
+        is ArrayRepeatExpression<*> -> "ARRAY_REPEAT"
+        is ArrayReplaceExpression<*> -> "ARRAY_REPLACE"
+        is ArrayReverseExpression<*> -> "ARRAY_REVERSE"
+        is ArraySortExpression<*> -> "ARRAY_SORT"
+        is ArraySumExpression<*> -> "ARRAY_SUM"
+        is ArraySymmetricDifferenceExpression<*> -> "ARRAY_SYMDIFF"
+        is ArraySymmetricDifference1Expression<*> -> "ARRAY_SYMDIFF1"
+        is ArraySymmetricDifferenceNExpression<*> -> "ARRAY_SYMDIFFN"
+        is ArrayUnionExpression<*> -> "ARRAY_UNION"
     }
 
 internal val InfixOperator<*>.symbol: String

@@ -9,7 +9,8 @@ data class ArrayUnionExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<T>(firstArray, listOf(secondArray, *additionalArrays.toTypedArray()))
+) : ArrayFunctionExpression<ArrayType<T>>(listOf(firstArray, secondArray) + additionalArrays)
+
 fun <T : ValidType> TypeExpression<ArrayType<T>>.union(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,

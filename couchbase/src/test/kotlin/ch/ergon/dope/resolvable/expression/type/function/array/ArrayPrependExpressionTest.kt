@@ -114,8 +114,8 @@ class ArrayPrependExpressionTest : ResolverDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PREPEND($2, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            queryString = "ARRAY_PREPEND($1, $2)",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValueCollection)),
         )
         val underTest = ArrayPrependExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 

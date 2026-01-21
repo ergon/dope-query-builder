@@ -10,10 +10,10 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayAppendExpression<T : ValidType>(
-    override val array: TypeExpression<ArrayType<T>>,
+    val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
-) : ArrayFunctionExpression<T>(array, listOf(value, *additionalValues.toTypedArray()))
+) : ArrayFunctionExpression<ArrayType<T>>(listOf(array, value) + additionalValues)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.append(
     value: TypeExpression<T>,

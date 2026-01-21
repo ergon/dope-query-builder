@@ -8,10 +8,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
 data class ArrayMoveExpression<T : ValidType>(
-    override val array: TypeExpression<ArrayType<T>>,
+    val array: TypeExpression<ArrayType<T>>,
     val from: TypeExpression<NumberType>,
     val to: TypeExpression<NumberType>,
-) : ArrayFunctionExpression<T>(array, listOf(from, to))
+) : ArrayFunctionExpression<ArrayType<T>>(listOf(array, from, to))
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
     ArrayMoveExpression(this, from, to)

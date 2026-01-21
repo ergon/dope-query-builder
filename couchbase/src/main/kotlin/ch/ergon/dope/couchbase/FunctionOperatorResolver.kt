@@ -7,20 +7,7 @@ import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.StringPrimitive
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayAverageExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayBinarySearchExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayContainsExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayCountExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFunctionExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIfNullExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayLengthExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayMaxExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayMinExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayPositionExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayPrependExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayRangeExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayRepeatExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArraySumExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.DecodeExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.Nvl2Expression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
@@ -76,44 +63,16 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         is ArrayFunctionExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            val argumentsDopeQuery = typeExpression.arguments.map { it.toDopeQuery(this) }
+            val argumentsDopeQuery = typeExpression.arguments.map { expression ->
+                expression.toDopeQuery(this)
+            }
+
             CouchbaseDopeQuery(
                 queryString = typeExpression.toFunctionQueryString(
                     typeExpression.symbol,
-                    arrayDopeQuery.queryString,
                     *argumentsDopeQuery.map { it.queryString }.toTypedArray(),
                 ),
-                parameters = arrayDopeQuery.parameters.merge(
-                    *argumentsDopeQuery.map { it.parameters }
-                        .toTypedArray(),
-                ),
-            )
-        }
-
-        is ArrayRepeatExpression<*> -> {
-            val valueDopeQuery = typeExpression.value.toDopeQuery(this)
-            val repetitionsDopeQuery = typeExpression.repetitions.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                queryString = typeExpression.toFunctionQueryString(
-                    "ARRAY_REPEAT",
-                    valueDopeQuery.queryString,
-                    repetitionsDopeQuery.queryString,
-                ),
-                parameters = valueDopeQuery.parameters.merge(repetitionsDopeQuery.parameters),
-            )
-        }
-
-        is ArrayContainsExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            val valueDopeQuery = typeExpression.value.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                queryString = typeExpression.toFunctionQueryString(
-                    "ARRAY_CONTAINS",
-                    arrayDopeQuery.queryString,
-                    valueDopeQuery.queryString,
-                ),
-                parameters = arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
+                parameters = argumentsDopeQuery.map { it.parameters }.merge(),
             )
         }
 
@@ -174,123 +133,6 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
                     filter?.queryString,
                 )
             CouchbaseDopeQuery(queryString, expressionDopeQuery.parameters.merge(filter?.parameters))
-        }
-
-        is ArrayAverageExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_AVG", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArrayMinExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_MIN", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArrayMaxExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_MAX", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArraySumExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_SUM", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArrayCountExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_COUNT", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArrayLengthExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_LENGTH", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArrayPositionExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            val valueDopeQuery = typeExpression.value.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString(
-                    "ARRAY_POSITION",
-                    arrayDopeQuery.queryString,
-                    valueDopeQuery.queryString,
-                ),
-                arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
-            )
-        }
-
-        is ArrayBinarySearchExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            val valueDopeQuery = typeExpression.value.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString(
-                    "ARRAY_BINARY_SEARCH",
-                    arrayDopeQuery.queryString,
-                    valueDopeQuery.queryString,
-                ),
-                arrayDopeQuery.parameters.merge(valueDopeQuery.parameters),
-            )
-        }
-
-        is ArrayIfNullExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                typeExpression.toFunctionQueryString("ARRAY_IFNULL", arrayDopeQuery.queryString),
-                arrayDopeQuery.parameters,
-            )
-        }
-
-        is ArrayPrependExpression<*> -> {
-            val arrayDopeQuery = typeExpression.array.toDopeQuery(this)
-            val valueDopeQuery = typeExpression.value.toDopeQuery(this)
-            val additionalValueDopeQueries = typeExpression.additionalValues.map { it.toDopeQuery(this) }
-            val functionQueryString = typeExpression.toFunctionQueryString(
-                "ARRAY_PREPEND",
-                valueDopeQuery.queryString,
-                *additionalValueDopeQueries.map { it.queryString }.toTypedArray(),
-                arrayDopeQuery.queryString,
-            )
-            CouchbaseDopeQuery(
-                functionQueryString,
-                arrayDopeQuery.parameters.merge(
-                    valueDopeQuery.parameters,
-                    *additionalValueDopeQueries.map { it.parameters }.toTypedArray(),
-                ),
-            )
-        }
-
-        is ArrayRangeExpression -> {
-            val startDopeQuery = typeExpression.start.toDopeQuery(this)
-            val endDopeQuery = typeExpression.end.toDopeQuery(this)
-            val step = typeExpression.step?.toDopeQuery(this)
-            val functionQueryString = typeExpression.toFunctionQueryString(
-                "ARRAY_RANGE",
-                startDopeQuery.queryString,
-                endDopeQuery.queryString,
-                step?.queryString,
-            )
-            CouchbaseDopeQuery(
-                functionQueryString,
-                startDopeQuery.parameters.merge(endDopeQuery.parameters, step?.parameters),
-            )
         }
 
         is Nvl2Expression<*> -> {
