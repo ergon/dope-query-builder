@@ -1,25 +1,26 @@
 package ch.ergon.dope.couchbase
 
+import ch.ergon.dope.couchbase.util.formatKeyspace
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.AliasedSelectClauseDefinition
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
-import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.KeySpace
 
 interface ExpressionResolver : TypeExpressionResolver {
     fun resolve(expression: Expression<*>): CouchbaseDopeQuery = when (expression) {
         is TypeExpression<*> -> resolve(expression)
 
-        is AliasedBucket -> CouchbaseDopeQuery("`${expression.alias}`")
+        is AliasedKeySpace -> CouchbaseDopeQuery("`${expression.alias}`")
 
-        is Bucket -> CouchbaseDopeQuery("`${expression.name}`")
+        is KeySpace -> CouchbaseDopeQuery(formatKeyspace(expression.bucket, expression.scope, expression.collection))
 
         is AliasedTypeExpression<*> -> {
             val inner = expression.typeExpression.toDopeQuery(this)

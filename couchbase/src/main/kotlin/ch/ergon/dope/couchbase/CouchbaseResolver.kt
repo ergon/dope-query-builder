@@ -36,11 +36,9 @@ import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTo
 import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
 import ch.ergon.dope.resolvable.keyspace.AliasedKeySpaceDefinition
 import ch.ergon.dope.resolvable.keyspace.IndexReference
-import ch.ergon.dope.resolvable.keyspace.KeySpace
 import ch.ergon.dope.resolvable.keyspace.UseIndex
 import ch.ergon.dope.resolvable.keyspace.UseKeysClass
 import ch.ergon.dope.resolver.QueryResolver
-import sun.tools.jstat.ExpressionResolver
 
 interface AbstractCouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
     abstract override val manager: DopeQueryManager
@@ -83,10 +81,6 @@ class CouchbaseResolver(
                     parameters = field.parameters.merge(value.parameters),
                 )
             }
-
-            is AliasedKeySpace -> CouchbaseDopeQuery("`${resolvable.alias}`")
-
-            is KeySpace -> CouchbaseDopeQuery(formatKeyspace(resolvable.bucket, resolvable.scope, resolvable.collection))
 
             is AliasedKeySpaceDefinition -> CouchbaseDopeQuery(
                 "${formatKeyspace(resolvable.keyspace, resolvable.scope, resolvable.collection)} AS `${resolvable.alias}`",
