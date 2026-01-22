@@ -11,16 +11,16 @@ import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.AliasedKeyspace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 
 interface ExpressionResolver : TypeExpressionResolver {
     fun resolve(expression: Expression<*>): CouchbaseDopeQuery = when (expression) {
         is TypeExpression<*> -> resolve(expression)
 
-        is AliasedKeySpace -> CouchbaseDopeQuery("`${expression.alias}`")
+        is AliasedKeyspace -> CouchbaseDopeQuery("`${expression.alias}`")
 
-        is KeySpace -> CouchbaseDopeQuery(formatKeyspace(expression.bucket, expression.scope, expression.collection))
+        is Keyspace -> CouchbaseDopeQuery(formatKeyspace(expression.bucket, expression.scope, expression.collection))
 
         is AliasedTypeExpression<*> -> {
             val inner = expression.typeExpression.toDopeQuery(this)

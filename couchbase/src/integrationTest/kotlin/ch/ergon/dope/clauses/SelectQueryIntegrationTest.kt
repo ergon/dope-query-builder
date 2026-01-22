@@ -7,7 +7,7 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.isActiveField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.quantitiesField
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.toRawValues
@@ -32,7 +32,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     fun `select everything from the test keyspace`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeySpace,
+                testKeyspace,
             ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
@@ -44,7 +44,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     fun `select all employees from the test keyspace`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 typeField.isEqualTo("employee"),
@@ -62,7 +62,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     fun `select all active clients from the test keyspace`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 typeField.isEqualTo("client").and(isActiveField.isEqualTo(true)),
@@ -81,7 +81,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 typeField,
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .orderBy(
                 typeField,
@@ -105,7 +105,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 idField.alias(alias),
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .limit(
                 1,
@@ -121,7 +121,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     fun `select where nothing applies from the test keyspace`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 idField.isNull(),
@@ -139,7 +139,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 idField,
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             ).orderBy(
                 idField,
             ).build(CouchbaseResolver())
@@ -161,7 +161,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 idField,
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .limit(
                 1,
@@ -180,7 +180,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 idField,
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 typeField.isEqualTo("client").and(
@@ -193,7 +193,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                         idField,
                     )
                     .from(
-                        testKeySpace,
+                        testKeyspace,
                     )
                     .where(
                         typeField.isEqualTo("client").and(
@@ -240,7 +240,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     fun `select from subquery`() {
         val subQuery = QueryBuilder
             .selectRaw(quantitiesField)
-            .from(testKeySpace)
+            .from(testKeyspace)
             .where(typeField.isEqualTo("order"))
             .limit(1)
             .alias("subQuery")
@@ -265,10 +265,10 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         )
         val dopeQuery = QueryBuilder
             .select(
-                testKeySpace.asterisk(),
+                testKeyspace.asterisk(),
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 typeField.isEqualTo("client").and(isActiveField),
@@ -297,7 +297,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                     nameField,
                     typeField,
                 )
-                .from(testKeySpace)
+                .from(testKeyspace)
                 .where(typeField.isEqualTo("client"))
                 .orderBy(idField),
         )

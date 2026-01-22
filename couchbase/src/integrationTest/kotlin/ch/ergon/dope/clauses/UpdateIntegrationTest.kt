@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.clause.model.toNewValue
@@ -27,11 +27,11 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `update to set and unset single attribute`() {
-        val newFieldName = Field<StringType>("newFieldName", testKeySpace)
-        val newNullField = Field<NumberType>("nullField", testKeySpace)
+        val newFieldName = Field<StringType>("newFieldName", testKeyspace)
+        val newNullField = Field<NumberType>("nullField", testKeyspace)
         val dopeQuery = QueryBuilder
             .update(
-                testKeySpace.useKeys("client:1"),
+                testKeyspace.useKeys("client:1"),
             )
             .set(
                 newFieldName.toNewValue("newName"),

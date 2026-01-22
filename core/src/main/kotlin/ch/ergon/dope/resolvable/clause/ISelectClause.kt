@@ -55,7 +55,7 @@ import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -132,7 +132,7 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun join(
         joinable: Joinable,
         key: TypeExpression<StringType>,
-        keyspace: KeySpace? = null,
+        keyspace: Keyspace? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = StandardJoinOnKeyClause(joinable, key, keyspace, hashOrNestedLoopHint, keysOrIndexHint, this)
@@ -140,7 +140,7 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun join(
         joinable: Joinable,
         keys: String,
-        keyspace: KeySpace? = null,
+        keyspace: Keyspace? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = join(joinable, keys.toDopeType(), keyspace, hashOrNestedLoopHint, keysOrIndexHint)
@@ -169,7 +169,7 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun innerJoin(
         joinable: Joinable,
         key: TypeExpression<StringType>,
-        keyspace: KeySpace? = null,
+        keyspace: Keyspace? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = InnerJoinOnKeyClause(joinable, key, keyspace, hashOrNestedLoopHint, keysOrIndexHint, this)
@@ -177,7 +177,7 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun innerJoin(
         joinable: Joinable,
         key: String,
-        keyspace: KeySpace? = null,
+        keyspace: Keyspace? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = innerJoin(joinable, key.toDopeType(), keyspace, hashOrNestedLoopHint, keysOrIndexHint)
@@ -206,7 +206,7 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun leftJoin(
         joinable: Joinable,
         key: TypeExpression<StringType>,
-        keyspace: KeySpace? = null,
+        keyspace: Keyspace? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = LeftJoinOnKeyClause(joinable, key, keyspace, hashOrNestedLoopHint, keysOrIndexHint, this)
@@ -214,7 +214,7 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun leftJoin(
         joinable: Joinable,
         key: String,
-        keyspace: KeySpace? = null,
+        keyspace: Keyspace? = null,
         hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
         keysOrIndexHint: KeysOrIndexHint? = null,
     ) = leftJoin(joinable, key.toDopeType(), keyspace, hashOrNestedLoopHint, keysOrIndexHint)
@@ -239,10 +239,10 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun nest(nestable: Nestable, keys: Collection<String>) =
         nest(nestable, keys.toDopeType())
 
-    fun nest(nestable: Nestable, key: TypeExpression<StringType>, keyspace: KeySpace? = null) =
+    fun nest(nestable: Nestable, key: TypeExpression<StringType>, keyspace: Keyspace? = null) =
         StandardNestOnKeyClause(nestable, key, keyspace, this)
 
-    fun nest(nestable: Nestable, key: String, keyspace: KeySpace? = null) =
+    fun nest(nestable: Nestable, key: String, keyspace: Keyspace? = null) =
         nest(nestable, key.toDopeType(), keyspace)
 
     fun innerNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
@@ -254,10 +254,10 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun innerNest(nestable: Nestable, keys: Collection<String>) =
         innerNest(nestable, keys.toDopeType())
 
-    fun innerNest(nestable: Nestable, key: TypeExpression<StringType>, keyspace: KeySpace? = null) =
+    fun innerNest(nestable: Nestable, key: TypeExpression<StringType>, keyspace: Keyspace? = null) =
         InnerNestOnKeyClause(nestable, key, keyspace, this)
 
-    fun innerNest(nestable: Nestable, key: String, keyspace: KeySpace? = null) =
+    fun innerNest(nestable: Nestable, key: String, keyspace: Keyspace? = null) =
         innerNest(nestable, key.toDopeType(), keyspace)
 
     fun leftNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
@@ -269,10 +269,10 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     fun leftNest(nestable: Nestable, keys: Collection<String>) =
         leftNest(nestable, keys.toDopeType())
 
-    fun leftNest(nestable: Nestable, key: TypeExpression<StringType>, keyspace: KeySpace? = null) =
+    fun leftNest(nestable: Nestable, key: TypeExpression<StringType>, keyspace: Keyspace? = null) =
         LeftNestOnKeyClause(nestable, key, keyspace, this)
 
-    fun leftNest(nestable: Nestable, key: String, keyspace: KeySpace? = null) =
+    fun leftNest(nestable: Nestable, key: String, keyspace: Keyspace? = null) =
         leftNest(nestable, key.toDopeType(), keyspace)
 }
 

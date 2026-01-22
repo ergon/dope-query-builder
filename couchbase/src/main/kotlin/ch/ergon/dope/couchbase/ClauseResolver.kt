@@ -31,7 +31,7 @@ import ch.ergon.dope.resolvable.clause.model.mergeable.JoinType
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType
 import ch.ergon.dope.resolvable.clause.model.mergeable.OnType
-import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.AliasedKeyspace
 
 interface ClauseResolver : AbstractCouchbaseResolver {
     fun resolve(clause: Clause) =
@@ -99,7 +99,7 @@ interface ClauseResolver : AbstractCouchbaseResolver {
             is FromClause<*> -> {
                 val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val fromableDopeQuery = when (val fromable = clause.fromable) {
-                    is AliasedKeySpace -> fromable.asKeySpaceDefinition().toDopeQuery(this)
+                    is AliasedKeyspace -> fromable.asKeyspaceDefinition().toDopeQuery(this)
                     is AliasedSelectClause<*> -> fromable.asAliasedSelectClauseDefinition().toDopeQuery(this)
                     else -> clause.fromable.toDopeQuery(this)
                 }
@@ -210,7 +210,7 @@ interface ClauseResolver : AbstractCouchbaseResolver {
 
             is UpdateClause -> {
                 val updatable = when (val u = clause.updatable) {
-                    is AliasedKeySpace -> u.asKeySpaceDefinition().toDopeQuery(this)
+                    is AliasedKeyspace -> u.asKeyspaceDefinition().toDopeQuery(this)
                     else -> clause.updatable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
@@ -221,7 +221,7 @@ interface ClauseResolver : AbstractCouchbaseResolver {
 
             is DeleteClause -> {
                 val keyspace = when (val d = clause.deletable) {
-                    is AliasedKeySpace -> d.asKeySpaceDefinition().toDopeQuery(this)
+                    is AliasedKeyspace -> d.asKeyspaceDefinition().toDopeQuery(this)
                     else -> clause.deletable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
@@ -301,7 +301,7 @@ interface ClauseResolver : AbstractCouchbaseResolver {
                 }
                 val parent = clause.parentClause.toDopeQuery(this)
                 val mergeable = when (val m = clause.mergeable) {
-                    is AliasedKeySpace -> m.asKeySpaceDefinition().toDopeQuery(this)
+                    is AliasedKeyspace -> m.asKeyspaceDefinition().toDopeQuery(this)
                     is AliasedSelectClause<*> -> m.asAliasedSelectClauseDefinition().toDopeQuery(this)
                     else -> clause.mergeable.toDopeQuery(this)
                 }

@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
@@ -43,7 +43,7 @@ class ConditionalUnknownFunctionsTest {
 
     @Test
     fun `should support decode in query`() {
-        val keyspace = someKeySpace("airport").alias("a")
+        val keyspace = someKeyspace("airport").alias("a")
         val expected = "SELECT `a`.`airportname` AS `Airport`, " +
             "DECODE(`a`.`tz`, \"Pacific/Honolulu\", -10, " +
             "\"America/Anchorage\", -9, " +
@@ -143,7 +143,7 @@ class ConditionalUnknownFunctionsTest {
                     "n/a",
                 ).alias("IATA"),
             ).from(
-                someKeySpace("airline"),
+                someKeyspace("airline"),
             ).limit(
                 5,
             ).build(CouchbaseResolver()).queryString
@@ -166,7 +166,7 @@ class ConditionalUnknownFunctionsTest {
                     "No",
                 ).alias("DirectionsAvailable"),
             ).from(
-                someKeySpace("hotel"),
+                someKeyspace("hotel"),
             ).limit(
                 5,
             ).build(CouchbaseResolver()).queryString

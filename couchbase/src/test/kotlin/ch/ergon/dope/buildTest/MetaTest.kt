@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -14,9 +14,9 @@ class MetaTest {
 
         val actual: String = QueryBuilder
             .select(
-                meta(someKeySpace()),
+                meta(someKeyspace()),
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -30,7 +30,7 @@ class MetaTest {
             .select(
                 meta(),
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -49,7 +49,7 @@ class MetaTest {
                 meta().id,
                 meta().type,
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

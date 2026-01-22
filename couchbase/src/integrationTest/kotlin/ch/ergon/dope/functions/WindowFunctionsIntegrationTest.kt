@@ -7,7 +7,7 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.deliveryDateField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
@@ -80,7 +80,7 @@ class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
                     .alias("lag"),
                 lastValue(nameField, IGNORE).alias("lastValue"),
             )
-            .from(testKeySpace)
+            .from(testKeyspace)
             .referenceWindow(windowReference)
             .orderBy(nameField)
             .thenOrderBy(idField)

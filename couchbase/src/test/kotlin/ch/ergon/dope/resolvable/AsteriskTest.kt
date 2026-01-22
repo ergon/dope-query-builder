@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someObject
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someSelectClause
@@ -31,7 +31,7 @@ class AsteriskTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`someBucket`.*",
         )
-        val underTest = Asterisk(someKeySpace())
+        val underTest = Asterisk(someKeyspace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -73,7 +73,7 @@ class AsteriskTest : ResolverDependentTest {
 
     @Test
     fun `should support asterisk function with keyspace`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = Asterisk(keyspace)
 
         val actual = asterisk(keyspace)
@@ -113,7 +113,7 @@ class AsteriskTest : ResolverDependentTest {
 
     @Test
     fun `should support asterisk function receiver extension with keyspace`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = Asterisk(keyspace)
 
         val actual = keyspace.asterisk()

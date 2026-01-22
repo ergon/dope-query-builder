@@ -19,7 +19,7 @@ import ch.ergon.dope.resolvable.expression.type.function.objects.removeAttribute
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ObjectType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,14 +27,14 @@ import kotlin.test.assertEquals
 class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use nested object functions`() {
-        val testKeySpace = UnaliasedKeySpace(BUCKET, "_default", "_default")
-        val detailsField = Field<ObjectType>(detailsField.name, testKeySpace)
+        val testKeyspace = UnaliasedKeyspace(BUCKET, "_default", "_default")
+        val detailsField = Field<ObjectType>(detailsField.name, testKeyspace)
         val dopeQuery = QueryBuilder
             .selectRaw(
                 detailsField.concat(mapOf("someField" to 4).toDopeType()).addAttribute("otherField", TRUE).removeAttribute("department")
                     .alias("result"),
             )
-            .from(testKeySpace)
+            .from(testKeyspace)
             .where(
                 detailsField.getLength().isGreaterThan(2)
                     .and(mapOf("name" to "email", "val" to "employee1@company.com").toDopeType().inArray(detailsField.getInnerPairs())),

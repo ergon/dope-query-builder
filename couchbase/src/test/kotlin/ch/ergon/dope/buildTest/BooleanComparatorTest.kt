@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -39,7 +39,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` > 5"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someNumberField().isGreaterThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -54,7 +54,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 2.isGreaterThan(4),
             ).build(CouchbaseResolver()).queryString
@@ -69,7 +69,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 2.isGreaterThan(4.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -84,7 +84,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 2.toDopeType().isGreaterThan(4),
             ).build(CouchbaseResolver()).queryString
@@ -97,7 +97,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` > \"a\""
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isGreaterThan("a".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -112,7 +112,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 "hallo".isGreaterThan("test"),
             ).build(CouchbaseResolver()).queryString
@@ -127,7 +127,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 "hallo".toDopeType().isGreaterThan("test"),
             ).build(CouchbaseResolver()).queryString
@@ -142,7 +142,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 "hallo".isGreaterThan("test".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -155,7 +155,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE \"a\" > `stringField`"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 "a".toDopeType().isGreaterThan(someStringField()),
             ).build(CouchbaseResolver()).queryString
@@ -169,7 +169,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 someNumberField().isLessThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -182,7 +182,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE 5 < `numberField`"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 5.toDopeType().isLessThan(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -197,7 +197,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 5.isLessThan(7),
             ).build(CouchbaseResolver()).queryString
@@ -212,7 +212,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 5.toDopeType().isLessThan(7),
             ).build(CouchbaseResolver()).queryString
@@ -227,7 +227,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 5.isLessThan(7.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -240,7 +240,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` < \"a\""
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isLessThan("a".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -255,7 +255,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 "hallo".isLessThan("test"),
             ).build(CouchbaseResolver()).queryString
@@ -270,7 +270,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 "hallo".toDopeType().isLessThan("test"),
             ).build(CouchbaseResolver()).queryString
@@ -285,7 +285,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 "hallo".isLessThan("test".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -298,7 +298,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` LIKE \"_b%\""
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isLike("_b%"),
             ).build(CouchbaseResolver()).queryString
@@ -311,7 +311,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` LIKE \"_b%\""
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isLike("_b%".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -324,7 +324,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `email` NOT LIKE \"%@yahoo.com\""
 
         val actual: String = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField("email").isNotLike("%@yahoo.com"),
             ).build(CouchbaseResolver()).queryString
@@ -337,7 +337,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` NOT LIKE \"_b%\""
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isNotLike("_b%".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -350,7 +350,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NULL"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isNull(),
             ).build(CouchbaseResolver()).queryString
@@ -363,7 +363,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT NULL"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isNotNull(),
             ).build(CouchbaseResolver()).queryString
@@ -376,7 +376,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS MISSING"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isMissing(),
             ).build(CouchbaseResolver()).queryString
@@ -389,7 +389,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT MISSING"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isNotMissing(),
             ).build(CouchbaseResolver()).queryString
@@ -402,7 +402,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS VALUED"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isValued(),
             ).build(CouchbaseResolver()).queryString
@@ -415,7 +415,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT VALUED"
 
         val actual = QueryBuilder
-            .selectFrom(someKeySpace())
+            .selectFrom(someKeyspace())
             .where(
                 someStringField().isNotValued(),
             ).build(CouchbaseResolver()).queryString
@@ -429,7 +429,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.toDopeType().isNotEqualTo(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -443,7 +443,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.isNotEqualTo(5),
             ).build(CouchbaseResolver()).queryString
@@ -457,7 +457,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.toDopeType().isNotEqualTo(5),
             ).build(CouchbaseResolver()).queryString
@@ -471,7 +471,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.isNotEqualTo(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -485,7 +485,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someNumberField().isNotEqualTo(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -499,7 +499,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 3.toDopeType().isNotEqualTo(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -513,7 +513,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -527,7 +527,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someStringField().isNotEqualTo("5".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -541,7 +541,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -555,7 +555,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.isGreaterOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -569,7 +569,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.toDopeType().isGreaterOrEqualThan(5),
             ).build(CouchbaseResolver()).queryString
@@ -583,7 +583,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 "hallo".isGreaterOrEqualThan("test".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -597,7 +597,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someStringField().isGreaterOrEqualThan("test"),
             ).build(CouchbaseResolver()).queryString
@@ -611,7 +611,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someNumberField().isGreaterOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -625,7 +625,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 3.toDopeType().isGreaterOrEqualThan(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -639,7 +639,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -653,7 +653,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someStringField().isGreaterOrEqualThan("5".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -667,7 +667,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 "test".toDopeType().isGreaterOrEqualThan(someStringField()),
             ).build(CouchbaseResolver()).queryString
@@ -681,7 +681,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 12.toDopeType().isLessOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -695,7 +695,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someNumberField().isLessOrEqualThan(5.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -709,7 +709,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 3.toDopeType().isLessOrEqualThan(someNumberField()),
             ).build(CouchbaseResolver()).queryString
@@ -723,7 +723,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -737,7 +737,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(someKeySpace())
+            .from(someKeyspace())
             .where(
                 someStringField().isLessOrEqualThan("5".toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -754,7 +754,7 @@ class BooleanComparatorTest : ResolverDependentTest {
                 someStringField(),
                 someStringField("email"),
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 someStringField("email").isLike(
                     "%@yahoo.com".toDopeType(),
@@ -773,7 +773,7 @@ class BooleanComparatorTest : ResolverDependentTest {
                 someStringField(),
                 someNumberField(),
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 someStringField("email").isLike(
                     "%@gmail.com".toDopeType(),
@@ -878,7 +878,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 true.toDopeType().and(true),
@@ -894,7 +894,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 true.toDopeType().and(true).or(false),
@@ -910,7 +910,7 @@ class BooleanComparatorTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 true.toDopeType().and(true.toDopeType().or(false)),
@@ -926,7 +926,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 someNumberField().between(1.toDopeType(), 10.toDopeType()),
@@ -941,7 +941,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 greatestOf(
@@ -961,7 +961,7 @@ class BooleanComparatorTest : ResolverDependentTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 leastOf(

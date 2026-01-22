@@ -33,8 +33,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrame
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
-import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
-import ch.ergon.dope.resolvable.keyspace.AliasedKeySpaceDefinition
+import ch.ergon.dope.resolvable.keyspace.AliasedKeyspace
+import ch.ergon.dope.resolvable.keyspace.AliasedKeyspaceDefinition
 import ch.ergon.dope.resolvable.keyspace.IndexReference
 import ch.ergon.dope.resolvable.keyspace.UseIndex
 import ch.ergon.dope.resolvable.keyspace.UseKeysClass
@@ -82,13 +82,13 @@ class CouchbaseResolver(
                 )
             }
 
-            is AliasedKeySpaceDefinition -> CouchbaseDopeQuery(
+            is AliasedKeyspaceDefinition -> CouchbaseDopeQuery(
                 "${formatKeyspace(resolvable.keyspace, resolvable.scope, resolvable.collection)} AS `${resolvable.alias}`",
             )
 
             is UseKeysClass -> {
                 val keyspace = when (val b = resolvable.keyspace) {
-                    is AliasedKeySpace -> b.asKeySpaceDefinition().toDopeQuery(this)
+                    is AliasedKeyspace -> b.asKeyspaceDefinition().toDopeQuery(this)
                     else -> resolvable.keyspace.toDopeQuery(this)
                 }
                 val keys = resolvable.useKeys.toDopeQuery(this)

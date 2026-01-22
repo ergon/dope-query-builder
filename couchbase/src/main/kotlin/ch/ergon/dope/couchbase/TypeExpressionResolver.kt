@@ -39,8 +39,8 @@ import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
 import ch.ergon.dope.resolvable.expression.type.relational.BetweenExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotBetweenExpression
-import ch.ergon.dope.resolvable.keyspace.AliasedKeySpace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.AliasedKeyspace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -235,11 +235,11 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
             }
 
             is IField<*> -> {
-                val ks = typeExpression.keySpace
+                val ks = typeExpression.keyspace
                 val fieldQuery = when (ks) {
-                    is AliasedKeySpace -> "${formatKeyspace(ks.alias)}.`${typeExpression.name}`"
+                    is AliasedKeyspace -> "${formatKeyspace(ks.alias)}.`${typeExpression.name}`"
 
-                    is UnaliasedKeySpace -> {
+                    is UnaliasedKeyspace -> {
                         val path = when {
                             ks.collection != null -> ks.collection
                             ks.scope != null -> ks.scope

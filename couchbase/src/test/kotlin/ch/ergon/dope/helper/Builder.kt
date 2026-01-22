@@ -18,8 +18,8 @@ import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.KeySpace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -27,33 +27,33 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-fun someKeySpace(bucket: String = "someBucket", scope: String? = null, collection: String? = null) = UnaliasedKeySpace(bucket, scope, collection)
+fun someKeyspace(bucket: String = "someBucket", scope: String? = null, collection: String? = null) = UnaliasedKeyspace(bucket, scope, collection)
 
-fun someNumberField(name: String = "numberField", keyspace: KeySpace? = null) = Field<NumberType>(name, keyspace)
+fun someNumberField(name: String = "numberField", keyspace: Keyspace? = null) = Field<NumberType>(name, keyspace)
 
-fun someStringField(name: String = "stringField", keyspace: KeySpace? = null) = Field<StringType>(name, keyspace)
+fun someStringField(name: String = "stringField", keyspace: Keyspace? = null) = Field<StringType>(name, keyspace)
 
-fun someBooleanField(name: String = "booleanField", keyspace: KeySpace? = null) = Field<BooleanType>(name, keyspace)
+fun someBooleanField(name: String = "booleanField", keyspace: Keyspace? = null) = Field<BooleanType>(name, keyspace)
 
-fun someObjectField(name: String = "objectField", keyspace: KeySpace? = null) = Field<ObjectType>(name, keyspace)
+fun someObjectField(name: String = "objectField", keyspace: Keyspace? = null) = Field<ObjectType>(name, keyspace)
 
-fun someAnyTypeField(name: String = "anyTypeField", keyspace: KeySpace? = null) = Field<ValidType>(name, keyspace)
+fun someAnyTypeField(name: String = "anyTypeField", keyspace: Keyspace? = null) = Field<ValidType>(name, keyspace)
 
 fun someBooleanExpression() = TRUE
 
-fun someNumberArrayField(name: String = "numberArrayField", keyspace: KeySpace? = null) =
+fun someNumberArrayField(name: String = "numberArrayField", keyspace: Keyspace? = null) =
     Field<ArrayType<NumberType>>(name, keyspace)
 
-fun someStringArrayField(name: String = "stringArrayField", keyspace: KeySpace? = null) =
+fun someStringArrayField(name: String = "stringArrayField", keyspace: Keyspace? = null) =
     Field<ArrayType<StringType>>(name, keyspace)
 
-fun someBooleanArrayField(name: String = "booleanArrayField", keyspace: KeySpace? = null) =
+fun someBooleanArrayField(name: String = "booleanArrayField", keyspace: Keyspace? = null) =
     Field<ArrayType<BooleanType>>(name, keyspace)
 
-fun someObjectArrayField(name: String = "objectArrayField", keyspace: KeySpace? = null) =
+fun someObjectArrayField(name: String = "objectArrayField", keyspace: Keyspace? = null) =
     Field<ArrayType<ObjectType>>(name, keyspace)
 
-fun someAnyTypeArrayField(name: String = "anyTypeArrayField", keyspace: KeySpace? = null) =
+fun someAnyTypeArrayField(name: String = "anyTypeArrayField", keyspace: Keyspace? = null) =
     Field<ArrayType<ValidType>>(name, keyspace)
 
 fun someNumber(value: Number = 5) = value

@@ -9,7 +9,7 @@ import ch.ergon.dope.resolvable.expression.type.BooleanParameter
 import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.NumberParameter
 import ch.ergon.dope.resolvable.expression.type.StringParameter
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -29,7 +29,7 @@ class CrystalMapAdapterTest {
         val actual: IField<NumberType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedKeySpace(cmJsonField.path), actual.keySpace)
+        assertEquals(UnaliasedKeyspace(cmJsonField.path), actual.keyspace)
     }
 
     @Test
@@ -39,7 +39,7 @@ class CrystalMapAdapterTest {
         val actual: IField<StringType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedKeySpace(cmJsonField.path), actual.keySpace)
+        assertEquals(UnaliasedKeyspace(cmJsonField.path), actual.keyspace)
     }
 
     @Test
@@ -49,7 +49,7 @@ class CrystalMapAdapterTest {
         val actual: IField<BooleanType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedKeySpace(cmJsonField.path), actual.keySpace)
+        assertEquals(UnaliasedKeyspace(cmJsonField.path), actual.keyspace)
     }
 
     @Test
@@ -59,7 +59,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<StringType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedKeySpace(cmJsonList.path), actual.keySpace)
+        assertEquals(UnaliasedKeyspace(cmJsonList.path), actual.keyspace)
     }
 
     @Test
@@ -69,7 +69,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<NumberType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedKeySpace(cmJsonList.path), actual.keySpace)
+        assertEquals(UnaliasedKeyspace(cmJsonList.path), actual.keyspace)
     }
 
     @Test
@@ -79,7 +79,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<BooleanType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedKeySpace(cmJsonList.path), actual.keySpace)
+        assertEquals(UnaliasedKeyspace(cmJsonList.path), actual.keyspace)
     }
 
     @Test

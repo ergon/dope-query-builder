@@ -18,7 +18,7 @@ data class IndexReference(
 ) : Resolvable
 
 data class UseIndex(
-    val keyspace: KeySpace,
+    val keyspace: Keyspace,
     val indexReferences: List<IndexReference> = emptyList(),
 ) : Joinable, Deletable, Fromable
 
@@ -28,8 +28,8 @@ fun UseIndex.useGsiIndex(indexName: String? = null) = UseIndex(keyspace, indexRe
 
 fun UseIndex.useFtsIndex(indexName: String? = null) = UseIndex(keyspace, indexReferences + IndexReference(indexName, USING_FTS))
 
-fun KeySpace.useIndex(indexName: String? = null) = UseIndex(this, listOf(IndexReference(indexName)))
+fun Keyspace.useIndex(indexName: String? = null) = UseIndex(this, listOf(IndexReference(indexName)))
 
-fun KeySpace.useGsiIndex(indexName: String? = null) = UseIndex(this, listOf(IndexReference(indexName, USING_GSI)))
+fun Keyspace.useGsiIndex(indexName: String? = null) = UseIndex(this, listOf(IndexReference(indexName, USING_GSI)))
 
-fun KeySpace.useFtsIndex(indexName: String? = null) = UseIndex(this, listOf(IndexReference(indexName, USING_FTS)))
+fun Keyspace.useFtsIndex(indexName: String? = null) = UseIndex(this, listOf(IndexReference(indexName, USING_FTS)))

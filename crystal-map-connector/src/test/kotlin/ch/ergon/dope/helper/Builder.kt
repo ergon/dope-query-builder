@@ -11,8 +11,8 @@ import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.keyspace.KeySpace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
+import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -30,7 +30,7 @@ import com.schwarz.crystalapi.schema.Schema
 import java.time.Instant
 import java.util.*
 
-fun someKeySpace(bucket: String = "someBucket", scope: String? = null, collection: String? = null) = UnaliasedKeySpace(bucket, scope, collection)
+fun someKeyspace(bucket: String = "someBucket", scope: String? = null, collection: String? = null) = UnaliasedKeyspace(bucket, scope, collection)
 
 fun someCMNumberField(name: String = "cmNumberField", path: String = "") = CMJsonField<Number>(name, path)
 fun someCMStringField(name: String = "cmStringField", path: String = "") = CMJsonField<String>(name, path)
@@ -48,9 +48,9 @@ fun someCMConverterBooleanField(name: String = "cmConverterBooleanField", path: 
 fun someCorruptField(name: String = "corruptField", path: String = "") =
     CMConverterField(name, path, CorruptStringNumberConverterInstance)
 
-fun someNumberFieldList(name: String = "numberFieldList", keyspace: KeySpace? = null) = Field<ArrayType<NumberType>>(name, keyspace)
-fun someStringFieldList(name: String = "stringFieldList", keyspace: KeySpace? = null) = Field<ArrayType<StringType>>(name, keyspace)
-fun someBooleanFieldList(name: String = "booleanFieldList", keyspace: KeySpace? = null) = Field<ArrayType<BooleanType>>(name, keyspace)
+fun someNumberFieldList(name: String = "numberFieldList", keyspace: Keyspace? = null) = Field<ArrayType<NumberType>>(name, keyspace)
+fun someStringFieldList(name: String = "stringFieldList", keyspace: Keyspace? = null) = Field<ArrayType<StringType>>(name, keyspace)
+fun someBooleanFieldList(name: String = "booleanFieldList", keyspace: Keyspace? = null) = Field<ArrayType<BooleanType>>(name, keyspace)
 
 fun someCMNumberList(name: String = "cmNumberList", path: String = "") = CMJsonList<Number>(name, path)
 fun someCMStringList(name: String = "cmStringList", path: String = "") = CMJsonList<String>(name, path)
@@ -72,11 +72,11 @@ fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: St
 
 fun someSelect(selectable: Selectable = Asterisk()) = SelectClause(selectable)
 fun someOrderBy(selectClause: SelectClause) = selectClause.orderBy(someNumberField(), OrderType.ASC)
-fun someFrom(fromable: Fromable = someKeySpace(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
+fun someFrom(fromable: Fromable = someKeyspace(), selectClause: SelectClause = someSelect()) = FromClause(fromable, selectClause)
 
-fun someDelete(keyspace: KeySpace = someKeySpace()) = DeleteClause(keyspace)
+fun someDelete(keyspace: Keyspace = someKeyspace()) = DeleteClause(keyspace)
 
-fun someUpdate(keyspace: KeySpace = someKeySpace()) = UpdateClause(keyspace)
+fun someUpdate(keyspace: Keyspace = someKeyspace()) = UpdateClause(keyspace)
 
 fun someNumber(value: Number = 5) = value
 
@@ -88,10 +88,10 @@ fun someDate(value: Date = Date(12345)) = value
 
 fun someObject(value: Map<String, Any> = mapOf("someKey" to "someValue")) = value
 
-fun someNumberField(name: String = "numberField", keyspace: KeySpace? = null) = Field<NumberType>(name, keyspace)
-fun someStringField(name: String = "stringField", keyspace: KeySpace? = null) = Field<StringType>(name, keyspace)
-fun someBooleanField(name: String = "booleanField", keyspace: KeySpace? = null) = Field<BooleanType>(name, keyspace)
-fun someObjectField(name: String = "objectField", keyspace: KeySpace? = null) = Field<ObjectType>(name, keyspace)
+fun someNumberField(name: String = "numberField", keyspace: Keyspace? = null) = Field<NumberType>(name, keyspace)
+fun someStringField(name: String = "stringField", keyspace: Keyspace? = null) = Field<StringType>(name, keyspace)
+fun someBooleanField(name: String = "booleanField", keyspace: Keyspace? = null) = Field<BooleanType>(name, keyspace)
+fun someObjectField(name: String = "objectField", keyspace: Keyspace? = null) = Field<ObjectType>(name, keyspace)
 
 fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
     expression,

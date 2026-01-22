@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.deliveryDateField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.type.Field
@@ -33,7 +33,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                 ).alias("decoded"),
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 typeField.isEqualTo("client"),
@@ -47,7 +47,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `return first non null, non missing value`() {
-        val missingField = Field<StringType>("nonexistent", testKeySpace)
+        val missingField = Field<StringType>("nonexistent", testKeyspace)
         val dopeQuery = QueryBuilder
             .select(
                 ifMissingOrNull(
@@ -57,7 +57,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                 ).alias("conditional"),
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
@@ -81,7 +81,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
                 ).alias("nvl2"),
             )
             .from(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 typeField.isEqualTo("order"),

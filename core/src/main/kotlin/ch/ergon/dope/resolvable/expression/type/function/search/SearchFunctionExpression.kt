@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.search
 
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.IField
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
@@ -14,7 +14,7 @@ enum class SearchFunctionType(val type: String) {
 
 interface ISearchFunctionExpression : FunctionOperator<BooleanType> {
     val field: IField<out ValidType>?
-    val keyspace: KeySpace?
+    val keyspace: Keyspace?
     val stringSearchExpression: String?
     val objectSearchExpression: Map<String, Any>?
     val options: Map<String, Any>?
@@ -25,12 +25,12 @@ data class SearchFunctionFieldStringExpression(
     override val stringSearchExpression: String,
     override val options: Map<String, Any>? = null,
 ) : ISearchFunctionExpression {
-    override val keyspace: KeySpace? = null
+    override val keyspace: Keyspace? = null
     override val objectSearchExpression: Map<String, Any>? = null
 }
 
-data class SearchFunctionKeySpaceStringExpression(
-    override val keyspace: KeySpace,
+data class SearchFunctionKeyspaceStringExpression(
+    override val keyspace: Keyspace,
     override val stringSearchExpression: String,
     override val options: Map<String, Any>? = null,
 ) : ISearchFunctionExpression {
@@ -43,12 +43,12 @@ data class SearchFunctionFieldObjectExpression(
     override val objectSearchExpression: Map<String, Any>,
     override val options: Map<String, Any>? = null,
 ) : ISearchFunctionExpression {
-    override val keyspace: KeySpace? = null
+    override val keyspace: Keyspace? = null
     override val stringSearchExpression: String? = null
 }
 
-data class SearchFunctionKeySpaceObjectExpression(
-    override val keyspace: KeySpace,
+data class SearchFunctionKeyspaceObjectExpression(
+    override val keyspace: Keyspace,
     override val objectSearchExpression: Map<String, Any>,
     override val options: Map<String, Any>? = null,
 ) : ISearchFunctionExpression {
@@ -59,8 +59,8 @@ data class SearchFunctionKeySpaceObjectExpression(
 fun fullTextSearch(field: IField<out ValidType>, stringSearchExpression: String, options: Map<String, Any>? = null) =
     SearchFunctionFieldStringExpression(field, stringSearchExpression, options)
 
-fun fullTextSearch(keyspace: KeySpace, stringSearchExpression: String, options: Map<String, Any>? = null) =
-    SearchFunctionKeySpaceStringExpression(keyspace, stringSearchExpression, options)
+fun fullTextSearch(keyspace: Keyspace, stringSearchExpression: String, options: Map<String, Any>? = null) =
+    SearchFunctionKeyspaceStringExpression(keyspace, stringSearchExpression, options)
 
 fun fullTextSearch(
     field: IField<out ValidType>,
@@ -68,5 +68,5 @@ fun fullTextSearch(
     options: Map<String, Any>? = null,
 ) = SearchFunctionFieldObjectExpression(field, objectSearchExpression, options)
 
-fun fullTextSearch(keyspace: KeySpace, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) =
-    SearchFunctionKeySpaceObjectExpression(keyspace, objectSearchExpression, options)
+fun fullTextSearch(keyspace: Keyspace, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) =
+    SearchFunctionKeyspaceObjectExpression(keyspace, objectSearchExpression, options)

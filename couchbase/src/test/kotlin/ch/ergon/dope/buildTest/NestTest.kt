@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someStringField
@@ -15,8 +15,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NestTest {
-    val route = someKeySpace("route")
-    val airport = someKeySpace("airport")
+    val route = someKeyspace("route")
+    val airport = someKeyspace("airport")
 
     @BeforeTest
     fun setup() {
@@ -136,7 +136,7 @@ class NestTest {
     fun `should support multiple from terms`() {
         val r = route.alias("r")
         val a = airport.alias("a")
-        val l = someKeySpace("landmark").alias("l")
+        val l = someKeyspace("landmark").alias("l")
         val expected = "SELECT * FROM `route` AS `r` " +
             "JOIN `airport` AS `a` ON `r`.`destinationairport` = `a`.`faa` " +
             "NEST `landmark` AS `l` ON `a`.`city` = `l`.`city` " +
@@ -161,7 +161,7 @@ class NestTest {
             ).unnest(
                 someObjectArrayField("schedule", r).alias("s"),
             ).where(
-                someNumberField("day", someKeySpace("s")).isEqualTo(1), // this is so hack-y
+                someNumberField("day", someKeyspace("s")).isEqualTo(1), // this is so hack-y
             ).limit(10).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

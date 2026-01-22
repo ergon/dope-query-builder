@@ -1,7 +1,7 @@
 package ch.ergon.dope.extension.expression.type
 
 import ch.ergon.dope.resolvable.expression.type.IField
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ObjectType
 import com.schwarz.crystalapi.ITypeConverter
@@ -19,7 +19,7 @@ data class ObjectField<S : Schema>(
     val schema: S,
     override val name: String,
     val path: String,
-    override val keySpace: KeySpace? = null,
+    override val keyspace: Keyspace? = null,
 ) : IField<ObjectType>
 
 /**

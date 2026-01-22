@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
 import ch.ergon.dope.integrationTest.toRawValues
 import ch.ergon.dope.integrationTest.toSingleValue
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
@@ -56,7 +56,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
                 meta().id,
             )
             .from(
-                testKeySpace.useKeys(
+                testKeyspace.useKeys(
                     keys.append(
                         "employee:5",
                     ).put(

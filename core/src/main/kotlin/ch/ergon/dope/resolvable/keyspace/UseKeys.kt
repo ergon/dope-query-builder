@@ -14,34 +14,34 @@ import ch.ergon.dope.validtype.ValidType
 
 data class UseKeysClass private constructor(
     val useKeys: TypeExpression<out ValidType>,
-    val keyspace: KeySpace,
+    val keyspace: Keyspace,
 ) : Joinable, Deletable, Updatable, Fromable {
     companion object {
         @JvmName("singleUseKeysClauseConstructor")
-        fun UseKeys(key: TypeExpression<StringType>, keyspace: KeySpace) =
+        fun UseKeys(key: TypeExpression<StringType>, keyspace: Keyspace) =
             UseKeysClass(key, keyspace)
 
         @JvmName("multipleUseKeysClauseConstructor")
-        fun UseKeys(keys: TypeExpression<ArrayType<StringType>>, keyspace: KeySpace) =
+        fun UseKeys(keys: TypeExpression<ArrayType<StringType>>, keyspace: Keyspace) =
             UseKeysClass(keys, keyspace)
     }
 }
 
-fun KeySpace.useKeys(key: TypeExpression<StringType>) = UseKeys(key, this)
+fun Keyspace.useKeys(key: TypeExpression<StringType>) = UseKeys(key, this)
 
-fun KeySpace.useKeys(key: String) = useKeys(key.toDopeType())
+fun Keyspace.useKeys(key: String) = useKeys(key.toDopeType())
 
 @JvmName("useKeysArray")
-fun KeySpace.useKeys(keys: TypeExpression<ArrayType<StringType>>) = UseKeys(keys, this)
+fun Keyspace.useKeys(keys: TypeExpression<ArrayType<StringType>>) = UseKeys(keys, this)
 
-fun KeySpace.useKeys(keys: ISelectOffsetClause<StringType>) = UseKeys(keys.asExpression(), this)
+fun Keyspace.useKeys(keys: ISelectOffsetClause<StringType>) = UseKeys(keys.asExpression(), this)
 
-fun KeySpace.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
+fun Keyspace.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.toDopeType())
 
 @JvmName("useKeysStringCollection")
-fun KeySpace.useKeys(keys: Collection<String>) = useKeys(keys.toDopeType())
+fun Keyspace.useKeys(keys: Collection<String>) = useKeys(keys.toDopeType())
 
-fun KeySpace.useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
+fun Keyspace.useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
     useKeys(
         listOf(
             firstKey.toDopeType(),

@@ -15,7 +15,7 @@ import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
@@ -26,7 +26,7 @@ interface IUpdateLimitClause : IUpdateReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         UpdateReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
-    fun returningAsterisk(keyspace: KeySpace? = null) = UpdateReturningClause(Asterisk(keyspace), parentClause = this)
+    fun returningAsterisk(keyspace: Keyspace? = null) = UpdateReturningClause(Asterisk(keyspace), parentClause = this)
 
     fun returningRaw(returningExpression: TypeExpression<out ValidType>) =
         UpdateReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)

@@ -12,7 +12,7 @@ import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.expression.type.assignTo
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField
@@ -110,7 +110,7 @@ fun <T : ValidType> ISelectFromClause<T>.join(
 fun <T : ValidType> ISelectFromClause<T>.join(
     joinable: Joinable,
     key: CMJsonField<String>,
-    keyspace: KeySpace? = null,
+    keyspace: Keyspace? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = join(joinable, key.toDopeType(), keyspace, hashOrNestedLoopHint, keysOrIndexHint)
@@ -125,7 +125,7 @@ fun <T : ValidType> ISelectFromClause<T>.innerJoin(
 fun <T : ValidType> ISelectFromClause<T>.innerJoin(
     joinable: Joinable,
     key: CMJsonField<String>,
-    keyspace: KeySpace? = null,
+    keyspace: Keyspace? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = innerJoin(joinable, key.toDopeType(), keyspace, hashOrNestedLoopHint, keysOrIndexHint)
@@ -140,7 +140,7 @@ fun <T : ValidType> ISelectFromClause<T>.leftJoin(
 fun <T : ValidType> ISelectFromClause<T>.leftJoin(
     joinable: Joinable,
     key: CMJsonField<String>,
-    keyspace: KeySpace? = null,
+    keyspace: Keyspace? = null,
     hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
     keysOrIndexHint: KeysOrIndexHint? = null,
 ) = leftJoin(joinable, key.toDopeType(), keyspace, hashOrNestedLoopHint, keysOrIndexHint)
@@ -169,7 +169,7 @@ fun <T : ValidType> ISelectFromClause<T>.nest(
 fun <T : ValidType> ISelectFromClause<T>.nest(
     nestable: Nestable,
     key: CMJsonField<String>,
-    keyspace: KeySpace? = null,
+    keyspace: Keyspace? = null,
 ) = nest(nestable, key.toDopeType(), keyspace)
 
 fun <T : ValidType> ISelectFromClause<T>.innerNest(
@@ -180,7 +180,7 @@ fun <T : ValidType> ISelectFromClause<T>.innerNest(
 fun <T : ValidType> ISelectFromClause<T>.innerNest(
     nestable: Nestable,
     key: CMJsonField<String>,
-    keyspace: KeySpace? = null,
+    keyspace: Keyspace? = null,
 ) = innerNest(nestable, key.toDopeType(), keyspace)
 
 fun <T : ValidType> ISelectFromClause<T>.leftNest(
@@ -191,7 +191,7 @@ fun <T : ValidType> ISelectFromClause<T>.leftNest(
 fun <T : ValidType> ISelectFromClause<T>.leftNest(
     nestable: Nestable,
     key: CMJsonField<String>,
-    keyspace: KeySpace? = null,
+    keyspace: Keyspace? = null,
 ) = leftNest(nestable, key.toDopeType(), keyspace)
 
 @JvmName("assignToCMNumberField")

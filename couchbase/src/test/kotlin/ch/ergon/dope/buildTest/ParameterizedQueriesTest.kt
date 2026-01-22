@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -72,7 +72,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE `country` = $1"
 
         val actual: String =
-            QueryBuilder.selectFrom(someKeySpace())
+            QueryBuilder.selectFrom(someKeyspace())
                 .where(someStringField("country").isEqualTo("UnitedStates".asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(unifyString(expected), actual)
     }
@@ -81,7 +81,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
     fun `should Support Number Array Parameters`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` IN $1"
 
-        val actual: String = QueryBuilder.selectFrom(someKeySpace())
+        val actual: String = QueryBuilder.selectFrom(someKeyspace())
             .where(someNumberField().inArray(listOf<Number>().asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(expected, actual)
     }
@@ -90,7 +90,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
     fun `should Support String Array Parameters`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IN $1"
 
-        val actual: String = QueryBuilder.selectFrom(someKeySpace())
+        val actual: String = QueryBuilder.selectFrom(someKeyspace())
             .where(someStringField().inArray(listOf<String>().asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(expected, actual)
     }
@@ -99,7 +99,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
     fun `should Support Boolean Array Parameters`() {
         val expected = "SELECT * FROM `someBucket` WHERE `booleanField` IN $1"
 
-        val actual: String = QueryBuilder.selectFrom(someKeySpace())
+        val actual: String = QueryBuilder.selectFrom(someKeyspace())
             .where(someBooleanField().inArray(listOf<Boolean>().asParameter())).build(CouchbaseResolver()).queryString
         assertEquals(expected, actual)
     }
@@ -234,7 +234,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
         val parameterValue2 = someNumber()
         val expected = QueryBuilder
             .selectFrom(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 parameterValue1.asParameter().isEqualTo(parameterValue2.asParameter()),
@@ -242,7 +242,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
 
         val actual = QueryBuilder
             .selectFrom(
-                someKeySpace(),
+                someKeyspace(),
             )
             .where(
                 parameterValue1.asParameter().isEqualTo(parameterValue2.asParameter()),

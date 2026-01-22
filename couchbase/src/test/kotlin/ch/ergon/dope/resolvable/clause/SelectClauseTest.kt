@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -38,7 +38,7 @@ class SelectClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT `someBucket`",
         )
-        val underTest = SelectClause(someKeySpace())
+        val underTest = SelectClause(someKeyspace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -50,7 +50,7 @@ class SelectClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT `alias`",
         )
-        val underTest = SelectClause(someKeySpace().alias("alias"))
+        val underTest = SelectClause(someKeyspace().alias("alias"))
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -115,7 +115,7 @@ class SelectClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT DISTINCT `someBucket`",
         )
-        val underTest = SelectDistinctClause(someKeySpace())
+        val underTest = SelectDistinctClause(someKeyspace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -127,7 +127,7 @@ class SelectClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT DISTINCT `alias`",
         )
-        val underTest = SelectDistinctClause(someKeySpace().alias("alias"))
+        val underTest = SelectDistinctClause(someKeyspace().alias("alias"))
 
         val actual = underTest.toDopeQuery(resolver)
 

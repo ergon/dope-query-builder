@@ -13,7 +13,7 @@ import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.KeySpace
+import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
@@ -24,7 +24,7 @@ interface IDeleteOffsetClause : IDeleteReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         DeleteReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
-    fun returningAsterisk(keyspace: KeySpace? = null) = DeleteReturningClause(asterisk(keyspace), parentClause = this)
+    fun returningAsterisk(keyspace: Keyspace? = null) = DeleteReturningClause(asterisk(keyspace), parentClause = this)
 
     fun returningRaw(returningExpression: SingleExpression<out ValidType>): DeleteReturningSingleClause =
         DeleteReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)

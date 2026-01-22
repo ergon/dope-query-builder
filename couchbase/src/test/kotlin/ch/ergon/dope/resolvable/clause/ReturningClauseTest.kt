@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someDeleteClause
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -126,7 +126,7 @@ class ReturningClauseTest : ResolverDependentTest {
             queryString = "DELETE FROM `someBucket` RETURNING (SELECT * FROM `someBucket`) AS `sub`",
         )
         val underTest = DeleteReturningClause(
-            QueryBuilder.selectAsterisk().from(someKeySpace()).alias("sub"),
+            QueryBuilder.selectAsterisk().from(someKeyspace()).alias("sub"),
             parentClause = someDeleteClause(),
         )
 

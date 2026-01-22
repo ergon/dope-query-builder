@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeySpace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.asterisk
@@ -26,7 +26,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
     fun `delete single document and return id field`() {
         val dopeQuery = QueryBuilder
             .deleteFrom(
-                testKeySpace.useKeys("employee:1"),
+                testKeyspace.useKeys("employee:1"),
             )
             .returning(
                 idField,
@@ -46,7 +46,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
     fun `delete every document in keyspace`() {
         val deleteEverythingCouchbaseDopeQuery = QueryBuilder
             .deleteFrom(
-                testKeySpace,
+                testKeyspace,
             )
             .where(
                 1.add(1).isEqualTo(2),
@@ -57,7 +57,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
         val selectEverythingCouchbaseDopeQuery = QueryBuilder
             .selectFrom(
-                testKeySpace,
+                testKeyspace,
             ).build(CouchbaseResolver())
 
         tryUntil {

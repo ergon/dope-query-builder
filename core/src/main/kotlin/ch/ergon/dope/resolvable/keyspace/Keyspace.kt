@@ -9,33 +9,33 @@ import ch.ergon.dope.resolvable.Updatable
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.validtype.ObjectType
 
-sealed class KeySpace(
+sealed class Keyspace(
     open val bucket: String,
     open val scope: String? = null,
     open val collection: String? = null,
 ) : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExpression<ObjectType>
 
-data class UnaliasedKeySpace(
+data class UnaliasedKeyspace(
     override val bucket: String,
     override val scope: String? = null,
     override val collection: String? = null,
-) : KeySpace(bucket, scope, collection) {
-    fun alias(alias: String) = AliasedKeySpace(bucket, scope, collection, alias)
+) : Keyspace(bucket, scope, collection) {
+    fun alias(alias: String) = AliasedKeyspace(bucket, scope, collection, alias)
 
-    fun scope(scope: String) = UnaliasedKeySpace(bucket, scope = scope, collection = collection)
-    fun collection(collection: String) = UnaliasedKeySpace(bucket, scope = scope, collection = collection)
+    fun scope(scope: String) = UnaliasedKeyspace(bucket, scope = scope, collection = collection)
+    fun collection(collection: String) = UnaliasedKeyspace(bucket, scope = scope, collection = collection)
 }
 
-data class AliasedKeySpace(
+data class AliasedKeyspace(
     override val bucket: String,
     override val scope: String? = null,
     override val collection: String? = null,
     val alias: String,
-) : KeySpace(bucket, scope, collection) {
-    fun asKeySpaceDefinition() = AliasedKeySpaceDefinition(bucket, scope, collection, alias)
+) : Keyspace(bucket, scope, collection) {
+    fun asKeyspaceDefinition() = AliasedKeyspaceDefinition(bucket, scope, collection, alias)
 }
 
-data class AliasedKeySpaceDefinition(
+data class AliasedKeyspaceDefinition(
     val keyspace: String,
     val scope: String? = null,
     val collection: String? = null,

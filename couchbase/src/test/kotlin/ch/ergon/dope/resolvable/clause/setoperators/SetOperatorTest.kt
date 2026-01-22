@@ -4,7 +4,7 @@ import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someFromClause
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.resolvable.clause.SetOperator
 import ch.ergon.dope.resolvable.clause.SetOperatorType.EXCEPT
 import ch.ergon.dope.resolvable.clause.SetOperatorType.INTERSECT
@@ -28,8 +28,8 @@ class SetOperatorTest : ResolverDependentTest {
         )
         val underTest = SetOperator(
             UNION,
-            someFromClause(someKeySpace("keyspace1")),
-            someFromClause(someKeySpace("keyspace2")),
+            someFromClause(someKeyspace("keyspace1")),
+            someFromClause(someKeyspace("keyspace2")),
             duplicatesAllowed = false,
         )
 
@@ -45,8 +45,8 @@ class SetOperatorTest : ResolverDependentTest {
         )
         val underTest = SetOperator(
             UNION,
-            someFromClause(someKeySpace("keyspace1")),
-            someFromClause(someKeySpace("keyspace2")),
+            someFromClause(someKeyspace("keyspace1")),
+            someFromClause(someKeyspace("keyspace2")),
             duplicatesAllowed = true,
         )
 
@@ -57,8 +57,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support union operator extension`() {
-        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
-        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
+        val leftSelectClause = someFromClause(someKeyspace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeyspace("keyspace2"))
         val expected = SetOperator(UNION, leftSelectClause, rightSelectClause, duplicatesAllowed = false)
 
         val actual = leftSelectClause.union(rightSelectClause)
@@ -68,8 +68,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support union all operator extension`() {
-        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
-        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
+        val leftSelectClause = someFromClause(someKeyspace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeyspace("keyspace2"))
         val expected = SetOperator(UNION, leftSelectClause, rightSelectClause, duplicatesAllowed = true)
 
         val actual = leftSelectClause.unionAll(rightSelectClause)
@@ -84,8 +84,8 @@ class SetOperatorTest : ResolverDependentTest {
         )
         val underTest = SetOperator(
             INTERSECT,
-            someFromClause(someKeySpace("keyspace1")),
-            someFromClause(someKeySpace("keyspace2")),
+            someFromClause(someKeyspace("keyspace1")),
+            someFromClause(someKeyspace("keyspace2")),
             duplicatesAllowed = false,
         )
 
@@ -101,8 +101,8 @@ class SetOperatorTest : ResolverDependentTest {
         )
         val underTest = SetOperator(
             INTERSECT,
-            someFromClause(someKeySpace("keyspace1")),
-            someFromClause(someKeySpace("keyspace2")),
+            someFromClause(someKeyspace("keyspace1")),
+            someFromClause(someKeyspace("keyspace2")),
             duplicatesAllowed = true,
         )
 
@@ -113,8 +113,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support intersect operator extension`() {
-        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
-        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
+        val leftSelectClause = someFromClause(someKeyspace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeyspace("keyspace2"))
         val expected = SetOperator(INTERSECT, leftSelectClause, rightSelectClause, duplicatesAllowed = false)
 
         val actual = leftSelectClause.intersect(rightSelectClause)
@@ -124,8 +124,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support intersect all operator extension`() {
-        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
-        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
+        val leftSelectClause = someFromClause(someKeyspace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeyspace("keyspace2"))
         val expected = SetOperator(INTERSECT, leftSelectClause, rightSelectClause, duplicatesAllowed = true)
 
         val actual = leftSelectClause.intersectAll(rightSelectClause)
@@ -140,8 +140,8 @@ class SetOperatorTest : ResolverDependentTest {
         )
         val underTest = SetOperator(
             EXCEPT,
-            someFromClause(someKeySpace("keyspace1")),
-            someFromClause(someKeySpace("keyspace2")),
+            someFromClause(someKeyspace("keyspace1")),
+            someFromClause(someKeyspace("keyspace2")),
             duplicatesAllowed = false,
         )
 
@@ -157,8 +157,8 @@ class SetOperatorTest : ResolverDependentTest {
         )
         val underTest = SetOperator(
             EXCEPT,
-            someFromClause(someKeySpace("keyspace1")),
-            someFromClause(someKeySpace("keyspace2")),
+            someFromClause(someKeyspace("keyspace1")),
+            someFromClause(someKeyspace("keyspace2")),
             duplicatesAllowed = true,
         )
 
@@ -169,8 +169,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support except operator extension`() {
-        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
-        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
+        val leftSelectClause = someFromClause(someKeyspace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeyspace("keyspace2"))
         val expected = SetOperator(EXCEPT, leftSelectClause, rightSelectClause, duplicatesAllowed = false)
 
         val actual = leftSelectClause.except(rightSelectClause)
@@ -180,8 +180,8 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support except all operator extension`() {
-        val leftSelectClause = someFromClause(someKeySpace("keyspace1"))
-        val rightSelectClause = someFromClause(someKeySpace("keyspace2"))
+        val leftSelectClause = someFromClause(someKeyspace("keyspace1"))
+        val rightSelectClause = someFromClause(someKeyspace("keyspace2"))
         val expected = SetOperator(EXCEPT, leftSelectClause, rightSelectClause, duplicatesAllowed = true)
 
         val actual = leftSelectClause.exceptAll(rightSelectClause)

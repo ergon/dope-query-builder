@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -22,7 +22,7 @@ class UseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`someBucket` USE INDEX ()",
         )
-        val underTest = UseIndex(someKeySpace())
+        val underTest = UseIndex(someKeyspace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -35,7 +35,7 @@ class UseTest : ResolverDependentTest {
             queryString = "`someBucket` USE INDEX (`index`)",
         )
         val underTest = UseIndex(
-            someKeySpace(),
+            someKeyspace(),
             listOf(IndexReference("index")),
         )
 
@@ -50,7 +50,7 @@ class UseTest : ResolverDependentTest {
             queryString = "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
         )
         val underTest = UseIndex(
-            someKeySpace(),
+            someKeyspace(),
             listOf(
                 IndexReference("index", USING_GSI),
                 IndexReference(indexType = USING_FTS),
@@ -69,7 +69,7 @@ class UseTest : ResolverDependentTest {
             queryString = "`someBucket` USE INDEX (`index`)",
         )
         val underTest = UseIndex(
-            someKeySpace(),
+            someKeyspace(),
             listOf(IndexReference("index")),
         )
 
@@ -80,7 +80,7 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support use index extension function without index name`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseIndex(keyspace)
 
         val actual = keyspace.useIndex()
@@ -91,7 +91,7 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use index extension function`() {
         val indexName = "index"
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseIndex(keyspace, listOf(IndexReference(indexName)))
 
         val actual = keyspace.useIndex(indexName)
@@ -102,7 +102,7 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use gsi index extension function`() {
         val indexName = "index"
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseIndex(keyspace, listOf(IndexReference(indexName, USING_GSI)))
 
         val actual = keyspace.useGsiIndex(indexName)
@@ -113,7 +113,7 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use fts index extension function`() {
         val indexName = "index"
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseIndex(keyspace, listOf(IndexReference(indexName, USING_FTS)))
 
         val actual = keyspace.useFtsIndex(indexName)
@@ -125,7 +125,7 @@ class UseTest : ResolverDependentTest {
     fun `should support multiple use index extension function`() {
         val indexName = "index"
         val indexName2 = "index"
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseIndex(keyspace, listOf(IndexReference(indexName), IndexReference(indexName2)))
 
         val actual = keyspace.useIndex(indexName).useIndex(indexName2)
@@ -137,7 +137,7 @@ class UseTest : ResolverDependentTest {
     fun `should support multiple different use index extension function`() {
         val indexName = "index"
         val indexName2 = "index"
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseIndex(
             keyspace,
             listOf(
@@ -160,7 +160,7 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseKeys(
             "someString".toDopeType(),
-            someKeySpace(),
+            someKeyspace(),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -175,7 +175,7 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseKeys(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
-            someKeySpace(),
+            someKeyspace(),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -192,7 +192,7 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseKeys(
             parameterValue.asParameter(),
-            someKeySpace(),
+            someKeyspace(),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -203,7 +203,7 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use keys extension`() {
         val useKeysString = someString().toDopeType()
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseKeys(useKeysString, keyspace = keyspace)
 
         val actual = keyspace.useKeys(useKeysString)
@@ -214,7 +214,7 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use keys extension with collection`() {
         val useKeysString = listOf(someString().toDopeType())
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseKeys(useKeysString.toDopeType(), keyspace = keyspace)
 
         val actual = keyspace.useKeys(useKeysString)
@@ -227,7 +227,7 @@ class UseTest : ResolverDependentTest {
         val useKeysString1 = someString()
         val useKeysString2 = someString()
         val useKeysString3 = someString()
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = UseKeys(
             listOf(useKeysString1.toDopeType(), useKeysString2.toDopeType(), useKeysString3.toDopeType()).toDopeType(),
             keyspace = keyspace,

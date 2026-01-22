@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -17,7 +17,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`)",
         )
-        val underTest = MetaExpression(someKeySpace())
+        val underTest = MetaExpression(someKeyspace())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -29,7 +29,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`).`cas`",
         )
-        val underTest = MetaExpression(someKeySpace())
+        val underTest = MetaExpression(someKeyspace())
 
         val actual = underTest.cas.toDopeQuery(resolver)
 
@@ -41,7 +41,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`).`expiration`",
         )
-        val underTest = MetaExpression(someKeySpace())
+        val underTest = MetaExpression(someKeyspace())
 
         val actual = underTest.expiration.toDopeQuery(resolver)
 
@@ -53,7 +53,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`).`flags`",
         )
-        val underTest = MetaExpression(someKeySpace())
+        val underTest = MetaExpression(someKeyspace())
 
         val actual = underTest.flags.toDopeQuery(resolver)
 
@@ -65,7 +65,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`).`id`",
         )
-        val underTest = MetaExpression(someKeySpace())
+        val underTest = MetaExpression(someKeyspace())
 
         val actual = underTest.id.toDopeQuery(resolver)
 
@@ -77,7 +77,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`.`someScope`.`someCollection`).`type`",
         )
-        val underTest = MetaExpression(someKeySpace("someBucket", "someScope", "someCollection"))
+        val underTest = MetaExpression(someKeyspace("someBucket", "someScope", "someCollection"))
 
         val actual = underTest.type.toDopeQuery(resolver)
 
@@ -89,7 +89,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`alias`).`type`",
         )
-        val underTest = MetaExpression(someKeySpace("someBucket", "someScope", "someCollection").alias("alias"))
+        val underTest = MetaExpression(someKeyspace("someBucket", "someScope", "someCollection").alias("alias"))
 
         val actual = underTest.type.toDopeQuery(resolver)
 
@@ -107,7 +107,7 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta function with keyspace`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = MetaExpression(keyspace)
 
         val actual = meta(keyspace)

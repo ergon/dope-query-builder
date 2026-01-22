@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import kotlin.test.Test
@@ -17,7 +17,7 @@ class FromClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * FROM `someBucket`",
         )
-        val underTest = FromClause(someKeySpace(), someSelectClause())
+        val underTest = FromClause(someKeyspace(), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -29,7 +29,7 @@ class FromClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * FROM `someBucket` AS `keyspace`",
         )
-        val underTest = FromClause(someKeySpace().alias("keyspace"), someSelectClause())
+        val underTest = FromClause(someKeyspace().alias("keyspace"), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -38,7 +38,7 @@ class FromClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support from function`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val parentClause = someSelectClause()
         val expected = FromClause(keyspace, parentClause)
 

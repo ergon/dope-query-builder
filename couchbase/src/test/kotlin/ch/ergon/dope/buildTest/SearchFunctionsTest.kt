@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
-import ch.ergon.dope.helper.someKeySpace
+import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
@@ -15,7 +15,7 @@ import kotlin.test.assertEquals
 class SearchFunctionsTest {
     @Test
     fun `should support search function on field and string query`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`.`stringField`, \"+something\")"
 
         val actual = QueryBuilder
@@ -35,7 +35,7 @@ class SearchFunctionsTest {
 
     @Test
     fun `should support search function on keyspace with string query`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, \"stringField:\"something\"\")"
 
         val actual = QueryBuilder
@@ -61,7 +61,7 @@ class SearchFunctionsTest {
             .select(
                 meta().id,
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 fullTextSearch(
                     someStringField(),
@@ -76,7 +76,7 @@ class SearchFunctionsTest {
 
     @Test
     fun `should support search function on keyspace with object query`() {
-        val keyspace = someKeySpace()
+        val keyspace = someKeyspace()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, {\"disjuncts\" : " +
             "[{\"regexp\" : \"(?i).*123.*\", \"field\" : \"someField\"}, " +
             "{\"regexp\" : \"(?i).*123.*\", \"field\" : \"anotherField\"}]}) " +
@@ -112,7 +112,7 @@ class SearchFunctionsTest {
                 meta().id,
                 fullTextSearchScore("outName").alias("score"),
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 fullTextSearch(
                     someStringField(),
@@ -135,7 +135,7 @@ class SearchFunctionsTest {
             .select(
                 fullTextSearchMeta().alias("meta"),
             ).from(
-                someKeySpace(),
+                someKeyspace(),
             ).where(
                 fullTextSearch(
                     someStringField(),
