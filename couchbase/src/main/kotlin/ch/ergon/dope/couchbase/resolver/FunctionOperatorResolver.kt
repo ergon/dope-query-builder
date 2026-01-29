@@ -1,6 +1,10 @@
-package ch.ergon.dope.couchbase
+package ch.ergon.dope.couchbase.resolver
 
+import ch.ergon.dope.couchbase.AbstractCouchbaseResolver
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
+import ch.ergon.dope.couchbase.symbol
+import ch.ergon.dope.couchbase.toFunctionQueryString
 import ch.ergon.dope.couchbase.util.formatStringListToQueryStringWithBrackets
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty

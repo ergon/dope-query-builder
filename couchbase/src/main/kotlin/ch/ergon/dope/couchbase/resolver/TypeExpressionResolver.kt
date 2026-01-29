@@ -1,12 +1,17 @@
-package ch.ergon.dope.couchbase
+package ch.ergon.dope.couchbase.resolver
 
 import ch.ergon.dope.DopeParameters
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.queryString
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
+import ch.ergon.dope.couchbase.symbol
+import ch.ergon.dope.couchbase.symbolWithSeparator
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatPathToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSeparator
 import ch.ergon.dope.merge
+import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.operator.PostfixOperator
@@ -14,6 +19,7 @@ import ch.ergon.dope.resolvable.expression.operator.PrefixOperator
 import ch.ergon.dope.resolvable.expression.type.ArrayAccess
 import ch.ergon.dope.resolvable.expression.type.ArrayPrimitive
 import ch.ergon.dope.resolvable.expression.type.BooleanPrimitive
+import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.CaseExpression
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.resolvable.expression.type.ElseCaseExpression
@@ -23,6 +29,7 @@ import ch.ergon.dope.resolvable.expression.type.MISSING
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.NumberPrimitive
 import ch.ergon.dope.resolvable.expression.type.ObjectEntry
+import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.ObjectPrimitive
 import ch.ergon.dope.resolvable.expression.type.Parameter
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
@@ -35,6 +42,7 @@ import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.UnpackExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateComponentType
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType
+import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
 import ch.ergon.dope.resolvable.expression.type.relational.BetweenExpression
@@ -330,4 +338,35 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
 
             else -> throw UnsupportedOperationException("Not supported: $typeExpression")
         }
+
+    fun resolve(objectEntryPrimitiv: ObjectEntryPrimitive<*>): CouchbaseDopeQuery {
+        val key = objectEntryPrimitiv.key.toDopeQuery(this)
+        val value = objectEntryPrimitiv.value.toDopeQuery(this)
+        return CouchbaseDopeQuery(
+            queryString = "${key.queryString} : ${value.queryString}",
+            parameters = key.parameters.merge(value.parameters),
+        )
+    }
+
+    fun resolve(caseClass: CaseClass<*>): CouchbaseDopeQuery {
+        val casePart = caseClass.case?.toDopeQuery(this)
+        return CouchbaseDopeQuery(
+            queryString = "CASE" + (casePart?.queryString?.let { " $it" } ?: ""),
+            parameters = casePart?.parameters.orEmpty(),
+        )
+    }
+
+    fun resolve(customTokenOptions: CustomTokenOptions): CouchbaseDopeQuery {
+        val options = listOfNotNull(
+            customTokenOptions.name?.let { "name" to it },
+            customTokenOptions.case?.let { "case" to "\"${it.queryString}\"" },
+            customTokenOptions.specials?.let { "specials" to it },
+        )
+        val queryString = options
+            .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
+            .takeIf { options.isNotEmpty() }
+            .orEmpty()
+
+        return CouchbaseDopeQuery(queryString = queryString)
+    }
 }
