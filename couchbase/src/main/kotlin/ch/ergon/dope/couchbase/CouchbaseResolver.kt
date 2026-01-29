@@ -102,15 +102,19 @@ class CouchbaseResolver(
             }
 
             is UseIndex -> {
-                val bucket = resolvable.bucket.toDopeQuery(this)
+                val bucket = resolvable.bucket
+                val bucketDopeQuery = when (bucket) {
+                    is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
+                    else -> bucket.toDopeQuery(this)
+                }
                 val refs = resolvable.indexReferences.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
                     queryString = formatToQueryStringWithSymbol(
-                        bucket.queryString,
+                        bucketDopeQuery.queryString,
                         "USE INDEX",
                         formatListToQueryStringWithBrackets(refs, separator = ", ", prefix = "(", postfix = ")"),
                     ),
-                    parameters = bucket.parameters.merge(*refs.map { it.parameters }.toTypedArray()),
+                    parameters = bucketDopeQuery.parameters.merge(*refs.map { it.parameters }.toTypedArray()),
                 )
             }
 

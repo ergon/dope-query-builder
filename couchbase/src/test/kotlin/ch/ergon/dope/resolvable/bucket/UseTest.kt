@@ -79,6 +79,21 @@ class UseTest : ResolverDependentTest {
     }
 
     @Test
+    fun `should support use index with aliased bucket`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "`someBucket` AS `a` USE INDEX (`index`)",
+        )
+        val underTest = UseIndex(
+            someBucket().alias("a"),
+            listOf(IndexReference("index")),
+        )
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support use index extension function without index name`() {
         val bucket = someBucket()
         val expected = UseIndex(bucket)
