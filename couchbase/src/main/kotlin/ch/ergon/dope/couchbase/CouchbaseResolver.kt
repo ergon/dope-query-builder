@@ -218,7 +218,19 @@ class CouchbaseResolver(
                 CouchbaseDopeQuery(queryString = path?.let { "$it.*" } ?: "*")
             }
 
-            is CustomTokenOptions -> CouchbaseDopeQuery(resolvable.queryString)
+            is CustomTokenOptions -> {
+                val options = listOfNotNull(
+                    resolvable.name?.let { "name" to it },
+                    resolvable.case?.let { "case" to "\"${it.queryString}\"" },
+                    resolvable.specials?.let { "specials" to it },
+                )
+                val queryString = options
+                    .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
+                    .takeIf { options.isNotEmpty() }
+                    .orEmpty()
+
+                CouchbaseDopeQuery(queryString = queryString)
+            }
 
             is HashOrNestedLoopHint -> when (resolvable) {
                 HashOrNestedLoopHint.HASH_BUILD -> CouchbaseDopeQuery("HASH (BUILD)")

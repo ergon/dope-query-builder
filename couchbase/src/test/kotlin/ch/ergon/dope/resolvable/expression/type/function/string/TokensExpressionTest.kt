@@ -13,7 +13,7 @@ class TokensExpressionTest : ResolverDependentTest {
     @Test
     fun `should support tokens`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
+            queryString = "TOKENS([\"test, test2\"])",
         )
         val underTest = TokensExpression(listOf("test", "test2"))
 

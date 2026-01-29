@@ -6,10 +6,10 @@ import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-enum class SearchFunctionType(val type: String) {
-    SEARCH("SEARCH"),
-    SEARCH_META("SEARCH_META"),
-    SEARCH_SCORE("SEARCH_SCORE"),
+enum class SearchFunctionType {
+    SEARCH,
+    SEARCH_META,
+    SEARCH_SCORE,
 }
 
 interface ISearchFunctionExpression : FunctionOperator<BooleanType> {
