@@ -102,7 +102,7 @@ class TrimExpressionTest : ResolverDependentTest {
         val char = someStringField("extra")
         val expected = TrimExpression(inStr, char)
 
-        val actual = trim(inStr, char)
+        val actual = inStr.trim(char)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -113,7 +113,7 @@ class TrimExpressionTest : ResolverDependentTest {
         val char = null
         val expected = TrimExpression(inStr, char)
 
-        val actual = trim(inStr)
+        val actual = inStr.trim()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -124,7 +124,7 @@ class TrimExpressionTest : ResolverDependentTest {
         val char = someString()
         val expected = TrimExpression(inStr, char.toDopeType())
 
-        val actual = trim(inStr, char)
+        val actual = inStr.trim(char)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -135,7 +135,7 @@ class TrimExpressionTest : ResolverDependentTest {
         val char = someStringField("extra")
         val expected = TrimExpression(inStr.toDopeType(), char)
 
-        val actual = trim(inStr, char)
+        val actual = inStr.trim(char)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -146,7 +146,7 @@ class TrimExpressionTest : ResolverDependentTest {
         val char = null
         val expected = TrimExpression(inStr.toDopeType(), char)
 
-        val actual = trim(inStr)
+        val actual = inStr.trim()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -157,7 +157,7 @@ class TrimExpressionTest : ResolverDependentTest {
         val char = someString("extra")
         val expected = TrimExpression(inStr.toDopeType(), char.toDopeType())
 
-        val actual = trim(inStr, char)
+        val actual = inStr.trim(char)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

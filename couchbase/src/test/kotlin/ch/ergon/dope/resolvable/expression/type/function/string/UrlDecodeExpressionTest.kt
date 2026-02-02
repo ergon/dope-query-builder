@@ -29,7 +29,7 @@ class UrlDecodeExpressionTest : ResolverDependentTest {
         val encodedString = someStringField()
         val expected = UrlDecodeExpression(encodedString)
 
-        val actual = urlDecode(encodedString)
+        val actual = encodedString.urlDecode()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -39,7 +39,7 @@ class UrlDecodeExpressionTest : ResolverDependentTest {
         val encodedString = someString()
         val expected = UrlDecodeExpression(encodedString.toDopeType())
 
-        val actual = urlDecode(encodedString)
+        val actual = encodedString.urlDecode()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

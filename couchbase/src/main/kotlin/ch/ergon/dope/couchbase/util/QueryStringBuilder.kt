@@ -1,6 +1,9 @@
 package ch.ergon.dope.couchbase.util
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.resolvable.expression.type.function.array.contains
+import ch.ergon.dope.resolvable.expression.type.function.string.contains
+import ch.ergon.dope.resolvable.expression.type.logic.not
 
 internal fun formatToQueryString(left: String, vararg right: String, separator: String = ", ") =
     "$left ${right.joinToString(separator)}"

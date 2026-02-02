@@ -61,7 +61,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat("abc".toDopeType(), "def".toDopeType(), "ghi".toDopeType()).alias("concat"),
+                "abc".toDopeType().concat("def".toDopeType(), "ghi".toDopeType()).alias("concat"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -73,7 +73,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat("abc", "def", "ghi").alias("concat"),
+                "abc".toDopeType().concat("def", "ghi").alias("concat"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -85,12 +85,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    "abc".toDopeType(),
-                    "def".toDopeType(),
-                    "ghi".toDopeType(),
-                    someStringField(),
-                ).alias(
+                "abc".toDopeType().concat("def".toDopeType(), "ghi".toDopeType(), someStringField()).alias(
                     "concat",
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -100,15 +95,12 @@ class StringFunctionsTest : ResolverDependentTest {
 
     @Test
     fun `should Support Concat2 With StringTypes`() {
-        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
+        val expected = "SELECT CONCAT2(\"-\", \"a\", \"d\") AS `c1`"
 
         val actual: String = QueryBuilder
             .select(
-                concat2(
-                    "-",
+                "-".concat2(
                     "a".toDopeType(),
-                    "b".toDopeType(),
-                    "c".toDopeType(),
                     "d".toDopeType(),
                 ).alias("c1"),
             ).build(CouchbaseResolver()).queryString
@@ -118,15 +110,12 @@ class StringFunctionsTest : ResolverDependentTest {
 
     @Test
     fun `should Support Concat2 With Strings`() {
-        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
+        val expected = "SELECT CONCAT2(\"-\", \"a\", \"d\") AS `c1`"
 
         val actual: String = QueryBuilder
             .select(
-                concat2(
-                    "-",
+                "-".concat2(
                     "a",
-                    "b",
-                    "c",
                     "d",
                 ).alias("c1"),
             ).build(CouchbaseResolver()).queryString
@@ -136,15 +125,12 @@ class StringFunctionsTest : ResolverDependentTest {
 
     @Test
     fun `should Support Concat2 With Strings And StringType As separator`() {
-        val expected = "SELECT CONCAT2(\"-\", \"a\", \"b\", \"c\", \"d\") AS `c1`"
+        val expected = "SELECT CONCAT2(\"-\", \"a\", \"d\") AS `c1`"
 
         val actual: String = QueryBuilder
             .select(
-                concat2(
-                    "-".toDopeType(),
+                "-".toDopeType().concat2(
                     "a",
-                    "b",
-                    "c",
                     "d",
                 ).alias("c1"),
             ).build(CouchbaseResolver()).queryString
@@ -156,7 +142,7 @@ class StringFunctionsTest : ResolverDependentTest {
     fun `should Support Concat2 One Argument`() {
         val expected = "CONCAT2(\"-\", \"a\") AS `c2`"
 
-        val actual: String = concat2("-", "a".toDopeType()).alias(
+        val actual: String = "-".concat2("a".toDopeType()).alias(
             "c2",
         ).toDopeQuery(resolver).queryString
 
@@ -169,7 +155,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                contains("N1QL is awesome".toDopeType(), "N1QL".toDopeType())
+                "N1QL is awesome".toDopeType().contains("N1QL".toDopeType())
                     .alias("n1ql"),
             ).build(CouchbaseResolver()).queryString
 
@@ -182,7 +168,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                contains("N1QL is awesome", "N1QL".toDopeType())
+                "N1QL is awesome".toDopeType().contains("N1QL".toDopeType())
                     .alias("n1ql"),
             ).build(CouchbaseResolver()).queryString
 
@@ -197,8 +183,8 @@ class StringFunctionsTest : ResolverDependentTest {
         val actual: String =
             QueryBuilder
                 .select(
-                    contains("N1QL is awesome".toDopeType(), "N1QL".toDopeType()).alias("n1ql"),
-                    contains("N1QL is awesome", "SQL").alias("no_sql"),
+                    "N1QL is awesome".toDopeType().contains("N1QL".toDopeType()).alias("n1ql"),
+                    "N1QL is awesome".toDopeType().contains("SQL").alias("no_sql"),
                 ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -209,7 +195,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT INITCAP(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(initCap("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select("N1QL is awesome".initCap().alias("n1ql")).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -223,9 +209,9 @@ class StringFunctionsTest : ResolverDependentTest {
         val actual: String =
             QueryBuilder
                 .select(
-                    length("N1QL is awesome").alias("ascii"),
-                    length("Café").alias("diacritic"),
-                    length("").alias("zero"),
+                    "N1QL is awesome".toDopeType().length().alias("ascii"),
+                    "Café".toDopeType().length().alias("diacritic"),
+                    "".toDopeType().length().alias("zero"),
                 ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -236,7 +222,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT LOWER(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(lower("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select("N1QL is awesome".toDopeType().lower().alias("n1ql")).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -250,10 +236,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                lpad("N1QL is awesome", 20).alias("implicit_padding"),
-                lpad("N1QL is awesome", 20, "-*").alias("repeated_padding"),
-                lpad("N1QL is awesome", 20, "987654321").alias("truncate_padding"),
-                lpad("N1QL is awesome", 4, "987654321").alias("truncate_string"),
+                "N1QL is awesome".lpad(20).alias("implicit_padding"),
+                "N1QL is awesome".lpad(20, "-*").alias("repeated_padding"),
+                "N1QL is awesome".lpad(20, "987654321").alias("truncate_padding"),
+                "N1QL is awesome".lpad(4, "987654321").alias("truncate_string"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -271,13 +257,13 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                lpad("N1QL is awesome".toDopeType(), 20).alias("implicit_padding"),
-                lpad("N1QL is awesome".toDopeType(), 20, "-*").alias("repeated_padding"),
-                lpad("N1QL is awesome".toDopeType(), 20.toDopeType(), "987654321").alias("truncate_padding"),
-                lpad("N1QL is awesome", 20.toDopeType()),
-                lpad("N1QL is awesome", 20.toDopeType(), "987654321".toDopeType()),
-                lpad("N1QL is awesome", 20.toDopeType(), "987654321"),
-                lpad("N1QL is awesome".toDopeType(), 4, "987654321".toDopeType()).alias("truncate_string"),
+                "N1QL is awesome".toDopeType().lpad(20).alias("implicit_padding"),
+                "N1QL is awesome".toDopeType().lpad(20, "-*").alias("repeated_padding"),
+                "N1QL is awesome".toDopeType().lpad(20.toDopeType(), "987654321").alias("truncate_padding"),
+                "N1QL is awesome".lpad(20.toDopeType()),
+                "N1QL is awesome".lpad(20.toDopeType(), "987654321".toDopeType()),
+                "N1QL is awesome".lpad(20.toDopeType(), "987654321"),
+                "N1QL is awesome".toDopeType().lpad(4, "987654321".toDopeType()).alias("truncate_string"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -289,7 +275,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                lpad("N1QL is awesome", 20, "1234".toDopeType()).alias("implicit_padding"),
+                "N1QL is awesome".lpad(20, "1234".toDopeType()).alias("implicit_padding"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -302,10 +288,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                ltrim("...N1QL is awesome", ".").alias("dots"),
-                ltrim("    N1QL is awesome", " ").alias("explicit_spaces"),
-                ltrim("      N1QL is awesome").alias("implicit_spaces"),
-                ltrim("N1QL is awesome".toDopeType()).alias("no_dots"),
+                "...N1QL is awesome".ltrim(".").alias("dots"),
+                "    N1QL is awesome".ltrim(" ").alias("explicit_spaces"),
+                "      N1QL is awesome".ltrim().alias("implicit_spaces"),
+                "N1QL is awesome".toDopeType().ltrim().alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -317,7 +303,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                ltrim("...N1QL is awesome", "...").alias("dots"),
+                "...N1QL is awesome".ltrim("...").alias("dots"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -329,8 +315,8 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                ltrim("...N1QL is awesome".toDopeType(), ".").alias("dots"),
-                ltrim("...N1QL is awesome", ".".toDopeType()),
+                "...N1QL is awesome".toDopeType().ltrim(".").alias("dots"),
+                "...N1QL is awesome".ltrim(".".toDopeType()),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -344,9 +330,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                mask("SomeTextToMask").alias("mask"),
-                mask("SomeTextToMask", mapOf("mask" to "++++")).alias("mask_custom"),
-                mask("SomeTextToMask", mapOf("mask" to "++++ ++++")).alias("mask_hole"),
+                "SomeTextToMask".mask().alias("mask"),
+                "SomeTextToMask".mask(mapOf("mask" to "++++")).alias("mask_custom"),
+                "SomeTextToMask".mask(mapOf("mask" to "++++ ++++")).alias("mask_hole"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -360,9 +346,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                mask("SomeTextToMask".toDopeType()).alias("mask"),
-                mask("SomeTextToMask".toDopeType(), mapOf("mask" to "++++")).alias("mask_custom"),
-                mask("SomeTextToMask".toDopeType(), mapOf("mask" to "++++ ++++")).alias("mask_hole"),
+                "SomeTextToMask".toDopeType().mask().alias("mask"),
+                "SomeTextToMask".toDopeType().mask(mapOf("mask" to "++++")).alias("mask_custom"),
+                "SomeTextToMask".toDopeType().mask(mapOf("mask" to "++++ ++++")).alias("mask_hole"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -376,11 +362,11 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                mask("SomeTextToMask")
+                "SomeTextToMask".mask()
                     .alias("mask"),
-                mask("SomeTextToMask", mapOf("mask" to "++++"))
+                "SomeTextToMask".mask(mapOf("mask" to "++++"))
                     .alias("mask_custom"),
-                mask("SomeTextToMask", mapOf("mask" to "++++ ++++"))
+                "SomeTextToMask".mask(mapOf("mask" to "++++ ++++"))
                     .alias("mask_hole"),
             ).build(CouchbaseResolver()).queryString
 
@@ -395,9 +381,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                position("N1QL is awesome", "awesome").alias("awesome"),
-                position("N1QL is awesome", "N1QL").alias("n1ql"),
-                position("N1QL is awesome", "SQL").alias("sql"),
+                "N1QL is awesome".position("awesome").alias("awesome"),
+                "N1QL is awesome".position("N1QL").alias("n1ql"),
+                "N1QL is awesome".position("SQL").alias("sql"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -411,9 +397,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                position("N1QL is awesome".toDopeType(), "awesome").alias("awesome"),
-                position("N1QL is awesome".toDopeType(), "N1QL").alias("n1ql"),
-                position("N1QL is awesome".toDopeType(), "SQL").alias("sql"),
+                "N1QL is awesome".toDopeType().position("awesome").alias("awesome"),
+                "N1QL is awesome".toDopeType().position("N1QL").alias("n1ql"),
+                "N1QL is awesome".toDopeType().position("SQL").alias("sql"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -427,9 +413,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                position("N1QL is awesome", "awesome".toDopeType()).alias("awesome"),
-                position("N1QL is awesome", "N1QL".toDopeType()).alias("n1ql"),
-                position("N1QL is awesome", "SQL".toDopeType()).alias("sql"),
+                "N1QL is awesome".position("awesome".toDopeType()).alias("awesome"),
+                "N1QL is awesome".position("N1QL".toDopeType()).alias("n1ql"),
+                "N1QL is awesome".position("SQL".toDopeType()).alias("sql"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -441,10 +427,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                repeat("N1QL", 0).alias("empty_string"),
-                repeat("N1QL".toDopeType(), 3),
-                repeat("N1QL".toDopeType(), 3.toDopeType()),
-                repeat("N1QL", 3.toDopeType()).alias("n1ql_3"),
+                "N1QL".toDopeType().repeat(0).alias("empty_string"),
+                "N1QL".toDopeType().repeat(3),
+                "N1QL".toDopeType().repeat(3.toDopeType()),
+                "N1QL".toDopeType().repeat(3.toDopeType()).alias("n1ql_3"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -457,8 +443,8 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                reverse("N1QL is awesome").alias("n1ql"),
-                reverse("racecar").alias("palindrome"),
+                "N1QL is awesome".reverse().alias("n1ql"),
+                "racecar".reverse().alias("palindrome"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -476,13 +462,13 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rpad("N1QL is awesome", 20).alias("implicit_padding"),
-                rpad("N1QL is awesome", 20, "-*").alias("repeated_padding"),
-                rpad("N1QL is awesome", 20, "123456789").alias("truncate_padding"),
-                rpad("N1QL is awesome", 4, "123456789").alias("truncate_string"),
-                rpad("N1QL is awesome", 4.toDopeType(), "123456789".toDopeType()).alias("truncate_string"),
-                rpad("N1QL is awesome", 4.toDopeType()).alias("truncate_string"),
-                rpad("N1QL is awesome".toDopeType(), 4, "123456789".toDopeType()).alias("truncate_string"),
+                "N1QL is awesome".rpad(20).alias("implicit_padding"),
+                "N1QL is awesome".rpad(20, "-*").alias("repeated_padding"),
+                "N1QL is awesome".rpad(20, "123456789").alias("truncate_padding"),
+                "N1QL is awesome".rpad(4, "123456789").alias("truncate_string"),
+                "N1QL is awesome".rpad(4.toDopeType(), "123456789".toDopeType()).alias("truncate_string"),
+                "N1QL is awesome".rpad(4.toDopeType()).alias("truncate_string"),
+                "N1QL is awesome".toDopeType().rpad(4, "123456789".toDopeType()).alias("truncate_string"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -497,10 +483,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rpad("N1QL is awesome".toDopeType(), 20).alias("implicit_padding"),
-                rpad("N1QL is awesome".toDopeType(), 20, "-*").alias("repeated_padding"),
-                rpad("N1QL is awesome".toDopeType(), 20, "123456789").alias("truncate_padding"),
-                rpad("N1QL is awesome".toDopeType(), 4, "123456789").alias("truncate_string"),
+                "N1QL is awesome".toDopeType().rpad(20).alias("implicit_padding"),
+                "N1QL is awesome".toDopeType().rpad(20, "-*").alias("repeated_padding"),
+                "N1QL is awesome".toDopeType().rpad(20, "123456789").alias("truncate_padding"),
+                "N1QL is awesome".toDopeType().rpad(4, "123456789").alias("truncate_string"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -515,10 +501,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rpad("N1QL is awesome", 20).alias("implicit_padding"),
-                rpad("N1QL is awesome", 20, "-*".toDopeType()).alias("repeated_padding"),
-                rpad("N1QL is awesome", 20, "123456789".toDopeType()).alias("truncate_padding"),
-                rpad("N1QL is awesome", 4, "123456789".toDopeType()).alias("truncate_string"),
+                "N1QL is awesome".rpad(20).alias("implicit_padding"),
+                "N1QL is awesome".rpad(20, "-*".toDopeType()).alias("repeated_padding"),
+                "N1QL is awesome".rpad(20, "123456789".toDopeType()).alias("truncate_padding"),
+                "N1QL is awesome".rpad(4, "123456789".toDopeType()).alias("truncate_string"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -532,10 +518,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rtrim("N1QL is awesome...", ".").alias("dots"),
-                rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
-                rtrim("N1QL is awesome     ").alias("implicit_spaces"),
-                rtrim("N1QL is awesome").alias("no_dots"),
+                "N1QL is awesome...".rtrim(".").alias("dots"),
+                "N1QL is awesome     ".rtrim(" ").alias("explicit_spaces"),
+                "N1QL is awesome     ".rtrim().alias("implicit_spaces"),
+                "N1QL is awesome".rtrim().alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -549,10 +535,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rtrim("N1QL is awesome...", ".").alias("dots"),
-                rtrim("N1QL is awesome     ", " ").alias("explicit_spaces"),
-                rtrim("N1QL is awesome     ").alias("implicit_spaces"),
-                rtrim("N1QL is awesome").alias("no_dots"),
+                "N1QL is awesome...".rtrim(".").alias("dots"),
+                "N1QL is awesome     ".rtrim(" ").alias("explicit_spaces"),
+                "N1QL is awesome     ".rtrim().alias("implicit_spaces"),
+                "N1QL is awesome".rtrim().alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -566,10 +552,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rtrim("N1QL is awesome...".toDopeType()).alias("dots"),
-                rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
-                rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
-                rtrim("N1QL is awesome".toDopeType()).alias("no_dots"),
+                "N1QL is awesome...".toDopeType().rtrim().alias("dots"),
+                "N1QL is awesome     ".toDopeType().rtrim().alias("explicit_spaces"),
+                "N1QL is awesome     ".toDopeType().rtrim().alias("implicit_spaces"),
+                "N1QL is awesome".toDopeType().rtrim().alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -583,10 +569,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                rtrim("N1QL is awesome...".toDopeType(), ".").alias("dots"),
-                rtrim("N1QL is awesome     ".toDopeType()).alias("explicit_spaces"),
-                rtrim("N1QL is awesome     ".toDopeType()).alias("implicit_spaces"),
-                rtrim("N1QL is awesome".toDopeType()).alias("no_dots"),
+                "N1QL is awesome...".toDopeType().rtrim(".").alias("dots"),
+                "N1QL is awesome     ".toDopeType().rtrim().alias("explicit_spaces"),
+                "N1QL is awesome     ".toDopeType().rtrim().alias("implicit_spaces"),
+                "N1QL is awesome".toDopeType().rtrim().alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -600,9 +586,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                split("N1QL is awesome", " ").alias("explicit_spaces"),
-                split("N1QL is awesome").alias("implicit_spaces"),
-                split("N1QL is awesome", "is").alias("split_is"),
+                "N1QL is awesome".toDopeType().split(" ").alias("explicit_spaces"),
+                "N1QL is awesome".toDopeType().split().alias("implicit_spaces"),
+                "N1QL is awesome".toDopeType().split("is").alias("split_is"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -616,9 +602,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                split("N1QL is awesome".toDopeType(), " ").alias("explicit_spaces"),
-                split("N1QL is awesome".toDopeType()).alias("implicit_spaces"),
-                split("N1QL is awesome".toDopeType(), "is").alias("split_is"),
+                "N1QL is awesome".toDopeType().split(" ").alias("explicit_spaces"),
+                "N1QL is awesome".toDopeType().split().alias("implicit_spaces"),
+                "N1QL is awesome".toDopeType().split("is").alias("split_is"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -632,9 +618,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                split("N1QL is awesome", " ".toDopeType()).alias("explicit_spaces"),
-                split("N1QL is awesome").alias("implicit_spaces"),
-                split("N1QL is awesome", "is".toDopeType()).alias("split_is"),
+                "N1QL is awesome".toDopeType().split(" ".toDopeType()).alias("explicit_spaces"),
+                "N1QL is awesome".toDopeType().split().alias("implicit_spaces"),
+                "N1QL is awesome".toDopeType().split("is".toDopeType()).alias("split_is"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -648,9 +634,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                substring("N1QL is awesome", 3).alias("end_of_string"),
-                substring("N1QL is awesome", 3, 1).alias("single_letter"),
-                substring("N1QL is awesome", 3, 3).alias("three_letters"),
+                "N1QL is awesome".toDopeType().substring(3).alias("end_of_string"),
+                "N1QL is awesome".toDopeType().substring(3, 1).alias("single_letter"),
+                "N1QL is awesome".toDopeType().substring(3, 3).alias("three_letters"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -661,7 +647,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT SUFFIXES(\"N1QL is awesome\")"
 
         val actual: String = QueryBuilder
-            .select(suffixes("N1QL is awesome")).build(CouchbaseResolver()).queryString
+            .select("N1QL is awesome".suffixes()).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -671,7 +657,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(title("N1QL is awesome").alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select("N1QL is awesome".title().alias("n1ql")).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -681,7 +667,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT TITLE(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(title("N1QL is awesome".toDopeType()).alias("n1ql")).build(CouchbaseResolver()).queryString
+            .select("N1QL is awesome".toDopeType().title().alias("n1ql")).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -693,10 +679,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                tokens(
-                    listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212"),
-                    customTokenOptions(name = true),
-                ),
+                listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212").tokens(customTokenOptions(name = true)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -708,7 +691,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                tokens(listOf("jim@example.com")),
+                listOf("jim@example.com").tokens(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -719,7 +702,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"specials\": true})"
 
         val actual: String = QueryBuilder
-            .select(tokens(listOf("jim@example.com"), customTokenOptions(specials = true)))
+            .select(listOf("jim@example.com").tokens(customTokenOptions(specials = true)))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -732,10 +715,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                tokens(
-                    listOf("jim@example.com"),
-                    customTokenOptions(specials = true, case = TokenCases.LOWER),
-                ),
+                listOf("jim@example.com").tokens(customTokenOptions(specials = true, case = TokenCases.LOWER)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -748,7 +728,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                tokens(listOf("jim@example.com"), customTokenOptions(specials = false, case = TokenCases.UPPER, name = false)),
+                listOf("jim@example.com").tokens(customTokenOptions(specials = false, case = TokenCases.UPPER, name = false)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -763,13 +743,13 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                trim("...N1QL is awesome...", ".")
+                "...N1QL is awesome...".toDopeType().trim(".")
                     .alias("dots"),
-                trim("     N1QL is awesome     ")
+                "     N1QL is awesome     ".toDopeType().trim()
                     .alias("explicit_spaces"),
-                trim("     N1QL is awesome     ")
+                "     N1QL is awesome     ".toDopeType().trim()
                     .alias("implicit_spaces"),
-                trim("N1QL is awesome")
+                "N1QL is awesome".toDopeType().trim()
                     .alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
@@ -785,13 +765,13 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                trim("...N1QL is awesome...", "...")
+                "...N1QL is awesome...".toDopeType().trim("...")
                     .alias("dots"),
-                trim("     N1QL is awesome     ", " ")
+                "     N1QL is awesome     ".toDopeType().trim(" ")
                     .alias("explicit_spaces"),
-                trim("     N1QL is awesome     ")
+                "     N1QL is awesome     ".toDopeType().trim()
                     .alias("implicit_spaces"),
-                trim("N1QL is awesome")
+                "N1QL is awesome".toDopeType().trim()
                     .alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
@@ -807,13 +787,13 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                trim("...N1QL is awesome...".toDopeType(), ".")
+                "...N1QL is awesome...".toDopeType().trim(".")
                     .alias("dots"),
-                trim("     N1QL is awesome     ".toDopeType())
+                "     N1QL is awesome     ".toDopeType().trim()
                     .alias("explicit_spaces"),
-                trim("     N1QL is awesome     ".toDopeType())
+                "     N1QL is awesome     ".toDopeType().trim()
                     .alias("implicit_spaces"),
-                trim("N1QL is awesome".toDopeType())
+                "N1QL is awesome".toDopeType().trim()
                     .alias("no_dots"),
             ).build(CouchbaseResolver()).queryString
 
@@ -825,7 +805,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT UPPER(\"N1QL is awesome\") AS `n1ql`"
 
         val actual: String = QueryBuilder
-            .select(upper("N1QL is awesome").alias("n1ql"))
+            .select("N1QL is awesome".toDopeType().upper().alias("n1ql"))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -837,7 +817,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .selectFrom(someBucket())
-            .where(contains(someStringField(), "123"))
+            .where(someStringField().contains("123"))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -848,7 +828,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE UPPER(`stringField`) = \"VENDOLIN\""
         val actual: String = QueryBuilder
             .selectFrom(someBucket())
-            .where(upper(someStringField()).isEqualTo("VENDOLIN".toDopeType()))
+            .where(someStringField().upper().isEqualTo("VENDOLIN".toDopeType()))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -859,7 +839,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT CONTAINS(UPPER(\"vendolin\"), \"VEN\") AS `foo`"
 
         val actual: String = QueryBuilder
-            .select(contains(upper("vendolin"), "VEN").alias("foo"))
+            .select("vendolin".toDopeType().upper().contains("VEN").alias("foo"))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -872,9 +852,9 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                position1("input", "i").add(position("input", "n")).isLessThan(
-                    mbPosition("input", "in").add(
-                        mbPosition1("input", "pu"),
+                "input".position1("i").add("input".position("n")).isLessThan(
+                    "input".mbPosition("in").add(
+                        "input".mbPosition1("pu"),
                     ),
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -888,7 +868,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                length("input").add(mbLength("input")).isGreaterThan(5),
+                "input".toDopeType().length().add("input".mbLength()).isGreaterThan(5),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -901,12 +881,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    concat("a", "b"),
-                    concat2(" ", "c", "d"),
-                    lower("TEST"),
-                    upper("test"),
-                ),
+                "a".toDopeType().concat("b").concat(" ".concat2("c", "d"), "TEST".toDopeType().lower(), "test".toDopeType().upper()),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -918,12 +893,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    lpad("input", 4, "i"),
-                    rpad("input", 3),
-                    mbLpad("input", 5),
-                    mbRpad("input", 4, "t"),
-                ),
+                "input".lpad(4, "i").concat("input".rpad(3), "input".mbLpad(5), "input".mbRpad(4, "t")),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -935,11 +905,10 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    substring("input", 2),
-                    substring1("input", 4, 3),
-                    mbSubstring("input", 0, 2),
-                    mbSubstring1("input", 2, 2),
+                "input".toDopeType().substring(2).concat(
+                    "input".toDopeType().substring1(4, 3),
+                    "input".toDopeType().mbSubstring(0, 2),
+                    "input".toDopeType().mbSubstring1(2, 2),
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -952,11 +921,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    trim("  input   "),
-                    ltrim("input", "in"),
-                    rtrim("input", "ut"),
-                ),
+                "  input   ".toDopeType().trim().concat("input".ltrim("in"), "input".rtrim("ut")),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -968,7 +933,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                contains("input", "in").and(true),
+                "input".toDopeType().contains("in").and(true),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -980,7 +945,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                suffixes("input").get(2).isEqualTo(split("input", "p").get(1)),
+                "input".suffixes().get(2).isEqualTo("input".toDopeType().split("p").get(1)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -994,15 +959,14 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    initCap("input"),
-                    mask("input"),
-                    repeat("input", 3),
-                    replace("input", "p", "abo"),
-                    reverse("input"),
-                    title("input"),
-                    urlDecode("encoded"),
-                    urlEncode("input"),
+                "input".initCap().concat(
+                    "input".mask(),
+                    "input".toDopeType().repeat(3),
+                    "input".toDopeType().replace("p", "abo"),
+                    "input".reverse(),
+                    "input".title(),
+                    "encoded".urlDecode(),
+                    "input".urlEncode(),
                 ),
             ).build(CouchbaseResolver()).queryString
 

@@ -7,20 +7,26 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun trim(inStr: CMJsonField<String>, char: TypeExpression<StringType>? = null) =
-    trim(inStr.toDopeType(), char)
+fun CMJsonField<String>.trim(char: TypeExpression<StringType>? = null) =
+    toDopeType().trim(char)
 
-fun trim(inStr: TypeExpression<StringType>, char: CMJsonField<String>) =
-    trim(inStr, char.toDopeType())
+fun TypeExpression<StringType>.trim(char: CMJsonField<String>) =
+    trim(char.toDopeType())
 
-fun trim(inStr: CMJsonField<String>, char: CMJsonField<String>) =
-    trim(inStr.toDopeType(), char.toDopeType())
+fun CMJsonField<String>.trim(char: CMJsonField<String>) =
+    toDopeType().trim(char.toDopeType())
 
-fun trim(inStr: CMJsonField<String>, char: String) =
-    trim(inStr.toDopeType(), char.toDopeType())
+fun CMJsonField<String>.trim(char: String) =
+    toDopeType().trim(char.toDopeType())
 
-fun trim(inStr: CMJsonField<String>, char: Char) =
-    trim(inStr.toDopeType(), char.toString().toDopeType())
+fun CMJsonField<String>.trim(char: Char) =
+    toDopeType().trim(char.toString().toDopeType())
 
-fun trim(inStr: String, char: CMJsonField<String>) =
-    trim(inStr.toDopeType(), char.toDopeType())
+fun String.trim(char: CMJsonField<String>) =
+    toDopeType().trim(char.toDopeType())
+
+fun String.trim(char: TypeExpression<StringType>? = null) =
+    toDopeType().trim(char)
+
+fun String.trim(char: String) =
+    toDopeType().trim(char.toDopeType())

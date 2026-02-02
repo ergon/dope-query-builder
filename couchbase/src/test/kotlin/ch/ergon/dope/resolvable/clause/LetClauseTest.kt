@@ -61,7 +61,7 @@ class LetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support let expression`() {
-        val expression = lower("TEST")
+        val expression = "TEST".toDopeType().lower()
         val expected = CouchbaseDopeQuery("`name1`")
         val underTest = DopeVariable("name1", expression)
 
@@ -72,7 +72,7 @@ class LetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support let expression function`() {
-        val expression = lower("test")
+        val expression = "test".toDopeType().lower()
         val name = "name"
         val expected = DopeVariable(name, expression)
 

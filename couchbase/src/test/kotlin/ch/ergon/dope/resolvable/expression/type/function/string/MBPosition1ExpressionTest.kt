@@ -63,7 +63,7 @@ class MBPosition1ExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = MBPosition1Expression(inStr, searchStr)
 
-        val actual = mbPosition1(inStr, searchStr)
+        val actual = inStr.mbPosition1(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -74,7 +74,7 @@ class MBPosition1ExpressionTest : ResolverDependentTest {
         val searchStr = someString("searchStr")
         val expected = MBPosition1Expression(inStr, searchStr.toDopeType())
 
-        val actual = mbPosition1(inStr, searchStr)
+        val actual = inStr.mbPosition1(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -85,7 +85,7 @@ class MBPosition1ExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = MBPosition1Expression(inStr.toDopeType(), searchStr)
 
-        val actual = mbPosition1(inStr, searchStr)
+        val actual = inStr.mbPosition1(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -96,7 +96,7 @@ class MBPosition1ExpressionTest : ResolverDependentTest {
         val searchStr = someString("searchStr")
         val expected = MBPosition1Expression(inStr.toDopeType(), searchStr.toDopeType())
 
-        val actual = mbPosition1(inStr, searchStr)
+        val actual = inStr.mbPosition1(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

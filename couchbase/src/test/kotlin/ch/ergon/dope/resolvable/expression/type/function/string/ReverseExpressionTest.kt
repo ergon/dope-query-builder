@@ -60,7 +60,7 @@ class ReverseExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = ReverseExpression(inStr)
 
-        val actual = reverse(inStr)
+        val actual = inStr.reverse()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class ReverseExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = ReverseExpression(inStr.toDopeType())
 
-        val actual = reverse(inStr)
+        val actual = inStr.reverse()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

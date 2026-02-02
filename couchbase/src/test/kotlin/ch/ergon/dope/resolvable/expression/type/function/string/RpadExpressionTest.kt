@@ -106,7 +106,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = RpadExpression(inStr, size, prefix)
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -118,7 +118,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = RpadExpression(inStr, size, prefix.toDopeType())
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -130,7 +130,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = RpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = RpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -154,7 +154,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = RpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = rpad(inStr, size)
+        val actual = inStr.rpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -166,7 +166,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = RpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -178,7 +178,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = RpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = rpad(inStr, size)
+        val actual = inStr.rpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -190,7 +190,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = RpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -202,7 +202,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = RpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -214,7 +214,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = RpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = rpad(inStr, size)
+        val actual = inStr.rpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -226,7 +226,7 @@ class RpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = RpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
 
-        val actual = rpad(inStr, size, prefix)
+        val actual = inStr.rpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

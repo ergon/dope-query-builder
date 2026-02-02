@@ -60,7 +60,7 @@ class LowerExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = LowerExpression(inStr)
 
-        val actual = lower(inStr)
+        val actual = inStr.lower()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class LowerExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = LowerExpression(inStr.toDopeType())
 
-        val actual = lower(inStr)
+        val actual = inStr.toDopeType().lower()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

@@ -51,7 +51,7 @@ class ArrayRangeTest {
     fun `should support array range transformation with cm string list`() {
         val range = someCMStringList()
         val iteratorName = "it"
-        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { concat(it, "test") }
+        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.concat("test") }
         val expected = ArrayRangeExpression(
             IN,
             range.toDopeType(),
@@ -104,8 +104,8 @@ class ArrayRangeTest {
     fun `should support array range transformation with condition with cm string list`() {
         val range = someCMStringList()
         val iteratorName = "it"
-        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { repeat(it, 1) }
-        val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { contains(it, "test") }
+        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.repeat(1) }
+        val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { it.contains("test") }
         val expected = ArrayRangeExpression(
             IN,
             range.toDopeType(),
@@ -164,7 +164,7 @@ class ArrayRangeTest {
         val indexName = "i"
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
-            { i, it -> concat(i.toStr(), it) }
+            { i, it -> i.toStr().concat(it) }
         val expected = ArrayRangeIndexedExpression(
             IN,
             range.toDopeType(),
@@ -231,9 +231,9 @@ class ArrayRangeTest {
         val indexName = "i"
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
-            { i, it -> repeat(it, i) }
+            { i, it -> it.repeat(i) }
         val condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType> =
-            { i, it -> contains(i.toStr(), it) }
+            { i, it -> i.toStr().contains(it) }
         val expected = ArrayRangeIndexedExpression(
             IN,
             range.toDopeType(),

@@ -9,14 +9,11 @@ import ch.ergon.dope.validtype.StringType
 data class MBPosition1Expression(val inStr: TypeExpression<StringType>, val searchStr: TypeExpression<StringType>) :
     FunctionExpression<NumberType>(listOf(inStr, searchStr))
 
-fun mbPosition1(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
-    MBPosition1Expression(inStr, searchStr)
+fun TypeExpression<StringType>.mbPosition1(searchStr: TypeExpression<StringType>) =
+    MBPosition1Expression(this, searchStr)
 
-fun mbPosition1(inStr: TypeExpression<StringType>, searchStr: String) =
-    mbPosition1(inStr, searchStr.toDopeType())
+fun TypeExpression<StringType>.mbPosition1(searchStr: String) = mbPosition1(searchStr.toDopeType())
 
-fun mbPosition1(inStr: String, searchStr: TypeExpression<StringType>) =
-    mbPosition1(inStr.toDopeType(), searchStr)
+fun String.mbPosition1(searchStr: TypeExpression<StringType>) = toDopeType().mbPosition1(searchStr)
 
-fun mbPosition1(inStr: String, searchStr: String) =
-    mbPosition1(inStr.toDopeType(), searchStr.toDopeType())
+fun String.mbPosition1(searchStr: String) = toDopeType().mbPosition1(searchStr.toDopeType())

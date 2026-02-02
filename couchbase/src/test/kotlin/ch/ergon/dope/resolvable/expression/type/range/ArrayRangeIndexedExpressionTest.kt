@@ -57,7 +57,7 @@ class ArrayRangeIndexedExpressionTest : ResolverDependentTest {
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { _, it -> concat("test", it) },
+            transformation = { _, it -> "test".toDopeType().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -119,7 +119,7 @@ class ArrayRangeIndexedExpressionTest : ResolverDependentTest {
             membershipType = IN,
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
-            transformation = { _, it -> concat(positionalParameterValue.asParameter(), it) },
+            transformation = { _, it -> positionalParameterValue.asParameter().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -307,7 +307,7 @@ class ArrayRangeIndexedExpressionTest : ResolverDependentTest {
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { _, it -> concat("test", it.toStr()) },
+            transformation = { _, it -> "test".toDopeType().concat(it.toStr()) },
         )
 
         val actual = underTest.toDopeQuery(resolver)

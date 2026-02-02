@@ -61,7 +61,7 @@ class MaskExpressionTest : ResolverDependentTest {
         val options = mapOf("something1" to "something2")
         val expected = MaskExpression(inStr, options)
 
-        val actual = mask(inStr, options)
+        val actual = inStr.mask(options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -72,7 +72,7 @@ class MaskExpressionTest : ResolverDependentTest {
         val options = mapOf("something1" to "something2")
         val expected = MaskExpression(inStr.toDopeType(), options)
 
-        val actual = mask(inStr, options)
+        val actual = inStr.mask(options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

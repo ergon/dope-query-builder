@@ -13,49 +13,54 @@ data class ConcatExpression<T : StringType>(
     listOf(firstString, secondString, *stringTypes.toTypedArray()),
 )
 
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: TypeExpression<StringType>,
     vararg strings: TypeExpression<StringType>,
-) = ConcatExpression(firstString, secondString, strings.toList())
+) = ConcatExpression(this, secondString, strings.toList())
 
-fun concat(firstString: String, secondString: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    concat(firstString.toDopeType(), secondString, *strings)
+fun TypeExpression<StringType>.concat(
+    secondString: String,
+    vararg strings: TypeExpression<StringType>,
+) = concat(secondString.toDopeType(), *strings)
 
-fun concat(firstString: TypeExpression<StringType>, secondString: String, vararg strings: TypeExpression<StringType>) =
-    concat(firstString, secondString.toDopeType(), *strings)
-
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: TypeExpression<StringType>,
     thirdString: String,
     vararg strings: String,
-) =
-    concat(firstString, secondString, thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat(secondString, thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(firstString: String, secondString: String, vararg strings: TypeExpression<StringType>) =
-    concat(firstString.toDopeType(), secondString.toDopeType(), *strings)
+fun TypeExpression<StringType>.concat(
+    secondString: String,
+    thirdString: String,
+    vararg strings: String,
+) = concat(secondString.toDopeType(), thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(firstString: TypeExpression<StringType>, secondString: String, thirdString: String, vararg strings: String) =
-    concat(
-        firstString,
-        secondString.toDopeType(),
-        thirdString.toDopeType(),
-        *strings.map { it.toDopeType() }.toTypedArray(),
-    )
+fun String.concat(
+    secondString: TypeExpression<StringType>,
+    vararg strings: TypeExpression<StringType>,
+) = toDopeType().concat(secondString, *strings)
 
-fun concat(firstString: String, secondString: TypeExpression<StringType>, thirdString: String, vararg strings: String) =
-    concat(
-        firstString.toDopeType(),
-        secondString,
-        thirdString.toDopeType(),
-        *strings.map { it.toDopeType() }.toTypedArray(),
-    )
+fun String.concat(
+    secondString: String,
+    vararg strings: TypeExpression<StringType>,
+) = toDopeType().concat(secondString.toDopeType(), *strings)
 
-fun concat(firstString: String, secondString: String, thirdString: String, vararg strings: String) =
-    concat(
-        firstString.toDopeType(),
-        secondString.toDopeType(),
-        thirdString.toDopeType(),
-        *strings.map { it.toDopeType() }.toTypedArray(),
-    )
+fun String.concat(
+    secondString: String,
+) = toDopeType().concat(secondString.toDopeType())
+
+fun String.concat(
+    secondString: TypeExpression<StringType>,
+    thirdString: String,
+    vararg strings: String,
+) = toDopeType().concat(secondString, thirdString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+
+fun String.concat(
+    secondString: String,
+    thirdString: String,
+    vararg strings: String,
+) = toDopeType().concat(
+    secondString.toDopeType(),
+    thirdString.toDopeType(),
+    *strings.map { it.toDopeType() }.toTypedArray(),
+)

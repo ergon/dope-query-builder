@@ -10,4 +10,4 @@ data class TokensExpression(
     val options: CustomTokenOptions? = null,
 ) : FunctionOperator<ArrayType<StringType>>
 
-fun tokens(inStr: List<String>, options: CustomTokenOptions? = null) = TokensExpression(inStr, options)
+fun List<String>.tokens(options: CustomTokenOptions? = null) = TokensExpression(this, options)

@@ -60,7 +60,7 @@ class UpperExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = UpperExpression(inStr)
 
-        val actual = upper(inStr)
+        val actual = inStr.upper()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class UpperExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = UpperExpression(inStr.toDopeType())
 
-        val actual = upper(inStr)
+        val actual = inStr.toDopeType().upper()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

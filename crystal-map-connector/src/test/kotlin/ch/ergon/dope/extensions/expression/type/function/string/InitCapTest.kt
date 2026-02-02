@@ -15,7 +15,7 @@ class InitCapTest {
         val string = someCMStringField()
         val expected = InitCapExpression(string.toDopeType())
 
-        val actual = initCap(string)
+        val actual = string.initCap()
 
         assertEquals(expected, actual)
     }
@@ -25,7 +25,7 @@ class InitCapTest {
         val string = someCMStringField()
         val expected = TitleExpression(string.toDopeType())
 
-        val actual = title(string)
+        val actual = string.title()
 
         assertEquals(expected, actual)
     }

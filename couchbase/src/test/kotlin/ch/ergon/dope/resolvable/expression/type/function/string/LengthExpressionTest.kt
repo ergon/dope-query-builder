@@ -60,7 +60,7 @@ class LengthExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = LengthExpression(inStr)
 
-        val actual = length(inStr)
+        val actual = inStr.length()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class LengthExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = LengthExpression(inStr.toDopeType())
 
-        val actual = length(inStr)
+        val actual = inStr.toDopeType().length()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

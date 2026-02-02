@@ -93,7 +93,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val string = someStringField()
         val expected = Concat2Expression(separator, string)
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -105,7 +105,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val expected =
             Concat2Expression(separator.toDopeType(), string)
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -117,7 +117,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val expected =
             Concat2Expression(separator, string.toDopeType())
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -131,7 +131,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
             string.toDopeType(),
         )
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

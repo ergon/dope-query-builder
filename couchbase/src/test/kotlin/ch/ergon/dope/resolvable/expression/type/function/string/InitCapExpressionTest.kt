@@ -60,7 +60,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = InitCapExpression(inStr)
 
-        val actual = initCap(inStr)
+        val actual = inStr.initCap()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = InitCapExpression(inStr.toDopeType())
 
-        val actual = initCap(inStr)
+        val actual = inStr.initCap()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -80,7 +80,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = TitleExpression(inStr)
 
-        val actual = title(inStr)
+        val actual = inStr.title()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -90,7 +90,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = TitleExpression(inStr.toDopeType())
 
-        val actual = title(inStr)
+        val actual = inStr.title()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

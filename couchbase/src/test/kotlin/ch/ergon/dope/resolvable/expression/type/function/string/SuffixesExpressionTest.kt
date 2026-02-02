@@ -60,7 +60,7 @@ class SuffixesExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = SuffixesExpression(inStr)
 
-        val actual = suffixes(inStr)
+        val actual = inStr.suffixes()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class SuffixesExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = SuffixesExpression(inStr.toDopeType())
 
-        val actual = suffixes(inStr)
+        val actual = inStr.suffixes()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

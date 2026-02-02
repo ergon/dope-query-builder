@@ -9,6 +9,7 @@ import ch.ergon.dope.resolvable.expression.type.function.string.length
 import ch.ergon.dope.resolvable.expression.type.function.string.ltrim
 import ch.ergon.dope.resolvable.expression.type.function.string.rtrim
 import ch.ergon.dope.resolvable.expression.type.function.string.title
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -17,10 +18,10 @@ class StringFunctionsIntegrationTest : BaseIntegrationTest() {
     fun `use string functions to create a new string`() {
         val dopeQuery = QueryBuilder
             .select(
-                concat(ltrim("   test"), title(rtrim("string   "))),
+                "   test".ltrim().concat("string   ".rtrim().title()),
             )
             .offset(
-                length(""),
+                "".toDopeType().length(),
             ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)

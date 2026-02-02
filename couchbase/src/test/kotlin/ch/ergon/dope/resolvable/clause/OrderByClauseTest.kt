@@ -16,6 +16,7 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -63,7 +64,7 @@ class OrderByClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "LOWER(CONCAT(\"A\", \"B\")) DESC",
         )
-        val underTest = OrderExpression(lower(concat("A", "B")), DESC)
+        val underTest = OrderExpression("A".toDopeType().concat("B").lower(), DESC)
 
         val actual = underTest.toDopeQuery(resolver)
 

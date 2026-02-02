@@ -17,7 +17,7 @@ class LtrimTest {
         val extra = someCMStringField()
         val expected = LtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -28,7 +28,7 @@ class LtrimTest {
         val extra = someString()
         val expected = LtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class LtrimTest {
         val extra = someCMStringField()
         val expected = LtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class LtrimTest {
         val extra = someCMStringField()
         val expected = LtrimExpression(string, extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class LtrimTest {
         val extra = someStringField()
         val expected = LtrimExpression(string.toDopeType(), extra)
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
         assertEquals(expected, actual)
     }

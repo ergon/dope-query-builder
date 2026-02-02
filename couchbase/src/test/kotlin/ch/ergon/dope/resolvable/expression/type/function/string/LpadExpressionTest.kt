@@ -106,7 +106,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = LpadExpression(inStr, size, prefix)
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -118,7 +118,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = LpadExpression(inStr, size, prefix)
 
-        val actual = lpad(inStr, size)
+        val actual = inStr.lpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -130,7 +130,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = LpadExpression(inStr, size, prefix.toDopeType())
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = LpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -154,7 +154,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = LpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -166,7 +166,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = LpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = lpad(inStr, size)
+        val actual = inStr.lpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -178,7 +178,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = LpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -190,7 +190,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = LpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = lpad(inStr, size)
+        val actual = inStr.lpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -202,7 +202,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = LpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -214,7 +214,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -226,7 +226,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = lpad(inStr, size)
+        val actual = inStr.lpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -238,7 +238,7 @@ class LpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = LpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
 
-        val actual = lpad(inStr, size, prefix)
+        val actual = inStr.lpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

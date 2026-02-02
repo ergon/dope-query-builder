@@ -11,10 +11,11 @@ data class TrimExpression(
     val char: TypeExpression<StringType>? = null,
 ) : FunctionExpression<StringType>(listOf(inStr, char))
 
-fun trim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = TrimExpression(inStr, char)
+fun TypeExpression<StringType>.trim(char: TypeExpression<StringType>? = null) =
+    TrimExpression(this, char)
 
-fun trim(inStr: TypeExpression<StringType>, char: String) = trim(inStr, char.toDopeType())
+fun TypeExpression<StringType>.trim(char: String) = trim(char.toDopeType())
 
-fun trim(inStr: String, char: TypeExpression<StringType>? = null) = trim(inStr.toDopeType(), char)
+fun String.trim(char: TypeExpression<StringType>? = null) = toDopeType().trim(char)
 
-fun trim(inStr: String, char: String) = trim(inStr.toDopeType(), char.toDopeType())
+fun String.trim(char: String) = toDopeType().trim(char.toDopeType())

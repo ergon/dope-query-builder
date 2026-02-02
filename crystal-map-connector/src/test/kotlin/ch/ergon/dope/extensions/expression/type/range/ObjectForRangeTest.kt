@@ -54,7 +54,7 @@ class ObjectForRangeTest {
         val range = someCMStringList()
         val iteratorName = "it"
         val withAttributeKeys: (Iterator<StringType>) -> TypeExpression<StringType> = { it.toStr() }
-        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { concat(it, "test") }
+        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.concat("test") }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
@@ -113,8 +113,8 @@ class ObjectForRangeTest {
         val range = someCMStringList()
         val iteratorName = "it"
         val withAttributeKeys: (Iterator<StringType>) -> TypeExpression<StringType> = { it.toStr() }
-        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { repeat(it, 1) }
-        val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { contains(it, "test") }
+        val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.repeat(1) }
+        val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { it.contains("test") }
         val expected = ObjectRangeExpression(
             IN,
             range.toDopeType(),
@@ -189,7 +189,7 @@ class ObjectForRangeTest {
         val withAttributeKeys: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
             { i, _ -> i.toStr() }
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
-            { i, it -> concat(it, i.toStr()) }
+            { i, it -> it.concat(i.toStr()) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),
@@ -268,9 +268,9 @@ class ObjectForRangeTest {
         val withAttributeKeys: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
             { i, _ -> i.toStr() }
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
-            { i, it -> repeat(it, i) }
+            { i, it -> it.repeat(i) }
         val condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType> =
-            { i, it -> contains(it, i.toStr()) }
+            { i, it -> it.contains(i.toStr()) }
         val expected = ObjectRangeIndexedExpression(
             IN,
             range.toDopeType(),

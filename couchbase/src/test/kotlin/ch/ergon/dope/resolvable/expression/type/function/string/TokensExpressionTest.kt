@@ -27,7 +27,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val inStr = listOf("test1", "test2")
         val expected = TokensExpression(inStr)
 
-        val actual = tokens(inStr)
+        val actual = inStr.tokens()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -38,7 +38,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val opt = CustomTokenOptions(name = true, specials = true)
         val expected = TokensExpression(inStr, opt)
 
-        val actual = tokens(inStr, opt)
+        val actual = inStr.tokens(opt)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

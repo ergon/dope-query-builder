@@ -93,7 +93,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val secondString = someStringField("second")
         val expected = ConcatExpression(firstString, secondString)
 
-        val actual = concat(firstString, secondString)
+        val actual = firstString.concat(secondString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -104,7 +104,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val secondString = someStringField("second")
         val expected = ConcatExpression(firstString.toDopeType(), secondString)
 
-        val actual = concat(firstString, secondString)
+        val actual = firstString.concat(secondString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -115,7 +115,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val secondString = someString("second")
         val expected = ConcatExpression(firstString, secondString.toDopeType())
 
-        val actual = concat(firstString, secondString)
+        val actual = firstString.concat(secondString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -126,7 +126,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val secondString = someString("second")
         val expected = ConcatExpression(firstString.toDopeType(), secondString.toDopeType())
 
-        val actual = concat(firstString, secondString)
+        val actual = firstString.concat(secondString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -138,7 +138,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val thirdString = someString("third")
         val expected = ConcatExpression(firstString.toDopeType(), secondString, listOf(thirdString.toDopeType()))
 
-        val actual = concat(firstString, secondString, thirdString)
+        val actual = firstString.concat(secondString, thirdString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -150,7 +150,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val thirdString = someString("third")
         val expected = ConcatExpression(firstString, secondString, listOf(thirdString.toDopeType()))
 
-        val actual = concat(firstString, secondString, thirdString)
+        val actual = firstString.concat(secondString, thirdString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -162,7 +162,7 @@ class ConcatExpressionTest : ResolverDependentTest {
         val thirdString = someStringField("third")
         val expected = ConcatExpression(firstString.toDopeType(), secondString.toDopeType(), listOf(thirdString))
 
-        val actual = concat(firstString, secondString, thirdString)
+        val actual = firstString.concat(secondString, thirdString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

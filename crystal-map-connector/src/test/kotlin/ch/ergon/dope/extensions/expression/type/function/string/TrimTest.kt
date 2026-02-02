@@ -17,7 +17,7 @@ class TrimTest {
         val extra = someCMStringField()
         val expected = TrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
         assertEquals(expected, actual)
     }
@@ -28,7 +28,7 @@ class TrimTest {
         val extra = someString()
         val expected = TrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class TrimTest {
         val extra = someCMStringField()
         val expected = TrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class TrimTest {
         val extra = someCMStringField()
         val expected = TrimExpression(string, extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class TrimTest {
         val extra = someStringField()
         val expected = TrimExpression(string.toDopeType(), extra)
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
         assertEquals(expected, actual)
     }
@@ -72,7 +72,7 @@ class TrimTest {
         val extra = 'a'
         val expected = TrimExpression(string.toDopeType(), extra.toString().toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
         assertEquals(expected, actual)
     }

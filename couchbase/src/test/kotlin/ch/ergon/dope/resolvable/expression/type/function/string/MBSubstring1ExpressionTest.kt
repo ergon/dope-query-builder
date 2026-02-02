@@ -48,7 +48,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val length = someNumberField()
         val expected = MBSubstring1Expression(inStr, startPos, length)
 
-        val actual = mbSubstring1(inStr, startPos, length)
+        val actual = inStr.mbSubstring1(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -59,7 +59,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val startPos = someNumberField()
         val expected = MBSubstring1Expression(inStr, startPos)
 
-        val actual = mbSubstring1(inStr, startPos)
+        val actual = inStr.mbSubstring1(startPos)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -71,7 +71,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val length = 1
         val expected = MBSubstring1Expression(inStr, startPos, length.toDopeType())
 
-        val actual = mbSubstring1(inStr, startPos, length)
+        val actual = inStr.mbSubstring1(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -83,7 +83,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val length = 2
         val expected = MBSubstring1Expression(inStr, startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(inStr, startPos, length)
+        val actual = inStr.mbSubstring1(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -94,7 +94,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val startPos = 1
         val expected = MBSubstring1Expression(inStr, startPos.toDopeType())
 
-        val actual = mbSubstring1(inStr, startPos)
+        val actual = inStr.mbSubstring1(startPos)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -106,7 +106,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val length = someNumberField()
         val expected = MBSubstring1Expression(inStr.toDopeType(), startPos, length)
 
-        val actual = mbSubstring1(inStr, startPos, length)
+        val actual = inStr.mbSubstring1(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -118,7 +118,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val length = 1
         val expected = MBSubstring1Expression(inStr.toDopeType(), startPos, length.toDopeType())
 
-        val actual = mbSubstring1(inStr, startPos, length)
+        val actual = inStr.mbSubstring1(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -130,7 +130,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val length = 2
         val expected = MBSubstring1Expression(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(inStr, startPos, length)
+        val actual = inStr.mbSubstring1(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -141,7 +141,7 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
         val startPos = 1
         val expected = MBSubstring1Expression(inStr.toDopeType(), startPos.toDopeType())
 
-        val actual = mbSubstring1(inStr, startPos)
+        val actual = inStr.mbSubstring1(startPos)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

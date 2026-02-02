@@ -45,7 +45,7 @@ class MBLengthExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = MBLengthExpression(inStr)
 
-        val actual = mbLength(inStr)
+        val actual = inStr.mbLength()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -55,7 +55,7 @@ class MBLengthExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = MBLengthExpression(inStr.toDopeType())
 
-        val actual = mbLength(inStr)
+        val actual = inStr.mbLength()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

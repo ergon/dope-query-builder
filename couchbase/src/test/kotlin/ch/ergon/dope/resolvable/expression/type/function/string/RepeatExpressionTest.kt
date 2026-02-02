@@ -111,7 +111,7 @@ class RepeatExpressionTest : ResolverDependentTest {
         val repeatAmount = someNumberField("repeatAmount")
         val expected = RepeatExpression(inStr, repeatAmount)
 
-        val actual = repeat(inStr, repeatAmount)
+        val actual = inStr.repeat(repeatAmount)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -122,7 +122,7 @@ class RepeatExpressionTest : ResolverDependentTest {
         val repeatAmount = someNumber()
         val expected = RepeatExpression(inStr, repeatAmount.toDopeType())
 
-        val actual = repeat(inStr, repeatAmount)
+        val actual = inStr.repeat(repeatAmount)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -133,7 +133,7 @@ class RepeatExpressionTest : ResolverDependentTest {
         val repeatAmount = someNumberField("repeatAmount")
         val expected = RepeatExpression(inStr.toDopeType(), repeatAmount)
 
-        val actual = repeat(inStr, repeatAmount)
+        val actual = inStr.repeat(repeatAmount)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -144,7 +144,7 @@ class RepeatExpressionTest : ResolverDependentTest {
         val repeatAmount = someNumber()
         val expected = RepeatExpression(inStr.toDopeType(), repeatAmount.toDopeType())
 
-        val actual = repeat(inStr, repeatAmount)
+        val actual = inStr.repeat(repeatAmount)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

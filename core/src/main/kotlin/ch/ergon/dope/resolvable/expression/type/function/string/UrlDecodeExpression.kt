@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.StringType
 data class UrlDecodeExpression(val encodedString: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(encodedString))
 
-fun urlDecode(encodedString: TypeExpression<StringType>) = UrlDecodeExpression(encodedString)
+fun TypeExpression<StringType>.urlDecode() = UrlDecodeExpression(this)
 
-fun urlDecode(encodedString: String) = urlDecode(encodedString.toDopeType())
+fun String.urlDecode() = toDopeType().urlDecode()

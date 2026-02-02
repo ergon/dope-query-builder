@@ -35,7 +35,7 @@ class SatisfiesTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "ANY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
         )
-        val underTest = AnySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
+        val underTest = AnySatisfiesExpression(someStringArrayField()) { x -> x.upper().isEqualTo("A") }
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -129,7 +129,7 @@ class SatisfiesTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "EVERY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
         )
-        val underTest = EverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
+        val underTest = EverySatisfiesExpression(someStringArrayField()) { x -> x.upper().isEqualTo("A") }
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -249,7 +249,7 @@ class SatisfiesTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "ANY AND EVERY `iterator1` IN `stringArrayField` SATISFIES UPPER(`iterator1`) = \"A\" END",
         )
-        val underTest = AnyAndEverySatisfiesExpression(someStringArrayField()) { x -> upper(x).isEqualTo("A") }
+        val underTest = AnyAndEverySatisfiesExpression(someStringArrayField()) { x -> x.upper().isEqualTo("A") }
 
         val actual = underTest.toDopeQuery(resolver)
 

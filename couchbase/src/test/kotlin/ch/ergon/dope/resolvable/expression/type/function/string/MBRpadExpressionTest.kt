@@ -106,7 +106,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBRpadExpression(inStr, size, prefix)
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -118,7 +118,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBRpadExpression(inStr, size, prefix.toDopeType())
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -130,7 +130,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBRpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBRpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -154,7 +154,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBRpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = mbRpad(inStr, size)
+        val actual = inStr.mbRpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -166,7 +166,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBRpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -178,7 +178,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBRpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = mbRpad(inStr, size)
+        val actual = inStr.mbRpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -190,7 +190,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBRpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -202,7 +202,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBRpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -214,7 +214,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBRpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = mbRpad(inStr, size)
+        val actual = inStr.mbRpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -226,7 +226,7 @@ class MBRpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBRpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
 
-        val actual = mbRpad(inStr, size, prefix)
+        val actual = inStr.mbRpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

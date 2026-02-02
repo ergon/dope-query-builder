@@ -7,116 +7,97 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: CMJsonField<String>,
     vararg strings: CMJsonField<String>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: CMJsonField<String>,
     vararg strings: CMJsonField<String>,
-) = concat(firstString, secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: TypeExpression<StringType>,
     vararg strings: CMJsonField<String>,
-) = concat(firstString, secondString, *strings.map { it.toDopeType() }.toTypedArray())
+) = concat(secondString, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: TypeExpression<StringType>,
     vararg strings: CMJsonField<String>,
-) = concat(firstString.toDopeType(), secondString, *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: CMJsonField<String>,
     vararg strings: TypeExpression<StringType>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings)
+) = toDopeType().concat(secondString.toDopeType(), *strings)
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: TypeExpression<StringType>,
     vararg strings: TypeExpression<StringType>,
-) = concat(firstString.toDopeType(), secondString, *strings)
+) = toDopeType().concat(secondString, *strings)
 
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: CMJsonField<String>,
     vararg strings: TypeExpression<StringType>,
-) = concat(firstString, secondString.toDopeType(), *strings)
+) = concat(secondString.toDopeType(), *strings)
 
-fun concat(
-    firstString: String,
+fun String.concat(
     secondString: CMJsonField<String>,
     vararg strings: CMJsonField<String>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: String,
+fun String.concat(
     secondString: String,
     vararg strings: CMJsonField<String>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: String,
     vararg strings: CMJsonField<String>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: String,
     vararg strings: String,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: CMJsonField<String>,
     vararg strings: String,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: String,
+fun String.concat(
     secondString: CMJsonField<String>,
     vararg strings: String,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: String,
     vararg strings: TypeExpression<StringType>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings)
+) = toDopeType().concat(secondString.toDopeType(), *strings)
 
-fun concat(
-    firstString: CMJsonField<String>,
+fun CMJsonField<String>.concat(
     secondString: TypeExpression<StringType>,
     vararg strings: String,
-) = concat(firstString.toDopeType(), secondString, *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: String,
+fun String.concat(
     secondString: TypeExpression<StringType>,
     vararg strings: CMJsonField<String>,
-) = concat(firstString.toDopeType(), secondString, *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat(secondString, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: String,
     vararg strings: CMJsonField<String>,
-) = concat(firstString, secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat(
-    firstString: String,
+fun String.concat(
     secondString: CMJsonField<String>,
     vararg strings: TypeExpression<StringType>,
-) = concat(firstString.toDopeType(), secondString.toDopeType(), *strings)
+) = toDopeType().concat(secondString.toDopeType(), *strings)
 
-fun concat(
-    firstString: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat(
     secondString: CMJsonField<String>,
     vararg strings: String,
-) = concat(firstString, secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat(secondString.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())

@@ -7,15 +7,23 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun mbPosition1(inStr: CMJsonField<String>, searchStr: CMJsonField<String>) =
-    mbPosition1(inStr.toDopeType(), searchStr.toDopeType())
+fun CMJsonField<String>.mbPosition1(searchStr: CMJsonField<String>) =
+    toDopeType().mbPosition1(searchStr.toDopeType())
 
-fun mbPosition1(inStr: CMJsonField<String>, searchStr: TypeExpression<StringType>) =
-    mbPosition1(inStr.toDopeType(), searchStr)
+fun CMJsonField<String>.mbPosition1(searchStr: TypeExpression<StringType>) =
+    toDopeType().mbPosition1(searchStr)
 
-fun mbPosition1(inStr: CMJsonField<String>, searchStr: String) = mbPosition1(inStr.toDopeType(), searchStr.toDopeType())
+fun CMJsonField<String>.mbPosition1(searchStr: String) =
+    toDopeType().mbPosition1(searchStr.toDopeType())
 
-fun mbPosition1(inStr: String, searchStr: CMJsonField<String>) = mbPosition1(inStr.toDopeType(), searchStr.toDopeType())
+fun String.mbPosition1(searchStr: CMJsonField<String>) =
+    toDopeType().mbPosition1(searchStr.toDopeType())
 
-fun mbPosition1(inStr: TypeExpression<StringType>, searchStr: CMJsonField<String>) =
-    mbPosition1(inStr, searchStr.toDopeType())
+fun TypeExpression<StringType>.mbPosition1(searchStr: CMJsonField<String>) =
+    mbPosition1(searchStr.toDopeType())
+
+fun String.mbPosition1(searchStr: TypeExpression<StringType>) =
+    toDopeType().mbPosition1(searchStr)
+
+fun String.mbPosition1(searchStr: String) =
+    toDopeType().mbPosition1(searchStr.toDopeType())

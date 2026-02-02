@@ -17,6 +17,7 @@ import ch.ergon.dope.resolvable.expression.type.range.MembershipType.IN
 import ch.ergon.dope.resolvable.expression.type.range.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -51,7 +52,7 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
             membershipType = IN,
             range = range,
             iteratorName = "it",
-            transformation = { _, it -> concat("test", it) },
+            transformation = { _, it -> "test".toDopeType().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -113,7 +114,7 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
             membershipType = IN,
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
-            transformation = { _, it -> concat(positionalParameterValue.asParameter(), it) },
+            transformation = { _, it -> positionalParameterValue.asParameter().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -219,7 +220,7 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
             membershipType = WITHIN,
             range = range,
             iteratorName = "it",
-            transformation = { _, it -> concat("test", it.toStr()) },
+            transformation = { _, it -> "test".toDopeType().concat(it.toStr()) },
         )
 
         val actual = underTest.toDopeQuery(resolver)

@@ -102,7 +102,7 @@ class SplitExpressionTest : ResolverDependentTest {
         val inSubstring = someStringField("inSubstring")
         val expected = SplitExpression(inStr, inSubstring)
 
-        val actual = split(inStr, inSubstring)
+        val actual = inStr.split(inSubstring)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -113,7 +113,7 @@ class SplitExpressionTest : ResolverDependentTest {
         val inSubstring = someString("inSubstring")
         val expected = SplitExpression(inStr, inSubstring.toDopeType())
 
-        val actual = split(inStr, inSubstring)
+        val actual = inStr.split(inSubstring)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -124,7 +124,7 @@ class SplitExpressionTest : ResolverDependentTest {
         val inSubstring = null
         val expected = SplitExpression(inStr, inSubstring)
 
-        val actual = split(inStr)
+        val actual = inStr.split()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -135,7 +135,7 @@ class SplitExpressionTest : ResolverDependentTest {
         val inSubstring = someStringField("inSubstring")
         val expected = SplitExpression(inStr.toDopeType(), inSubstring)
 
-        val actual = split(inStr, inSubstring)
+        val actual = inStr.split(inSubstring)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -146,7 +146,7 @@ class SplitExpressionTest : ResolverDependentTest {
         val inSubstring = null
         val expected = SplitExpression(inStr.toDopeType(), inSubstring)
 
-        val actual = split(inStr)
+        val actual = inStr.split()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -157,7 +157,7 @@ class SplitExpressionTest : ResolverDependentTest {
         val inSubstring = someString("inSubstring")
         val expected = SplitExpression(inStr.toDopeType(), inSubstring.toDopeType())
 
-        val actual = split(inStr, inSubstring)
+        val actual = inStr.split(inSubstring)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

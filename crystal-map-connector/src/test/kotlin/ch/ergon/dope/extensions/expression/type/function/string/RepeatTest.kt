@@ -20,7 +20,7 @@ class RepeatTest {
         val repetitions = someCMNumberField()
         val expected = RepeatExpression(string.toDopeType(), repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
         assertEquals(expected, actual)
     }
@@ -31,7 +31,7 @@ class RepeatTest {
         val repetitions = someNumberField()
         val expected = RepeatExpression(string.toDopeType(), repetitions)
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
         assertEquals(expected, actual)
     }
@@ -42,7 +42,7 @@ class RepeatTest {
         val repetitions = someNumber()
         val expected = RepeatExpression(string.toDopeType(), repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
         assertEquals(expected, actual)
     }
@@ -53,7 +53,7 @@ class RepeatTest {
         val repetitions = someCMNumberField()
         val expected = RepeatExpression(string, repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
         assertEquals(expected, actual)
     }
@@ -64,7 +64,7 @@ class RepeatTest {
         val repetitions = someCMNumberField()
         val expected = RepeatExpression(string.toDopeType(), repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
         assertEquals(expected, actual)
     }

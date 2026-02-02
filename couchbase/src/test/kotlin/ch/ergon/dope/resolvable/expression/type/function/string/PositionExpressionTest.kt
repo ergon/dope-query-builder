@@ -109,7 +109,7 @@ class PositionExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = PositionExpression(inStr, searchStr)
 
-        val actual = position(inStr, searchStr)
+        val actual = inStr.position(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -120,7 +120,7 @@ class PositionExpressionTest : ResolverDependentTest {
         val searchStr = someString("searchStr")
         val expected = PositionExpression(inStr, searchStr.toDopeType())
 
-        val actual = position(inStr, searchStr)
+        val actual = inStr.position(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -131,7 +131,7 @@ class PositionExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = PositionExpression(inStr.toDopeType(), searchStr)
 
-        val actual = position(inStr, searchStr)
+        val actual = inStr.position(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class PositionExpressionTest : ResolverDependentTest {
         val searchStr = someString("searchStr")
         val expected = PositionExpression(inStr.toDopeType(), searchStr.toDopeType())
 
-        val actual = position(inStr, searchStr)
+        val actual = inStr.position(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

@@ -11,17 +11,16 @@ data class Concat2Expression<T : StringType>(
     val strings: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(listOf(separator, string, *strings.toTypedArray()))
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: TypeExpression<StringType>,
     vararg strings: TypeExpression<StringType>,
-) = Concat2Expression(separator, string, strings.toList())
+) = Concat2Expression(this, string, strings.toList())
 
-fun concat2(separator: String, string: String, vararg strings: String) =
-    concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+fun String.concat2(string: String, vararg strings: String) =
+    toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(separator: TypeExpression<StringType>, string: String, vararg strings: String) =
-    concat2(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+fun TypeExpression<StringType>.concat2(string: String, vararg strings: String) =
+    concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(separator: String, string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    concat2(separator.toDopeType(), string, *strings)
+fun String.concat2(string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
+    toDopeType().concat2(string, *strings)

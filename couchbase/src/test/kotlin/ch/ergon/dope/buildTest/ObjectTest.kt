@@ -120,7 +120,7 @@ class ObjectTest : ResolverDependentTest {
         val actual: String = QueryBuilder
             .select(
                 listOf(
-                    upper(someStringField()).toObjectEntry(someString().asParameter("param")),
+                    someStringField().upper().toObjectEntry(someString().asParameter("param")),
                 ).toDopeType(),
             ).from(
                 someBucket(),

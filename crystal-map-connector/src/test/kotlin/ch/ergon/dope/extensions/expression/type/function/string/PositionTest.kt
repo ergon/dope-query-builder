@@ -17,7 +17,7 @@ class PositionTest {
         val string2 = someCMStringField()
         val expected = PositionExpression(string1.toDopeType(), string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
         assertEquals(expected, actual)
     }
@@ -28,7 +28,7 @@ class PositionTest {
         val string2 = someStringField()
         val expected = PositionExpression(string1.toDopeType(), string2)
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class PositionTest {
         val string2 = someString()
         val expected = PositionExpression(string1.toDopeType(), string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class PositionTest {
         val string2 = someCMStringField()
         val expected = PositionExpression(string1.toDopeType(), string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class PositionTest {
         val string2 = someCMStringField()
         val expected = PositionExpression(string1, string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
         assertEquals(expected, actual)
     }

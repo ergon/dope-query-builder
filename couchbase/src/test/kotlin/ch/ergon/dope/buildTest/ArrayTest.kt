@@ -154,7 +154,7 @@ class ArrayTest {
         val actual: String = QueryBuilder
             .select(
                 listOf(
-                    concat("string".toDopeType(), someStringField()),
+                    "string".toDopeType().concat(someStringField()),
                     "hallo".toDopeType(),
                 ).toDopeType().alias("test"),
                 23.toDopeType(),

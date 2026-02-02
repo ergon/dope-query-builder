@@ -33,7 +33,7 @@ class ConditionalUnknownFunctionsTest {
             .select(
                 coalesce(
                     someStringField(),
-                    concat("some", "string"),
+                    "some".toDopeType().concat("string"),
                     someString().toDopeType(),
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -89,7 +89,7 @@ class ConditionalUnknownFunctionsTest {
             .select(
                 ifMissing(
                     someStringField(),
-                    concat("some", "string"),
+                    "some".toDopeType().concat("string"),
                     someString().toDopeType(),
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -105,7 +105,7 @@ class ConditionalUnknownFunctionsTest {
             .select(
                 ifMissingOrNull(
                     someStringField(),
-                    concat("some", "string"),
+                    "some".toDopeType().concat("string"),
                     someString().toDopeType(),
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -121,7 +121,7 @@ class ConditionalUnknownFunctionsTest {
             .select(
                 ifNull(
                     someStringField(),
-                    concat("some", "string"),
+                    "some".toDopeType().concat("string"),
                     someString().toDopeType(),
                 ),
             ).build(CouchbaseResolver()).queryString

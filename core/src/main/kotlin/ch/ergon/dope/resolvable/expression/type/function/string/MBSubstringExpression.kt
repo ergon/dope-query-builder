@@ -12,29 +12,30 @@ data class MBSubstringExpression(
     val length: TypeExpression<NumberType>? = null,
 ) : FunctionExpression<StringType>(listOf(inStr, startPos, length))
 
-fun mbSubstring(
-    inStr: TypeExpression<StringType>,
+fun TypeExpression<StringType>.mbSubstring(
     startPos: TypeExpression<NumberType>,
     length: TypeExpression<NumberType>? = null,
-) = MBSubstringExpression(inStr, startPos, length)
+) = MBSubstringExpression(this, startPos, length)
 
-fun mbSubstring(inStr: TypeExpression<StringType>, startPos: TypeExpression<NumberType>, length: Int) =
-    mbSubstring(inStr, startPos, length.toDopeType())
+fun TypeExpression<StringType>.mbSubstring(startPos: TypeExpression<NumberType>, length: Int) =
+    mbSubstring(startPos, length.toDopeType())
 
-fun mbSubstring(inStr: TypeExpression<StringType>, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    mbSubstring(inStr, startPos.toDopeType(), length)
+fun TypeExpression<StringType>.mbSubstring(startPos: Int, length: TypeExpression<NumberType>? = null) =
+    mbSubstring(startPos.toDopeType(), length)
 
-fun mbSubstring(inStr: String, startPos: TypeExpression<NumberType>, length: TypeExpression<NumberType>? = null) =
-    mbSubstring(inStr.toDopeType(), startPos, length)
+fun TypeExpression<StringType>.mbSubstring(startPos: Int, length: Int) =
+    mbSubstring(startPos.toDopeType(), length.toDopeType())
 
-fun mbSubstring(inStr: TypeExpression<StringType>, startPos: Int, length: Int) =
-    mbSubstring(inStr, startPos.toDopeType(), length.toDopeType())
+fun String.mbSubstring(
+    startPos: TypeExpression<NumberType>,
+    length: TypeExpression<NumberType>? = null,
+) = toDopeType().mbSubstring(startPos, length)
 
-fun mbSubstring(inStr: String, startPos: TypeExpression<NumberType>, length: Int) =
-    mbSubstring(inStr.toDopeType(), startPos, length.toDopeType())
+fun String.mbSubstring(startPos: TypeExpression<NumberType>, length: Int) =
+    toDopeType().mbSubstring(startPos, length.toDopeType())
 
-fun mbSubstring(inStr: String, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    mbSubstring(inStr.toDopeType(), startPos.toDopeType(), length)
+fun String.mbSubstring(startPos: Int, length: TypeExpression<NumberType>? = null) =
+    toDopeType().mbSubstring(startPos.toDopeType(), length)
 
-fun mbSubstring(inStr: String, startPos: Int, length: Int) =
-    mbSubstring(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
+fun String.mbSubstring(startPos: Int, length: Int) =
+    toDopeType().mbSubstring(startPos.toDopeType(), length.toDopeType())

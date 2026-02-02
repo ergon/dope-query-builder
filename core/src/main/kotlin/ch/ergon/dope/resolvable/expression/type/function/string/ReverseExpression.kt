@@ -8,6 +8,6 @@ import ch.ergon.dope.validtype.StringType
 data class ReverseExpression(val inStr: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(inStr))
 
-fun reverse(inStr: TypeExpression<StringType>) = ReverseExpression(inStr)
+fun TypeExpression<StringType>.reverse() = ReverseExpression(this)
 
-fun reverse(inStr: String) = reverse(inStr.toDopeType())
+fun String.reverse() = toDopeType().reverse()

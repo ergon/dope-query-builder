@@ -18,7 +18,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -30,7 +30,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1, string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -42,7 +42,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1, string2, listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2, listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class ConcatTest {
         val string3 = someStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class ConcatTest {
         val string3 = someStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2, listOf(string3))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -90,7 +90,7 @@ class ConcatTest {
         val string3 = someStringField()
         val expected = ConcatExpression(string1, string2.toDopeType(), listOf(string3))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -114,7 +114,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -138,7 +138,7 @@ class ConcatTest {
         val string3 = someString()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -150,7 +150,7 @@ class ConcatTest {
         val string3 = someString()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -162,7 +162,7 @@ class ConcatTest {
         val string3 = someString()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -174,7 +174,7 @@ class ConcatTest {
         val string3 = someStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -186,7 +186,7 @@ class ConcatTest {
         val string3 = someString()
         val expected = ConcatExpression(string1.toDopeType(), string2, listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -198,7 +198,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2, listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -210,7 +210,7 @@ class ConcatTest {
         val string3 = someCMStringField()
         val expected = ConcatExpression(string1, string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -222,7 +222,7 @@ class ConcatTest {
         val string3 = someStringField()
         val expected = ConcatExpression(string1.toDopeType(), string2.toDopeType(), listOf(string3))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }
@@ -234,7 +234,7 @@ class ConcatTest {
         val string3 = someString()
         val expected = ConcatExpression(string1, string2.toDopeType(), listOf(string3.toDopeType()))
 
-        val actual = concat(string1, string2, string3)
+        val actual = string1.concat(string2, string3)
 
         assertEquals(expected, actual)
     }

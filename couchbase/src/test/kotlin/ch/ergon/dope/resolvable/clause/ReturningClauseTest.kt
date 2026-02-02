@@ -107,7 +107,7 @@ class ReturningClauseTest : ResolverDependentTest {
             queryString = "DELETE FROM `someBucket` RETURNING CONCAT(`stringField`, \"test\"), *, `numberField`",
         )
         val underTest = DeleteReturningClause(
-            concat(someStringField(), "test"),
+            someStringField().concat("test"),
             listOf(
                 asterisk(),
                 someNumberField(),
@@ -164,7 +164,7 @@ class ReturningClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support delete returning with multiple fields, functions and asterisk extension`() {
-        val stringConcatenation = concat(someStringField(), "test")
+        val stringConcatenation = someStringField().concat("test")
         val asterisk = asterisk()
         val numberArrayField = someNumberArrayField()
         val parentClause = someDeleteClause()
@@ -264,7 +264,7 @@ class ReturningClauseTest : ResolverDependentTest {
             queryString = "UPDATE `someBucket` RETURNING CONCAT(`stringField`, \"test\"), *, `numberField`",
         )
         val underTest = UpdateReturningClause(
-            concat(someStringField(), "test"),
+            someStringField().concat("test"),
             listOf(
                 asterisk(),
                 someNumberField(),
@@ -306,7 +306,7 @@ class ReturningClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support update returning with multiple fields, functions and asterisk extension`() {
-        val stringConcatenation = concat(someStringField(), "test")
+        val stringConcatenation = someStringField().concat("test")
         val asterisk = asterisk()
         val numberArrayField = someNumberArrayField()
         val parentClause = someUpdateClause()

@@ -109,7 +109,7 @@ class LtrimExpressionTest : ResolverDependentTest {
         val extra = someString("extra")
         val expected = LtrimExpression(inStr, extra.toDopeType())
 
-        val actual = ltrim(inStr, extra)
+        val actual = inStr.ltrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -120,7 +120,7 @@ class LtrimExpressionTest : ResolverDependentTest {
         val extra = someStringField("extra")
         val expected = LtrimExpression(inStr.toDopeType(), extra)
 
-        val actual = ltrim(inStr, extra)
+        val actual = inStr.ltrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -131,7 +131,7 @@ class LtrimExpressionTest : ResolverDependentTest {
         val extra = someString("extra")
         val expected = LtrimExpression(inStr.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(inStr, extra)
+        val actual = inStr.ltrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class LtrimExpressionTest : ResolverDependentTest {
         val extra = null
         val expected = LtrimExpression(inStr, extra)
 
-        val actual = ltrim(inStr)
+        val actual = inStr.ltrim()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -153,7 +153,7 @@ class LtrimExpressionTest : ResolverDependentTest {
         val extra = null
         val expected = LtrimExpression(inStr.toDopeType(), extra)
 
-        val actual = ltrim(inStr)
+        val actual = inStr.ltrim()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

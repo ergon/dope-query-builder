@@ -9,11 +9,11 @@ import ch.ergon.dope.validtype.StringType
 data class RepeatExpression(val inStr: TypeExpression<StringType>, val repetitions: TypeExpression<NumberType>) :
     FunctionExpression<StringType>(listOf(inStr, repetitions))
 
-fun repeat(inStr: TypeExpression<StringType>, repetitions: TypeExpression<NumberType>) =
-    RepeatExpression(inStr, repetitions)
+fun TypeExpression<StringType>.repeat(repetitions: TypeExpression<NumberType>) =
+    RepeatExpression(this, repetitions)
 
-fun repeat(inStr: TypeExpression<StringType>, repetitions: Number) = repeat(inStr, repetitions.toDopeType())
+fun TypeExpression<StringType>.repeat(repetitions: Number) = repeat(repetitions.toDopeType())
 
-fun repeat(inStr: String, repetitions: TypeExpression<NumberType>) = repeat(inStr.toDopeType(), repetitions)
+fun String.repeat(repetitions: TypeExpression<NumberType>) = toDopeType().repeat(repetitions)
 
-fun repeat(inStr: String, repetitions: Number) = repeat(inStr.toDopeType(), repetitions.toDopeType())
+fun String.repeat(repetitions: Number) = toDopeType().repeat(repetitions.toDopeType())

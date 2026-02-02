@@ -499,7 +499,7 @@ class QueryBuilderTest : ResolverDependentTest {
             ).from(
                 someBucket(),
             ).where(
-                someStringField("email").isLike(concat(someStringField("name"), "%", "@gmail.com")),
+                someStringField("email").isLike(someStringField("name").concat("%", "@gmail.com")),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)

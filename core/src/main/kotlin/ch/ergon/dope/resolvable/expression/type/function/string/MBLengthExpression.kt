@@ -9,6 +9,6 @@ import ch.ergon.dope.validtype.StringType
 data class MBLengthExpression(val inStr: TypeExpression<StringType>) :
     FunctionExpression<NumberType>(listOf(inStr))
 
-fun mbLength(inStr: TypeExpression<StringType>) = MBLengthExpression(inStr)
+fun TypeExpression<StringType>.mbLength() = MBLengthExpression(this)
 
-fun mbLength(inStr: String) = mbLength(inStr.toDopeType())
+fun String.mbLength() = toDopeType().mbLength()

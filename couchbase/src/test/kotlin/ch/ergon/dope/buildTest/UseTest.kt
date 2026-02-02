@@ -120,7 +120,7 @@ class UseTest {
             .selectAsterisk()
             .from(
                 someBucket().useKeys(
-                    concat("some", "Id"),
+                    "some".toDopeType().concat("Id"),
                 ),
             )
             .build(CouchbaseResolver()).queryString
@@ -195,7 +195,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .deleteFrom(
                 someBucket().useKeys(
-                    concat("some", "Id"),
+                    "some".toDopeType().concat("Id"),
                 ),
             )
             .build(CouchbaseResolver()).queryString
@@ -270,7 +270,7 @@ class UseTest {
         val actual: String = QueryBuilder
             .update(
                 someBucket().useKeys(
-                    concat("some", "Id"),
+                    "some".toDopeType().concat("Id"),
                 ),
             )
             .build(CouchbaseResolver()).queryString

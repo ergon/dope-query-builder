@@ -27,7 +27,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = LengthExpression(string.toDopeType())
 
-        val actual = length(string)
+        val actual = string.length()
 
         assertEquals(expected, actual)
     }
@@ -37,7 +37,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = LowerExpression(string.toDopeType())
 
-        val actual = lower(string)
+        val actual = string.lower()
 
         assertEquals(expected, actual)
     }
@@ -47,7 +47,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = MBLengthExpression(string.toDopeType())
 
-        val actual = mbLength(string)
+        val actual = string.mbLength()
 
         assertEquals(expected, actual)
     }
@@ -57,7 +57,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = ReverseExpression(string.toDopeType())
 
-        val actual = reverse(string)
+        val actual = string.reverse()
 
         assertEquals(expected, actual)
     }
@@ -67,7 +67,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = SuffixesExpression(string.toDopeType())
 
-        val actual = suffixes(string)
+        val actual = string.suffixes()
 
         assertEquals(expected, actual)
     }
@@ -77,7 +77,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = UpperExpression(string.toDopeType())
 
-        val actual = upper(string)
+        val actual = string.upper()
 
         assertEquals(expected, actual)
     }
@@ -87,7 +87,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = UrlDecodeExpression(string.toDopeType())
 
-        val actual = urlDecode(string)
+        val actual = string.urlDecode()
 
         assertEquals(expected, actual)
     }
@@ -97,7 +97,7 @@ class StringFunctionTest {
         val string = someCMStringField()
         val expected = UrlEncodeExpression(string.toDopeType())
 
-        val actual = urlEncode(string)
+        val actual = string.urlEncode()
 
         assertEquals(expected, actual)
     }

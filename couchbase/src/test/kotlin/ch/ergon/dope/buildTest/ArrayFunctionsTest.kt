@@ -164,9 +164,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                lower(
-                    someStringArrayField().ifNull(),
-                ),
+                someStringArrayField().ifNull().lower(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -214,9 +212,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                lower(
-                    someStringArrayField().max(),
-                ),
+                someStringArrayField().max().lower(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -228,9 +224,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                lower(
-                    someStringArrayField().min(),
-                ),
+                someStringArrayField().min().lower(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

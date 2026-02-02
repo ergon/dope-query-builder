@@ -7,116 +7,97 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: CMJsonField<String>,
     vararg strings: CMJsonField<String>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: CMJsonField<String>,
     vararg strings: CMJsonField<String>,
-) = concat2(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: TypeExpression<StringType>,
     vararg strings: CMJsonField<String>,
-) = concat2(separator, string, *strings.map { it.toDopeType() }.toTypedArray())
+) = concat2(string, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: TypeExpression<StringType>,
     vararg strings: CMJsonField<String>,
-) = concat2(separator.toDopeType(), string, *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: CMJsonField<String>,
     vararg strings: TypeExpression<StringType>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings)
+) = toDopeType().concat2(string.toDopeType(), *strings)
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: TypeExpression<StringType>,
     vararg strings: TypeExpression<StringType>,
-) = concat2(separator.toDopeType(), string, *strings)
+) = toDopeType().concat2(string, *strings)
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: CMJsonField<String>,
     vararg strings: TypeExpression<StringType>,
-) = concat2(separator, string.toDopeType(), *strings)
+) = concat2(string.toDopeType(), *strings)
 
-fun concat2(
-    separator: String,
+fun String.concat2(
     string: CMJsonField<String>,
     vararg strings: CMJsonField<String>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: String,
+fun String.concat2(
     string: String,
     vararg strings: CMJsonField<String>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: String,
     vararg strings: CMJsonField<String>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: String,
     vararg strings: String,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: CMJsonField<String>,
     vararg strings: String,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: String,
+fun String.concat2(
     string: CMJsonField<String>,
     vararg strings: String,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: String,
     vararg strings: TypeExpression<StringType>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings)
+) = toDopeType().concat2(string.toDopeType(), *strings)
 
-fun concat2(
-    separator: CMJsonField<String>,
+fun CMJsonField<String>.concat2(
     string: TypeExpression<StringType>,
     vararg strings: String,
-) = concat2(separator.toDopeType(), string, *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: String,
+fun String.concat2(
     string: TypeExpression<StringType>,
     vararg strings: CMJsonField<String>,
-) = concat2(separator.toDopeType(), string, *strings.map { it.toDopeType() }.toTypedArray())
+) = toDopeType().concat2(string, *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: String,
     vararg strings: CMJsonField<String>,
-) = concat2(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(
-    separator: String,
+fun String.concat2(
     string: CMJsonField<String>,
     vararg strings: TypeExpression<StringType>,
-) = concat2(separator.toDopeType(), string.toDopeType(), *strings)
+) = toDopeType().concat2(string.toDopeType(), *strings)
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: CMJsonField<String>,
     vararg strings: String,
-) = concat2(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+) = concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())

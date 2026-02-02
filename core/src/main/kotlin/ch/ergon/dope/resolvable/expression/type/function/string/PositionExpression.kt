@@ -9,11 +9,11 @@ import ch.ergon.dope.validtype.StringType
 data class PositionExpression(val inStr: TypeExpression<StringType>, val searchStr: TypeExpression<StringType>) :
     FunctionExpression<NumberType>(listOf(inStr, searchStr))
 
-fun position(inStr: TypeExpression<StringType>, searchStr: TypeExpression<StringType>) =
-    PositionExpression(inStr, searchStr)
+fun TypeExpression<StringType>.position(searchStr: TypeExpression<StringType>) =
+    PositionExpression(this, searchStr)
 
-fun position(inStr: TypeExpression<StringType>, searchStr: String) = position(inStr, searchStr.toDopeType())
+fun TypeExpression<StringType>.position(searchStr: String) = position(searchStr.toDopeType())
 
-fun position(inStr: String, searchStr: TypeExpression<StringType>) = position(inStr.toDopeType(), searchStr)
+fun String.position(searchStr: TypeExpression<StringType>) = toDopeType().position(searchStr)
 
-fun position(inStr: String, searchStr: String) = position(inStr.toDopeType(), searchStr.toDopeType())
+fun String.position(searchStr: String) = toDopeType().position(searchStr.toDopeType())

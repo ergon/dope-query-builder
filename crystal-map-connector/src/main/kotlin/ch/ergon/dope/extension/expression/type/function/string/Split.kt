@@ -7,17 +7,23 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun split(inStr: CMJsonField<String>, inSubstring: CMJsonField<String>) =
-    split(inStr.toDopeType(), inSubstring.toDopeType())
+fun CMJsonField<String>.split(inSubstring: CMJsonField<String>) =
+    toDopeType().split(inSubstring.toDopeType())
 
-fun split(inStr: CMJsonField<String>, inSubstring: String) =
-    split(inStr.toDopeType(), inSubstring.toDopeType())
+fun CMJsonField<String>.split(inSubstring: String) =
+    toDopeType().split(inSubstring.toDopeType())
 
-fun split(inStr: String, inSubstring: CMJsonField<String>) =
-    split(inStr.toDopeType(), inSubstring.toDopeType())
+fun String.split(inSubstring: CMJsonField<String>) =
+    toDopeType().split(inSubstring.toDopeType())
 
-fun split(inStr: TypeExpression<StringType>, inSubstring: CMJsonField<String>) =
-    split(inStr, inSubstring.toDopeType())
+fun TypeExpression<StringType>.split(inSubstring: CMJsonField<String>) =
+    split(inSubstring.toDopeType())
 
-fun split(inStr: CMJsonField<String>, inSubstring: TypeExpression<StringType>? = null) =
-    split(inStr.toDopeType(), inSubstring)
+fun CMJsonField<String>.split(inSubstring: TypeExpression<StringType>? = null) =
+    toDopeType().split(inSubstring)
+
+fun String.split(inSubstring: TypeExpression<StringType>? = null) =
+    toDopeType().split(inSubstring)
+
+fun String.split(inSubstring: String) =
+    toDopeType().split(inSubstring.toDopeType())

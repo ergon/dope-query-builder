@@ -46,7 +46,7 @@ class CollectionOperatorsIntegrationTest : BaseIntegrationTest() {
         val dopeQuery = QueryBuilder
             .select(
                 quantitiesField.mapIndexed(indexName = "i", iteratorName = "it") { _, it -> it.toStr() }
-                    .toObject { i, _ -> concat(orderNumberField, "-", i.toStr()) },
+                    .toObject { i, _ -> orderNumberField.concat("-", i.toStr()) },
             ).from(
                 testBucket,
             ).where(
