@@ -5,11 +5,9 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class ReverseExpression(inStr: TypeExpression<StringType>) : FunctionExpression<StringType>(
-    "REVERSE",
-    inStr,
-)
+data class ReverseExpression(val inStr: TypeExpression<StringType>) :
+    FunctionExpression<StringType>(listOf(inStr))
 
-fun reverse(inStr: TypeExpression<StringType>) = ReverseExpression(inStr)
+fun TypeExpression<StringType>.reverse() = ReverseExpression(this)
 
-fun reverse(inStr: String) = reverse(inStr.toDopeType())
+fun String.reverse() = toDopeType().reverse()

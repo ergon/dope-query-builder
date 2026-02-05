@@ -6,10 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-class ToBooleanExpression<T : ValidType>(expression: TypeExpression<T>) : FunctionExpression<BooleanType>(
-    "TOBOOLEAN",
-    expression,
-)
+data class ToBooleanExpression<T : ValidType>(val expression: TypeExpression<T>) :
+    FunctionExpression<BooleanType>(listOf(expression))
 
 fun <T : ValidType> TypeExpression<T>.toBool() = ToBooleanExpression(this)
 

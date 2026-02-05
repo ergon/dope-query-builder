@@ -6,35 +6,36 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class LpadExpression(
-    inStr: TypeExpression<StringType>,
+data class LpadExpression(
+    val inStr: TypeExpression<StringType>,
+    val size: TypeExpression<NumberType>,
+    val prefix: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>(listOf(inStr, size, prefix))
+
+fun TypeExpression<StringType>.lpad(
     size: TypeExpression<NumberType>,
     prefix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("LPAD", inStr, size, prefix)
+) = LpadExpression(this, size, prefix)
 
-fun lpad(
-    inStr: TypeExpression<StringType>,
+fun TypeExpression<StringType>.lpad(size: TypeExpression<NumberType>, prefix: String) =
+    lpad(size, prefix.toDopeType())
+
+fun TypeExpression<StringType>.lpad(size: Number, prefix: TypeExpression<StringType>? = null) =
+    lpad(size.toDopeType(), prefix)
+
+fun TypeExpression<StringType>.lpad(size: Number, prefix: String) =
+    lpad(size.toDopeType(), prefix.toDopeType())
+
+fun String.lpad(
     size: TypeExpression<NumberType>,
     prefix: TypeExpression<StringType>? = null,
-) = LpadExpression(inStr, size, prefix)
+) = toDopeType().lpad(size, prefix)
 
-fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String) =
-    lpad(inStr, size, prefix.toDopeType())
+fun String.lpad(size: TypeExpression<NumberType>, prefix: String) =
+    toDopeType().lpad(size, prefix.toDopeType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: Number, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr, size.toDopeType(), prefix)
+fun String.lpad(size: Number, prefix: TypeExpression<StringType>? = null) =
+    toDopeType().lpad(size.toDopeType(), prefix)
 
-fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr.toDopeType(), size, prefix)
-
-fun lpad(inStr: TypeExpression<StringType>, size: Number, prefix: String) =
-    lpad(inStr, size.toDopeType(), prefix.toDopeType())
-
-fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    lpad(inStr.toDopeType(), size, prefix.toDopeType())
-
-fun lpad(inStr: String, size: Number, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix)
-
-fun lpad(inStr: String, size: Number, prefix: String) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun String.lpad(size: Number, prefix: String) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())

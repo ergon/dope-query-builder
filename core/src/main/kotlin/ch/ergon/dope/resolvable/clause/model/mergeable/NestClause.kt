@@ -1,8 +1,11 @@
 package ch.ergon.dope.resolvable.clause.model.mergeable
 
 import ch.ergon.dope.resolvable.Nestable
+import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.ISelectFromClause
+import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
+import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType.INNER_NEST
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType.LEFT_NEST
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType.NEST
@@ -12,113 +15,134 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private enum class NestType(override val type: String) : MergeType {
-    NEST("NEST"),
-    INNER_NEST("INNER NEST"),
-    LEFT_NEST("LEFT NEST"),
+enum class NestType : MergeType {
+    NEST,
+    INNER_NEST,
+    LEFT_NEST,
 }
 
-class StandardNestOnConditionClause<T : ValidType>(
-    nestable: Nestable,
-    condition: TypeExpression<BooleanType>,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = NEST,
-    mergeable = nestable,
-    condition = condition,
-    parentClause = parentClause,
-)
+data class StandardNestOnConditionClause<T : ValidType>(
+    val nestable: Nestable,
+    override val condition: TypeExpression<BooleanType>,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = NEST
+    override val mergeable: Resolvable = nestable
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class StandardNestOnKeysClause<T : ValidType>(
-    nestable: Nestable,
-    keys: TypeExpression<ArrayType<StringType>>,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = NEST,
-    mergeable = nestable,
-    keys = keys,
-    parentClause = parentClause,
-)
+data class StandardNestOnKeysClause<T : ValidType>(
+    val nestable: Nestable,
+    override val keys: TypeExpression<ArrayType<StringType>>,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = NEST
+    override val mergeable: Resolvable = nestable
+    override val condition: TypeExpression<BooleanType>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class StandardNestOnKeyClause<T : ValidType>(
-    nestable: Nestable,
-    key: TypeExpression<StringType>,
-    bucket: Bucket? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = NEST,
-    mergeable = nestable,
-    key = key,
-    bucket = bucket,
-    parentClause = parentClause,
-)
+data class StandardNestOnKeyClause<T : ValidType>(
+    val nestable: Nestable,
+    override val key: TypeExpression<StringType>,
+    override val bucket: Bucket? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = NEST
+    override val mergeable: Resolvable = nestable
+    override val condition: TypeExpression<BooleanType>? = null
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class InnerNestOnConditionClause<T : ValidType>(
-    nestable: Nestable,
-    condition: TypeExpression<BooleanType>,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = INNER_NEST,
-    mergeable = nestable,
-    condition = condition,
-    parentClause = parentClause,
-)
+data class InnerNestOnConditionClause<T : ValidType>(
+    val nestable: Nestable,
+    override val condition: TypeExpression<BooleanType>,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = INNER_NEST
+    override val mergeable: Resolvable = nestable
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class InnerNestOnKeysClause<T : ValidType>(
-    nestable: Nestable,
-    keys: TypeExpression<ArrayType<StringType>>,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = INNER_NEST,
-    mergeable = nestable,
-    keys = keys,
-    parentClause = parentClause,
-)
+data class InnerNestOnKeysClause<T : ValidType>(
+    val nestable: Nestable,
+    override val keys: TypeExpression<ArrayType<StringType>>,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = INNER_NEST
+    override val mergeable: Resolvable = nestable
+    override val condition: TypeExpression<BooleanType>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class InnerNestOnKeyClause<T : ValidType>(
-    nestable: Nestable,
-    key: TypeExpression<StringType>,
-    bucket: Bucket? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = INNER_NEST,
-    mergeable = nestable,
-    key = key,
-    bucket = bucket,
-    parentClause = parentClause,
-)
+data class InnerNestOnKeyClause<T : ValidType>(
+    val nestable: Nestable,
+    override val key: TypeExpression<StringType>,
+    override val bucket: Bucket? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = INNER_NEST
+    override val mergeable: Resolvable = nestable
+    override val condition: TypeExpression<BooleanType>? = null
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class LeftNestOnConditionClause<T : ValidType>(
-    nestable: Nestable,
-    condition: TypeExpression<BooleanType>,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = LEFT_NEST,
-    mergeable = nestable,
-    condition = condition,
-    parentClause = parentClause,
-)
+data class LeftNestOnConditionClause<T : ValidType>(
+    val nestable: Nestable,
+    override val condition: TypeExpression<BooleanType>,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = LEFT_NEST
+    override val mergeable: Resolvable = nestable
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class LeftNestOnKeysClause<T : ValidType>(
-    nestable: Nestable,
-    keys: TypeExpression<ArrayType<StringType>>,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = LEFT_NEST,
-    mergeable = nestable,
-    keys = keys,
-    parentClause = parentClause,
-)
+data class LeftNestOnKeysClause<T : ValidType>(
+    val nestable: Nestable,
+    override val keys: TypeExpression<ArrayType<StringType>>,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = LEFT_NEST
+    override val mergeable: Resolvable = nestable
+    override val condition: TypeExpression<BooleanType>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}
 
-class LeftNestOnKeyClause<T : ValidType>(
-    nestable: Nestable,
-    key: TypeExpression<StringType>,
-    bucket: Bucket? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = LEFT_NEST,
-    mergeable = nestable,
-    key = key,
-    bucket = bucket,
-    parentClause = parentClause,
-)
+data class LeftNestOnKeyClause<T : ValidType>(
+    val nestable: Nestable,
+    override val key: TypeExpression<StringType>,
+    override val bucket: Bucket? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = LEFT_NEST
+    override val mergeable: Resolvable = nestable
+    override val condition: TypeExpression<BooleanType>? = null
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null
+    override val keysOrIndexHint: KeysOrIndexHint? = null
+}

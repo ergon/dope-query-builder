@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.position
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,18 +10,16 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PositionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class PositionTest {
     @Test
     fun `should support Position with CM string CM string`() {
         val string1 = someCMStringField()
         val string2 = someCMStringField()
         val expected = PositionExpression(string1.toDopeType(), string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -32,9 +28,9 @@ class PositionTest : ManagerDependentTest {
         val string2 = someStringField()
         val expected = PositionExpression(string1.toDopeType(), string2)
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -43,9 +39,9 @@ class PositionTest : ManagerDependentTest {
         val string2 = someString()
         val expected = PositionExpression(string1.toDopeType(), string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -54,9 +50,9 @@ class PositionTest : ManagerDependentTest {
         val string2 = someCMStringField()
         val expected = PositionExpression(string1.toDopeType(), string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -65,8 +61,8 @@ class PositionTest : ManagerDependentTest {
         val string2 = someCMStringField()
         val expected = PositionExpression(string1, string2.toDopeType())
 
-        val actual = position(string1, string2)
+        val actual = string1.position(string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

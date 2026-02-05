@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.repeat
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumber
@@ -15,18 +13,16 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RepeatTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class RepeatTest {
     @Test
     fun `should support Repeat with CM string CM number`() {
         val string = someCMStringField()
         val repetitions = someCMNumberField()
         val expected = RepeatExpression(string.toDopeType(), repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -35,9 +31,9 @@ class RepeatTest : ManagerDependentTest {
         val repetitions = someNumberField()
         val expected = RepeatExpression(string.toDopeType(), repetitions)
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -46,9 +42,9 @@ class RepeatTest : ManagerDependentTest {
         val repetitions = someNumber()
         val expected = RepeatExpression(string.toDopeType(), repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -57,9 +53,9 @@ class RepeatTest : ManagerDependentTest {
         val repetitions = someCMNumberField()
         val expected = RepeatExpression(string, repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -68,8 +64,8 @@ class RepeatTest : ManagerDependentTest {
         val repetitions = someCMNumberField()
         val expected = RepeatExpression(string.toDopeType(), repetitions.toDopeType())
 
-        val actual = repeat(string, repetitions)
+        val actual = string.repeat(repetitions)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

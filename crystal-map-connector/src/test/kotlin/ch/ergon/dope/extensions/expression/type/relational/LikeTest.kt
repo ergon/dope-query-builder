@@ -1,9 +1,7 @@
 package ch.ergon.dope.extensions.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.relational.isLike
 import ch.ergon.dope.extension.expression.type.relational.isNotLike
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -14,9 +12,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LikeTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class LikeTest {
     @Test
     fun `should support extensions for is like with type cmString`() {
         val left = someStringField()
@@ -25,7 +21,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -36,7 +32,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -47,7 +43,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -58,7 +54,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -69,7 +65,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -80,7 +76,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -91,7 +87,7 @@ class LikeTest : ManagerDependentTest {
 
         val actual = left.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -102,6 +98,6 @@ class LikeTest : ManagerDependentTest {
 
         val actual = someCMStringField.isNotLike(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

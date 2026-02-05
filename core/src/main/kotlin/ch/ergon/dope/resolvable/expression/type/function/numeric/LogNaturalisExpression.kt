@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class LogNaturalisExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("LN", value)
+data class LogNaturalisExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression(value)
 
 fun ln(value: TypeExpression<NumberType>) = LogNaturalisExpression(value)
 

@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.function.conditional
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
@@ -10,29 +8,11 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class Nvl2Expression<T : ValidType>(
-    private val initialExpression: TypeExpression<out ValidType>,
-    private val valueIfExists: TypeExpression<T>,
-    private val valueIfNotExists: TypeExpression<T>,
-) : TypeExpression<T>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val initialExpressionDopeQuery = initialExpression.toDopeQuery(manager)
-        val valueIfExistsDopeQuery = valueIfExists.toDopeQuery(manager)
-        val valueIfNotExistsDopeQuery = valueIfNotExists.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString(
-                "NVL2",
-                initialExpressionDopeQuery.queryString,
-                valueIfExistsDopeQuery.queryString,
-                valueIfNotExistsDopeQuery.queryString,
-            ),
-            parameters = initialExpressionDopeQuery.parameters.merge(
-                valueIfExistsDopeQuery.parameters,
-                valueIfNotExistsDopeQuery.parameters,
-            ),
-        )
-    }
-}
+data class Nvl2Expression<T : ValidType>(
+    val initialExpression: TypeExpression<out ValidType>,
+    val valueIfExists: TypeExpression<T>,
+    val valueIfNotExists: TypeExpression<T>,
+) : FunctionOperator<T>
 
 fun <T : ValidType> nvl2(
     initialExpression: TypeExpression<out ValidType>,

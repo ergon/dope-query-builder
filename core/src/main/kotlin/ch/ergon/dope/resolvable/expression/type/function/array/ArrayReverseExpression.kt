@@ -5,9 +5,9 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayReverseExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>) :
-    ArrayFunctionExpression<T>("ARRAY_REVERSE", array)
+data class ArrayReverseExpression<T : ValidType>(val array: TypeExpression<ArrayType<T>>) :
+    ArrayFunctionExpression<ArrayType<T>>(listOf(array))
 
-fun <T : ValidType> arrayReverse(array: TypeExpression<ArrayType<T>>) = ArrayReverseExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.reverse() = ArrayReverseExpression(this)
 
-fun <T : ValidType> arrayReverse(selectClause: ISelectOffsetClause<T>) = arrayReverse(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.reverse() = asExpression().reverse()

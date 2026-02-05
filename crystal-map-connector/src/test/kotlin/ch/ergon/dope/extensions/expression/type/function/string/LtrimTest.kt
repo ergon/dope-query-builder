@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.ltrim
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,18 +10,16 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LtrimTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class LtrimTest {
     @Test
     fun `should support Ltrim with CM string CM string`() {
         val string = someCMStringField()
         val extra = someCMStringField()
         val expected = LtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -32,9 +28,9 @@ class LtrimTest : ManagerDependentTest {
         val extra = someString()
         val expected = LtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -43,9 +39,9 @@ class LtrimTest : ManagerDependentTest {
         val extra = someCMStringField()
         val expected = LtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -54,9 +50,9 @@ class LtrimTest : ManagerDependentTest {
         val extra = someCMStringField()
         val expected = LtrimExpression(string, extra.toDopeType())
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -65,8 +61,8 @@ class LtrimTest : ManagerDependentTest {
         val extra = someStringField()
         val expected = LtrimExpression(string.toDopeType(), extra)
 
-        val actual = ltrim(string, extra)
+        val actual = string.ltrim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

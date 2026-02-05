@@ -1,7 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
@@ -9,12 +10,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class EqualsExpression<T : ValidType>(
-    left: TypeExpression<T>,
-    right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, "=", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class EqualsExpression<T : ValidType>(
+    override val left: TypeExpression<T>,
+    override val right: TypeExpression<T>,
+) : InfixOperator<BooleanType>(left, right)
 
 fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): EqualsExpression<T> =
     EqualsExpression(this, right)
@@ -40,18 +39,32 @@ fun String.isEqualTo(right: String): EqualsExpression<StringType> =
 fun TypeExpression<BooleanType>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     isEqualTo(right.toDopeType())
 
+@JvmName("TypeExpressionIsFalse")
+fun TypeExpression<BooleanType>.isFalse(): EqualsExpression<BooleanType> =
+    isEqualTo(FALSE)
+
+@JvmName("TypeExpressionIsTrue")
+fun TypeExpression<BooleanType>.isTrue(): EqualsExpression<BooleanType> =
+    isEqualTo(TRUE)
+
 fun Boolean.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right)
 
 fun Boolean.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right.toDopeType())
 
-class NotEqualsExpression<T : ValidType>(
-    left: TypeExpression<T>,
-    right: TypeExpression<T>,
-) : TypeExpression<BooleanType>, InfixOperator(left, "!=", right) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+@JvmName("BooleanIsFalse")
+fun Boolean.isFalse(): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(FALSE)
+
+@JvmName("BooleanIsTrue")
+fun Boolean.isTrue(): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(TRUE)
+
+data class NotEqualsExpression<T : ValidType>(
+    override val left: TypeExpression<T>,
+    override val right: TypeExpression<T>,
+) : InfixOperator<BooleanType>(left, right)
 
 fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> =
     NotEqualsExpression(this, right)

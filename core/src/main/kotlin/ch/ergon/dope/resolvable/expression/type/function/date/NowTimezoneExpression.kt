@@ -5,8 +5,10 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class NowTimezoneExpression(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("NOW_TZ", timeZone, format)
+data class NowTimezoneExpression(
+    val timeZone: TypeExpression<StringType>,
+    val format: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>(listOf(timeZone, format))
 
 fun nowStringInZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
     NowTimezoneExpression(timeZone, format)

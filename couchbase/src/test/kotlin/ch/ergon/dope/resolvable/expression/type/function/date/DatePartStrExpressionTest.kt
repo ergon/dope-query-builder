@@ -1,0 +1,86 @@
+package ch.ergon.dope.resolvable.expression.type.function.date
+
+import ch.ergon.dope.DopeParameters
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
+import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.DAY
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MONTH
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.WEEK
+import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.YEAR
+import ch.ergon.dope.resolvable.expression.type.toDopeType
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class DatePartStrExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
+
+    @Test
+    fun `should support DATE_PART_STR with field`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "DATE_PART_STR(`stringField`, \"DAY\")",
+        )
+        val underTest = DatePartStrExpression(
+            someStringField(),
+            DAY,
+        )
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support DATE_PART_STR with positional parameter date`() {
+        val dateValue = "2021-01-01T00:00:00Z"
+        val expected = CouchbaseDopeQuery(
+            queryString = "DATE_PART_STR($1, \"MONTH\")",
+            DopeParameters(positionalParameters = listOf(dateValue)),
+        )
+        val underTest = DatePartStrExpression(
+            dateValue.asParameter(),
+            MONTH,
+        )
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support DATE_PART_STR with named parameter date`() {
+        val dateValue = "2021-01-01T00:00:00Z"
+        val name = "d"
+        val expected = CouchbaseDopeQuery(
+            queryString = "DATE_PART_STR(\$$name, \"YEAR\")",
+            DopeParameters(namedParameters = mapOf(name to dateValue)),
+        )
+        val underTest = DatePartStrExpression(
+            dateValue.asParameter(name),
+            YEAR,
+        )
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support extractDateComponent extension on TypeExpression`() {
+        val expr = someStringField().extractDateComponent(WEEK)
+        val expected = DatePartStrExpression(someStringField(), WEEK)
+
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
+    }
+
+    @Test
+    fun `should support String extractDateComponent extension`() {
+        val raw = "2016-05-15T03:59:00Z"
+        val expr = raw.extractDateComponent(DateComponentType.DAY_OF_YEAR)
+        val expected = DatePartStrExpression(raw.toDopeType(), DateComponentType.DAY_OF_YEAR)
+
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
+    }
+}

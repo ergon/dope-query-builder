@@ -9,10 +9,12 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectAddExpression(
-    objectExpression: TypeExpression<ObjectType>,
-    objectEntryPrimitive: ObjectEntryPrimitive<out ValidType>,
-) : FunctionExpression<ObjectType>("OBJECT_ADD", objectExpression, objectEntryPrimitive.key, objectEntryPrimitive.value)
+data class ObjectAddExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+    val objectEntryPrimitive: ObjectEntryPrimitive<out ValidType>,
+) : FunctionExpression<ObjectType>(
+    listOf(objectExpression, objectEntryPrimitive.key, objectEntryPrimitive.value),
+)
 
 fun TypeExpression<ObjectType>.addAttribute(objectEntryPrimitive: ObjectEntryPrimitive<out ValidType>) =
     ObjectAddExpression(this, objectEntryPrimitive)

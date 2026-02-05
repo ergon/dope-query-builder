@@ -1,16 +1,7 @@
 package ch.ergon.dope.resolvable.expression.operator
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.util.formatToQueryStringWithSeparator
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.ValidType
 
-open class PrefixOperator(private val symbol: String, private val argument: Resolvable) {
-    fun toPrefixDopeQuery(separator: String, manager: DopeQueryManager): DopeQuery {
-        val argumentDopeQuery = argument.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = formatToQueryStringWithSeparator(symbol, separator = separator, argumentDopeQuery.queryString),
-            parameters = argumentDopeQuery.parameters,
-        )
-    }
-}
+abstract class PrefixOperator<T : ValidType>(val argument: Resolvable) : TypeExpression<T>

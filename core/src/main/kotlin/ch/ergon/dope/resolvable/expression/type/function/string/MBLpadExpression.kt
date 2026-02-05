@@ -6,35 +6,36 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MBLpadExpression(
-    inStr: TypeExpression<StringType>,
+data class MBLpadExpression(
+    val inStr: TypeExpression<StringType>,
+    val size: TypeExpression<NumberType>,
+    val prefix: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>(listOf(inStr, size, prefix))
+
+fun TypeExpression<StringType>.mbLpad(
     size: TypeExpression<NumberType>,
     prefix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>("MB_LPAD", inStr, size, prefix)
+) = MBLpadExpression(this, size, prefix)
 
-fun mbLpad(
-    inStr: TypeExpression<StringType>,
+fun TypeExpression<StringType>.mbLpad(size: TypeExpression<NumberType>, prefix: String) =
+    mbLpad(size, prefix.toDopeType())
+
+fun TypeExpression<StringType>.mbLpad(size: Number, prefix: TypeExpression<StringType>? = null) =
+    mbLpad(size.toDopeType(), prefix)
+
+fun TypeExpression<StringType>.mbLpad(size: Number, prefix: String) =
+    mbLpad(size.toDopeType(), prefix.toDopeType())
+
+fun String.mbLpad(
     size: TypeExpression<NumberType>,
     prefix: TypeExpression<StringType>? = null,
-) = MBLpadExpression(inStr, size, prefix)
+) = toDopeType().mbLpad(size, prefix)
 
-fun mbLpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String) =
-    mbLpad(inStr, size, prefix.toDopeType())
+fun String.mbLpad(size: TypeExpression<NumberType>, prefix: String) =
+    toDopeType().mbLpad(size, prefix.toDopeType())
 
-fun mbLpad(inStr: TypeExpression<StringType>, size: Number, prefix: TypeExpression<StringType>? = null) =
-    mbLpad(inStr, size.toDopeType(), prefix)
+fun String.mbLpad(size: Number, prefix: TypeExpression<StringType>? = null) =
+    toDopeType().mbLpad(size.toDopeType(), prefix)
 
-fun mbLpad(inStr: String, size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>? = null) =
-    mbLpad(inStr.toDopeType(), size, prefix)
-
-fun mbLpad(inStr: TypeExpression<StringType>, size: Number, prefix: String) =
-    mbLpad(inStr, size.toDopeType(), prefix.toDopeType())
-
-fun mbLpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    mbLpad(inStr.toDopeType(), size, prefix.toDopeType())
-
-fun mbLpad(inStr: String, size: Number, prefix: TypeExpression<StringType>? = null) =
-    mbLpad(inStr.toDopeType(), size.toDopeType(), prefix)
-
-fun mbLpad(inStr: String, size: Number, prefix: String) =
-    mbLpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun String.mbLpad(size: Number, prefix: String) =
+    toDopeType().mbLpad(size.toDopeType(), prefix.toDopeType())

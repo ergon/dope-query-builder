@@ -7,17 +7,20 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun contains(inStr: CMJsonField<String>, searchStr: CMJsonField<String>) =
-    contains(inStr.toDopeType(), searchStr.toDopeType())
+fun CMJsonField<String>.contains(searchStr: CMJsonField<String>) =
+    toDopeType().contains(searchStr.toDopeType())
 
-fun contains(inStr: CMJsonField<String>, searchStr: TypeExpression<StringType>) =
-    contains(inStr.toDopeType(), searchStr)
+fun CMJsonField<String>.contains(searchStr: TypeExpression<StringType>) =
+    toDopeType().contains(searchStr)
 
-fun contains(inStr: TypeExpression<StringType>, searchStr: CMJsonField<String>) =
-    contains(inStr, searchStr.toDopeType())
+fun CMJsonField<String>.contains(searchStr: String) =
+    toDopeType().contains(searchStr.toDopeType())
 
-fun contains(inStr: CMJsonField<String>, searchStr: String) =
-    contains(inStr.toDopeType(), searchStr.toDopeType())
+fun TypeExpression<StringType>.contains(searchStr: CMJsonField<String>) =
+    contains(searchStr.toDopeType())
 
-fun contains(inStr: String, searchStr: CMJsonField<String>) =
-    contains(inStr.toDopeType(), searchStr.toDopeType())
+fun String.contains(searchStr: TypeExpression<StringType>) =
+    toDopeType().contains(searchStr)
+
+fun String.contains(searchStr: CMJsonField<String>) =
+    toDopeType().contains(searchStr.toDopeType())

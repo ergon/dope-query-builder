@@ -1,5 +1,7 @@
 package ch.ergon.dope.extension.expression.type.relational
 
+import ch.ergon.dope.resolvable.expression.type.FALSE
+import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.relational.EqualsExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotEqualsExpression
@@ -75,6 +77,14 @@ fun <Convertable : Any> Convertable.isEqualTo(other: CMConverterField<Convertabl
 @JvmName("isEqualToBoolean")
 fun CMJsonField<Boolean>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
     toDopeType().isEqualTo(right.toDopeType())
+
+@JvmName("CMFieldIsFalse")
+fun CMJsonField<Boolean>.isFalse(): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(FALSE)
+
+@JvmName("CMFieldIsTrue")
+fun CMJsonField<Boolean>.isTrue(): EqualsExpression<BooleanType> =
+    toDopeType().isEqualTo(TRUE)
 
 @JvmName("isEqualToBoolean")
 fun Boolean.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> =

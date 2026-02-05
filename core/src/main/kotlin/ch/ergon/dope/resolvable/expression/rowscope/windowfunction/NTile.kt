@@ -1,6 +1,9 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
@@ -9,29 +12,32 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val NTILE = "NTILE"
-
-class NTile : WindowFunctionExpression<NumberType> {
-    constructor(
-        numTiles: TypeExpression<NumberType>,
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>,
-    ) : super(
-        functionName = NTILE,
-        functionArguments = listOf(numTiles),
-        overDefinition = OverWindowDefinition(
-            WindowDefinition(
-                windowPartitionClause = windowPartitionClause,
-                windowOrderClause = windowOrderClause,
-            ),
+data class NTile(
+    val numTiles: TypeExpression<NumberType>,
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>,
+) : WindowFunctionExpression<NumberType> {
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = listOf(numTiles)
+    override val fromModifier: FromModifier? = null
+    override val nullsModifier: NullsModifier? = null
+    override val overDefinition: OverDefinition = OverWindowDefinition(
+        WindowDefinition(
+            windowPartitionClause = windowPartitionClause,
+            windowOrderClause = windowOrderClause,
         ),
     )
+}
 
-    constructor(numTiles: TypeExpression<NumberType>, windowReference: String) : super(
-        functionName = NTILE,
-        functionArguments = listOf(numTiles),
-        overDefinition = OverWindowReference(windowReference),
-    )
+data class NTileWithReference(
+    val numTiles: TypeExpression<NumberType>,
+    val windowReference: String,
+) : WindowFunctionExpression<NumberType> {
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = listOf(numTiles)
+    override val fromModifier: FromModifier? = null
+    override val nullsModifier: NullsModifier? = null
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
 fun ntile(
@@ -49,7 +55,7 @@ fun ntile(
 fun ntile(
     numTiles: TypeExpression<NumberType>,
     windowReference: String,
-) = NTile(numTiles, windowReference)
+) = NTileWithReference(numTiles, windowReference)
 
 fun ntile(
     numTiles: Number,

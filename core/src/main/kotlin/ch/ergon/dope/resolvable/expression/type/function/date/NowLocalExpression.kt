@@ -5,7 +5,8 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class NowLocalExpression(format: TypeExpression<StringType>? = null) : FunctionExpression<StringType>("NOW_LOCAL", format)
+data class NowLocalExpression(val format: TypeExpression<StringType>? = null) :
+    FunctionExpression<StringType>(listOf(format))
 
 fun localNowString(format: TypeExpression<StringType>? = null) = NowLocalExpression(format)
 

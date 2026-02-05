@@ -5,8 +5,8 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class DateFormatStrExpression(date: TypeExpression<StringType>, format: TypeExpression<StringType>) :
-    FunctionExpression<StringType>("DATE_FORMAT_STR", date, format)
+data class DateFormatStrExpression(val date: TypeExpression<StringType>, val format: TypeExpression<StringType>) :
+    FunctionExpression<StringType>(listOf(date, format))
 
 fun TypeExpression<StringType>.formatDate(format: TypeExpression<StringType>) = DateFormatStrExpression(this, format)
 

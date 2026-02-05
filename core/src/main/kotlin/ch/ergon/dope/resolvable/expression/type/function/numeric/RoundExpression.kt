@@ -4,8 +4,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class RoundExpression(value: TypeExpression<NumberType>, digits: TypeExpression<NumberType>? = null) :
-    NumberFunctionExpression("ROUND", value, digits)
+data class RoundExpression(
+    override val value: TypeExpression<NumberType>,
+    val digits: TypeExpression<NumberType>? = null,
+) : NumberFunctionExpression(value, digits)
 
 fun round(value: TypeExpression<NumberType>) = RoundExpression(value)
 

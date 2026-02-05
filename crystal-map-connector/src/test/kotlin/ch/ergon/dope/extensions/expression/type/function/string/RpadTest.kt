@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.rpad
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumber
@@ -15,9 +13,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RpadTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class RpadTest {
     @Test
     fun `should support Rpad with CM string CM number CM string`() {
         val string = someCMStringField()
@@ -25,9 +21,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -37,9 +33,9 @@ class RpadTest : ManagerDependentTest {
         val char = someStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char)
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -49,9 +45,9 @@ class RpadTest : ManagerDependentTest {
         val char = someString()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -61,9 +57,9 @@ class RpadTest : ManagerDependentTest {
         val char = someString()
         val expected = RpadExpression(string.toDopeType(), size, char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -73,9 +69,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string.toDopeType(), size, char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -85,9 +81,9 @@ class RpadTest : ManagerDependentTest {
         val char = someStringField()
         val expected = RpadExpression(string.toDopeType(), size, char)
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -97,9 +93,9 @@ class RpadTest : ManagerDependentTest {
         val char = someStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char)
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -109,9 +105,9 @@ class RpadTest : ManagerDependentTest {
         val char = someString()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -121,9 +117,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -133,9 +129,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string, size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -145,9 +141,9 @@ class RpadTest : ManagerDependentTest {
         val char = someString()
         val expected = RpadExpression(string, size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -157,9 +153,9 @@ class RpadTest : ManagerDependentTest {
         val char = someStringField()
         val expected = RpadExpression(string, size.toDopeType(), char)
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -169,9 +165,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string, size, char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -181,9 +177,9 @@ class RpadTest : ManagerDependentTest {
         val char = someString()
         val expected = RpadExpression(string, size, char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -193,9 +189,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -205,9 +201,9 @@ class RpadTest : ManagerDependentTest {
         val char = someString()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -217,9 +213,9 @@ class RpadTest : ManagerDependentTest {
         val char = someStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char)
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -229,9 +225,9 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -241,8 +237,8 @@ class RpadTest : ManagerDependentTest {
         val char = someCMStringField()
         val expected = RpadExpression(string.toDopeType(), size, char.toDopeType())
 
-        val actual = rpad(string, size, char)
+        val actual = string.rpad(size, char)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

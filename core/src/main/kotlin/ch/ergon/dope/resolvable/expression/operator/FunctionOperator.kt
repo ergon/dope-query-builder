@@ -1,13 +1,6 @@
 package ch.ergon.dope.resolvable.expression.operator
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.util.formatListToQueryStringWithBrackets
-import ch.ergon.dope.util.formatStringListToQueryStringWithBrackets
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.validtype.ValidType
 
-interface FunctionOperator {
-    fun toFunctionQueryString(symbol: String, vararg arguments: DopeQuery?) =
-        formatListToQueryStringWithBrackets(arguments.filterNotNull(), prefix = "$symbol(")
-
-    fun toFunctionQueryString(symbol: String, vararg arguments: String?) =
-        formatStringListToQueryStringWithBrackets(arguments.filterNotNull().toList(), prefix = "$symbol(")
-}
+interface FunctionOperator<T : ValidType> : TypeExpression<T>

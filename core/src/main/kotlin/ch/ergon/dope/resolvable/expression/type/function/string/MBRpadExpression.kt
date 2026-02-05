@@ -6,40 +6,36 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MBRpadExpression(
-    inStr: TypeExpression<StringType>,
+data class MBRpadExpression(
+    val inStr: TypeExpression<StringType>,
+    val size: TypeExpression<NumberType>,
+    val postfix: TypeExpression<StringType>? = null,
+) : FunctionExpression<StringType>(listOf(inStr, size, postfix))
+
+fun TypeExpression<StringType>.mbRpad(
     size: TypeExpression<NumberType>,
     postfix: TypeExpression<StringType>? = null,
-) : FunctionExpression<StringType>(
-    "MB_RPAD",
-    inStr,
-    size,
-    postfix,
-)
+) = MBRpadExpression(this, size, postfix)
 
-fun mbRpad(
-    inStr: TypeExpression<StringType>,
+fun TypeExpression<StringType>.mbRpad(size: TypeExpression<NumberType>, postfix: String) =
+    mbRpad(size, postfix.toDopeType())
+
+fun TypeExpression<StringType>.mbRpad(size: Number, postfix: TypeExpression<StringType>? = null) =
+    mbRpad(size.toDopeType(), postfix)
+
+fun TypeExpression<StringType>.mbRpad(size: Number, postfix: String) =
+    mbRpad(size.toDopeType(), postfix.toDopeType())
+
+fun String.mbRpad(
     size: TypeExpression<NumberType>,
     postfix: TypeExpression<StringType>? = null,
-) = MBRpadExpression(inStr, size, postfix)
+) = toDopeType().mbRpad(size, postfix)
 
-fun mbRpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, postfix: String) =
-    mbRpad(inStr, size, postfix.toDopeType())
+fun String.mbRpad(size: TypeExpression<NumberType>, postfix: String) =
+    toDopeType().mbRpad(size, postfix.toDopeType())
 
-fun mbRpad(inStr: TypeExpression<StringType>, size: Number, postfix: TypeExpression<StringType>? = null) =
-    mbRpad(inStr, size.toDopeType(), postfix)
+fun String.mbRpad(size: Number, postfix: TypeExpression<StringType>? = null) =
+    toDopeType().mbRpad(size.toDopeType(), postfix)
 
-fun mbRpad(inStr: TypeExpression<StringType>, size: Number, postfix: String) =
-    mbRpad(inStr, size.toDopeType(), postfix.toDopeType())
-
-fun mbRpad(inStr: String, size: TypeExpression<NumberType>, postfix: TypeExpression<StringType>? = null) =
-    mbRpad(inStr.toDopeType(), size, postfix)
-
-fun mbRpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    mbRpad(inStr.toDopeType(), size, prefix.toDopeType())
-
-fun mbRpad(inStr: String, size: Number, postfix: TypeExpression<StringType>? = null) =
-    mbRpad(inStr.toDopeType(), size.toDopeType(), postfix)
-
-fun mbRpad(inStr: String, size: Number, postfix: String) =
-    mbRpad(inStr.toDopeType(), size.toDopeType(), postfix.toDopeType())
+fun String.mbRpad(size: Number, postfix: String) =
+    toDopeType().mbRpad(size.toDopeType(), postfix.toDopeType())

@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class SignExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("SIGN", value)
+data class SignExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression(value)
 
 fun sign(value: TypeExpression<NumberType>) = SignExpression(value)
 

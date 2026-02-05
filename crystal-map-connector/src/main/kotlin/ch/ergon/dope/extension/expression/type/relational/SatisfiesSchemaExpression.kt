@@ -1,14 +1,9 @@
 package ch.ergon.dope.extension.expression.type.relational
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.collection.Iterator
-import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesType
-import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesType.ANY
-import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesType.EVERY
 import ch.ergon.dope.resolvable.expression.type.collection.any
 import ch.ergon.dope.resolvable.expression.type.collection.every
 import ch.ergon.dope.toDopeType
@@ -19,45 +14,15 @@ import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObjectList
 import com.schwarz.crystalapi.schema.Schema
 
-sealed class SatisfiesSchemaExpression<S : Schema>(
-    private val satisfiesType: SatisfiesType,
-    private val iteratorName: String? = null,
-    private val arrayExpression: ObjectList<S>,
-    private val predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) : TypeExpression<BooleanType> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val iteratorVariable = iteratorName ?: manager.iteratorManager.getIteratorName()
-        val arrayExpressionDopeQuery = arrayExpression.toDopeQuery(manager)
-        val predicateDopeQuery = predicate(ObjectField(arrayExpression.schema, iteratorVariable, "")).toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "$satisfiesType `$iteratorVariable` IN ${arrayExpressionDopeQuery.queryString} " +
-                "SATISFIES ${predicateDopeQuery.queryString} END",
-            parameters = arrayExpressionDopeQuery.parameters.merge(predicateDopeQuery.parameters),
-        )
-    }
-}
-
-class AnySatisfiesSchemaExpression<S : Schema>(
-    iteratorName: String? = null,
-    arrayExpression: ObjectList<S>,
-    predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) : SatisfiesSchemaExpression<S>(ANY, iteratorName, arrayExpression, predicate)
-
-class EverySatisfiesSchemaExpression<S : Schema>(
-    iteratorName: String? = null,
-    arrayExpression: ObjectList<S>,
-    predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) : SatisfiesSchemaExpression<S>(EVERY, iteratorName, arrayExpression, predicate)
-
 fun <S : Schema> ObjectList<S>.any(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = AnySatisfiesSchemaExpression(iteratorName, this, predicate)
+) = any(iteratorName) { iterator -> predicate(ObjectField(this.schema, iterator.variable, "")) }
 
 fun <S : Schema> CMObjectList<S>.any(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = AnySatisfiesSchemaExpression(iteratorName, toDopeType(), predicate)
+) = toDopeType().any(iteratorName) { iterator -> predicate(ObjectField(element, iterator.variable, "")) }
 
 @JvmName("anyNumber")
 fun CMJsonList<Number>.any(
@@ -80,12 +45,12 @@ fun CMJsonList<Boolean>.any(
 fun <S : Schema> ObjectList<S>.every(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = EverySatisfiesSchemaExpression(iteratorName, this, predicate)
+) = every(iteratorName) { iterator -> predicate(ObjectField(this.schema, iterator.variable, "")) }
 
 fun <S : Schema> CMObjectList<S>.every(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = EverySatisfiesSchemaExpression(iteratorName, toDopeType(), predicate)
+) = toDopeType().every(iteratorName) { iterator -> predicate(ObjectField(element, iterator.variable, "")) }
 
 @JvmName("everyNumber")
 fun CMJsonList<Number>.every(

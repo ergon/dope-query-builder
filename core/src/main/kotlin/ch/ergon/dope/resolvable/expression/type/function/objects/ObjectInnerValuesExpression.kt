@@ -6,8 +6,8 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectInnerValuesExpression(
-    objectExpression: TypeExpression<ObjectType>,
-) : FunctionExpression<ArrayType<ValidType>>("OBJECT_INNER_VALUES", objectExpression)
+data class ObjectInnerValuesExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+) : FunctionExpression<ArrayType<ValidType>>(listOf(objectExpression))
 
 fun TypeExpression<ObjectType>.getInnerValues() = ObjectInnerValuesExpression(this)

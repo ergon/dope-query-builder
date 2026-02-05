@@ -5,20 +5,16 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class InitCapExpression(inStr: TypeExpression<StringType>) : FunctionExpression<StringType>(
-    "INITCAP",
-    inStr,
-)
+data class InitCapExpression(val inStr: TypeExpression<StringType>) :
+    FunctionExpression<StringType>(listOf(inStr))
 
-fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
+data class TitleExpression(val inStr: TypeExpression<StringType>) :
+    FunctionExpression<StringType>(listOf(inStr))
 
-fun initCap(inStr: String) = initCap(inStr.toDopeType())
+fun TypeExpression<StringType>.initCap() = InitCapExpression(this)
 
-class TitleExpression(inStr: TypeExpression<StringType>) : FunctionExpression<StringType>(
-    "TITLE",
-    inStr,
-)
+fun TypeExpression<StringType>.title() = TitleExpression(this)
 
-fun title(inStr: TypeExpression<StringType>) = TitleExpression(inStr)
+fun String.initCap() = toDopeType().initCap()
 
-fun title(inStr: String) = title(inStr.toDopeType())
+fun String.title() = toDopeType().title()

@@ -6,11 +6,11 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 
-class ObjectRenameExpression(
-    objectExpression: TypeExpression<ObjectType>,
-    oldFieldName: TypeExpression<StringType>,
-    newFieldName: TypeExpression<StringType>,
-) : FunctionExpression<ObjectType>("OBJECT_RENAME", objectExpression, oldFieldName, newFieldName)
+data class ObjectRenameExpression(
+    val objectExpression: TypeExpression<ObjectType>,
+    val oldFieldName: TypeExpression<StringType>,
+    val newFieldName: TypeExpression<StringType>,
+) : FunctionExpression<ObjectType>(listOf(objectExpression, oldFieldName, newFieldName))
 
 fun TypeExpression<ObjectType>.renameAttribute(
     oldFieldName: TypeExpression<StringType>,

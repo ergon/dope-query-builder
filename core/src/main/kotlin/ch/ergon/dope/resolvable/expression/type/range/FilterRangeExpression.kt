@@ -12,12 +12,12 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class FilterRangeExpression<T : ValidType>(
+data class FilterRangeExpression<T : ValidType>(
     override val membershipType: MembershipType,
     override val range: TypeExpression<ArrayType<T>>,
     override val iteratorName: String? = null,
     override val condition: (Iterator<T>) -> TypeExpression<BooleanType>,
-) : TypeExpression<ArrayType<T>>, RangeExpression<T, T>() {
+) : RangeExpression<T, T, ArrayType<T>>() {
     override val withAttributeKeys: ((Iterator<T>) -> TypeExpression<StringType>)? = null
     override val transformationType: TransformationType = ARRAY
     override val transformation: (Iterator<T>) -> TypeExpression<T> = { it }

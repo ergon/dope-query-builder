@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class AbsoluteExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("ABS", value)
+data class AbsoluteExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression(value)
 
 fun abs(value: TypeExpression<NumberType>) = AbsoluteExpression(value)
 

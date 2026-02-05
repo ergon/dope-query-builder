@@ -7,13 +7,16 @@ import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMType
 
-fun QueryBuilder.select(expression: CMType, vararg expressions: CMType) =
+fun QueryBuilder
+.select(expression: CMType, vararg expressions: CMType) =
     select(expression.toDopeType(), *expressions.map { it.toDopeType() }.toTypedArray())
 
-fun QueryBuilder.select(firstExpression: Selectable, secondExpression: CMType, vararg expressions: CMType) =
+fun QueryBuilder
+.select(firstExpression: Selectable, secondExpression: CMType, vararg expressions: CMType) =
     select(firstExpression, *listOf(secondExpression, *expressions).map { it.toDopeType() }.toTypedArray())
 
-fun QueryBuilder.select(firstExpression: CMType, secondExpression: Selectable, vararg expressions: Selectable) =
+fun QueryBuilder
+.select(firstExpression: CMType, secondExpression: Selectable, vararg expressions: Selectable) =
     select(firstExpression.toDopeType(), secondExpression, *expressions)
 
 fun QueryBuilder.selectDistinct(expression: CMType, vararg expressions: CMType) =

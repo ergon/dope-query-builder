@@ -1,14 +1,12 @@
 package ch.ergon.dope.extensions.expression.type.function.array
 
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.extension.expression.type.function.array.arrayConcat
-import ch.ergon.dope.extension.expression.type.function.array.arrayContains
-import ch.ergon.dope.extension.expression.type.function.array.arrayDistinct
-import ch.ergon.dope.extension.expression.type.function.array.arrayIntersect
-import ch.ergon.dope.extension.expression.type.function.array.arrayLength
-import ch.ergon.dope.extension.expression.type.function.array.arraySum
+import ch.ergon.dope.extension.expression.type.function.array.concat
+import ch.ergon.dope.extension.expression.type.function.array.contains
+import ch.ergon.dope.extension.expression.type.function.array.distinct
+import ch.ergon.dope.extension.expression.type.function.array.intersect
+import ch.ergon.dope.extension.expression.type.function.array.length
+import ch.ergon.dope.extension.expression.type.function.array.sum
 import ch.ergon.dope.extension.expression.type.function.array.unpack
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -27,18 +25,16 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ArrayFunctionTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class ArrayFunctionTest {
     @Test
     fun `should support ARRAY_CONCAT with CM Number list`() {
         val firstList = someCMNumberList("first")
         val secondList = someCMNumberList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -47,9 +43,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMStringList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -58,9 +54,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMBooleanList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -69,9 +65,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMObjectList("second")
         val expected = ArrayConcatExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayConcat(firstList, secondList)
+        val actual = firstList.concat(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -80,9 +76,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMNumberField("second")
         val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(firstList, secondList)
+        val actual = firstList.contains(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -91,9 +87,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMStringField("second")
         val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(firstList, secondList)
+        val actual = firstList.contains(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -102,9 +98,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMBooleanField("second")
         val expected = ArrayContainsExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayContains(firstList, secondList)
+        val actual = firstList.contains(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -112,9 +108,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMNumberList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -122,9 +118,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMStringList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -132,9 +128,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMBooleanList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -142,9 +138,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMObjectList()
         val expected = ArrayDistinctExpression(cMJsonList.toDopeType())
 
-        val actual = arrayDistinct(cMJsonList)
+        val actual = cMJsonList.distinct()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -153,9 +149,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMNumberList("second")
         val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(firstList, secondList)
+        val actual = firstList.intersect(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -164,9 +160,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMStringList("second")
         val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(firstList, secondList)
+        val actual = firstList.intersect(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -175,9 +171,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val secondList = someCMBooleanList("second")
         val expected = ArrayIntersectExpression(firstList.toDopeType(), secondList.toDopeType())
 
-        val actual = arrayIntersect(firstList, secondList)
+        val actual = firstList.intersect(secondList)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -185,9 +181,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMNumberList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -195,9 +191,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMStringList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -205,9 +201,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMBooleanList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -215,9 +211,9 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMObjectList()
         val expected = ArrayLengthExpression(cMJsonList.toDopeType())
 
-        val actual = arrayLength(cMJsonList)
+        val actual = cMJsonList.length()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -227,7 +223,7 @@ class ArrayFunctionTest : ManagerDependentTest {
 
         val actual = cMJsonList.unpack()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -235,8 +231,8 @@ class ArrayFunctionTest : ManagerDependentTest {
         val cMJsonList = someCMNumberList()
         val expected = ArraySumExpression(cMJsonList.toDopeType())
 
-        val actual = arraySum(cMJsonList)
+        val actual = cMJsonList.sum()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

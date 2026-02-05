@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.conditional
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.conditional.ifNull
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberField
@@ -16,9 +14,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IfNullTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class IfNullTest {
     @Test
     fun `should support if null with CMNumberField CMNumberField`() {
         val firstExpression = someCMNumberField()
@@ -27,7 +23,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -38,12 +34,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -54,7 +50,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -65,12 +61,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -81,7 +77,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -92,12 +88,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -108,7 +104,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -119,12 +115,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -135,7 +131,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -146,12 +142,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -162,7 +158,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -173,12 +169,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -189,7 +185,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -200,12 +196,12 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -216,7 +212,7 @@ class IfNullTest : ManagerDependentTest {
 
         val actual = ifNull(firstExpression, secondExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -227,11 +223,11 @@ class IfNullTest : ManagerDependentTest {
         val expected = IfNullExpression(
             firstExpression.toDopeType(),
             secondExpression.toDopeType(),
-            additionalExpression.toDopeType(),
+            listOf(additionalExpression.toDopeType()),
         )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

@@ -5,60 +5,48 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayConcatExpression<T : ValidType>(
-    firstArray: TypeExpression<ArrayType<T>>,
+data class ArrayConcatExpression<T : ValidType>(
+    val firstArray: TypeExpression<ArrayType<T>>,
+    val secondArray: TypeExpression<ArrayType<T>>,
+    val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
+) : ArrayFunctionExpression<ArrayType<T>>(listOf(firstArray, secondArray) + additionalArrays)
+
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) : ArrayFunctionExpression<T>("ARRAY_CONCAT", firstArray, secondArray, *additionalArrays)
+) = ArrayConcatExpression(this, secondArray, additionalArrays.toList())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = ArrayConcatExpression(firstArray, secondArray, *additionalArrays)
+) = asExpression().concat(secondArray, *additionalArrays)
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
-    secondArray: TypeExpression<ArrayType<T>>,
-    vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayConcat(firstArray.asExpression(), secondArray, *additionalArrays)
-
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayConcat(firstArray, secondArray.asExpression(), *additionalArrays)
+) = concat(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(firstArray, secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = concat(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: TypeExpression<ArrayType<T>>,
-) = arrayConcat(firstArray.asExpression(), secondArray.asExpression(), *additionalArrays)
+) = asExpression().concat(secondArray.asExpression(), *additionalArrays)
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: TypeExpression<ArrayType<T>>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(firstArray.asExpression(), secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = asExpression().concat(secondArray, *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: TypeExpression<ArrayType<T>>,
+fun <T : ValidType> TypeExpression<ArrayType<T>>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(firstArray, secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
+) = concat(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())
 
-fun <T : ValidType> arrayConcat(
-    firstArray: ISelectOffsetClause<T>,
+fun <T : ValidType> ISelectOffsetClause<T>.concat(
     secondArray: ISelectOffsetClause<T>,
     vararg additionalArrays: ISelectOffsetClause<T> = emptyArray(),
-) = arrayConcat(
-    firstArray.asExpression(),
-    secondArray.asExpression(),
-    *additionalArrays.map { it.asExpression() }.toTypedArray(),
-)
+) = asExpression().concat(secondArray.asExpression(), *additionalArrays.map { it.asExpression() }.toTypedArray())

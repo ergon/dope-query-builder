@@ -1,36 +1,12 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class DopeVariable<T : ValidType>(private val name: String, private val value: TypeExpression<T>) : TypeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        return DopeQuery(
-            queryString = "`$name`",
-        )
-    }
-
-    fun toLetDefinitionDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val valueDopeQuery = value.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "`$name` = ${valueDopeQuery.queryString}",
-            parameters = valueDopeQuery.parameters,
-        )
-    }
-
-    fun toWithDefinitionDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val expressionDopeQuery = value.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "`$name` AS (${expressionDopeQuery.queryString})",
-            parameters = expressionDopeQuery.parameters,
-        )
-    }
-}
+data class DopeVariable<T : ValidType>(val name: String, val value: TypeExpression<T>) : TypeExpression<T>
 
 fun <T : ValidType> String.assignTo(expression: TypeExpression<T>): DopeVariable<T> = DopeVariable(this, expression)
 

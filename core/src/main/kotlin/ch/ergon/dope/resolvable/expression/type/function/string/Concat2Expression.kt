@@ -5,24 +5,22 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-// Separator is used as an argument and not as a formatting option
-class Concat2Expression<T : StringType>(
-    separator: TypeExpression<T>,
-    string: TypeExpression<T>,
-    vararg strings: TypeExpression<T>,
-) : FunctionExpression<T>("CONCAT2", separator, string, *strings)
+data class Concat2Expression<T : StringType>(
+    val separator: TypeExpression<T>,
+    val string: TypeExpression<T>,
+    val strings: List<TypeExpression<T>> = emptyList(),
+) : FunctionExpression<T>(listOf(separator, string, *strings.toTypedArray()))
 
-fun concat2(
-    separator: TypeExpression<StringType>,
+fun TypeExpression<StringType>.concat2(
     string: TypeExpression<StringType>,
     vararg strings: TypeExpression<StringType>,
-) = Concat2Expression(separator, string, *strings)
+) = Concat2Expression(this, string, strings.toList())
 
-fun concat2(separator: String, string: String, vararg strings: String) =
-    concat2(separator.toDopeType(), string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+fun String.concat2(string: String, vararg strings: String) =
+    toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(separator: TypeExpression<StringType>, string: String, vararg strings: String) =
-    concat2(separator, string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+fun TypeExpression<StringType>.concat2(string: String, vararg strings: String) =
+    concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun concat2(separator: String, string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    concat2(separator.toDopeType(), string, *strings)
+fun String.concat2(string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
+    toDopeType().concat2(string, *strings)

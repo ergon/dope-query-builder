@@ -1,23 +1,17 @@
 package ch.ergon.dope.resolvable.expression.type.function.string.factory
 
-import ch.ergon.dope.DopeQuery
+import ch.ergon.dope.resolvable.Resolvable
 
-enum class TOKEN_CASES { LOWER, UPPER }
+enum class TokenCases { LOWER, UPPER }
 
-data class CustomTokenOptions(var name: Boolean = false, private val specials: Boolean = false) {
-    private var queryString: String
+data class CustomTokenOptions(
+    val name: Boolean? = null,
+    val case: TokenCases? = null,
+    val specials: Boolean? = null,
+) : Resolvable
 
-    init {
-        queryString = "{\"name\": $name, \"specials\": $specials}"
-    }
-
-    constructor(
-        name: Boolean = false,
-        case: TOKEN_CASES,
-        specials: Boolean = false,
-    ) : this(name, specials) {
-        queryString = "{\"name\": $name, \"case\": \"$case\", \"specials\": $specials}"
-    }
-
-    fun toDopeQuery() = DopeQuery(queryString)
-}
+fun customTokenOptions(
+    name: Boolean? = null,
+    case: TokenCases? = null,
+    specials: Boolean? = null,
+) = CustomTokenOptions(name, case, specials)

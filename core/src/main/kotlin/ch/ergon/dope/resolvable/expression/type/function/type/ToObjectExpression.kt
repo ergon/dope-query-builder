@@ -6,10 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
-class ToObjectExpression<T : ValidType>(expression: TypeExpression<T>) : FunctionExpression<ObjectType>(
-    "TOOBJECT",
-    expression,
-)
+data class ToObjectExpression<T : ValidType>(val expression: TypeExpression<T>) :
+    FunctionExpression<ObjectType>(listOf(expression))
 
 fun <T : ValidType> TypeExpression<T>.toObject() = ToObjectExpression(this)
 

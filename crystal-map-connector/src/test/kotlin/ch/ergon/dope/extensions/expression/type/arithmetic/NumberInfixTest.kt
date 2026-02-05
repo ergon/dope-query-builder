@@ -1,12 +1,10 @@
 package ch.ergon.dope.extensions.expression.type.arithmetic
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.arithmetic.add
 import ch.ergon.dope.extension.expression.type.arithmetic.div
 import ch.ergon.dope.extension.expression.type.arithmetic.mod
 import ch.ergon.dope.extension.expression.type.arithmetic.mul
 import ch.ergon.dope.extension.expression.type.arithmetic.sub
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someDate
@@ -22,9 +20,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NumberInfixTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class NumberInfixTest {
     @Test
     fun `should support add with CMJsonField CMJsonField`() {
         val left = someCMNumberField()
@@ -33,7 +29,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -44,7 +40,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -55,7 +51,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -66,7 +62,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -77,7 +73,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.add(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -88,7 +84,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -99,7 +95,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -110,7 +106,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -121,7 +117,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -132,18 +128,18 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support sub with Date CMConverterNumber`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = SubtractionExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = SubtractionExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.sub(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -154,7 +150,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -165,7 +161,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -176,7 +172,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -187,7 +183,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -198,18 +194,18 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support mul with Date CMConverterNumber`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = MultiplicationExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = MultiplicationExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.mul(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -220,7 +216,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -231,7 +227,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -242,7 +238,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -253,7 +249,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -264,7 +260,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.div(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -275,7 +271,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -286,7 +282,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -297,7 +293,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -308,7 +304,7 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -319,17 +315,17 @@ class NumberInfixTest : ManagerDependentTest {
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support mod with Date CMConverterNumber`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = ModuloExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = ModuloExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.mod(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

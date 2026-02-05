@@ -1,75 +1,24 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.ValidType
 
-private const val CASE = "CASE"
-private const val WHEN = "WHEN"
-private const val THEN = "THEN"
-private const val ELSE = "ELSE"
-private const val END = "END"
+data class CaseClass<T : ValidType>(val case: TypeExpression<T>? = null) : Resolvable
 
-class CaseClass<T : ValidType>(private val case: TypeExpression<T>? = null) : Resolvable {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val caseDopeQuery = case?.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "$CASE${caseDopeQuery?.queryString?.let { " $it" }.orEmpty()}",
-            parameters = caseDopeQuery?.parameters.orEmpty(),
-        )
-    }
-}
-
-class CaseExpression<T : ValidType, U : ValidType>(
+data class CaseExpression<T : ValidType, U : ValidType>(
     val case: CaseClass<T>,
     val firstSearchResult: SearchResult<T, out U>,
-    vararg val additionalSearchResult: SearchResult<T, out U>,
-) : TypeExpression<U> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery(manager)
-        val conditionDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
-            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
-        }
-        return DopeQuery(
-            queryString = caseDopeQuery.queryString +
-                conditionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
-                    "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
-                } + END,
-            parameters = caseDopeQuery.parameters.merge(
-                *conditionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }.toTypedArray(),
-            ),
-        )
-    }
-}
+    val additionalSearchResults: List<SearchResult<T, out U>> = emptyList(),
+) : TypeExpression<U>
 
-class ElseCaseExpression<T : ValidType, U : ValidType>(
-    private val case: CaseClass<T>,
-    private val firstSearchResult: SearchResult<T, out U>,
-    private vararg val additionalSearchResult: SearchResult<T, out U>,
-    private val elseCase: TypeExpression<out U>,
-) : TypeExpression<U> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val caseDopeQuery = case.toDopeQuery(manager)
-        val conditionDopeQueries = listOf(firstSearchResult, *additionalSearchResult).map {
-            it.searchExpression.toDopeQuery(manager) to it.resultExpression.toDopeQuery(manager)
-        }
-        val elseCaseDopeQuery = elseCase.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = caseDopeQuery.queryString +
-                conditionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
-                    "$WHEN ${it.first.queryString} $THEN ${it.second.queryString}"
-                } + "$ELSE ${elseCaseDopeQuery.queryString} " +
-                END,
-            parameters = caseDopeQuery.parameters.merge(
-                *conditionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }.toTypedArray(),
-            ),
-        )
-    }
-}
+data class ElseCaseExpression<T : ValidType, U : ValidType>(
+    val case: CaseClass<T>,
+    val firstSearchResult: SearchResult<T, out U>,
+    val additionalSearchResults: List<SearchResult<T, out U>> = emptyList(),
+    val elseCase: TypeExpression<out U>,
+) : TypeExpression<U>
 
 fun case() = CaseClass<BooleanType>()
 
@@ -81,19 +30,19 @@ fun <T : ValidType, U : ValidType> CaseClass<T>.condition(conditionExpression: S
 
 @JvmName("simpleCaseConditionWithGeneric")
 fun <T : ValidType, U : ValidType> CaseExpression<T, U>.condition(conditionExpression: SearchResult<T, U>) =
-    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditionExpression)
+    CaseExpression(case, firstSearchResult, listOf(*additionalSearchResults.toTypedArray(), conditionExpression))
 
 @JvmName("simpleCaseConditionWithOutGeneric")
 fun <T : ValidType> CaseExpression<T, out ValidType>.condition(conditionExpression: SearchResult<T, out ValidType>) =
-    CaseExpression(case, firstSearchResult, *additionalSearchResult, conditionExpression)
+    CaseExpression(case, firstSearchResult, listOf(*additionalSearchResults.toTypedArray(), conditionExpression))
 
 @JvmName("simpleCaseOtherwiseWithGeneric")
 fun <T : ValidType, U : ValidType> CaseExpression<T, U>.otherwise(elseCase: TypeExpression<U>) =
-    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+    ElseCaseExpression(case, firstSearchResult, additionalSearchResults, elseCase = elseCase)
 
 @JvmName("simpleCaseOtherwiseWithOutGeneric")
 fun <T : ValidType> CaseExpression<T, out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
-    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+    ElseCaseExpression(case, firstSearchResult, additionalSearchResults, elseCase = elseCase)
 
 @JvmName("searchedCaseCondition")
 fun <U : ValidType> CaseClass<BooleanType>.condition(condition: SearchResult<BooleanType, U>) =
@@ -101,16 +50,16 @@ fun <U : ValidType> CaseClass<BooleanType>.condition(condition: SearchResult<Boo
 
 @JvmName("searchedCaseConditionWithGeneric")
 fun <U : ValidType> CaseExpression<BooleanType, U>.condition(condition: SearchResult<BooleanType, U>) =
-    CaseExpression(case, firstSearchResult, *additionalSearchResult, condition)
+    CaseExpression(case, firstSearchResult, listOf(*additionalSearchResults.toTypedArray(), condition))
 
 @JvmName("searchedCaseConditionWithOutGeneric")
 fun CaseExpression<BooleanType, out ValidType>.condition(condition: SearchResult<BooleanType, out ValidType>) =
-    CaseExpression(case, firstSearchResult, *additionalSearchResult, condition)
+    CaseExpression(case, firstSearchResult, listOf(*additionalSearchResults.toTypedArray(), condition))
 
 @JvmName("searchedCaseOtherwiseWithGeneric")
 fun <U : ValidType> CaseExpression<BooleanType, U>.otherwise(elseCase: TypeExpression<U>) =
-    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+    ElseCaseExpression(case, firstSearchResult, additionalSearchResults, elseCase = elseCase)
 
 @JvmName("searchedCaseOtherwiseWithOutGeneric")
 fun CaseExpression<BooleanType, out ValidType>.otherwise(elseCase: TypeExpression<out ValidType>) =
-    ElseCaseExpression(case, firstSearchResult, *additionalSearchResult, elseCase = elseCase)
+    ElseCaseExpression(case, firstSearchResult, additionalSearchResults, elseCase = elseCase)

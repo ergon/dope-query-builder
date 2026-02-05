@@ -1,54 +1,73 @@
 package ch.ergon.dope.resolvable.expression.rowscope.aggregate
 
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
-import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private const val MIN = "MIN"
+data class MinExpressionWithReference<T : ValidType>(
+    val field: IField<T>,
+    val windowReference: String,
+    override val quantifier: AggregateQuantifier? = null,
+) : AggregateFunctionExpression<T> {
+    override val selectable: Selectable = field
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
+}
 
-class MinExpression<T : ValidType> : AggregateFunctionExpression<T> {
-    constructor(
-        field: Field<T>,
-        windowReference: String,
-        quantifier: AggregateQuantifier? = null,
-    ) : super(MIN, field, quantifier, OverWindowReference(windowReference))
-
-    constructor(
-        field: Field<T>,
-        quantifier: AggregateQuantifier? = null,
-        windowReferenceExpression: TypeExpression<StringType>? = null,
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>? = null,
-        windowFrameClause: WindowFrameClause? = null,
-    ) : super(
-        MIN,
-        field,
-        quantifier,
-        if (listOf(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause).all { it == null }) {
-            null
-        } else {
-            OverWindowDefinition(WindowDefinition(windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause))
-        },
-    )
+data class MinExpression<T : ValidType>(
+    val field: IField<T>,
+    override val quantifier: AggregateQuantifier? = null,
+    val windowReferenceExpression: TypeExpression<StringType>? = null,
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>? = null,
+    val windowFrameClause: WindowFrameClause? = null,
+) : AggregateFunctionExpression<T> {
+    override val selectable: Selectable = field
+    override val overDefinition: OverDefinition? = if (listOf(
+            windowReferenceExpression,
+            windowPartitionClause,
+            windowOrderClause,
+            windowFrameClause,
+        ).all { it == null }
+    ) {
+        null
+    } else {
+        OverWindowDefinition(
+            WindowDefinition(
+                windowReferenceExpression,
+                windowPartitionClause,
+                windowOrderClause,
+                windowFrameClause,
+            ),
+        )
+    }
 }
 
 fun min(
-    field: Field<out ValidType>,
+    field: IField<out ValidType>,
     windowReference: String,
     quantifier: AggregateQuantifier? = null,
-) = MinExpression(field, windowReference, quantifier)
+) = MinExpressionWithReference(field, windowReference, quantifier)
 
 fun min(
-    field: Field<out ValidType>,
+    field: IField<out ValidType>,
     quantifier: AggregateQuantifier? = null,
     windowReferenceExpression: TypeExpression<StringType>? = null,
     windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
     windowOrderClause: List<OrderingTerm>? = null,
     windowFrameClause: WindowFrameClause? = null,
-) = MinExpression(field, quantifier, windowReferenceExpression, windowPartitionClause, windowOrderClause, windowFrameClause)
+) = MinExpression(
+    field,
+    quantifier,
+    windowReferenceExpression,
+    windowPartitionClause,
+    windowOrderClause,
+    windowFrameClause,
+)

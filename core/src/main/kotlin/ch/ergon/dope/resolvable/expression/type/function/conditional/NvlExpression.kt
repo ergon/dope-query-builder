@@ -8,14 +8,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class NvlExpression<T : ValidType>(
-    initialExpression: TypeExpression<T>,
-    substituteExpression: TypeExpression<T>,
-) : FunctionExpression<T>(
-    "NVL",
-    initialExpression,
-    substituteExpression,
-)
+data class NvlExpression<T : ValidType>(
+    val initialExpression: TypeExpression<T>,
+    val substituteExpression: TypeExpression<T>,
+) : FunctionExpression<T>(listOf(initialExpression, substituteExpression))
 
 fun <T : ValidType> nvl(initialExpression: TypeExpression<T>, substituteExpression: TypeExpression<T>) =
     NvlExpression(initialExpression, substituteExpression)

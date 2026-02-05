@@ -1,6 +1,9 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
@@ -8,26 +11,28 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
 
-private const val ROW_NUMBER = "ROW_NUMBER"
-
-class RowNumber : WindowFunctionExpression<NumberType> {
-    constructor(
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>? = null,
-    ) : super(
-        functionName = ROW_NUMBER,
-        overDefinition = OverWindowDefinition(
-            WindowDefinition(
-                windowPartitionClause = windowPartitionClause,
-                windowOrderClause = windowOrderClause,
-            ),
+data class RowNumber(
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>? = null,
+) : WindowFunctionExpression<NumberType> {
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = emptyList()
+    override val fromModifier: FromModifier? = null
+    override val nullsModifier: NullsModifier? = null
+    override val overDefinition: OverDefinition = OverWindowDefinition(
+        WindowDefinition(
+            windowPartitionClause = windowPartitionClause,
+            windowOrderClause = windowOrderClause,
         ),
     )
+}
 
-    constructor(windowReference: String) : super(
-        functionName = ROW_NUMBER,
-        overDefinition = OverWindowReference(windowReference),
-    )
+data class RowNumberWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = emptyList()
+    override val fromModifier: FromModifier? = null
+    override val nullsModifier: NullsModifier? = null
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
 fun rowNumber(
@@ -35,4 +40,4 @@ fun rowNumber(
     windowOrderClause: List<OrderingTerm>? = null,
 ) = RowNumber(windowPartitionClause, windowOrderClause)
 
-fun rowNumber(windowReference: String) = RowNumber(windowReference)
+fun rowNumber(windowReference: String) = RowNumberWithReference(windowReference)

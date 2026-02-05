@@ -1,6 +1,9 @@
 package ch.ergon.dope.resolvable.expression.rowscope.windowfunction
 
+import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OrderingTerm
+import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowDefinition
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.OverWindowReference
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefinition
@@ -8,38 +11,34 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrame
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ValidType
 
-private const val FIRST_VALUE = "FIRST_VALUE"
-
-class FirstValue<T : ValidType> : WindowFunctionExpression<T> {
-    constructor(
-        expression: TypeExpression<T>,
-        nullsModifier: NullsModifier? = null,
-        windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
-        windowOrderClause: List<OrderingTerm>,
-        windowFrameClause: WindowFrameClause? = null,
-    ) : super(
-        functionName = FIRST_VALUE,
-        functionArguments = listOf(expression),
-        nullsModifier = nullsModifier,
-        overDefinition = OverWindowDefinition(
-            WindowDefinition(
-                windowPartitionClause = windowPartitionClause,
-                windowOrderClause = windowOrderClause,
-                windowFrameClause = windowFrameClause,
-            ),
+data class FirstValue<T : ValidType>(
+    val expression: TypeExpression<T>,
+    override val nullsModifier: NullsModifier? = null,
+    val windowPartitionClause: List<TypeExpression<out ValidType>>? = null,
+    val windowOrderClause: List<OrderingTerm>,
+    val windowFrameClause: WindowFrameClause? = null,
+) : WindowFunctionExpression<T> {
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = listOf(expression)
+    override val fromModifier: FromModifier? = null
+    override val overDefinition: OverDefinition = OverWindowDefinition(
+        WindowDefinition(
+            windowPartitionClause = windowPartitionClause,
+            windowOrderClause = windowOrderClause,
+            windowFrameClause = windowFrameClause,
         ),
     )
+}
 
-    constructor(
-        expression: TypeExpression<T>,
-        windowReference: String,
-        nullsModifier: NullsModifier? = null,
-    ) : super(
-        functionName = FIRST_VALUE,
-        functionArguments = listOf(expression),
-        nullsModifier = nullsModifier,
-        overDefinition = OverWindowReference(windowReference),
-    )
+data class FirstValueWithReference<T : ValidType>(
+    val expression: TypeExpression<T>,
+    val windowReference: String,
+    override val nullsModifier: NullsModifier? = null,
+) : WindowFunctionExpression<T> {
+    override val quantifier: AggregateQuantifier? = null
+    override val functionArguments: List<Selectable?> = listOf(expression)
+    override val fromModifier: FromModifier? = null
+    override val overDefinition: OverDefinition = OverWindowReference(windowReference)
 }
 
 fun <T : ValidType> firstValue(
@@ -54,4 +53,4 @@ fun <T : ValidType> firstValue(
     expression: TypeExpression<T>,
     windowReference: String,
     nullsModifier: NullsModifier? = null,
-) = FirstValue(expression, windowReference, nullsModifier)
+) = FirstValueWithReference(expression, windowReference, nullsModifier)

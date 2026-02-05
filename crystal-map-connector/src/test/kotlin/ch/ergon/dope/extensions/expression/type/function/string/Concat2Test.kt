@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.concat2
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,19 +10,17 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Concat2Test : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class Concat2Test {
     @Test
     fun `should support Concat2 with CM string CM string CM string`() {
         val separator = someCMStringField()
         val string1 = someCMStringField()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -32,11 +28,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someStringField()
         val string1 = someCMStringField()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator, string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -44,11 +40,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someStringField()
         val string1 = someStringField()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator, string1, string2.toDopeType())
+        val expected = Concat2Expression(separator, string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -56,11 +52,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someStringField()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1, string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -68,11 +64,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someCMStringField()
         val string2 = someStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2)
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -80,11 +76,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someStringField()
         val string2 = someStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1, string2)
+        val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -92,11 +88,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someStringField()
         val string1 = someCMStringField()
         val string2 = someStringField()
-        val expected = Concat2Expression(separator, string1.toDopeType(), string2)
+        val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -104,11 +100,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someString()
         val string1 = someCMStringField()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -116,11 +112,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someString()
         val string1 = someString()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -128,11 +124,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someString()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -140,11 +136,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someString()
         val string2 = someString()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -152,11 +148,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someCMStringField()
         val string2 = someString()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -164,11 +160,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someString()
         val string1 = someCMStringField()
         val string2 = someString()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -176,11 +172,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someString()
         val string2 = someStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2)
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -188,11 +184,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someCMStringField()
         val string1 = someStringField()
         val string2 = someString()
-        val expected = Concat2Expression(separator.toDopeType(), string1, string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -200,11 +196,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someString()
         val string1 = someStringField()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1, string2.toDopeType())
+        val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -212,11 +208,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someStringField()
         val string1 = someString()
         val string2 = someCMStringField()
-        val expected = Concat2Expression(separator, string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -224,11 +220,11 @@ class Concat2Test : ManagerDependentTest {
         val separator = someString()
         val string1 = someCMStringField()
         val string2 = someStringField()
-        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), string2)
+        val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -236,10 +232,10 @@ class Concat2Test : ManagerDependentTest {
         val separator = someStringField()
         val string1 = someCMStringField()
         val string2 = someString()
-        val expected = Concat2Expression(separator, string1.toDopeType(), string2.toDopeType())
+        val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

@@ -1,6 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type.collection
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -11,12 +10,10 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class InExpression<T : ValidType>(
-    value: TypeExpression<T>,
-    collection: TypeExpression<ArrayType<T>>,
-) : TypeExpression<BooleanType>, InfixOperator(value, "IN", collection) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class InExpression<T : ValidType>(
+    val value: TypeExpression<T>,
+    val collection: TypeExpression<ArrayType<T>>,
+) : InfixOperator<BooleanType>(value, collection)
 
 fun <T : ValidType> TypeExpression<T>.inArray(array: TypeExpression<ArrayType<T>>) = InExpression(this, array)
 
@@ -64,12 +61,10 @@ fun String.inArray(selectClause: ISelectOffsetClause<StringType>) =
 fun Boolean.inArray(selectClause: ISelectOffsetClause<BooleanType>) =
     toDopeType().inArray(selectClause.asExpression())
 
-class NotInExpression<T : ValidType>(
-    value: TypeExpression<T>,
-    collection: TypeExpression<ArrayType<T>>,
-) : TypeExpression<BooleanType>, InfixOperator(value, "NOT IN", collection) {
-    override fun toDopeQuery(manager: DopeQueryManager) = toInfixDopeQuery(manager = manager)
-}
+data class NotInExpression<T : ValidType>(
+    val value: TypeExpression<T>,
+    val collection: TypeExpression<ArrayType<T>>,
+) : InfixOperator<BooleanType>(value, collection)
 
 fun <T : ValidType> TypeExpression<T>.notInArray(array: TypeExpression<ArrayType<T>>) = NotInExpression(this, array)
 

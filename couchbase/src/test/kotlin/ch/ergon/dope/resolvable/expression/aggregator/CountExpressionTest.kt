@@ -1,0 +1,64 @@
+package ch.ergon.dope.resolvable.expression.aggregator
+
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
+import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.ALL
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateQuantifier.DISTINCT
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.CountExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.count
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class CountExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
+
+    @Test
+    fun `should support count`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "COUNT(`numberField`)",
+        )
+        val underTest = CountExpression(someNumberField(), null)
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support count with quantifier ALL`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "COUNT(ALL `numberField`)",
+        )
+        val countExpression = CountExpression(someNumberField(), ALL)
+
+        val actual = countExpression.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support count with quantifier DISTINCT`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "COUNT(DISTINCT `numberField`)",
+        )
+        val countExpression = CountExpression(someNumberField(), DISTINCT)
+
+        val actual = countExpression.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support count function`() {
+        val field = someStringField()
+        val quantifier = DISTINCT
+        val expected = CountExpression(field, quantifier)
+
+        val actual = count(field, quantifier)
+
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
+    }
+}

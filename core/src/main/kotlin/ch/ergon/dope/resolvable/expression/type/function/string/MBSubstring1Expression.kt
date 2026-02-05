@@ -6,40 +6,36 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class MBSubstring1Expression(
-    inStr: TypeExpression<StringType>,
+data class MBSubstring1Expression(
+    val inStr: TypeExpression<StringType>,
+    val startPos: TypeExpression<NumberType>,
+    val length: TypeExpression<NumberType>? = null,
+) : FunctionExpression<StringType>(listOf(inStr, startPos, length))
+
+fun TypeExpression<StringType>.mbSubstring1(
     startPos: TypeExpression<NumberType>,
     length: TypeExpression<NumberType>? = null,
-) : FunctionExpression<StringType>(
-    "MB_SUBSTR1",
-    inStr,
-    startPos,
-    length,
-)
+) = MBSubstring1Expression(this, startPos, length)
 
-fun mbSubstring1(
-    inStr: TypeExpression<StringType>,
+fun TypeExpression<StringType>.mbSubstring1(startPos: TypeExpression<NumberType>, length: Int) =
+    mbSubstring1(startPos, length.toDopeType())
+
+fun TypeExpression<StringType>.mbSubstring1(startPos: Int, length: TypeExpression<NumberType>? = null) =
+    mbSubstring1(startPos.toDopeType(), length)
+
+fun TypeExpression<StringType>.mbSubstring1(startPos: Int, length: Int) =
+    mbSubstring1(startPos.toDopeType(), length.toDopeType())
+
+fun String.mbSubstring1(
     startPos: TypeExpression<NumberType>,
     length: TypeExpression<NumberType>? = null,
-) = MBSubstring1Expression(inStr, startPos, length)
+) = toDopeType().mbSubstring1(startPos, length)
 
-fun mbSubstring1(inStr: TypeExpression<StringType>, startPos: TypeExpression<NumberType>, length: Int) =
-    mbSubstring1(inStr, startPos, length.toDopeType())
+fun String.mbSubstring1(startPos: TypeExpression<NumberType>, length: Int) =
+    toDopeType().mbSubstring1(startPos, length.toDopeType())
 
-fun mbSubstring1(inStr: TypeExpression<StringType>, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    mbSubstring1(inStr, startPos.toDopeType(), length)
+fun String.mbSubstring1(startPos: Int, length: TypeExpression<NumberType>? = null) =
+    toDopeType().mbSubstring1(startPos.toDopeType(), length)
 
-fun mbSubstring1(inStr: String, startPos: TypeExpression<NumberType>, length: TypeExpression<NumberType>? = null) =
-    mbSubstring1(inStr.toDopeType(), startPos, length)
-
-fun mbSubstring1(inStr: TypeExpression<StringType>, startPos: Int, length: Int) =
-    mbSubstring1(inStr, startPos.toDopeType(), length.toDopeType())
-
-fun mbSubstring1(inStr: String, startPos: TypeExpression<NumberType>, length: Int) =
-    mbSubstring1(inStr.toDopeType(), startPos, length.toDopeType())
-
-fun mbSubstring1(inStr: String, startPos: Int, length: TypeExpression<NumberType>? = null) =
-    mbSubstring1(inStr.toDopeType(), startPos.toDopeType(), length)
-
-fun mbSubstring1(inStr: String, startPos: Int, length: Int) =
-    mbSubstring1(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
+fun String.mbSubstring1(startPos: Int, length: Int) =
+    toDopeType().mbSubstring1(startPos.toDopeType(), length.toDopeType())

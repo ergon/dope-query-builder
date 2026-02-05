@@ -5,9 +5,9 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayDistinctExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>) :
-    ArrayFunctionExpression<T>("ARRAY_DISTINCT", array)
+data class ArrayDistinctExpression<T : ValidType>(val array: TypeExpression<ArrayType<T>>) :
+    ArrayFunctionExpression<ArrayType<T>>(listOf(array))
 
-fun <T : ValidType> arrayDistinct(array: TypeExpression<ArrayType<T>>) = ArrayDistinctExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.distinct() = ArrayDistinctExpression(this)
 
-fun <T : ValidType> arrayDistinct(selectClause: ISelectOffsetClause<T>) = arrayDistinct(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.distinct() = asExpression().distinct()

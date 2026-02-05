@@ -35,7 +35,7 @@ fun IUpdateWhereClause.limit(numberField: CMJsonField<Number>) = limit(numberFie
 fun IUpdateUnsetClause.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 
 fun IUpdateSetClause.unset(field: CMType, vararg fields: CMType) =
-    UnsetClause(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray(), parentClause = this)
+    UnsetClause(field.toDopeType(), fields.map { it.toDopeType() }, parentClause = this)
 
 @JvmName("setCMNumberFieldToCMNumberField")
 fun CMJsonField<out Number>.toNewValue(value: CMJsonField<out Number>):

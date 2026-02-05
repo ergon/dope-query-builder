@@ -1,7 +1,5 @@
 package ch.ergon.dope.resolvable.expression.type
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -9,15 +7,7 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class ObjectEntry<T : ValidType>(private val objectExpression: TypeExpression<ObjectType>, private val key: String) : TypeExpression<T> {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val objectExpressionDopeQuery = objectExpression.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = "${objectExpressionDopeQuery.queryString}.`$key`",
-            parameters = objectExpressionDopeQuery.parameters,
-        )
-    }
-}
+data class ObjectEntry<T : ValidType>(val objectExpression: TypeExpression<ObjectType>, val key: String) : TypeExpression<T>
 
 private fun <T : ValidType> TypeExpression<ObjectType>.get(key: String): ObjectEntry<T> = ObjectEntry(this, key)
 

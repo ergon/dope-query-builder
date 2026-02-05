@@ -8,15 +8,23 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun repeat(inStr: CMJsonField<String>, repetitions: CMJsonField<Number>) =
-    repeat(inStr.toDopeType(), repetitions.toDopeType())
+fun CMJsonField<String>.repeat(repetitions: CMJsonField<Number>) =
+    toDopeType().repeat(repetitions.toDopeType())
 
-fun repeat(inStr: CMJsonField<String>, repetitions: TypeExpression<NumberType>) =
-    repeat(inStr.toDopeType(), repetitions)
+fun CMJsonField<String>.repeat(repetitions: TypeExpression<NumberType>) =
+    toDopeType().repeat(repetitions)
 
-fun repeat(inStr: CMJsonField<String>, repetitions: Number) = repeat(inStr.toDopeType(), repetitions.toDopeType())
+fun CMJsonField<String>.repeat(repetitions: Number) =
+    toDopeType().repeat(repetitions.toDopeType())
 
-fun repeat(inStr: TypeExpression<StringType>, repetitions: CMJsonField<Number>) =
-    repeat(inStr, repetitions.toDopeType())
+fun TypeExpression<StringType>.repeat(repetitions: CMJsonField<Number>) =
+    repeat(repetitions.toDopeType())
 
-fun repeat(inStr: String, repetitions: CMJsonField<Number>) = repeat(inStr.toDopeType(), repetitions.toDopeType())
+fun String.repeat(repetitions: CMJsonField<Number>) =
+    toDopeType().repeat(repetitions.toDopeType())
+
+fun String.repeat(repetitions: TypeExpression<NumberType>) =
+    toDopeType().repeat(repetitions)
+
+fun String.repeat(repetitions: Number) =
+    toDopeType().repeat(repetitions.toDopeType())

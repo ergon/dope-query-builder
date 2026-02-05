@@ -1,25 +1,14 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
-import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArrayIfNullExpression<T : ValidType>(
-    private val array: TypeExpression<ArrayType<T>>,
-) : TypeExpression<T>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val arrayDopeQuery = array.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString("ARRAY_IFNULL", arrayDopeQuery),
-            parameters = arrayDopeQuery.parameters,
-        )
-    }
-}
+data class ArrayIfNullExpression<T : ValidType>(
+    val array: TypeExpression<ArrayType<T>>,
+) : ArrayFunctionExpression<T>(listOf(array))
 
-fun <T : ValidType> arrayIfNull(array: TypeExpression<ArrayType<T>>) = ArrayIfNullExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.ifNull() = ArrayIfNullExpression(this)
 
-fun <T : ValidType> arrayIfNull(selectClause: ISelectOffsetClause<T>) = arrayIfNull(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.ifNull() = asExpression().ifNull()

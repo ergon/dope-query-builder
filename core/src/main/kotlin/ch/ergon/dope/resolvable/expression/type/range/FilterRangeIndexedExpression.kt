@@ -12,13 +12,13 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-class FilterRangeIndexedExpression<T : ValidType>(
+data class FilterRangeIndexedExpression<T : ValidType>(
     override val membershipType: MembershipType,
     override val range: TypeExpression<ArrayType<T>>,
     override val indexName: String? = null,
     override val iteratorName: String? = null,
     override val condition: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<BooleanType>,
-) : TypeExpression<ArrayType<T>>, RangeIndexedExpression<T, T>() {
+) : RangeIndexedExpression<T, T, ArrayType<T>>() {
     override val withAttributeKeys: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>)? = null
     override val transformationType: TransformationType = TransformationType.ARRAY
     override val transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<T> = { _, it -> it }

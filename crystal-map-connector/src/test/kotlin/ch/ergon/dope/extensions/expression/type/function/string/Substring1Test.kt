@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.substring1
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someNumberField
@@ -14,9 +12,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Substring1Test : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class Substring1Test {
     @Test
     fun `should support Substring1 with CM string CM number CM number`() {
         val string = someCMStringField()
@@ -24,9 +20,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -36,9 +32,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos, length)
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -48,9 +44,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someNumberField()
         val expected = Substring1Expression(string, startPos.toDopeType(), length)
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -60,9 +56,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string, startPos, length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -72,9 +68,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length)
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,9 +80,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos, length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -96,9 +92,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string, startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -108,9 +104,9 @@ class Substring1Test : ManagerDependentTest {
         val length = 1
         val expected = Substring1Expression(string.toDopeType(), startPos, length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -120,9 +116,9 @@ class Substring1Test : ManagerDependentTest {
         val length = 1
         val expected = Substring1Expression(string, startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -132,9 +128,9 @@ class Substring1Test : ManagerDependentTest {
         val length = 1
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -144,9 +140,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string, startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -156,9 +152,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length)
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -168,9 +164,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -180,9 +176,9 @@ class Substring1Test : ManagerDependentTest {
         val length = 1
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -192,9 +188,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length)
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -204,9 +200,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos, length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -216,9 +212,9 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -228,9 +224,9 @@ class Substring1Test : ManagerDependentTest {
         val length = 1
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -240,8 +236,8 @@ class Substring1Test : ManagerDependentTest {
         val length = someCMNumberField()
         val expected = Substring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring1(string, startPos, length)
+        val actual = string.substring1(startPos, length)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

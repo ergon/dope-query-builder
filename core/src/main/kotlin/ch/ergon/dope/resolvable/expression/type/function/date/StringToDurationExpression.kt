@@ -6,7 +6,8 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class StringToDurationExpression(duration: TypeExpression<StringType>) : FunctionExpression<NumberType>("STR_TO_DURATION", duration)
+data class StringToDurationExpression(val duration: TypeExpression<StringType>) :
+    FunctionExpression<NumberType>(listOf(duration))
 
 fun TypeExpression<StringType>.toDurationNanos() = StringToDurationExpression(this)
 

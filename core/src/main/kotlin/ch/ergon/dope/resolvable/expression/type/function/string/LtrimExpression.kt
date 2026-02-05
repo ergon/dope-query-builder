@@ -5,14 +5,14 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class LtrimExpression(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("LTRIM", inStr, char)
+data class LtrimExpression(val inStr: TypeExpression<StringType>, val char: TypeExpression<StringType>? = null) :
+    FunctionExpression<StringType>(listOf(inStr, char))
 
-fun ltrim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) =
-    LtrimExpression(inStr, char)
+fun TypeExpression<StringType>.ltrim(char: TypeExpression<StringType>? = null) =
+    LtrimExpression(this, char)
 
-fun ltrim(inStr: TypeExpression<StringType>, char: String) = ltrim(inStr, char.toDopeType())
+fun TypeExpression<StringType>.ltrim(char: String) = ltrim(char.toDopeType())
 
-fun ltrim(inStr: String, char: TypeExpression<StringType>? = null) = ltrim(inStr.toDopeType(), char)
+fun String.ltrim(char: TypeExpression<StringType>? = null) = toDopeType().ltrim(char)
 
-fun ltrim(inStr: String, char: String) = ltrim(inStr.toDopeType(), char.toDopeType())
+fun String.ltrim(char: String) = toDopeType().ltrim(char.toDopeType())

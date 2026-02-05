@@ -5,13 +5,14 @@ import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
 
-class RtrimExpression(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) :
-    FunctionExpression<StringType>("RTRIM", inStr, char)
+data class RtrimExpression(val inStr: TypeExpression<StringType>, val char: TypeExpression<StringType>? = null) :
+    FunctionExpression<StringType>(listOf(inStr, char))
 
-fun rtrim(inStr: TypeExpression<StringType>, char: TypeExpression<StringType>? = null) = RtrimExpression(inStr, char)
+fun TypeExpression<StringType>.rtrim(char: TypeExpression<StringType>? = null) =
+    RtrimExpression(this, char)
 
-fun rtrim(inStr: TypeExpression<StringType>, char: String) = rtrim(inStr, char.toDopeType())
+fun TypeExpression<StringType>.rtrim(char: String) = rtrim(char.toDopeType())
 
-fun rtrim(inStr: String, char: TypeExpression<StringType>? = null) = rtrim(inStr.toDopeType(), char)
+fun String.rtrim(char: TypeExpression<StringType>? = null) = toDopeType().rtrim(char)
 
-fun rtrim(inStr: String, char: String) = rtrim(inStr.toDopeType(), char.toDopeType())
+fun String.rtrim(char: String) = toDopeType().rtrim(char.toDopeType())

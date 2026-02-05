@@ -1,9 +1,7 @@
 package ch.ergon.dope.extensions.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.relational.isMissing
 import ch.ergon.dope.extension.expression.type.relational.isNotMissing
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMObjectField
@@ -14,9 +12,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IsMissingTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class IsMissingTest {
     @Test
     fun `should support isMissing CMJsonFieldNumber`() {
         val field = someCMNumberField()
@@ -24,7 +20,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -34,7 +30,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -44,7 +40,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -54,7 +50,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -64,7 +60,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -74,7 +70,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,7 +80,7 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -94,6 +90,6 @@ class IsMissingTest : ManagerDependentTest {
 
         val actual = field.isNotMissing()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

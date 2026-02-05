@@ -7,19 +7,19 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class DateRangeMillisExpression(
-    startDate: TypeExpression<NumberType>,
-    endDate: TypeExpression<NumberType>,
-    interval: DateUnit,
-    increment: TypeExpression<NumberType>? = null,
-) : FunctionExpression<ArrayType<NumberType>>("DATE_RANGE_MILLIS", startDate, endDate, interval, increment)
+data class DateRangeMillisExpression(
+    val startDate: TypeExpression<NumberType>,
+    val endDate: TypeExpression<NumberType>,
+    val interval: DateUnit,
+    val increment: TypeExpression<NumberType>? = null,
+) : FunctionExpression<ArrayType<NumberType>>(listOf(startDate, endDate, interval, increment))
 
-class DateRangeStrExpression(
-    startDate: TypeExpression<StringType>,
-    endDate: TypeExpression<StringType>,
-    interval: DateUnit,
-    increment: TypeExpression<NumberType>? = null,
-) : FunctionExpression<ArrayType<StringType>>("DATE_RANGE_STR", startDate, endDate, interval, increment)
+data class DateRangeStrExpression(
+    val startDate: TypeExpression<StringType>,
+    val endDate: TypeExpression<StringType>,
+    val interval: DateUnit,
+    val increment: TypeExpression<NumberType>? = null,
+) : FunctionExpression<ArrayType<StringType>>(listOf(startDate, endDate, interval, increment))
 
 @JvmName("millisRangeTypeDateComponent")
 fun TypeExpression<NumberType>.dateRangeBy(

@@ -1,9 +1,9 @@
 package ch.ergon.dope
 
-class DopeQueryManager {
-    val parameterManager = ParameterManager()
-    val iteratorManager = IteratorManager()
-}
+data class DopeQueryManager(
+    val parameterManager: ParameterManager = ParameterManager(),
+    val iteratorManager: IteratorManager = IteratorManager(),
+)
 
 class ParameterManager {
     var count: Int = 1

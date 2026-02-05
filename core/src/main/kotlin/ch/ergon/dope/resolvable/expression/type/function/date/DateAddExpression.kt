@@ -6,11 +6,17 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 
-class DateAddMillisExpression(date: TypeExpression<NumberType>, increment: TypeExpression<NumberType>, dateUnit: DateUnit) :
-    FunctionExpression<NumberType>("DATE_ADD_MILLIS", date, increment, dateUnit)
+data class DateAddMillisExpression(
+    val date: TypeExpression<NumberType>,
+    val increment: TypeExpression<NumberType>,
+    val dateUnit: DateUnit,
+) : FunctionExpression<NumberType>(listOf(date, increment, dateUnit))
 
-class DateAddStrExpression(date: TypeExpression<StringType>, increment: TypeExpression<NumberType>, dateUnit: DateUnit) :
-    FunctionExpression<StringType>("DATE_ADD_STR", date, increment, dateUnit)
+data class DateAddStrExpression(
+    val date: TypeExpression<StringType>,
+    val increment: TypeExpression<NumberType>,
+    val dateUnit: DateUnit,
+) : FunctionExpression<StringType>(listOf(date, increment, dateUnit))
 
 @JvmName("millisPlusTypeDateComponent")
 fun TypeExpression<NumberType>.addDateUnit(

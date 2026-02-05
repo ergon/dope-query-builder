@@ -39,8 +39,10 @@ fun someCMBooleanField(name: String = "cmBooleanField", path: String = "") = CMJ
 
 fun someCMConverterNumberField(name: String = "cmConverterNumberField", path: String = "") =
     CMConverterField(name, path, DateNumberConverterInstance)
+
 fun someCMConverterStringField(name: String = "cmConverterStringField", path: String = "") =
     CMConverterField(name, path, DateStringConverterInstance)
+
 fun someCMConverterBooleanField(name: String = "cmConverterBooleanField", path: String = "") =
     CMConverterField(name, path, DateBooleanConverterInstance)
 
@@ -62,8 +64,10 @@ fun someCMObjectField(name: String = "cmObjectField", path: String = "") = CMObj
 
 fun someCMConverterNumberList(name: String = "cmConverterNumberList", path: String = "") =
     CMConverterList(name, path, DateNumberConverterInstance)
+
 fun someCMConverterStringList(name: String = "cmConverterStringList", path: String = "") =
     CMConverterList(name, path, DateStringConverterInstance)
+
 fun someCMConverterBooleanList(name: String = "cmConverterBooleanList", path: String = "") =
     CMConverterList(name, path, DateBooleanConverterInstance)
 
@@ -103,7 +107,7 @@ object DateNumberConverterInstance : DateNumberConverter()
 
 abstract class DateNumberConverter : ITypeConverter<Date, Number> {
     override fun write(value: Date?): Number? =
-        value?.toInstant()?.epochSecond
+        value?.toInstant()?.toEpochMilli()
 
     override fun read(value: Number?): Date? = value?.toLong()?.let { Date.from(Instant.ofEpochSecond(it)) }
 }
@@ -112,7 +116,7 @@ object DateStringConverterInstance : DateStringConverter()
 
 abstract class DateStringConverter : ITypeConverter<Date, String> {
     override fun write(value: Date?): String? =
-        value?.toInstant()?.epochSecond.toString()
+        value?.toInstant()?.toEpochMilli().toString()
 
     override fun read(value: String?): Date? = value?.toLong()?.let { Date.from(Instant.ofEpochSecond(it)) }
 }

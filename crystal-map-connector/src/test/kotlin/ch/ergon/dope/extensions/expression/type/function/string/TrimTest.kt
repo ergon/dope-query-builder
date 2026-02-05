@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.string.trim
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -12,18 +10,16 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TrimTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class TrimTest {
     @Test
     fun `should support Trim with CM string CM string`() {
         val string = someCMStringField()
         val extra = someCMStringField()
         val expected = TrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -32,9 +28,9 @@ class TrimTest : ManagerDependentTest {
         val extra = someString()
         val expected = TrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -43,9 +39,9 @@ class TrimTest : ManagerDependentTest {
         val extra = someCMStringField()
         val expected = TrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -54,9 +50,9 @@ class TrimTest : ManagerDependentTest {
         val extra = someCMStringField()
         val expected = TrimExpression(string, extra.toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -65,9 +61,9 @@ class TrimTest : ManagerDependentTest {
         val extra = someStringField()
         val expected = TrimExpression(string.toDopeType(), extra)
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -76,8 +72,8 @@ class TrimTest : ManagerDependentTest {
         val extra = 'a'
         val expected = TrimExpression(string.toDopeType(), extra.toString().toDopeType())
 
-        val actual = trim(string, extra)
+        val actual = string.trim(extra)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

@@ -4,10 +4,10 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 
-class AndExpression(
-    left: TypeExpression<BooleanType>,
-    right: TypeExpression<BooleanType>,
-) : LogicalInfixExpression(left, "AND", right)
+data class AndExpression(
+    override val left: TypeExpression<BooleanType>,
+    override val right: TypeExpression<BooleanType>,
+) : LogicalInfixExpression(left, right)
 
 fun TypeExpression<BooleanType>.and(booleanExpression: TypeExpression<BooleanType>) = AndExpression(this, booleanExpression)
 

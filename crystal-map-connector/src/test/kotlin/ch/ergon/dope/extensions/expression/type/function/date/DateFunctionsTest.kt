@@ -1,6 +1,5 @@
 package ch.ergon.dope.extensions.expression.type.function.date
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.function.date.clockString
 import ch.ergon.dope.extension.expression.type.function.date.dateRangeBy
 import ch.ergon.dope.extension.expression.type.function.date.differenceIn
@@ -25,7 +24,6 @@ import ch.ergon.dope.extension.expression.type.function.date.utcClockString
 import ch.ergon.dope.extension.expression.type.function.date.utcNowString
 import ch.ergon.dope.helper.DateNumberConverterInstance
 import ch.ergon.dope.helper.DateStringConverterInstance
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCMNumberField
@@ -77,9 +75,7 @@ import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateFunctionsTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class DateFunctionsTest {
     @Test
     fun `should support ClockLocalExpression with CM string`() {
         val format = someCMStringField()
@@ -87,7 +83,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = localClockString(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -97,7 +93,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = clockString(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -107,7 +103,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = formattedClockIn(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -118,7 +114,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = formattedClockIn(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -129,7 +125,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = formattedClockIn(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -140,7 +136,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = formattedClockIn(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -151,7 +147,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = formattedClockIn(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -162,7 +158,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = formattedClockIn(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -172,7 +168,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = utcClockString(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -183,7 +179,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -194,7 +190,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -205,7 +201,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -216,7 +212,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -227,7 +223,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -238,7 +234,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -249,7 +245,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -260,7 +256,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -271,7 +267,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -282,7 +278,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.plusDateComponent(increment, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -294,7 +290,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -306,7 +302,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -318,7 +314,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -330,7 +326,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -342,7 +338,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -354,7 +350,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -366,7 +362,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -378,7 +374,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -390,7 +386,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -402,7 +398,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -414,7 +410,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -426,7 +422,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.differenceIn(other, component)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -437,7 +433,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.formatDate(other)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -448,7 +444,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.formatDate(other)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -459,7 +455,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.formatDate(other)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -470,7 +466,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.formatDate(other)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -481,7 +477,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.formatDate(other)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -491,7 +487,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -502,7 +498,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY, tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -513,7 +509,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY, tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -524,7 +520,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY, tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -535,7 +531,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY, tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -546,7 +542,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY, tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -556,7 +552,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -566,7 +562,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractDateComponent(DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -577,7 +573,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -588,7 +584,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -599,7 +595,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -610,7 +606,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -621,7 +617,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -633,7 +629,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -645,7 +641,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -657,7 +653,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -669,7 +665,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -680,7 +676,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -691,7 +687,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -702,7 +698,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -713,7 +709,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -724,7 +720,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -736,7 +732,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -748,7 +744,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -760,7 +756,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = start.dateRangeBy(end, DAY, increment)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -770,7 +766,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.truncateTo(DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -780,7 +776,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.truncateTo(DAY)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -790,7 +786,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toDurationString()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -800,7 +796,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toMillis()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -810,7 +806,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toFormattedDate()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -821,7 +817,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toFormattedDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -832,7 +828,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toFormattedDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -843,7 +839,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toFormattedDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -854,7 +850,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toFormattedDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -864,7 +860,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = localNowString(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -874,7 +870,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = nowString(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -884,7 +880,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = nowStringInZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -895,7 +891,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = nowStringInZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -906,7 +902,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = nowStringInZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -917,7 +913,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = nowStringInZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -928,7 +924,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = nowStringInZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -938,7 +934,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = utcNowString(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -948,7 +944,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = duration.toDurationMillis()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -958,7 +954,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toEpochMillis()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -969,7 +965,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toEpochMillis(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -980,7 +976,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toEpochMillis(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -991,7 +987,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toEpochMillis(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1002,7 +998,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toEpochMillis(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1013,7 +1009,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1024,7 +1020,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1035,7 +1031,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1046,7 +1042,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1057,7 +1053,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1069,7 +1065,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1081,7 +1077,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1093,7 +1089,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1105,7 +1101,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz, format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1116,7 +1112,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1127,7 +1123,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1138,7 +1134,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1149,7 +1145,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1160,7 +1156,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toTimeZone(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1170,7 +1166,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toUtcDate()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1181,7 +1177,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toUtcDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1192,7 +1188,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toUtcDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1203,7 +1199,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toUtcDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1214,7 +1210,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toUtcDate(format)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1224,7 +1220,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.toUtcDate()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1234,7 +1230,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractWeekdayName()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1245,7 +1241,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractWeekdayName(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1256,7 +1252,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractWeekdayName(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1267,7 +1263,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractWeekdayName(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1278,7 +1274,7 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractWeekdayName(tz)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -1288,6 +1284,6 @@ class DateFunctionsTest : ManagerDependentTest {
 
         val actual = date.extractWeekdayName()
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

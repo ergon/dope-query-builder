@@ -1,0 +1,74 @@
+package ch.ergon.dope.resolvable.expression.type.function.date
+
+import ch.ergon.dope.DopeParameters
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
+import ch.ergon.dope.helper.someString
+import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.expression.type.asParameter
+import ch.ergon.dope.resolvable.expression.type.toDopeType
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class StrToUtcExpressionTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
+
+    @Test
+    fun `should support STR_TO_UTC with field`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "STR_TO_UTC(`stringField`)",
+        )
+        val underTest = StrToUtcExpression(someStringField())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support STR_TO_UTC with positional parameter date`() {
+        val date = "2021-01-01T00:00:00Z"
+        val expected = CouchbaseDopeQuery(
+            queryString = "STR_TO_UTC($1)",
+            DopeParameters(positionalParameters = listOf(date)),
+        )
+        val underTest = StrToUtcExpression(date.asParameter())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support STR_TO_UTC with named parameter date`() {
+        val date = "2022-02-02T02:02:02Z"
+        val name = "d"
+        val expected = CouchbaseDopeQuery(
+            queryString = "STR_TO_UTC(\$$name)",
+            DopeParameters(namedParameters = mapOf(name to date)),
+        )
+        val underTest = StrToUtcExpression(date.asParameter(name))
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support toUtcDate extension on TypeExpression`() {
+        val expr = someStringField().toUtcDate()
+        val expected = StrToUtcExpression(someStringField())
+
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
+    }
+
+    @Test
+    fun `should support String toUtcDate extension`() {
+        val raw = someString()
+        val expr = raw.toUtcDate()
+        val expected = StrToUtcExpression(raw.toDopeType())
+
+        assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
+    }
+}

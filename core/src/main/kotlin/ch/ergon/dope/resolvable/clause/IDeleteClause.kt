@@ -22,7 +22,7 @@ interface IDeleteReturningClause : Clause
 
 interface IDeleteOffsetClause : IDeleteReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
-        DeleteReturningClause(returningExpression, *additionalReturningExpressions, parentClause = this)
+        DeleteReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
     fun returningAsterisk(bucket: Bucket? = null) = DeleteReturningClause(asterisk(bucket), parentClause = this)
 

@@ -11,165 +11,139 @@ import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-private enum class JoinType(override val type: String) : MergeType {
-    JOIN("JOIN"),
-    LEFT_JOIN("LEFT JOIN"),
-    INNER_JOIN("INNER JOIN"),
-    RIGHT_JOIN("RIGHT JOIN"),
+enum class JoinType : MergeType {
+    JOIN,
+    LEFT_JOIN,
+    INNER_JOIN,
+    RIGHT_JOIN,
 }
 
-class StandardJoinOnConditionClause<T : ValidType>(
-    mergeable: Joinable,
-    condition: TypeExpression<BooleanType>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.JOIN,
-    mergeable = mergeable,
-    condition = condition,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class StandardJoinOnConditionClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val condition: TypeExpression<BooleanType>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType = JoinType.JOIN
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}
 
-class StandardJoinOnKeysClause<T : ValidType>(
-    mergeable: Joinable,
-    keys: TypeExpression<ArrayType<StringType>>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.JOIN,
-    mergeable = mergeable,
-    keys = keys,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class StandardJoinOnKeysClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val keys: TypeExpression<ArrayType<StringType>>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType = JoinType.JOIN
+    override val condition: TypeExpression<BooleanType>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}
 
-class StandardJoinOnKeyClause<T : ValidType>(
-    mergeable: Joinable,
-    key: TypeExpression<StringType>,
-    bucket: Bucket? = null,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.JOIN,
-    mergeable = mergeable,
-    key = key,
-    bucket = bucket,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class StandardJoinOnKeyClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val key: TypeExpression<StringType>,
+    override val bucket: Bucket? = null,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.JOIN
+    override val condition: TypeExpression<BooleanType>? = null
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+}
 
-class LeftJoinOnConditionClause<T : ValidType>(
-    mergeable: Joinable,
-    condition: TypeExpression<BooleanType>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.LEFT_JOIN,
-    mergeable = mergeable,
-    condition = condition,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class LeftJoinOnConditionClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val condition: TypeExpression<BooleanType>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.LEFT_JOIN
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}
 
-class LeftJoinOnKeysClause<T : ValidType>(
-    mergeable: Joinable,
-    keys: TypeExpression<ArrayType<StringType>>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.LEFT_JOIN,
-    mergeable = mergeable,
-    keys = keys,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class LeftJoinOnKeysClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val keys: TypeExpression<ArrayType<StringType>>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.LEFT_JOIN
+    override val condition: TypeExpression<BooleanType>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}
 
-class LeftJoinOnKeyClause<T : ValidType>(
-    mergeable: Joinable,
-    key: TypeExpression<StringType>,
-    bucket: Bucket? = null,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.LEFT_JOIN,
-    mergeable = mergeable,
-    key = key,
-    bucket = bucket,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class LeftJoinOnKeyClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val key: TypeExpression<StringType>,
+    override val bucket: Bucket? = null,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.LEFT_JOIN
+    override val condition: TypeExpression<BooleanType>? = null
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+}
 
-class InnerJoinOnConditionClause<T : ValidType>(
-    mergeable: Joinable,
-    condition: TypeExpression<BooleanType>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.INNER_JOIN,
-    mergeable = mergeable,
-    condition = condition,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class InnerJoinOnConditionClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val condition: TypeExpression<BooleanType>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.INNER_JOIN
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}
 
-class InnerJoinOnKeysClause<T : ValidType>(
-    mergeable: Joinable,
-    keys: TypeExpression<ArrayType<StringType>>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.INNER_JOIN,
-    mergeable = mergeable,
-    keys = keys,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class InnerJoinOnKeysClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val keys: TypeExpression<ArrayType<StringType>>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.INNER_JOIN
+    override val condition: TypeExpression<BooleanType>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}
 
-class InnerJoinOnKeyClause<T : ValidType>(
-    mergeable: Joinable,
-    key: TypeExpression<StringType>,
-    bucket: Bucket? = null,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.INNER_JOIN,
-    mergeable = mergeable,
-    key = key,
-    bucket = bucket,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class InnerJoinOnKeyClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val key: TypeExpression<StringType>,
+    override val bucket: Bucket? = null,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.INNER_JOIN
+    override val condition: TypeExpression<BooleanType>? = null
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+}
 
-class RightJoinClause<T : ValidType>(
-    mergeable: Joinable,
-    condition: TypeExpression<BooleanType>,
-    hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
-    keysOrIndexHint: KeysOrIndexHint? = null,
-    parentClause: ISelectFromClause<T>,
-) : MergeableClause<T>(
-    mergeType = JoinType.RIGHT_JOIN,
-    mergeable = mergeable,
-    condition = condition,
-    hashOrNestedLoopHint = hashOrNestedLoopHint,
-    keysOrIndexHint = keysOrIndexHint,
-    parentClause = parentClause,
-)
+data class RightJoinClause<T : ValidType>(
+    override val mergeable: Joinable,
+    override val condition: TypeExpression<BooleanType>,
+    override val hashOrNestedLoopHint: HashOrNestedLoopHint? = null,
+    override val keysOrIndexHint: KeysOrIndexHint? = null,
+    override val parentClause: ISelectFromClause<T>,
+) : MergeableClause<T> {
+    override val mergeType: MergeType = JoinType.RIGHT_JOIN
+    override val keys: TypeExpression<ArrayType<StringType>>? = null
+    override val key: TypeExpression<StringType>? = null
+    override val bucket: Bucket? = null
+}

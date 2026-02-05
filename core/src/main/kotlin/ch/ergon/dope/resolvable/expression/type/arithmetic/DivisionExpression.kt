@@ -4,8 +4,8 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class DivisionExpression(left: TypeExpression<NumberType>, right: TypeExpression<NumberType>) :
-    NumberInfixExpression(left, "/", right)
+data class DivisionExpression(override val left: TypeExpression<NumberType>, override val right: TypeExpression<NumberType>) :
+    NumberInfixExpression(left, right)
 
 fun TypeExpression<NumberType>.div(numberExpression: TypeExpression<NumberType>) = DivisionExpression(this, numberExpression)
 

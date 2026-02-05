@@ -1,6 +1,5 @@
 package ch.ergon.dope.extensions.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.returning
@@ -8,7 +7,6 @@ import ch.ergon.dope.extension.clause.returningElement
 import ch.ergon.dope.extension.clause.returningRaw
 import ch.ergon.dope.extension.clause.returningValue
 import ch.ergon.dope.extension.clause.where
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMNumberField
 import ch.ergon.dope.helper.someCMNumberList
@@ -27,9 +25,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DeleteClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class DeleteClauseTest {
     @Test
     fun `should support delete where with CM`() {
         val field = someCMBooleanField()
@@ -38,7 +34,7 @@ class DeleteClauseTest : ManagerDependentTest {
 
         val actual = parentClause.where(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -49,7 +45,7 @@ class DeleteClauseTest : ManagerDependentTest {
 
         val actual = parentClause.limit(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -60,7 +56,7 @@ class DeleteClauseTest : ManagerDependentTest {
 
         val actual = parentClause.offset(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -71,7 +67,7 @@ class DeleteClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returning(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -82,29 +78,31 @@ class DeleteClauseTest : ManagerDependentTest {
 
         val actual = parentClause.returningRaw(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support delete returning value with CM`() {
         val field = someCMBooleanField()
         val parentClause = someDelete()
-        val expected = DeleteReturningSingleClause(field.toDopeType(), returningType = VALUE, parentClause = parentClause)
+        val expected =
+            DeleteReturningSingleClause(field.toDopeType(), returningType = VALUE, parentClause = parentClause)
 
         val actual = parentClause.returningValue(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support delete returning element with CM`() {
         val field = someCMBooleanField()
         val parentClause = someDelete()
-        val expected = DeleteReturningSingleClause(field.toDopeType(), returningType = ELEMENT, parentClause = parentClause)
+        val expected =
+            DeleteReturningSingleClause(field.toDopeType(), returningType = ELEMENT, parentClause = parentClause)
 
         val actual = parentClause.returningElement(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -115,14 +113,16 @@ class DeleteClauseTest : ManagerDependentTest {
         val parentClause = someDelete()
         val expected = DeleteReturningClause(
             field1.toDopeType(),
-            field2.toDopeType(),
-            asterisk(),
-            field3.toDopeType(),
+            listOf(
+                field2.toDopeType(),
+                asterisk(),
+                field3.toDopeType(),
+            ),
             parentClause = parentClause,
         )
 
         val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), asterisk(), field3.toDopeType())
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

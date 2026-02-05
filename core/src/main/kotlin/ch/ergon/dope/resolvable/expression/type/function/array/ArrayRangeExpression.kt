@@ -1,28 +1,15 @@
 package ch.ergon.dope.resolvable.expression.type.function.array
 
-import ch.ergon.dope.DopeQuery
-import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.NumberType
 
-class ArrayRangeExpression(
-    private val start: TypeExpression<NumberType>,
-    private val end: TypeExpression<NumberType>,
-    private val step: TypeExpression<NumberType>? = null,
-) : TypeExpression<ArrayType<NumberType>>, FunctionOperator {
-    override fun toDopeQuery(manager: DopeQueryManager): DopeQuery {
-        val startDopeQuery = start.toDopeQuery(manager)
-        val endDopeQuery = end.toDopeQuery(manager)
-        val stepDopeQuery = step?.toDopeQuery(manager)
-        return DopeQuery(
-            queryString = toFunctionQueryString("ARRAY_RANGE", startDopeQuery, endDopeQuery, stepDopeQuery),
-            parameters = startDopeQuery.parameters.merge(endDopeQuery.parameters, stepDopeQuery?.parameters),
-        )
-    }
-}
+data class ArrayRangeExpression(
+    val start: TypeExpression<NumberType>,
+    val end: TypeExpression<NumberType>,
+    val step: TypeExpression<NumberType>? = null,
+) : ArrayFunctionExpression<ArrayType<NumberType>>(listOfNotNull(start, end, step))
 
 fun arrayRange(
     start: TypeExpression<NumberType>,

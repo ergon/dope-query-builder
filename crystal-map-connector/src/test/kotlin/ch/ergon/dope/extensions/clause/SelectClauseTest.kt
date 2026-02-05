@@ -1,6 +1,5 @@
 package ch.ergon.dope.extensions.clause
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.clause.assignTo
 import ch.ergon.dope.extension.clause.groupBy
 import ch.ergon.dope.extension.clause.innerJoin
@@ -13,10 +12,10 @@ import ch.ergon.dope.extension.clause.limit
 import ch.ergon.dope.extension.clause.nest
 import ch.ergon.dope.extension.clause.offset
 import ch.ergon.dope.extension.clause.orderBy
+import ch.ergon.dope.extension.clause.rightJoin
 import ch.ergon.dope.extension.clause.thenOrderBy
 import ch.ergon.dope.extension.clause.unnest
 import ch.ergon.dope.extension.clause.where
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someCMBooleanField
 import ch.ergon.dope.helper.someCMBooleanList
@@ -39,12 +38,16 @@ import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.InnerJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.InnerNestOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.InnerNestOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.LeftJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.LeftNestOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.LeftNestOnKeysClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.RightJoinClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeyClause
+import ch.ergon.dope.resolvable.clause.model.mergeable.StandardJoinOnKeysClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnKeyClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.StandardNestOnKeysClause
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
@@ -52,9 +55,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SelectClauseTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class SelectClauseTest {
     @Test
     fun `should support select where with CM`() {
         val field = someCMBooleanField()
@@ -63,7 +64,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.where(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -75,7 +76,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.nest(bucket, keys = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -88,7 +89,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.nest(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -100,7 +101,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerNest(bucket, keys = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -113,7 +114,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerNest(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -125,7 +126,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftNest(bucket, keys = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -138,7 +139,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftNest(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -149,7 +150,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -160,7 +161,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -171,7 +172,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.unnest(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -183,7 +184,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, key = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -196,7 +197,19 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select join on keys with CM`() {
+        val bucket = someBucket()
+        val field = someCMStringList()
+        val parentClause = someFrom()
+        val expected = StandardJoinOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.join(bucket, keys = field)
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -208,7 +221,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, key = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -221,7 +234,19 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.innerJoin(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select inner join on keys with CM`() {
+        val bucket = someBucket()
+        val field = someCMStringList()
+        val parentClause = someFrom()
+        val expected = InnerJoinOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.innerJoin(bucket, keys = field)
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -233,7 +258,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, key = field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -246,7 +271,31 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.leftJoin(bucket, key = field, forBucket)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select left join on keys with CM`() {
+        val bucket = someBucket()
+        val field = someCMStringList()
+        val parentClause = someFrom()
+        val expected = LeftJoinOnKeysClause(bucket, keys = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.leftJoin(bucket, keys = field)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support select right join with CM`() {
+        val bucket = someBucket()
+        val field = someCMBooleanField()
+        val parentClause = someFrom()
+        val expected = RightJoinClause(bucket, condition = field.toDopeType(), parentClause = parentClause)
+
+        val actual = parentClause.rightJoin(bucket, key = field)
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -264,7 +313,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -282,7 +331,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -293,7 +342,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.groupBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -301,11 +350,11 @@ class SelectClauseTest : ManagerDependentTest {
         val field1 = someCMBooleanField()
         val field2 = someCMNumberList()
         val parentClause = someSelect()
-        val expected = GroupByClause(field1.toDopeType(), field2.toDopeType(), parentClause = parentClause)
+        val expected = GroupByClause(field1.toDopeType(), listOf(field2.toDopeType()), parentClause = parentClause)
 
         val actual = parentClause.groupBy(field1, field2)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -316,7 +365,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -328,7 +377,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -339,7 +388,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -351,7 +400,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -362,7 +411,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -374,7 +423,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -385,7 +434,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -397,7 +446,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -408,7 +457,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -420,7 +469,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -431,7 +480,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -443,7 +492,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.orderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -452,13 +501,13 @@ class SelectClauseTest : ManagerDependentTest {
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType()),
+            listOf(OrderExpression(field.toDopeType())),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -468,13 +517,13 @@ class SelectClauseTest : ManagerDependentTest {
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType(), orderType),
+            listOf(OrderExpression(field.toDopeType(), orderType)),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -483,13 +532,13 @@ class SelectClauseTest : ManagerDependentTest {
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType()),
+            listOf(OrderExpression(field.toDopeType())),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -499,13 +548,13 @@ class SelectClauseTest : ManagerDependentTest {
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType(), orderType),
+            listOf(OrderExpression(field.toDopeType(), orderType)),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -514,13 +563,13 @@ class SelectClauseTest : ManagerDependentTest {
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType()),
+            listOf(OrderExpression(field.toDopeType())),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -530,13 +579,13 @@ class SelectClauseTest : ManagerDependentTest {
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType(), orderType),
+            listOf(OrderExpression(field.toDopeType(), orderType)),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -545,13 +594,13 @@ class SelectClauseTest : ManagerDependentTest {
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType()),
+            listOf(OrderExpression(field.toDopeType())),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -561,13 +610,13 @@ class SelectClauseTest : ManagerDependentTest {
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType(), orderType),
+            listOf(OrderExpression(field.toDopeType(), orderType)),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -576,13 +625,13 @@ class SelectClauseTest : ManagerDependentTest {
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType()),
+            listOf(OrderExpression(field.toDopeType())),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -592,13 +641,13 @@ class SelectClauseTest : ManagerDependentTest {
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType(), orderType),
+            listOf(OrderExpression(field.toDopeType(), orderType)),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -607,13 +656,13 @@ class SelectClauseTest : ManagerDependentTest {
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType()),
+            listOf(OrderExpression(field.toDopeType())),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -623,13 +672,13 @@ class SelectClauseTest : ManagerDependentTest {
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
-            OrderExpression(field.toDopeType(), orderType),
+            listOf(OrderExpression(field.toDopeType(), orderType)),
             parentClause = parentClause,
         )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -640,7 +689,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.limit(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -651,7 +700,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = parentClause.offset(field)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -662,7 +711,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = name.assignTo(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -673,7 +722,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = name.assignTo(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -684,7 +733,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = name.assignTo(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -695,7 +744,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = name.assignTo(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -706,7 +755,7 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = name.assignTo(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -717,6 +766,6 @@ class SelectClauseTest : ManagerDependentTest {
 
         val actual = name.assignTo(value)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

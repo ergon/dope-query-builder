@@ -1,8 +1,6 @@
 package ch.ergon.dope.extensions.expression.type.relational
 
-import ch.ergon.dope.DopeQueryManager
 import ch.ergon.dope.extension.expression.type.relational.isLessThan
-import ch.ergon.dope.helper.ManagerDependentTest
 import ch.ergon.dope.helper.someCMConverterNumberField
 import ch.ergon.dope.helper.someCMConverterStringField
 import ch.ergon.dope.helper.someCMNumberField
@@ -18,9 +16,7 @@ import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LessThanTest : ManagerDependentTest {
-    override lateinit var manager: DopeQueryManager
-
+class LessThanTest {
     @Test
     fun `should support less than with CMJsonFieldNumber CMJsonFieldNumber`() {
         val left = someCMNumberField()
@@ -29,7 +25,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -40,7 +36,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -51,7 +47,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -62,7 +58,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -73,7 +69,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,7 +80,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -95,7 +91,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -106,7 +102,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -117,7 +113,7 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -128,50 +124,50 @@ class LessThanTest : ManagerDependentTest {
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support less than with CMConverterNumberField date`() {
         val left = someCMConverterNumberField()
         val right = someDate()
-        val expected = LessThanExpression(left.toDopeType(), right.toInstant().epochSecond.toDopeType())
+        val expected = LessThanExpression(left.toDopeType(), right.toInstant().toEpochMilli().toDopeType())
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support less than with date CMConverterNumberField`() {
         val left = someDate()
         val right = someCMConverterNumberField()
-        val expected = LessThanExpression(left.toInstant().epochSecond.toDopeType(), right.toDopeType())
+        val expected = LessThanExpression(left.toInstant().toEpochMilli().toDopeType(), right.toDopeType())
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support less than with CMConverterStringField date`() {
         val left = someCMConverterStringField()
         val right = someDate()
-        val expected = LessThanExpression(left.toDopeType(), right.toInstant().epochSecond.toString().toDopeType())
+        val expected = LessThanExpression(left.toDopeType(), right.toInstant().toEpochMilli().toString().toDopeType())
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should support less than with date CMConverterStringField`() {
         val left = someDate()
         val right = someCMConverterStringField()
-        val expected = LessThanExpression(left.toInstant().epochSecond.toString().toDopeType(), right.toDopeType())
+        val expected = LessThanExpression(left.toInstant().toEpochMilli().toString().toDopeType(), right.toDopeType())
 
         val actual = left.isLessThan(right)
 
-        assertEquals(expected.toDopeQuery(manager), actual.toDopeQuery(manager))
+        assertEquals(expected, actual)
     }
 }

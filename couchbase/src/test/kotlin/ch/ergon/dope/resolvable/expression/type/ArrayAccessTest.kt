@@ -1,0 +1,177 @@
+package ch.ergon.dope.resolvable.expression.type
+
+import ch.ergon.dope.DopeParameters
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
+import ch.ergon.dope.helper.ResolverDependentTest
+import ch.ergon.dope.helper.someNumberField
+import ch.ergon.dope.helper.someSelectRawClause
+import ch.ergon.dope.helper.someStringArrayField
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class ArrayAccessTest : ResolverDependentTest {
+    override lateinit var resolver: CouchbaseResolver
+
+    @Test
+    fun `should support array access`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "`stringArrayField`[`numberField`]",
+        )
+        val underTest = ArrayAccess(someStringArrayField(), someNumberField())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with positional parameter`() {
+        val parameterValue = listOf("value")
+        val expected = CouchbaseDopeQuery(
+            queryString = "$1[`numberField`]",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
+        )
+        val underTest = ArrayAccess(parameterValue.asParameter(), someNumberField())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with named parameter`() {
+        val parameterValue = listOf("value")
+        val parameterName = "param"
+        val expected = CouchbaseDopeQuery(
+            queryString = "\$$parameterName[`numberField`]",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayAccess(parameterValue.asParameter(parameterName), someNumberField())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with positional all parameters`() {
+        val parameterValue = listOf("value")
+        val parameterValue2 = 4
+        val expected = CouchbaseDopeQuery(
+            queryString = "$1[$2]",
+            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+        )
+        val underTest = ArrayAccess(parameterValue.asParameter(), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with named all parameters`() {
+        val parameterValue = listOf("value")
+        val parameterValue2 = 4
+        val parameterName = "param1"
+        val parameterName2 = "param2"
+        val expected = CouchbaseDopeQuery(
+            queryString = "\$$parameterName[\$$parameterName2]",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+        )
+        val underTest = ArrayAccess(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with positional second parameter`() {
+        val parameterValue = 4
+        val expected = CouchbaseDopeQuery(
+            queryString = "`stringArrayField`[$1]",
+            DopeParameters(positionalParameters = listOf(parameterValue)),
+        )
+        val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with named second parameter`() {
+        val parameterValue = 4
+        val parameterName = "param"
+        val expected = CouchbaseDopeQuery(
+            queryString = "`stringArrayField`[\$$parameterName]",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+        )
+        val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter(parameterName))
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access with mixed parameters`() {
+        val parameterValue = listOf("value")
+        val parameterValue2 = 4
+        val parameterName = "param1"
+        val expected = CouchbaseDopeQuery(
+            queryString = "\$$parameterName[$1]",
+            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+        )
+        val underTest = ArrayAccess(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support array access function type`() {
+        val array = someStringArrayField()
+        val index = someNumberField()
+        val expected = ArrayAccess(array, index)
+
+        val actual = array.get(index)
+
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
+    }
+
+    @Test
+    fun `should support array access number`() {
+        val array = someStringArrayField()
+        val index = 1
+        val expected = ArrayAccess(array, index.toDopeType())
+
+        val actual = array.get(index)
+
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
+    }
+
+    @Test
+    fun `should support array access select type`() {
+        val selectClause = someSelectRawClause()
+        val index = someNumberField()
+        val expected = ArrayAccess(selectClause.asExpression(), index)
+
+        val actual = selectClause.get(index)
+
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
+    }
+
+    @Test
+    fun `should support array access select number`() {
+        val selectClause = someSelectRawClause()
+        val index = 1
+        val expected = ArrayAccess(selectClause.asExpression(), index.toDopeType())
+
+        val actual = selectClause.get(index)
+
+        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
+    }
+}

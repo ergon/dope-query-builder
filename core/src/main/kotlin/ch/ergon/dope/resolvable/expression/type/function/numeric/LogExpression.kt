@@ -4,7 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.NumberType
 
-class LogExpression(value: TypeExpression<NumberType>) : NumberFunctionExpression("LOG", value)
+data class LogExpression(override val value: TypeExpression<NumberType>) : NumberFunctionExpression(value)
 
 fun log(value: TypeExpression<NumberType>) = LogExpression(value)
 

@@ -5,9 +5,9 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
-class ArraySortExpression<T : ValidType>(array: TypeExpression<ArrayType<T>>) :
-    ArrayFunctionExpression<T>("ARRAY_SORT", array)
+data class ArraySortExpression<T : ValidType>(val array: TypeExpression<ArrayType<T>>) :
+    ArrayFunctionExpression<ArrayType<T>>(listOf(array))
 
-fun <T : ValidType> arraySort(array: TypeExpression<ArrayType<T>>) = ArraySortExpression(array)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.sort() = ArraySortExpression(this)
 
-fun <T : ValidType> arraySort(selectClause: ISelectOffsetClause<T>) = arraySort(selectClause.asExpression())
+fun <T : ValidType> ISelectOffsetClause<T>.sort() = asExpression().sort()
