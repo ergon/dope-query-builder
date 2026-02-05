@@ -1,9 +1,8 @@
 package ch.ergon.dope.couchbase.resolver
 
 import ch.ergon.dope.DopeParameters
-import ch.ergon.dope.couchbase.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.queryString
+import ch.ergon.dope.couchbase.resolver.expression.queryString
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
@@ -61,11 +60,11 @@ interface WindowResolver : AbstractCouchbaseResolver {
     }
 
     fun resolve(between: Between): CouchbaseDopeQuery {
-        val b = between.between.toDopeQuery(this)
-        val a = between.and.toDopeQuery(this)
+        val betweenDopeQuery = between.between.toDopeQuery(this)
+        val andDopeQuery = between.and.toDopeQuery(this)
         return CouchbaseDopeQuery(
-            formatToQueryString("BETWEEN", b.queryString, "AND", a.queryString, separator = " "),
-            b.parameters.merge(a.parameters),
+            formatToQueryString("BETWEEN", betweenDopeQuery.queryString, "AND", andDopeQuery.queryString, separator = " "),
+            betweenDopeQuery.parameters.merge(andDopeQuery.parameters),
         )
     }
 

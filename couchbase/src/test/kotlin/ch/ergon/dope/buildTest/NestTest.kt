@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someObjectArrayField
@@ -75,22 +75,22 @@ class NestTest {
 
     @Test
     fun `should support left nest on condition`() {
-        val a = airport.alias("a")
-        val r = route.alias("r")
+        val airportBucket = airport.alias("a")
+        val routeBucket = route.alias("r")
         val expected = "SELECT * FROM `airport` AS `a` " +
             "LEFT NEST `route` AS `r` ON `a`.`faa` = `r`.`sourceairport` " +
             "WHERE `a`.`city` = \"Toulouse\" ORDER BY `a`.`airportname`"
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(a)
+            .from(airportBucket)
             .leftNest(
-                r,
-                condition = someStringField("faa", a).isEqualTo(someStringField("sourceairport", r)),
+                routeBucket,
+                condition = someStringField("faa", airportBucket).isEqualTo(someStringField("sourceairport", routeBucket)),
             ).where(
-                someStringField("city", a).isEqualTo("Toulouse"),
+                someStringField("city", airportBucket).isEqualTo("Toulouse"),
             ).orderBy(
-                someStringField("airportname", a),
+                someStringField("airportname", airportBucket),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -115,18 +115,18 @@ class NestTest {
 
     @Test
     fun `should support inner nest on key for bucket`() {
-        val a = airport.alias("a")
-        val r = route.alias("r")
+        val airportBucket = airport.alias("a")
+        val routeBucket = route.alias("r")
         val expected = "SELECT * FROM `airport` AS `a` " +
             "INNER NEST `route` AS `r` ON KEY `r`.`airportid` FOR `a` LIMIT 1"
 
         val actual: String = QueryBuilder
             .selectAsterisk()
-            .from(a)
+            .from(airportBucket)
             .innerNest(
-                r,
-                key = someStringField("airportid", r),
-                bucket = a,
+                routeBucket,
+                key = someStringField("airportid", routeBucket),
+                bucket = airportBucket,
             ).limit(1).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -134,9 +134,9 @@ class NestTest {
 
     @Test
     fun `should support multiple from terms`() {
-        val r = route.alias("r")
-        val a = airport.alias("a")
-        val l = someBucket("landmark").alias("l")
+        val routeBucket = route.alias("r")
+        val airportBucket = airport.alias("a")
+        val landmarkBucket = someBucket("landmark").alias("l")
         val expected = "SELECT * FROM `route` AS `r` " +
             "JOIN `airport` AS `a` ON `r`.`destinationairport` = `a`.`faa` " +
             "NEST `landmark` AS `l` ON `a`.`city` = `l`.`city` " +
@@ -147,19 +147,19 @@ class NestTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                r,
+                routeBucket,
             ).join(
-                a,
-                condition = someStringField("destinationairport", r).isEqualTo(
-                    someStringField("faa", a),
+                airportBucket,
+                condition = someStringField("destinationairport", routeBucket).isEqualTo(
+                    someStringField("faa", airportBucket),
                 ),
             ).nest(
-                l,
-                condition = someStringField("city", a).isEqualTo(
-                    someStringField("city", l),
+                landmarkBucket,
+                condition = someStringField("city", airportBucket).isEqualTo(
+                    someStringField("city", landmarkBucket),
                 ),
             ).unnest(
-                someObjectArrayField("schedule", r).alias("s"),
+                someObjectArrayField("schedule", routeBucket).alias("s"),
             ).where(
                 someNumberField("day", someBucket("s")).isEqualTo(1), // this is so hack-y
             ).limit(10).build(CouchbaseResolver()).queryString

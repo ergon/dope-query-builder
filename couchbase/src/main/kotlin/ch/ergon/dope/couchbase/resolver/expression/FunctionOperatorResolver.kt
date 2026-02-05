@@ -1,15 +1,12 @@
-package ch.ergon.dope.couchbase.resolver
+package ch.ergon.dope.couchbase.resolver.expression
 
-import ch.ergon.dope.couchbase.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
-import ch.ergon.dope.couchbase.symbol
-import ch.ergon.dope.couchbase.toFunctionQueryString
-import ch.ergon.dope.couchbase.util.formatStringListToQueryStringWithBrackets
+import ch.ergon.dope.couchbase.resolver.AbstractCouchbaseResolver
+import ch.ergon.dope.couchbase.util.formatFunctionQueryString
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
-import ch.ergon.dope.resolvable.expression.type.StringPrimitive
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.DecodeExpression
@@ -35,7 +32,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             } else {
                 val bucketDopeQuery = bucket.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = typeExpression.toFunctionQueryString(
+                    queryString = formatFunctionQueryString(
                         symbol = "META",
                         bucketDopeQuery.queryString,
                     ),
@@ -47,7 +44,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         is FunctionExpression<*> -> {
             val argumentsDopeQuery = typeExpression.expressions.mapNotNull { it?.toDopeQuery(this) }
             CouchbaseDopeQuery(
-                queryString = typeExpression.toFunctionQueryString(
+                queryString = formatFunctionQueryString(
                     typeExpression.symbol,
                     *argumentsDopeQuery.map { it.queryString }.toTypedArray(),
                 ),
@@ -56,13 +53,13 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         is NumberFunctionExpression -> {
-            val v = typeExpression.value?.toDopeQuery(this)
-            val a = typeExpression.additionalValue?.toDopeQuery(this)
+            val valueDopeQuery = typeExpression.value?.toDopeQuery(this)
+            val additionalDopeQuery = typeExpression.additionalValue?.toDopeQuery(this)
             val queryString =
-                typeExpression.toFunctionQueryString(typeExpression.symbol, v?.queryString, a?.queryString)
+                formatFunctionQueryString(typeExpression.symbol, valueDopeQuery?.queryString, additionalDopeQuery?.queryString)
             CouchbaseDopeQuery(
                 queryString = queryString,
-                parameters = v?.parameters.orEmpty().merge(a?.parameters),
+                parameters = valueDopeQuery?.parameters.orEmpty().merge(additionalDopeQuery?.parameters),
             )
         }
 
@@ -72,7 +69,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             }
 
             CouchbaseDopeQuery(
-                queryString = typeExpression.toFunctionQueryString(
+                queryString = formatFunctionQueryString(
                     typeExpression.symbol,
                     *argumentsDopeQuery.map { it.queryString }.toTypedArray(),
                 ),
@@ -81,10 +78,11 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         is TokensExpression -> {
+            val inString = typeExpression.inStr.toDopeType().toDopeQuery(this)
             val optionsDopeQuery = typeExpression.options?.toDopeQuery(this).takeIf { !it?.queryString.isNullOrEmpty() }
-            val functionQueryString = typeExpression.toFunctionQueryString(
+            val functionQueryString = formatFunctionQueryString(
                 "TOKENS",
-                formatStringListToQueryStringWithBrackets(typeExpression.inStr, prefix = "[\"", postfix = "\"]"),
+                inString.queryString,
                 optionsDopeQuery?.queryString,
             )
             CouchbaseDopeQuery(functionQueryString, optionsDopeQuery?.parameters.orEmpty())
@@ -95,22 +93,21 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             val optionsString =
                 "{" + typeExpression.options.map { "\"${it.key}\": \"${it.value}\"" }.joinToString(", ") + "}"
             val functionQueryString =
-                typeExpression.toFunctionQueryString("MASK", inputStringDopeQuery.queryString, optionsString)
+                formatFunctionQueryString("MASK", inputStringDopeQuery.queryString, optionsString)
             CouchbaseDopeQuery(functionQueryString, inputStringDopeQuery.parameters)
         }
 
         is ISearchFunctionExpression -> {
             val field = typeExpression.field?.toDopeQuery(this)
             val bucket = typeExpression.bucket?.toDopeQuery(this)
-            val stringSearch =
-                typeExpression.stringSearchExpression?.let { StringPrimitive(it).toDopeQuery(this) }
+            val stringSearchExpression = typeExpression.stringSearchExpression?.toDopeType()?.toDopeQuery(this)
             val objectSearch = typeExpression.objectSearchExpression?.toDopeType()?.toDopeQuery(this)
             val options = typeExpression.options?.toDopeType()?.toDopeQuery(this)
-            val queryString = typeExpression.toFunctionQueryString(
+            val queryString = formatFunctionQueryString(
                 SearchFunctionType.SEARCH.name,
                 field?.queryString,
                 bucket?.queryString,
-                stringSearch?.queryString,
+                stringSearchExpression?.queryString,
                 objectSearch?.queryString,
                 options?.queryString,
             )
@@ -120,7 +117,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         is SearchDependencyFunctionExpression<*> -> {
-            val queryString = typeExpression.toFunctionQueryString(
+            val queryString = formatFunctionQueryString(
                 typeExpression.searchFunctionType.name,
                 typeExpression.outName?.let { "`$it`" },
             )
@@ -131,7 +128,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             val expressionDopeQuery = typeExpression.expression.toDopeQuery(this)
             val filter = typeExpression.filterChars?.toDopeQuery(this)
             val queryString =
-                typeExpression.toFunctionQueryString(
+                formatFunctionQueryString(
                     "TONUMBER",
                     expressionDopeQuery.queryString,
                     filter?.queryString,
@@ -143,7 +140,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             val initialExpressionDopeQuery = typeExpression.initialExpression.toDopeQuery(this)
             val valueIfExistsDopeQuery = typeExpression.valueIfExists.toDopeQuery(this)
             val valueIfNotExistsDopeQuery = typeExpression.valueIfNotExists.toDopeQuery(this)
-            val functionQueryString = typeExpression.toFunctionQueryString(
+            val functionQueryString = formatFunctionQueryString(
                 "NVL2",
                 initialExpressionDopeQuery.queryString,
                 valueIfExistsDopeQuery.queryString,
@@ -173,7 +170,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             val firstPairDopeQuery = pair(typeExpression.searchResult)
             val additionalPairDopeQueries = typeExpression.searchResults.map { pair(it) }
             val defaultDopeQuery = typeExpression.default?.toDopeQuery(this)
-            val functionQueryString = typeExpression.toFunctionQueryString(
+            val functionQueryString = formatFunctionQueryString(
                 "DECODE",
                 decodeExpressionDopeQuery.queryString,
                 firstPairDopeQuery.queryString,

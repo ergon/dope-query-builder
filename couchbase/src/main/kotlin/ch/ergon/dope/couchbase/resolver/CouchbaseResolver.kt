@@ -1,11 +1,9 @@
-package ch.ergon.dope.couchbase
+package ch.ergon.dope.couchbase.resolver
 
 import ch.ergon.dope.DopeQueryManager
-import ch.ergon.dope.couchbase.resolver.ClauseResolver
-import ch.ergon.dope.couchbase.resolver.ExpressionResolver
-import ch.ergon.dope.couchbase.resolver.InfixOperatorResolver
-import ch.ergon.dope.couchbase.resolver.KeySpaceResolver
-import ch.ergon.dope.couchbase.resolver.WindowResolver
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.clause.ClauseResolver
+import ch.ergon.dope.couchbase.resolver.expression.ExpressionResolver
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.bucket.AliasedBucketDefinition
@@ -41,7 +39,7 @@ interface AbstractCouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
 
 class CouchbaseResolver(
     override val manager: DopeQueryManager = DopeQueryManager(),
-) : ClauseResolver, ExpressionResolver, InfixOperatorResolver, KeySpaceResolver, WindowResolver {
+) : ClauseResolver, ExpressionResolver, KeySpaceResolver, WindowResolver {
     override fun resolve(resolvable: Resolvable): CouchbaseDopeQuery =
         when (resolvable) {
             is Clause -> resolve(resolvable)

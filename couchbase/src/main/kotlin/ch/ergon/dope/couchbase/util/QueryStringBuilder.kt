@@ -1,9 +1,6 @@
 package ch.ergon.dope.couchbase.util
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.resolvable.expression.type.function.array.contains
-import ch.ergon.dope.resolvable.expression.type.function.string.contains
-import ch.ergon.dope.resolvable.expression.type.logic.not
 
 internal fun formatToQueryString(left: String, vararg right: String, separator: String = ", ") =
     "$left ${right.joinToString(separator)}"
@@ -26,14 +23,6 @@ internal fun formatPathToQueryString(name: String, path: String) =
         "${path.split(".").joinToString(".") { "`$it`" }}.`$name`"
     }
 
-internal fun formatStringListToQueryStringWithBrackets(
-    dopeQueries: List<String>,
-    separator: String = ", ",
-    prefix: String = "(",
-    postfix: String = ")",
-) =
-    dopeQueries.joinToString(separator, prefix, postfix)
-
 internal fun formatPartsToQueryStringWithSpace(vararg string: String?) =
     listOfNotNull(*string).joinToString(separator = " ")
 
@@ -53,3 +42,6 @@ internal fun formatQueryStringWithNullableFirst(
     parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
         "$symbol " +
         listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString }
+
+internal fun formatFunctionQueryString(symbol: String, vararg arguments: String?): String =
+    arguments.filterNotNull().joinToString(prefix = "$symbol(", postfix = ")")

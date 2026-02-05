@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someBooleanExpression

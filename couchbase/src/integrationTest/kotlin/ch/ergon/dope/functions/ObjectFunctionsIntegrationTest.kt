@@ -1,8 +1,8 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.detailsField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket

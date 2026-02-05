@@ -1,7 +1,6 @@
-package ch.ergon.dope.couchbase.resolver
+package ch.ergon.dope.couchbase.resolver.expression
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.functionName
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge

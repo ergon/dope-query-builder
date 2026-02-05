@@ -1,8 +1,7 @@
-package ch.ergon.dope.couchbase.resolver
+package ch.ergon.dope.couchbase.resolver.clause
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.queryString
-import ch.ergon.dope.couchbase.toWithDefinitionDopeQuery
+import ch.ergon.dope.couchbase.resolver.expression.queryString
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
@@ -12,9 +11,6 @@ import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
-import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_BUILD
-import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.HASH_PROBE
-import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
 import ch.ergon.dope.resolvable.clause.joinHint.IndexHint
 import ch.ergon.dope.resolvable.clause.joinHint.KeysHintClass
 import ch.ergon.dope.resolvable.clause.joinHint.KeysOrIndexHint
@@ -30,6 +26,9 @@ import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import ch.ergon.dope.resolvable.clause.model.WhereClause
 import ch.ergon.dope.resolvable.clause.model.WithClause
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
+import ch.ergon.dope.resolver.QueryResolver
+import ch.ergon.dope.validtype.ValidType
 
 interface ClauseResolver : SelectClauseResolver {
     fun resolve(clause: Clause) =
@@ -76,8 +75,8 @@ interface ClauseResolver : SelectClauseResolver {
             }
 
             is UpdateClause -> {
-                val updatable = when (val u = clause.updatable) {
-                    is AliasedBucket -> u.asBucketDefinition().toDopeQuery(this)
+                val updatable = when (val updatable = clause.updatable) {
+                    is AliasedBucket -> updatable.asBucketDefinition().toDopeQuery(this)
                     else -> clause.updatable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
@@ -87,8 +86,8 @@ interface ClauseResolver : SelectClauseResolver {
             }
 
             is DeleteClause -> {
-                val bucket = when (val d = clause.deletable) {
-                    is AliasedBucket -> d.asBucketDefinition().toDopeQuery(this)
+                val bucket = when (val deletable = clause.deletable) {
+                    is AliasedBucket -> deletable.asBucketDefinition().toDopeQuery(this)
                     else -> clause.deletable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
@@ -192,9 +191,9 @@ interface ClauseResolver : SelectClauseResolver {
     }
 
     fun resolve(hashOrNestedLoopHint: HashOrNestedLoopHint): CouchbaseDopeQuery = when (hashOrNestedLoopHint) {
-        HASH_BUILD -> CouchbaseDopeQuery("HASH (BUILD)")
-        HASH_PROBE -> CouchbaseDopeQuery("HASH (PROBE)")
-        NESTED_LOOP -> CouchbaseDopeQuery("NL")
+        HashOrNestedLoopHint.HASH_BUILD -> CouchbaseDopeQuery("HASH (BUILD)")
+        HashOrNestedLoopHint.HASH_PROBE -> CouchbaseDopeQuery("HASH (PROBE)")
+        HashOrNestedLoopHint.NESTED_LOOP -> CouchbaseDopeQuery("NL")
     }
 
     fun resolve(keysOrIndexHint: KeysOrIndexHint): CouchbaseDopeQuery = when (keysOrIndexHint) {
@@ -210,5 +209,13 @@ interface ClauseResolver : SelectClauseResolver {
                 parameters = refs.map { it.parameters }.merge(),
             )
         }
+    }
+
+    private fun <T : ValidType> DopeVariable<T>.toWithDefinitionDopeQuery(resolver: QueryResolver<CouchbaseDopeQuery>): CouchbaseDopeQuery {
+        val expressionDopeQuery = value.toDopeQuery(resolver)
+        return CouchbaseDopeQuery(
+            queryString = "`$name` AS (${expressionDopeQuery.queryString})",
+            parameters = expressionDopeQuery.parameters,
+        )
     }
 }

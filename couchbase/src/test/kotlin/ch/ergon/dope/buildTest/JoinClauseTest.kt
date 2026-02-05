@@ -1,8 +1,8 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
@@ -400,17 +400,17 @@ class JoinClauseTest {
             "JOIN `airline` AS `a` " +
             "ON `r`.`airlineid` = META(`a`).`id`"
 
-        val r = someBucket("route").alias("r")
-        val a = airline.alias("a")
+        val routeBucket = someBucket("route").alias("r")
+        val airlineBucket = airline.alias("a")
 
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                r,
+                routeBucket,
             ).join(
-                a,
-                condition = someStringField("airlineid", r).isEqualTo(
-                    meta(a).id,
+                airlineBucket,
+                condition = someStringField("airlineid", routeBucket).isEqualTo(
+                    meta(airlineBucket).id,
                 ),
             ).build(CouchbaseResolver()).queryString
 
@@ -421,15 +421,15 @@ class JoinClauseTest {
     fun `Simple Join Example 2`() {
         val expected = "SELECT * FROM `route` AS `r` JOIN `airline` ON KEYS `r`.`airlineid`"
 
-        val r = someBucket("route").alias("r")
+        val routeBucket = someBucket("route").alias("r")
 
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                r,
+                routeBucket,
             ).join(
                 airline,
-                key = someStringField("airlineid", r),
+                key = someStringField("airlineid", routeBucket),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)

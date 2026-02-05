@@ -1,7 +1,7 @@
-package ch.ergon.dope.couchbase.resolver
+package ch.ergon.dope.couchbase.resolver.clause
 
-import ch.ergon.dope.couchbase.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.util.formatPartsToQueryStringWithSpace
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.AliasedSelectClause
@@ -20,17 +20,17 @@ interface MergeableClauseResolver : AbstractCouchbaseResolver {
             else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
         }
         val parent = selectClause.parentClause.toDopeQuery(this)
-        val mergeable = when (val m = selectClause.mergeable) {
-            is AliasedBucket -> m.asBucketDefinition().toDopeQuery(this)
-            is AliasedSelectClause<*> -> m.asAliasedSelectClauseDefinition().toDopeQuery(this)
+        val mergeable = when (val mergeable = selectClause.mergeable) {
+            is AliasedBucket -> mergeable.asBucketDefinition().toDopeQuery(this)
+            is AliasedSelectClause<*> -> mergeable.asAliasedSelectClauseDefinition().toDopeQuery(this)
             else -> selectClause.mergeable.toDopeQuery(this)
         }
         val hint = if (selectClause.hashOrNestedLoopHint != null || selectClause.keysOrIndexHint != null) {
             val hashOrNestedLoopHintDopeQuery = selectClause.hashOrNestedLoopHint?.toDopeQuery(this)
-            val k = selectClause.keysOrIndexHint?.toDopeQuery(this)
+            val keysOrIndexHintQuery = selectClause.keysOrIndexHint?.toDopeQuery(this)
             CouchbaseDopeQuery(
-                formatPartsToQueryStringWithSpace("USE", hashOrNestedLoopHintDopeQuery?.queryString, k?.queryString),
-                hashOrNestedLoopHintDopeQuery?.parameters.orEmpty().merge(k?.parameters),
+                formatPartsToQueryStringWithSpace("USE", hashOrNestedLoopHintDopeQuery?.queryString, keysOrIndexHintQuery?.queryString),
+                hashOrNestedLoopHintDopeQuery?.parameters.orEmpty().merge(keysOrIndexHintQuery?.parameters),
             )
         } else {
             null

@@ -1,7 +1,6 @@
-package ch.ergon.dope.couchbase.resolver
+package ch.ergon.dope.couchbase.resolver.clause
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.toLetDefinitionDopeQuery
 import ch.ergon.dope.couchbase.util.formatQueryStringWithNullableFirst
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.orEmpty
@@ -20,6 +19,9 @@ import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
 import ch.ergon.dope.resolvable.clause.model.WindowClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
+import ch.ergon.dope.resolvable.expression.type.DopeVariable
+import ch.ergon.dope.resolver.QueryResolver
+import ch.ergon.dope.validtype.ValidType
 
 interface SelectClauseResolver : MergeableClauseResolver {
     fun resolve(selectClause: ISelectOffsetClause<*>): CouchbaseDopeQuery = when (selectClause) {
@@ -199,5 +201,13 @@ interface SelectClauseResolver : MergeableClauseResolver {
         is MergeableClause<*> -> resolve(selectClause)
 
         else -> throw UnsupportedOperationException("Unsupported selectClause type: ${selectClause.javaClass.name}")
+    }
+
+    private fun <T : ValidType> DopeVariable<T>.toLetDefinitionDopeQuery(resolver: QueryResolver<CouchbaseDopeQuery>): CouchbaseDopeQuery {
+        val valueDopeQuery = value.toDopeQuery(resolver)
+        return CouchbaseDopeQuery(
+            queryString = "`$name` = ${valueDopeQuery.queryString}",
+            parameters = valueDopeQuery.parameters,
+        )
     }
 }

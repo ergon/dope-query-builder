@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.type.relational
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someStringField
 import kotlin.test.Test

@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
@@ -674,7 +674,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
     @Test
     fun `should Support Tokens`() {
-        val expected = "SELECT TOKENS([\"jim@example.com, kim@example.com, https://example.com/, 408-555-1212\"], " +
+        val expected = "SELECT TOKENS([\"jim@example.com\", \"kim@example.com\", \"https://example.com/\", \"408-555-1212\"], " +
             "{\"name\": true})"
 
         val actual: String = QueryBuilder

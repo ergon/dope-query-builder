@@ -1,8 +1,7 @@
 package ch.ergon.dope.couchbase.resolver
 
-import ch.ergon.dope.couchbase.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.queryString
+import ch.ergon.dope.couchbase.resolver.expression.queryString
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
@@ -16,8 +15,8 @@ interface KeySpaceResolver : AbstractCouchbaseResolver {
         CouchbaseDopeQuery("`${aliasedBucket.name}` AS `${aliasedBucket.alias}`")
 
     fun resolve(useKeysClass: UseKeysClass): CouchbaseDopeQuery {
-        val bucket = when (val b = useKeysClass.bucket) {
-            is AliasedBucket -> b.asBucketDefinition().toDopeQuery(this)
+        val bucket = when (val bucket = useKeysClass.bucket) {
+            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
             else -> useKeysClass.bucket.toDopeQuery(this)
         }
         val keys = useKeysClass.useKeys.toDopeQuery(this)
