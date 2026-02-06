@@ -21,7 +21,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -33,7 +33,7 @@ class LpadTest {
         val char = someStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char)
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -45,7 +45,7 @@ class LpadTest {
         val char = someString()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -57,7 +57,7 @@ class LpadTest {
         val char = someString()
         val expected = LpadExpression(string.toDopeType(), size, char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -69,7 +69,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string.toDopeType(), size, char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -81,7 +81,7 @@ class LpadTest {
         val char = someStringField()
         val expected = LpadExpression(string.toDopeType(), size, char)
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -93,7 +93,7 @@ class LpadTest {
         val char = someStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char)
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -105,7 +105,7 @@ class LpadTest {
         val char = someString()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -117,7 +117,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -129,7 +129,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string, size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -141,7 +141,7 @@ class LpadTest {
         val char = someString()
         val expected = LpadExpression(string, size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -153,7 +153,7 @@ class LpadTest {
         val char = someStringField()
         val expected = LpadExpression(string, size.toDopeType(), char)
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -165,7 +165,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string, size, char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -177,7 +177,7 @@ class LpadTest {
         val char = someString()
         val expected = LpadExpression(string, size, char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -189,7 +189,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -201,7 +201,7 @@ class LpadTest {
         val char = someString()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -213,7 +213,7 @@ class LpadTest {
         val char = someStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char)
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -225,7 +225,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string.toDopeType(), size.toDopeType(), char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }
@@ -237,7 +237,7 @@ class LpadTest {
         val char = someCMStringField()
         val expected = LpadExpression(string.toDopeType(), size, char.toDopeType())
 
-        val actual = lpad(string, size, char)
+        val actual = string.lpad(size, char)
 
         assertEquals(expected, actual)
     }

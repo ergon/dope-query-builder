@@ -1,5 +1,7 @@
-package ch.ergon.dope.couchbase
+package ch.ergon.dope.couchbase.resolver.expression
 
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolver.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator

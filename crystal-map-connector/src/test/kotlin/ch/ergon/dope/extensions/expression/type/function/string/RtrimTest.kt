@@ -17,7 +17,7 @@ class RtrimTest {
         val extra = someCMStringField()
         val expected = RtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = rtrim(string, extra)
+        val actual = string.rtrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -28,7 +28,7 @@ class RtrimTest {
         val extra = someString()
         val expected = RtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = rtrim(string, extra)
+        val actual = string.rtrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -39,7 +39,7 @@ class RtrimTest {
         val extra = someCMStringField()
         val expected = RtrimExpression(string.toDopeType(), extra.toDopeType())
 
-        val actual = rtrim(string, extra)
+        val actual = string.rtrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -50,7 +50,7 @@ class RtrimTest {
         val extra = someCMStringField()
         val expected = RtrimExpression(string, extra.toDopeType())
 
-        val actual = rtrim(string, extra)
+        val actual = string.rtrim(extra)
 
         assertEquals(expected, actual)
     }
@@ -61,7 +61,7 @@ class RtrimTest {
         val extra = someStringField()
         val expected = RtrimExpression(string.toDopeType(), extra)
 
-        val actual = rtrim(string, extra)
+        val actual = string.rtrim(extra)
 
         assertEquals(expected, actual)
     }

@@ -9,6 +9,6 @@ import ch.ergon.dope.validtype.StringType
 data class SuffixesExpression(val inStr: TypeExpression<StringType>) :
     FunctionExpression<ArrayType<StringType>>(listOf(inStr))
 
-fun suffixes(inStr: TypeExpression<StringType>) = SuffixesExpression(inStr)
+fun TypeExpression<StringType>.suffixes() = SuffixesExpression(this)
 
-fun suffixes(inStr: String) = suffixes(inStr.toDopeType())
+fun String.suffixes() = toDopeType().suffixes()

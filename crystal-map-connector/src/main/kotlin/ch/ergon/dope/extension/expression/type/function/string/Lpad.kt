@@ -8,59 +8,59 @@ import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun lpad(inStr: CMJsonField<String>, size: CMJsonField<Number>, prefix: CMJsonField<String>) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun CMJsonField<String>.lpad(size: CMJsonField<Number>, prefix: CMJsonField<String>) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: CMJsonField<String>, size: CMJsonField<Number>, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix)
+fun CMJsonField<String>.lpad(size: CMJsonField<Number>, prefix: TypeExpression<StringType>? = null) =
+    toDopeType().lpad(size.toDopeType(), prefix)
 
-fun lpad(inStr: CMJsonField<String>, size: CMJsonField<Number>, prefix: String) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun CMJsonField<String>.lpad(size: CMJsonField<Number>, prefix: String) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: CMJsonField<String>, size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
-    lpad(inStr.toDopeType(), size, prefix.toDopeType())
+fun CMJsonField<String>.lpad(size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
+    toDopeType().lpad(size, prefix.toDopeType())
 
-fun lpad(inStr: CMJsonField<String>, size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr.toDopeType(), size, prefix)
+fun CMJsonField<String>.lpad(size: TypeExpression<NumberType>, prefix: TypeExpression<StringType>? = null) =
+    toDopeType().lpad(size, prefix)
 
-fun lpad(inStr: CMJsonField<String>, size: TypeExpression<NumberType>, prefix: String) =
-    lpad(inStr.toDopeType(), size, prefix.toDopeType())
+fun CMJsonField<String>.lpad(size: TypeExpression<NumberType>, prefix: String) =
+    toDopeType().lpad(size, prefix.toDopeType())
 
-fun lpad(inStr: CMJsonField<String>, size: Number, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix)
+fun CMJsonField<String>.lpad(size: Number, prefix: TypeExpression<StringType>? = null) =
+    toDopeType().lpad(size.toDopeType(), prefix)
 
-fun lpad(inStr: CMJsonField<String>, size: Number, prefix: String) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun CMJsonField<String>.lpad(size: Number, prefix: String) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: CMJsonField<String>, size: Number, prefix: CMJsonField<String>) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun CMJsonField<String>.lpad(size: Number, prefix: CMJsonField<String>) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: CMJsonField<Number>, prefix: CMJsonField<String>) =
-    lpad(inStr, size.toDopeType(), prefix.toDopeType())
+fun TypeExpression<StringType>.lpad(size: CMJsonField<Number>, prefix: CMJsonField<String>) =
+    lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: CMJsonField<Number>, prefix: String) =
-    lpad(inStr, size.toDopeType(), prefix.toDopeType())
+fun TypeExpression<StringType>.lpad(size: CMJsonField<Number>, prefix: String) =
+    lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: CMJsonField<Number>, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr, size.toDopeType(), prefix)
+fun TypeExpression<StringType>.lpad(size: CMJsonField<Number>, prefix: TypeExpression<StringType>? = null) =
+    lpad(size.toDopeType(), prefix)
 
-fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
-    lpad(inStr, size, prefix.toDopeType())
+fun TypeExpression<StringType>.lpad(size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
+    lpad(size, prefix.toDopeType())
 
-fun lpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, prefix: String) =
-    lpad(inStr, size, prefix.toDopeType())
+fun TypeExpression<StringType>.lpad(size: TypeExpression<NumberType>, prefix: String) =
+    lpad(size, prefix.toDopeType())
 
-fun lpad(inStr: String, size: CMJsonField<Number>, prefix: CMJsonField<String>) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun String.lpad(size: CMJsonField<Number>, prefix: CMJsonField<String>) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: String, size: CMJsonField<Number>, prefix: String) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun String.lpad(size: CMJsonField<Number>, prefix: String) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: String, size: CMJsonField<Number>, prefix: TypeExpression<StringType>? = null) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix)
+fun String.lpad(size: CMJsonField<Number>, prefix: TypeExpression<StringType>? = null) =
+    toDopeType().lpad(size.toDopeType(), prefix)
 
-fun lpad(inStr: String, size: Number, prefix: CMJsonField<String>) =
-    lpad(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
+fun String.lpad(size: Number, prefix: CMJsonField<String>) =
+    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
 
-fun lpad(inStr: String, size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
-    lpad(inStr.toDopeType(), size, prefix.toDopeType())
+fun String.lpad(size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
+    toDopeType().lpad(size, prefix.toDopeType())

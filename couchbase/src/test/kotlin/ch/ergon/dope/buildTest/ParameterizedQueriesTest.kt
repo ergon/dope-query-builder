@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someKeyspace
@@ -152,10 +152,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
                 false.asParameter("name").or(
                     true.asParameter().and(false.asParameter("MagicNumber")),
                 ),
-                concat(
-                    "Mice".asParameter("superMagic"),
-                    "Never to be seen".asParameter(),
-                ).alias("one"),
+                "Mice".asParameter("superMagic").concat("Never to be seen".asParameter()).alias("one"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -173,10 +170,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
                         false.asParameter("MagicNumber"),
                     ),
                 ).alias("one"),
-                concat(
-                    "Rabbit".asParameter("superMagic"),
-                    "Void".asParameter(),
-                ),
+                "Rabbit".asParameter("superMagic").concat("Void".asParameter()),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -204,10 +198,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    "Good Day!".asParameter("greetingLeft"),
-                    "Good Morning".asParameter("greetingRight"),
-                ),
+                "Good Day!".asParameter("greetingLeft").concat("Good Morning".asParameter("greetingRight")),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -219,10 +210,7 @@ class ParameterizedQueriesTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                concat(
-                    "Salut".asParameter("greetingLeft"),
-                    ("Good Afternoon".asParameter("greetingRight")),
-                ).alias("concatted"),
+                "Salut".asParameter("greetingLeft").concat(("Good Afternoon".asParameter("greetingRight"))).alias("concatted"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)

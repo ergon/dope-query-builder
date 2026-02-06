@@ -1,11 +1,15 @@
-package ch.ergon.dope.couchbase
+package ch.ergon.dope.couchbase.resolver.expression
 
+import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.util.formatKeyspace
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.AliasedSelectClauseDefinition
+import ch.ergon.dope.resolvable.Asterisk
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
@@ -43,12 +47,18 @@ interface ExpressionResolver : TypeExpressionResolver {
                 expression.nullsModifier?.let { if (it.name == "RESPECT") "RESPECT NULLS" else "IGNORE NULLS" },
                 over?.queryString,
             ).joinToString(" ")
-            CouchbaseDopeQuery(functionCallQueryString, argumentsDopeQuery.map { it.parameters }.merge(over?.parameters))
+            CouchbaseDopeQuery(
+                functionCallQueryString,
+                argumentsDopeQuery.map { it.parameters }.merge(over?.parameters),
+            )
         }
 
         is AliasedRowScopeExpression<*> -> {
             val inner = expression.rowScopeExpression.toDopeQuery(this)
-            CouchbaseDopeQuery(formatToQueryStringWithSymbol(inner.queryString, "AS", "`${expression.alias}`"), inner.parameters)
+            CouchbaseDopeQuery(
+                formatToQueryStringWithSymbol(inner.queryString, "AS", "`${expression.alias}`"),
+                inner.parameters,
+            )
         }
 
         is AliasedSelectClause<*> -> CouchbaseDopeQuery("`${expression.alias}`")
@@ -59,5 +69,10 @@ interface ExpressionResolver : TypeExpressionResolver {
         }
 
         else -> throw UnsupportedOperationException("Unsupported expression type: ${expression.javaClass.name}")
+    }
+
+    fun resolve(asterisk: Asterisk): CouchbaseDopeQuery {
+        val path = asterisk.path?.toDopeQuery(this)?.queryString
+        return CouchbaseDopeQuery(queryString = path?.let { "$it.*" } ?: "*")
     }
 }

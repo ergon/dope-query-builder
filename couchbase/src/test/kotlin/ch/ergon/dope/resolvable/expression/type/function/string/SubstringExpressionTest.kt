@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
@@ -63,7 +63,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val length = someNumberField()
         val expected = SubstringExpression(inStr, startPos, length)
 
-        val actual = substring(inStr, startPos, length)
+        val actual = inStr.substring(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -74,7 +74,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val startPos = someNumberField()
         val expected = SubstringExpression(inStr, startPos)
 
-        val actual = substring(inStr, startPos)
+        val actual = inStr.substring(startPos)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -86,7 +86,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val length = 1
         val expected = SubstringExpression(inStr, startPos, length.toDopeType())
 
-        val actual = substring(inStr, startPos, length)
+        val actual = inStr.substring(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -98,7 +98,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val length = 2
         val expected = SubstringExpression(inStr, startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring(inStr, startPos, length)
+        val actual = inStr.substring(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -109,7 +109,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val startPos = 1
         val expected = SubstringExpression(inStr, startPos.toDopeType())
 
-        val actual = substring(inStr, startPos)
+        val actual = inStr.substring(startPos)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -121,7 +121,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val length = someNumberField()
         val expected = SubstringExpression(inStr.toDopeType(), startPos, length)
 
-        val actual = substring(inStr, startPos, length)
+        val actual = inStr.substring(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -133,7 +133,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val length = 1
         val expected = SubstringExpression(inStr.toDopeType(), startPos, length.toDopeType())
 
-        val actual = substring(inStr, startPos, length)
+        val actual = inStr.substring(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -145,7 +145,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val length = 2
         val expected = SubstringExpression(inStr.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = substring(inStr, startPos, length)
+        val actual = inStr.substring(startPos, length)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -156,7 +156,7 @@ class SubstringExpressionTest : ResolverDependentTest {
         val startPos = 1
         val expected = SubstringExpression(inStr.toDopeType(), startPos.toDopeType())
 
-        val actual = substring(inStr, startPos)
+        val actual = inStr.substring(startPos)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

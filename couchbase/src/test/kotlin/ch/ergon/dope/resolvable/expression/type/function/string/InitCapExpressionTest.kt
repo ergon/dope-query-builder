@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -60,7 +60,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = InitCapExpression(inStr)
 
-        val actual = initCap(inStr)
+        val actual = inStr.initCap()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = InitCapExpression(inStr.toDopeType())
 
-        val actual = initCap(inStr)
+        val actual = inStr.initCap()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -80,7 +80,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = TitleExpression(inStr)
 
-        val actual = title(inStr)
+        val actual = inStr.title()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -90,7 +90,7 @@ class InitCapExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = TitleExpression(inStr.toDopeType())
 
-        val actual = title(inStr)
+        val actual = inStr.title()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

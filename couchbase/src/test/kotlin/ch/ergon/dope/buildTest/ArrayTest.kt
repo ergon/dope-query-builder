@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberArrayField
@@ -154,7 +154,7 @@ class ArrayTest {
         val actual: String = QueryBuilder
             .select(
                 listOf(
-                    concat("string".toDopeType(), someStringField()),
+                    "string".toDopeType().concat(someStringField()),
                     "hallo".toDopeType(),
                 ).toDopeType().alias("test"),
                 23.toDopeType(),

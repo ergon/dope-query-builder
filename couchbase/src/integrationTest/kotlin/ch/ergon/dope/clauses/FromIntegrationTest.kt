@@ -1,8 +1,8 @@
 package ch.ergon.dope.clauses
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testAppOrderAuditKeyspace
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace

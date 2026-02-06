@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -60,7 +60,7 @@ class UpperExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = UpperExpression(inStr)
 
-        val actual = upper(inStr)
+        val actual = inStr.upper()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class UpperExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = UpperExpression(inStr.toDopeType())
 
-        val actual = upper(inStr)
+        val actual = inStr.toDopeType().upper()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

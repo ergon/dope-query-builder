@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
 import kotlin.test.Test
@@ -13,7 +13,7 @@ class TokensExpressionTest : ResolverDependentTest {
     @Test
     fun `should support tokens`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "TOKENS([\"test, test2\"], {\"name\": false, \"specials\": false})",
+            queryString = "TOKENS([\"test\", \"test2\"])",
         )
         val underTest = TokensExpression(listOf("test", "test2"))
 
@@ -27,7 +27,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val inStr = listOf("test1", "test2")
         val expected = TokensExpression(inStr)
 
-        val actual = tokens(inStr)
+        val actual = inStr.tokens()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -38,7 +38,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val opt = CustomTokenOptions(name = true, specials = true)
         val expected = TokensExpression(inStr, opt)
 
-        val actual = tokens(inStr, opt)
+        val actual = inStr.tokens(opt)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

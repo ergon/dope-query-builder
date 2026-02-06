@@ -2,8 +2,8 @@ package ch.ergon.dope.resolvable.expression.windowfunction
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.couchbase.queryString
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.expression.queryString
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someNumber

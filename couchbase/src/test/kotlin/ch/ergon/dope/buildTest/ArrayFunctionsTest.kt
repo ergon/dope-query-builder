@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
@@ -164,9 +164,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                lower(
-                    someStringArrayField().ifNull(),
-                ),
+                someStringArrayField().ifNull().lower(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -214,9 +212,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                lower(
-                    someStringArrayField().max(),
-                ),
+                someStringArrayField().max().lower(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -228,9 +224,7 @@ class ArrayFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                lower(
-                    someStringArrayField().min(),
-                ),
+                someStringArrayField().min().lower(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

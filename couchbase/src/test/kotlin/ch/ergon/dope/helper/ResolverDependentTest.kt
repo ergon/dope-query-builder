@@ -1,6 +1,6 @@
 package ch.ergon.dope.helper
 
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import kotlin.test.BeforeTest
 
 interface ResolverDependentTest {

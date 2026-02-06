@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -93,7 +93,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val string = someStringField()
         val expected = Concat2Expression(separator, string)
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -105,7 +105,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val expected =
             Concat2Expression(separator.toDopeType(), string)
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -117,7 +117,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val expected =
             Concat2Expression(separator, string.toDopeType())
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -131,7 +131,7 @@ class Concat2ExpressionTest : ResolverDependentTest {
             string.toDopeType(),
         )
 
-        val actual = concat2(separator, string)
+        val actual = separator.concat2(string)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

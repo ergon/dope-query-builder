@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanField
 import ch.ergon.dope.helper.someFromClause
@@ -499,7 +499,7 @@ class QueryBuilderTest : ResolverDependentTest {
             ).from(
                 someKeyspace(),
             ).where(
-                someStringField("email").isLike(concat(someStringField("name"), "%", "@gmail.com")),
+                someStringField("email").isLike(someStringField("name").concat("%", "@gmail.com")),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)

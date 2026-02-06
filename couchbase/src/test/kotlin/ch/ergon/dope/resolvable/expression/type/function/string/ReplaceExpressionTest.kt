@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someInt
 import ch.ergon.dope.helper.someNumberField
@@ -38,7 +38,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField("numberOfInstances")
         val expected = ReplaceExpression(inStr, searchStr, replace, numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -51,7 +51,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr, searchStr, replace, numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -64,7 +64,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField("numberOfInstances")
         val expected = ReplaceExpression(inStr, searchStr, replace.toDopeType(), numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -77,7 +77,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr, searchStr, replace.toDopeType(), numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -90,7 +90,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField()
         val expected = ReplaceExpression(inStr, searchStr.toDopeType(), replace, numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -103,7 +103,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr, searchStr.toDopeType(), replace, numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -116,7 +116,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField()
         val expected = ReplaceExpression(inStr, searchStr.toDopeType(), replace.toDopeType(), numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -129,7 +129,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr, searchStr.toDopeType(), replace.toDopeType(), numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField("numberOfInstances")
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr, replace, numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -155,7 +155,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr, replace, numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -168,7 +168,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField("numberOfInstances")
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr, replace.toDopeType(), numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -181,7 +181,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr, replace.toDopeType(), numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -194,7 +194,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField()
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr.toDopeType(), replace, numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -207,7 +207,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr.toDopeType(), replace, numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -220,7 +220,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someNumberField()
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr.toDopeType(), replace.toDopeType(), numberOfInstances)
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -233,7 +233,7 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val numberOfInstances = someInt()
         val expected = ReplaceExpression(inStr.toDopeType(), searchStr.toDopeType(), replace.toDopeType(), numberOfInstances.toDopeType())
 
-        val actual = replace(inStr, searchStr, replace, numberOfInstances)
+        val actual = inStr.replace(searchStr, replace, numberOfInstances)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

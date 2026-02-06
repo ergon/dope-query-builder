@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -142,10 +142,7 @@ class ParameterizedTest {
                         parameter4,
                     ),
                 ).alias(someString("one")),
-                concat(
-                    parameter5,
-                    parameter6,
-                ),
+                parameter5.concat(parameter6),
             ).build(CouchbaseResolver())
 
         val namedParameters = underTest.parameters.namedParameters
@@ -192,7 +189,7 @@ class ParameterizedTest {
 
         val actual = QueryBuilder
             .select(
-                concat(namedParameter1.asParameter(namedParameter1name), positionalParameter1.asParameter()),
+                namedParameter1.asParameter(namedParameter1name).concat(positionalParameter1.asParameter()),
             ).where(
                 positionalParameter2.asParameter(),
             ).limit(

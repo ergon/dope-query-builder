@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someObjectArrayField
@@ -80,8 +80,7 @@ class RangeTransformationsTest {
 
         val actual = QueryBuilder
             .select(
-                concat(
-                    "test",
+                "test".toDopeType().concat(
                     someStringArrayField().filterIndexed(indexName = "i", iteratorName = "it") { i, _ ->
                         i.isLessOrEqualThan(2)
                     }.first(),
@@ -114,7 +113,7 @@ class RangeTransformationsTest {
                 someNumberArrayField().mapIndexed(iteratorName = "it", indexName = "i") { _, it ->
                     it
                 }.toObject { i, _ ->
-                    concat("id:", i.toStr())
+                    "id:".toDopeType().concat(i.toStr())
                 }.getNumber("id:1"),
             ).build(CouchbaseResolver()).queryString
 

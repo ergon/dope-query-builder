@@ -12,35 +12,34 @@ data class RpadExpression(
     val char: TypeExpression<StringType>? = null,
 ) : FunctionExpression<StringType>(listOf(inStr, size, char))
 
-fun rpad(
-    inStr: TypeExpression<StringType>,
+fun TypeExpression<StringType>.rpad(
     size: TypeExpression<NumberType>,
     char: TypeExpression<StringType>? = null,
-) = RpadExpression(inStr, size, char)
+) = RpadExpression(this, size, char)
 
-fun rpad(inStr: TypeExpression<StringType>, size: TypeExpression<NumberType>, char: String) =
-    rpad(inStr, size, char.toDopeType())
+fun TypeExpression<StringType>.rpad(size: TypeExpression<NumberType>, char: String) =
+    rpad(size, char.toDopeType())
 
-fun rpad(inStr: TypeExpression<StringType>, size: Number, char: TypeExpression<StringType>) =
-    rpad(inStr, size.toDopeType(), char)
+fun TypeExpression<StringType>.rpad(size: Number, char: TypeExpression<StringType>) =
+    rpad(size.toDopeType(), char)
 
-fun rpad(inStr: TypeExpression<StringType>, size: Number, char: String) =
-    rpad(inStr, size.toDopeType(), char.toDopeType())
+fun TypeExpression<StringType>.rpad(size: Number, char: String) =
+    rpad(size.toDopeType(), char.toDopeType())
 
-fun rpad(inStr: TypeExpression<StringType>, size: Number) = rpad(inStr, size.toDopeType())
+fun TypeExpression<StringType>.rpad(size: Number) = rpad(size.toDopeType())
 
-fun rpad(inStr: String, size: TypeExpression<NumberType>, char: TypeExpression<StringType>) =
-    rpad(inStr.toDopeType(), size, char)
+fun String.rpad(
+    size: TypeExpression<NumberType>,
+    char: TypeExpression<StringType>? = null,
+) = toDopeType().rpad(size, char)
 
-fun rpad(inStr: String, size: TypeExpression<NumberType>) = rpad(inStr.toDopeType(), size)
+fun String.rpad(size: TypeExpression<NumberType>, char: String) =
+    toDopeType().rpad(size, char.toDopeType())
 
-fun rpad(inStr: String, size: TypeExpression<NumberType>, prefix: String) =
-    rpad(inStr.toDopeType(), size, prefix.toDopeType())
+fun String.rpad(size: Number, char: TypeExpression<StringType>) =
+    toDopeType().rpad(size.toDopeType(), char)
 
-fun rpad(inStr: String, size: Number, char: TypeExpression<StringType>) =
-    rpad(inStr.toDopeType(), size.toDopeType(), char)
+fun String.rpad(size: Number, char: String) =
+    toDopeType().rpad(size.toDopeType(), char.toDopeType())
 
-fun rpad(inStr: String, size: Number, char: String) =
-    rpad(inStr.toDopeType(), size.toDopeType(), char.toDopeType())
-
-fun rpad(inStr: String, size: Number) = rpad(inStr.toDopeType(), size.toDopeType())
+fun String.rpad(size: Number) = toDopeType().rpad(size.toDopeType())

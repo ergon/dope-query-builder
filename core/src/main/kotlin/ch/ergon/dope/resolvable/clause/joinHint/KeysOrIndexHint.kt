@@ -12,7 +12,7 @@ import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-interface KeysOrIndexHint : Resolvable
+sealed interface KeysOrIndexHint : Resolvable
 
 data class KeysHintClass private constructor(
     val keys: TypeExpression<out ValidType>,

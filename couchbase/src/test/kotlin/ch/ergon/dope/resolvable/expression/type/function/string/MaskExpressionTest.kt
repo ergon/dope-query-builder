@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -61,7 +61,7 @@ class MaskExpressionTest : ResolverDependentTest {
         val options = mapOf("something1" to "something2")
         val expected = MaskExpression(inStr, options)
 
-        val actual = mask(inStr, options)
+        val actual = inStr.mask(options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -72,7 +72,7 @@ class MaskExpressionTest : ResolverDependentTest {
         val options = mapOf("something1" to "something2")
         val expected = MaskExpression(inStr.toDopeType(), options)
 
-        val actual = mask(inStr, options)
+        val actual = inStr.mask(options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

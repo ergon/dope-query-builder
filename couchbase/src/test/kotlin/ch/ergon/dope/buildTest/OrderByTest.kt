@@ -1,12 +1,13 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -72,7 +73,7 @@ class OrderByTest {
             ).thenOrderBy(
                 someNumberField(),
             ).thenOrderBy(
-                lower("SOMETHING"),
+                "SOMETHING".toDopeType().lower(),
                 OrderType.ASC,
             ).build(CouchbaseResolver()).queryString
 

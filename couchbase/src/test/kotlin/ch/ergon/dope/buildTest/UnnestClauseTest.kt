@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someNumberArrayField
@@ -72,13 +72,13 @@ class UnnestClauseTest {
             "SELECT `b`.* FROM `someBucket` AS `b` UNNEST `stringArrayField` AS `a` " +
                 "WHERE (`b`.`stringField` = \"something\" AND `a`.`stringField` = \$param)"
 
-        val b = someKeyspace().alias("b")
+        val bucket = someKeyspace().alias("b")
         val actual: String = QueryBuilder
-            .select(b.asterisk())
-            .from(b)
+            .select(bucket.asterisk())
+            .from(bucket)
             .unnest(someStringArrayField().alias("a"))
             .where(
-                someStringField(keyspace = b).isEqualTo("something")
+                someStringField(keyspace = bucket).isEqualTo("something")
                     .and(someStringField(keyspace = someKeyspace("a")).isEqualTo("".asParameter("param"))),
             )
             .build(CouchbaseResolver()).queryString

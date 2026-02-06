@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -63,7 +63,7 @@ class MBPositionExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = MBPositionExpression(inStr, searchStr)
 
-        val actual = mbPosition(inStr, searchStr)
+        val actual = inStr.mbPosition(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -74,7 +74,7 @@ class MBPositionExpressionTest : ResolverDependentTest {
         val searchStr = someString("searchStr")
         val expected = MBPositionExpression(inStr, searchStr.toDopeType())
 
-        val actual = mbPosition(inStr, searchStr)
+        val actual = inStr.mbPosition(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -85,7 +85,7 @@ class MBPositionExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = MBPositionExpression(inStr.toDopeType(), searchStr)
 
-        val actual = mbPosition(inStr, searchStr)
+        val actual = inStr.mbPosition(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -96,7 +96,7 @@ class MBPositionExpressionTest : ResolverDependentTest {
         val searchStr = someString("searchStr")
         val expected = MBPositionExpression(inStr.toDopeType(), searchStr.toDopeType())
 
-        val actual = mbPosition(inStr, searchStr)
+        val actual = inStr.mbPosition(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

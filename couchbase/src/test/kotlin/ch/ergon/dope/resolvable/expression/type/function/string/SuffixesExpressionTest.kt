@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -60,7 +60,7 @@ class SuffixesExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = SuffixesExpression(inStr)
 
-        val actual = suffixes(inStr)
+        val actual = inStr.suffixes()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -70,7 +70,7 @@ class SuffixesExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = SuffixesExpression(inStr.toDopeType())
 
-        val actual = suffixes(inStr)
+        val actual = inStr.suffixes()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

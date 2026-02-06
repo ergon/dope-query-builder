@@ -9,6 +9,7 @@ import ch.ergon.dope.extension.expression.type.range.map
 import ch.ergon.dope.extension.expression.type.range.mapIndexed
 import ch.ergon.dope.extension.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.StringType
@@ -93,7 +94,7 @@ class ForRangeSchemaTest {
         val actual = objectList.map(iteratorName = "it") { schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.toObject { schema ->
-            concat("id", schema.getField(Dummy2::type).toDopeType())
+            "id".toDopeType().concat(schema.getField(Dummy2::type).toDopeType())
         }
 
         assertEquals("it", actual.iteratorName)
@@ -109,7 +110,7 @@ class ForRangeSchemaTest {
         }.map { schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.toObject { schema ->
-            concat("id", schema.getField(Dummy2::type).toDopeType())
+            "id".toDopeType().concat(schema.getField(Dummy2::type).toDopeType())
         }
 
         assertEquals("it", actual.iteratorName)
@@ -179,7 +180,7 @@ class ForRangeSchemaTest {
         val actual = objectList.mapIndexed(iteratorName = "it", indexName = "i") { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.toObject { _, schema ->
-            concat("id", schema.getField(Dummy2::type).toDopeType())
+            "id".toDopeType().concat(schema.getField(Dummy2::type).toDopeType())
         }
 
         assertEquals("it", actual.iteratorName)
@@ -196,7 +197,7 @@ class ForRangeSchemaTest {
         }.map { _, schema ->
             schema.getField(Dummy2::type).toDopeType()
         }.toObject { _, schema ->
-            concat("id", schema.getField(Dummy2::type).toDopeType())
+            "id".toDopeType().concat(schema.getField(Dummy2::type).toDopeType())
         }
 
         assertEquals("it", actual.iteratorName)

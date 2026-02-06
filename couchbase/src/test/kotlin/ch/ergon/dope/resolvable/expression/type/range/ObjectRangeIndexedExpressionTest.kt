@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someNumberArrayField
@@ -18,6 +18,7 @@ import ch.ergon.dope.resolvable.expression.type.range.MembershipType.IN
 import ch.ergon.dope.resolvable.expression.type.range.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -54,7 +55,7 @@ class ObjectRangeIndexedExpressionTest : ResolverDependentTest {
             range = range,
             iteratorName = "it",
             withAttributeKeys = { i, _ -> i.toStr() },
-            transformation = { _, it -> concat("test", it) },
+            transformation = { _, it -> "test".toDopeType().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -119,7 +120,7 @@ class ObjectRangeIndexedExpressionTest : ResolverDependentTest {
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
             withAttributeKeys = { i, _ -> i.toStr() },
-            transformation = { _, it -> concat(positionalParameterValue.asParameter(), it) },
+            transformation = { _, it -> positionalParameterValue.asParameter().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -236,7 +237,7 @@ class ObjectRangeIndexedExpressionTest : ResolverDependentTest {
             range = range,
             iteratorName = "it",
             withAttributeKeys = { i, _ -> i.toStr() },
-            transformation = { _, it -> concat("test", it.toStr()) },
+            transformation = { _, it -> "test".toDopeType().concat(it.toStr()) },
         )
 
         val actual = underTest.toDopeQuery(resolver)

@@ -38,8 +38,7 @@ internal fun formatStringListToQueryStringWithBrackets(
     separator: String = ", ",
     prefix: String = "(",
     postfix: String = ")",
-) =
-    dopeQueries.joinToString(separator, prefix, postfix)
+) = dopeQueries.joinToString(separator, prefix, postfix)
 
 internal fun formatPartsToQueryStringWithSpace(vararg string: String?) =
     listOfNotNull(*string).joinToString(separator = " ")
@@ -60,3 +59,6 @@ internal fun formatQueryStringWithNullableFirst(
     parentDopeQuery?.let { "${it.queryString} " }.orEmpty() +
         "$symbol " +
         listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString }
+
+internal fun formatFunctionQueryString(symbol: String, vararg arguments: String?): String =
+    arguments.filterNotNull().joinToString(prefix = "$symbol(", postfix = ")")

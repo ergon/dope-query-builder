@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
@@ -117,7 +117,7 @@ class ObjectTest {
         val actual: String = QueryBuilder
             .select(
                 listOf(
-                    upper(someStringField()).toObjectEntry(someString().asParameter("param")),
+                    someStringField().upper().toObjectEntry(someString().asParameter("param")),
                 ).toDopeType(),
             ).from(
                 someKeyspace(),

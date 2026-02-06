@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -109,7 +109,7 @@ class RtrimExpressionTest : ResolverDependentTest {
         val extra = someStringField("extra")
         val expected = RtrimExpression(inStr, extra)
 
-        val actual = rtrim(inStr, extra)
+        val actual = inStr.rtrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -120,7 +120,7 @@ class RtrimExpressionTest : ResolverDependentTest {
         val extra = someString("extra")
         val expected = RtrimExpression(inStr, extra.toDopeType())
 
-        val actual = rtrim(inStr, extra)
+        val actual = inStr.rtrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -131,7 +131,7 @@ class RtrimExpressionTest : ResolverDependentTest {
         val extra = someStringField("extra")
         val expected = RtrimExpression(inStr.toDopeType(), extra)
 
-        val actual = rtrim(inStr, extra)
+        val actual = inStr.rtrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -142,7 +142,7 @@ class RtrimExpressionTest : ResolverDependentTest {
         val extra = someString("extra")
         val expected = RtrimExpression(inStr.toDopeType(), extra.toDopeType())
 
-        val actual = rtrim(inStr, extra)
+        val actual = inStr.rtrim(extra)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -153,7 +153,7 @@ class RtrimExpressionTest : ResolverDependentTest {
         val extra = null
         val expected = RtrimExpression(inStr, extra)
 
-        val actual = rtrim(inStr)
+        val actual = inStr.rtrim()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -164,7 +164,7 @@ class RtrimExpressionTest : ResolverDependentTest {
         val extra = null
         val expected = RtrimExpression(inStr.toDopeType(), extra)
 
-        val actual = rtrim(inStr)
+        val actual = inStr.rtrim()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

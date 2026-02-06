@@ -18,7 +18,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -30,7 +30,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -42,7 +42,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator, string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -54,7 +54,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -66,7 +66,7 @@ class Concat2Test {
         val string2 = someStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class Concat2Test {
         val string2 = someStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -90,7 +90,7 @@ class Concat2Test {
         val string2 = someStringField()
         val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -102,7 +102,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -114,7 +114,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -126,7 +126,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -138,7 +138,7 @@ class Concat2Test {
         val string2 = someString()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -150,7 +150,7 @@ class Concat2Test {
         val string2 = someString()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -162,7 +162,7 @@ class Concat2Test {
         val string2 = someString()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -174,7 +174,7 @@ class Concat2Test {
         val string2 = someStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -186,7 +186,7 @@ class Concat2Test {
         val string2 = someString()
         val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -198,7 +198,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1, listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -210,7 +210,7 @@ class Concat2Test {
         val string2 = someCMStringField()
         val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -222,7 +222,7 @@ class Concat2Test {
         val string2 = someStringField()
         val expected = Concat2Expression(separator.toDopeType(), string1.toDopeType(), listOf(string2))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }
@@ -234,7 +234,7 @@ class Concat2Test {
         val string2 = someString()
         val expected = Concat2Expression(separator, string1.toDopeType(), listOf(string2.toDopeType()))
 
-        val actual = concat2(separator, string1, string2)
+        val actual = separator.concat2(string1, string2)
 
         assertEquals(expected, actual)
     }

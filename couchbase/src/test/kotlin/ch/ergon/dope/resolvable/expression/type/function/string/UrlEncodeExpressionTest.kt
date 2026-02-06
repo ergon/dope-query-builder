@@ -1,7 +1,7 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -29,7 +29,7 @@ class UrlEncodeExpressionTest : ResolverDependentTest {
         val string = someStringField()
         val expected = UrlEncodeExpression(string)
 
-        val actual = urlEncode(string)
+        val actual = string.urlEncode()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -39,7 +39,7 @@ class UrlEncodeExpressionTest : ResolverDependentTest {
         val string = someString()
         val expected = UrlEncodeExpression(string.toDopeType())
 
-        val actual = urlEncode(string)
+        val actual = string.urlEncode()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

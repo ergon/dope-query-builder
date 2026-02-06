@@ -8,13 +8,13 @@ import ch.ergon.dope.validtype.StringType
 data class InitCapExpression(val inStr: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(inStr))
 
-fun initCap(inStr: TypeExpression<StringType>) = InitCapExpression(inStr)
-
-fun initCap(inStr: String) = initCap(inStr.toDopeType())
-
 data class TitleExpression(val inStr: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(inStr))
 
-fun title(inStr: TypeExpression<StringType>) = TitleExpression(inStr)
+fun TypeExpression<StringType>.initCap() = InitCapExpression(this)
 
-fun title(inStr: String) = title(inStr.toDopeType())
+fun TypeExpression<StringType>.title() = TitleExpression(this)
+
+fun String.initCap() = toDopeType().initCap()
+
+fun String.title() = toDopeType().title()

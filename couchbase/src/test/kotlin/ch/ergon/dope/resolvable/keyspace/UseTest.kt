@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.keyspace
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someKeyspace
 import ch.ergon.dope.helper.someString
@@ -70,6 +70,21 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseIndex(
             someKeyspace(),
+            listOf(IndexReference("index")),
+        )
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support use index with aliased bucket`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "`someBucket` AS `a` USE INDEX (`index`)",
+        )
+        val underTest = UseIndex(
+            someBucket().alias("a"),
             listOf(IndexReference("index")),
         )
 

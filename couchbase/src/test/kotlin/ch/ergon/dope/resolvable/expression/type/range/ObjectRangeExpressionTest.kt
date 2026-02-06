@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
 import ch.ergon.dope.helper.someBooleanExpression
@@ -19,6 +19,7 @@ import ch.ergon.dope.resolvable.expression.type.range.MembershipType.IN
 import ch.ergon.dope.resolvable.expression.type.range.MembershipType.WITHIN
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.relational.isLessOrEqualThan
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -55,7 +56,7 @@ class ObjectRangeExpressionTest : ResolverDependentTest {
             range = range,
             iteratorName = "it",
             withAttributeKeys = { it },
-            transformation = { concat("test", it) },
+            transformation = { "test".toDopeType().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -118,7 +119,7 @@ class ObjectRangeExpressionTest : ResolverDependentTest {
             range = range.asParameter(namedParameterName),
             iteratorName = "it",
             withAttributeKeys = { it },
-            transformation = { concat(positionalParameterValue.asParameter(), it) },
+            transformation = { positionalParameterValue.asParameter().concat(it) },
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -230,7 +231,7 @@ class ObjectRangeExpressionTest : ResolverDependentTest {
             range = range,
             iteratorName = "it",
             withAttributeKeys = { it.toStr() },
-            transformation = { concat("test", it.toStr()) },
+            transformation = { "test".toDopeType().concat(it.toStr()) },
         )
 
         val actual = underTest.toDopeQuery(resolver)

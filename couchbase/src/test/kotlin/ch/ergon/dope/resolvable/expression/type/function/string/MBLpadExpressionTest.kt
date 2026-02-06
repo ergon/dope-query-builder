@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
@@ -110,7 +110,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBLpadExpression(inStr, size, prefix)
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -122,7 +122,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBLpadExpression(inStr, size, prefix)
 
-        val actual = mbLpad(inStr, size)
+        val actual = inStr.mbLpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -134,7 +134,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBLpadExpression(inStr, size, prefix.toDopeType())
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -146,7 +146,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBLpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -158,7 +158,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBLpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -170,7 +170,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBLpadExpression(inStr, size.toDopeType(), prefix)
 
-        val actual = mbLpad(inStr, size)
+        val actual = inStr.mbLpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -182,7 +182,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBLpadExpression(inStr, size.toDopeType(), prefix.toDopeType())
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -194,7 +194,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBLpadExpression(inStr.toDopeType(), size, prefix)
 
-        val actual = mbLpad(inStr, size)
+        val actual = inStr.mbLpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -206,7 +206,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBLpadExpression(inStr.toDopeType(), size, prefix.toDopeType())
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -218,7 +218,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someStringField("prefix")
         val expected = MBLpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -230,7 +230,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = null
         val expected = MBLpadExpression(inStr.toDopeType(), size.toDopeType(), prefix)
 
-        val actual = mbLpad(inStr, size)
+        val actual = inStr.mbLpad(size)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -242,7 +242,7 @@ class MBLpadExpressionTest : ResolverDependentTest {
         val prefix = someString("prefix")
         val expected = MBLpadExpression(inStr.toDopeType(), size.toDopeType(), prefix.toDopeType())
 
-        val actual = mbLpad(inStr, size, prefix)
+        val actual = inStr.mbLpad(size, prefix)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

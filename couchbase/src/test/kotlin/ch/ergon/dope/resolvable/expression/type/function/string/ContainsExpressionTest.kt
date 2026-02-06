@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -109,7 +109,7 @@ class ContainsExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = ContainsExpression(inStr, searchStr)
 
-        val actual = contains(inStr, searchStr)
+        val actual = inStr.contains(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -120,7 +120,7 @@ class ContainsExpressionTest : ResolverDependentTest {
         val searchStr = someString()
         val expected = ContainsExpression(inStr, searchStr.toDopeType())
 
-        val actual = contains(inStr, searchStr)
+        val actual = inStr.contains(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -131,18 +131,7 @@ class ContainsExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val expected = ContainsExpression(inStr.toDopeType(), searchStr)
 
-        val actual = contains(inStr, searchStr)
-
-        assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
-    }
-
-    @Test
-    fun `should support contains function string string`() {
-        val inStr = someString()
-        val searchStr = someString()
-        val expected = ContainsExpression(inStr.toDopeType(), searchStr.toDopeType())
-
-        val actual = contains(inStr, searchStr)
+        val actual = inStr.contains(searchStr)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

@@ -536,9 +536,9 @@ class SelectClauseTest {
             parentClause = parentClause,
         )
 
-        val a = someOrderBy(parentClause).thenOrderBy(field)
+        val actual = someOrderBy(parentClause).thenOrderBy(field)
 
-        assertEquals(expected, a)
+        assertEquals(expected, actual)
     }
 
     @Test

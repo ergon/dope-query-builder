@@ -2,7 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.CouchbaseResolver
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
@@ -45,7 +45,7 @@ class MBLengthExpressionTest : ResolverDependentTest {
         val inStr = someStringField("inStr")
         val expected = MBLengthExpression(inStr)
 
-        val actual = mbLength(inStr)
+        val actual = inStr.mbLength()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -55,7 +55,7 @@ class MBLengthExpressionTest : ResolverDependentTest {
         val inStr = someString()
         val expected = MBLengthExpression(inStr.toDopeType())
 
-        val actual = mbLength(inStr)
+        val actual = inStr.mbLength()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

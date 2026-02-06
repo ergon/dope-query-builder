@@ -20,7 +20,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -32,7 +32,7 @@ class MBSubstring1Test {
         val length = someNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos, length)
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +44,7 @@ class MBSubstring1Test {
         val length = someNumberField()
         val expected = MBSubstring1Expression(string, startPos.toDopeType(), length)
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -56,7 +56,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string, startPos, length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -68,7 +68,7 @@ class MBSubstring1Test {
         val length = someNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length)
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -80,7 +80,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos, length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -92,7 +92,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string, startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -104,7 +104,7 @@ class MBSubstring1Test {
         val length = 1
         val expected = MBSubstring1Expression(string.toDopeType(), startPos, length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -116,7 +116,7 @@ class MBSubstring1Test {
         val length = 1
         val expected = MBSubstring1Expression(string, startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -128,7 +128,7 @@ class MBSubstring1Test {
         val length = 1
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -140,7 +140,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string, startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -152,7 +152,7 @@ class MBSubstring1Test {
         val length = someNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length)
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -164,7 +164,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -176,7 +176,7 @@ class MBSubstring1Test {
         val length = 1
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -188,7 +188,7 @@ class MBSubstring1Test {
         val length = someNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length)
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -200,7 +200,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos, length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -212,7 +212,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -224,7 +224,7 @@ class MBSubstring1Test {
         val length = 1
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
@@ -236,7 +236,7 @@ class MBSubstring1Test {
         val length = someCMNumberField()
         val expected = MBSubstring1Expression(string.toDopeType(), startPos.toDopeType(), length.toDopeType())
 
-        val actual = mbSubstring1(string, startPos, length)
+        val actual = string.mbSubstring1(startPos, length)
 
         assertEquals(expected, actual)
     }
