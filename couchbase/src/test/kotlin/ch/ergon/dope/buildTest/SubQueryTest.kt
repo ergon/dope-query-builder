@@ -4,7 +4,7 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someSelectClause
@@ -38,7 +38,7 @@ class SubQueryTest {
 
         val actual: String = QueryBuilder
             .select(someStringField())
-            .from(QueryBuilder.selectAsterisk().from(someKeyspace()).alias("asdf"))
+            .from(QueryBuilder.selectAsterisk().from(someBucket()).alias("asdf"))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -51,10 +51,10 @@ class SubQueryTest {
         val actual: String = QueryBuilder
             .select(
                 TRUE.inArray(
-                    QueryBuilder.selectRaw(FALSE).from(someKeyspace("other")).asExpression(),
+                    QueryBuilder.selectRaw(FALSE).from(someBucket("other")).asExpression(),
                 ),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -66,7 +66,7 @@ class SubQueryTest {
 
         val actual = QueryBuilder
             .select(
-                exists(someSelectClause().from(someKeyspace()).asExpression()),
+                exists(someSelectClause().from(someBucket()).asExpression()),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -78,7 +78,7 @@ class SubQueryTest {
 
         val actual = QueryBuilder
             .select(
-                someSelectClause().from(someKeyspace()).asExpression().length(),
+                someSelectClause().from(someBucket()).asExpression().length(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -90,7 +90,7 @@ class SubQueryTest {
 
         val actual = QueryBuilder
             .select(
-                someStringField().isEqualTo(QueryBuilder.selectRaw(someStringField()).from(someKeyspace()).get(0)),
+                someStringField().isEqualTo(QueryBuilder.selectRaw(someStringField()).from(someBucket()).get(0)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -108,10 +108,10 @@ class SubQueryTest {
 
         val actual = QueryBuilder
             .select(
-                exists(someSelectClause(someString().asParameter()).from(someKeyspace()).asExpression()),
+                exists(someSelectClause(someString().asParameter()).from(someBucket()).asExpression()),
             ).from(
                 QueryBuilder
-                    .select(someNumber().asParameter("num")).from(someKeyspace("other")).alias("asdf"),
+                    .select(someNumber().asParameter("num")).from(someBucket("other")).alias("asdf"),
             ).build(CouchbaseResolver())
 
         assertEquals(expected, actual)
@@ -153,7 +153,7 @@ class SubQueryTest {
             .select(
                 QueryBuilder
                     .selectAsterisk()
-                    .from(someKeyspace()).asExpression()
+                    .from(someBucket()).asExpression()
                     .get(0)
                     .getString("name"),
             ).build(CouchbaseResolver()).queryString
@@ -171,7 +171,7 @@ class SubQueryTest {
                 someNumber().inArray(
                     QueryBuilder
                         .selectRaw(someNumberField())
-                        .from(someKeyspace()).asExpression(),
+                        .from(someBucket()).asExpression(),
                 ),
             ).build(CouchbaseResolver()).queryString
 

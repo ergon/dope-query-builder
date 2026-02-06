@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType
@@ -19,7 +19,7 @@ class OrderByTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeyspace(),
+                someBucket(),
             ).orderBy(
                 someStringField(),
             ).build(CouchbaseResolver()).queryString
@@ -34,7 +34,7 @@ class OrderByTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeyspace(),
+                someBucket(),
             ).orderBy(
                 someStringField(),
                 OrderType.ASC,
@@ -50,7 +50,7 @@ class OrderByTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeyspace(),
+                someBucket(),
             ).orderBy(
                 someStringField(),
                 OrderType.DESC,
@@ -66,7 +66,7 @@ class OrderByTest {
         val actual: String = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeyspace(),
+                someBucket(),
             ).orderBy(
                 someStringField(),
                 OrderType.DESC,

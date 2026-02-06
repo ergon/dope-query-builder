@@ -5,13 +5,13 @@ import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
+import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.NULL
-import ch.ergon.dope.resolvable.keyspace.useKeys
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
 import kotlin.test.AfterTest
@@ -27,11 +27,11 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `update to set and unset single attribute`() {
-        val newFieldName = Field<StringType>("newFieldName", testKeyspace)
-        val newNullField = Field<NumberType>("nullField", testKeyspace)
+        val newFieldName = Field<StringType>("newFieldName", testBucket)
+        val newNullField = Field<NumberType>("nullField", testBucket)
         val dopeQuery = QueryBuilder
             .update(
-                testKeyspace.useKeys("client:1"),
+                testBucket.useKeys("client:1"),
             )
             .set(
                 newFieldName.toNewValue("newName"),

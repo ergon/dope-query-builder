@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someSelectClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -29,7 +29,7 @@ class NestClauseTest : ResolverDependentTest {
             queryString = "SELECT * NEST `someBucket` ON TRUE",
         )
         val underTest = StandardNestOnConditionClause(
-            someKeyspace(),
+            someBucket(),
             condition = TRUE,
             parentClause = someSelectClause(),
         )
@@ -45,7 +45,7 @@ class NestClauseTest : ResolverDependentTest {
             queryString = "SELECT * NEST `someBucket` ON KEYS `stringArrayField`",
         )
         val underTest = StandardNestOnKeysClause(
-            someKeyspace(),
+            someBucket(),
             keys = someStringArrayField(),
             parentClause = someSelectClause(),
         )
@@ -56,15 +56,15 @@ class NestClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support standard nest with on key for keyspace`() {
-        val keyspace = someKeyspace()
+    fun `should support standard nest with on key for bucket`() {
+        val bucket = someBucket()
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * NEST `someBucket` ON KEY `stringField` FOR `someBucket`",
         )
         val underTest = StandardNestOnKeyClause(
-            keyspace,
+            bucket,
             key = someStringField(),
-            keyspace = keyspace,
+            bucket = bucket,
             parentClause = someSelectClause(),
         )
 
@@ -75,36 +75,36 @@ class NestClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support standard nest with boolean condition function`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val condition = TRUE
         val parentClause = someSelectClause()
-        val expected = StandardNestOnConditionClause(keyspace, condition, parentClause)
+        val expected = StandardNestOnConditionClause(bucket, condition, parentClause)
 
-        val actual = parentClause.nest(keyspace, condition)
+        val actual = parentClause.nest(bucket, condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support standard nest with on keys function`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val keys = someStringArrayField()
         val parentClause = someSelectClause()
-        val expected = StandardNestOnKeysClause(keyspace, keys, parentClause)
+        val expected = StandardNestOnKeysClause(bucket, keys, parentClause)
 
-        val actual = parentClause.nest(keyspace, keys)
+        val actual = parentClause.nest(bucket, keys)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
-    fun `should support standard nest with on key for keyspace function`() {
-        val keyspace = someKeyspace()
+    fun `should support standard nest with on key for bucket function`() {
+        val bucket = someBucket()
         val key = someStringField()
         val parentClause = someSelectClause()
-        val expected = StandardNestOnKeyClause(keyspace, key, keyspace, parentClause)
+        val expected = StandardNestOnKeyClause(bucket, key, bucket, parentClause)
 
-        val actual = parentClause.nest(keyspace, key, keyspace)
+        val actual = parentClause.nest(bucket, key, bucket)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -115,7 +115,7 @@ class NestClauseTest : ResolverDependentTest {
             queryString = "SELECT * INNER NEST `someBucket` ON TRUE",
         )
         val underTest = InnerNestOnConditionClause(
-            someKeyspace(),
+            someBucket(),
             condition = TRUE,
             parentClause = someSelectClause(),
         )
@@ -131,7 +131,7 @@ class NestClauseTest : ResolverDependentTest {
             queryString = "SELECT * INNER NEST `someBucket` ON KEYS `stringArrayField`",
         )
         val underTest = InnerNestOnKeysClause(
-            someKeyspace(),
+            someBucket(),
             keys = someStringArrayField(),
             parentClause = someSelectClause(),
         )
@@ -142,15 +142,15 @@ class NestClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support inner nest with on key for keyspace`() {
-        val keyspace = someKeyspace()
+    fun `should support inner nest with on key for bucket`() {
+        val bucket = someBucket()
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * INNER NEST `someBucket` ON KEY `stringField` FOR `someBucket`",
         )
         val underTest = InnerNestOnKeyClause(
-            keyspace,
+            bucket,
             key = someStringField(),
-            keyspace = keyspace,
+            bucket = bucket,
             parentClause = someSelectClause(),
         )
 
@@ -161,36 +161,36 @@ class NestClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support inner nest with boolean condition function`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val condition = TRUE
         val parentClause = someSelectClause()
-        val expected = InnerNestOnConditionClause(keyspace, condition, parentClause)
+        val expected = InnerNestOnConditionClause(bucket, condition, parentClause)
 
-        val actual = parentClause.innerNest(keyspace, condition)
+        val actual = parentClause.innerNest(bucket, condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support inner nest with on keys function`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val keys = someStringArrayField()
         val parentClause = someSelectClause()
-        val expected = InnerNestOnKeysClause(keyspace, keys, parentClause)
+        val expected = InnerNestOnKeysClause(bucket, keys, parentClause)
 
-        val actual = parentClause.innerNest(keyspace, keys)
+        val actual = parentClause.innerNest(bucket, keys)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
-    fun `should support inner nest with on key for keyspace function`() {
-        val keyspace = someKeyspace()
+    fun `should support inner nest with on key for bucket function`() {
+        val bucket = someBucket()
         val key = someStringField()
         val parentClause = someSelectClause()
-        val expected = InnerNestOnKeyClause(keyspace, key, keyspace, parentClause)
+        val expected = InnerNestOnKeyClause(bucket, key, bucket, parentClause)
 
-        val actual = parentClause.innerNest(keyspace, key, keyspace)
+        val actual = parentClause.innerNest(bucket, key, bucket)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -201,7 +201,7 @@ class NestClauseTest : ResolverDependentTest {
             queryString = "SELECT * LEFT NEST `someBucket` ON TRUE",
         )
         val underTest = LeftNestOnConditionClause(
-            someKeyspace(),
+            someBucket(),
             condition = TRUE,
             parentClause = someSelectClause(),
         )
@@ -217,7 +217,7 @@ class NestClauseTest : ResolverDependentTest {
             queryString = "SELECT * LEFT NEST `someBucket` ON KEYS `stringArrayField`",
         )
         val underTest = LeftNestOnKeysClause(
-            someKeyspace(),
+            someBucket(),
             keys = someStringArrayField(),
             parentClause = someSelectClause(),
         )
@@ -228,15 +228,15 @@ class NestClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support left nest with on key for keyspace`() {
-        val keyspace = someKeyspace()
+    fun `should support left nest with on key for bucket`() {
+        val bucket = someBucket()
         val expected = CouchbaseDopeQuery(
             queryString = "SELECT * LEFT NEST `someBucket` ON KEY `stringField` FOR `someBucket`",
         )
         val underTest = LeftNestOnKeyClause(
-            keyspace,
+            bucket,
             key = someStringField(),
-            keyspace = keyspace,
+            bucket = bucket,
             parentClause = someSelectClause(),
         )
 
@@ -247,36 +247,36 @@ class NestClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support left nest with boolean condition function`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val condition = TRUE
         val parentClause = someSelectClause()
-        val expected = LeftNestOnConditionClause(keyspace, condition, parentClause)
+        val expected = LeftNestOnConditionClause(bucket, condition, parentClause)
 
-        val actual = parentClause.leftNest(keyspace, condition)
+        val actual = parentClause.leftNest(bucket, condition)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support left nest with on keys function`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val keys = someStringArrayField()
         val parentClause = someSelectClause()
-        val expected = LeftNestOnKeysClause(keyspace, keys, parentClause)
+        val expected = LeftNestOnKeysClause(bucket, keys, parentClause)
 
-        val actual = parentClause.leftNest(keyspace, keys)
+        val actual = parentClause.leftNest(bucket, keys)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
 
     @Test
-    fun `should support left nest with on key for keyspace function`() {
-        val keyspace = someKeyspace()
+    fun `should support left nest with on key for bucket function`() {
+        val bucket = someBucket()
         val key = someStringField()
         val parentClause = someSelectClause()
-        val expected = LeftNestOnKeyClause(keyspace, key, keyspace, parentClause)
+        val expected = LeftNestOnKeyClause(bucket, key, bucket, parentClause)
 
-        val actual = parentClause.leftNest(keyspace, key, keyspace)
+        val actual = parentClause.leftNest(bucket, key, bucket)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

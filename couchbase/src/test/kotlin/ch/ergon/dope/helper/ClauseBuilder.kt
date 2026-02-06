@@ -2,6 +2,8 @@ package ch.ergon.dope.helper
 
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.SelectClause
@@ -12,8 +14,6 @@ import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.type.DopeVariable
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.assignTo
-import ch.ergon.dope.resolvable.keyspace.Keyspace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ObjectType
@@ -40,9 +40,9 @@ fun someObjectSelectRawClause(expression: TypeExpression<ObjectType> = someObjec
 
 fun someAnyTypeSelectRawClause(expression: Expression<ValidType> = someAnyTypeField()) = SelectRawClause(expression)
 
-fun someDeleteClause(keyspace: Keyspace = someKeyspace()) = DeleteClause(keyspace)
+fun someDeleteClause(bucket: Bucket = someBucket()) = DeleteClause(bucket)
 
-fun someUpdateClause(keyspace: Keyspace = someKeyspace()) = UpdateClause(keyspace)
+fun someUpdateClause(bucket: Bucket = someBucket()) = UpdateClause(bucket)
 
-fun someFromClause(keyspace: UnaliasedKeyspace = someKeyspace(), parent: SelectClause = someSelectClause()) =
-    FromClause(keyspace, parent)
+fun someFromClause(bucket: UnaliasedBucket = someBucket(), parent: SelectClause = someSelectClause()) =
+    FromClause(bucket, parent)

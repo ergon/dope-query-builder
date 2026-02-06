@@ -1,5 +1,7 @@
 package ch.ergon.dope.helper
 
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
@@ -18,8 +20,6 @@ import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.Keyspace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -27,34 +27,34 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
-fun someKeyspace(bucket: String = "someBucket", scope: String? = null, collection: String? = null) = UnaliasedKeyspace(bucket, scope, collection)
+fun someBucket(bucket: String = "someBucket") = UnaliasedBucket(bucket)
 
-fun someNumberField(name: String = "numberField", keyspace: Keyspace? = null) = Field<NumberType>(name, keyspace)
+fun someNumberField(name: String = "numberField", bucket: Bucket? = null) = Field<NumberType>(name, bucket)
 
-fun someStringField(name: String = "stringField", keyspace: Keyspace? = null) = Field<StringType>(name, keyspace)
+fun someStringField(name: String = "stringField", bucket: Bucket? = null) = Field<StringType>(name, bucket)
 
-fun someBooleanField(name: String = "booleanField", keyspace: Keyspace? = null) = Field<BooleanType>(name, keyspace)
+fun someBooleanField(name: String = "booleanField", bucket: Bucket? = null) = Field<BooleanType>(name, bucket)
 
-fun someObjectField(name: String = "objectField", keyspace: Keyspace? = null) = Field<ObjectType>(name, keyspace)
+fun someObjectField(name: String = "objectField", bucket: Bucket? = null) = Field<ObjectType>(name, bucket)
 
-fun someAnyTypeField(name: String = "anyTypeField", keyspace: Keyspace? = null) = Field<ValidType>(name, keyspace)
+fun someAnyTypeField(name: String = "anyTypeField", bucket: Bucket? = null) = Field<ValidType>(name, bucket)
 
 fun someBooleanExpression() = TRUE
 
-fun someNumberArrayField(name: String = "numberArrayField", keyspace: Keyspace? = null) =
-    Field<ArrayType<NumberType>>(name, keyspace)
+fun someNumberArrayField(name: String = "numberArrayField", bucket: Bucket? = null) =
+    Field<ArrayType<NumberType>>(name, bucket)
 
-fun someStringArrayField(name: String = "stringArrayField", keyspace: Keyspace? = null) =
-    Field<ArrayType<StringType>>(name, keyspace)
+fun someStringArrayField(name: String = "stringArrayField", bucket: Bucket? = null) =
+    Field<ArrayType<StringType>>(name, bucket)
 
-fun someBooleanArrayField(name: String = "booleanArrayField", keyspace: Keyspace? = null) =
-    Field<ArrayType<BooleanType>>(name, keyspace)
+fun someBooleanArrayField(name: String = "booleanArrayField", bucket: Bucket? = null) =
+    Field<ArrayType<BooleanType>>(name, bucket)
 
-fun someObjectArrayField(name: String = "objectArrayField", keyspace: Keyspace? = null) =
-    Field<ArrayType<ObjectType>>(name, keyspace)
+fun someObjectArrayField(name: String = "objectArrayField", bucket: Bucket? = null) =
+    Field<ArrayType<ObjectType>>(name, bucket)
 
-fun someAnyTypeArrayField(name: String = "anyTypeArrayField", keyspace: Keyspace? = null) =
-    Field<ArrayType<ValidType>>(name, keyspace)
+fun someAnyTypeArrayField(name: String = "anyTypeArrayField", bucket: Bucket? = null) =
+    Field<ArrayType<ValidType>>(name, bucket)
 
 fun someNumber(value: Number = 5) = value
 

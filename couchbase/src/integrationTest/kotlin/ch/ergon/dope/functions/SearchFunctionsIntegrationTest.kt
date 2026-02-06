@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
 import kotlin.test.Test
@@ -17,10 +17,10 @@ class SearchFunctionsIntegrationTest : BaseIntegrationTest() {
             .select(
                 meta().id,
             ).from(
-                testKeyspace,
+                testBucket,
             ).where(
                 fullTextSearch(
-                    testKeyspace,
+                    testBucket,
                     mapOf(
                         "query" to mapOf(
                             "field" to "type",

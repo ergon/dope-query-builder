@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
@@ -35,7 +35,7 @@ class ObjectTest {
             .select(
                 someObjectField(),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -50,7 +50,7 @@ class ObjectTest {
             .select(
                 objectField,
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).where(
                 objectField.getString("field").isEqualTo(someString()),
             )
@@ -80,7 +80,7 @@ class ObjectTest {
             .select(
                 objectPrimitive,
             ).from(
-                someKeyspace(),
+                someBucket(),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -98,7 +98,7 @@ class ObjectTest {
             .select(
                 objectPrimitive.alias("a"),
             ).from(
-                someKeyspace(),
+                someBucket(),
             )
             .where(
                 objectPrimitive.getObject("siblings").getString("name").isEqualTo("John")
@@ -120,7 +120,7 @@ class ObjectTest {
                     someStringField().upper().toObjectEntry(someString().asParameter("param")),
                 ).toDopeType(),
             ).from(
-                someKeyspace(),
+                someBucket(),
             )
             .build(CouchbaseResolver()).queryString
 
@@ -128,15 +128,15 @@ class ObjectTest {
     }
 
     @Test
-    fun `should support object with keyspace path`() {
-        val keyspace = someKeyspace().alias("b")
+    fun `should support object with bucket path`() {
+        val bucket = someBucket().alias("b")
         val expected = "SELECT `b`.`person`.`isMale` FROM `someBucket` AS `b`"
 
         val actual: String = QueryBuilder
             .select(
-                someObjectField("person", keyspace).getBoolean("isMale"),
+                someObjectField("person", bucket).getBoolean("isMale"),
             ).from(
-                keyspace,
+                bucket,
             )
             .build(CouchbaseResolver()).queryString
 
@@ -144,15 +144,15 @@ class ObjectTest {
     }
 
     @Test
-    fun `should support multiple nested object with keyspace path`() {
-        val keyspace = someKeyspace().alias("b")
+    fun `should support multiple nested object with bucket path`() {
+        val bucket = someBucket().alias("b")
         val expected = "SELECT `b`.`person`.`first`.`second` AS `nested_object` FROM `someBucket` AS `b`"
 
         val actual: String = QueryBuilder
             .select(
-                someObjectField("person", keyspace).getObject("first").getObject("second").alias("nested_object"),
+                someObjectField("person", bucket).getObject("first").getObject("second").alias("nested_object"),
             ).from(
-                keyspace,
+                bucket,
             )
             .build(CouchbaseResolver()).queryString
 
@@ -161,7 +161,7 @@ class ObjectTest {
 
     @Test
     fun `should support range operations on aliased sub select`() {
-        val subQuery = QueryBuilder.selectRaw(someStringArrayField()).from(someKeyspace("other")).alias("subQuery")
+        val subQuery = QueryBuilder.selectRaw(someStringArrayField()).from(someBucket("other")).alias("subQuery")
         val expected = "SELECT ANY `iterator1` IN `subQuery` SATISFIES `iterator1` = \"something\" END, " +
             "`subQuery`[0] AS `cool` FROM (SELECT RAW `stringArrayField` FROM `other`) AS `subQuery`"
 

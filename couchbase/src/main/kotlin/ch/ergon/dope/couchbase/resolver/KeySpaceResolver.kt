@@ -2,6 +2,7 @@ package ch.ergon.dope.couchbase.resolver
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolver.expression.queryString
+import ch.ergon.dope.couchbase.util.formatBucket
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
@@ -12,7 +13,13 @@ import ch.ergon.dope.resolvable.bucket.UseKeysClass
 
 interface KeySpaceResolver : AbstractCouchbaseResolver {
     fun resolve(aliasedBucket: AliasedBucketDefinition): CouchbaseDopeQuery =
-        CouchbaseDopeQuery("`${aliasedBucket.name}` AS `${aliasedBucket.alias}`")
+        CouchbaseDopeQuery(
+            formatBucket(
+                aliasedBucket.bucketName,
+                aliasedBucket.scopeName,
+                aliasedBucket.collectionName,
+            ) + " AS `${aliasedBucket.alias}`",
+        )
 
     fun resolve(useKeysClass: UseKeysClass): CouchbaseDopeQuery {
         val bucket = when (val bucket = useKeysClass.bucket) {

@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
@@ -43,7 +43,7 @@ class ConditionalUnknownFunctionsTest {
 
     @Test
     fun `should support decode in query`() {
-        val keyspace = someKeyspace("airport").alias("a")
+        val bucket = someBucket("airport").alias("a")
         val expected = "SELECT `a`.`airportname` AS `Airport`, " +
             "DECODE(`a`.`tz`, \"Pacific/Honolulu\", -10, " +
             "\"America/Anchorage\", -9, " +
@@ -57,9 +57,9 @@ class ConditionalUnknownFunctionsTest {
 
         val actual = QueryBuilder
             .select(
-                someStringField("airportname", keyspace).alias("Airport"),
+                someStringField("airportname", bucket).alias("Airport"),
                 decode(
-                    someStringField("tz", keyspace),
+                    someStringField("tz", bucket),
                     "Pacific/Honolulu".resultsIn(-10),
                     "America/Anchorage".resultsIn(-9),
                     "America/Los_Angeles".resultsIn(-8),
@@ -69,10 +69,10 @@ class ConditionalUnknownFunctionsTest {
                     default = 0.toDopeType(),
                 ).alias("UTCOffset"),
             ).from(
-                keyspace,
+                bucket,
             ).where(
-                someStringField("country", keyspace).isEqualTo("United States").and(
-                    someNumberField("geo.alt", keyspace).isGreaterThan(1000),
+                someStringField("country", bucket).isEqualTo("United States").and(
+                    someNumberField("geo.alt", bucket).isGreaterThan(1000),
                 ),
             ).limit(
                 5,
@@ -143,7 +143,7 @@ class ConditionalUnknownFunctionsTest {
                     "n/a",
                 ).alias("IATA"),
             ).from(
-                someKeyspace("airline"),
+                someBucket("airline"),
             ).limit(
                 5,
             ).build(CouchbaseResolver()).queryString
@@ -166,7 +166,7 @@ class ConditionalUnknownFunctionsTest {
                     "No",
                 ).alias("DirectionsAvailable"),
             ).from(
-                someKeyspace("hotel"),
+                someBucket("hotel"),
             ).limit(
                 5,
             ).build(CouchbaseResolver()).queryString

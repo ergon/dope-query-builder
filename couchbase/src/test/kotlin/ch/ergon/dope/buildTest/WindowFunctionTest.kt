@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.clause.model.OrderType.ASC
@@ -75,7 +75,7 @@ class WindowFunctionTest {
                     IGNORE,
                 ),
             )
-            .from(someKeyspace())
+            .from(someBucket())
             .referenceWindow(
                 "ref".asWindowDeclaration(
                     WindowDefinition(

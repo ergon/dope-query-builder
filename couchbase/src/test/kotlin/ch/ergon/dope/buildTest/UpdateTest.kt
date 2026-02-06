@@ -4,15 +4,15 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
+import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.useKeys
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -23,7 +23,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -35,7 +35,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).set(
                 meta().expiration.toNewValue(10.toDopeType()),
                 someStringField().toNewValue("test".toDopeType()),
@@ -51,7 +51,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).unset(
                 someStringField(),
             )
@@ -66,7 +66,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).where(
                 1.toDopeType().add(2).isEqualTo(3),
             ).build(CouchbaseResolver()).queryString
@@ -80,7 +80,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).limit(
                 1.toDopeType(),
             ).build(CouchbaseResolver()).queryString
@@ -94,7 +94,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).returning(
                 someStringField(),
             ).build(CouchbaseResolver()).queryString
@@ -108,7 +108,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).returningAsterisk().build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -118,7 +118,7 @@ class UpdateTest {
     fun `should support update clause with returning asterisk and bucket`() {
         val expected = "UPDATE `someBucket` RETURNING `someBucket`.*"
 
-        val bucket = someKeyspace()
+        val bucket = someBucket()
         val actual = QueryBuilder
             .update(
                 bucket,
@@ -133,7 +133,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).returningRaw(
                 someStringField(),
             ).build(CouchbaseResolver()).queryString
@@ -147,7 +147,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).returningValue(
                 someStringField(),
             ).build(CouchbaseResolver()).queryString
@@ -161,7 +161,7 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                someKeyspace(),
+                someBucket(),
             ).returningElement(
                 someStringField(),
             ).build(CouchbaseResolver()).queryString
@@ -171,7 +171,7 @@ class UpdateTest {
 
     @Test
     fun `should support update clause as a complex query`() {
-        val keyspace = someKeyspace().alias("sb")
+        val bucket = someBucket().alias("sb")
         val setThisNumberField = someNumberField("setThisNumberField")
         val expected = "UPDATE `someBucket` AS `sb` " +
             "USE KEYS \"keyString\" " +
@@ -183,10 +183,10 @@ class UpdateTest {
 
         val actual = QueryBuilder
             .update(
-                keyspace.useKeys("keyString"),
+                bucket.useKeys("keyString"),
             ).set(
                 setThisNumberField.toNewValue(1.toDopeType()),
-                meta(keyspace).expiration.toNewValue(3600.toDopeType()),
+                meta(bucket).expiration.toNewValue(3600.toDopeType()),
                 someStringField().toNewValue(NULL),
             ).unset(
                 someStringField("unsetThisStringField"),

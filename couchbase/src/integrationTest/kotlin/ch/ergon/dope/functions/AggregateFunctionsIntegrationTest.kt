@@ -6,7 +6,7 @@ import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.orderNumberField
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
@@ -32,7 +32,7 @@ class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
                 countAsterisk().alias("count"),
             )
             .from(
-                testKeyspace,
+                testBucket,
             ).build(CouchbaseResolver())
 
         tryUntil {

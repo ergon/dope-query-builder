@@ -4,8 +4,8 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testAppOrderAuditKeyspace
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testAppOrderAuditBucket
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint.NESTED_LOOP
@@ -26,8 +26,8 @@ import kotlin.test.assertEquals
 class FromIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `join all orders on employee id`() {
-        val employeeAlias = testKeyspace.alias("e")
-        val orderAlias = testKeyspace.alias("o")
+        val employeeAlias = testBucket.alias("e")
+        val orderAlias = testBucket.alias("o")
         val employeeNameField = Field<StringType>("name", employeeAlias)
         val orderNumberField = Field<StringType>("orderNumber", orderAlias)
         val orderEmployeeIdField = Field<StringType>("employee", orderAlias)
@@ -61,10 +61,10 @@ class FromIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `join default orders with order_audit collection`() {
-        val orderAlias = testKeyspace.scope("_default").collection("_default").alias("o")
+        val orderAlias = testBucket.useScope("_default").useCollection("_default").alias("o")
         val orderNumberField = Field<StringType>("orderNumber", orderAlias)
 
-        val auditAlias = testAppOrderAuditKeyspace.alias("a")
+        val auditAlias = testAppOrderAuditBucket.alias("a")
         val auditOrderRefField = Field<StringType>("orderRef", auditAlias)
         val auditStatusField = Field<StringType>("status", auditAlias)
 
@@ -81,8 +81,11 @@ class FromIntegrationTest : BaseIntegrationTest() {
             .orderBy(orderNumberField, ASC)
             .build(CouchbaseResolver())
 
+        println(dopeQuery)
+
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
+            println(queryResult.rows)
 
             assertEquals(5, queryResult.rows.size)
 
@@ -96,9 +99,9 @@ class FromIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `join documents with multiple joins`() {
-        val employeeAlias = testKeyspace.alias("e")
-        val clientAlias = testKeyspace.alias("c")
-        val orderAlias = testKeyspace.alias("o")
+        val employeeAlias = testBucket.alias("e")
+        val clientAlias = testBucket.alias("c")
+        val orderAlias = testBucket.alias("o")
         val employeeNameField = Field<StringType>("name", employeeAlias)
         val clientNameField = Field<StringType>("name", clientAlias)
         val orderNumberField = Field<StringType>("orderNumber", orderAlias)
@@ -157,20 +160,20 @@ class FromIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `use multiple from terms`() {
-        val e = testKeyspace.alias("e")
+        val e = testBucket.alias("e")
         val eIdField = Field<NumberType>("id", e)
         val eTypeField = Field<StringType>("type", e)
         val eIsActiveField = Field<BooleanType>("isActive", e)
-        val c = testKeyspace.alias("c")
+        val c = testBucket.alias("c")
         val cIdField = Field<NumberType>("id", c)
         val cTypeField = Field<StringType>("type", c)
         val cIsActiveField = Field<BooleanType>("isActive", c)
-        val o = testKeyspace.alias("o")
+        val o = testBucket.alias("o")
         val oClientField = Field<StringType>("client", o)
         val oTypeField = Field<StringType>("type", o)
         val oOrderNumberField = Field<NumberType>("orderNumber", o)
         val oQuantitiesField = Field<ArrayType<NumberType>>("quantities", o)
-        val nestedOrders = testKeyspace.alias("nestedOrders")
+        val nestedOrders = testBucket.alias("nestedOrders")
         val nestedOrdersEmployeeField = Field<StringType>("employee", nestedOrders)
         val nestedOrdersTypeField = Field<StringType>("type", nestedOrders)
 

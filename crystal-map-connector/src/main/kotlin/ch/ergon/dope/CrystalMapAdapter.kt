@@ -2,13 +2,15 @@ package ch.ergon.dope
 
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.CollectionBucket
+import ch.ergon.dope.resolvable.bucket.ScopedBucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.Keyspace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -25,7 +27,7 @@ import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 import kotlin.reflect.KClass
 
-fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(name, keyspaceFrom(reference))
+fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeTypeNumber")
 fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterField<Convertable, JsonType>): TypeExpression<NumberType> =
@@ -61,24 +63,24 @@ fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toDopeType(other:
     requireValidConvertable(typeConverter.write(other), Boolean::class).toDopeType()
 
 @JvmName("toDopeNumberField")
-fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, keyspaceFrom(reference))
+fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeStringField")
-fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, keyspaceFrom(reference))
+fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeBooleanField")
-fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, keyspaceFrom(reference))
+fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeNumberArrayField")
-fun CMJsonList<out Number>.toDopeType(reference: String = path): Field<ArrayType<NumberType>> = Field(name, keyspaceFrom(reference))
+fun CMJsonList<out Number>.toDopeType(reference: String = path): Field<ArrayType<NumberType>> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeStringArrayField")
-fun CMJsonList<String>.toDopeType(reference: String = path): Field<ArrayType<StringType>> = Field(name, keyspaceFrom(reference))
+fun CMJsonList<String>.toDopeType(reference: String = path): Field<ArrayType<StringType>> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeBooleanArrayField")
-fun CMJsonList<Boolean>.toDopeType(reference: String = path): Field<ArrayType<BooleanType>> = Field(name, keyspaceFrom(reference))
+fun CMJsonList<Boolean>.toDopeType(reference: String = path): Field<ArrayType<BooleanType>> = Field(name, bucketFrom(reference))
 
-fun CMJsonList<out Any>.toDopeType(reference: String = path): Field<ArrayType<ValidType>> = Field(name, keyspaceFrom(reference))
+fun CMJsonList<out Any>.toDopeType(reference: String = path): Field<ArrayType<ValidType>> = Field(name, bucketFrom(reference))
 
 fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, path)
 
@@ -127,13 +129,13 @@ private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConverta
             "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
     }
 
-private fun keyspaceFrom(path: String?): Keyspace? {
+private fun bucketFrom(path: String?): Bucket? {
     if (path.isNullOrBlank()) return null
     val parts = path.split('.').filter { it.isNotBlank() }
     return when (parts.size) {
-        1 -> UnaliasedKeyspace(parts[0])
-        2 -> UnaliasedKeyspace(parts[0], parts[1])
-        3 -> UnaliasedKeyspace(parts[0], parts[1], parts[2])
+        1 -> UnaliasedBucket(parts[0])
+        2 -> ScopedBucket(parts[0], parts[1])
+        3 -> CollectionBucket(parts[0], parts[1], parts[2])
         else -> null
     }
 }

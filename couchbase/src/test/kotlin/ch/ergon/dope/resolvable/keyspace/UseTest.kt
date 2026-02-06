@@ -1,16 +1,16 @@
-package ch.ergon.dope.resolvable.keyspace
+package ch.ergon.dope.resolvable.bucket
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someString
+import ch.ergon.dope.resolvable.bucket.IndexType.USING_FTS
+import ch.ergon.dope.resolvable.bucket.IndexType.USING_GSI
+import ch.ergon.dope.resolvable.bucket.UseKeysClass.Companion.UseKeys
 import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.IndexType.USING_FTS
-import ch.ergon.dope.resolvable.keyspace.IndexType.USING_GSI
-import ch.ergon.dope.resolvable.keyspace.UseKeysClass.Companion.UseKeys
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -22,7 +22,7 @@ class UseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`someBucket` USE INDEX ()",
         )
-        val underTest = UseIndex(someKeyspace())
+        val underTest = UseIndex(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -35,7 +35,7 @@ class UseTest : ResolverDependentTest {
             queryString = "`someBucket` USE INDEX (`index`)",
         )
         val underTest = UseIndex(
-            someKeyspace(),
+            someBucket(),
             listOf(IndexReference("index")),
         )
 
@@ -50,7 +50,7 @@ class UseTest : ResolverDependentTest {
             queryString = "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
         )
         val underTest = UseIndex(
-            someKeyspace(),
+            someBucket(),
             listOf(
                 IndexReference("index", USING_GSI),
                 IndexReference(indexType = USING_FTS),
@@ -69,7 +69,7 @@ class UseTest : ResolverDependentTest {
             queryString = "`someBucket` USE INDEX (`index`)",
         )
         val underTest = UseIndex(
-            someKeyspace(),
+            someBucket(),
             listOf(IndexReference("index")),
         )
 
@@ -95,10 +95,10 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support use index extension function without index name`() {
-        val keyspace = someKeyspace()
-        val expected = UseIndex(keyspace)
+        val bucket = someBucket()
+        val expected = UseIndex(bucket)
 
-        val actual = keyspace.useIndex()
+        val actual = bucket.useIndex()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -106,10 +106,10 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use index extension function`() {
         val indexName = "index"
-        val keyspace = someKeyspace()
-        val expected = UseIndex(keyspace, listOf(IndexReference(indexName)))
+        val bucket = someBucket()
+        val expected = UseIndex(bucket, listOf(IndexReference(indexName)))
 
-        val actual = keyspace.useIndex(indexName)
+        val actual = bucket.useIndex(indexName)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -117,10 +117,10 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use gsi index extension function`() {
         val indexName = "index"
-        val keyspace = someKeyspace()
-        val expected = UseIndex(keyspace, listOf(IndexReference(indexName, USING_GSI)))
+        val bucket = someBucket()
+        val expected = UseIndex(bucket, listOf(IndexReference(indexName, USING_GSI)))
 
-        val actual = keyspace.useGsiIndex(indexName)
+        val actual = bucket.useGsiIndex(indexName)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -128,10 +128,10 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use fts index extension function`() {
         val indexName = "index"
-        val keyspace = someKeyspace()
-        val expected = UseIndex(keyspace, listOf(IndexReference(indexName, USING_FTS)))
+        val bucket = someBucket()
+        val expected = UseIndex(bucket, listOf(IndexReference(indexName, USING_FTS)))
 
-        val actual = keyspace.useFtsIndex(indexName)
+        val actual = bucket.useFtsIndex(indexName)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -140,10 +140,10 @@ class UseTest : ResolverDependentTest {
     fun `should support multiple use index extension function`() {
         val indexName = "index"
         val indexName2 = "index"
-        val keyspace = someKeyspace()
-        val expected = UseIndex(keyspace, listOf(IndexReference(indexName), IndexReference(indexName2)))
+        val bucket = someBucket()
+        val expected = UseIndex(bucket, listOf(IndexReference(indexName), IndexReference(indexName2)))
 
-        val actual = keyspace.useIndex(indexName).useIndex(indexName2)
+        val actual = bucket.useIndex(indexName).useIndex(indexName2)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -152,9 +152,9 @@ class UseTest : ResolverDependentTest {
     fun `should support multiple different use index extension function`() {
         val indexName = "index"
         val indexName2 = "index"
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val expected = UseIndex(
-            keyspace,
+            bucket,
             listOf(
                 IndexReference(indexName, USING_GSI),
                 IndexReference(indexName2),
@@ -163,7 +163,7 @@ class UseTest : ResolverDependentTest {
             ),
         )
 
-        val actual = keyspace.useGsiIndex(indexName).useIndex(indexName2).useFtsIndex().useGsiIndex()
+        val actual = bucket.useGsiIndex(indexName).useIndex(indexName2).useFtsIndex().useGsiIndex()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -175,7 +175,7 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseKeys(
             "someString".toDopeType(),
-            someKeyspace(),
+            someBucket(),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -190,7 +190,7 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseKeys(
             listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
-            someKeyspace(),
+            someBucket(),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -207,7 +207,7 @@ class UseTest : ResolverDependentTest {
         )
         val underTest = UseKeys(
             parameterValue.asParameter(),
-            someKeyspace(),
+            someBucket(),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -218,10 +218,10 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use keys extension`() {
         val useKeysString = someString().toDopeType()
-        val keyspace = someKeyspace()
-        val expected = UseKeys(useKeysString, keyspace = keyspace)
+        val bucket = someBucket()
+        val expected = UseKeys(useKeysString, bucket = bucket)
 
-        val actual = keyspace.useKeys(useKeysString)
+        val actual = bucket.useKeys(useKeysString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -229,10 +229,10 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use keys extension with collection`() {
         val useKeysString = listOf(someString().toDopeType())
-        val keyspace = someKeyspace()
-        val expected = UseKeys(useKeysString.toDopeType(), keyspace = keyspace)
+        val bucket = someBucket()
+        val expected = UseKeys(useKeysString.toDopeType(), bucket = bucket)
 
-        val actual = keyspace.useKeys(useKeysString)
+        val actual = bucket.useKeys(useKeysString)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -242,13 +242,13 @@ class UseTest : ResolverDependentTest {
         val useKeysString1 = someString()
         val useKeysString2 = someString()
         val useKeysString3 = someString()
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val expected = UseKeys(
             listOf(useKeysString1.toDopeType(), useKeysString2.toDopeType(), useKeysString3.toDopeType()).toDopeType(),
-            keyspace = keyspace,
+            bucket = bucket,
         )
 
-        val actual = keyspace.useKeys(useKeysString1, useKeysString2, useKeysString3)
+        val actual = bucket.useKeys(useKeysString1, useKeysString2, useKeysString3)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

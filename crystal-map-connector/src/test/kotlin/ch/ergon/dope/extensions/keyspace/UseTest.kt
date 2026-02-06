@@ -1,10 +1,10 @@
-package ch.ergon.dope.extensions.keyspace
+package ch.ergon.dope.extensions.bucket
 
-import ch.ergon.dope.extension.keyspace.useKeys
+import ch.ergon.dope.extension.bucket.useKeys
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someCMStringField
 import ch.ergon.dope.helper.someCMStringList
-import ch.ergon.dope.helper.someKeyspace
-import ch.ergon.dope.resolvable.keyspace.UseKeysClass.Companion.UseKeys
+import ch.ergon.dope.resolvable.bucket.UseKeysClass.Companion.UseKeys
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,21 +13,21 @@ class UseTest {
     @Test
     fun `should support single use keys with CM`() {
         val useKeys = someCMStringField()
-        val keyspace = someKeyspace()
-        val expected = UseKeys(useKeys.toDopeType(), keyspace)
+        val bucket = someBucket()
+        val expected = UseKeys(useKeys.toDopeType(), bucket)
 
-        val actual = keyspace.useKeys(useKeys)
+        val actual = bucket.useKeys(useKeys)
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `should support single use keys with CM on aliased keyspace`() {
+    fun `should support single use keys with CM on aliased bucket`() {
         val useKeys = someCMStringField()
-        val keyspace = someKeyspace().alias("asdf")
-        val expected = UseKeys(useKeys.toDopeType(), keyspace)
+        val bucket = someBucket().alias("asdf")
+        val expected = UseKeys(useKeys.toDopeType(), bucket)
 
-        val actual = keyspace.useKeys(useKeys)
+        val actual = bucket.useKeys(useKeys)
 
         assertEquals(expected, actual)
     }
@@ -35,10 +35,10 @@ class UseTest {
     @Test
     fun `should support single multiple keys with CM`() {
         val useKeys = someCMStringList()
-        val keyspace = someKeyspace()
-        val expected = UseKeys(useKeys.toDopeType(), keyspace)
+        val bucket = someBucket()
+        val expected = UseKeys(useKeys.toDopeType(), bucket)
 
-        val actual = keyspace.useKeys(useKeys)
+        val actual = bucket.useKeys(useKeys)
 
         assertEquals(expected, actual)
     }

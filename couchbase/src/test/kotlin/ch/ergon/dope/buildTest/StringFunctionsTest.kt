@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -816,7 +816,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT * FROM `someBucket` WHERE CONTAINS(`stringField`, \"123\")"
 
         val actual: String = QueryBuilder
-            .selectFrom(someKeyspace())
+            .selectFrom(someBucket())
             .where(someStringField().contains("123"))
             .build(CouchbaseResolver()).queryString
 
@@ -827,7 +827,7 @@ class StringFunctionsTest : ResolverDependentTest {
     fun `should support string functions with conditions in where clause`() {
         val expected = "SELECT * FROM `someBucket` WHERE UPPER(`stringField`) = \"VENDOLIN\""
         val actual: String = QueryBuilder
-            .selectFrom(someKeyspace())
+            .selectFrom(someBucket())
             .where(someStringField().upper().isEqualTo("VENDOLIN".toDopeType()))
             .build(CouchbaseResolver()).queryString
 

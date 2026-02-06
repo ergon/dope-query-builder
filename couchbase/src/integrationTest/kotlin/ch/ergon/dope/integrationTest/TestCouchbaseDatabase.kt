@@ -1,12 +1,13 @@
 package ch.ergon.dope.integrationTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
+import ch.ergon.dope.resolvable.bucket.Bucket
+import ch.ergon.dope.resolvable.bucket.CollectionBucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.countAsterisk
 import ch.ergon.dope.resolvable.expression.type.Field
-import ch.ergon.dope.resolvable.keyspace.Keyspace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -31,16 +32,16 @@ object TestCouchbaseDatabase {
         DockerImageName.parse("couchbase/server:latest"),
     )
     val cluster: Cluster
-    val testKeyspace = UnaliasedKeyspace(BUCKET)
-    val testAppOrderAuditKeyspace = UnaliasedKeyspace(BUCKET, "app", "order_audit")
-    val idField = Field<NumberType>("id", testKeyspace)
-    val typeField = Field<StringType>("type", testKeyspace)
-    val nameField = Field<StringType>("name", testKeyspace)
-    val isActiveField = Field<BooleanType>("isActive", testKeyspace)
-    val orderNumberField = Field<StringType>("orderNumber", testKeyspace)
-    val deliveryDateField = Field<StringType>("deliveryDate", testKeyspace)
-    val quantitiesField = Field<ArrayType<NumberType>>("quantities", testKeyspace)
-    val detailsField = Field<ObjectType>("details", testKeyspace)
+    val testBucket = UnaliasedBucket(BUCKET)
+    val testAppOrderAuditBucket = CollectionBucket(BUCKET, "app", "order_audit")
+    val idField = Field<NumberType>("id", testBucket)
+    val typeField = Field<StringType>("type", testBucket)
+    val nameField = Field<StringType>("name", testBucket)
+    val isActiveField = Field<BooleanType>("isActive", testBucket)
+    val orderNumberField = Field<StringType>("orderNumber", testBucket)
+    val deliveryDateField = Field<StringType>("deliveryDate", testBucket)
+    val quantitiesField = Field<ArrayType<NumberType>>("quantities", testBucket)
+    val detailsField = Field<ObjectType>("details", testBucket)
 
     init {
         initContainer()
@@ -156,7 +157,16 @@ object TestCouchbaseDatabase {
                     cluster.query(
                         QueryBuilder.select(
                             countAsterisk(),
-                        ).from(testKeyspace).build(CouchbaseResolver()).queryString,
+                        ).from(testBucket).build(CouchbaseResolver()).queryString,
+                    ).execute().valueAs<Number>(),
+                )
+
+                assertEquals(
+                    5,
+                    cluster.query(
+                        QueryBuilder.select(
+                            countAsterisk(),
+                        ).from(testAppOrderAuditBucket).build(CouchbaseResolver()).queryString,
                     ).execute().valueAs<Number>(),
                 )
             }
@@ -164,9 +174,9 @@ object TestCouchbaseDatabase {
     }
 }
 
-fun QueryResult.toMapValues(rowNumber: Int = 0, isSelectAsterisk: Boolean = false, keyspace: Keyspace = testKeyspace) =
+fun QueryResult.toMapValues(rowNumber: Int = 0, isSelectAsterisk: Boolean = false, bucket: Bucket = testBucket) =
     if (isSelectAsterisk) {
-        this.rows.map { it.contentAs<Map<String, Map<String, Any>>>()[keyspace.bucket]!! }[rowNumber]
+        this.rows.map { it.contentAs<Map<String, Map<String, Any>>>()[bucket.name]!! }[rowNumber]
     } else {
         this.rows.map { it.contentAs<Map<String, Any>>() }[rowNumber]
     }

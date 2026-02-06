@@ -3,7 +3,7 @@ package ch.ergon.dope.resolvable.clause
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.resolvable.clause.model.UpdateClause
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,7 +16,7 @@ class UpdateClauseTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "UPDATE `someBucket`",
         )
-        val underTest = UpdateClause(someKeyspace())
+        val underTest = UpdateClause(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -24,11 +24,11 @@ class UpdateClauseTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support update clause with an alias keyspace`() {
+    fun `should support update clause with an alias bucket`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` AS `keyspace`",
+            queryString = "UPDATE `someBucket` AS `bucket`",
         )
-        val underTest = UpdateClause(someKeyspace().alias("keyspace"))
+        val underTest = UpdateClause(someBucket().alias("bucket"))
 
         val actual = underTest.toDopeQuery(resolver)
 

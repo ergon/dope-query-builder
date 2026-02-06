@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearch
@@ -15,17 +15,17 @@ import kotlin.test.assertEquals
 class SearchFunctionsTest {
     @Test
     fun `should support search function on field and string query`() {
-        val keyspace = someKeyspace()
+        val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`.`stringField`, \"+something\")"
 
         val actual = QueryBuilder
             .select(
                 meta().id,
             ).from(
-                keyspace,
+                bucket,
             ).where(
                 fullTextSearch(
-                    someStringField(keyspace = keyspace),
+                    someStringField(bucket = bucket),
                     "+something",
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -34,18 +34,18 @@ class SearchFunctionsTest {
     }
 
     @Test
-    fun `should support search function on keyspace with string query`() {
-        val keyspace = someKeyspace()
+    fun `should support search function on bucket with string query`() {
+        val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, \"stringField:\"something\"\")"
 
         val actual = QueryBuilder
             .select(
                 meta().id,
             ).from(
-                keyspace,
+                bucket,
             ).where(
                 fullTextSearch(
-                    keyspace,
+                    bucket,
                     "stringField:\"something\"",
                 ),
             ).build(CouchbaseResolver()).queryString
@@ -61,7 +61,7 @@ class SearchFunctionsTest {
             .select(
                 meta().id,
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).where(
                 fullTextSearch(
                     someStringField(),
@@ -75,8 +75,8 @@ class SearchFunctionsTest {
     }
 
     @Test
-    fun `should support search function on keyspace with object query`() {
-        val keyspace = someKeyspace()
+    fun `should support search function on bucket with object query`() {
+        val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, {\"disjuncts\" : " +
             "[{\"regexp\" : \"(?i).*123.*\", \"field\" : \"someField\"}, " +
             "{\"regexp\" : \"(?i).*123.*\", \"field\" : \"anotherField\"}]}) " +
@@ -86,10 +86,10 @@ class SearchFunctionsTest {
             .select(
                 meta().id,
             ).from(
-                keyspace,
+                bucket,
             ).where(
                 fullTextSearch(
-                    keyspace,
+                    bucket,
                     mapOf(
                         "disjuncts" to listOf(
                             mapOf("regexp" to "(?i).*123.*", "field" to "someField"),
@@ -112,7 +112,7 @@ class SearchFunctionsTest {
                 meta().id,
                 fullTextSearchScore("outName").alias("score"),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).where(
                 fullTextSearch(
                     someStringField(),
@@ -135,7 +135,7 @@ class SearchFunctionsTest {
             .select(
                 fullTextSearchMeta().alias("meta"),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).where(
                 fullTextSearch(
                     someStringField(),

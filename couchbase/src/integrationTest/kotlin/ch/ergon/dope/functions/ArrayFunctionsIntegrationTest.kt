@@ -4,9 +4,10 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toRawValues
 import ch.ergon.dope.integrationTest.toSingleValue
+import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.arithmetic.sub
 import ch.ergon.dope.resolvable.expression.type.function.array.append
@@ -23,7 +24,6 @@ import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.useKeys
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -56,7 +56,7 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
                 meta().id,
             )
             .from(
-                testKeyspace.useKeys(
+                testBucket.useKeys(
                     keys.append(
                         "employee:5",
                     ).put(

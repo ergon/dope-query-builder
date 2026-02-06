@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someObjectSelectRawClause
@@ -101,7 +101,7 @@ class ArrayFunctionsTest {
         val actual = QueryBuilder
             .selectAsterisk()
             .from(
-                someKeyspace(),
+                someBucket(),
             )
             .where(
                 someStringArrayField().contains(someStringField()),
@@ -364,7 +364,7 @@ class ArrayFunctionsTest {
 
     @Test
     fun `should support unpack on subquery with object function`() {
-        val subquery = someObjectSelectRawClause().from(someKeyspace())
+        val subquery = someObjectSelectRawClause().from(someBucket())
         val expected = "SELECT (SELECT RAW `objectField` FROM `someBucket`)[*].`key`"
 
         val actual = QueryBuilder

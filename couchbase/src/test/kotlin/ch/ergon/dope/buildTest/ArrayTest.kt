@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
@@ -23,7 +23,7 @@ import kotlin.test.assertEquals
 class ArrayTest {
     @Test
     fun `should support arrays`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [`person`.`fname`, `stringField`] FROM `person`"
 
         val actual: String = QueryBuilder
@@ -38,7 +38,7 @@ class ArrayTest {
 
     @Test
     fun `should support multiple arrays`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [`stringField`], [`stringField`] FROM `person`"
 
         val actual: String = QueryBuilder
@@ -54,7 +54,7 @@ class ArrayTest {
 
     @Test
     fun `should support arrays with multiple types`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [\"test\", 53, TRUE, `stringField`, `person`.`age`, `booleanField`] FROM `person`"
 
         val actual: String = QueryBuilder
@@ -76,7 +76,7 @@ class ArrayTest {
 
     @Test
     fun `should support array aliased`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [`stringField`] AS `test` FROM `person`"
 
         val actual: String = QueryBuilder
@@ -91,7 +91,7 @@ class ArrayTest {
 
     @Test
     fun `should support multiple arrays aliased`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [`stringField`] AS `fname`, [`stringField`] AS `true` FROM `person`"
 
         val actual: String = QueryBuilder
@@ -107,7 +107,7 @@ class ArrayTest {
 
     @Test
     fun `should support nested arrays`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [`stringField`, [`person`.`age`, TRUE, \"string\"], 23] AS `test` FROM `person`"
 
         val actual: String = QueryBuilder
@@ -130,7 +130,7 @@ class ArrayTest {
 
     @Test
     fun `should support string arrays`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [\"string\", \"hallo\"] FROM `person`"
 
         val actual: String = QueryBuilder
@@ -148,7 +148,7 @@ class ArrayTest {
 
     @Test
     fun `should support stringFunction in string arrays`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT [CONCAT(\"string\", `stringField`), \"hallo\"] AS `test`, 23 FROM `person`"
 
         val actual: String = QueryBuilder
@@ -167,7 +167,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT TRUE IN [FALSE] FROM `person`"
 
         val actual: String = QueryBuilder
@@ -186,7 +186,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array aliased`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT TRUE IN [FALSE] AS `test` FROM `person`"
 
         val actual: String = QueryBuilder
@@ -216,7 +216,7 @@ class ArrayTest {
                     ),
                 ).alias("test"),
             ).from(
-                someKeyspace("person"),
+                someBucket("person"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -235,7 +235,7 @@ class ArrayTest {
                     ),
                 ).alias("test"),
             ).from(
-                someKeyspace("person"),
+                someBucket("person"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -254,7 +254,7 @@ class ArrayTest {
                     ),
                 ).alias("test"),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -272,7 +272,7 @@ class ArrayTest {
                     ),
                 ).alias("test"),
             ).from(
-                someKeyspace("person"),
+                someBucket("person"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -280,7 +280,7 @@ class ArrayTest {
 
     @Test
     fun `should support in array as whereClause`() {
-        val person = someKeyspace("person")
+        val person = someBucket("person")
         val expected = "SELECT * FROM `person` WHERE `stringField` IN [\"string\", \"hallo\"]"
 
         val actual: String = QueryBuilder
@@ -306,7 +306,7 @@ class ArrayTest {
             .select(
                 someNumberArrayField().get(0.toDopeType()),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -320,7 +320,7 @@ class ArrayTest {
             .select(
                 someNumberArrayField().get(1.toDopeType().add(1)),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -334,7 +334,7 @@ class ArrayTest {
             .select(
                 someNumberArrayField().get((-1).toDopeType()),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -348,7 +348,7 @@ class ArrayTest {
             .select(
                 someStringArrayField().get(someNumberArrayField().get(0.toDopeType())),
             ).from(
-                someKeyspace(),
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -360,7 +360,7 @@ class ArrayTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk().from(
-                someKeyspace(),
+                someBucket(),
             ).where(
                 someNumberArrayField().get(0.toDopeType()).isEqualTo(1),
             ).build(CouchbaseResolver()).queryString
@@ -374,7 +374,7 @@ class ArrayTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk().from(
-                someKeyspace(),
+                someBucket(),
             ).offset(
                 someNumberArrayField().get(0.toDopeType()),
             ).build(CouchbaseResolver()).queryString
@@ -388,7 +388,7 @@ class ArrayTest {
 
         val actual: String = QueryBuilder
             .selectAsterisk().from(
-                someKeyspace(),
+                someBucket(),
             ).limit(
                 someNumberArrayField().get(0.toDopeType()),
             ).build(CouchbaseResolver()).queryString

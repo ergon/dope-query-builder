@@ -5,13 +5,13 @@ import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.resetDatabase
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.tryUntil
 import ch.ergon.dope.resolvable.asterisk
+import ch.ergon.dope.resolvable.bucket.useKeys
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
-import ch.ergon.dope.resolvable.keyspace.useKeys
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,7 +26,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
     fun `delete single document and return id field`() {
         val dopeQuery = QueryBuilder
             .deleteFrom(
-                testKeyspace.useKeys("employee:1"),
+                testBucket.useKeys("employee:1"),
             )
             .returning(
                 idField,
@@ -43,10 +43,10 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `delete every document in keyspace`() {
+    fun `delete every document in bucket`() {
         val deleteEverythingCouchbaseDopeQuery = QueryBuilder
             .deleteFrom(
-                testKeyspace,
+                testBucket,
             )
             .where(
                 1.add(1).isEqualTo(2),
@@ -57,7 +57,7 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
         val selectEverythingCouchbaseDopeQuery = QueryBuilder
             .selectFrom(
-                testKeyspace,
+                testBucket,
             ).build(CouchbaseResolver())
 
         tryUntil {

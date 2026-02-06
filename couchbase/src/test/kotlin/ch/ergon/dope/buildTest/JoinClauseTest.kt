@@ -3,22 +3,22 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.unifyString
+import ch.ergon.dope.resolvable.bucket.useIndex
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.min
 import ch.ergon.dope.resolvable.expression.rowscope.alias
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.useIndex
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class JoinClauseTest {
-    val route = someKeyspace("route")
-    val airline = someKeyspace("airline")
+    val route = someBucket("route")
+    val airline = someBucket("airline")
 
     @Test
     fun `should support join`() {
@@ -127,8 +127,8 @@ class JoinClauseTest {
 
     @Test
     fun `Left Outer Join of US airports in the same city as a landmark`() {
-        val aport = someKeyspace("airport").alias("aport")
-        val lmark = someKeyspace("landmark").alias("lmark")
+        val aport = someBucket("airport").alias("aport")
+        val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
             "SELECT DISTINCT MIN(`aport`.`airportname`) AS `Airport__Name`, " +
@@ -177,8 +177,8 @@ class JoinClauseTest {
 
     @Test
     fun `Right Outer Join of US airports in the same city as a landmark`() {
-        val aport = someKeyspace("airport").alias("aport")
-        val lmark = someKeyspace("landmark").alias("lmark")
+        val aport = someBucket("airport").alias("aport")
+        val lmark = someBucket("landmark").alias("lmark")
 
         val expected =
             "SELECT DISTINCT MIN(`aport`.`airportname`) AS `Airport__Name`, " +
@@ -227,8 +227,8 @@ class JoinClauseTest {
 
     @Test
     fun `Right Outer Join`() {
-        val airport = someKeyspace("airport")
-        val route = someKeyspace("route")
+        val airport = someBucket("airport")
+        val route = someBucket("route")
         val expected = "SELECT DISTINCT `subquery`.`destinationairport` " +
             "FROM `airport` " +
             "JOIN (SELECT `destinationairport`, `sourceairport` FROM `route`) AS `subquery` " +
@@ -236,14 +236,14 @@ class JoinClauseTest {
             "WHERE `airport`.`city` = \"San Francisco\""
 
         val actual = QueryBuilder
-            .selectDistinct(someStringField("destinationairport", someKeyspace("subquery")))
+            .selectDistinct(someStringField("destinationairport", someBucket("subquery")))
             .from(airport)
             .join(
                 QueryBuilder
                     .select(someStringField("destinationairport"), someStringField("sourceairport"))
                     .from(route)
                     .alias("subquery"),
-                condition = someStringField("faa", airport).isEqualTo(someStringField("sourceairport", someKeyspace("subquery"))),
+                condition = someStringField("faa", airport).isEqualTo(someStringField("sourceairport", someBucket("subquery"))),
             )
             .where(someStringField("city", airport).isEqualTo("San Francisco"))
             .build(CouchbaseResolver()).queryString
@@ -353,7 +353,7 @@ class JoinClauseTest {
             ).join(
                 route,
                 key = someStringField("airlineid", route),
-                keyspace = airline,
+                bucket = airline,
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -370,7 +370,7 @@ class JoinClauseTest {
             ).innerJoin(
                 route,
                 key = someStringField("airlineid", route),
-                keyspace = airline,
+                bucket = airline,
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -387,7 +387,7 @@ class JoinClauseTest {
             ).leftJoin(
                 route,
                 key = someStringField("airlineid", route),
-                keyspace = airline,
+                bucket = airline,
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -400,7 +400,7 @@ class JoinClauseTest {
             "JOIN `airline` AS `a` " +
             "ON `r`.`airlineid` = META(`a`).`id`"
 
-        val routeBucket = someKeyspace("route").alias("r")
+        val routeBucket = someBucket("route").alias("r")
         val airlineBucket = airline.alias("a")
 
         val actual = QueryBuilder
@@ -421,7 +421,7 @@ class JoinClauseTest {
     fun `Simple Join Example 2`() {
         val expected = "SELECT * FROM `route` AS `r` JOIN `airline` ON KEYS `r`.`airlineid`"
 
-        val routeBucket = someKeyspace("route").alias("r")
+        val routeBucket = someBucket("route").alias("r")
 
         val actual = QueryBuilder
             .selectAsterisk()
@@ -488,8 +488,8 @@ class JoinClauseTest {
             "JOIN `airport` AS `ap` ON `al`.`id` = `ap`.`id`\n" +
             "JOIN `city` AS `c` ON `ap`.`id` = `c`.`id`\n"
         val airline = airline.alias("al")
-        val airport = someKeyspace("airport").alias("ap")
-        val city = someKeyspace("city").alias("c")
+        val airport = someBucket("airport").alias("ap")
+        val city = someBucket("city").alias("c")
 
         val actual = QueryBuilder
             .selectFrom(

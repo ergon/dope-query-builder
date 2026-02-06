@@ -3,12 +3,14 @@ package ch.ergon.dope.couchbase.resolver.expression
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
-import ch.ergon.dope.couchbase.util.formatKeyspace
+import ch.ergon.dope.couchbase.util.formatBucket
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSeparator
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.operator.PostfixOperator
@@ -44,8 +46,6 @@ import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
 import ch.ergon.dope.resolvable.expression.type.relational.BetweenExpression
 import ch.ergon.dope.resolvable.expression.type.relational.NotBetweenExpression
-import ch.ergon.dope.resolvable.keyspace.AliasedKeyspace
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
@@ -240,15 +240,15 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
             }
 
             is IField<*> -> {
-                val ks = typeExpression.keyspace
+                val ks = typeExpression.bucket
                 val fieldQuery = when (ks) {
-                    is AliasedKeyspace -> "${formatKeyspace(ks.alias)}.`${typeExpression.name}`"
+                    is AliasedBucket -> "${formatBucket(ks.alias)}.`${typeExpression.name}`"
 
-                    is UnaliasedKeyspace -> {
+                    is UnaliasedBucket -> {
                         val path = when {
-                            ks.collection != null -> ks.collection
-                            ks.scope != null -> ks.scope
-                            else -> ks.bucket
+                            ks.collectionName != null -> ks.collectionName
+                            ks.scopeName != null -> ks.scopeName
+                            else -> ks.name
                         }
                         "`$path`.`${typeExpression.name}`"
                     }

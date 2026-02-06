@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Returnable
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.model.ReturningType.ELEMENT
 import ch.ergon.dope.resolvable.clause.model.ReturningType.RAW
 import ch.ergon.dope.resolvable.clause.model.ReturningType.VALUE
@@ -15,7 +16,6 @@ import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.Keyspace
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.ValidType
@@ -26,7 +26,7 @@ interface IUpdateLimitClause : IUpdateReturningClause {
     fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
         UpdateReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
-    fun returningAsterisk(keyspace: Keyspace? = null) = UpdateReturningClause(Asterisk(keyspace), parentClause = this)
+    fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(Asterisk(bucket), parentClause = this)
 
     fun returningRaw(returningExpression: TypeExpression<out ValidType>) =
         UpdateReturningSingleClause(returningExpression, returningType = RAW, parentClause = this)

@@ -7,6 +7,7 @@ import ch.ergon.dope.integrationTest.BUCKET
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.detailsField
 import ch.ergon.dope.integrationTest.toMapValues
+import ch.ergon.dope.resolvable.bucket.CollectionBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TRUE
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -19,7 +20,6 @@ import ch.ergon.dope.resolvable.expression.type.function.objects.removeAttribute
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isGreaterThan
 import ch.ergon.dope.resolvable.expression.type.toDopeType
-import ch.ergon.dope.resolvable.keyspace.UnaliasedKeyspace
 import ch.ergon.dope.validtype.ObjectType
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,14 +27,14 @@ import kotlin.test.assertEquals
 class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use nested object functions`() {
-        val testKeyspace = UnaliasedKeyspace(BUCKET, "_default", "_default")
-        val detailsField = Field<ObjectType>(detailsField.name, testKeyspace)
+        val testBucket = CollectionBucket(BUCKET, "_default", "_default")
+        val detailsField = Field<ObjectType>(detailsField.name, testBucket)
         val dopeQuery = QueryBuilder
             .selectRaw(
                 detailsField.concat(mapOf("someField" to 4).toDopeType()).addAttribute("otherField", TRUE).removeAttribute("department")
                     .alias("result"),
             )
-            .from(testKeyspace)
+            .from(testBucket)
             .where(
                 detailsField.getLength().isGreaterThan(2)
                     .and(mapOf("name" to "email", "val" to "employee1@company.com").toDopeType().inArray(detailsField.getInnerPairs())),

@@ -2,7 +2,7 @@ package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someObjectArrayField
 import ch.ergon.dope.helper.someStringField
@@ -15,8 +15,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NestTest {
-    val route = someKeyspace("route")
-    val airport = someKeyspace("airport")
+    val route = someBucket("route")
+    val airport = someBucket("airport")
 
     @BeforeTest
     fun setup() {
@@ -114,7 +114,7 @@ class NestTest {
     }
 
     @Test
-    fun `should support inner nest on key for keyspace`() {
+    fun `should support inner nest on key for bucket`() {
         val airportBucket = airport.alias("a")
         val routeBucket = route.alias("r")
         val expected = "SELECT * FROM `airport` AS `a` " +
@@ -126,7 +126,7 @@ class NestTest {
             .innerNest(
                 routeBucket,
                 key = someStringField("airportid", routeBucket),
-                keyspace = airportBucket,
+                bucket = airportBucket,
             ).limit(1).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -136,7 +136,7 @@ class NestTest {
     fun `should support multiple from terms`() {
         val routeBucket = route.alias("r")
         val airportBucket = airport.alias("a")
-        val landmarkBucket = someKeyspace("landmark").alias("l")
+        val landmarkBucket = someBucket("landmark").alias("l")
         val expected = "SELECT * FROM `route` AS `r` " +
             "JOIN `airport` AS `a` ON `r`.`destinationairport` = `a`.`faa` " +
             "NEST `landmark` AS `l` ON `a`.`city` = `l`.`city` " +
@@ -161,7 +161,7 @@ class NestTest {
             ).unnest(
                 someObjectArrayField("schedule", routeBucket).alias("s"),
             ).where(
-                someNumberField("day", someKeyspace("s")).isEqualTo(1), // this is so hack-y
+                someNumberField("day", someBucket("s")).isEqualTo(1), // this is so hack-y
             ).limit(10).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

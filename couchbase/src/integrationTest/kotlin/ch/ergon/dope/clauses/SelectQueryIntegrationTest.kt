@@ -7,7 +7,7 @@ import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.isActiveField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.nameField
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.quantitiesField
-import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testKeyspace
+import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.typeField
 import ch.ergon.dope.integrationTest.toMapValues
 import ch.ergon.dope.integrationTest.toRawValues
@@ -29,10 +29,10 @@ import kotlin.test.assertEquals
 
 class SelectQueryIntegrationTest : BaseIntegrationTest() {
     @Test
-    fun `select everything from the test keyspace`() {
+    fun `select everything from the test bucket`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeyspace,
+                testBucket,
             ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
@@ -41,10 +41,10 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select all employees from the test keyspace`() {
+    fun `select all employees from the test bucket`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeyspace,
+                testBucket,
             )
             .where(
                 typeField.isEqualTo("employee"),
@@ -59,10 +59,10 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select all active clients from the test keyspace`() {
+    fun `select all active clients from the test bucket`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeyspace,
+                testBucket,
             )
             .where(
                 typeField.isEqualTo("client").and(isActiveField.isEqualTo(true)),
@@ -74,14 +74,14 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select id, type field from the test keyspace`() {
+    fun `select id, type field from the test bucket`() {
         val dopeQuery = QueryBuilder
             .select(
                 idField,
                 typeField,
             )
             .from(
-                testKeyspace,
+                testBucket,
             )
             .orderBy(
                 typeField,
@@ -98,14 +98,14 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select aliased field from the test keyspace`() {
+    fun `select aliased field from the test bucket`() {
         val alias = "Identification"
         val dopeQuery = QueryBuilder
             .select(
                 idField.alias(alias),
             )
             .from(
-                testKeyspace,
+                testBucket,
             )
             .limit(
                 1,
@@ -118,10 +118,10 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select where nothing applies from the test keyspace`() {
+    fun `select where nothing applies from the test bucket`() {
         val dopeQuery = QueryBuilder
             .selectFrom(
-                testKeyspace,
+                testBucket,
             )
             .where(
                 idField.isNull(),
@@ -133,13 +133,13 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select distinct field from the test keyspace`() {
+    fun `select distinct field from the test bucket`() {
         val dopeQuery = QueryBuilder
             .selectDistinct(
                 idField,
             )
             .from(
-                testKeyspace,
+                testBucket,
             ).orderBy(
                 idField,
             ).build(CouchbaseResolver())
@@ -155,13 +155,13 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `select raw field from the test keyspace`() {
+    fun `select raw field from the test bucket`() {
         val dopeQuery = QueryBuilder
             .selectRaw(
                 idField,
             )
             .from(
-                testKeyspace,
+                testBucket,
             )
             .limit(
                 1,
@@ -180,7 +180,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                 idField,
             )
             .from(
-                testKeyspace,
+                testBucket,
             )
             .where(
                 typeField.isEqualTo("client").and(
@@ -193,7 +193,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                         idField,
                     )
                     .from(
-                        testKeyspace,
+                        testBucket,
                     )
                     .where(
                         typeField.isEqualTo("client").and(
@@ -240,7 +240,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
     fun `select from subquery`() {
         val subQuery = QueryBuilder
             .selectRaw(quantitiesField)
-            .from(testKeyspace)
+            .from(testBucket)
             .where(typeField.isEqualTo("order"))
             .limit(1)
             .alias("subQuery")
@@ -265,10 +265,10 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
         )
         val dopeQuery = QueryBuilder
             .select(
-                testKeyspace.asterisk(),
+                testBucket.asterisk(),
             )
             .from(
-                testKeyspace,
+                testBucket,
             )
             .where(
                 typeField.isEqualTo("client").and(isActiveField),
@@ -297,7 +297,7 @@ class SelectQueryIntegrationTest : BaseIntegrationTest() {
                     nameField,
                     typeField,
                 )
-                .from(testKeyspace)
+                .from(testBucket)
                 .where(typeField.isEqualTo("client"))
                 .orderBy(idField),
         )

@@ -4,7 +4,7 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanArrayField
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someStringArrayField
@@ -28,7 +28,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class AggregateFunctionsTest {
-    val person = someKeyspace("person")
+    val person = someBucket("person")
 
     @Test
     fun `should support min with a ValidType and arrays of ValidType`() {

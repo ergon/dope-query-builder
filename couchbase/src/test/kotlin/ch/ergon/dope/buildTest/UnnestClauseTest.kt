@@ -3,7 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBooleanArrayField
-import ch.ergon.dope.helper.someKeyspace
+import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
@@ -23,7 +23,7 @@ import kotlin.test.assertEquals
 class UnnestClauseTest {
     @Test
     fun `should support unnest`() {
-        val airline = someKeyspace()
+        val airline = someBucket()
         val aField = listOf("a".toDopeType()).toDopeType()
         val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
@@ -42,7 +42,7 @@ class UnnestClauseTest {
 
         val actual: String = QueryBuilder
             .select(someNumberArrayField("c"))
-            .from(someKeyspace("airline"))
+            .from(someBucket("airline"))
             .unnest(someNumberArrayField("a"))
             .build(CouchbaseResolver()).queryString
 
@@ -51,7 +51,7 @@ class UnnestClauseTest {
 
     @Test
     fun `should support nested unnest`() {
-        val airline = someKeyspace("airline").alias("ai")
+        val airline = someBucket("airline").alias("ai")
         val aField = someNumberArrayField("a")
         val expected = "SELECT `c` FROM `airline` AS `ai` UNNEST `a` AS `ab` UNNEST `ab`.`c` WHERE `a` IS VALUED"
 
@@ -59,7 +59,7 @@ class UnnestClauseTest {
             .select(someNumberArrayField("c"))
             .from(airline)
             .unnest(aField.alias("ab"))
-            .unnest(someBooleanArrayField("c", someKeyspace("ab")))
+            .unnest(someBooleanArrayField("c", someBucket("ab")))
             .where(aField.isValued())
             .build(CouchbaseResolver()).queryString
 
@@ -72,14 +72,14 @@ class UnnestClauseTest {
             "SELECT `b`.* FROM `someBucket` AS `b` UNNEST `stringArrayField` AS `a` " +
                 "WHERE (`b`.`stringField` = \"something\" AND `a`.`stringField` = \$param)"
 
-        val bucket = someKeyspace().alias("b")
+        val bucket = someBucket().alias("b")
         val actual: String = QueryBuilder
             .select(bucket.asterisk())
             .from(bucket)
             .unnest(someStringArrayField().alias("a"))
             .where(
-                someStringField(keyspace = bucket).isEqualTo("something")
-                    .and(someStringField(keyspace = someKeyspace("a")).isEqualTo("".asParameter("param"))),
+                someStringField(bucket = bucket).isEqualTo("something")
+                    .and(someStringField(bucket = someBucket("a")).isEqualTo("".asParameter("param"))),
             )
             .build(CouchbaseResolver()).queryString
 

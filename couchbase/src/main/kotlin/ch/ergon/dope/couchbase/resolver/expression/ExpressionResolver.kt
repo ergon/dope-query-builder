@@ -1,7 +1,7 @@
 package ch.ergon.dope.couchbase.resolver.expression
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
-import ch.ergon.dope.couchbase.util.formatKeyspace
+import ch.ergon.dope.couchbase.util.formatBucket
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge
@@ -15,16 +15,16 @@ import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
-import ch.ergon.dope.resolvable.keyspace.AliasedKeyspace
-import ch.ergon.dope.resolvable.keyspace.Keyspace
 
 interface ExpressionResolver : TypeExpressionResolver {
     fun resolve(expression: Expression<*>): CouchbaseDopeQuery = when (expression) {
         is TypeExpression<*> -> resolve(expression)
 
-        is AliasedKeyspace -> CouchbaseDopeQuery("`${expression.alias}`")
+        is AliasedBucket -> CouchbaseDopeQuery("`${expression.alias}`")
 
-        is Keyspace -> CouchbaseDopeQuery(formatKeyspace(expression.bucket, expression.scope, expression.collection))
+        is Bucket -> CouchbaseDopeQuery(
+            formatBucket(expression.name, expression.scopeName, expression.collectionName),
+        )
 
         is AliasedTypeExpression<*> -> {
             val inner = expression.typeExpression.toDopeQuery(this)
