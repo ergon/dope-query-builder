@@ -8,6 +8,7 @@ import ch.ergon.dope.helper.someNumberField
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.function.string.MBRpadExpression
+import ch.ergon.dope.resolvable.expression.type.function.string.mbRpad
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
