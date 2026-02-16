@@ -21,13 +21,21 @@ abstract class BaseIntegrationTest {
     fun queryWithNamedParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
-            queryParameters = QueryParameters.named(dopeQuery.parameters.namedParameters),
+            queryParameters = QueryParameters.named {
+                dopeQuery.parameters.namedParameters.map {
+                    param(it.key, it.value)
+                }
+            },
         )
 
     fun queryWithPositionalParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
-            queryParameters = QueryParameters.positional(dopeQuery.parameters.positionalParameters),
+            queryParameters = QueryParameters.positional {
+                dopeQuery.parameters.positionalParameters.map {
+                    param(it)
+                }
+            },
         )
 
     private fun queryExecution(queryString: String, queryParameters: QueryParameters = QueryParameters.None) =
