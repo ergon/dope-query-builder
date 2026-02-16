@@ -15,7 +15,6 @@ import ch.ergon.dope.helper.someCMConverterStringList
 import ch.ergon.dope.helper.someCorruptField
 import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someString
-import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.BooleanParameter
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.IField
@@ -45,7 +44,7 @@ class CrystalMapAdapterTest {
         val actual: IField<NumberType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonField.path), actual.bucket)
+        assertEquals(cmJsonField.path, actual.bucket?.name)
     }
 
     @Test
@@ -55,7 +54,7 @@ class CrystalMapAdapterTest {
         val actual: IField<StringType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonField.path), actual.bucket)
+        assertEquals(cmJsonField.path, actual.bucket?.name)
     }
 
     @Test
@@ -65,7 +64,7 @@ class CrystalMapAdapterTest {
         val actual: IField<BooleanType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonField.path), actual.bucket)
+        assertEquals(cmJsonField.path, actual.bucket?.name)
     }
 
     @Test
@@ -75,7 +74,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<StringType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonList.path), actual.bucket)
+        assertEquals(cmJsonList.path, actual.bucket?.name)
     }
 
     @Test
@@ -85,7 +84,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<NumberType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonList.path), actual.bucket)
+        assertEquals(cmJsonList.path, actual.bucket?.name)
     }
 
     @Test
@@ -95,7 +94,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<BooleanType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonList.path), actual.bucket)
+        assertEquals(cmJsonList.path, actual.bucket?.name)
     }
 
     @Test

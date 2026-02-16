@@ -25,7 +25,7 @@ internal fun formatPathToQueryString(name: String, path: String) =
     }
 
 internal fun formatBucket(bucket: Bucket): String =
-    bucket.name.split('.').plus(listOfNotNull(bucket.scope?.name, bucket.scope?.collection?.name))
+    bucket.name.split(".").plus(listOfNotNull(bucket.scope?.name, bucket.scope?.collection?.name))
         .filter { it.isNotBlank() }
         .joinToString(".") { dotPart ->
             dotPart
@@ -33,11 +33,6 @@ internal fun formatBucket(bucket: Bucket): String =
                 .filter { it.isNotBlank() }
                 .joinToString(":") { "`$it`" }
         }
-
-internal fun formatBucket(bucket: String, scope: String? = null, collection: String? = null): String =
-    listOfNotNull(bucket, scope, collection)
-        .filter { it.isNotBlank() }
-        .joinToString(".") { "`$it`" }
 
 internal fun formatPartsToQueryStringWithSpace(vararg string: String?) =
     listOfNotNull(*string).joinToString(separator = " ")

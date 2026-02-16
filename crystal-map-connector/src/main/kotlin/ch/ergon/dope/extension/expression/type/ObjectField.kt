@@ -18,7 +18,6 @@ import kotlin.reflect.KProperty1
 data class ObjectField<S : Schema>(
     val schema: S,
     override val name: String,
-    val path: String,
     override val bucket: Bucket? = null,
 ) : IField<ObjectType>
 
@@ -49,7 +48,12 @@ data class ObjectField<S : Schema>(
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProperty1<S, T>): T {
     val schemaField = field.get(schema)
-    val nestedFieldPath = if (path.isBlank()) name else "$path.$name"
+    val bucketValue = bucket
+    val nestedFieldPath = if (bucketValue == null) {
+        name
+    } else {
+        "${bucketValue.name}${bucketValue.scope?.let { ".$it" }}${bucketValue.scope?.collection?.let { ".$it" }}.$name"
+    }
     return when (schemaField) {
         is CMConverterField<*, *> ->
             CMConverterField(

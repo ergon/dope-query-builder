@@ -1,8 +1,8 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.CouchbaseResolver
 import ch.ergon.dope.couchbase.resolvable.keyspace.system
+import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -29,7 +29,7 @@ class SystemTest {
 
         val actual = QueryBuilder
             .select(
-                allSequences.name,
+                allSequences.nameField,
             ).from(
                 allSequences,
             ).build(CouchbaseResolver()).queryString

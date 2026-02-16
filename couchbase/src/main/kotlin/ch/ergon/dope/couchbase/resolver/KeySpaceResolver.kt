@@ -5,25 +5,22 @@ import ch.ergon.dope.couchbase.resolver.expression.queryString
 import ch.ergon.dope.couchbase.util.formatBucket
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.AliasedBucketDefinition
+import ch.ergon.dope.resolvable.bucket.Definable
 import ch.ergon.dope.resolvable.bucket.IndexReference
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.bucket.UseIndex
 import ch.ergon.dope.resolvable.bucket.UseKeysClass
 
 interface KeySpaceResolver : AbstractCouchbaseResolver {
     fun resolve(aliasedBucket: AliasedBucketDefinition): CouchbaseDopeQuery =
         CouchbaseDopeQuery(
-            formatBucket(
-                aliasedBucket.bucketName,
-                aliasedBucket.scopeName,
-                aliasedBucket.collectionName,
-            ) + " AS `${aliasedBucket.alias}`",
+            formatBucket(UnaliasedBucket(aliasedBucket.bucketName, aliasedBucket.scope)) + " AS `${aliasedBucket.alias}`",
         )
 
     fun resolve(useKeysClass: UseKeysClass): CouchbaseDopeQuery {
         val bucket = when (val bucket = useKeysClass.bucket) {
-            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
+            is Definable -> bucket.asBucketDefinition().toDopeQuery(this)
             else -> useKeysClass.bucket.toDopeQuery(this)
         }
         val keys = useKeysClass.useKeys.toDopeQuery(this)
@@ -42,7 +39,7 @@ interface KeySpaceResolver : AbstractCouchbaseResolver {
     fun resolve(useIndex: UseIndex): CouchbaseDopeQuery {
         val bucket = useIndex.bucket
         val bucketDopeQuery = when (bucket) {
-            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
+            is Definable -> bucket.asBucketDefinition().toDopeQuery(this)
             else -> bucket.toDopeQuery(this)
         }
         val refs = useIndex.indexReferences.map { it.toDopeQuery(this) }

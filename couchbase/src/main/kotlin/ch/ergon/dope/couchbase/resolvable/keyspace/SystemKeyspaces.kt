@@ -1,8 +1,9 @@
 package ch.ergon.dope.couchbase.resolvable.keyspace
 
+import ch.ergon.dope.resolvable.bucket.BucketScope
+import ch.ergon.dope.resolvable.bucket.Definable
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.IField
-import ch.ergon.dope.resolvable.keyspace.DefinableKeyspace
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
@@ -11,75 +12,79 @@ import ch.ergon.dope.validtype.StringType
 
 abstract class SystemKeyspace(
     keyspaceName: String,
-) : DefinableKeyspace("system:$keyspaceName", keyspaceName) {
-    protected fun string(name: String): IField<StringType> = Field(name, this)
-    protected fun number(name: String): IField<NumberType> = Field(name, this)
-    protected fun bool(name: String): IField<BooleanType> = Field(name, this)
-    protected fun obj(name: String): IField<ObjectType> = Field(name, this)
+) : Definable {
+    override val name: String = "system:$keyspaceName"
+    override val alias = keyspaceName
+    override val scope: BucketScope? = null
 
-    protected fun stringArray(name: String): IField<ArrayType<StringType>> = Field(name, this)
-    protected fun objectArray(name: String): IField<ArrayType<ObjectType>> = Field(name, this)
+    protected fun stringField(name: String): IField<StringType> = Field(name, this)
+    protected fun numberField(name: String): IField<NumberType> = Field(name, this)
+    protected fun booleanField(name: String): IField<BooleanType> = Field(name, this)
+    protected fun objectField(name: String): IField<ObjectType> = Field(name, this)
+
+    protected fun stringArrayField(name: String): IField<ArrayType<StringType>> = Field(name, this)
+    protected fun objectArrayField(name: String): IField<ArrayType<ObjectType>> = Field(name, this)
 }
 
 class DatastoresKeyspace internal constructor() : SystemKeyspace("datastores") {
-    val id: IField<StringType> = string("id")
-    val url: IField<StringType> = string("url")
+    val id: IField<StringType> = stringField("id")
+    val url: IField<StringType> = stringField("url")
 }
 
 class NamespacesKeyspace internal constructor() : SystemKeyspace("namespaces") {
-    val id: IField<StringType> = string("id")
-    val name: IField<StringType> = string("name")
-    val datastoreId: IField<StringType> = string("datastore_id")
+    val id: IField<StringType> = stringField("id")
+    val nameField: IField<StringType> = stringField("name")
+    val datastoreId: IField<StringType> = stringField("datastore_id")
 }
 
 class BucketsKeyspace internal constructor() : SystemKeyspace("buckets") {
-    val datastoreId: IField<StringType> = string("datastore_id")
-    val name: IField<StringType> = string("name")
-    val namespace: IField<StringType> = string("namespace")
-    val namespaceId: IField<StringType> = string("namespace_id")
-    val path: IField<StringType> = string("path")
+    val datastoreId: IField<StringType> = stringField("datastore_id")
+    val nameField: IField<StringType> = stringField("name")
+    val namespace: IField<StringType> = stringField("namespace")
+    val namespaceId: IField<StringType> = stringField("namespace_id")
+    val path: IField<StringType> = stringField("path")
 }
 
 class ScopesKeyspace internal constructor() : SystemKeyspace("scopes") {
-    val bucketName: IField<StringType> = string("bucket")
-    val datastoreId: IField<StringType> = string("datastore_id")
-    val name: IField<StringType> = string("name")
-    val namespace: IField<StringType> = string("namespace")
-    val namespaceId: IField<StringType> = string("namespace_id")
-    val path: IField<StringType> = string("path")
+    val bucketName: IField<StringType> = stringField("bucket")
+    val datastoreId: IField<StringType> = stringField("datastore_id")
+    val nameField: IField<StringType> = stringField("name")
+    val namespace: IField<StringType> = stringField("namespace")
+    val namespaceId: IField<StringType> = stringField("namespace_id")
+    val path: IField<StringType> = stringField("path")
 }
 
 class KeyspacesKeyspace internal constructor() : SystemKeyspace("keyspaces") {
-    val bucketName: IField<StringType> = string("bucket")
-    val datastoreId: IField<StringType> = string("datastore_id")
-    val id: IField<StringType> = string("id")
-    val name: IField<StringType> = string("name")
-    val namespace: IField<StringType> = string("namespace")
-    val namespaceId: IField<StringType> = string("namespace_id")
-    val path: IField<StringType> = string("path")
-    val scopeName: IField<StringType> = string("scope")
+    val bucketName: IField<StringType> = stringField("bucket")
+    val datastoreId: IField<StringType> = stringField("datastore_id")
+    val id: IField<StringType> = stringField("id")
+    val nameField: IField<StringType> = stringField("name")
+    val namespace: IField<StringType> = stringField("namespace")
+    val namespaceId: IField<StringType> = stringField("namespace_id")
+    val path: IField<StringType> = stringField("path")
+    val scopeField: IField<StringType> = stringField("scope")
 }
 
 class IndexesKeyspace internal constructor() : SystemKeyspace("indexes") {
-    val bucketId: IField<StringType> = string("bucket_id")
-    val condition: IField<StringType> = string("condition")
-    val datastoreId: IField<StringType> = string("datastore_id")
-    val id: IField<StringType> = string("id")
-    val indexKey: IField<ArrayType<StringType>> = stringArray("index_key")
-    val isPrimary: IField<BooleanType> = bool("is_primary")
-    val keyspaceId: IField<StringType> = string("keyspace_id")
-    val name: IField<StringType> = string("name")
-    val metadata: IField<ObjectType> = obj("metadata")
-    val namespaceId: IField<StringType> = string("namespace_id")
-    val state: IField<StringType> = string("state")
-    val using: IField<StringType> = string("using")
+    val bucketId: IField<StringType> = stringField("bucket_id")
+    val condition: IField<StringType> = stringField("condition")
+    val datastoreId: IField<StringType> = stringField("datastore_id")
+    val id: IField<StringType> = stringField("id")
+    val indexKey: IField<ArrayType<StringType>> = stringArrayField("index_key")
+    val isPrimary: IField<BooleanType> = booleanField("is_primary")
+    val keyspaceId: IField<StringType> = stringField("keyspace_id")
+    val nameField: IField<StringType> = stringField("name")
+    val metadata: IField<ObjectType> = objectField("metadata")
+    val namespaceId: IField<StringType> = stringField("namespace_id")
+    val state: IField<StringType> = stringField("state")
+    val using: IField<StringType> = stringField("using")
 }
 
 class GroupInfoKeyspace internal constructor() : SystemKeyspace("group_info") {
-    val description: IField<StringType> = string("description")
-    val id: IField<StringType> = string("id")
-    val ldapGroupRef: IField<StringType> = string("ldap_group_ref")
-    val roles: IField<ArrayType<ObjectType>> = objectArray("roles")
+    val description: IField<StringType> = stringField("description")
+    val id: IField<StringType> = stringField("id")
+    val ldapGroupRef: IField<StringType> = stringField("ldap_group_ref")
+    val roles: IField<ArrayType<ObjectType>> = objectArrayField("roles")
 }
 
 class BucketInfoKeyspace internal constructor() : SystemKeyspace("bucket_info")
@@ -99,148 +104,148 @@ class CompletedRequestsHistoryKeyspace internal constructor() : SystemKeyspace("
 class AwrKeyspace internal constructor() : SystemKeyspace("awr")
 
 class MyUserInfoKeyspace internal constructor() : SystemKeyspace("my_user_info") {
-    val domain: IField<StringType> = string("domain")
-    val externalGroups: IField<ArrayType<ObjectType>> = objectArray("external_groups")
-    val groups: IField<ArrayType<ObjectType>> = objectArray("groups")
-    val id: IField<StringType> = string("id")
-    val name: IField<StringType> = string("name")
-    val passwordChangeDate: IField<StringType> = string("password_change_date")
-    val roles: IField<ArrayType<ObjectType>> = objectArray("roles")
+    val domain: IField<StringType> = stringField("domain")
+    val externalGroups: IField<ArrayType<ObjectType>> = objectArrayField("external_groups")
+    val groups: IField<ArrayType<ObjectType>> = objectArrayField("groups")
+    val id: IField<StringType> = stringField("id")
+    val nameField: IField<StringType> = stringField("name")
+    val passwordChangeDate: IField<StringType> = stringField("password_change_date")
+    val roles: IField<ArrayType<ObjectType>> = objectArrayField("roles")
 }
 
 class UserInfoKeyspace internal constructor() : SystemKeyspace("user_info") {
-    val domain: IField<StringType> = string("domain")
-    val externalGroups: IField<ArrayType<ObjectType>> = objectArray("external_groups")
-    val groups: IField<ArrayType<ObjectType>> = objectArray("groups")
-    val id: IField<StringType> = string("id")
-    val name: IField<StringType> = string("name")
-    val passwordChangeDate: IField<StringType> = string("password_change_date")
-    val roles: IField<ArrayType<ObjectType>> = objectArray("roles")
+    val domain: IField<StringType> = stringField("domain")
+    val externalGroups: IField<ArrayType<ObjectType>> = objectArrayField("external_groups")
+    val groups: IField<ArrayType<ObjectType>> = objectArrayField("groups")
+    val id: IField<StringType> = stringField("id")
+    val nameField: IField<StringType> = stringField("name")
+    val passwordChangeDate: IField<StringType> = stringField("password_change_date")
+    val roles: IField<ArrayType<ObjectType>> = objectArrayField("roles")
 }
 
 class NodesKeyspace internal constructor() : SystemKeyspace("nodes") {
-    val name: IField<StringType> = string("name")
-    val ports: IField<ObjectType> = obj("ports")
-    val services: IField<ArrayType<StringType>> = stringArray("services")
+    val nameField: IField<StringType> = stringField("name")
+    val ports: IField<ObjectType> = objectField("ports")
+    val services: IField<ArrayType<StringType>> = stringArrayField("services")
 }
 
 class ApplicableRolesKeyspace internal constructor() : SystemKeyspace("applicable_roles") {
-    val bucketName: IField<StringType> = string("bucket_name")
-    val scopeName: IField<StringType> = string("scope_name")
-    val collectionName: IField<StringType> = string("collection_name")
-    val grantee: IField<StringType> = string("grantee")
-    val role: IField<StringType> = string("role")
+    val bucketName: IField<StringType> = stringField("bucket_name")
+    val scopeField: IField<StringType> = stringField("scope_name")
+    val collectionField: IField<StringType> = stringField("collection_name")
+    val grantee: IField<StringType> = stringField("grantee")
+    val role: IField<StringType> = stringField("role")
 }
 
 class DictionaryKeyspace internal constructor() : SystemKeyspace("dictionary") {
-    val avgDocKeySize: IField<NumberType> = number("avgDocKeySize")
-    val avgDocSize: IField<NumberType> = number("avgDocSize")
-    val bucketName: IField<StringType> = string("bucket")
-    val distributionKeys: IField<ArrayType<StringType>> = stringArray("distributionKeys")
-    val docCount: IField<NumberType> = number("docCount")
-    val indexes: IField<ArrayType<ObjectType>> = objectArray("indexes")
-    val keyspaceName: IField<StringType> = string("keyspace")
-    val namespace: IField<StringType> = string("namespace")
-    val node: IField<StringType> = string("node")
-    val scopeName: IField<StringType> = string("scope")
+    val avgDocKeySize: IField<NumberType> = numberField("avgDocKeySize")
+    val avgDocSize: IField<NumberType> = numberField("avgDocSize")
+    val bucketName: IField<StringType> = stringField("bucket")
+    val distributionKeys: IField<ArrayType<StringType>> = stringArrayField("distributionKeys")
+    val docCount: IField<NumberType> = numberField("docCount")
+    val indexes: IField<ArrayType<ObjectType>> = objectArrayField("indexes")
+    val keyspaceName: IField<StringType> = stringField("keyspace")
+    val namespace: IField<StringType> = stringField("namespace")
+    val node: IField<StringType> = stringField("node")
+    val scopeField: IField<StringType> = stringField("scope")
 }
 
 class DictionaryCacheKeyspace internal constructor() : SystemKeyspace("dictionary_cache") {
-    val avgDocKeySize: IField<NumberType> = number("avgDocKeySize")
-    val avgDocSize: IField<NumberType> = number("avgDocSize")
-    val bucketName: IField<StringType> = string("bucket")
-    val distributionKeys: IField<ArrayType<StringType>> = stringArray("distributionKeys")
-    val docCount: IField<NumberType> = number("docCount")
-    val indexes: IField<ArrayType<ObjectType>> = objectArray("indexes")
-    val keyspaceName: IField<StringType> = string("keyspace")
-    val namespace: IField<StringType> = string("namespace")
-    val node: IField<StringType> = string("node")
-    val scopeName: IField<StringType> = string("scope")
+    val avgDocKeySize: IField<NumberType> = numberField("avgDocKeySize")
+    val avgDocSize: IField<NumberType> = numberField("avgDocSize")
+    val bucketName: IField<StringType> = stringField("bucket")
+    val distributionKeys: IField<ArrayType<StringType>> = stringArrayField("distributionKeys")
+    val docCount: IField<NumberType> = numberField("docCount")
+    val indexes: IField<ArrayType<ObjectType>> = objectArrayField("indexes")
+    val keyspaceName: IField<StringType> = stringField("keyspace")
+    val namespace: IField<StringType> = stringField("namespace")
+    val node: IField<StringType> = stringField("node")
+    val scopeField: IField<StringType> = stringField("scope")
 }
 
 class FunctionsKeyspace internal constructor() : SystemKeyspace("functions") {
-    val definition: IField<ObjectType> = obj("definition")
-    val identity: IField<ObjectType> = obj("identity")
+    val definition: IField<ObjectType> = objectField("definition")
+    val identity: IField<ObjectType> = objectField("identity")
 }
 
 class FunctionsCacheKeyspace internal constructor() : SystemKeyspace("functions_cache") {
-    val language: IField<StringType> = string("#language")
-    val avgServiceTime: IField<StringType> = string("avgServiceTime")
-    val lastUse: IField<StringType> = string("lastUse")
-    val maxServiceTime: IField<StringType> = string("maxServiceTime")
-    val minServiceTime: IField<StringType> = string("minServiceTime")
-    val name: IField<StringType> = string("name")
-    val namespace: IField<StringType> = string("namespace")
-    val node: IField<StringType> = string("node")
-    val parameters: IField<ArrayType<StringType>> = stringArray("parameters")
-    val type: IField<StringType> = string("type")
-    val scopeName: IField<StringType> = string("scope")
-    val expression: IField<StringType> = string("expression")
-    val text: IField<StringType> = string("text")
-    val library: IField<StringType> = string("library")
-    val objectName: IField<StringType> = string("object")
-    val undefinedFunction: IField<BooleanType> = bool("undefined_function")
-    val uses: IField<NumberType> = number("uses")
+    val language: IField<StringType> = stringField("#language")
+    val avgServiceTime: IField<StringType> = stringField("avgServiceTime")
+    val lastUse: IField<StringType> = stringField("lastUse")
+    val maxServiceTime: IField<StringType> = stringField("maxServiceTime")
+    val minServiceTime: IField<StringType> = stringField("minServiceTime")
+    val nameField: IField<StringType> = stringField("name")
+    val namespace: IField<StringType> = stringField("namespace")
+    val node: IField<StringType> = stringField("node")
+    val parameters: IField<ArrayType<StringType>> = stringArrayField("parameters")
+    val type: IField<StringType> = stringField("type")
+    val scopeField: IField<StringType> = stringField("scope")
+    val expression: IField<StringType> = stringField("expression")
+    val text: IField<StringType> = stringField("text")
+    val library: IField<StringType> = stringField("library")
+    val objectName: IField<StringType> = stringField("object")
+    val undefinedFunction: IField<BooleanType> = booleanField("undefined_function")
+    val uses: IField<NumberType> = numberField("uses")
 }
 
 class TasksCacheKeyspace internal constructor() : SystemKeyspace("tasks_cache") {
-    val taskClass: IField<StringType> = string("class")
-    val delay: IField<StringType> = string("delay")
-    val id: IField<StringType> = string("id")
-    val name: IField<StringType> = string("name")
-    val node: IField<StringType> = string("node")
-    val state: IField<StringType> = string("state")
-    val subClass: IField<StringType> = string("subClass")
-    val submitTime: IField<StringType> = string("submitTime")
-    val results: IField<ArrayType<ObjectType>> = objectArray("results")
-    val startTime: IField<StringType> = string("startTime")
-    val stopTime: IField<StringType> = string("stopTime")
+    val taskClass: IField<StringType> = stringField("class")
+    val delay: IField<StringType> = stringField("delay")
+    val id: IField<StringType> = stringField("id")
+    val nameField: IField<StringType> = stringField("name")
+    val node: IField<StringType> = stringField("node")
+    val state: IField<StringType> = stringField("state")
+    val subClass: IField<StringType> = stringField("subClass")
+    val submitTime: IField<StringType> = stringField("submitTime")
+    val results: IField<ArrayType<ObjectType>> = objectArrayField("results")
+    val startTime: IField<StringType> = stringField("startTime")
+    val stopTime: IField<StringType> = stringField("stopTime")
 }
 
 class TransactionsKeyspace internal constructor() : SystemKeyspace("transactions") {
-    val durabilityLevel: IField<StringType> = string("durabilityLevel")
-    val durabilityTimeout: IField<StringType> = string("durabilityTimeout")
-    val expiryTime: IField<StringType> = string("expiryTime")
-    val id: IField<StringType> = string("id")
-    val isolationLevel: IField<StringType> = string("isolationLevel")
-    val lastUse: IField<StringType> = string("lastUse")
-    val node: IField<StringType> = string("node")
-    val numAtrs: IField<NumberType> = number("numAtrs")
-    val scanConsistency: IField<StringType> = string("scanConsistency")
-    val status: IField<NumberType> = number("status")
-    val timeout: IField<StringType> = string("timeout")
-    val usedMemory: IField<NumberType> = number("usedMemory")
-    val uses: IField<NumberType> = number("uses")
+    val durabilityLevel: IField<StringType> = stringField("durabilityLevel")
+    val durabilityTimeout: IField<StringType> = stringField("durabilityTimeout")
+    val expiryTime: IField<StringType> = stringField("expiryTime")
+    val id: IField<StringType> = stringField("id")
+    val isolationLevel: IField<StringType> = stringField("isolationLevel")
+    val lastUse: IField<StringType> = stringField("lastUse")
+    val node: IField<StringType> = stringField("node")
+    val numAtrs: IField<NumberType> = numberField("numAtrs")
+    val scanConsistency: IField<StringType> = stringField("scanConsistency")
+    val status: IField<NumberType> = numberField("status")
+    val timeout: IField<StringType> = stringField("timeout")
+    val usedMemory: IField<NumberType> = numberField("usedMemory")
+    val uses: IField<NumberType> = numberField("uses")
 }
 
 class SequencesKeyspace internal constructor() : SystemKeyspace("sequences") {
-    val bucketName: IField<StringType> = string("bucket")
-    val cache: IField<NumberType> = number("cache")
-    val cycle: IField<BooleanType> = bool("cycle")
-    val increment: IField<NumberType> = number("increment")
-    val max: IField<NumberType> = number("max")
-    val min: IField<NumberType> = number("min")
-    val name: IField<StringType> = string("name")
-    val namespace: IField<StringType> = string("namespace")
-    val namespaceId: IField<StringType> = string("namespace_id")
-    val path: IField<StringType> = string("path")
-    val scopeId: IField<StringType> = string("scope_id")
-    val value: IField<ObjectType> = obj("value")
+    val bucketName: IField<StringType> = stringField("bucket")
+    val cache: IField<NumberType> = numberField("cache")
+    val cycle: IField<BooleanType> = booleanField("cycle")
+    val increment: IField<NumberType> = numberField("increment")
+    val max: IField<NumberType> = numberField("max")
+    val min: IField<NumberType> = numberField("min")
+    val nameField: IField<StringType> = stringField("name")
+    val namespace: IField<StringType> = stringField("namespace")
+    val namespaceId: IField<StringType> = stringField("namespace_id")
+    val path: IField<StringType> = stringField("path")
+    val scopeId: IField<StringType> = stringField("scope_id")
+    val value: IField<ObjectType> = objectField("value")
 }
 
 class AllSequencesKeyspace internal constructor() : SystemKeyspace("all_sequences") {
-    val bucketName: IField<StringType> = string("bucket")
-    val cache: IField<NumberType> = number("cache")
-    val cycle: IField<BooleanType> = bool("cycle")
-    val increment: IField<NumberType> = number("increment")
-    val max: IField<NumberType> = number("max")
-    val min: IField<NumberType> = number("min")
-    val name: IField<StringType> = string("name")
-    val namespace: IField<StringType> = string("namespace")
-    val namespaceId: IField<StringType> = string("namespace_id")
-    val path: IField<StringType> = string("path")
-    val scopeId: IField<StringType> = string("scope_id")
-    val value: IField<ObjectType> = obj("value")
+    val bucketName: IField<StringType> = stringField("bucket")
+    val cache: IField<NumberType> = numberField("cache")
+    val cycle: IField<BooleanType> = booleanField("cycle")
+    val increment: IField<NumberType> = numberField("increment")
+    val max: IField<NumberType> = numberField("max")
+    val min: IField<NumberType> = numberField("min")
+    val nameField: IField<StringType> = stringField("name")
+    val namespace: IField<StringType> = stringField("namespace")
+    val namespaceId: IField<StringType> = stringField("namespace_id")
+    val path: IField<StringType> = stringField("path")
+    val scopeId: IField<StringType> = stringField("scope_id")
+    val value: IField<ObjectType> = objectField("value")
 }
 
 class AusKeyspace internal constructor() : SystemKeyspace("aus")

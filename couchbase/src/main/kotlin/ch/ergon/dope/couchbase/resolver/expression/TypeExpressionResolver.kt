@@ -8,7 +8,7 @@ import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSeparator
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Definable
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
@@ -242,7 +242,7 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
             is IField<*> -> {
                 val bucket = typeExpression.bucket
                 val fieldQuery = when (bucket) {
-                    is AliasedBucket -> "`${bucket.alias}`.`${typeExpression.name}`"
+                    is Definable -> "`${bucket.alias}`.`${typeExpression.name}`"
 
                     is UnaliasedBucket -> {
                         val path = when {

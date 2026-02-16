@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.resolver.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.util.formatPartsToQueryStringWithSpace
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.AliasedSelectClause
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.Definable
 import ch.ergon.dope.resolvable.clause.model.mergeable.JoinType
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.NestType
@@ -21,7 +21,7 @@ interface MergeableClauseResolver : AbstractCouchbaseResolver {
         }
         val parent = selectClause.parentClause.toDopeQuery(this)
         val mergeable = when (val mergeable = selectClause.mergeable) {
-            is AliasedBucket -> mergeable.asBucketDefinition().toDopeQuery(this)
+            is Definable -> mergeable.asBucketDefinition().toDopeQuery(this)
             is AliasedSelectClause<*> -> mergeable.asAliasedSelectClauseDefinition().toDopeQuery(this)
             else -> selectClause.mergeable.toDopeQuery(this)
         }

@@ -3,6 +3,7 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Selectable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
@@ -93,9 +94,7 @@ fun someStringField(name: String = "stringField", bucket: Bucket? = null) = Fiel
 fun someBooleanField(name: String = "booleanField", bucket: Bucket? = null) = Field<BooleanType>(name, bucket)
 fun someObjectField(name: String = "objectField", bucket: Bucket? = null) = Field<ObjectType>(name, bucket)
 
-fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
-    expression,
-)
+fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(expression)
 
 object DateNumberConverterInstance : DateNumberConverter()
 
