@@ -34,7 +34,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    testImplementation("org.testcontainers:couchbase:1.20.3")
+    testImplementation("org.testcontainers:couchbase:1.21.4")
     implementation(kotlin("reflect"))
 }
 

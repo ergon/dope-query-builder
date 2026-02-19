@@ -36,7 +36,7 @@ dependencies {
     implementation(project(":core"))
     testImplementation(kotlin("test"))
     testImplementation("com.couchbase.client:kotlin-client:1.5.0")
-    testImplementation("org.testcontainers:couchbase:1.20.3")
+    testImplementation("org.testcontainers:couchbase:1.21.4")
     implementation(kotlin("reflect"))
 }
 
