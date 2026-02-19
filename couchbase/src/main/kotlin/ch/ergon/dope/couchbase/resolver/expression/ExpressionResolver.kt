@@ -22,9 +22,7 @@ interface ExpressionResolver : TypeExpressionResolver {
 
         is AliasedBucket -> CouchbaseDopeQuery("`${expression.alias}`")
 
-        is Bucket -> CouchbaseDopeQuery(
-            formatBucket(expression.name, expression.scopeName, expression.collectionName),
-        )
+        is Bucket -> CouchbaseDopeQuery(formatBucket(expression))
 
         is AliasedTypeExpression<*> -> {
             val inner = expression.typeExpression.toDopeQuery(this)

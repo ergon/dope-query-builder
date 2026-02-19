@@ -2,9 +2,8 @@ package ch.ergon.dope
 
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
-import ch.ergon.dope.resolvable.bucket.Bucket
-import ch.ergon.dope.resolvable.bucket.CollectionBucket
-import ch.ergon.dope.resolvable.bucket.ScopedBucket
+import ch.ergon.dope.resolvable.bucket.BucketCollection
+import ch.ergon.dope.resolvable.bucket.BucketScope
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -129,13 +128,13 @@ private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConverta
             "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
     }
 
-private fun bucketFrom(path: String?): Bucket? {
+private fun bucketFrom(path: String?): UnaliasedBucket? {
     if (path.isNullOrBlank()) return null
     val parts = path.split('.').filter { it.isNotBlank() }
     return when (parts.size) {
         1 -> UnaliasedBucket(parts[0])
-        2 -> ScopedBucket(parts[0], parts[1])
-        3 -> CollectionBucket(parts[0], parts[1], parts[2])
+        2 -> UnaliasedBucket(parts[0], BucketScope(parts[1]))
+        3 -> UnaliasedBucket(parts[0], BucketScope(parts[1], BucketCollection(parts[2])))
         else -> null
     }
 }

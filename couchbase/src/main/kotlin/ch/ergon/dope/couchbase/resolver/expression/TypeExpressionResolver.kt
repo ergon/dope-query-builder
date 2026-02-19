@@ -3,7 +3,6 @@ package ch.ergon.dope.couchbase.resolver.expression
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
-import ch.ergon.dope.couchbase.util.formatBucket
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSeparator
@@ -240,15 +239,15 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
             }
 
             is IField<*> -> {
-                val ks = typeExpression.bucket
-                val fieldQuery = when (ks) {
-                    is AliasedBucket -> "${formatBucket(ks.alias)}.`${typeExpression.name}`"
+                val bucket = typeExpression.bucket
+                val fieldQuery = when (bucket) {
+                    is AliasedBucket -> "`${bucket.alias}`.`${typeExpression.name}`"
 
                     is UnaliasedBucket -> {
                         val path = when {
-                            ks.collectionName != null -> ks.collectionName
-                            ks.scopeName != null -> ks.scopeName
-                            else -> ks.name
+                            bucket.scope != null && bucket.scope?.collection != null -> bucket.scope?.collection!!.name
+                            bucket.scope != null -> bucket.scope!!.name
+                            else -> bucket.name
                         }
                         "`$path`.`${typeExpression.name}`"
                     }

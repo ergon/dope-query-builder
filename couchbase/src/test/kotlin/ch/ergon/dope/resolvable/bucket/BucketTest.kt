@@ -26,7 +26,7 @@ class BucketTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`bucket`.`scope`",
         )
-        val underTest = ScopedBucket("bucket", "scope")
+        val underTest = UnaliasedBucket("bucket", BucketScope("scope"))
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -38,7 +38,7 @@ class BucketTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`bucket`.`scope`.`collection`",
         )
-        val underTest = CollectionBucket("bucket", "scope", "collection")
+        val underTest = UnaliasedBucket("bucket", BucketScope("scope", BucketCollection("collection")))
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -46,11 +46,35 @@ class BucketTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support scope bucket function`() {
+    fun `should support scop bucket function`() {
         val expected = CouchbaseDopeQuery(
             queryString = "`bucket`.`scope`",
         )
-        val underTest = UnaliasedBucket("bucket").useScope("scope")
+        val underTest = UnaliasedBucket("bucket").withScope(BucketScope("scope"))
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support scop bucket string function`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "`bucket`.`scope`",
+        )
+        val underTest = UnaliasedBucket("bucket").withScope("scope")
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support scope and collection bucket function`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "`bucket`.`scope`.`collection`",
+        )
+        val underTest = UnaliasedBucket("bucket").withScopeAndCollection("scope", "collection")
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -62,31 +86,7 @@ class BucketTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`bucket`.`scope`.`collection`",
         )
-        val underTest = ScopedBucket("bucket", "scope").useCollection("collection")
-
-        val actual = underTest.toDopeQuery(resolver)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support collection and scope bucket funciton`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`bucket`.`scope`.`collection`",
-        )
-        val underTest = UnaliasedBucket("bucket").useScopeAndCollection("scope", "collection")
-
-        val actual = underTest.toDopeQuery(resolver)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support collection bucket definition`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`bucket`.`scope`.`collection` AS `c`",
-        )
-        val underTest = CollectionBucket("bucket", "scope", "collection").alias("c").asBucketDefinition()
+        val underTest = UnaliasedBucket("bucket", BucketScope("scope").withCollection("collection"))
 
         val actual = underTest.toDopeQuery(resolver)
 

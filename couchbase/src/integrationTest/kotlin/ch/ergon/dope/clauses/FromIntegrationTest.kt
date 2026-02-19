@@ -61,7 +61,7 @@ class FromIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `join default orders with order_audit collection`() {
-        val orderAlias = testBucket.useScope("_default").useCollection("_default").alias("o")
+        val orderAlias = testBucket.withScopeAndCollection("_default", "_default").alias("o")
         val orderNumberField = Field<StringType>("orderNumber", orderAlias)
 
         val auditAlias = testAppOrderAuditBucket.alias("a")

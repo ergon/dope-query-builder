@@ -77,7 +77,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`someBucket`.`someScope`.`someCollection`).`type`",
         )
-        val underTest = MetaExpression(someBucket("someBucket").useScopeAndCollection("someScope", "someCollection"))
+        val underTest = MetaExpression(someBucket("someBucket", "someScope", "someCollection"))
 
         val actual = underTest.type.toDopeQuery(resolver)
 
@@ -89,7 +89,7 @@ class MetaExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "META(`alias`).`type`",
         )
-        val underTest = MetaExpression(someBucket("someBucket").useScopeAndCollection("someScope", "someCollection").alias("alias"))
+        val underTest = MetaExpression(someBucket("someBucket", "someScope", "someCollection").alias("alias"))
 
         val actual = underTest.type.toDopeQuery(resolver)
 

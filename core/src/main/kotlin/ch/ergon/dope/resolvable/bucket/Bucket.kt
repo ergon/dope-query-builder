@@ -9,56 +9,42 @@ import ch.ergon.dope.resolvable.Updatable
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.validtype.ObjectType
 
-sealed class Bucket protected constructor(
-    open val name: String,
-    open val scopeName: String?,
-    open val collectionName: String?,
-) : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExpression<ObjectType>
-
-interface Unaliased {
+sealed interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExpression<ObjectType> {
     val name: String
-    val scopeName: String?
-    val collectionName: String?
-
-    fun alias(alias: String): AliasedBucket =
-        AliasedBucket(name, scopeName, collectionName, alias)
+    val scope: BucketScope?
 }
 
 data class UnaliasedBucket(
     override val name: String,
-) : Bucket(name = name, scopeName = null, collectionName = null), Unaliased {
-    fun useScope(scopeName: String): ScopedBucket = ScopedBucket(name, scopeName)
+    override val scope: BucketScope? = null,
+) : Bucket {
+    fun alias(alias: String) = AliasedBucket(name, alias, scope)
 
-    fun useScopeAndCollection(scopeName: String, collectionName: String): CollectionBucket =
-        CollectionBucket(name, scopeName, collectionName)
+    fun withScope(scopeName: String) = copy(scope = BucketScope(scopeName))
+
+    fun withScope(scope: BucketScope) = copy(scope = scope)
+
+    fun withScopeAndCollection(scopeName: String, collectionName: String) = copy(
+        scope = BucketScope(scopeName, BucketCollection(collectionName)),
+    )
 }
 
-data class ScopedBucket(
-    override val name: String,
-    override val scopeName: String,
-) : Bucket(name = name, scopeName = scopeName, collectionName = null), Unaliased {
-
-    fun useCollection(collectionName: String): CollectionBucket =
-        CollectionBucket(name, scopeName, collectionName)
+data class BucketScope(val name: String, val collection: BucketCollection? = null) {
+    fun withCollection(collectionName: String) = copy(collection = BucketCollection(collectionName))
 }
 
-data class CollectionBucket(
-    override val name: String,
-    override val scopeName: String,
-    override val collectionName: String,
-) : Bucket(name = name, scopeName = scopeName, collectionName = collectionName), Unaliased
+data class BucketCollection(val name: String)
 
-data class AliasedBucket internal constructor(
+data class AliasedBucket(
     override val name: String,
-    override val scopeName: String? = null,
-    override val collectionName: String? = null,
     val alias: String,
-) : Bucket(name = name, scopeName = scopeName, collectionName = collectionName) {
+    override val scope: BucketScope? = null,
+) : Bucket {
     fun asBucketDefinition(): AliasedBucketDefinition =
         AliasedBucketDefinition(
             bucketName = name,
-            scopeName = scopeName,
-            collectionName = collectionName,
+            scopeName = scope?.name,
+            collectionName = scope?.collection?.name,
             alias = alias,
         )
 }
