@@ -27,10 +27,11 @@ import kotlin.time.Duration.Companion.seconds
 const val BUCKET = "testBucket"
 const val MAX_RETRIES = 5
 const val MAX_TIMEOUT_IN_SECONDS = 15
+const val COUCHBASE_IMAGE = "couchbase/server:7.2.5"
 
 object TestCouchbaseDatabase {
     val container = CouchbaseContainer(
-        DockerImageName.parse("couchbase/server:latest"),
+        DockerImageName.parse(COUCHBASE_IMAGE),
     )
     val cluster: Cluster
     val testBucket = UnaliasedBucket(BUCKET)
