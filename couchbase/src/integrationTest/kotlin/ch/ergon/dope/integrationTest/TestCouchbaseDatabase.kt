@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.seconds
 const val BUCKET = "testBucket"
 const val MAX_RETRIES = 5
 const val MAX_TIMEOUT_IN_SECONDS = 15
-const val COUCHBASE_IMAGE = "couchbase/server:7.2.5"
+const val COUCHBASE_IMAGE = "couchbase/server:7.6.4"
 
 object TestCouchbaseDatabase {
     val container = CouchbaseContainer(
@@ -73,11 +73,20 @@ object TestCouchbaseDatabase {
         cluster.query("CREATE COLLECTION `$BUCKET`.`app`.`order_audit` IF NOT EXISTS").execute()
     }
 
+    private fun ensureIndexes() = runBlocking {
+        cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
+        cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`").execute()
+        cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`.`app`.`order_audit`").execute()
+        cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_employee` ON `$BUCKET`(`employee`) WHERE `type` = \"order\"").execute()
+        cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_client` ON `$BUCKET`(`client`) WHERE `type` = \"order\"").execute()
+    }
+
     private fun initDatabase() {
         val bucket = cluster.bucket(BUCKET)
         val collection = bucket.defaultCollection()
 
         ensureAuditCollections()
+        ensureIndexes()
         val orderAuditCollection = bucket.scope("app").collection("order_audit")
 
         tryUntil {
