@@ -14,26 +14,27 @@ sealed interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, Si
     val scope: BucketScope?
 }
 
+data class BucketScope(val name: String, val collection: ScopeCollection? = null) {
+    fun withCollection(collectionName: String) = copy(collection = ScopeCollection(collectionName))
+
+    fun withCollection(collection: ScopeCollection) = copy(collection = collection)
+}
+
+data class ScopeCollection(val name: String)
+
 data class UnaliasedBucket(
     override val name: String,
     override val scope: BucketScope? = null,
 ) : Bucket {
+
     fun alias(alias: String) = AliasedBucket(name, alias, scope)
 
     fun withScope(scopeName: String) = copy(scope = BucketScope(scopeName))
 
     fun withScope(scope: BucketScope) = copy(scope = scope)
-
-    fun withScopeAndCollection(scopeName: String, collectionName: String) = copy(
-        scope = BucketScope(scopeName, BucketCollection(collectionName)),
-    )
+    fun withScopeAndCollection(scopeName: String, collectionName: String) =
+        copy(scope = BucketScope(scopeName, ScopeCollection(collectionName)))
 }
-
-data class BucketScope(val name: String, val collection: BucketCollection? = null) {
-    fun withCollection(collectionName: String) = copy(collection = BucketCollection(collectionName))
-}
-
-data class BucketCollection(val name: String)
 
 data class AliasedBucket(
     override val name: String,

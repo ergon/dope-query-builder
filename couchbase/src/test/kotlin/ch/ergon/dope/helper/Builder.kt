@@ -1,8 +1,8 @@
 package ch.ergon.dope.helper
 
 import ch.ergon.dope.resolvable.bucket.Bucket
-import ch.ergon.dope.resolvable.bucket.BucketCollection
 import ch.ergon.dope.resolvable.bucket.BucketScope
+import ch.ergon.dope.resolvable.bucket.ScopeCollection
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.OrderExpression
 import ch.ergon.dope.resolvable.clause.model.OrderType
@@ -30,7 +30,7 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 
 fun someBucket(bucket: String = "someBucket", scope: String? = null, collection: String? = null) =
-    UnaliasedBucket(bucket, scope?.let { BucketScope(it, collection?.let { BucketCollection(it) }) })
+    UnaliasedBucket(bucket, scope?.let { BucketScope(it, collection?.let { ScopeCollection(it) }) })
 
 fun someNumberField(name: String = "numberField", bucket: Bucket? = null) = Field<NumberType>(name, bucket)
 

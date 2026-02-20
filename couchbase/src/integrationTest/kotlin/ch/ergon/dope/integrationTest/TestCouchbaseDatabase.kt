@@ -4,8 +4,8 @@ import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.testBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
-import ch.ergon.dope.resolvable.bucket.BucketCollection
 import ch.ergon.dope.resolvable.bucket.BucketScope
+import ch.ergon.dope.resolvable.bucket.ScopeCollection
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.rowscope.aggregate.countAsterisk
 import ch.ergon.dope.resolvable.expression.type.Field
@@ -35,7 +35,7 @@ object TestCouchbaseDatabase {
     )
     val cluster: Cluster
     val testBucket = UnaliasedBucket(BUCKET)
-    val testAppOrderAuditBucket = UnaliasedBucket(BUCKET, BucketScope("app", BucketCollection("order_audit")))
+    val testAppOrderAuditBucket = UnaliasedBucket(BUCKET, BucketScope("app", ScopeCollection("order_audit")))
     val idField = Field<NumberType>("id", testBucket)
     val typeField = Field<StringType>("type", testBucket)
     val nameField = Field<StringType>("name", testBucket)

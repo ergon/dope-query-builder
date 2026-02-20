@@ -7,8 +7,8 @@ import ch.ergon.dope.integrationTest.BUCKET
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.detailsField
 import ch.ergon.dope.integrationTest.toMapValues
-import ch.ergon.dope.resolvable.bucket.BucketCollection
 import ch.ergon.dope.resolvable.bucket.BucketScope
+import ch.ergon.dope.resolvable.bucket.ScopeCollection
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TRUE
@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use nested object functions`() {
-        val testBucket = UnaliasedBucket(BUCKET).withScope(BucketScope("_default", BucketCollection("_default")))
+        val testBucket = UnaliasedBucket(BUCKET).withScope(BucketScope("_default", ScopeCollection("_default")))
         val detailsField = Field<ObjectType>(detailsField.name, testBucket)
         val dopeQuery = QueryBuilder
             .selectRaw(

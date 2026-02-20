@@ -38,7 +38,7 @@ class BucketTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "`bucket`.`scope`.`collection`",
         )
-        val underTest = UnaliasedBucket("bucket", BucketScope("scope", BucketCollection("collection")))
+        val underTest = UnaliasedBucket("bucket", BucketScope("scope", ScopeCollection("collection")))
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -87,6 +87,18 @@ class BucketTest : ResolverDependentTest {
             queryString = "`bucket`.`scope`.`collection`",
         )
         val underTest = UnaliasedBucket("bucket", BucketScope("scope").withCollection("collection"))
+
+        val actual = underTest.toDopeQuery(resolver)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support scope collection bucket function`() {
+        val expected = CouchbaseDopeQuery(
+            queryString = "`bucket`.`scope`.`collection`",
+        )
+        val underTest = UnaliasedBucket("bucket", BucketScope("scope").withCollection(ScopeCollection("collection")))
 
         val actual = underTest.toDopeQuery(resolver)
 

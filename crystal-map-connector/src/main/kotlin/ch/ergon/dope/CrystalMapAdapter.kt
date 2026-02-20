@@ -2,8 +2,8 @@ package ch.ergon.dope
 
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
-import ch.ergon.dope.resolvable.bucket.BucketCollection
 import ch.ergon.dope.resolvable.bucket.BucketScope
+import ch.ergon.dope.resolvable.bucket.ScopeCollection
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
@@ -134,7 +134,7 @@ private fun bucketFrom(path: String?): UnaliasedBucket? {
     return when (parts.size) {
         1 -> UnaliasedBucket(parts[0])
         2 -> UnaliasedBucket(parts[0], BucketScope(parts[1]))
-        3 -> UnaliasedBucket(parts[0], BucketScope(parts[1], BucketCollection(parts[2])))
+        3 -> UnaliasedBucket(parts[0], BucketScope(parts[1], ScopeCollection(parts[2])))
         else -> null
     }
 }
