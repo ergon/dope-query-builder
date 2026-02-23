@@ -1,4 +1,4 @@
-package ch.ergon.dope.resolvable.expression.type.function.string.factory
+package ch.ergon.dope.resolvable.expression.type.function.token.factory
 
 import ch.ergon.dope.resolvable.Resolvable
 

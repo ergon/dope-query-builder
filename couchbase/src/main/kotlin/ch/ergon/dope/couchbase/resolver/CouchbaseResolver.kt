@@ -30,7 +30,8 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefin
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
-import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.factory.ContainsTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.factory.CustomTokenOptions
 import ch.ergon.dope.resolver.QueryResolver
 
 interface AbstractCouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
@@ -87,6 +88,8 @@ class CouchbaseResolver(
             is CaseClass<*> -> resolve(resolvable)
 
             is Asterisk -> resolve(resolvable)
+
+            is ContainsTokenOptions -> resolve(resolvable)
 
             is CustomTokenOptions -> resolve(resolvable)
 

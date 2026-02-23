@@ -11,8 +11,6 @@ import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.string.concat2
 import ch.ergon.dope.resolvable.expression.type.function.string.contains
-import ch.ergon.dope.resolvable.expression.type.function.string.factory.TokenCases
-import ch.ergon.dope.resolvable.expression.type.function.string.factory.customTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.string.initCap
 import ch.ergon.dope.resolvable.expression.type.function.string.length
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
@@ -38,11 +36,13 @@ import ch.ergon.dope.resolvable.expression.type.function.string.substring
 import ch.ergon.dope.resolvable.expression.type.function.string.substring1
 import ch.ergon.dope.resolvable.expression.type.function.string.suffixes
 import ch.ergon.dope.resolvable.expression.type.function.string.title
-import ch.ergon.dope.resolvable.expression.type.function.string.tokens
 import ch.ergon.dope.resolvable.expression.type.function.string.trim
 import ch.ergon.dope.resolvable.expression.type.function.string.upper
 import ch.ergon.dope.resolvable.expression.type.function.string.urlDecode
 import ch.ergon.dope.resolvable.expression.type.function.string.urlEncode
+import ch.ergon.dope.resolvable.expression.type.function.token.factory.TokenCases
+import ch.ergon.dope.resolvable.expression.type.function.token.factory.customTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.tokens
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
@@ -85,9 +85,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                "abc".toDopeType().concat("def".toDopeType(), "ghi".toDopeType(), someStringField()).alias(
-                    "concat",
-                ),
+                "abc".toDopeType().concat("def".toDopeType(), "ghi".toDopeType(), someStringField()).alias("concat"),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
@@ -142,9 +140,7 @@ class StringFunctionsTest : ResolverDependentTest {
     fun `should Support Concat2 One Argument`() {
         val expected = "CONCAT2(\"-\", \"a\") AS `c2`"
 
-        val actual: String = "-".concat2("a".toDopeType()).alias(
-            "c2",
-        ).toDopeQuery(resolver).queryString
+        val actual: String = "-".concat2("a".toDopeType()).alias("c2").toDopeQuery(resolver).queryString
 
         assertEquals(unifyString(expected), actual)
     }

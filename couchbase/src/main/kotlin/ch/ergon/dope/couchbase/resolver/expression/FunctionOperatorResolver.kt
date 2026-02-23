@@ -7,6 +7,7 @@ import ch.ergon.dope.couchbase.util.formatFunctionQueryString
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
+import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.DecodeExpression
@@ -17,9 +18,15 @@ import ch.ergon.dope.resolvable.expression.type.function.search.ISearchFunctionE
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchDependencyFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionType
 import ch.ergon.dope.resolvable.expression.type.function.string.MaskExpression
-import ch.ergon.dope.resolvable.expression.type.function.string.TokensExpression
+import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenExpression
+import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenLikeExpression
+import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenRegexpExpression
+import ch.ergon.dope.resolvable.expression.type.function.token.TokensExpression
+import ch.ergon.dope.resolvable.expression.type.function.token.factory.ContainsTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.type.ToNumberExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
+import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 
 interface FunctionOperatorResolver : AbstractCouchbaseResolver {
     fun resolve(typeExpression: FunctionOperator<*>): CouchbaseDopeQuery = when (typeExpression) {
@@ -78,15 +85,36 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         is TokensExpression -> {
-            val inString = typeExpression.inStr.toDopeType().toDopeQuery(this)
+            val inStringDopeQuery = typeExpression.inString.toDopeQuery(this)
             val optionsDopeQuery = typeExpression.options?.toDopeQuery(this).takeIf { !it?.queryString.isNullOrEmpty() }
             val functionQueryString = formatFunctionQueryString(
                 "TOKENS",
-                inString.queryString,
+                inStringDopeQuery.queryString,
                 optionsDopeQuery?.queryString,
             )
-            CouchbaseDopeQuery(functionQueryString, optionsDopeQuery?.parameters.orEmpty())
+            CouchbaseDopeQuery(functionQueryString, inStringDopeQuery.parameters.merge(optionsDopeQuery?.parameters))
         }
+
+        is ContainsTokenExpression -> resolve(
+            "CONTAINS_TOKEN",
+            typeExpression.inputObject,
+            typeExpression.tokenExpression,
+            typeExpression.options,
+        )
+
+        is ContainsTokenLikeExpression -> resolve(
+            "CONTAINS_TOKEN_LIKE",
+            typeExpression.inputObject,
+            typeExpression.tokenExpression,
+            typeExpression.options,
+        )
+
+        is ContainsTokenRegexpExpression -> resolve(
+            "CONTAINS_TOKEN_REGEXP",
+            typeExpression.inputObject,
+            typeExpression.tokenExpression,
+            typeExpression.options,
+        )
 
         is MaskExpression -> {
             val inputStringDopeQuery = typeExpression.inStr.toDopeQuery(this)
@@ -186,5 +214,26 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         }
 
         else -> throw UnsupportedOperationException("Not supported: $typeExpression")
+    }
+
+    private fun resolve(
+        symbol: String,
+        inputObject: TypeExpression<out ValidType>,
+        tokenExpression: TypeExpression<StringType>,
+        options: ContainsTokenOptions?,
+    ): CouchbaseDopeQuery {
+        val inputObjectDopeQuery = inputObject.toDopeQuery(this)
+        val tokenExpressionDopeQuery = tokenExpression.toDopeQuery(this)
+        val optionsDopeQuery = options?.toDopeQuery(this).takeIf { !it?.queryString.isNullOrEmpty() }
+        val functionQueryString = formatFunctionQueryString(
+            symbol,
+            inputObjectDopeQuery.queryString,
+            tokenExpressionDopeQuery.queryString,
+            optionsDopeQuery?.queryString,
+        )
+        return CouchbaseDopeQuery(
+            functionQueryString,
+            inputObjectDopeQuery.parameters.merge(tokenExpressionDopeQuery.parameters, optionsDopeQuery?.parameters),
+        )
     }
 }
