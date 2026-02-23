@@ -3,7 +3,6 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
-import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -13,9 +12,7 @@ import ch.ergon.dope.resolvable.expression.type.function.search.fullTextSearchSc
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SearchFunctionsTest : ResolverDependentTest {
-    override lateinit var resolver: CouchbaseResolver
-
+class SearchFunctionsTest {
     @Test
     fun `should support search function on field and string query`() {
         val bucket = someBucket()

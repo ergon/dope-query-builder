@@ -11,6 +11,7 @@ import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
+import kotlin.collections.Collection
 
 data class UseKeysClass private constructor(
     val useKeys: TypeExpression<out ValidType>,

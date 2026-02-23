@@ -38,7 +38,7 @@ class NestDslTest {
     @Test
     fun `should support standard nest with keys`() {
         val nestable = UnaliasedBucket("nest")
-        val keys = Field<ArrayType<StringType>>("keys", "")
+        val keys = Field<ArrayType<StringType>>("keys")
         val parentClause = parentClause()
         val expected = StandardNestOnKeysClause(nestable, keys = keys, parentClause = parentClause)
 
@@ -62,7 +62,7 @@ class NestDslTest {
     @Test
     fun `should support standard nest with key`() {
         val nestable = UnaliasedBucket("nest")
-        val key = Field<StringType>("key", "")
+        val key = Field<StringType>("key")
         val parentClause = parentClause()
         val expected = StandardNestOnKeyClause(nestable, key = key, bucket = null, parentClause = parentClause)
 
@@ -86,7 +86,7 @@ class NestDslTest {
     fun `should support standard nest with key for bucket`() {
         val nestable = UnaliasedBucket("nest")
         val bucket = UnaliasedBucket("bucket")
-        val key = Field<StringType>("key", "")
+        val key = Field<StringType>("key")
         val parentClause = parentClause()
         val expected = StandardNestOnKeyClause(nestable, key = key, bucket = bucket, parentClause = parentClause)
 
@@ -109,7 +109,7 @@ class NestDslTest {
     @Test
     fun `should support inner nest with keys`() {
         val nestable = UnaliasedBucket("nest")
-        val keys = Field<ArrayType<StringType>>("keys", "")
+        val keys = Field<ArrayType<StringType>>("keys")
         val parentClause = parentClause()
         val expected = InnerNestOnKeysClause(nestable, keys = keys, parentClause = parentClause)
 
@@ -133,7 +133,7 @@ class NestDslTest {
     @Test
     fun `should support inner nest with key`() {
         val nestable = UnaliasedBucket("nest")
-        val key = Field<StringType>("key", "")
+        val key = Field<StringType>("key")
         val parentClause = parentClause()
         val expected = InnerNestOnKeyClause(nestable, key = key, bucket = null, parentClause = parentClause)
 
@@ -157,7 +157,7 @@ class NestDslTest {
     fun `should support inner nest with key for bucket`() {
         val nestable = UnaliasedBucket("nest")
         val bucket = UnaliasedBucket("bucket")
-        val key = Field<StringType>("key", "")
+        val key = Field<StringType>("key")
         val parentClause = parentClause()
         val expected = InnerNestOnKeyClause(nestable, key = key, bucket = bucket, parentClause = parentClause)
 
@@ -180,7 +180,7 @@ class NestDslTest {
     @Test
     fun `should support left nest with keys`() {
         val nestable = UnaliasedBucket("nest")
-        val keys = Field<ArrayType<StringType>>("keys", "")
+        val keys = Field<ArrayType<StringType>>("keys")
         val parentClause = parentClause()
         val expected = LeftNestOnKeysClause(nestable, keys = keys, parentClause = parentClause)
 
@@ -204,7 +204,7 @@ class NestDslTest {
     @Test
     fun `should support left nest with key`() {
         val nestable = UnaliasedBucket("nest")
-        val key = Field<StringType>("key", "")
+        val key = Field<StringType>("key")
         val parentClause = parentClause()
         val expected = LeftNestOnKeyClause(nestable, key = key, bucket = null, parentClause = parentClause)
 
@@ -228,7 +228,7 @@ class NestDslTest {
     fun `should support left nest with key for bucket`() {
         val nestable = UnaliasedBucket("nest")
         val bucket = UnaliasedBucket("bucket")
-        val key = Field<StringType>("key", "")
+        val key = Field<StringType>("key")
         val parentClause = parentClause()
         val expected = LeftNestOnKeyClause(nestable, key = key, bucket = bucket, parentClause = parentClause)
 

@@ -1,5 +1,6 @@
 package ch.ergon.dope.extension.expression.type
 
+import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.ObjectType
@@ -17,7 +18,8 @@ import kotlin.reflect.KProperty1
 data class ObjectField<S : Schema>(
     val schema: S,
     override val name: String,
-    override val path: String,
+    val path: String,
+    override val bucket: Bucket? = null,
 ) : IField<ObjectType>
 
 /**

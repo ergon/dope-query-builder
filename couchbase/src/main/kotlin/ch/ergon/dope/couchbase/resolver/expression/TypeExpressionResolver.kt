@@ -4,11 +4,12 @@ import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
-import ch.ergon.dope.couchbase.util.formatPathToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSeparator
 import ch.ergon.dope.merge
 import ch.ergon.dope.orEmpty
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.operator.PostfixOperator
@@ -238,9 +239,22 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
             }
 
             is IField<*> -> {
-                CouchbaseDopeQuery(
-                    queryString = formatPathToQueryString(typeExpression.name, typeExpression.path),
-                )
+                val bucket = typeExpression.bucket
+                val fieldQuery = when (bucket) {
+                    is AliasedBucket -> "`${bucket.alias}`.`${typeExpression.name}`"
+
+                    is UnaliasedBucket -> {
+                        val path = when {
+                            bucket.scope != null && bucket.scope?.collection != null -> bucket.scope?.collection!!.name
+                            bucket.scope != null -> bucket.scope!!.name
+                            else -> bucket.name
+                        }
+                        "`$path`.`${typeExpression.name}`"
+                    }
+
+                    else -> "`${typeExpression.name}`"
+                }
+                CouchbaseDopeQuery(queryString = fieldQuery)
             }
 
             is UnpackExpression -> {

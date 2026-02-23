@@ -44,11 +44,11 @@ class ForRangeSchemaTest {
     fun `should support array for range with schema with condition`() {
         val schema = Dummy()
         val objectList = schema.objectList
-        val condition: (ObjectField<Dummy2>) -> TypeExpression<BooleanType> = { schema ->
-            schema.getField(Dummy2::type).isEqualTo("test")
+        val condition: (ObjectField<Dummy2>) -> TypeExpression<BooleanType> = {
+            it.getField(Dummy2::type).isEqualTo("test")
         }
-        val transformation: (ObjectField<Dummy2>) -> TypeExpression<StringType> = { schema ->
-            schema.getField(Dummy2::type).toDopeType()
+        val transformation: (ObjectField<Dummy2>) -> TypeExpression<StringType> = {
+            it.getField(Dummy2::type).toDopeType()
         }
 
         val actual = objectList.filter(iteratorName = "it", condition = condition).map(transformation)

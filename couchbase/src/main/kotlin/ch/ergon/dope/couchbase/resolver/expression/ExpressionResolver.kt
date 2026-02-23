@@ -1,6 +1,7 @@
 package ch.ergon.dope.couchbase.resolver.expression
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.util.formatBucket
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge
@@ -21,7 +22,7 @@ interface ExpressionResolver : TypeExpressionResolver {
 
         is AliasedBucket -> CouchbaseDopeQuery("`${expression.alias}`")
 
-        is Bucket -> CouchbaseDopeQuery("`${expression.name}`")
+        is Bucket -> CouchbaseDopeQuery(formatBucket(expression))
 
         is AliasedTypeExpression<*> -> {
             val inner = expression.typeExpression.toDopeQuery(this)

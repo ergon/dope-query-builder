@@ -2,6 +2,9 @@ package ch.ergon.dope
 
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.ObjectList
+import ch.ergon.dope.resolvable.bucket.BucketScope
+import ch.ergon.dope.resolvable.bucket.ScopeCollection
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.alias
@@ -23,7 +26,7 @@ import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 import kotlin.reflect.KClass
 
-fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(name, reference)
+fun CMType.toDopeType(reference: String = path): Field<ValidType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeTypeNumber")
 fun <Convertable : Any, JsonType : Number> Convertable.toDopeType(other: CMConverterField<Convertable, JsonType>): TypeExpression<NumberType> =
@@ -59,24 +62,24 @@ fun <Convertable : Any> CMConverterField<Convertable, Boolean>.toDopeType(other:
     requireValidConvertable(typeConverter.write(other), Boolean::class).toDopeType()
 
 @JvmName("toDopeNumberField")
-fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, reference)
+fun CMJsonField<out Number>.toDopeType(reference: String = path): Field<NumberType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeStringField")
-fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, reference)
+fun CMJsonField<String>.toDopeType(reference: String = path): Field<StringType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeBooleanField")
-fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, reference)
+fun CMJsonField<Boolean>.toDopeType(reference: String = path): Field<BooleanType> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeNumberArrayField")
-fun CMJsonList<out Number>.toDopeType(): Field<ArrayType<NumberType>> = Field(name, path)
+fun CMJsonList<out Number>.toDopeType(reference: String = path): Field<ArrayType<NumberType>> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeStringArrayField")
-fun CMJsonList<String>.toDopeType(): Field<ArrayType<StringType>> = Field(name, path)
+fun CMJsonList<String>.toDopeType(reference: String = path): Field<ArrayType<StringType>> = Field(name, bucketFrom(reference))
 
 @JvmName("toDopeBooleanArrayField")
-fun CMJsonList<Boolean>.toDopeType(): Field<ArrayType<BooleanType>> = Field(name, path)
+fun CMJsonList<Boolean>.toDopeType(reference: String = path): Field<ArrayType<BooleanType>> = Field(name, bucketFrom(reference))
 
-fun CMJsonList<out Any>.toDopeType(): Field<ArrayType<ValidType>> = Field(name, path)
+fun CMJsonList<out Any>.toDopeType(reference: String = path): Field<ArrayType<ValidType>> = Field(name, bucketFrom(reference))
 
 fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, path)
 
@@ -124,3 +127,14 @@ private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConverta
         "Conversion failed: " +
             "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
     }
+
+private fun bucketFrom(path: String?): UnaliasedBucket? {
+    if (path.isNullOrBlank()) return null
+    val parts = path.split('.').filter { it.isNotBlank() }
+    return when (parts.size) {
+        1 -> UnaliasedBucket(parts[0])
+        2 -> UnaliasedBucket(parts[0], BucketScope(parts[1]))
+        3 -> UnaliasedBucket(parts[0], BucketScope(parts[1], ScopeCollection(parts[2])))
+        else -> null
+    }
+}

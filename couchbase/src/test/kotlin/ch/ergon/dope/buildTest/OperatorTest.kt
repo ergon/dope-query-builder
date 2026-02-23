@@ -16,8 +16,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class OperatorTest {
-    val someBucket = someBucket("someBucket")
-
     @Test
     fun `should support adding two number types`() {
         val expected = "SELECT (2 + 5) FROM `someBucket`"
@@ -26,7 +24,7 @@ class OperatorTest {
             .select(
                 2.toDopeType().add(5.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -82,7 +80,7 @@ class OperatorTest {
             .select(
                 someNumberField().add(5.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -96,7 +94,7 @@ class OperatorTest {
             .select(
                 3.toDopeType().add(someNumberField().add(5.toDopeType())),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -110,7 +108,7 @@ class OperatorTest {
             .select(
                 someNumberField().add(5.toDopeType()).alias("something"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -124,7 +122,7 @@ class OperatorTest {
             .select(
                 13.toDopeType().sub(6.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -180,7 +178,7 @@ class OperatorTest {
             .select(
                 someNumberField().sub(2.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -194,7 +192,7 @@ class OperatorTest {
             .select(
                 9.toDopeType().sub(someNumberField().sub(2.toDopeType())),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -208,7 +206,7 @@ class OperatorTest {
             .select(
                 someNumberField().sub(5.toDopeType()).alias("something"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -222,7 +220,7 @@ class OperatorTest {
             .select(
                 13.toDopeType().mul(6.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -278,7 +276,7 @@ class OperatorTest {
             .select(
                 someNumberField().mul(2.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -292,7 +290,7 @@ class OperatorTest {
             .select(
                 9.toDopeType().mul(someNumberField().mul(2.toDopeType())),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -306,7 +304,7 @@ class OperatorTest {
             .select(
                 someNumberField().mul(5.toDopeType()).alias("something"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -320,7 +318,7 @@ class OperatorTest {
             .select(
                 13.toDopeType().div(6.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -362,7 +360,7 @@ class OperatorTest {
             .select(
                 someNumberField().div(2.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -376,7 +374,7 @@ class OperatorTest {
             .select(
                 9.toDopeType().div(someNumberField().div(2.toDopeType())),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -390,7 +388,7 @@ class OperatorTest {
             .select(
                 someNumberField().div(5.toDopeType()).alias("something"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -404,7 +402,7 @@ class OperatorTest {
             .select(
                 13.toDopeType().mod(6.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -460,7 +458,7 @@ class OperatorTest {
             .select(
                 someNumberField().mod(2.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -474,7 +472,7 @@ class OperatorTest {
             .select(
                 9.toDopeType().mod(someNumberField().mod(2.toDopeType())),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -488,7 +486,7 @@ class OperatorTest {
             .select(
                 someNumberField().mod(5.toDopeType()).alias("something"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -502,7 +500,7 @@ class OperatorTest {
             .select(
                 neg(someNumberField()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -516,7 +514,7 @@ class OperatorTest {
             .select(
                 neg(someNumberField().mul(12.toDopeType())),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -530,7 +528,7 @@ class OperatorTest {
             .select(
                 neg(someNumberField()).add(6.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -556,7 +554,7 @@ class OperatorTest {
                     ),
                 ).alias("calculation"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -578,7 +576,7 @@ class OperatorTest {
                     ),
                 ).alias("calculation"),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -592,7 +590,7 @@ class OperatorTest {
             .select(
                 neg(6.toDopeType()),
             ).from(
-                someBucket,
+                someBucket(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)

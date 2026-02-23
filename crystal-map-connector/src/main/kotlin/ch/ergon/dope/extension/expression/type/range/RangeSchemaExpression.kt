@@ -41,7 +41,7 @@ data class FilterRangeSchemaExpression<S : Schema>(
     val range: ObjectList<S>,
     val iteratorName: String? = null,
     val condition: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) {
+) : TypeExpression<ArrayType<ObjectType>> {
     fun <T : ValidType> map(
         transformation: (ObjectField<S>) -> TypeExpression<T>,
     ) = ArrayRangeSchemaExpression(

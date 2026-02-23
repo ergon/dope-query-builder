@@ -3,7 +3,6 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Selectable
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause
@@ -31,7 +30,7 @@ import com.schwarz.crystalapi.schema.Schema
 import java.time.Instant
 import java.util.*
 
-fun someBucket(name: String = "someBucket") = UnaliasedBucket(name)
+fun someBucket(bucket: String = "someBucket") = UnaliasedBucket(bucket)
 
 fun someCMNumberField(name: String = "cmNumberField", path: String = "") = CMJsonField<Number>(name, path)
 fun someCMStringField(name: String = "cmStringField", path: String = "") = CMJsonField<String>(name, path)
@@ -49,9 +48,9 @@ fun someCMConverterBooleanField(name: String = "cmConverterBooleanField", path: 
 fun someCorruptField(name: String = "corruptField", path: String = "") =
     CMConverterField(name, path, CorruptStringNumberConverterInstance)
 
-fun someNumberFieldList(name: String = "numberFieldList", path: String = "") = Field<ArrayType<NumberType>>(name, path)
-fun someStringFieldList(name: String = "stringFieldList", path: String = "") = Field<ArrayType<StringType>>(name, path)
-fun someBooleanFieldList(name: String = "booleanFieldList", path: String = "") = Field<ArrayType<BooleanType>>(name, path)
+fun someNumberFieldList(name: String = "numberFieldList", bucket: Bucket? = null) = Field<ArrayType<NumberType>>(name, bucket)
+fun someStringFieldList(name: String = "stringFieldList", bucket: Bucket? = null) = Field<ArrayType<StringType>>(name, bucket)
+fun someBooleanFieldList(name: String = "booleanFieldList", bucket: Bucket? = null) = Field<ArrayType<BooleanType>>(name, bucket)
 
 fun someCMNumberList(name: String = "cmNumberList", path: String = "") = CMJsonList<Number>(name, path)
 fun someCMStringList(name: String = "cmStringList", path: String = "") = CMJsonList<String>(name, path)
@@ -89,15 +88,10 @@ fun someDate(value: Date = Date(12345)) = value
 
 fun someObject(value: Map<String, Any> = mapOf("someKey" to "someValue")) = value
 
-fun someNumberField(name: String = "numberField", bucket: Bucket = someBucket("")) = Field<NumberType>(name, getBucketName(bucket))
-fun someStringField(name: String = "stringField", bucket: Bucket = someBucket("")) = Field<StringType>(name, getBucketName(bucket))
-fun someBooleanField(name: String = "booleanField", bucket: Bucket = someBucket("")) = Field<BooleanType>(name, getBucketName(bucket))
-fun someObjectField(name: String = "objectField", bucket: Bucket = someBucket("")) = Field<ObjectType>(name, getBucketName(bucket))
-
-private fun getBucketName(bucket: Bucket) = when (bucket) {
-    is AliasedBucket -> bucket.alias
-    is UnaliasedBucket -> bucket.name
-}
+fun someNumberField(name: String = "numberField", bucket: Bucket? = null) = Field<NumberType>(name, bucket)
+fun someStringField(name: String = "stringField", bucket: Bucket? = null) = Field<StringType>(name, bucket)
+fun someBooleanField(name: String = "booleanField", bucket: Bucket? = null) = Field<BooleanType>(name, bucket)
+fun someObjectField(name: String = "objectField", bucket: Bucket? = null) = Field<ObjectType>(name, bucket)
 
 fun <T : ValidType> someCaseClass(expression: TypeExpression<T>) = CaseClass(
     expression,

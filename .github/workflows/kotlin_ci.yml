@@ -34,5 +34,10 @@ jobs:
       run: ./gradlew ktlintCheck
     - name: Run unit tests
       run: ./gradlew test
+    - name: Docker diagnostics
+      run: |
+        docker version
+        docker info
+        ls -l /var/run/docker.sock
     - name: Run integration tests
       run: ./gradlew integrationTest

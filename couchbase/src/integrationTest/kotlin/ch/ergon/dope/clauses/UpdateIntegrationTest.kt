@@ -27,8 +27,8 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `update to set and unset single attribute`() {
-        val newFieldName = Field<StringType>("newFieldName", testBucket.name)
-        val newNullField = Field<NumberType>("nullField", testBucket.name)
+        val newFieldName = Field<StringType>("newFieldName", testBucket)
+        val newNullField = Field<NumberType>("nullField", testBucket)
         val dopeQuery = QueryBuilder
             .update(
                 testBucket.useKeys("client:1"),

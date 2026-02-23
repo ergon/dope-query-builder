@@ -19,13 +19,11 @@ data class MetaExpression(val bucket: Bucket?) : FunctionOperator<ObjectType> {
 
     val type: IField<StringType> = MetaField(this, "type")
 
-    val keyspace: IField<StringType> = MetaField(this, "keyspace")
-
     data class MetaField<T : ValidType>(
         val metaExpression: MetaExpression,
         override val name: String,
     ) : IField<T> {
-        override val path: String = ""
+        override val bucket: Bucket? = null
     }
 }
 

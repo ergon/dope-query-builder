@@ -1,6 +1,7 @@
 package ch.ergon.dope.couchbase.util
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.resolvable.bucket.Bucket
 
 internal fun formatToQueryString(left: String, vararg right: String, separator: String = ", ") =
     "$left ${right.joinToString(separator)}"
@@ -22,6 +23,16 @@ internal fun formatPathToQueryString(name: String, path: String) =
     } else {
         "${path.split(".").joinToString(".") { "`$it`" }}.`$name`"
     }
+
+internal fun formatBucket(bucket: Bucket): String =
+    bucket.name.split('.').plus(listOfNotNull(bucket.scope?.name, bucket.scope?.collection?.name))
+        .filter { it.isNotBlank() }
+        .joinToString(".") { "`$it`" }
+
+internal fun formatBucket(bucket: String, scope: String? = null, collection: String? = null): String =
+    listOfNotNull(bucket, scope, collection)
+        .filter { it.isNotBlank() }
+        .joinToString(".") { "`$it`" }
 
 internal fun formatPartsToQueryStringWithSpace(vararg string: String?) =
     listOfNotNull(*string).joinToString(separator = " ")

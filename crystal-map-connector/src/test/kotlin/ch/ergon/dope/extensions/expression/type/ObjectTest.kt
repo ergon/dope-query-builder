@@ -31,7 +31,6 @@ class ObjectTest {
         val actual = Dummy().objectField.getField(Dummy2::type).toDopeType()
 
         assertEquals("type", actual.name)
-        assertEquals("objectField", actual.path)
     }
 
     @Test
@@ -39,7 +38,6 @@ class ObjectTest {
         val actual = Dummy().objectField.getField(Dummy2::converterField).toDopeType()
 
         assertEquals("converterField", actual.name)
-        assertEquals("objectField", actual.path)
     }
 
     @Test
@@ -47,7 +45,6 @@ class ObjectTest {
         val actual = Dummy("path").objectField.getField(Dummy2::type).toDopeType()
 
         assertEquals("type", actual.name)
-        assertEquals("path.objectField", actual.path)
     }
 
     @Test
@@ -55,7 +52,6 @@ class ObjectTest {
         val actual = Dummy().objectField.getField(Dummy2::otherObject).getField(Dummy3::something).toDopeType()
 
         assertEquals("something", actual.name)
-        assertEquals("objectField.otherObject", actual.path)
     }
 
     @Test
@@ -63,6 +59,5 @@ class ObjectTest {
         val actual = Dummy("path").objectField.getField(Dummy2::otherObject).getField(Dummy3::something).toDopeType()
 
         assertEquals("something", actual.name)
-        assertEquals("path.objectField.otherObject", actual.path)
     }
 }

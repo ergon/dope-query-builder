@@ -39,7 +39,7 @@ class MetaTest {
     @Test
     fun `should support meta expression fields`() {
         val expected = "SELECT META().`cas`, META().`expiration`, META().`flags`, META().`id`, " +
-            "META().`keyspace`, META().`type` FROM `someBucket`"
+            "META().`type` FROM `someBucket`"
 
         val actual: String = QueryBuilder
             .select(
@@ -47,7 +47,6 @@ class MetaTest {
                 meta().expiration,
                 meta().flags,
                 meta().id,
-                meta().keyspace,
                 meta().type,
             ).from(
                 someBucket(),

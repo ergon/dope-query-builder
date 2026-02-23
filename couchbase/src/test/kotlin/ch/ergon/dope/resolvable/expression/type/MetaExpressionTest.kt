@@ -75,9 +75,9 @@ class MetaExpressionTest : ResolverDependentTest {
     @Test
     fun `should support meta field type`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`).`type`",
+            queryString = "META(`someBucket`.`someScope`.`someCollection`).`type`",
         )
-        val underTest = MetaExpression(someBucket())
+        val underTest = MetaExpression(someBucket("someBucket", "someScope", "someCollection"))
 
         val actual = underTest.type.toDopeQuery(resolver)
 
@@ -85,13 +85,13 @@ class MetaExpressionTest : ResolverDependentTest {
     }
 
     @Test
-    fun `should support meta field keyspace`() {
+    fun `should support meta field type with aliased bucket`() {
         val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`).`keyspace`",
+            queryString = "META(`alias`).`type`",
         )
-        val underTest = MetaExpression(someBucket())
+        val underTest = MetaExpression(someBucket("someBucket", "someScope", "someCollection").alias("alias"))
 
-        val actual = underTest.keyspace.toDopeQuery(resolver)
+        val actual = underTest.type.toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }

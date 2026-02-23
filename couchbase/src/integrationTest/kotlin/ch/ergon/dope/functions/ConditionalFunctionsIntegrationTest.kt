@@ -47,7 +47,7 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `return first non null, non missing value`() {
-        val missingField = Field<StringType>("nonexistent", testBucket.name)
+        val missingField = Field<StringType>("nonexistent", testBucket)
         val dopeQuery = QueryBuilder
             .select(
                 ifMissingOrNull(
