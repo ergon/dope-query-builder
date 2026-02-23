@@ -70,7 +70,6 @@ import ch.ergon.dope.resolvable.expression.type.function.array.ArrayCountExpress
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayDistinctExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayExceptExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFlattenExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIfNullExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayInsertExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIntersectExpression
@@ -144,7 +143,6 @@ import ch.ergon.dope.resolvable.expression.type.function.numeric.ExponentExpress
 import ch.ergon.dope.resolvable.expression.type.function.numeric.FloorExpression
 import ch.ergon.dope.resolvable.expression.type.function.numeric.LogExpression
 import ch.ergon.dope.resolvable.expression.type.function.numeric.LogNaturalisExpression
-import ch.ergon.dope.resolvable.expression.type.function.numeric.NumberFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.numeric.PiExpression
 import ch.ergon.dope.resolvable.expression.type.function.numeric.PowerExpression
 import ch.ergon.dope.resolvable.expression.type.function.numeric.RadiansExpression
@@ -342,11 +340,7 @@ internal val FunctionExpression<*>.symbol: String
         is UrlDecodeExpression -> "URL_DECODE"
         is UrlEncodeExpression -> "URL_ENCODE"
 
-        else -> throw IllegalArgumentException("Unsupported function expression: ${this::class.simpleName}")
-    }
-
-internal val NumberFunctionExpression.symbol: String
-    get() = when (this) {
+        // Numeric
         is AbsoluteExpression -> "ABS"
         is ArcCosineExpression -> "ACOS"
         is ArcSineExpression -> "ASIN"
@@ -370,10 +364,8 @@ internal val NumberFunctionExpression.symbol: String
         is SquareRootExpression -> "SQRT"
         is TangentExpression -> "TAN"
         is TruncationExpression -> "TRUNC"
-    }
 
-internal val ArrayFunctionExpression<*>.symbol: String
-    get() = when (this) {
+        // Array
         is ArrayAppendExpression<*> -> "ARRAY_APPEND"
         is ArrayAverageExpression<*> -> "ARRAY_AVG"
         is ArrayBinarySearchExpression<*> -> "ARRAY_BINARY_SEARCH"
@@ -404,6 +396,8 @@ internal val ArrayFunctionExpression<*>.symbol: String
         is ArraySymmetricDifference1Expression<*> -> "ARRAY_SYMDIFF1"
         is ArraySymmetricDifferenceNExpression<*> -> "ARRAY_SYMDIFFN"
         is ArrayUnionExpression<*> -> "ARRAY_UNION"
+
+        else -> throw IllegalArgumentException("Unsupported function expression: ${this::class.simpleName}")
     }
 
 internal val InfixOperator<*>.symbol: String
