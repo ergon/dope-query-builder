@@ -35,6 +35,7 @@ import org.junit.jupiter.api.assertThrows
 import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class CrystalMapAdapterTest {
     @Test
@@ -122,11 +123,12 @@ class CrystalMapAdapterTest {
     @Test
     fun `should convert CMType without specific overload`() {
         val cmField: com.schwarz.crystalapi.schema.CMType = someCMConverterNumberField()
-        val expected: IField<ValidType> = Field(cmField.name, cmField.path)
+        val expected: IField<ValidType> = Field(cmField.name, null)
 
         val actual: IField<ValidType> = cmField.toDopeType()
 
-        assertEquals(expected, actual)
+        assertEquals(expected.name, actual.name)
+        assertNull(actual.bucket)
     }
 
     @Test
