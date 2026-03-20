@@ -5,6 +5,8 @@ import ch.ergon.dope.mongo.MongoDopeQuery
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
+import ch.ergon.dope.resolvable.clause.model.DeleteClause
+import ch.ergon.dope.resolvable.clause.model.DeleteWhereClause
 import ch.ergon.dope.resolvable.clause.model.FromClause
 import ch.ergon.dope.resolvable.clause.model.GroupByClause
 import ch.ergon.dope.resolvable.clause.model.LetClause
@@ -16,8 +18,12 @@ import ch.ergon.dope.resolvable.clause.model.SelectLimitClause
 import ch.ergon.dope.resolvable.clause.model.SelectOffsetClause
 import ch.ergon.dope.resolvable.clause.model.SelectOrderByClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
+import ch.ergon.dope.resolvable.clause.model.SelectWhereClause
+import ch.ergon.dope.resolvable.clause.model.SetClause
+import ch.ergon.dope.resolvable.clause.model.UnsetClause
 import ch.ergon.dope.resolvable.clause.model.UnnestClause
-import ch.ergon.dope.resolvable.clause.model.WhereClause
+import ch.ergon.dope.resolvable.clause.model.UpdateClause
+import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.JoinType
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
 import ch.ergon.dope.resolvable.expression.Expression
@@ -31,6 +37,8 @@ import ch.ergon.dope.resolvable.expression.type.relational.EqualsExpression
 interface ClauseResolver : AbstractMongoResolver {
     fun resolve(clause: Clause): MongoDopeQuery =
         when (clause) {
+            // --- Select ---
+
             is SelectClause -> {
                 val all =
                     listOf(clause.expression, *clause.expressions.toTypedArray()).map { Pair(it.toDopeQuery(this), it) }
@@ -142,7 +150,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 )
             }
 
-            is WhereClause -> {
+            is SelectWhereClause<*> -> {
                 val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 MongoDopeQuery(
@@ -198,6 +206,66 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery(
                     stages = parentDopeQuery.stages + "{ \$limit: ${limitDopeQuery.queryString} }",
                     namedParameters = parentDopeQuery.namedParameters.merge(limitDopeQuery.namedParameters),
+                    bucket = parentDopeQuery.bucket,
+                )
+            }
+
+            // --- Delete ---
+
+            is DeleteClause -> {
+                val bucket = clause.deletable as Bucket
+                MongoDopeQuery(bucket = bucket)
+            }
+
+            is DeleteWhereClause -> {
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
+                MongoDopeQuery(
+                    filter = whereDopeQuery.queryString,
+                    namedParameters = parentDopeQuery.namedParameters.merge(whereDopeQuery.namedParameters),
+                    bucket = parentDopeQuery.bucket,
+                )
+            }
+
+            // --- Update ---
+
+            is UpdateClause -> {
+                val bucket = clause.updatable as Bucket
+                MongoDopeQuery(bucket = bucket)
+            }
+
+            is SetClause -> {
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val allAssignments = listOf(clause.setAssignment) + clause.setAssignments
+                val setFields = allAssignments.joinToString(", ") { assignment ->
+                    val valueDopeQuery = assignment.value.toDopeQuery(this)
+                    "\"${assignment.field.name}\": ${valueDopeQuery.queryString}"
+                }
+
+                MongoDopeQuery(
+                    updateDocument = "{ \"\$set\": { $setFields } }",
+                    bucket = parentDopeQuery.bucket,
+                )
+            }
+
+            is UnsetClause -> {
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val allFields = listOf(clause.field) + clause.fields
+                val unsetFields = allFields.joinToString(", ") { "\"${it.name}\": \"\"" }
+
+                MongoDopeQuery(
+                    updateDocument = "{ \"\$unset\": { $unsetFields } }",
+                    bucket = parentDopeQuery.bucket,
+                )
+            }
+
+            is UpdateWhereClause -> {
+                val parentDopeQuery = clause.parentClause.toDopeQuery(this)
+                val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
+                MongoDopeQuery(
+                    filter = whereDopeQuery.queryString,
+                    updateDocument = parentDopeQuery.updateDocument,
+                    namedParameters = parentDopeQuery.namedParameters.merge(whereDopeQuery.namedParameters),
                     bucket = parentDopeQuery.bucket,
                 )
             }
