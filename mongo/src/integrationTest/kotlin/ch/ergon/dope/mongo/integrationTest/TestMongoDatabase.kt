@@ -26,9 +26,13 @@ object TestMongoDatabase {
     val name = Field<StringType>("name", users)
     val age = Field<NumberType>("age", users)
     val email = Field<StringType>("email", users)
+    val role = Field<StringType>("role", users)
+    val city = Field<StringType>("city", users)
     val id = Field<StringType>("_id", users)
     val userId = Field<StringType>("userId", orders)
     val status = Field<StringType>("status", orders)
+    val product = Field<StringType>("product", orders)
+    val amount = Field<NumberType>("amount", orders)
 
     init {
         initDatabase()

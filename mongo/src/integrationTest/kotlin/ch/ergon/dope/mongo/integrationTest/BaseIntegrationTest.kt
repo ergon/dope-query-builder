@@ -8,7 +8,7 @@ import org.bson.Document
 abstract class BaseIntegrationTest {
     fun executeQuery(query: MongoDopeQuery): List<Document> =
         database.getCollection(query.bucket!!.name)
-            .aggregate(query.queryString.split(",\n").map { Document.parse(it) })
+            .aggregate(query.stages.map { Document.parse(it) })
             .toList()
 
     val resolver = MongoResolver()

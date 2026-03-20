@@ -37,6 +37,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("com.couchbase.client:kotlin-client:1.5.0")
     testImplementation("org.testcontainers:couchbase:1.21.4")
+    testImplementation("io.github.classgraph:classgraph:4.8.174")
     implementation(kotlin("reflect"))
 }
 

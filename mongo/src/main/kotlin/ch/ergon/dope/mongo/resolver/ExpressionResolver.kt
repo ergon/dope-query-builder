@@ -30,7 +30,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 }
                 MongoDopeQuery(
                     queryString = queryString,
-                    namedParams = leftDopeQuery.namedParams.merge(rightDopeQuery.namedParams),
+                    namedParameters = leftDopeQuery.namedParameters.merge(rightDopeQuery.namedParameters),
                 )
             }
 
@@ -46,7 +46,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 }
                 MongoDopeQuery(
                     queryString = queryString,
-                    namedParams = leftDopeQuery.namedParams.merge(rightDopeQuery.namedParams),
+                    namedParameters = leftDopeQuery.namedParameters.merge(rightDopeQuery.namedParameters),
                 )
             }
 
@@ -55,7 +55,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 val rightDopeQuery = expression.right.toDopeQuery(this)
                 MongoDopeQuery(
                     queryString = "{ ${leftDopeQuery.queryString} : { \"\$regex\": ${rightDopeQuery.queryString} } }",
-                    namedParams = leftDopeQuery.namedParams.merge(rightDopeQuery.namedParams),
+                    namedParameters = leftDopeQuery.namedParameters.merge(rightDopeQuery.namedParameters),
                 )
             }
 
@@ -64,7 +64,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 val rightDopeQuery = expression.right.toDopeQuery(this)
                 MongoDopeQuery(
                     queryString = "{ ${leftDopeQuery.queryString} : { \"\$not\": { \"\$regex\": ${rightDopeQuery.queryString} } } }",
-                    namedParams = leftDopeQuery.namedParams.merge(rightDopeQuery.namedParams),
+                    namedParameters = leftDopeQuery.namedParameters.merge(rightDopeQuery.namedParameters),
                 )
             }
 
@@ -92,7 +92,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 }
                 MongoDopeQuery(
                     queryString = "\"${expression.alias}\": $string",
-                    namedParams = typeExpressionDopeQuery.namedParams,
+                    namedParameters = typeExpressionDopeQuery.namedParameters,
                 )
             }
 
@@ -101,7 +101,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 val rightDopeQuery = expression.right.toDopeQuery(this)
                 MongoDopeQuery(
                     queryString = "{ \"\$and\": [${leftDopeQuery.queryString}, ${rightDopeQuery.queryString}] }",
-                    namedParams = leftDopeQuery.namedParams.merge(rightDopeQuery.namedParams),
+                    namedParameters = leftDopeQuery.namedParameters.merge(rightDopeQuery.namedParameters),
                 )
             }
 
@@ -110,7 +110,7 @@ interface ExpressionResolver : AbstractMongoResolver {
                 val rightDopeQuery = expression.right.toDopeQuery(this)
                 MongoDopeQuery(
                     queryString = "{ \"\$or\": [${leftDopeQuery.queryString}, ${rightDopeQuery.queryString}] }",
-                    namedParams = leftDopeQuery.namedParams.merge(rightDopeQuery.namedParams),
+                    namedParameters = leftDopeQuery.namedParameters.merge(rightDopeQuery.namedParameters),
                 )
             }
 
