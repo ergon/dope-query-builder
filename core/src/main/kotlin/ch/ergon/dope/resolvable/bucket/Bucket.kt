@@ -21,7 +21,6 @@ interface Definable : Bucket {
 }
 
 data class BucketScope(val name: String, val collection: ScopeCollection? = null) {
-
     fun withCollection(collectionName: String) = copy(collection = ScopeCollection(collectionName))
     fun withCollection(collection: ScopeCollection) = copy(collection = collection)
 }
@@ -32,7 +31,6 @@ data class UnaliasedBucket(
     override val name: String,
     override val scope: BucketScope? = null,
 ) : Bucket {
-
     fun alias(alias: String) = AliasedBucket(name, alias, scope)
 
     fun withScope(scopeName: String) = copy(scope = BucketScope(scopeName))
