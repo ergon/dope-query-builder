@@ -13,9 +13,7 @@ import org.testcontainers.utility.DockerImageName
 const val DATABASE_NAME = "testdb"
 
 object TestMongoDatabase {
-    private val container = MongoDBContainer(DockerImageName.parse("mongo:7.0")).apply {
-        start()
-    }
+    private val container = MongoDBContainer(DockerImageName.parse("mongo:7.0")).apply { start() }
 
     val mongoClient = MongoClients.create(container.connectionString)
     val database: MongoDatabase = mongoClient.getDatabase(DATABASE_NAME)

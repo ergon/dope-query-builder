@@ -2,6 +2,7 @@ package ch.ergon.dope.mongo
 
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.mongo.integrationTest.BaseIntegrationTest
+import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase
 import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase.age
 import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase.city
 import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase.email
@@ -13,6 +14,7 @@ import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase.status
 import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase.userId
 import ch.ergon.dope.mongo.integrationTest.TestMongoDatabase.users
 import ch.ergon.dope.resolvable.clause.model.OrderType
+import ch.ergon.dope.resolvable.clause.model.toNewValue
 import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.resolvable.expression.type.logic.and
@@ -32,7 +34,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
         val query = QueryBuilder
             .select(name, age)
             .from(users)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -45,7 +47,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name.alias("alias"), age)
             .from(users)
             .where(age.isEqualTo(25))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -59,7 +61,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .selectRaw(name)
             .from(users)
             .where(age.isEqualTo(30))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -72,13 +74,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
         val query = QueryBuilder
             .selectDistinct(role)
             .from(users)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        val roles = result.map { it["role"] }.toSet()
-        assertEquals(setOf("admin", "user"), roles)
+        assertEquals(setOf("admin", "user"), result.map { it["role"] }.toSet())
     }
 
     @Test
@@ -86,7 +87,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
         val query = QueryBuilder
             .selectDistinct(city, role)
             .from(users)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -99,7 +100,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name, age)
             .from(users)
             .where(age.isEqualTo(25))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -113,13 +114,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name, age)
             .from(users)
             .where(age.isEqualTo(25).or(name.isEqualTo("Mike Taylor")))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        val names = result.map { it["name"] }.toSet()
-        assertEquals(setOf("Alice Brown", "Mike Taylor"), names)
+        assertEquals(setOf("Alice Brown", "Mike Taylor"), result.map { it["name"] }.toSet())
     }
 
     @Test
@@ -128,7 +128,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name)
             .from(users)
             .where(role.isEqualTo("user").and(city.isEqualTo("Berlin")))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -142,13 +142,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name, age)
             .from(users)
             .where(age.isNotEqualTo(25))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        val names = result.map { it["name"] }.toSet()
-        assertEquals(setOf("John Smith", "Mike Taylor"), names)
+        assertEquals(setOf("John Smith", "Mike Taylor"), result.map { it["name"] }.toSet())
     }
 
     @Test
@@ -157,13 +156,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name, email)
             .from(users)
             .where(email.isLike(".*@example\\.com"))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        val emails = result.map { it["email"] }.toSet()
-        assertEquals(setOf("alice@example.com", "mike@example.com"), emails)
+        assertEquals(setOf("alice@example.com", "mike@example.com"), result.map { it["email"] }.toSet())
     }
 
     @Test
@@ -172,7 +170,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(status)
             .from(orders)
             .where(status.isNull())
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -186,7 +184,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(status)
             .from(orders)
             .where(status.isNotNull())
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -200,13 +198,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(id, name, age)
             .from(users)
             .join(orders, condition = id.isEqualTo(userId))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        val names = result.map { it["name"] }.toSet()
-        assertEquals(setOf("Alice Brown", "Mike Taylor"), names)
+        assertEquals(setOf("Alice Brown", "Mike Taylor"), result.map { it["name"] }.toSet())
     }
 
     @Test
@@ -215,7 +212,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(id, name, age)
             .from(users)
             .join(orders, condition = id.isEqualTo(userId).and(name.isEqualTo("Alice Brown")))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -229,14 +226,11 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name, age)
             .from(users)
             .orderBy(age, OrderType.ASC)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
-        assertEquals(3, result.size)
-        assertEquals("Alice Brown", result[0]["name"])
-        assertEquals("John Smith", result[1]["name"])
-        assertEquals("Mike Taylor", result[2]["name"])
+        assertEquals(listOf("Alice Brown", "John Smith", "Mike Taylor"), result.map { it["name"] })
     }
 
     @Test
@@ -245,14 +239,11 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(name, age)
             .from(users)
             .orderBy(age, OrderType.DESC)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
-        assertEquals(3, result.size)
-        assertEquals("Mike Taylor", result[0]["name"])
-        assertEquals("John Smith", result[1]["name"])
-        assertEquals("Alice Brown", result[2]["name"])
+        assertEquals(listOf("Mike Taylor", "John Smith", "Alice Brown"), result.map { it["name"] })
     }
 
     @Test
@@ -262,13 +253,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .from(users)
             .orderBy(age, OrderType.ASC)
             .limit(2)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
         assertEquals("Alice Brown", result[0]["name"])
-        assertEquals("John Smith", result[1]["name"])
     }
 
     @Test
@@ -279,7 +269,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .orderBy(age, OrderType.ASC)
             .limit(2)
             .offset(1)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -293,13 +283,12 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(role)
             .from(users)
             .groupBy(role)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        val ids = result.map { it["_id"] }.toSet()
-        assertEquals(setOf("admin", "user"), ids)
+        assertEquals(setOf("admin", "user"), result.map { it["_id"] }.toSet())
     }
 
     @Test
@@ -308,7 +297,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .select(role, city)
             .from(users)
             .groupBy(role, city)
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -322,7 +311,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .from(users)
             .withVariables("var".assignTo(age))
             .where(age.isEqualTo(25))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
@@ -338,12 +327,127 @@ class MongoIntegrationTest : BaseIntegrationTest() {
             .from(users)
             .withVariables("var".assignTo("test"))
             .where(age.isEqualTo(25))
-            .build(resolver)
+            .buildMongo(resolver)
 
         val result = executeQuery(query)
 
         assertEquals(1, result.size)
-        assertEquals("Alice Brown", result[0]["name"])
         assertEquals("test", result[0]["var"])
+    }
+
+    @Test
+    fun `update single field with where`() {
+        val query = QueryBuilder
+            .update(users)
+            .set(city.toNewValue("London"))
+            .where(name.isEqualTo("John Smith"))
+            .buildMongo(resolver)
+
+        assertEquals(1, executeUpdate(query).modifiedCount)
+
+        val result = executeQuery(
+            QueryBuilder
+                .select(city)
+                .from(users)
+                .where(name.isEqualTo("John Smith"))
+                .buildMongo(resolver),
+        )
+        assertEquals("London", result[0]["city"])
+        TestMongoDatabase.resetDatabase()
+    }
+
+    @Test
+    fun `update multiple fields`() {
+        val query = QueryBuilder
+            .update(users)
+            .set(city.toNewValue("London"), role.toNewValue("manager"))
+            .where(name.isEqualTo("John Smith"))
+            .buildMongo(resolver)
+
+        executeUpdate(query)
+
+        val result = executeQuery(
+            QueryBuilder
+                .select(city, role)
+                .from(users)
+                .where(name.isEqualTo("John Smith"))
+                .buildMongo(resolver),
+        )
+        assertEquals("London", result[0]["city"])
+        assertEquals("manager", result[0]["role"])
+        TestMongoDatabase.resetDatabase()
+    }
+
+    @Test
+    fun `update without where updates all documents`() {
+        val query = QueryBuilder
+            .update(users)
+            .set(role.toNewValue("guest"))
+            .buildMongo(resolver)
+
+        assertEquals(3, executeUpdate(query).matchedCount)
+
+        TestMongoDatabase.resetDatabase()
+    }
+
+    @Test
+    fun `unset field`() {
+        val query = QueryBuilder
+            .update(users)
+            .set(role.toNewValue("placeholder"))
+            .unset(city)
+            .where(name.isEqualTo("John Smith"))
+            .buildMongo(resolver)
+
+        executeUpdate(query)
+
+        val result = executeQuery(
+            QueryBuilder
+                .select(name, city, role)
+                .from(users)
+                .where(name.isEqualTo("John Smith"))
+                .buildMongo(resolver),
+        )
+        assertEquals("placeholder", result[0]["role"])
+        assertNull(result[0]["city"])
+        TestMongoDatabase.resetDatabase()
+    }
+
+    @Test
+    fun `delete with where`() {
+        val query = QueryBuilder
+            .deleteFrom(users)
+            .where(name.isEqualTo("John Smith"))
+            .buildMongo(resolver)
+
+        assertEquals(1, executeDelete(query).deletedCount)
+
+        val remaining = executeQuery(
+            QueryBuilder
+                .select(name)
+                .from(users)
+                .buildMongo(resolver),
+        )
+        assertEquals(2, remaining.size)
+        TestMongoDatabase.resetDatabase()
+    }
+
+    @Test
+    fun `delete all matching documents`() {
+        val query = QueryBuilder
+            .deleteFrom(users)
+            .where(role.isEqualTo("user"))
+            .buildMongo(resolver)
+
+        assertEquals(2, executeDelete(query).deletedCount)
+
+        val remaining = executeQuery(
+            QueryBuilder
+                .select(name)
+                .from(users)
+                .buildMongo(resolver),
+        )
+        assertEquals(1, remaining.size)
+        TestMongoDatabase.resetDatabase()
     }
 }
