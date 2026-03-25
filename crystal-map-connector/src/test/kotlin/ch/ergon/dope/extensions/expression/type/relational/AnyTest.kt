@@ -2,7 +2,7 @@ package ch.ergon.dope.extensions.expression.type.relational
 
 import ch.ergon.dope.extension.expression.type.ObjectField
 import ch.ergon.dope.extension.expression.type.getField
-import ch.ergon.dope.extension.expression.type.relational.every
+import ch.ergon.dope.extension.expression.type.relational.any
 import ch.ergon.dope.helper.someCMBooleanList
 import ch.ergon.dope.helper.someCMNumberList
 import ch.ergon.dope.helper.someCMStringList
@@ -18,16 +18,16 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class EveryTest {
+class AnyTest {
     class Dummy(path: String = "") : Schema {
         val type: CMJsonField<String> = CMJsonField("type", path)
     }
 
     @Test
-    fun `should support every with CMJsonList number`() {
+    fun `should support any with CMJsonList number`() {
         val list = someCMNumberList()
 
-        val actual = list.every("i") { it.isEqualTo(1.toDopeType()) }
+        val actual = list.any("i") { it.isEqualTo(1.toDopeType()) }
 
         assertEquals(list.toDopeType(), actual.arrayExpression)
         assertEquals("i", actual.iteratorName)
@@ -38,10 +38,10 @@ class EveryTest {
     }
 
     @Test
-    fun `should support every with CMJsonList string`() {
+    fun `should support any with CMJsonList string`() {
         val list = someCMStringList()
 
-        val actual = list.every("i") { it.isEqualTo("value".toDopeType()) }
+        val actual = list.any("i") { it.isEqualTo("value".toDopeType()) }
 
         assertEquals(list.toDopeType(), actual.arrayExpression)
         assertEquals("i", actual.iteratorName)
@@ -52,10 +52,10 @@ class EveryTest {
     }
 
     @Test
-    fun `should support every with CMJsonList boolean`() {
+    fun `should support any with CMJsonList boolean`() {
         val list = someCMBooleanList()
 
-        val actual = list.every("i") { it.isEqualTo(true.toDopeType()) }
+        val actual = list.any("i") { it.isEqualTo(true.toDopeType()) }
 
         assertEquals(list.toDopeType(), actual.arrayExpression)
         assertEquals("i", actual.iteratorName)
@@ -66,11 +66,11 @@ class EveryTest {
     }
 
     @Test
-    fun `should support every with CMObjectList`() {
+    fun `should support any with CMObjectList`() {
         val schema = Dummy()
         val list = CMObjectList(schema, "objectList", "")
 
-        val actual = list.every("o") { it.getField(Dummy::type).toDopeType().isEqualTo("test") }
+        val actual = list.any("o") { it.getField(Dummy::type).toDopeType().isEqualTo("test") }
 
         assertEquals(list.toDopeType(), actual.arrayExpression)
         assertEquals("o", actual.iteratorName)
