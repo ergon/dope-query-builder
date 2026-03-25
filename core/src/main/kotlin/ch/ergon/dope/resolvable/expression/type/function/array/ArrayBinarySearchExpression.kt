@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -12,7 +13,7 @@ import ch.ergon.dope.validtype.ValidType
 data class ArrayBinarySearchExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
-) : ArrayFunctionExpression<NumberType>(listOf(array, value))
+) : FunctionExpression<NumberType>(listOf(array, value))
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.binarySearch(
     value: TypeExpression<T>,
