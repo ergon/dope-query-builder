@@ -40,8 +40,8 @@ import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.UnpackExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateComponentType
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.ContainsTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.CustomTokenOptions
 import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
 import ch.ergon.dope.resolvable.expression.type.relational.BetweenExpression

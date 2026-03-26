@@ -20,9 +20,9 @@ import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionTy
 import ch.ergon.dope.resolvable.expression.type.function.string.MaskExpression
 import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenExpression
 import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenLikeExpression
+import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenRegexpExpression
 import ch.ergon.dope.resolvable.expression.type.function.token.TokensExpression
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.ContainsTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.type.ToNumberExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.StringType
@@ -97,7 +97,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
 
         is ContainsTokenExpression -> resolve(
             "CONTAINS_TOKEN",
-            typeExpression.inputObject,
+            typeExpression.inputExpression,
             typeExpression.tokenExpression,
             typeExpression.options,
         )
@@ -105,14 +105,14 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
         is ContainsTokenLikeExpression -> resolve(
             "CONTAINS_TOKEN_LIKE",
             typeExpression.inputObject,
-            typeExpression.tokenExpression,
+            typeExpression.likeExpression,
             typeExpression.options,
         )
 
         is ContainsTokenRegexpExpression -> resolve(
             "CONTAINS_TOKEN_REGEXP",
             typeExpression.inputObject,
-            typeExpression.tokenExpression,
+            typeExpression.regexExpression,
             typeExpression.options,
         )
 

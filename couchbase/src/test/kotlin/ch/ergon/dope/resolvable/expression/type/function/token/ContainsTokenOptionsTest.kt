@@ -3,9 +3,6 @@ package ch.ergon.dope.resolvable.expression.type.function.token
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.ContainsTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.TokenCases
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.containsTokenOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

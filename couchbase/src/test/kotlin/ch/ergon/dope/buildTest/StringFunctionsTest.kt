@@ -40,8 +40,8 @@ import ch.ergon.dope.resolvable.expression.type.function.string.trim
 import ch.ergon.dope.resolvable.expression.type.function.string.upper
 import ch.ergon.dope.resolvable.expression.type.function.string.urlDecode
 import ch.ergon.dope.resolvable.expression.type.function.string.urlEncode
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.TokenCases
-import ch.ergon.dope.resolvable.expression.type.function.token.factory.customTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.TokenCases
+import ch.ergon.dope.resolvable.expression.type.function.token.customTokenOptions
 import ch.ergon.dope.resolvable.expression.type.function.token.tokens
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
