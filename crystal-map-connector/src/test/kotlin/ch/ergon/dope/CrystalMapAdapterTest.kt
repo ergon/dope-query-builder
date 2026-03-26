@@ -1,25 +1,41 @@
 package ch.ergon.dope
 
+import ch.ergon.dope.extension.expression.type.ObjectField
+import ch.ergon.dope.extension.expression.type.ObjectList
+import ch.ergon.dope.helper.DateBooleanConverterInstance
+import ch.ergon.dope.helper.DateNumberConverterInstance
+import ch.ergon.dope.helper.DateStringConverterInstance
+import ch.ergon.dope.helper.SchemaDummy
 import ch.ergon.dope.helper.someCMConverterBooleanField
+import ch.ergon.dope.helper.someCMConverterBooleanList
 import ch.ergon.dope.helper.someCMConverterNumberField
+import ch.ergon.dope.helper.someCMConverterNumberList
 import ch.ergon.dope.helper.someCMConverterStringField
+import ch.ergon.dope.helper.someCMConverterStringList
 import ch.ergon.dope.helper.someCorruptField
+import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.BooleanParameter
+import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.NumberParameter
 import ch.ergon.dope.resolvable.expression.type.StringParameter
+import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
 import ch.ergon.dope.validtype.NumberType
 import ch.ergon.dope.validtype.StringType
+import ch.ergon.dope.validtype.ValidType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMJsonList
+import com.schwarz.crystalapi.schema.CMObjectField
+import com.schwarz.crystalapi.schema.CMObjectList
 import org.junit.jupiter.api.assertThrows
 import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class CrystalMapAdapterTest {
     @Test
@@ -83,6 +99,39 @@ class CrystalMapAdapterTest {
     }
 
     @Test
+    fun `should convert CMObjectField`() {
+        val schema = SchemaDummy()
+        val cmObjectField = CMObjectField(schema, "testName", "testPath")
+        val expected = ObjectField(schema, "testName", "testPath")
+
+        val actual = cmObjectField.toDopeType()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should convert CMObjectList`() {
+        val schema = SchemaDummy()
+        val cmObjectList = CMObjectList(schema, "testName", "testPath")
+        val expected = ObjectList(schema, "testName", "testPath")
+
+        val actual = cmObjectList.toDopeType()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should convert CMType without specific overload`() {
+        val cmField: com.schwarz.crystalapi.schema.CMType = someCMConverterNumberField()
+        val expected: IField<ValidType> = Field(cmField.name, null)
+
+        val actual: IField<ValidType> = cmField.toDopeType()
+
+        assertEquals(expected.name, actual.name)
+        assertNull(actual.bucket)
+    }
+
+    @Test
     fun `should throw exception when resolving corrupt IField`() {
         val string = someString()
         val corruptField = someCorruptField()
@@ -128,5 +177,104 @@ class CrystalMapAdapterTest {
 
         assertEquals(true, actual.value)
         assertEquals(parameterName, actual.parameterName)
+    }
+
+    @Test
+    fun `should support toDopeType with number converter field`() {
+        val value = someDate()
+        val cmField = someCMConverterNumberField()
+        val expected = DateNumberConverterInstance.write(value)!!.toDopeType()
+
+        val actual = value.toDopeType(cmField)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support toDopeType with string converter field`() {
+        val value = someDate()
+        val cmField = someCMConverterStringField()
+        val expected = DateStringConverterInstance.write(value)!!.toDopeType()
+
+        val actual = value.toDopeType(cmField)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support toDopeType with boolean converter field`() {
+        val value = someDate()
+        val cmField = someCMConverterBooleanField()
+        val expected = DateBooleanConverterInstance.write(value)!!.toDopeType()
+
+        val actual = value.toDopeType(cmField)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support toDopeType with number converter list`() {
+        val value = someDate()
+        val cmList = someCMConverterNumberList()
+        val expected = DateNumberConverterInstance.write(value)!!.toDopeType()
+
+        val actual = value.toDopeType(cmList)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support toDopeType with string converter list`() {
+        val value = someDate()
+        val cmList = someCMConverterStringList()
+        val expected = DateStringConverterInstance.write(value)!!.toDopeType()
+
+        val actual = value.toDopeType(cmList)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support toDopeType with boolean converter list`() {
+        val value = someDate()
+        val cmList = someCMConverterBooleanList()
+        val expected = DateBooleanConverterInstance.write(value)!!.toDopeType()
+
+        val actual = value.toDopeType(cmList)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support converter field toDopeType number`() {
+        val value = someDate()
+        val cmField = someCMConverterNumberField()
+        val expected = DateNumberConverterInstance.write(value)!!.toDopeType()
+
+        val actual = cmField.toDopeType(value)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support converter field toDopeType string`() {
+        val value = someDate()
+        val cmField = someCMConverterStringField()
+        val expected = DateStringConverterInstance.write(value)!!.toDopeType()
+
+        val actual = cmField.toDopeType(value)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support converter field toDopeType boolean`() {
+        val value = someDate()
+        val cmField = someCMConverterBooleanField()
+        val expected = DateBooleanConverterInstance.write(value)!!.toDopeType()
+
+        val actual = cmField.toDopeType(value)
+
+        assertEquals(expected, actual)
     }
 }

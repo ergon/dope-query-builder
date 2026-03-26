@@ -30,9 +30,7 @@ const val MAX_TIMEOUT_IN_SECONDS = 15
 const val COUCHBASE_IMAGE = "couchbase/server:7.6.4"
 
 object TestCouchbaseDatabase {
-    val container = CouchbaseContainer(
-        DockerImageName.parse(COUCHBASE_IMAGE),
-    )
+    val container = CouchbaseContainer(DockerImageName.parse(COUCHBASE_IMAGE))
     val cluster: Cluster
     val testBucket = UnaliasedBucket(BUCKET)
     val testAppOrderAuditBucket = UnaliasedBucket(BUCKET, BucketScope("app", ScopeCollection("order_audit")))

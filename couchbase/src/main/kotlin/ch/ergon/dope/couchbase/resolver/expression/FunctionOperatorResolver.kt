@@ -9,11 +9,9 @@ import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.DecodeExpression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.Nvl2Expression
 import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResult
-import ch.ergon.dope.resolvable.expression.type.function.numeric.NumberFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.ISearchFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchDependencyFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionType
@@ -50,31 +48,6 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
 
         is FunctionExpression<*> -> {
             val argumentsDopeQuery = typeExpression.expressions.mapNotNull { it?.toDopeQuery(this) }
-            CouchbaseDopeQuery(
-                queryString = formatFunctionQueryString(
-                    typeExpression.symbol,
-                    *argumentsDopeQuery.map { it.queryString }.toTypedArray(),
-                ),
-                parameters = argumentsDopeQuery.map { it.parameters }.merge(),
-            )
-        }
-
-        is NumberFunctionExpression -> {
-            val valueDopeQuery = typeExpression.value?.toDopeQuery(this)
-            val additionalDopeQuery = typeExpression.additionalValue?.toDopeQuery(this)
-            val queryString =
-                formatFunctionQueryString(typeExpression.symbol, valueDopeQuery?.queryString, additionalDopeQuery?.queryString)
-            CouchbaseDopeQuery(
-                queryString = queryString,
-                parameters = valueDopeQuery?.parameters.orEmpty().merge(additionalDopeQuery?.parameters),
-            )
-        }
-
-        is ArrayFunctionExpression<*> -> {
-            val argumentsDopeQuery = typeExpression.arguments.map { expression ->
-                expression.toDopeQuery(this)
-            }
-
             CouchbaseDopeQuery(
                 queryString = formatFunctionQueryString(
                     typeExpression.symbol,

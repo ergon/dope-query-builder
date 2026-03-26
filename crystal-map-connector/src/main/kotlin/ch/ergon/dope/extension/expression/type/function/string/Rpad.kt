@@ -47,9 +47,6 @@ fun TypeExpression<StringType>.rpad(size: CMJsonField<Number>, prefix: TypeExpre
 fun TypeExpression<StringType>.rpad(size: TypeExpression<NumberType>, prefix: CMJsonField<String>) =
     rpad(size, prefix.toDopeType())
 
-fun TypeExpression<StringType>.rpad(size: TypeExpression<NumberType>, prefix: String) =
-    rpad(size, prefix.toDopeType())
-
 fun String.rpad(size: CMJsonField<Number>, prefix: CMJsonField<String>) =
     toDopeType().rpad(size.toDopeType(), prefix.toDopeType())
 

@@ -21,9 +21,3 @@ fun TypeExpression<StringType>.rtrim(extra: CMJsonField<String>) =
 
 fun CMJsonField<String>.rtrim(extra: TypeExpression<StringType>? = null) =
     toDopeType().rtrim(extra)
-
-fun String.rtrim(extra: TypeExpression<StringType>? = null) =
-    toDopeType().rtrim(extra)
-
-fun String.rtrim(extra: String) =
-    toDopeType().rtrim(extra.toDopeType())

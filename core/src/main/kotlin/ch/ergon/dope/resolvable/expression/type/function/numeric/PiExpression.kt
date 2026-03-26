@@ -1,5 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.function.numeric
 
-class PiExpression : NumberFunctionExpression()
+import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
+import ch.ergon.dope.validtype.NumberType
+
+class PiExpression : FunctionExpression<NumberType>(emptyList())
 
 fun pi() = PiExpression()

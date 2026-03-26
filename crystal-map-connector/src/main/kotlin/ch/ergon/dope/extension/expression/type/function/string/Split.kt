@@ -21,9 +21,3 @@ fun TypeExpression<StringType>.split(inSubstring: CMJsonField<String>) =
 
 fun CMJsonField<String>.split(inSubstring: TypeExpression<StringType>? = null) =
     toDopeType().split(inSubstring)
-
-fun String.split(inSubstring: TypeExpression<StringType>? = null) =
-    toDopeType().split(inSubstring)
-
-fun String.split(inSubstring: String) =
-    toDopeType().split(inSubstring.toDopeType())

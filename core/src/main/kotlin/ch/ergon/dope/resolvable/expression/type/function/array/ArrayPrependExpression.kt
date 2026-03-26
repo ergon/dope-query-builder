@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -13,7 +14,7 @@ data class ArrayPrependExpression<T : ValidType>(
     val array: TypeExpression<ArrayType<T>>,
     val value: TypeExpression<T>,
     val additionalValues: List<TypeExpression<T>> = emptyList(),
-) : ArrayFunctionExpression<ArrayType<T>>(listOf(value) + additionalValues + array)
+) : FunctionExpression<ArrayType<T>>(listOf(value) + additionalValues + array)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.prepend(
     value: TypeExpression<T>,

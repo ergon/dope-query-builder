@@ -31,6 +31,22 @@ import kotlin.test.assertEquals
 
 class ArrayRangeTest {
     @Test
+    fun `should support array range transformation with cm number list without iterator name`() {
+        val range = someCMNumberList()
+        val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
+        val expected = ArrayRangeExpression(
+            IN,
+            range.toDopeType(),
+            null,
+            transformation,
+        )
+
+        val actual = range.map(transformation = transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support array range transformation with cm number list`() {
         val range = someCMNumberList()
         val iteratorName = "it"
@@ -159,6 +175,62 @@ class ArrayRangeTest {
     }
 
     @Test
+    fun `should support indexed array range transformation with null index and iterator names`() {
+        val range = someCMNumberList()
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val expected = ArrayRangeIndexedExpression(
+            IN,
+            range.toDopeType(),
+            null,
+            null,
+            transformation,
+        )
+
+        val actual = range.mapIndexed(transformation = transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support indexed array range transformation with only index name`() {
+        val range = someCMNumberList()
+        val indexName = "i"
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val expected = ArrayRangeIndexedExpression(
+            IN,
+            range.toDopeType(),
+            indexName,
+            null,
+            transformation,
+        )
+
+        val actual = range.mapIndexed(indexName = indexName, transformation = transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support indexed array range transformation with only iterator name`() {
+        val range = someCMNumberList()
+        val iteratorName = "it"
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val expected = ArrayRangeIndexedExpression(
+            IN,
+            range.toDopeType(),
+            null,
+            iteratorName,
+            transformation,
+        )
+
+        val actual = range.mapIndexed(iteratorName = iteratorName, transformation = transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should support indexed array range transformation with cm string list`() {
         val range = someCMStringList()
         val indexName = "i"
@@ -221,6 +293,71 @@ class ArrayRangeTest {
             iteratorName,
             condition,
         ).map(transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support indexed array range transformation with condition and null index and iterator names`() {
+        val range = someCMNumberList()
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.isEqualTo(i) }
+        val expected = ArrayRangeIndexedExpression(
+            membershipType = IN,
+            range.toDopeType(),
+            null,
+            null,
+            transformation = transformation,
+            condition = condition,
+        )
+
+        val actual = range.filterIndexed(condition = condition).map(transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support indexed array range transformation with condition and only index name`() {
+        val range = someCMNumberList()
+        val indexName = "i"
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.isEqualTo(i) }
+        val expected = ArrayRangeIndexedExpression(
+            membershipType = IN,
+            range.toDopeType(),
+            indexName,
+            null,
+            transformation = transformation,
+            condition = condition,
+        )
+
+        val actual = range.filterIndexed(indexName = indexName, condition = condition).map(transformation)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support indexed array range transformation with condition and only iterator name`() {
+        val range = someCMNumberList()
+        val iteratorName = "it"
+        val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
+            { i, it -> it.add(i) }
+        val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
+            { i, it -> it.isEqualTo(i) }
+        val expected = ArrayRangeIndexedExpression(
+            membershipType = IN,
+            range.toDopeType(),
+            null,
+            iteratorName,
+            transformation = transformation,
+            condition = condition,
+        )
+
+        val actual = range.filterIndexed(iteratorName = iteratorName, condition = condition).map(transformation)
 
         assertEquals(expected, actual)
     }

@@ -126,15 +126,15 @@ fun CMJsonField<Boolean>.notWithinArray(selectClause: ISelectOffsetClause<Boolea
 
 @JvmName("notWithinNumberArray")
 fun TypeExpression<NumberType>.notWithinArray(array: CMJsonList<out Number>): NotWithinExpression<NumberType> =
-    this.notWithinArray(array.toDopeType())
+    notWithinArray(array.toDopeType())
 
 @JvmName("notWithinStringArray")
 fun TypeExpression<StringType>.notWithinArray(array: CMJsonList<String>): NotWithinExpression<StringType> =
-    this.notWithinArray(array.toDopeType())
+    notWithinArray(array.toDopeType())
 
 @JvmName("notWithinBooleanArray")
 fun TypeExpression<BooleanType>.notWithinArray(array: CMJsonList<Boolean>): NotWithinExpression<BooleanType> =
-    this.notWithinArray(array.toDopeType())
+    notWithinArray(array.toDopeType())
 
 @JvmName("notWithinNumberArray")
 fun CMJsonField<out Number>.notWithinArray(array: CMJsonList<out Number>): NotWithinExpression<NumberType> =

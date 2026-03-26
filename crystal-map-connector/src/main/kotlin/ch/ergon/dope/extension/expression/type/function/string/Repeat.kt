@@ -22,9 +22,3 @@ fun TypeExpression<StringType>.repeat(repetitions: CMJsonField<Number>) =
 
 fun String.repeat(repetitions: CMJsonField<Number>) =
     toDopeType().repeat(repetitions.toDopeType())
-
-fun String.repeat(repetitions: TypeExpression<NumberType>) =
-    toDopeType().repeat(repetitions)
-
-fun String.repeat(repetitions: Number) =
-    toDopeType().repeat(repetitions.toDopeType())
