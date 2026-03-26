@@ -3,7 +3,6 @@ package ch.ergon.dope.helper
 import ch.ergon.dope.resolvable.Asterisk
 import ch.ergon.dope.resolvable.Fromable
 import ch.ergon.dope.resolvable.Selectable
-import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.clause.model.DeleteClause

@@ -14,13 +14,13 @@ class SystemKeyspacesTest {
 
         assertEquals("system:all_sequences", allSequences.name)
         assertNull(allSequences.scope)
-        assertEquals("all_sequences", allSequences.alias)
+        assertEquals("all_sequences", allSequences.keyspace)
     }
 
     @Test
     fun `should select renamed field from system keyspace`() {
         val allSequences = system().allSequences
-        val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences` AS `all_sequences`"
+        val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
         val actual = QueryBuilder
             .select(allSequences.nameField)
@@ -29,5 +29,28 @@ class SystemKeyspacesTest {
             .queryString
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should use custom alias for system keyspace`() {
+        val seq = system().allSequences.alias("seq")
+        val expected = "SELECT `seq`.`name` FROM `system`:`all_sequences` AS `seq`"
+
+        val actual = QueryBuilder
+            .select(seq.nameField)
+            .from(seq)
+            .build(CouchbaseResolver())
+            .queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should keep keyspace name when aliased`() {
+        val seq = system().allSequences.alias("seq")
+
+        assertEquals("system:all_sequences", seq.name)
+        assertEquals("seq", seq.alias)
+        assertEquals("all_sequences", seq.keyspace)
     }
 }

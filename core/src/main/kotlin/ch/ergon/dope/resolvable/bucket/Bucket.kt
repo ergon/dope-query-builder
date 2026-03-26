@@ -17,7 +17,7 @@ interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExp
 interface Definable : Bucket {
     val alias: String
 
-    fun asBucketDefinition(): AliasedBucketDefinition = AliasedBucketDefinition(name, alias, scope)
+    fun asBucketDefinition(): Resolvable = AliasedBucketDefinition(name, alias, scope)
 }
 
 data class BucketScope(val name: String, val collection: ScopeCollection? = null) {

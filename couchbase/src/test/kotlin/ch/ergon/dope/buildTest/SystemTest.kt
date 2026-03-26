@@ -10,7 +10,7 @@ class SystemTest {
     @Test
     fun `should support system prepareds keyspace`() {
         val tasksCache = system().tasksCache
-        val expected = "SELECT `tasks_cache`.`delay` FROM `system`:`tasks_cache` AS `tasks_cache`"
+        val expected = "SELECT `tasks_cache`.`delay` FROM `system`:`tasks_cache`"
 
         val actual = QueryBuilder
             .select(
@@ -25,13 +25,29 @@ class SystemTest {
     @Test
     fun `should support system all-sequences keyspace`() {
         val allSequences = system().allSequences
-        val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences` AS `all_sequences`"
+        val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
         val actual = QueryBuilder
             .select(
                 allSequences.nameField,
             ).from(
                 allSequences,
+            ).build(CouchbaseResolver()).queryString
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should support aliased system keyspace`() {
+        val idx = system().indexes.alias("idx")
+        val expected = "SELECT `idx`.`name`, `idx`.`state` FROM `system`:`indexes` AS `idx`"
+
+        val actual = QueryBuilder
+            .select(
+                idx.nameField,
+                idx.state,
+            ).from(
+                idx,
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
