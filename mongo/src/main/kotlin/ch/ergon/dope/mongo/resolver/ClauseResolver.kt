@@ -51,7 +51,7 @@ interface ClauseResolver : AbstractMongoResolver {
                             }
                         } + " } }",
                     ),
-                    namedParameters = all.map { it.first.namedParameters }.merge(),
+                    parameters = all.map { it.first.parameters }.merge(),
                 )
             }
 
@@ -69,7 +69,7 @@ interface ClauseResolver : AbstractMongoResolver {
                         "{ \$group: { \"_id\": { $groupId } } }",
                         "{ \$project: { $projectFields, \"_id\": 0 } }",
                     ),
-                    namedParameters = all.map { it.first.namedParameters }.merge(),
+                    parameters = all.map { it.first.parameters }.merge(),
                 )
             }
 
@@ -77,7 +77,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 val expressionDopeQuery = clause.expression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
                     stages = listOf("{ \$project: { ${expressionDopeQuery.queryString}: 1, \"_id\": 0 } }"),
-                    namedParameters = expressionDopeQuery.namedParameters,
+                    parameters = expressionDopeQuery.parameters,
                 )
             }
 
@@ -86,6 +86,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages,
                     bucket = clause.fromable as? Bucket,
+                    parameters = parent.parameters,
                 )
             }
 
@@ -104,17 +105,21 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + lookupStages,
                     bucket = parent.bucket,
+                    parameters = parent.parameters,
                 )
             }
 
             is LetClause<*> -> {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Aggregation
                 val allVariables = listOf(clause.dopeVariable) + clause.dopeVariables
+                var parameters = parent.parameters
                 val fields = allVariables.joinToString(", ") { variable ->
                     val value = if (variable.value is IField<*>) {
                         "\"\$${(variable.value as IField<*>).name}\""
                     } else {
-                        variable.value.toDopeQuery(this).queryString
+                        val valueQuery = variable.value.toDopeQuery(this)
+                        parameters = parameters.merge(valueQuery.parameters)
+                        valueQuery.queryString
                     }
                     "\"${variable.name}\": $value"
                 }
@@ -122,6 +127,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$addFields: { $fields } }",
                     bucket = parent.bucket,
+                    parameters = parameters,
                 )
             }
 
@@ -130,6 +136,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$unwind: \"\$${clause.arrayTypeField.name}\" }",
                     bucket = parent.bucket,
+                    parameters = parent.parameters,
                 )
             }
 
@@ -144,7 +151,7 @@ interface ClauseResolver : AbstractMongoResolver {
                         "{ \$unwind: \"\$$fieldName\" }",
                         "{ \$addFields: { \"$alias\": \"\$$fieldName\" } }",
                     ),
-                    namedParameters = parent.namedParameters.merge(arrayDopeQuery.namedParameters),
+                    parameters = parent.parameters.merge(arrayDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -154,7 +161,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
                     stages = listOf("{ \$match: ${whereDopeQuery.queryString} }") + parent.stages,
-                    namedParameters = parent.namedParameters.merge(whereDopeQuery.namedParameters),
+                    parameters = parent.parameters.merge(whereDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -172,6 +179,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$group: { \"_id\": $groupId } }",
                     bucket = parent.bucket,
+                    parameters = parent.parameters,
                 )
             }
 
@@ -182,8 +190,8 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages +
                         "{ \$sort: { ${orderExpressions.joinToString(", ") { it.queryString }} } }",
-                    namedParameters = parent.namedParameters.merge(
-                        *orderExpressions.map { it.namedParameters }.toTypedArray(),
+                    parameters = parent.parameters.merge(
+                        *orderExpressions.map { it.parameters }.toTypedArray(),
                     ),
                     bucket = parent.bucket,
                 )
@@ -194,7 +202,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 val offsetDopeQuery = clause.numberExpression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$skip: ${offsetDopeQuery.queryString} }",
-                    namedParameters = parent.namedParameters.merge(offsetDopeQuery.namedParameters),
+                    parameters = parent.parameters.merge(offsetDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -204,7 +212,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 val limitDopeQuery = clause.numberExpression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$limit: ${limitDopeQuery.queryString} }",
-                    namedParameters = parent.namedParameters.merge(limitDopeQuery.namedParameters),
+                    parameters = parent.parameters.merge(limitDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -218,7 +226,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 MongoDopeQuery.Delete(
                     filter = whereDopeQuery.queryString,
-                    namedParameters = parent.namedParameters.merge(whereDopeQuery.namedParameters),
+                    parameters = parent.parameters.merge(whereDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -230,9 +238,11 @@ interface ClauseResolver : AbstractMongoResolver {
             is SetClause -> {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Update
                 val allAssignments = listOf(clause.setAssignment) + clause.setAssignments
-                val setFields = allAssignments.joinToString(", ") { assignment ->
-                    val valueDopeQuery = assignment.value.toDopeQuery(this)
-                    "\"${assignment.field.name}\": ${valueDopeQuery.queryString}"
+                val assignmentQueries = allAssignments.map { assignment ->
+                    assignment.field.name to assignment.value.toDopeQuery(this)
+                }
+                val setFields = assignmentQueries.joinToString(", ") { (fieldName, valueDopeQuery) ->
+                    "\"$fieldName\": ${valueDopeQuery.queryString}"
                 }
 
                 MongoDopeQuery.Update(
@@ -241,6 +251,9 @@ interface ClauseResolver : AbstractMongoResolver {
                         "\"\$set\": { $setFields }",
                     ),
                     bucket = parent.bucket,
+                    parameters = assignmentQueries
+                        .map { it.second.parameters }
+                        .fold(parent.parameters) { acc, params -> acc.merge(params) },
                 )
             }
 
@@ -255,6 +268,7 @@ interface ClauseResolver : AbstractMongoResolver {
                         "\"\$unset\": { $unsetFields }",
                     ),
                     bucket = parent.bucket,
+                    parameters = parent.parameters,
                 )
             }
 
@@ -264,7 +278,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Update(
                     filter = whereDopeQuery.queryString,
                     updateDocument = parent.updateDocument,
-                    namedParameters = parent.namedParameters.merge(whereDopeQuery.namedParameters),
+                    parameters = parent.parameters.merge(whereDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -280,7 +294,7 @@ interface ClauseResolver : AbstractMongoResolver {
         }
         return MongoDopeQuery.ExpressionFragment(
             queryString = "${expressionDopeQuery.queryString} : $orderTypeString",
-            namedParameters = expressionDopeQuery.namedParameters,
+            parameters = expressionDopeQuery.parameters,
         )
     }
 

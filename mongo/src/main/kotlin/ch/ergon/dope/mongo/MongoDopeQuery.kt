@@ -18,20 +18,20 @@ import ch.ergon.dope.validtype.ValidType
  * - [ExpressionFragment] — internal expression fragment, not returned to users from `.build()`
  */
 sealed interface MongoDopeQuery : DopeQuery {
-    val namedParameters: DopeParameters
+    val parameters: DopeParameters
 
     /** Aggregation pipeline for SELECT queries. */
     data class Aggregation(
         val stages: List<String>,
         val bucket: Bucket? = null,
-        override val namedParameters: DopeParameters = DopeParameters(),
+        override val parameters: DopeParameters = DopeParameters(),
     ) : MongoDopeQuery
 
     /** Filter for DELETE queries. */
     data class Delete(
         val filter: String = "{}",
         val bucket: Bucket,
-        override val namedParameters: DopeParameters = DopeParameters(),
+        override val parameters: DopeParameters = DopeParameters(),
     ) : MongoDopeQuery
 
     /** Filter and update document for UPDATE queries. */
@@ -39,13 +39,13 @@ sealed interface MongoDopeQuery : DopeQuery {
         val filter: String = "{}",
         val updateDocument: String = "{}",
         val bucket: Bucket,
-        override val namedParameters: DopeParameters = DopeParameters(),
+        override val parameters: DopeParameters = DopeParameters(),
     ) : MongoDopeQuery
 
     /** Internal expression fragment used during resolution. */
     data class ExpressionFragment(
         val queryString: String,
-        override val namedParameters: DopeParameters = DopeParameters(),
+        override val parameters: DopeParameters = DopeParameters(),
     ) : MongoDopeQuery
 }
 
