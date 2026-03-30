@@ -85,14 +85,16 @@ interface ClauseResolver : AbstractMongoResolver {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Aggregation
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages,
-                    bucket = clause.fromable as? Bucket,
+                    bucket = clause.fromable as? Bucket
+                        ?: error("Mongo requires a Bucket, got ${clause.fromable::class.simpleName}"),
                     parameters = parent.parameters,
                 )
             }
 
             is MergeableClause<*> -> {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Aggregation
-                val mergeable = clause.mergeable as Bucket
+                val mergeable = clause.mergeable as? Bucket
+                    ?: error("Mongo requires a Bucket for JOIN, got ${clause.mergeable::class.simpleName}")
                 val condition = clause.condition ?: error("JOIN ON requires a condition for Mongo lookup")
                 val asName = clause.bucket?.name ?: mergeable.name
 
@@ -218,7 +220,10 @@ interface ClauseResolver : AbstractMongoResolver {
             }
 
             is DeleteClause -> {
-                MongoDopeQuery.Delete(bucket = clause.deletable as Bucket)
+                MongoDopeQuery.Delete(
+                    bucket = clause.deletable as? Bucket
+                        ?: error("Mongo requires a Bucket for DELETE, got ${clause.deletable::class.simpleName}"),
+                )
             }
 
             is DeleteWhereClause -> {
@@ -232,7 +237,10 @@ interface ClauseResolver : AbstractMongoResolver {
             }
 
             is UpdateClause -> {
-                MongoDopeQuery.Update(bucket = clause.updatable as Bucket)
+                MongoDopeQuery.Update(
+                    bucket = clause.updatable as? Bucket
+                        ?: error("Mongo requires a Bucket for UPDATE, got ${clause.updatable::class.simpleName}"),
+                )
             }
 
             is SetClause -> {
