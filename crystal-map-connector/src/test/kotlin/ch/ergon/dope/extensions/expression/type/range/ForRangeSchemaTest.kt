@@ -41,6 +41,18 @@ class ForRangeSchemaTest {
     }
 
     @Test
+    fun `should support array for range with schema without iterator name`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.map { schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals(null, actual.iteratorName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
     fun `should support array for range with schema with condition`() {
         val schema = Dummy()
         val objectList = schema.objectList
@@ -131,6 +143,45 @@ class ForRangeSchemaTest {
     }
 
     @Test
+    fun `should support indexed array for range with schema without index and iterator names`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.mapIndexed { _, schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals(null, actual.iteratorName)
+        assertEquals(null, actual.indexName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
+    fun `should support indexed array for range with schema with only index name`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.mapIndexed(indexName = "i") { _, schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals(null, actual.iteratorName)
+        assertEquals("i", actual.indexName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
+    fun `should support indexed array for range with schema with only iterator name`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.mapIndexed(iteratorName = "it") { _, schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals("it", actual.iteratorName)
+        assertEquals(null, actual.indexName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
     fun `should support indexed array for range with schema with condition`() {
         val objectList = Dummy().objectList
 
@@ -142,6 +193,51 @@ class ForRangeSchemaTest {
 
         assertEquals("it", actual.iteratorName)
         assertEquals("i", actual.indexName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
+    fun `should support indexed array for range with schema with condition without index and iterator names`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.filterIndexed { _, schema ->
+            schema.getField(Dummy2::type).isEqualTo("test")
+        }.map { _, schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals(null, actual.iteratorName)
+        assertEquals(null, actual.indexName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
+    fun `should support indexed array for range with schema with condition and only index name`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.filterIndexed(indexName = "i") { _, schema ->
+            schema.getField(Dummy2::type).isEqualTo("test")
+        }.map { _, schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals(null, actual.iteratorName)
+        assertEquals("i", actual.indexName)
+        assertEquals(objectList.toDopeType(), actual.range)
+    }
+
+    @Test
+    fun `should support indexed array for range with schema with condition and only iterator name`() {
+        val objectList = Dummy().objectList
+
+        val actual = objectList.filterIndexed(iteratorName = "it") { _, schema ->
+            schema.getField(Dummy2::type).isEqualTo("test")
+        }.map { _, schema ->
+            schema.getField(Dummy2::type).toDopeType()
+        }
+
+        assertEquals("it", actual.iteratorName)
+        assertEquals(null, actual.indexName)
         assertEquals(objectList.toDopeType(), actual.range)
     }
 

@@ -21,9 +21,3 @@ fun String.position(searchStr: CMJsonField<String>) =
 
 fun TypeExpression<StringType>.position(searchStr: CMJsonField<String>) =
     position(searchStr.toDopeType())
-
-fun String.position(searchStr: TypeExpression<StringType>) =
-    toDopeType().position(searchStr)
-
-fun String.position(searchStr: String) =
-    toDopeType().position(searchStr.toDopeType())
