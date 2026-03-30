@@ -47,9 +47,6 @@ fun TypeExpression<StringType>.mbLpad(size: CMJsonField<Number>, char: TypeExpre
 fun TypeExpression<StringType>.mbLpad(size: TypeExpression<NumberType>, char: CMJsonField<String>) =
     mbLpad(size, char.toDopeType())
 
-fun TypeExpression<StringType>.mbLpad(size: TypeExpression<NumberType>, char: String) =
-    mbLpad(size, char.toDopeType())
-
 fun String.mbLpad(size: CMJsonField<Number>, char: CMJsonField<String>) =
     toDopeType().mbLpad(size.toDopeType(), char.toDopeType())
 

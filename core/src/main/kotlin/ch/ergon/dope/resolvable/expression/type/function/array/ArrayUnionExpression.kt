@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.function.array
 
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
+import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.ValidType
 
@@ -9,7 +10,7 @@ data class ArrayUnionExpression<T : ValidType>(
     val firstArray: TypeExpression<ArrayType<T>>,
     val secondArray: TypeExpression<ArrayType<T>>,
     val additionalArrays: List<TypeExpression<ArrayType<T>>> = emptyList(),
-) : ArrayFunctionExpression<ArrayType<T>>(listOf(firstArray, secondArray) + additionalArrays)
+) : FunctionExpression<ArrayType<T>>(listOf(firstArray, secondArray) + additionalArrays)
 
 fun <T : ValidType> TypeExpression<ArrayType<T>>.union(
     secondArray: TypeExpression<ArrayType<T>>,

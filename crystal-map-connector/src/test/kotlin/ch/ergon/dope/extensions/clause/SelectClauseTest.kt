@@ -359,7 +359,7 @@ class SelectClauseTest {
 
     @Test
     fun `should support select order by with CMNumberField`() {
-        val field = someCMStringField()
+        val field = someCMNumberField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(OrderExpression(field.toDopeType()), parentClause = parentClause)
 
@@ -370,7 +370,7 @@ class SelectClauseTest {
 
     @Test
     fun `should support select order by with type and CMNumberField`() {
-        val field = someCMStringField()
+        val field = someCMNumberField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(OrderExpression(field.toDopeType(), orderType), parentClause = parentClause)
@@ -497,7 +497,7 @@ class SelectClauseTest {
 
     @Test
     fun `should support select then order by with CMNumberField`() {
-        val field = someCMStringField()
+        val field = someCMNumberField()
         val parentClause = someSelect()
         val expected = SelectOrderByClause(
             OrderExpression(someNumberField(), OrderType.ASC),
@@ -512,7 +512,7 @@ class SelectClauseTest {
 
     @Test
     fun `should support select then order by with type and CMNumberField`() {
-        val field = someCMStringField()
+        val field = someCMNumberField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
         val expected = SelectOrderByClause(

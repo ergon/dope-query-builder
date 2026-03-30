@@ -24,9 +24,3 @@ fun CMJsonField<String>.trim(char: Char) =
 
 fun String.trim(char: CMJsonField<String>) =
     toDopeType().trim(char.toDopeType())
-
-fun String.trim(char: TypeExpression<StringType>? = null) =
-    toDopeType().trim(char)
-
-fun String.trim(char: String) =
-    toDopeType().trim(char.toDopeType())
