@@ -59,7 +59,7 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
 
         is TokensExpression -> {
             val inStringDopeQuery = typeExpression.inString.toDopeQuery(this)
-            val optionsDopeQuery = typeExpression.options?.toDopeQuery(this).takeIf { !it?.queryString.isNullOrEmpty() }
+            val optionsDopeQuery = typeExpression.tokensOptions?.toDopeQuery(this).takeIf { !it?.queryString.isNullOrEmpty() }
             val functionQueryString = formatFunctionQueryString(
                 "TOKENS",
                 inStringDopeQuery.queryString,
@@ -72,21 +72,21 @@ interface FunctionOperatorResolver : AbstractCouchbaseResolver {
             "CONTAINS_TOKEN",
             typeExpression.inputExpression,
             typeExpression.tokenExpression,
-            typeExpression.options,
+            typeExpression.tokenOptions,
         )
 
         is ContainsTokenLikeExpression -> resolve(
             "CONTAINS_TOKEN_LIKE",
             typeExpression.inputObject,
             typeExpression.likeExpression,
-            typeExpression.options,
+            typeExpression.tokenOptions,
         )
 
         is ContainsTokenRegexpExpression -> resolve(
             "CONTAINS_TOKEN_REGEXP",
             typeExpression.inputObject,
             typeExpression.regexExpression,
-            typeExpression.options,
+            typeExpression.tokenOptions,
         )
 
         is MaskExpression -> {

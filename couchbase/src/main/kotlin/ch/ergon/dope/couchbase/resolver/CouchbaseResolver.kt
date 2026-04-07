@@ -31,7 +31,7 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrame
 import ch.ergon.dope.resolvable.expression.type.CaseClass
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.token.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.TokensOptions
 import ch.ergon.dope.resolver.QueryResolver
 
 interface AbstractCouchbaseResolver : QueryResolver<CouchbaseDopeQuery> {
@@ -91,7 +91,7 @@ class CouchbaseResolver(
 
             is ContainsTokenOptions -> resolve(resolvable)
 
-            is CustomTokenOptions -> resolve(resolvable)
+            is TokensOptions -> resolve(resolvable)
 
             is HashOrNestedLoopHint -> resolve(resolvable)
 

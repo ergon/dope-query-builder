@@ -31,7 +31,7 @@ class ContainsTokenExpressionTest : ResolverDependentTest {
         val underTest = ContainsTokenExpression(
             someStringField(),
             "Inn".toDopeType(),
-            ContainsTokenOptions(specials = true),
+            ContainsTokenOptions(includeSpecialCharacters = true),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,7 +48,7 @@ class ContainsTokenExpressionTest : ResolverDependentTest {
         val underTest = ContainsTokenExpression(
             someStringField(),
             "Inn".toDopeType(),
-            ContainsTokenOptions(names = true, case = TokenCases.LOWER, specials = false, split = true, trim = false),
+            ContainsTokenOptions(hasNames = true, case = TokenCase.LOWER, includeSpecialCharacters = false, split = true, trim = false),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,7 +92,7 @@ class ContainsTokenExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token extension function with options`() {
-        val options = ContainsTokenOptions(specials = true)
+        val options = ContainsTokenOptions(includeSpecialCharacters = true)
         val expected = ContainsTokenExpression(someStringField(), "Inn".toDopeType(), options)
 
         val actual = someStringField().containsToken("Inn", options)
@@ -102,7 +102,7 @@ class ContainsTokenExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token extension function with type expression and options`() {
-        val options = ContainsTokenOptions(specials = true)
+        val options = ContainsTokenOptions(includeSpecialCharacters = true)
         val expected = ContainsTokenExpression(someStringField(), "Inn".toDopeType(), options)
 
         val actual = someStringField().containsToken("Inn".toDopeType(), options)

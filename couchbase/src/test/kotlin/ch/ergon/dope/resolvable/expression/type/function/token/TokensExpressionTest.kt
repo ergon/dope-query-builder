@@ -28,7 +28,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "TOKENS([\"test\"], {\"name\": true, \"specials\": true})",
         )
-        val underTest = TokensExpression(listOf("test").toDopeType(), CustomTokenOptions(name = true, specials = true))
+        val underTest = TokensExpression(listOf("test").toDopeType(), TokensOptions(hasName = true, includeSpecialCharacters = true))
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -42,7 +42,7 @@ class TokensExpressionTest : ResolverDependentTest {
         )
         val underTest = TokensExpression(
             listOf("test").toDopeType(),
-            CustomTokenOptions(name = true, case = TokenCases.UPPER, specials = true),
+            TokensOptions(hasName = true, case = TokenCase.UPPER, includeSpecialCharacters = true),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -55,7 +55,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val expected = CouchbaseDopeQuery(
             queryString = "TOKENS([\"test\"])",
         )
-        val underTest = TokensExpression(listOf("test").toDopeType(), CustomTokenOptions())
+        val underTest = TokensExpression(listOf("test").toDopeType(), TokensOptions())
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -67,7 +67,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val inString = listOf("test1", "test2")
         val expected = TokensExpression(inString.toDopeType())
 
-        val actual = inString.tokens()
+        val actual = inString.tokenize()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -75,10 +75,10 @@ class TokensExpressionTest : ResolverDependentTest {
     @Test
     fun `should support tokens extension function with options`() {
         val inString = listOf("test1", "test2")
-        val options = CustomTokenOptions(name = true, specials = true)
+        val options = TokensOptions(hasName = true, includeSpecialCharacters = true)
         val expected = TokensExpression(inString.toDopeType(), options)
 
-        val actual = inString.tokens(options)
+        val actual = inString.tokenize(options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -88,7 +88,7 @@ class TokensExpressionTest : ResolverDependentTest {
         val inString = someStringArrayField()
         val expected = TokensExpression(inString)
 
-        val actual = inString.tokens()
+        val actual = inString.tokenize()
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -96,10 +96,10 @@ class TokensExpressionTest : ResolverDependentTest {
     @Test
     fun `should support tokens type extension function with options`() {
         val inString = someStringArrayField()
-        val options = CustomTokenOptions(name = true, specials = true)
+        val options = TokensOptions(hasName = true, includeSpecialCharacters = true)
         val expected = TokensExpression(inString, options)
 
-        val actual = inString.tokens(options)
+        val actual = inString.tokenize(options)
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

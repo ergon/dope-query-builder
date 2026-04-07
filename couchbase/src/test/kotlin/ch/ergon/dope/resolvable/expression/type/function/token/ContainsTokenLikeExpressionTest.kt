@@ -31,7 +31,7 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
         val underTest = ContainsTokenLikeExpression(
             someStringField(),
             "%uk".toDopeType(),
-            ContainsTokenOptions(specials = true),
+            ContainsTokenOptions(includeSpecialCharacters = true),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,7 +48,7 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
         val underTest = ContainsTokenLikeExpression(
             someStringField(),
             "%uk".toDopeType(),
-            ContainsTokenOptions(names = false, case = TokenCases.UPPER, specials = true, split = false, trim = true),
+            ContainsTokenOptions(hasNames = false, case = TokenCase.UPPER, includeSpecialCharacters = true, split = false, trim = true),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,7 +92,7 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token like extension function with options`() {
-        val options = ContainsTokenOptions(specials = true)
+        val options = ContainsTokenOptions(includeSpecialCharacters = true)
         val expected = ContainsTokenLikeExpression(someStringField(), "%uk".toDopeType(), options)
 
         val actual = someStringField().containsTokenLike("%uk", options)
@@ -102,7 +102,7 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token like extension function with type expression and options`() {
-        val options = ContainsTokenOptions(specials = true)
+        val options = ContainsTokenOptions(includeSpecialCharacters = true)
         val expected = ContainsTokenLikeExpression(someStringField(), "%uk".toDopeType(), options)
 
         val actual = someStringField().containsTokenLike("%uk".toDopeType(), options)

@@ -10,15 +10,15 @@ import ch.ergon.dope.validtype.ValidType
 data class ContainsTokenRegexpExpression(
     val inputObject: TypeExpression<out ValidType>,
     val regexExpression: TypeExpression<StringType>,
-    val options: ContainsTokenOptions? = null,
+    val tokenOptions: ContainsTokenOptions? = null,
 ) : FunctionOperator<BooleanType>
 
 fun TypeExpression<out ValidType>.containsTokenRegexp(
     regexExpression: TypeExpression<StringType>,
-    options: ContainsTokenOptions? = null,
-) = ContainsTokenRegexpExpression(this, regexExpression, options)
+    tokenOptions: ContainsTokenOptions? = null,
+) = ContainsTokenRegexpExpression(this, regexExpression, tokenOptions)
 
 fun TypeExpression<out ValidType>.containsTokenRegexp(
     regexExpression: String,
-    options: ContainsTokenOptions? = null,
-) = containsTokenRegexp(regexExpression.toDopeType(), options)
+    tokenOptions: ContainsTokenOptions? = null,
+) = containsTokenRegexp(regexExpression.toDopeType(), tokenOptions)

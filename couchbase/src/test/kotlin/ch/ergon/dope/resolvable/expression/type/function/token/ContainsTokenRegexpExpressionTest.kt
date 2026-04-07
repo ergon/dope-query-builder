@@ -31,7 +31,7 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
         val underTest = ContainsTokenRegexpExpression(
             someStringField(),
             "In+.*".toDopeType(),
-            ContainsTokenOptions(specials = true),
+            ContainsTokenOptions(includeSpecialCharacters = true),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,7 +48,7 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
         val underTest = ContainsTokenRegexpExpression(
             someStringField(),
             "In+.*".toDopeType(),
-            ContainsTokenOptions(names = true, case = TokenCases.LOWER, specials = true, split = true, trim = true),
+            ContainsTokenOptions(hasNames = true, case = TokenCase.LOWER, includeSpecialCharacters = true, split = true, trim = true),
         )
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,7 +92,7 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token regexp extension function with options`() {
-        val options = ContainsTokenOptions(specials = true)
+        val options = ContainsTokenOptions(includeSpecialCharacters = true)
         val expected = ContainsTokenRegexpExpression(someStringField(), "In+.*".toDopeType(), options)
 
         val actual = someStringField().containsTokenRegexp("In+.*", options)
@@ -102,7 +102,7 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token regexp extension function with type expression and options`() {
-        val options = ContainsTokenOptions(specials = true)
+        val options = ContainsTokenOptions(includeSpecialCharacters = true)
         val expected = ContainsTokenRegexpExpression(someStringField(), "In+.*".toDopeType(), options)
 
         val actual = someStringField().containsTokenRegexp("In+.*".toDopeType(), options)

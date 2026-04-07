@@ -8,9 +8,21 @@ import ch.ergon.dope.validtype.StringType
 
 data class TokensExpression(
     val inString: TypeExpression<ArrayType<StringType>>,
-    val options: CustomTokenOptions? = null,
+    val tokensOptions: TokensOptions? = null,
 ) : FunctionOperator<ArrayType<StringType>>
 
-fun TypeExpression<ArrayType<StringType>>.tokens(options: CustomTokenOptions? = null) = TokensExpression(this, options)
+fun TypeExpression<ArrayType<StringType>>.tokenize(tokensOptions: TokensOptions) = TokensExpression(this, tokensOptions)
 
-fun List<String>.tokens(options: CustomTokenOptions? = null) = toDopeType().tokens(options)
+fun TypeExpression<ArrayType<StringType>>.tokenize(
+    hasName: Boolean? = null,
+    case: TokenCase? = null,
+    includeSpecialCharacters: Boolean? = null,
+) = TokensExpression(this, tokenOptions(hasName, case, includeSpecialCharacters))
+
+fun List<String>.tokenize(tokensOptions: TokensOptions) = toDopeType().tokenize(tokensOptions)
+
+fun List<String>.tokenize(
+    hasName: Boolean? = null,
+    case: TokenCase? = null,
+    includeSpecialCharacters: Boolean? = null,
+) = toDopeType().tokenize(tokenOptions(hasName, case, includeSpecialCharacters))

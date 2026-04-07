@@ -12,17 +12,17 @@ class ContainsTokenOptionsTest : ResolverDependentTest {
     @Test
     fun `should support containsTokenOptions factory function`() {
         val expected = ContainsTokenOptions(
-            names = true,
-            case = TokenCases.LOWER,
-            specials = true,
+            hasNames = true,
+            case = TokenCase.LOWER,
+            includeSpecialCharacters = true,
             split = false,
             trim = true,
         )
 
         val actual = containsTokenOptions(
-            names = true,
-            case = TokenCases.LOWER,
-            specials = true,
+            hasNames = true,
+            case = TokenCase.LOWER,
+            includeSpecialCharacters = true,
             split = false,
             trim = true,
         )
@@ -46,9 +46,9 @@ class ContainsTokenOptionsTest : ResolverDependentTest {
         )
 
         val actual = containsTokenOptions(
-            names = true,
-            case = TokenCases.LOWER,
-            specials = false,
+            hasNames = true,
+            case = TokenCase.LOWER,
+            includeSpecialCharacters = false,
             split = true,
             trim = false,
         ).toDopeQuery(resolver)
@@ -62,7 +62,7 @@ class ContainsTokenOptionsTest : ResolverDependentTest {
             queryString = "{\"specials\": true}",
         )
 
-        val actual = containsTokenOptions(specials = true).toDopeQuery(resolver)
+        val actual = containsTokenOptions(includeSpecialCharacters = true).toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }
@@ -84,7 +84,7 @@ class ContainsTokenOptionsTest : ResolverDependentTest {
             queryString = "{\"case\": \"UPPER\"}",
         )
 
-        val actual = containsTokenOptions(case = TokenCases.UPPER).toDopeQuery(resolver)
+        val actual = containsTokenOptions(case = TokenCase.UPPER).toDopeQuery(resolver)
 
         assertEquals(expected, actual)
     }

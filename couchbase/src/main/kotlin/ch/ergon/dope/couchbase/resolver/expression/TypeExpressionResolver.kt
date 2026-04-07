@@ -41,7 +41,7 @@ import ch.ergon.dope.resolvable.expression.type.function.array.UnpackExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateComponentType
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType
 import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.token.CustomTokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.TokensOptions
 import ch.ergon.dope.resolvable.expression.type.range.RangeIndexedLike
 import ch.ergon.dope.resolvable.expression.type.range.RangeLike
 import ch.ergon.dope.resolvable.expression.type.relational.BetweenExpression
@@ -368,11 +368,11 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
         )
     }
 
-    fun resolve(customTokenOptions: CustomTokenOptions): CouchbaseDopeQuery {
+    fun resolve(tokensOptions: TokensOptions): CouchbaseDopeQuery {
         val options = listOfNotNull(
-            customTokenOptions.name?.let { "name" to it },
-            customTokenOptions.case?.let { "case" to "\"${it.queryString}\"" },
-            customTokenOptions.specials?.let { "specials" to it },
+            tokensOptions.hasName?.let { "name" to it },
+            tokensOptions.case?.let { "case" to "\"${it.queryString}\"" },
+            tokensOptions.includeSpecialCharacters?.let { "specials" to it },
         )
         val queryString = options
             .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
@@ -384,9 +384,9 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
 
     fun resolve(containsTokenOptions: ContainsTokenOptions): CouchbaseDopeQuery {
         val options = listOfNotNull(
-            containsTokenOptions.names?.let { "names" to it },
+            containsTokenOptions.hasNames?.let { "names" to it },
             containsTokenOptions.case?.let { "case" to "\"${it.queryString}\"" },
-            containsTokenOptions.specials?.let { "specials" to it },
+            containsTokenOptions.includeSpecialCharacters?.let { "specials" to it },
             containsTokenOptions.split?.let { "split" to it },
             containsTokenOptions.trim?.let { "trim" to it },
         )

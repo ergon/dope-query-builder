@@ -40,9 +40,9 @@ import ch.ergon.dope.resolvable.expression.type.function.string.trim
 import ch.ergon.dope.resolvable.expression.type.function.string.upper
 import ch.ergon.dope.resolvable.expression.type.function.string.urlDecode
 import ch.ergon.dope.resolvable.expression.type.function.string.urlEncode
-import ch.ergon.dope.resolvable.expression.type.function.token.TokenCases
-import ch.ergon.dope.resolvable.expression.type.function.token.customTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.token.tokens
+import ch.ergon.dope.resolvable.expression.type.function.token.TokenCase
+import ch.ergon.dope.resolvable.expression.type.function.token.tokenOptions
+import ch.ergon.dope.resolvable.expression.type.function.token.tokenize
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo
@@ -675,7 +675,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212").tokens(customTokenOptions(name = true)),
+                listOf("jim@example.com", "kim@example.com", "https://example.com/", "408-555-1212").tokenize(tokenOptions(hasName = true)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -687,7 +687,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                listOf("jim@example.com").tokens(),
+                listOf("jim@example.com").tokenize(),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -698,7 +698,7 @@ class StringFunctionsTest : ResolverDependentTest {
         val expected = "SELECT TOKENS([\"jim@example.com\"], {\"specials\": true})"
 
         val actual: String = QueryBuilder
-            .select(listOf("jim@example.com").tokens(customTokenOptions(specials = true)))
+            .select(listOf("jim@example.com").tokenize(tokenOptions(includeSpecialCharacters = true)))
             .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -711,7 +711,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                listOf("jim@example.com").tokens(customTokenOptions(specials = true, case = TokenCases.LOWER)),
+                listOf("jim@example.com").tokenize(tokenOptions(includeSpecialCharacters = true, case = TokenCase.LOWER)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
@@ -724,7 +724,7 @@ class StringFunctionsTest : ResolverDependentTest {
 
         val actual: String = QueryBuilder
             .select(
-                listOf("jim@example.com").tokens(customTokenOptions(specials = false, case = TokenCases.UPPER, name = false)),
+                listOf("jim@example.com").tokenize(tokenOptions(includeSpecialCharacters = false, case = TokenCase.UPPER, hasName = false)),
             ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
