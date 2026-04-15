@@ -5,7 +5,7 @@ import ch.ergon.dope.couchbase.util.formatQueryStringWithNullableFirst
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.orEmpty
 import ch.ergon.dope.resolvable.AliasedSelectClause
-import ch.ergon.dope.resolvable.bucket.Definable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.SetOperator
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
@@ -95,7 +95,7 @@ interface SelectClauseResolver : MergeableClauseResolver {
         is FromClause<*> -> {
             val parentDopeQuery = selectClause.parentClause.toDopeQuery(this)
             val fromableDopeQuery = when (val fromable = selectClause.fromable) {
-                is Definable -> fromable.asBucketDefinition().toDopeQuery(this)
+                is AliasedBucket -> fromable.asBucketDefinition().toDopeQuery(this)
                 is AliasedSelectClause<*> -> fromable.asAliasedSelectClauseDefinition().toDopeQuery(this)
                 else -> selectClause.fromable.toDopeQuery(this)
             }

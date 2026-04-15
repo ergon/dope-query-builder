@@ -8,8 +8,8 @@ import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.AliasedSelectClauseDefinition
 import ch.ergon.dope.resolvable.Asterisk
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.Bucket
-import ch.ergon.dope.resolvable.bucket.Definable
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
 import ch.ergon.dope.resolvable.expression.rowscope.RowScopeExpression
@@ -20,7 +20,7 @@ interface ExpressionResolver : TypeExpressionResolver {
     fun resolve(expression: Expression<*>): CouchbaseDopeQuery = when (expression) {
         is TypeExpression<*> -> resolve(expression)
 
-        is Definable -> CouchbaseDopeQuery("`${expression.alias}`")
+        is AliasedBucket -> CouchbaseDopeQuery("`${expression.alias}`")
 
         is Bucket -> CouchbaseDopeQuery(formatBucket(expression))
 

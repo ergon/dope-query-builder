@@ -14,12 +14,6 @@ interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExp
     val scope: BucketScope?
 }
 
-interface Definable : Bucket {
-    val alias: String
-
-    fun asBucketDefinition(): Resolvable = AliasedBucketDefinition(name, alias, scope)
-}
-
 data class BucketScope(val name: String, val collection: ScopeCollection? = null) {
     fun withCollection(collectionName: String) = copy(collection = ScopeCollection(collectionName))
     fun withCollection(collection: ScopeCollection) = copy(collection = collection)
@@ -40,11 +34,13 @@ data class UnaliasedBucket(
         copy(scope = BucketScope(scopeName, ScopeCollection(collectionName)))
 }
 
-data class AliasedBucket(
+open class AliasedBucket(
     override val name: String,
-    override val alias: String,
+    val alias: String,
     override val scope: BucketScope? = null,
-) : Definable
+) : Bucket {
+    open fun asBucketDefinition(): Resolvable = AliasedBucketDefinition(name, alias, scope)
+}
 
 data class AliasedBucketDefinition(
     val bucketName: String,

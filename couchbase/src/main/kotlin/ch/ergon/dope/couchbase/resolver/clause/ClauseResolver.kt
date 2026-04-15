@@ -7,7 +7,7 @@ import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.merge
 import ch.ergon.dope.resolvable.AliasedSelectClause
-import ch.ergon.dope.resolvable.bucket.Definable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.ISelectOffsetClause
 import ch.ergon.dope.resolvable.clause.joinHint.HashOrNestedLoopHint
@@ -76,7 +76,7 @@ interface ClauseResolver : SelectClauseResolver {
 
             is UpdateClause -> {
                 val updatable = when (val updatable = clause.updatable) {
-                    is Definable -> updatable.asBucketDefinition().toDopeQuery(this)
+                    is AliasedBucket -> updatable.asBucketDefinition().toDopeQuery(this)
                     else -> clause.updatable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(
@@ -87,7 +87,7 @@ interface ClauseResolver : SelectClauseResolver {
 
             is DeleteClause -> {
                 val bucket = when (val deletable = clause.deletable) {
-                    is Definable -> deletable.asBucketDefinition().toDopeQuery(this)
+                    is AliasedBucket -> deletable.asBucketDefinition().toDopeQuery(this)
                     else -> clause.deletable.toDopeQuery(this)
                 }
                 CouchbaseDopeQuery(

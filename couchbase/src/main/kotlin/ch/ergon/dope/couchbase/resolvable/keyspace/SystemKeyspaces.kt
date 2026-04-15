@@ -1,8 +1,7 @@
 package ch.ergon.dope.couchbase.resolvable.keyspace
 
 import ch.ergon.dope.resolvable.Resolvable
-import ch.ergon.dope.resolvable.bucket.BucketScope
-import ch.ergon.dope.resolvable.bucket.Definable
+import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.IField
@@ -15,11 +14,7 @@ import ch.ergon.dope.validtype.StringType
 abstract class SystemKeyspace(
     val keyspace: String,
     private val keyspaceAlias: String? = null,
-) : Definable {
-    override val name: String = "system:$keyspace"
-    override val alias: String = keyspaceAlias ?: keyspace
-    override val scope: BucketScope? = null
-
+) : AliasedBucket("system:$keyspace", keyspaceAlias ?: keyspace) {
     override fun asBucketDefinition(): Resolvable = if (keyspaceAlias != null) {
         super.asBucketDefinition()
     } else {

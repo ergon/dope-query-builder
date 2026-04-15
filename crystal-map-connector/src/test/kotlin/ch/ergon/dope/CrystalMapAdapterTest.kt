@@ -15,6 +15,7 @@ import ch.ergon.dope.helper.someCMConverterStringList
 import ch.ergon.dope.helper.someCorruptField
 import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someString
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.expression.type.BooleanParameter
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.IField
@@ -101,7 +102,7 @@ class CrystalMapAdapterTest {
     fun `should convert CMObjectField`() {
         val schema = SchemaDummy()
         val cmObjectField = CMObjectField(schema, "testName", "testPath")
-        val expected = ObjectField(schema, "testName", "testPath")
+        val expected = ObjectField(schema, "testName", UnaliasedBucket("testPath"))
 
         val actual = cmObjectField.toDopeType()
 
@@ -112,7 +113,7 @@ class CrystalMapAdapterTest {
     fun `should convert CMObjectList`() {
         val schema = SchemaDummy()
         val cmObjectList = CMObjectList(schema, "testName", "testPath")
-        val expected = ObjectList(schema, "testName", "testPath")
+        val expected = ObjectList(schema, "testName", UnaliasedBucket("testPath"))
 
         val actual = cmObjectList.toDopeType()
 
