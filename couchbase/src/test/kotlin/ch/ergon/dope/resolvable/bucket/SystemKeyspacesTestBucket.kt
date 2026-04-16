@@ -10,7 +10,7 @@ import kotlin.test.assertNull
 class SystemKeyspacesTestBucket {
     @Test
     fun `should keep keyspace identity separate from colliding field names`() {
-        val allSequences = SystemBuckets.allSequences
+        val allSequences = SystemBuckets.allSequencesBucket
 
         assertEquals("system:all_sequences", allSequences.name)
         assertNull(allSequences.scope)
@@ -19,11 +19,11 @@ class SystemKeyspacesTestBucket {
 
     @Test
     fun `should select renamed field from system keyspace`() {
-        val allSequences = SystemBuckets.allSequences
+        val allSequences = SystemBuckets.allSequencesBucket
         val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
         val actual = QueryBuilder
-            .select(allSequences.nameField)
+            .select(allSequences.sequenceName)
             .from(allSequences)
             .build(CouchbaseResolver())
             .queryString
@@ -33,11 +33,11 @@ class SystemKeyspacesTestBucket {
 
     @Test
     fun `should use custom alias for system keyspace`() {
-        val seq = SystemBuckets.allSequences.alias("seq")
+        val seq = SystemBuckets.allSequencesBucket.alias("seq")
         val expected = "SELECT `seq`.`name` FROM `system`:`all_sequences` AS `seq`"
 
         val actual = QueryBuilder
-            .select(seq.nameField)
+            .select(seq.sequenceName)
             .from(seq)
             .build(CouchbaseResolver())
             .queryString
@@ -47,7 +47,7 @@ class SystemKeyspacesTestBucket {
 
     @Test
     fun `should keep keyspace name when aliased`() {
-        val seq = SystemBuckets.allSequences.alias("seq")
+        val seq = SystemBuckets.allSequencesBucket.alias("seq")
 
         assertEquals("system:all_sequences", seq.name)
         assertEquals("seq", seq.alias)

@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 class SystemTest {
     @Test
     fun `should support system prepareds keyspace`() {
-        val tasksCache = SystemBuckets.tasksCache
+        val tasksCache = SystemBuckets.tasksCacheBucket
         val expected = "SELECT `tasks_cache`.`delay` FROM `system`:`tasks_cache`"
 
         val actual = QueryBuilder
@@ -25,12 +25,12 @@ class SystemTest {
 
     @Test
     fun `should support system all-sequences keyspace`() {
-        val allSequences = SystemBuckets.allSequences
+        val allSequences = SystemBuckets.allSequencesBucket
         val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
         val actual = QueryBuilder
             .select(
-                allSequences.nameField,
+                allSequences.sequenceName,
             ).from(
                 allSequences,
             ).build(CouchbaseResolver()).queryString
@@ -40,12 +40,12 @@ class SystemTest {
 
     @Test
     fun `should support aliased system keyspace`() {
-        val idx = SystemBuckets.indexes.alias("idx")
+        val idx = SystemBuckets.indexesBucket.alias("idx")
         val expected = "SELECT `idx`.`name`, `idx`.`state` FROM `system`:`indexes` AS `idx`"
 
         val actual = QueryBuilder
             .select(
-                idx.nameField,
+                idx.indexName,
                 idx.state,
             ).from(
                 idx,
@@ -56,7 +56,7 @@ class SystemTest {
 
     @Test
     fun `should support dual system bucket`() {
-        val dualBucket = SystemBuckets.dual
+        val dualBucket = SystemBuckets.dualBucket
         val expected = "SELECT 1 AS `num` FROM `system`:`dual`"
 
         val actual = QueryBuilder
@@ -71,7 +71,7 @@ class SystemTest {
 
     @Test
     fun `should support bucket info system bucket`() {
-        val infoBucket = SystemBuckets.bucketInfo
+        val infoBucket = SystemBuckets.bucketInfoBucket
         val expected = "SELECT * FROM `system`:`bucket_info`"
 
         val actual = QueryBuilder

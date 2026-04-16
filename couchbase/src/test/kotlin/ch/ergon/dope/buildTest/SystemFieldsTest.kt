@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 class SystemFieldsTest {
     @Test
     fun `should select all fields from datastores`() {
-        val b = SystemBuckets.datastores
+        val b = SystemBuckets.datastoresBucket
         val expected = "SELECT `datastores`.`id`, `datastores`.`url` FROM `system`:`datastores`"
 
         val actual = QueryBuilder
@@ -23,11 +23,11 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from namespaces`() {
-        val b = SystemBuckets.namespaces
+        val b = SystemBuckets.namespacesBucket
         val expected = "SELECT `namespaces`.`id`, `namespaces`.`name`, `namespaces`.`datastore_id` FROM `system`:`namespaces`"
 
         val actual = QueryBuilder
-            .select(b.id, b.nameField, b.datastoreId)
+            .select(b.id, b.namespaceName, b.datastoreId)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -37,12 +37,12 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from buckets`() {
-        val b = SystemBuckets.buckets
+        val b = SystemBuckets.bucketsBucket
         val expected = "SELECT `buckets`.`datastore_id`, `buckets`.`name`, `buckets`.`namespace`, " +
             "`buckets`.`namespace_id`, `buckets`.`path` FROM `system`:`buckets`"
 
         val actual = QueryBuilder
-            .select(b.datastoreId, b.nameField, b.namespace, b.namespaceId, b.path)
+            .select(b.datastoreId, b.bucketName, b.namespace, b.namespaceId, b.path)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -52,12 +52,12 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from scopes`() {
-        val b = SystemBuckets.scopes
+        val b = SystemBuckets.scopesBucket
         val expected = "SELECT `scopes`.`bucket`, `scopes`.`datastore_id`, `scopes`.`name`, " +
             "`scopes`.`namespace`, `scopes`.`namespace_id`, `scopes`.`path` FROM `system`:`scopes`"
 
         val actual = QueryBuilder
-            .select(b.bucketName, b.datastoreId, b.nameField, b.namespace, b.namespaceId, b.path)
+            .select(b.bucketName, b.datastoreId, b.scopeName, b.namespace, b.namespaceId, b.path)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -67,13 +67,13 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from keyspaces`() {
-        val b = SystemBuckets.keyspaces
+        val b = SystemBuckets.keyspacesBucket
         val expected = "SELECT `keyspaces`.`bucket`, `keyspaces`.`datastore_id`, `keyspaces`.`id`, " +
             "`keyspaces`.`name`, `keyspaces`.`namespace`, `keyspaces`.`namespace_id`, " +
             "`keyspaces`.`path`, `keyspaces`.`scope` FROM `system`:`keyspaces`"
 
         val actual = QueryBuilder
-            .select(b.bucketName, b.datastoreId, b.id, b.nameField, b.namespace, b.namespaceId, b.path, b.scopeField)
+            .select(b.bucketName, b.datastoreId, b.id, b.keyspaceName, b.namespace, b.namespaceId, b.path, b.scopeField)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -83,7 +83,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from indexes`() {
-        val b = SystemBuckets.indexes
+        val b = SystemBuckets.indexesBucket
         val expected = "SELECT `indexes`.`bucket_id`, `indexes`.`condition`, `indexes`.`datastore_id`, " +
             "`indexes`.`id`, `indexes`.`index_key`, `indexes`.`is_primary`, `indexes`.`keyspace_id`, " +
             "`indexes`.`name`, `indexes`.`metadata`, `indexes`.`namespace_id`, `indexes`.`state`, " +
@@ -92,7 +92,7 @@ class SystemFieldsTest {
         val actual = QueryBuilder
             .select(
                 b.bucketId, b.condition, b.datastoreId, b.id, b.indexKey, b.isPrimary,
-                b.keyspaceId, b.nameField, b.metadata, b.namespaceId, b.state, b.using,
+                b.keyspaceId, b.indexName, b.metadata, b.namespaceId, b.state, b.using,
             )
             .from(b)
             .build(CouchbaseResolver())
@@ -103,7 +103,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from group_info`() {
-        val b = SystemBuckets.groupInfo
+        val b = SystemBuckets.groupInfoBucket
         val expected = "SELECT `group_info`.`description`, `group_info`.`id`, " +
             "`group_info`.`ldap_group_ref`, `group_info`.`roles` FROM `system`:`group_info`"
 
@@ -118,7 +118,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from vitals`() {
-        val b = SystemBuckets.vitals
+        val b = SystemBuckets.vitalsBucket
         val expected = "SELECT `vitals`.`uptime`, `vitals`.`local.time`, `vitals`.`version`, " +
             "`vitals`.`total.threads`, `vitals`.`cores`, `vitals`.`gc.num`, " +
             "`vitals`.`gc.pause.time`, `vitals`.`gc.pause.percent`, `vitals`.`memory.usage`, " +
@@ -150,7 +150,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from active_requests`() {
-        val b = SystemBuckets.activeRequests
+        val b = SystemBuckets.activeRequestsBucket
         val expected = "SELECT `active_requests`.`clientContextID`, `active_requests`.`cpuTime`, " +
             "`active_requests`.`elapsedTime`, `active_requests`.`executionTime`, " +
             "`active_requests`.`ioTime`, `active_requests`.`memoryQuota`, " +
@@ -179,7 +179,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from prepareds`() {
-        val b = SystemBuckets.prepareds
+        val b = SystemBuckets.preparedsBucket
         val expected = "SELECT `prepareds`.`encoded_plan`, `prepareds`.`featuresControl`, " +
             "`prepareds`.`indexApiVersion`, `prepareds`.`indexScanKeyspaces`, " +
             "`prepareds`.`name`, `prepareds`.`namespace`, `prepareds`.`node`, " +
@@ -188,7 +188,7 @@ class SystemFieldsTest {
         val actual = QueryBuilder
             .select(
                 b.encodedPlan, b.featuresControl, b.indexApiVersion, b.indexScanKeyspaces,
-                b.nameField, b.namespace, b.node, b.statement, b.uses,
+                b.preparedStatementName, b.namespace, b.node, b.statement, b.uses,
             )
             .from(b)
             .build(CouchbaseResolver())
@@ -199,7 +199,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from completed_requests`() {
-        val b = SystemBuckets.completedRequests
+        val b = SystemBuckets.completedRequestsBucket
         val expected = "SELECT `completed_requests`.`clientContextID`, `completed_requests`.`cpuTime`, " +
             "`completed_requests`.`elapsedTime`, `completed_requests`.`errorCount`, " +
             "`completed_requests`.`errors`, `completed_requests`.`ioTime`, " +
@@ -236,7 +236,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from completed_requests_history`() {
-        val b = SystemBuckets.completedRequestsHistory
+        val b = SystemBuckets.completedRequestsHistoryBucket
         val expected = "SELECT `completed_requests_history`.`clientContextID`, `completed_requests_history`.`cpuTime`, " +
             "`completed_requests_history`.`elapsedTime`, `completed_requests_history`.`errorCount`, " +
             "`completed_requests_history`.`errors`, `completed_requests_history`.`ioTime`, " +
@@ -273,7 +273,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from awr`() {
-        val b = SystemBuckets.awr
+        val b = SystemBuckets.awrBucket
         val expected = "SELECT `awr`.`enabled`, `awr`.`interval`, `awr`.`location`, " +
             "`awr`.`num_statements`, `awr`.`queue_len`, `awr`.`threshold` FROM `system`:`awr`"
 
@@ -288,13 +288,13 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from my_user_info`() {
-        val b = SystemBuckets.myUserInfo
+        val b = SystemBuckets.myUserInfoBucket
         val expected = "SELECT `my_user_info`.`domain`, `my_user_info`.`external_groups`, " +
             "`my_user_info`.`groups`, `my_user_info`.`id`, `my_user_info`.`name`, " +
             "`my_user_info`.`password_change_date`, `my_user_info`.`roles` FROM `system`:`my_user_info`"
 
         val actual = QueryBuilder
-            .select(b.domain, b.externalGroups, b.groups, b.id, b.nameField, b.passwordChangeDate, b.roles)
+            .select(b.domain, b.externalGroups, b.groups, b.id, b.userName, b.passwordChangeDate, b.roles)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -304,13 +304,13 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from user_info`() {
-        val b = SystemBuckets.userInfo
+        val b = SystemBuckets.userInfoBucket
         val expected = "SELECT `user_info`.`domain`, `user_info`.`external_groups`, " +
             "`user_info`.`groups`, `user_info`.`id`, `user_info`.`name`, " +
             "`user_info`.`password_change_date`, `user_info`.`roles` FROM `system`:`user_info`"
 
         val actual = QueryBuilder
-            .select(b.domain, b.externalGroups, b.groups, b.id, b.nameField, b.passwordChangeDate, b.roles)
+            .select(b.domain, b.externalGroups, b.groups, b.id, b.userName, b.passwordChangeDate, b.roles)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -320,11 +320,11 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from nodes`() {
-        val b = SystemBuckets.nodes
+        val b = SystemBuckets.nodesBucket
         val expected = "SELECT `nodes`.`name`, `nodes`.`ports`, `nodes`.`services` FROM `system`:`nodes`"
 
         val actual = QueryBuilder
-            .select(b.nameField, b.ports, b.services)
+            .select(b.nodeName, b.ports, b.services)
             .from(b)
             .build(CouchbaseResolver())
             .queryString
@@ -334,7 +334,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from applicable_roles`() {
-        val b = SystemBuckets.applicableRoles
+        val b = SystemBuckets.applicableRolesBucket
         val expected = "SELECT `applicable_roles`.`bucket_name`, `applicable_roles`.`scope_name`, " +
             "`applicable_roles`.`collection_name`, `applicable_roles`.`grantee`, " +
             "`applicable_roles`.`role` FROM `system`:`applicable_roles`"
@@ -350,7 +350,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from dictionary`() {
-        val b = SystemBuckets.dictionary
+        val b = SystemBuckets.dictionaryBucket
         val expected = "SELECT `dictionary`.`avgDocKeySize`, `dictionary`.`avgDocSize`, " +
             "`dictionary`.`bucket`, `dictionary`.`distributionKeys`, `dictionary`.`docCount`, " +
             "`dictionary`.`indexes`, `dictionary`.`keyspace`, `dictionary`.`namespace`, " +
@@ -370,7 +370,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from dictionary_cache`() {
-        val b = SystemBuckets.dictionaryCache
+        val b = SystemBuckets.dictionaryCacheBucket
         val expected = "SELECT `dictionary_cache`.`avgDocKeySize`, `dictionary_cache`.`avgDocSize`, " +
             "`dictionary_cache`.`bucket`, `dictionary_cache`.`distributionKeys`, `dictionary_cache`.`docCount`, " +
             "`dictionary_cache`.`indexes`, `dictionary_cache`.`keyspace`, `dictionary_cache`.`namespace`, " +
@@ -390,7 +390,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from functions`() {
-        val b = SystemBuckets.functions
+        val b = SystemBuckets.functionsBucket
         val expected = "SELECT `functions`.`definition`, `functions`.`identity` FROM `system`:`functions`"
 
         val actual = QueryBuilder
@@ -404,7 +404,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from functions_cache`() {
-        val b = SystemBuckets.functionsCache
+        val b = SystemBuckets.functionsCacheBucket
         val expected = "SELECT `functions_cache`.`#language`, `functions_cache`.`avgServiceTime`, " +
             "`functions_cache`.`lastUse`, `functions_cache`.`maxServiceTime`, " +
             "`functions_cache`.`minServiceTime`, `functions_cache`.`name`, " +
@@ -418,7 +418,7 @@ class SystemFieldsTest {
         val actual = QueryBuilder
             .select(
                 b.language, b.avgServiceTime, b.lastUse, b.maxServiceTime, b.minServiceTime,
-                b.nameField, b.namespace, b.node, b.parameters, b.type, b.scopeField,
+                b.functionName, b.namespace, b.node, b.parameters, b.type, b.scopeField,
                 b.expression, b.text, b.library, b.objectName, b.undefinedFunction, b.uses,
             )
             .from(b)
@@ -430,7 +430,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from tasks_cache`() {
-        val b = SystemBuckets.tasksCache
+        val b = SystemBuckets.tasksCacheBucket
         val expected = "SELECT `tasks_cache`.`class`, `tasks_cache`.`delay`, `tasks_cache`.`id`, " +
             "`tasks_cache`.`name`, `tasks_cache`.`node`, `tasks_cache`.`state`, " +
             "`tasks_cache`.`subClass`, `tasks_cache`.`submitTime`, `tasks_cache`.`results`, " +
@@ -438,7 +438,7 @@ class SystemFieldsTest {
 
         val actual = QueryBuilder
             .select(
-                b.taskClass, b.delay, b.id, b.nameField, b.node, b.state,
+                b.taskClass, b.delay, b.id, b.taskName, b.node, b.state,
                 b.subClass, b.submitTime, b.results, b.startTime, b.stopTime,
             )
             .from(b)
@@ -450,7 +450,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from transactions`() {
-        val b = SystemBuckets.transactions
+        val b = SystemBuckets.transactionsBucket
         val expected = "SELECT `transactions`.`durabilityLevel`, `transactions`.`durabilityTimeout`, " +
             "`transactions`.`expiryTime`, `transactions`.`id`, `transactions`.`isolationLevel`, " +
             "`transactions`.`lastUse`, `transactions`.`node`, `transactions`.`numAtrs`, " +
@@ -472,7 +472,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from sequences`() {
-        val b = SystemBuckets.sequences
+        val b = SystemBuckets.sequencesBucket
         val expected = "SELECT `sequences`.`bucket`, `sequences`.`cache`, `sequences`.`cycle`, " +
             "`sequences`.`increment`, `sequences`.`max`, `sequences`.`min`, `sequences`.`name`, " +
             "`sequences`.`namespace`, `sequences`.`namespace_id`, `sequences`.`path`, " +
@@ -481,7 +481,7 @@ class SystemFieldsTest {
         val actual = QueryBuilder
             .select(
                 b.bucketName, b.cache, b.cycle, b.increment, b.max, b.min,
-                b.nameField, b.namespace, b.namespaceId, b.path, b.scopeId, b.value,
+                b.sequenceName, b.namespace, b.namespaceId, b.path, b.scopeId, b.value,
             )
             .from(b)
             .build(CouchbaseResolver())
@@ -492,7 +492,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from all_sequences`() {
-        val b = SystemBuckets.allSequences
+        val b = SystemBuckets.allSequencesBucket
         val expected = "SELECT `all_sequences`.`bucket`, `all_sequences`.`cache`, `all_sequences`.`cycle`, " +
             "`all_sequences`.`increment`, `all_sequences`.`max`, `all_sequences`.`min`, `all_sequences`.`name`, " +
             "`all_sequences`.`namespace`, `all_sequences`.`namespace_id`, `all_sequences`.`path`, " +
@@ -501,7 +501,7 @@ class SystemFieldsTest {
         val actual = QueryBuilder
             .select(
                 b.bucketName, b.cache, b.cycle, b.increment, b.max, b.min,
-                b.nameField, b.namespace, b.namespaceId, b.path, b.scopeId, b.value,
+                b.sequenceName, b.namespace, b.namespaceId, b.path, b.scopeId, b.value,
             )
             .from(b)
             .build(CouchbaseResolver())
@@ -512,7 +512,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from aus`() {
-        val b = SystemBuckets.aus
+        val b = SystemBuckets.ausBucket
         val expected = "SELECT `aus`.`enable`, `aus`.`schedule`, `aus`.`change_percentage`, " +
             "`aus`.`all_buckets`, `aus`.`create_missing_statistics` FROM `system`:`aus`"
 
@@ -527,7 +527,7 @@ class SystemFieldsTest {
 
     @Test
     fun `should select all fields from aus_settings`() {
-        val b = SystemBuckets.ausSettings
+        val b = SystemBuckets.ausSettingsBucket
         val expected = "SELECT `aus_settings`.`enable`, `aus_settings`.`change_percentage`, " +
             "`aus_settings`.`update_statistics_timeout` FROM `system`:`aus_settings`"
 
