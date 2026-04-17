@@ -1,4 +1,4 @@
-package ch.ergon.dope.couchbase.resolvable.keyspace
+package ch.ergon.dope.couchbase.resolvable.bucket
 
 object SystemBuckets {
     val datastoresBucket: DatastoresBucket = DatastoresBucket()

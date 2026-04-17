@@ -1,13 +1,13 @@
 package ch.ergon.dope.resolvable.bucket
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.resolvable.keyspace.SystemBuckets
+import ch.ergon.dope.couchbase.resolvable.bucket.SystemBuckets
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class SystemKeyspacesTestBucket {
+class SystemBucketTest {
     @Test
     fun `should keep keyspace identity separate from colliding field names`() {
         val allSequences = SystemBuckets.allSequencesBucket

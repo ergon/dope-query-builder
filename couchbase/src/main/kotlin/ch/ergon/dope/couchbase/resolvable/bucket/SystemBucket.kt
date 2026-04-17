@@ -1,4 +1,4 @@
-package ch.ergon.dope.couchbase.resolvable.keyspace
+package ch.ergon.dope.couchbase.resolvable.bucket
 
 import ch.ergon.dope.resolvable.Resolvable
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
@@ -12,10 +12,10 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.StringType
 
 abstract class SystemBucket(
-    keyspace: String,
-    private val keyspaceAlias: String? = null,
-) : AliasedBucket("system:$keyspace", keyspaceAlias ?: keyspace) {
-    override fun asBucketDefinition(): Resolvable = if (keyspaceAlias != null) {
+    bucketName: String,
+    private val customAlias: String? = null,
+) : AliasedBucket("system:$bucketName", customAlias ?: bucketName) {
+    override fun asBucketDefinition(): Resolvable = if (customAlias != null) {
         super.asBucketDefinition()
     } else {
         UnaliasedBucket(name)

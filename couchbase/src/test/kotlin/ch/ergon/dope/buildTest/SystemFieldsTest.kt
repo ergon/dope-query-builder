@@ -1,7 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
-import ch.ergon.dope.couchbase.resolvable.keyspace.SystemBuckets
+import ch.ergon.dope.couchbase.resolvable.bucket.SystemBuckets
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import kotlin.test.Test
 import kotlin.test.assertEquals
