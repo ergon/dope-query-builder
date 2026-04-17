@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class SystemTest {
     @Test
-    fun `should support system prepareds keyspace`() {
+    fun `should support system prepareds bucket`() {
         val tasksCache = SystemBuckets.tasksCacheBucket
         val expected = "SELECT `tasks_cache`.`delay` FROM `system`:`tasks_cache`"
 
@@ -24,7 +24,7 @@ class SystemTest {
     }
 
     @Test
-    fun `should support system all-sequences keyspace`() {
+    fun `should support system all-sequences bucket`() {
         val allSequences = SystemBuckets.allSequencesBucket
         val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
@@ -39,7 +39,7 @@ class SystemTest {
     }
 
     @Test
-    fun `should support aliased system keyspace`() {
+    fun `should support aliased system bucket`() {
         val idx = SystemBuckets.indexesBucket.alias("idx")
         val expected = "SELECT `idx`.`name`, `idx`.`state` FROM `system`:`indexes` AS `idx`"
 

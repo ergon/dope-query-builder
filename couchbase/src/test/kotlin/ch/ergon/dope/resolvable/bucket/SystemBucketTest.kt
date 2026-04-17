@@ -9,7 +9,7 @@ import kotlin.test.assertNull
 
 class SystemBucketTest {
     @Test
-    fun `should keep keyspace identity separate from colliding field names`() {
+    fun `should keep bucket identity separate from colliding field names`() {
         val allSequences = SystemBuckets.allSequencesBucket
 
         assertEquals("system:all_sequences", allSequences.name)
@@ -18,7 +18,7 @@ class SystemBucketTest {
     }
 
     @Test
-    fun `should select renamed field from system keyspace`() {
+    fun `should select renamed field from system bucket`() {
         val allSequences = SystemBuckets.allSequencesBucket
         val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
@@ -32,7 +32,7 @@ class SystemBucketTest {
     }
 
     @Test
-    fun `should use custom alias for system keyspace`() {
+    fun `should use custom alias for system bucket`() {
         val seq = SystemBuckets.allSequencesBucket.alias("seq")
         val expected = "SELECT `seq`.`name` FROM `system`:`all_sequences` AS `seq`"
 
@@ -46,7 +46,7 @@ class SystemBucketTest {
     }
 
     @Test
-    fun `should keep keyspace name when aliased`() {
+    fun `should keep bucket name when aliased`() {
         val seq = SystemBuckets.allSequencesBucket.alias("seq")
 
         assertEquals("system:all_sequences", seq.name)
