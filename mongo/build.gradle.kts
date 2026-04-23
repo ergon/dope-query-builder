@@ -20,9 +20,7 @@ publishing {
     }
 
     repositories {
-        maven {
-            url = uri("https://jitpack.io")
-        }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -34,33 +32,20 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
-    testImplementation(kotlin("test"))
-    testImplementation(platform("org.junit:junit-bom:5.10.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("com.couchbase.client:kotlin-client:1.5.0")
-    testImplementation("org.testcontainers:couchbase:1.21.4")
-    testImplementation("io.github.classgraph:classgraph:4.8.174")
     implementation(kotlin("reflect"))
+    testImplementation(kotlin("test"))
+    implementation("org.mongodb:mongodb-driver-sync:5.2.0")
+    testImplementation("org.testcontainers:mongodb:1.20.3")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.register<GradleBuild>("cleanBuildFormatTest") {
-    tasks = listOf("clean", "ktlintFormat", "build", "test")
-}
+tasks.test { useJUnitPlatform() }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
+kotlin { jvmToolchain { languageVersion.set(JavaLanguageVersion.of(17)) } }
 
 sourceSets {
     create("integrationTest") {

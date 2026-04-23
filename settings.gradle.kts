@@ -11,7 +11,7 @@ pluginManagement {
 
 rootProject.name = "dope-query-builder"
 
-include("core", "couchbase", "crystal-map-connector", "crystal-map-api")
+include("core", "couchbase", "mongo", "crystal-map-connector", "crystal-map-api")
 
 //includeBuild("../crystal-map") {
 //    dependencySubstitution {
