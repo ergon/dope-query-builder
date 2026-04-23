@@ -45,7 +45,7 @@ class CrystalMapAdapterTest {
         val actual: IField<NumberType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonField.path), actual.bucket)
+        assertEquals(cmJsonField.path, actual.bucket?.name)
     }
 
     @Test
@@ -55,7 +55,7 @@ class CrystalMapAdapterTest {
         val actual: IField<StringType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonField.path), actual.bucket)
+        assertEquals(cmJsonField.path, actual.bucket?.name)
     }
 
     @Test
@@ -65,7 +65,7 @@ class CrystalMapAdapterTest {
         val actual: IField<BooleanType> = cmJsonField.toDopeType()
 
         assertEquals(cmJsonField.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonField.path), actual.bucket)
+        assertEquals(cmJsonField.path, actual.bucket?.name)
     }
 
     @Test
@@ -75,7 +75,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<StringType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonList.path), actual.bucket)
+        assertEquals(cmJsonList.path, actual.bucket?.name)
     }
 
     @Test
@@ -85,7 +85,7 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<NumberType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonList.path), actual.bucket)
+        assertEquals(cmJsonList.path, actual.bucket?.name)
     }
 
     @Test
@@ -95,14 +95,14 @@ class CrystalMapAdapterTest {
         val actual: IField<ArrayType<BooleanType>> = cmJsonList.toDopeType()
 
         assertEquals(cmJsonList.name, actual.name)
-        assertEquals(UnaliasedBucket(cmJsonList.path), actual.bucket)
+        assertEquals(cmJsonList.path, actual.bucket?.name)
     }
 
     @Test
     fun `should convert CMObjectField`() {
         val schema = SchemaDummy()
         val cmObjectField = CMObjectField(schema, "testName", "testPath")
-        val expected = ObjectField(schema, "testName", "testPath")
+        val expected = ObjectField(schema, "testName", UnaliasedBucket("testPath"))
 
         val actual = cmObjectField.toDopeType()
 
@@ -113,7 +113,7 @@ class CrystalMapAdapterTest {
     fun `should convert CMObjectList`() {
         val schema = SchemaDummy()
         val cmObjectList = CMObjectList(schema, "testName", "testPath")
-        val expected = ObjectList(schema, "testName", "testPath")
+        val expected = ObjectList(schema, "testName", UnaliasedBucket("testPath"))
 
         val actual = cmObjectList.toDopeType()
 

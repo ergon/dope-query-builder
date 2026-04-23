@@ -1,4 +1,3 @@
-
 package ch.ergon.dope.resolvable.expression.type.function.date
 
 import ch.ergon.dope.DopeParameters

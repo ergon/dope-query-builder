@@ -77,7 +77,7 @@ class AnyTest {
 
         val predicateResult = actual.predicate(Iterator("x"))
         assertNotNull(predicateResult)
-        val expected = ObjectField(schema, "x", "").getField(Dummy::type).toDopeType().isEqualTo("test")
+        val expected = ObjectField(schema, "x").getField(Dummy::type).toDopeType().isEqualTo("test")
         assertEquals(expected, predicateResult)
     }
 }

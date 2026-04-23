@@ -8,17 +8,14 @@ import ch.ergon.dope.couchbase.util.formatToQueryStringWithSymbol
 import ch.ergon.dope.resolvable.bucket.AliasedBucket
 import ch.ergon.dope.resolvable.bucket.AliasedBucketDefinition
 import ch.ergon.dope.resolvable.bucket.IndexReference
+import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
 import ch.ergon.dope.resolvable.bucket.UseIndex
 import ch.ergon.dope.resolvable.bucket.UseKeysClass
 
 interface KeySpaceResolver : AbstractCouchbaseResolver {
     fun resolve(aliasedBucket: AliasedBucketDefinition): CouchbaseDopeQuery =
         CouchbaseDopeQuery(
-            formatBucket(
-                aliasedBucket.bucketName,
-                aliasedBucket.scopeName,
-                aliasedBucket.collectionName,
-            ) + " AS `${aliasedBucket.alias}`",
+            formatBucket(UnaliasedBucket(aliasedBucket.bucketName, aliasedBucket.scope)) + " AS `${aliasedBucket.alias}`",
         )
 
     fun resolve(useKeysClass: UseKeysClass): CouchbaseDopeQuery {

@@ -81,9 +81,9 @@ fun CMJsonList<Boolean>.toDopeType(reference: String = path): Field<ArrayType<Bo
 
 fun CMJsonList<out Any>.toDopeType(reference: String = path): Field<ArrayType<ValidType>> = Field(name, bucketFrom(reference))
 
-fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, path)
+fun <S : Schema> CMObjectField<S>.toDopeType() = ObjectField(element, name, bucketFrom(path))
 
-fun <T : Schema> CMObjectList<T>.toDopeType() = ObjectList(element, name, path)
+fun <T : Schema> CMObjectList<T>.toDopeType() = ObjectList(element, name, bucketFrom(path))
 
 fun <Convertable : Any, JsonNumberType : Number> Convertable.asParameter(
     converter: ITypeConverter<Convertable, JsonNumberType>,

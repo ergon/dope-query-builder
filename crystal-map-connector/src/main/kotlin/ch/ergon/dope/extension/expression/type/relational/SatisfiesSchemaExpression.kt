@@ -17,12 +17,12 @@ import com.schwarz.crystalapi.schema.Schema
 fun <S : Schema> ObjectList<S>.any(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = any(iteratorName) { iterator -> predicate(ObjectField(this.schema, iterator.variable, "")) }
+) = any(iteratorName) { iterator -> predicate(ObjectField(this.schema, iterator.variable)) }
 
 fun <S : Schema> CMObjectList<S>.any(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = toDopeType().any(iteratorName) { iterator -> predicate(ObjectField(element, iterator.variable, "")) }
+) = toDopeType().any(iteratorName) { iterator -> predicate(ObjectField(element, iterator.variable)) }
 
 @JvmName("anyNumber")
 fun CMJsonList<Number>.any(
@@ -45,12 +45,12 @@ fun CMJsonList<Boolean>.any(
 fun <S : Schema> ObjectList<S>.every(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = every(iteratorName) { iterator -> predicate(ObjectField(this.schema, iterator.variable, "")) }
+) = every(iteratorName) { iterator -> predicate(ObjectField(this.schema, iterator.variable)) }
 
 fun <S : Schema> CMObjectList<S>.every(
     iteratorName: String? = null,
     predicate: (ObjectField<S>) -> TypeExpression<BooleanType>,
-) = toDopeType().every(iteratorName) { iterator -> predicate(ObjectField(element, iterator.variable, "")) }
+) = toDopeType().every(iteratorName) { iterator -> predicate(ObjectField(element, iterator.variable)) }
 
 @JvmName("everyNumber")
 fun CMJsonList<Number>.every(
