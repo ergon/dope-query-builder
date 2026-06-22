@@ -35,6 +35,8 @@ repositories {
 dependencies {
     implementation(project(":core"))
     testImplementation(kotlin("test"))
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("com.couchbase.client:kotlin-client:1.5.0")
     testImplementation("org.testcontainers:couchbase:1.21.4")
     implementation(kotlin("reflect"))

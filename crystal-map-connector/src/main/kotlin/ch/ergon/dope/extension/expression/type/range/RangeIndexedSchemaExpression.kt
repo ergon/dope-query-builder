@@ -33,13 +33,13 @@ abstract class RangeIndexedSchemaExpression<S : Schema, T : ValidType, V : Valid
     override val range: TypeExpression<ArrayType<ObjectType>> get() = this.cmRange
     override val withAttributeKeys: ((Iterator<NumberType>, Iterator<ObjectType>) -> TypeExpression<StringType>)? =
         this.cmWithAttributeKeys?.let { fn ->
-            { index, iterator -> fn(index, ObjectField(cmRange.schema, iterator.variable, "")) }
+            { index, iterator -> fn(index, ObjectField(cmRange.schema, iterator.variable)) }
         }
     override val transformation: (Iterator<NumberType>, Iterator<ObjectType>) -> TypeExpression<T> =
-        { index, iterator -> this.cmTransformation(index, ObjectField(cmRange.schema, iterator.variable, "")) }
+        { index, iterator -> this.cmTransformation(index, ObjectField(cmRange.schema, iterator.variable)) }
     override val condition: ((Iterator<NumberType>, Iterator<ObjectType>) -> TypeExpression<BooleanType>)? =
         this.cmCondition?.let { fn ->
-            { index, iterator -> fn(index, ObjectField(cmRange.schema, iterator.variable, "")) }
+            { index, iterator -> fn(index, ObjectField(cmRange.schema, iterator.variable)) }
         }
 }
 

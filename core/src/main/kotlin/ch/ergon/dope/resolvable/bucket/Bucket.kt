@@ -9,14 +9,13 @@ import ch.ergon.dope.resolvable.Updatable
 import ch.ergon.dope.resolvable.expression.SingleExpression
 import ch.ergon.dope.validtype.ObjectType
 
-sealed interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExpression<ObjectType> {
+interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExpression<ObjectType> {
     val name: String
     val scope: BucketScope?
 }
 
 data class BucketScope(val name: String, val collection: ScopeCollection? = null) {
     fun withCollection(collectionName: String) = copy(collection = ScopeCollection(collectionName))
-
     fun withCollection(collection: ScopeCollection) = copy(collection = collection)
 }
 
@@ -26,7 +25,6 @@ data class UnaliasedBucket(
     override val name: String,
     override val scope: BucketScope? = null,
 ) : Bucket {
-
     fun alias(alias: String) = AliasedBucket(name, alias, scope)
 
     fun withScope(scopeName: String) = copy(scope = BucketScope(scopeName))
@@ -36,23 +34,16 @@ data class UnaliasedBucket(
         copy(scope = BucketScope(scopeName, ScopeCollection(collectionName)))
 }
 
-data class AliasedBucket(
+open class AliasedBucket(
     override val name: String,
     val alias: String,
     override val scope: BucketScope? = null,
 ) : Bucket {
-    fun asBucketDefinition(): AliasedBucketDefinition =
-        AliasedBucketDefinition(
-            bucketName = name,
-            scopeName = scope?.name,
-            collectionName = scope?.collection?.name,
-            alias = alias,
-        )
+    open fun asBucketDefinition(): Resolvable = AliasedBucketDefinition(name, alias, scope)
 }
 
 data class AliasedBucketDefinition(
     val bucketName: String,
-    val scopeName: String? = null,
-    val collectionName: String? = null,
     val alias: String,
+    val scope: BucketScope? = null,
 ) : Resolvable

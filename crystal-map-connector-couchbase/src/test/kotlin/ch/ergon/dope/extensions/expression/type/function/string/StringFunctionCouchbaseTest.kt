@@ -1,12 +1,12 @@
 package ch.ergon.dope.extensions.expression.type.function.string
 
-import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.ReverseExpression
-import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.UrlDecodeExpression
-import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.UrlEncodeExpression
 import ch.ergon.dope.extension.expression.type.function.string.reverse
 import ch.ergon.dope.extension.expression.type.function.string.urlDecode
 import ch.ergon.dope.extension.expression.type.function.string.urlEncode
 import ch.ergon.dope.helper.someCMStringField
+import ch.ergon.dope.resolvable.expression.type.function.string.ReverseExpression
+import ch.ergon.dope.resolvable.expression.type.function.string.UrlDecodeExpression
+import ch.ergon.dope.resolvable.expression.type.function.string.UrlEncodeExpression
 import ch.ergon.dope.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals

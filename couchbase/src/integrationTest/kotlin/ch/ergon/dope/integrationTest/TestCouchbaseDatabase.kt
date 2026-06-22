@@ -67,6 +67,7 @@ object TestCouchbaseDatabase {
 
     private fun ensureAuditCollections() = runBlocking {
         cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
+        cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
         cluster.query("CREATE SCOPE `$BUCKET`.`app` IF NOT EXISTS").execute()
         cluster.query("CREATE COLLECTION `$BUCKET`.`app`.`order_audit` IF NOT EXISTS").execute()
     }
@@ -74,9 +75,20 @@ object TestCouchbaseDatabase {
     private fun ensureIndexes() = runBlocking {
         cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
         cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`").execute()
-        cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`.`app`.`order_audit`").execute()
+        retryOnFailure { cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`.`app`.`order_audit`").execute() }
         cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_employee` ON `$BUCKET`(`employee`) WHERE `type` = \"order\"").execute()
         cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_client` ON `$BUCKET`(`client`) WHERE `type` = \"order\"").execute()
+    }
+
+    private suspend fun <T> retryOnFailure(maxRetries: Int = MAX_RETRIES, delayMs: Long = 2000, action: suspend () -> T): T {
+        repeat(maxRetries - 1) {
+            try {
+                return action()
+            } catch (_: Exception) {
+                Thread.sleep(delayMs)
+            }
+        }
+        return action()
     }
 
     private fun initDatabase() {

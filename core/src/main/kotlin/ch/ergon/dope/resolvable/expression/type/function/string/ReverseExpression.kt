@@ -1,4 +1,4 @@
-package ch.ergon.dope.couchbase.resolvable.expression.type.function.string
+package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression

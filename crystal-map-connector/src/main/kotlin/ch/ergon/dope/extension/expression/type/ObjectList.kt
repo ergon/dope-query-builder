@@ -9,6 +9,5 @@ import com.schwarz.crystalapi.schema.Schema
 data class ObjectList<T : Schema>(
     val schema: T,
     override val name: String,
-    val path: String,
     override val bucket: Bucket? = null,
 ) : IField<ArrayType<ObjectType>>
