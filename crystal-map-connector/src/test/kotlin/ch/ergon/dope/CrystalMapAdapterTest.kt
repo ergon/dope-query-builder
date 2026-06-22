@@ -16,11 +16,8 @@ import ch.ergon.dope.helper.someCorruptField
 import ch.ergon.dope.helper.someDate
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.resolvable.bucket.UnaliasedBucket
-import ch.ergon.dope.resolvable.expression.type.BooleanParameter
 import ch.ergon.dope.resolvable.expression.type.Field
 import ch.ergon.dope.resolvable.expression.type.IField
-import ch.ergon.dope.resolvable.expression.type.NumberParameter
-import ch.ergon.dope.resolvable.expression.type.StringParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.validtype.ArrayType
 import ch.ergon.dope.validtype.BooleanType
@@ -32,7 +29,6 @@ import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.CMObjectList
 import org.junit.jupiter.api.assertThrows
-import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -139,44 +135,6 @@ class CrystalMapAdapterTest {
         assertThrows<IllegalArgumentException> {
             string.toDopeType(corruptField)
         }
-    }
-
-    @Test
-    fun `should support parameter with number converter`() {
-        val cmField = someCMConverterNumberField()
-        val value = 1737021572L
-        val date = Date(value)
-        val parameterName = "testParameter"
-
-        val actual: NumberParameter = date.asParameter(cmField.typeConverter, parameterName)
-
-        assertEquals(value, actual.value)
-        assertEquals(parameterName, actual.parameterName)
-    }
-
-    @Test
-    fun `should support parameter with string converter`() {
-        val cmField = someCMConverterStringField()
-        val value = "1737021572000"
-        val date = Date(value.toLong())
-        val parameterName = "testParameter"
-
-        val actual: StringParameter = date.asParameter(cmField.typeConverter, parameterName)
-
-        assertEquals(value, actual.value)
-        assertEquals(parameterName, actual.parameterName)
-    }
-
-    @Test
-    fun `should support parameter with boolean converter`() {
-        val cmField = someCMConverterBooleanField()
-        val value = Date(1737021572000)
-        val parameterName = "testParameter"
-
-        val actual: BooleanParameter = value.asParameter(cmField.typeConverter, parameterName)
-
-        assertEquals(true, actual.value)
-        assertEquals(parameterName, actual.parameterName)
     }
 
     @Test

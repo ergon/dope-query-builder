@@ -2,6 +2,8 @@ package ch.ergon.dope.couchbase.resolver.expression
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.MaskExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.TokensExpression
 import ch.ergon.dope.couchbase.resolver.AbstractCouchbaseResolver
 import ch.ergon.dope.couchbase.util.formatFunctionQueryString
 import ch.ergon.dope.merge
@@ -14,8 +16,6 @@ import ch.ergon.dope.resolvable.expression.type.function.conditional.SearchResul
 import ch.ergon.dope.resolvable.expression.type.function.search.ISearchFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchDependencyFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.search.SearchFunctionType
-import ch.ergon.dope.resolvable.expression.type.function.string.MaskExpression
-import ch.ergon.dope.resolvable.expression.type.function.string.TokensExpression
 import ch.ergon.dope.resolvable.expression.type.function.type.ToNumberExpression
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 

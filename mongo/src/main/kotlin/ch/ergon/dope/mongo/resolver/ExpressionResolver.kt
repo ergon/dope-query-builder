@@ -1,125 +1,84 @@
 package ch.ergon.dope.mongo.resolver
 
 import ch.ergon.dope.mongo.MongoDopeQuery
-import ch.ergon.dope.mongo.queryString
 import ch.ergon.dope.resolvable.expression.Expression
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
+import ch.ergon.dope.resolvable.expression.type.ArrayPrimitive
+import ch.ergon.dope.resolvable.expression.type.BooleanPrimitive
+import ch.ergon.dope.resolvable.expression.type.FALSE
 import ch.ergon.dope.resolvable.expression.type.Field
+import ch.ergon.dope.resolvable.expression.type.MISSING
+import ch.ergon.dope.resolvable.expression.type.NULL
 import ch.ergon.dope.resolvable.expression.type.NumberPrimitive
+import ch.ergon.dope.resolvable.expression.type.ObjectPrimitive
 import ch.ergon.dope.resolvable.expression.type.StringPrimitive
-import ch.ergon.dope.resolvable.expression.type.logic.AndExpression
-import ch.ergon.dope.resolvable.expression.type.logic.OrExpression
-import ch.ergon.dope.resolvable.expression.type.relational.EqualsExpression
-import ch.ergon.dope.resolvable.expression.type.relational.IsNotNullExpression
-import ch.ergon.dope.resolvable.expression.type.relational.IsNullExpression
-import ch.ergon.dope.resolvable.expression.type.relational.LikeExpression
-import ch.ergon.dope.resolvable.expression.type.relational.NotEqualsExpression
-import ch.ergon.dope.resolvable.expression.type.relational.NotLikeExpression
+import ch.ergon.dope.resolvable.expression.type.TRUE
 
 interface ExpressionResolver : AbstractMongoResolver {
     fun resolve(expression: Expression<*>): MongoDopeQuery =
+        resolveLeaf(expression)
+            ?: resolveRelational(expression)
+            ?: resolveLogic(expression)
+            ?: resolveArithmetic(expression)
+            ?: resolveStringFunction(expression)
+            ?: resolveNumericFunction(expression)
+            ?: resolveConditionalFunction(expression)
+            ?: resolveComparisonFunction(expression)
+            ?: resolveArrayFunction(expression)
+            ?: resolveTypeFunction(expression)
+            ?: resolveCollection(expression)
+            ?: resolveDateFunction(expression)
+            ?: resolveObjectFunction(expression)
+            ?: TODO("Mongo resolver does not support expression: $expression")
+
+    private fun resolveLeaf(expression: Expression<*>): MongoDopeQuery? =
         when (expression) {
-            is EqualsExpression<*> -> {
-                val leftDopeQuery = expression.left.toDopeQuery(this)
-                val rightDopeQuery = expression.right.toDopeQuery(this)
-                val qs = if (expression.left is Field<*> && expression.right is Field<*>) {
-                    val leftName = (expression.left as Field<*>).name
-                    val rightName = (expression.right as Field<*>).name
-                    "{ \$expr: { \$eq: [\"\$$leftName\", \"\$$rightName\"] } }"
+            is Field<*> -> fragment(fieldPath(expression.name))
+
+            is NumberPrimitive -> fragment(expression.value.toString())
+
+            is StringPrimitive -> fragment(stringLiteral(expression.value))
+
+            is BooleanPrimitive -> fragment(expression.value.toString())
+
+            TRUE -> fragment("true")
+
+            FALSE -> fragment("false")
+
+            NULL -> fragment("null")
+
+            MISSING -> fragment("\"\$\$REMOVE\"")
+
+            is ArrayPrimitive<*> -> {
+                val constant = constantJson(expression)
+                if (constant != null) {
+                    fragment("{ \"\$literal\": $constant }")
                 } else {
-                    "{ ${leftDopeQuery.queryString} : { \"\$eq\": ${rightDopeQuery.queryString} } }"
+                    val elements = expression.collection.map { render(it) }
+                    fragment("[ " + elements.joinToString(", ") { it.queryString } + " ]")
                 }
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = qs,
-                    parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
-                )
             }
 
-            is NotEqualsExpression<*> -> {
-                val leftDopeQuery = expression.left.toDopeQuery(this)
-                val rightDopeQuery = expression.right.toDopeQuery(this)
-                val qs = if (expression.left is Field<*> && expression.right is Field<*>) {
-                    val leftName = (expression.left as Field<*>).name
-                    val rightName = (expression.right as Field<*>).name
-                    "{ \$expr: { \$ne: [\"\$$leftName\", \"\$$rightName\"] } }"
+            is ObjectPrimitive -> {
+                val constant = constantJson(expression)
+                if (constant != null) {
+                    fragment("{ \"\$literal\": $constant }")
                 } else {
-                    "{ ${leftDopeQuery.queryString} : { \"\$ne\": ${rightDopeQuery.queryString} } }"
+                    val entries = expression.entries.map { entry ->
+                        val key = (entry.key as? StringPrimitive)?.value
+                            ?: error("Mongo object keys must be string literals")
+                        val value = render(entry.value)
+                        fieldKey(key) + ": " + value.queryString
+                    }
+                    fragment("{ " + entries.joinToString(", ") + " }")
                 }
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = qs,
-                    parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
-                )
-            }
-
-            is LikeExpression -> {
-                val leftDopeQuery = expression.left.toDopeQuery(this)
-                val rightDopeQuery = expression.right.toDopeQuery(this)
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = "{ ${leftDopeQuery.queryString} : { \"\$regex\": ${rightDopeQuery.queryString} } }",
-                    parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
-                )
-            }
-
-            is NotLikeExpression -> {
-                val leftDopeQuery = expression.left.toDopeQuery(this)
-                val rightDopeQuery = expression.right.toDopeQuery(this)
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = "{ ${leftDopeQuery.queryString} : { \"\$not\": { \"\$regex\": ${rightDopeQuery.queryString} } } }",
-                    parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
-                )
-            }
-
-            is IsNullExpression -> {
-                MongoDopeQuery.ExpressionFragment(queryString = "{ \"${expression.field.name}\" : null }")
-            }
-
-            is IsNotNullExpression -> {
-                MongoDopeQuery.ExpressionFragment(queryString = "{ \"${expression.field.name}\" : { \"\$ne\": null } }")
-            }
-
-            is Field<*> -> {
-                MongoDopeQuery.ExpressionFragment(queryString = "\"${expression.name}\"")
-            }
-
-            is NumberPrimitive -> {
-                MongoDopeQuery.ExpressionFragment(queryString = expression.value.toString())
             }
 
             is AliasedTypeExpression<*> -> {
-                val typeExpressionDopeQuery = expression.typeExpression.toDopeQuery(this)
-                val string = when (expression.typeExpression) {
-                    is Field<*> -> "\"\$${(expression.typeExpression as Field<*>).name}\""
-                    else -> typeExpressionDopeQuery.queryString
-                }
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = "\"${expression.alias}\": $string",
-                    parameters = typeExpressionDopeQuery.parameters,
-                )
+                val inner = render(expression.typeExpression)
+                fragment("${fieldKey(expression.alias)}: ${inner.queryString}")
             }
 
-            is AndExpression -> {
-                val leftDopeQuery = expression.left.toDopeQuery(this)
-                val rightDopeQuery = expression.right.toDopeQuery(this)
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = "{ \"\$and\": [${leftDopeQuery.queryString}, ${rightDopeQuery.queryString}] }",
-                    parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
-                )
-            }
-
-            is OrExpression -> {
-                val leftDopeQuery = expression.left.toDopeQuery(this)
-                val rightDopeQuery = expression.right.toDopeQuery(this)
-                MongoDopeQuery.ExpressionFragment(
-                    queryString = "{ \"\$or\": [${leftDopeQuery.queryString}, ${rightDopeQuery.queryString}] }",
-                    parameters = leftDopeQuery.parameters.merge(rightDopeQuery.parameters),
-                )
-            }
-
-            is StringPrimitive -> {
-                val escaped = expression.value.replace("\\", "\\\\")
-                MongoDopeQuery.ExpressionFragment(queryString = "\"$escaped\"")
-            }
-
-            else -> TODO("not yet implemented: $expression")
+            else -> null
         }
 }

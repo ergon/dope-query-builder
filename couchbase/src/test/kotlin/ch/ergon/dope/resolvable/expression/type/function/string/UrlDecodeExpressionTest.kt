@@ -1,6 +1,8 @@
 package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.UrlDecodeExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.urlDecode
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString

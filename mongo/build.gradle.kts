@@ -34,7 +34,7 @@ dependencies {
     implementation(project(":core"))
     implementation(kotlin("reflect"))
     testImplementation(kotlin("test"))
-    implementation("org.mongodb:mongodb-driver-sync:5.2.0")
+    testImplementation("org.mongodb:mongodb-driver-sync:5.2.0")
     testImplementation("org.testcontainers:mongodb:1.20.3")
 }
 
@@ -64,6 +64,10 @@ tasks.register<Test>("integrationTest") {
     classpath = sourceSets["integrationTest"].runtimeClasspath
     mustRunAfter(tasks.named("test"))
     useJUnitPlatform()
+    systemProperty("api.version", System.getenv("DOCKER_API_VERSION") ?: "1.43")
+    environment("TESTCONTAINERS_RYUK_DISABLED", System.getenv("TESTCONTAINERS_RYUK_DISABLED") ?: "true")
+    listOf("DOCKER_HOST", "DOCKER_API_VERSION", "TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE", "TESTCONTAINERS_HOST_OVERRIDE")
+        .forEach { key -> System.getenv(key)?.let { environment(key, it) } }
 }
 
 idea.module {

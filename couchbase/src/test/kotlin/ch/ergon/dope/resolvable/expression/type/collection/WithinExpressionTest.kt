@@ -2,6 +2,9 @@ package ch.ergon.dope.resolvable.expression.type.collection
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
+import ch.ergon.dope.couchbase.resolvable.expression.type.collection.WithinExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.collection.withinArray
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBooleanArrayField
@@ -14,7 +17,6 @@ import ch.ergon.dope.helper.someSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.helper.someStringSelectRawClause
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals

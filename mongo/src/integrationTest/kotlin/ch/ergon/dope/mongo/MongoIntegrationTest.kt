@@ -155,7 +155,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
         val query = QueryBuilder
             .select(name, email)
             .from(users)
-            .where(email.isLike(".*@example\\.com"))
+            .where(email.isLike("%@example.com"))
             .buildMongo(resolver)
 
         val result = executeQuery(query)
@@ -288,7 +288,7 @@ class MongoIntegrationTest : BaseIntegrationTest() {
         val result = executeQuery(query)
 
         assertEquals(2, result.size)
-        assertEquals(setOf("admin", "user"), result.map { it["_id"] }.toSet())
+        assertEquals(setOf("admin", "user"), result.map { it["role"] }.toSet())
     }
 
     @Test

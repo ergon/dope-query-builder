@@ -1,6 +1,13 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.initCap
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.mask
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.reverse
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.title
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.tokens
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.urlDecode
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.urlEncode
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
@@ -13,12 +20,10 @@ import ch.ergon.dope.resolvable.expression.type.function.string.concat2
 import ch.ergon.dope.resolvable.expression.type.function.string.contains
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.TokenCases
 import ch.ergon.dope.resolvable.expression.type.function.string.factory.customTokenOptions
-import ch.ergon.dope.resolvable.expression.type.function.string.initCap
 import ch.ergon.dope.resolvable.expression.type.function.string.length
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import ch.ergon.dope.resolvable.expression.type.function.string.lpad
 import ch.ergon.dope.resolvable.expression.type.function.string.ltrim
-import ch.ergon.dope.resolvable.expression.type.function.string.mask
 import ch.ergon.dope.resolvable.expression.type.function.string.mbLength
 import ch.ergon.dope.resolvable.expression.type.function.string.mbLpad
 import ch.ergon.dope.resolvable.expression.type.function.string.mbPosition
@@ -30,19 +35,14 @@ import ch.ergon.dope.resolvable.expression.type.function.string.position
 import ch.ergon.dope.resolvable.expression.type.function.string.position1
 import ch.ergon.dope.resolvable.expression.type.function.string.repeat
 import ch.ergon.dope.resolvable.expression.type.function.string.replace
-import ch.ergon.dope.resolvable.expression.type.function.string.reverse
 import ch.ergon.dope.resolvable.expression.type.function.string.rpad
 import ch.ergon.dope.resolvable.expression.type.function.string.rtrim
 import ch.ergon.dope.resolvable.expression.type.function.string.split
 import ch.ergon.dope.resolvable.expression.type.function.string.substring
 import ch.ergon.dope.resolvable.expression.type.function.string.substring1
 import ch.ergon.dope.resolvable.expression.type.function.string.suffixes
-import ch.ergon.dope.resolvable.expression.type.function.string.title
-import ch.ergon.dope.resolvable.expression.type.function.string.tokens
 import ch.ergon.dope.resolvable.expression.type.function.string.trim
 import ch.ergon.dope.resolvable.expression.type.function.string.upper
-import ch.ergon.dope.resolvable.expression.type.function.string.urlDecode
-import ch.ergon.dope.resolvable.expression.type.function.string.urlEncode
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.logic.and
 import ch.ergon.dope.resolvable.expression.type.relational.isEqualTo

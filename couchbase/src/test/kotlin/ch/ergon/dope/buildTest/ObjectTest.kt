@@ -1,6 +1,7 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someObjectField
@@ -8,7 +9,6 @@ import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.helper.someStringField
 import ch.ergon.dope.resolvable.expression.type.alias
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.collection.any
 import ch.ergon.dope.resolvable.expression.type.function.string.upper
 import ch.ergon.dope.resolvable.expression.type.get

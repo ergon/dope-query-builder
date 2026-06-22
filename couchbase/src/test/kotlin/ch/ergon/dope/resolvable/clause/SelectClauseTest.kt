@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.clause
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBucket
@@ -14,7 +15,6 @@ import ch.ergon.dope.resolvable.clause.model.SelectClause
 import ch.ergon.dope.resolvable.clause.model.SelectDistinctClause
 import ch.ergon.dope.resolvable.clause.model.SelectRawClause
 import ch.ergon.dope.resolvable.expression.type.alias
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

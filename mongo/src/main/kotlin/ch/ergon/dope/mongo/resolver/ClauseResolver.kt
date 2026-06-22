@@ -1,8 +1,8 @@
 package ch.ergon.dope.mongo.resolver
 
-import ch.ergon.dope.merge
 import ch.ergon.dope.mongo.MongoDopeQuery
 import ch.ergon.dope.mongo.queryString
+import ch.ergon.dope.resolvable.Selectable
 import ch.ergon.dope.resolvable.bucket.Bucket
 import ch.ergon.dope.resolvable.clause.Clause
 import ch.ergon.dope.resolvable.clause.model.AliasedUnnestClause
@@ -28,9 +28,10 @@ import ch.ergon.dope.resolvable.clause.model.UpdateWhereClause
 import ch.ergon.dope.resolvable.clause.model.mergeable.JoinType
 import ch.ergon.dope.resolvable.clause.model.mergeable.MergeableClause
 import ch.ergon.dope.resolvable.expression.Expression
+import ch.ergon.dope.resolvable.expression.rowscope.AliasedRowScopeExpression
+import ch.ergon.dope.resolvable.expression.rowscope.aggregate.AggregateFunctionExpression
 import ch.ergon.dope.resolvable.expression.type.AliasedTypeExpression
 import ch.ergon.dope.resolvable.expression.type.Field
-import ch.ergon.dope.resolvable.expression.type.IField
 import ch.ergon.dope.resolvable.expression.type.logic.AndExpression
 import ch.ergon.dope.resolvable.expression.type.logic.OrExpression
 import ch.ergon.dope.resolvable.expression.type.relational.EqualsExpression
@@ -39,45 +40,47 @@ interface ClauseResolver : AbstractMongoResolver {
     fun resolve(clause: Clause): MongoDopeQuery =
         when (clause) {
             is SelectClause -> {
-                val all =
-                    listOf(clause.expression, *clause.expressions.toTypedArray()).map { Pair(it.toDopeQuery(this), it) }
-
-                MongoDopeQuery.Aggregation(
-                    stages = listOf(
-                        "{ \$project: {" + all.joinToString(", ") {
-                            when (it.second) {
-                                is AliasedTypeExpression<*> -> it.first.queryString
-                                else -> "${it.first.queryString}: 1"
-                            }
-                        } + " } }",
-                    ),
-                    parameters = all.map { it.first.parameters }.merge(),
-                )
+                val allSelectables = listOf(clause.expression, *clause.expressions.toTypedArray())
+                if (allSelectables.none { isAggregateSelectable(it) }) {
+                    val projectionEntries = allSelectables.map { projectionEntry(it) }
+                    val projectsIdField = projectionEntries.any { it.queryString.trimStart().startsWith("\"_id\"") }
+                    val idExclusion = if (projectsIdField) "" else ", \"_id\": 0"
+                    MongoDopeQuery.Aggregation(
+                        stages = listOf(
+                            "{ \$project: { " + projectionEntries.joinToString(", ") { it.queryString } + idExclusion + " } }",
+                        ),
+                    )
+                } else {
+                    val aggregates = allSelectables.filter { isAggregateSelectable(it) }.map { aggregateSelection(it) }
+                    val groupingFields = allSelectables.filterNot { isAggregateSelectable(it) }
+                        .map { selectableFieldName(it) }
+                    val accumulators = aggregates.map { "${fieldKey(it.alias)}: ${it.accumulator}" }
+                    val aggregateProjections = aggregates.map { it.alias to it.projection }
+                    MongoDopeQuery.Aggregation(
+                        stages = buildGroupStages(groupingFields, accumulators, aggregateProjections),
+                        groupSpec = MongoDopeQuery.GroupSpec(accumulators, aggregateProjections),
+                    )
+                }
             }
 
             is SelectDistinctClause -> {
-                val all =
-                    listOf(clause.expression, *clause.expressions.toTypedArray()).map { Pair(it.toDopeQuery(this), it) }
+                val fieldNames = (listOf(clause.expression) + clause.expressions).map { selectableFieldName(it) }
 
-                val fieldNames = all.map { (dopeQuery, _) -> dopeQuery.queryString.trim('"') }
-
-                val groupId = fieldNames.joinToString(", ") { "\"$it\": \"\$$it\"" }
-                val projectFields = fieldNames.joinToString(", ") { "\"$it\": \"\$_id.$it\"" }
+                val groupId = fieldNames.joinToString(", ") { "${fieldKey(it)}: ${fieldPath(it)}" }
+                val projectFields = fieldNames.joinToString(", ") { "${fieldKey(it)}: \"\$_id.${escapeJsonString(it)}\"" }
 
                 MongoDopeQuery.Aggregation(
                     stages = listOf(
                         "{ \$group: { \"_id\": { $groupId } } }",
                         "{ \$project: { $projectFields, \"_id\": 0 } }",
                     ),
-                    parameters = all.map { it.first.parameters }.merge(),
                 )
             }
 
             is SelectRawClause<*> -> {
-                val expressionDopeQuery = clause.expression.toDopeQuery(this)
+                val fieldName = selectableFieldName(clause.expression)
                 MongoDopeQuery.Aggregation(
-                    stages = listOf("{ \$project: { ${expressionDopeQuery.queryString}: 1, \"_id\": 0 } }"),
-                    parameters = expressionDopeQuery.parameters,
+                    stages = listOf("{ \$project: { ${fieldKey(fieldName)}: 1, \"_id\": 0 } }"),
                 )
             }
 
@@ -87,7 +90,7 @@ interface ClauseResolver : AbstractMongoResolver {
                     stages = parent.stages,
                     bucket = clause.fromable as? Bucket
                         ?: error("Mongo requires a Bucket, got ${clause.fromable::class.simpleName}"),
-                    parameters = parent.parameters,
+                    groupSpec = parent.groupSpec,
                 )
             }
 
@@ -105,31 +108,23 @@ interface ClauseResolver : AbstractMongoResolver {
                     if (clause.mergeType != JoinType.LEFT_JOIN) listOf("{ \$unwind: \"\$$asName\" }") else emptyList()
 
                 MongoDopeQuery.Aggregation(
-                    stages = parent.stages + lookupStages,
+                    stages = insertBeforeProjection(parent.stages, lookupStages),
                     bucket = parent.bucket,
-                    parameters = parent.parameters,
+                    groupSpec = parent.groupSpec,
                 )
             }
 
             is LetClause<*> -> {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Aggregation
                 val allVariables = listOf(clause.dopeVariable) + clause.dopeVariables
-                var parameters = parent.parameters
                 val fields = allVariables.joinToString(", ") { variable ->
-                    val value = if (variable.value is IField<*>) {
-                        "\"\$${(variable.value as IField<*>).name}\""
-                    } else {
-                        val valueQuery = variable.value.toDopeQuery(this)
-                        parameters = parameters.merge(valueQuery.parameters)
-                        valueQuery.queryString
-                    }
-                    "\"${variable.name}\": $value"
+                    "\"${variable.name}\": ${render(variable.value).queryString}"
                 }
 
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$addFields: { $fields } }",
                     bucket = parent.bucket,
-                    parameters = parameters,
+                    groupSpec = parent.groupSpec,
                 )
             }
 
@@ -138,7 +133,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$unwind: \"\$${clause.arrayTypeField.name}\" }",
                     bucket = parent.bucket,
-                    parameters = parent.parameters,
+                    groupSpec = parent.groupSpec,
                 )
             }
 
@@ -153,8 +148,8 @@ interface ClauseResolver : AbstractMongoResolver {
                         "{ \$unwind: \"\$$fieldName\" }",
                         "{ \$addFields: { \"$alias\": \"\$$fieldName\" } }",
                     ),
-                    parameters = parent.parameters.merge(arrayDopeQuery.parameters),
                     bucket = parent.bucket,
+                    groupSpec = parent.groupSpec,
                 )
             }
 
@@ -162,26 +157,32 @@ interface ClauseResolver : AbstractMongoResolver {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Aggregation
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
-                    stages = listOf("{ \$match: ${whereDopeQuery.queryString} }") + parent.stages,
-                    parameters = parent.parameters.merge(whereDopeQuery.parameters),
+                    stages = insertBeforeProjection(
+                        parent.stages,
+                        listOf("{ \$match: { \"\$expr\": ${whereDopeQuery.queryString} } }"),
+                    ),
                     bucket = parent.bucket,
+                    groupSpec = parent.groupSpec,
                 )
             }
 
             is GroupByClause<*> -> {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Aggregation
-                val allFields = listOf(clause.field) + clause.fields
-
-                val groupId = if (allFields.size == 1) {
-                    "\"\$${allFields.first().name}\""
+                val groupByFields = (listOf(clause.field) + clause.fields).map { it.name }
+                val spec = parent.groupSpec
+                val stages = if (spec != null) {
+                    val preStages = parent.stages.takeWhile { !it.startsWith("{ \$group") }
+                    preStages + buildGroupStages(groupByFields, spec.accumulators, spec.aggregateProjections)
                 } else {
-                    "{ " + allFields.joinToString(", ") { "\"${it.name}\": \"\$${it.name}\"" } + " }"
+                    val projectionIndex = parent.stages.indexOfFirst {
+                        it.startsWith("{ \$group") || it.startsWith("{ \$project")
+                    }
+                    val preStages = if (projectionIndex == -1) parent.stages else parent.stages.take(projectionIndex)
+                    preStages + buildGroupStages(groupByFields, emptyList(), emptyList())
                 }
-
                 MongoDopeQuery.Aggregation(
-                    stages = parent.stages + "{ \$group: { \"_id\": $groupId } }",
+                    stages = stages,
                     bucket = parent.bucket,
-                    parameters = parent.parameters,
                 )
             }
 
@@ -192,9 +193,6 @@ interface ClauseResolver : AbstractMongoResolver {
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages +
                         "{ \$sort: { ${orderExpressions.joinToString(", ") { it.queryString }} } }",
-                    parameters = parent.parameters.merge(
-                        *orderExpressions.map { it.parameters }.toTypedArray(),
-                    ),
                     bucket = parent.bucket,
                 )
             }
@@ -204,7 +202,6 @@ interface ClauseResolver : AbstractMongoResolver {
                 val offsetDopeQuery = clause.numberExpression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$skip: ${offsetDopeQuery.queryString} }",
-                    parameters = parent.parameters.merge(offsetDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -214,7 +211,6 @@ interface ClauseResolver : AbstractMongoResolver {
                 val limitDopeQuery = clause.numberExpression.toDopeQuery(this)
                 MongoDopeQuery.Aggregation(
                     stages = parent.stages + "{ \$limit: ${limitDopeQuery.queryString} }",
-                    parameters = parent.parameters.merge(limitDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -230,8 +226,7 @@ interface ClauseResolver : AbstractMongoResolver {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Delete
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 MongoDopeQuery.Delete(
-                    filter = whereDopeQuery.queryString,
-                    parameters = parent.parameters.merge(whereDopeQuery.parameters),
+                    filter = "{ \"\$expr\": ${whereDopeQuery.queryString} }",
                     bucket = parent.bucket,
                 )
             }
@@ -259,9 +254,6 @@ interface ClauseResolver : AbstractMongoResolver {
                         "\"\$set\": { $setFields }",
                     ),
                     bucket = parent.bucket,
-                    parameters = assignmentQueries
-                        .map { it.second.parameters }
-                        .fold(parent.parameters) { acc, params -> acc.merge(params) },
                 )
             }
 
@@ -276,7 +268,6 @@ interface ClauseResolver : AbstractMongoResolver {
                         "\"\$unset\": { $unsetFields }",
                     ),
                     bucket = parent.bucket,
-                    parameters = parent.parameters,
                 )
             }
 
@@ -284,9 +275,8 @@ interface ClauseResolver : AbstractMongoResolver {
                 val parent = clause.parentClause.toDopeQuery(this) as MongoDopeQuery.Update
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 MongoDopeQuery.Update(
-                    filter = whereDopeQuery.queryString,
+                    filter = "{ \"\$expr\": ${whereDopeQuery.queryString} }",
                     updateDocument = parent.updateDocument,
-                    parameters = parent.parameters.merge(whereDopeQuery.parameters),
                     bucket = parent.bucket,
                 )
             }
@@ -295,15 +285,61 @@ interface ClauseResolver : AbstractMongoResolver {
         }
 
     fun resolve(orderExpression: OrderExpression): MongoDopeQuery {
-        val expressionDopeQuery = orderExpression.expression.toDopeQuery(this)
+        val fieldName = selectableFieldName(orderExpression.expression)
         val orderTypeString = when (orderExpression.orderByType) {
             null, OrderType.ASC -> "1"
             OrderType.DESC -> "-1"
         }
-        return MongoDopeQuery.ExpressionFragment(
-            queryString = "${expressionDopeQuery.queryString} : $orderTypeString",
-            parameters = expressionDopeQuery.parameters,
-        )
+        return MongoDopeQuery.ExpressionFragment(queryString = "${fieldKey(fieldName)}: $orderTypeString")
+    }
+
+    private fun isAggregateSelectable(selectable: Selectable): Boolean {
+        val inner = when (selectable) {
+            is AliasedRowScopeExpression<*> -> selectable.rowScopeExpression
+            is AliasedTypeExpression<*> -> selectable.typeExpression
+            else -> selectable
+        }
+        return inner is AggregateFunctionExpression<*>
+    }
+
+    private fun aggregateSelection(selectable: Selectable): AggregateSelection {
+        val aliased = selectable as? AliasedRowScopeExpression<*>
+            ?: error("Mongo requires an alias for aggregate select expressions; use .alias(\"name\").")
+        val aggregate = aliased.rowScopeExpression as? AggregateFunctionExpression<*>
+            ?: error("Mongo aggregate selection must wrap an aggregate function")
+        val mapping = aggregateMapping(aggregate)
+            ?: error("Mongo does not support this aggregate function: ${aggregate::class.simpleName}")
+        val projection = mapping.projectionTemplate.replace(AGGREGATE_ALIAS_PLACEHOLDER, fieldPath(aliased.alias))
+        return AggregateSelection(aliased.alias, mapping.accumulator, projection)
+    }
+
+    private data class AggregateSelection(val alias: String, val accumulator: String, val projection: String)
+
+    private fun buildGroupStages(
+        groupingFields: List<String>,
+        accumulators: List<String>,
+        aggregateProjections: List<Pair<String, String>>,
+    ): List<String> {
+        val idExpression = if (groupingFields.isEmpty()) {
+            "null"
+        } else {
+            "{ " + groupingFields.joinToString(", ") { "${fieldKey(it)}: ${fieldPath(it)}" } + " }"
+        }
+        val accumulatorPart = if (accumulators.isEmpty()) "" else ", " + accumulators.joinToString(", ")
+        val groupStage = "{ \$group: { \"_id\": $idExpression$accumulatorPart } }"
+        val projectFields = groupingFields.map { "${fieldKey(it)}: \"\$_id.${escapeJsonString(it)}\"" } +
+            aggregateProjections.map { (alias, projection) -> "${fieldKey(alias)}: $projection" }
+        val projectStage = "{ \$project: { " + projectFields.joinToString(", ") + ", \"_id\": 0 } }"
+        return listOf(groupStage, projectStage)
+    }
+
+    private fun insertBeforeProjection(stages: List<String>, newStages: List<String>): List<String> {
+        val projectionIndex = stages.indexOfFirst { it.startsWith("{ \$group") || it.startsWith("{ \$project") }
+        return if (projectionIndex == -1) {
+            stages + newStages
+        } else {
+            stages.take(projectionIndex) + newStages + stages.drop(projectionIndex)
+        }
     }
 
     private fun mergeUpdateOperators(existing: String, newOperator: String): String {
@@ -385,44 +421,48 @@ interface ClauseResolver : AbstractMongoResolver {
         condition: Expression<*>,
         fromCollection: String,
     ): ExprRender {
-        fun go(e: Expression<*>): Pair<String, Set<Pair<String, String>>> = when (e) {
+        val (expression, neededLets) = renderLookupNode(condition, fromCollection)
+        return ExprRender(expr = expression, neededLets = neededLets)
+    }
+
+    private fun ClauseResolver.renderLookupNode(
+        expression: Expression<*>,
+        fromCollection: String,
+    ): Pair<String, Set<Pair<String, String>>> =
+        when (expression) {
             is EqualsExpression<*> -> {
-                val (l, ll) = go(e.left)
-                val (r, rl) = go(e.right)
-                "{ \"\$eq\": [$l, $r] }" to (ll + rl)
+                val (left, leftLets) = renderLookupNode(expression.left, fromCollection)
+                val (right, rightLets) = renderLookupNode(expression.right, fromCollection)
+                "{ \"\$eq\": [$left, $right] }" to (leftLets + rightLets)
             }
 
             is AndExpression -> {
-                val (l, ll) = go(e.left)
-                val (r, rl) = go(e.right)
-                "{ \"\$and\": [$l, $r] }" to (ll + rl)
+                val (left, leftLets) = renderLookupNode(expression.left, fromCollection)
+                val (right, rightLets) = renderLookupNode(expression.right, fromCollection)
+                "{ \"\$and\": [$left, $right] }" to (leftLets + rightLets)
             }
 
             is OrExpression -> {
-                val (l, ll) = go(e.left)
-                val (r, rl) = go(e.right)
-                "{ \"\$or\": [$l, $r] }" to (ll + rl)
+                val (left, leftLets) = renderLookupNode(expression.left, fromCollection)
+                val (right, rightLets) = renderLookupNode(expression.right, fromCollection)
+                "{ \"\$or\": [$left, $right] }" to (leftLets + rightLets)
             }
 
-            is AliasedTypeExpression<*> -> go(e.typeExpression)
+            is AliasedTypeExpression<*> -> renderLookupNode(expression.typeExpression, fromCollection)
 
             is Field<*> -> {
-                val isForeign = e.bucket?.name == fromCollection
+                val isForeign = expression.bucket?.name == fromCollection
                 if (isForeign) {
-                    "\"\$${e.name}\"" to emptySet()
+                    "\"\$${expression.name}\"" to emptySet()
                 } else {
-                    val varName = "let_${e.name}"
-                    "\"\$\$$varName\"" to setOf(e.name to varName)
+                    val variableName = "let_${expression.name}"
+                    "\"\$\$$variableName\"" to setOf(expression.name to variableName)
                 }
             }
 
             else -> {
-                val dq = e.toDopeQuery(this@ClauseResolver)
-                dq.queryString to emptySet()
+                val dopeQuery = expression.toDopeQuery(this)
+                dopeQuery.queryString to emptySet()
             }
         }
-
-        val (expr, lets) = go(condition)
-        return ExprRender(expr = expr, neededLets = lets)
-    }
 }

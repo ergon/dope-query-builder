@@ -3,12 +3,9 @@ package ch.ergon.dope.extension.expression.type.objects
 import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.addAttribute
 import ch.ergon.dope.resolvable.expression.type.function.objects.concat
-import ch.ergon.dope.resolvable.expression.type.function.objects.getInnerPairs
 import ch.ergon.dope.resolvable.expression.type.function.objects.getLength
 import ch.ergon.dope.resolvable.expression.type.function.objects.getNames
-import ch.ergon.dope.resolvable.expression.type.function.objects.getNestedPairs
 import ch.ergon.dope.resolvable.expression.type.function.objects.getPairs
-import ch.ergon.dope.resolvable.expression.type.function.objects.getPaths
 import ch.ergon.dope.resolvable.expression.type.function.objects.getValues
 import ch.ergon.dope.resolvable.expression.type.function.objects.putAttribute
 import ch.ergon.dope.resolvable.expression.type.function.objects.removeAttribute
@@ -49,25 +46,11 @@ fun CMObjectField<Schema>.concat(
     vararg additionalObjectExpression: CMObjectField<Schema>,
 ) = toDopeType().concat(secondObjectExpression.toDopeType(), *additionalObjectExpression.map { it.toDopeType() }.toTypedArray())
 
-fun CMObjectField<Schema>.innerPairs() = toDopeType().getInnerPairs()
-
 fun CMObjectField<Schema>.length() = toDopeType().getLength()
 
 fun CMObjectField<Schema>.names() = toDopeType().getNames()
 
 fun CMObjectField<Schema>.pairs() = toDopeType().getPairs()
-
-fun CMObjectField<Schema>.pairsNested(options: TypeExpression<ObjectType>? = null) = toDopeType().getNestedPairs(options)
-
-fun CMObjectField<Schema>.pairsNested(options: CMObjectField<Schema>) = toDopeType().getNestedPairs(options.toDopeType())
-
-fun TypeExpression<ObjectType>.pairsNested(options: CMObjectField<Schema>) = getNestedPairs(options.toDopeType())
-
-fun CMObjectField<Schema>.paths(options: TypeExpression<ObjectType>? = null) = toDopeType().getPaths(options)
-
-fun CMObjectField<Schema>.paths(options: CMObjectField<Schema>) = toDopeType().getPaths(options.toDopeType())
-
-fun TypeExpression<ObjectType>.paths(options: CMObjectField<Schema>) = getPaths(options.toDopeType())
 
 fun CMObjectField<Schema>.putAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
     toDopeType().putAttribute(key, value)

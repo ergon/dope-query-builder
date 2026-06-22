@@ -1,0 +1,13 @@
+package ch.ergon.dope.couchbase.resolvable.expression.type.function.string
+
+import ch.ergon.dope.resolvable.expression.operator.FunctionOperator
+import ch.ergon.dope.resolvable.expression.type.function.string.factory.CustomTokenOptions
+import ch.ergon.dope.validtype.ArrayType
+import ch.ergon.dope.validtype.StringType
+
+data class TokensExpression(
+    val inStr: List<String>,
+    val options: CustomTokenOptions? = null,
+) : FunctionOperator<ArrayType<StringType>>
+
+fun List<String>.tokens(options: CustomTokenOptions? = null) = TokensExpression(this, options)

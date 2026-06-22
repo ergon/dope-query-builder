@@ -1,6 +1,7 @@
 package ch.ergon.dope.clauses
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BaseIntegrationTest
 import ch.ergon.dope.integrationTest.TestCouchbaseDatabase.idField
@@ -14,7 +15,6 @@ import ch.ergon.dope.integrationTest.toRawValues
 import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.clause.intersect
 import ch.ergon.dope.resolvable.expression.type.alias
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.assignTo
 import ch.ergon.dope.resolvable.expression.type.collection.any
 import ch.ergon.dope.resolvable.expression.type.get

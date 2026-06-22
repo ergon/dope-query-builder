@@ -12,8 +12,6 @@ import ch.ergon.dope.extension.expression.type.function.date.localNowString
 import ch.ergon.dope.extension.expression.type.function.date.nowString
 import ch.ergon.dope.extension.expression.type.function.date.nowStringInZone
 import ch.ergon.dope.extension.expression.type.function.date.plusDateComponent
-import ch.ergon.dope.extension.expression.type.function.date.toDurationMillis
-import ch.ergon.dope.extension.expression.type.function.date.toDurationString
 import ch.ergon.dope.extension.expression.type.function.date.toEpochMillis
 import ch.ergon.dope.extension.expression.type.function.date.toFormattedDate
 import ch.ergon.dope.extension.expression.type.function.date.toMillis
@@ -53,7 +51,6 @@ import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.HOUR
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MINUTE
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.MONTH
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType.WEEK
-import ch.ergon.dope.resolvable.expression.type.function.date.DurationToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToTimezoneExpression
@@ -64,7 +61,6 @@ import ch.ergon.dope.resolvable.expression.type.function.date.NowTimezoneExpress
 import ch.ergon.dope.resolvable.expression.type.function.date.NowUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToUtcExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.StringToDurationExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StringToMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayStrExpression
@@ -780,16 +776,6 @@ class DateFunctionsTest {
     }
 
     @Test
-    fun `should support DurationToString with CM number`() {
-        val date = someCMNumberField()
-        val expected = DurationToStringExpression(date.toDopeType())
-
-        val actual = date.toDurationString()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun `should support Millis`() {
         val date = someCMStringField()
         val expected = MillisExpression(date.toDopeType())
@@ -933,16 +919,6 @@ class DateFunctionsTest {
         val expected = NowUtcExpression(format.toDopeType())
 
         val actual = utcNowString(format)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support StrToDuration with CM string`() {
-        val duration = someCMStringField()
-        val expected = StringToDurationExpression(duration.toDopeType())
-
-        val actual = duration.toDurationMillis()
 
         assertEquals(expected, actual)
     }

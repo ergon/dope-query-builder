@@ -2,11 +2,15 @@ package ch.ergon.dope.resolvable.expression.type.function.string
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.InitCapExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.TitleExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.initCap
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.string.title
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someString
 import ch.ergon.dope.helper.someStringField
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import kotlin.test.Test
 import kotlin.test.assertEquals
