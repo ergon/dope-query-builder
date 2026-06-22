@@ -2,12 +2,9 @@ package ch.ergon.dope.extensions.expression.type.function.`object`
 
 import ch.ergon.dope.extension.expression.type.objects.addAttribute
 import ch.ergon.dope.extension.expression.type.objects.concat
-import ch.ergon.dope.extension.expression.type.objects.innerPairs
 import ch.ergon.dope.extension.expression.type.objects.length
 import ch.ergon.dope.extension.expression.type.objects.names
 import ch.ergon.dope.extension.expression.type.objects.pairs
-import ch.ergon.dope.extension.expression.type.objects.pairsNested
-import ch.ergon.dope.extension.expression.type.objects.paths
 import ch.ergon.dope.extension.expression.type.objects.putAttribute
 import ch.ergon.dope.extension.expression.type.objects.removeAttribute
 import ch.ergon.dope.extension.expression.type.objects.renameAttribute
@@ -22,12 +19,9 @@ import ch.ergon.dope.helper.someObjectField
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectAddExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectConcatExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectInnerPairsExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectLengthExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectNamesExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPairsExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPairsNestedExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPathsExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPutExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectRemoveExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectRenameExpression
@@ -168,16 +162,6 @@ class ObjectFunctionTest {
     }
 
     @Test
-    fun `should support object innerPairs function cmObject`() {
-        val objectExpression = someCMObjectField()
-        val expected = ObjectInnerPairsExpression(objectExpression.toDopeType())
-
-        val actual = objectExpression.innerPairs()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun `should support object length function cmObject`() {
         val objectExpression = someCMObjectField()
         val expected = ObjectLengthExpression(objectExpression.toDopeType())
@@ -203,70 +187,6 @@ class ObjectFunctionTest {
         val expected = ObjectPairsExpression(objectExpression.toDopeType())
 
         val actual = objectExpression.pairs()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support object pairsNested function cmObject`() {
-        val objectExpression = someCMObjectField()
-        val expected = ObjectPairsNestedExpression(objectExpression.toDopeType())
-
-        val actual = objectExpression.pairsNested()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support object pairsNested function cmObject cmObject`() {
-        val objectExpression = someCMObjectField()
-        val options = someCMObjectField("options")
-        val expected = ObjectPairsNestedExpression(objectExpression.toDopeType(), options.toDopeType())
-
-        val actual = objectExpression.pairsNested(options)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support object pairsNested function type cmObject`() {
-        val objectExpression = someObjectField()
-        val options = someCMObjectField("options")
-        val expected = ObjectPairsNestedExpression(objectExpression, options.toDopeType())
-
-        val actual = objectExpression.pairsNested(options)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support object paths function cmObject`() {
-        val objectExpression = someCMObjectField()
-        val expected = ObjectPathsExpression(objectExpression.toDopeType())
-
-        val actual = objectExpression.paths()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support object paths function cmObject cmObject`() {
-        val objectExpression = someCMObjectField()
-        val options = someCMObjectField("options")
-        val expected = ObjectPathsExpression(objectExpression.toDopeType(), options.toDopeType())
-
-        val actual = objectExpression.paths(options)
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `should support object paths function type cmObject`() {
-        val objectExpression = someObjectField()
-        val options = someCMObjectField("options")
-        val expected = ObjectPathsExpression(objectExpression, options.toDopeType())
-
-        val actual = objectExpression.paths(options)
 
         assertEquals(expected, actual)
     }

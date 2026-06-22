@@ -1,6 +1,9 @@
 package ch.ergon.dope.buildTest
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.array.binarySearch
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.array.flatten
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.array.unpack
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumberArrayField
@@ -13,13 +16,11 @@ import ch.ergon.dope.resolvable.expression.type.function.array.append
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayRange
 import ch.ergon.dope.resolvable.expression.type.function.array.arrayRepeat
 import ch.ergon.dope.resolvable.expression.type.function.array.average
-import ch.ergon.dope.resolvable.expression.type.function.array.binarySearch
 import ch.ergon.dope.resolvable.expression.type.function.array.concat
 import ch.ergon.dope.resolvable.expression.type.function.array.contains
 import ch.ergon.dope.resolvable.expression.type.function.array.count
 import ch.ergon.dope.resolvable.expression.type.function.array.distinct
 import ch.ergon.dope.resolvable.expression.type.function.array.except
-import ch.ergon.dope.resolvable.expression.type.function.array.flatten
 import ch.ergon.dope.resolvable.expression.type.function.array.ifNull
 import ch.ergon.dope.resolvable.expression.type.function.array.insert
 import ch.ergon.dope.resolvable.expression.type.function.array.intersect
@@ -38,7 +39,6 @@ import ch.ergon.dope.resolvable.expression.type.function.array.sum
 import ch.ergon.dope.resolvable.expression.type.function.array.symDiff
 import ch.ergon.dope.resolvable.expression.type.function.array.symDiffN
 import ch.ergon.dope.resolvable.expression.type.function.array.union
-import ch.ergon.dope.resolvable.expression.type.function.array.unpack
 import ch.ergon.dope.resolvable.expression.type.function.string.lower
 import ch.ergon.dope.resolvable.expression.type.get
 import ch.ergon.dope.resolvable.expression.type.getNumberArray

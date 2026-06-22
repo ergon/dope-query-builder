@@ -2,6 +2,7 @@ package ch.ergon.dope.resolvable.expression.type.range
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someAnyTypeArrayField
@@ -13,7 +14,6 @@ import ch.ergon.dope.helper.someNumberSelectRawClause
 import ch.ergon.dope.helper.someStringArrayField
 import ch.ergon.dope.resolvable.expression.type.arithmetic.add
 import ch.ergon.dope.resolvable.expression.type.arithmetic.mul
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.function.string.concat
 import ch.ergon.dope.resolvable.expression.type.function.type.isNumber
 import ch.ergon.dope.resolvable.expression.type.function.type.toNumber

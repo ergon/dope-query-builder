@@ -1,6 +1,7 @@
 package ch.ergon.dope.functions
 
 import ch.ergon.dope.QueryBuilder
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.objects.getInnerPairs
 import ch.ergon.dope.couchbase.resolvable.expression.type.meta
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.integrationTest.BUCKET
@@ -16,7 +17,6 @@ import ch.ergon.dope.resolvable.expression.type.alias
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.type.function.objects.addAttribute
 import ch.ergon.dope.resolvable.expression.type.function.objects.concat
-import ch.ergon.dope.resolvable.expression.type.function.objects.getInnerPairs
 import ch.ergon.dope.resolvable.expression.type.function.objects.getLength
 import ch.ergon.dope.resolvable.expression.type.function.objects.removeAttribute
 import ch.ergon.dope.resolvable.expression.type.logic.and

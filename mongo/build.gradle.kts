@@ -1,0 +1,75 @@
+plugins {
+    kotlin("jvm") version "1.9.22"
+    id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+    `maven-publish`
+    idea
+}
+
+group = "com.github.ergon"
+version = findProperty("projectVersion")?.toString() ?: "unknown-version"
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven(url = "https://jitpack.io")
+}
+
+dependencies {
+    implementation(project(":core"))
+    implementation(kotlin("reflect"))
+    testImplementation(kotlin("test"))
+    testImplementation("org.mongodb:mongodb-driver-sync:5.2.0")
+    testImplementation("org.testcontainers:mongodb:1.20.3")
+}
+
+tasks.test { useJUnitPlatform() }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin { jvmToolchain { languageVersion.set(JavaLanguageVersion.of(17)) } }
+
+sourceSets {
+    create("integrationTest") {
+        kotlin {
+            srcDir("src/integrationTest/kotlin")
+        }
+        compileClasspath += sourceSets["main"].compileClasspath + sourceSets["test"].compileClasspath
+        runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["test"].runtimeClasspath
+    }
+}
+
+tasks.register<Test>("integrationTest") {
+    description = "Runs the integration tests."
+    group = "verification"
+    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
+    mustRunAfter(tasks.named("test"))
+    useJUnitPlatform()
+    systemProperty("api.version", System.getenv("DOCKER_API_VERSION") ?: "1.43")
+    environment("TESTCONTAINERS_RYUK_DISABLED", System.getenv("TESTCONTAINERS_RYUK_DISABLED") ?: "true")
+    listOf("DOCKER_HOST", "DOCKER_API_VERSION", "TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE", "TESTCONTAINERS_HOST_OVERRIDE")
+        .forEach { key -> System.getenv(key)?.let { environment(key, it) } }
+}
+
+idea.module {
+    testSources.from(sourceSets["integrationTest"].kotlin.srcDirs)
+}

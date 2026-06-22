@@ -29,4 +29,12 @@ sealed interface MergeableClause<T : ValidType> : ISelectFromClause<T> {
     val hashOrNestedLoopHint: HashOrNestedLoopHint?
     val keysOrIndexHint: KeysOrIndexHint?
     val parentClause: ISelectFromClause<T>
+
+    val onType: OnType
+        get() = when {
+            condition != null -> OnType.ON
+            keys != null || (key != null && bucket == null) -> OnType.ON_KEYS
+            key != null && bucket != null -> OnType.ON_KEY_FOR
+            else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
+        }
 }

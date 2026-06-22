@@ -3,6 +3,7 @@ package ch.ergon.dope.buildTest
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.QueryBuilder
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.someBucket
 import ch.ergon.dope.helper.someNumber
@@ -16,7 +17,6 @@ import ch.ergon.dope.resolvable.AliasedSelectClause
 import ch.ergon.dope.resolvable.asterisk
 import ch.ergon.dope.resolvable.expression.type.FALSE
 import ch.ergon.dope.resolvable.expression.type.TRUE
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.collection.exists
 import ch.ergon.dope.resolvable.expression.type.collection.inArray
 import ch.ergon.dope.resolvable.expression.type.function.array.length

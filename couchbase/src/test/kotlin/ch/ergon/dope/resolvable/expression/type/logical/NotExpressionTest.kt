@@ -2,11 +2,11 @@ package ch.ergon.dope.resolvable.expression.type.logical
 
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
+import ch.ergon.dope.couchbase.resolvable.expression.type.asParameter
 import ch.ergon.dope.couchbase.resolver.CouchbaseResolver
 import ch.ergon.dope.helper.ResolverDependentTest
 import ch.ergon.dope.helper.someBoolean
 import ch.ergon.dope.helper.someBooleanField
-import ch.ergon.dope.resolvable.expression.type.asParameter
 import ch.ergon.dope.resolvable.expression.type.logic.AndExpression
 import ch.ergon.dope.resolvable.expression.type.logic.NotExpression
 import ch.ergon.dope.resolvable.expression.type.logic.not

@@ -1,5 +1,15 @@
 package ch.ergon.dope.couchbase.resolver.expression
 
+import ch.ergon.dope.couchbase.resolvable.expression.type.collection.NotWithinExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.collection.WithinExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.array.ArrayBinarySearchExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.array.ArrayFlattenExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.date.DurationToStringExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.date.StringToDurationExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.objects.ObjectInnerPairsExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.objects.ObjectInnerValuesExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.objects.ObjectPairsNestedExpression
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.objects.ObjectPathsExpression
 import ch.ergon.dope.resolvable.expression.operator.InfixOperator
 import ch.ergon.dope.resolvable.expression.operator.PostfixOperator
 import ch.ergon.dope.resolvable.expression.operator.PrefixOperator
@@ -58,18 +68,14 @@ import ch.ergon.dope.resolvable.expression.type.arithmetic.NegationExpression
 import ch.ergon.dope.resolvable.expression.type.arithmetic.SubtractionExpression
 import ch.ergon.dope.resolvable.expression.type.collection.InExpression
 import ch.ergon.dope.resolvable.expression.type.collection.NotInExpression
-import ch.ergon.dope.resolvable.expression.type.collection.NotWithinExpression
-import ch.ergon.dope.resolvable.expression.type.collection.WithinExpression
 import ch.ergon.dope.resolvable.expression.type.function.FunctionExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayAppendExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayAverageExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayBinarySearchExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayConcatExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayContainsExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayCountExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayDistinctExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayExceptExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.ArrayFlattenExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIfNullExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayInsertExpression
 import ch.ergon.dope.resolvable.expression.type.function.array.ArrayIntersectExpression
@@ -114,7 +120,6 @@ import ch.ergon.dope.resolvable.expression.type.function.date.DateRangeMillisExp
 import ch.ergon.dope.resolvable.expression.type.function.date.DateRangeStrExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateTruncStrExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.DurationToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToStringExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.MillisToTimezoneExpression
@@ -126,7 +131,6 @@ import ch.ergon.dope.resolvable.expression.type.function.date.NowTimezoneExpress
 import ch.ergon.dope.resolvable.expression.type.function.date.NowUtcExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToTimezoneExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StrToUtcExpression
-import ch.ergon.dope.resolvable.expression.type.function.date.StringToDurationExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.StringToMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayMillisExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayStrExpression
@@ -156,13 +160,9 @@ import ch.ergon.dope.resolvable.expression.type.function.numeric.TruncationExpre
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectAddExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectConcatExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectFieldExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectInnerPairsExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectInnerValuesExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectLengthExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectNamesExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPairsExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPairsNestedExpression
-import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPathsExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectPutExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectRemoveExpression
 import ch.ergon.dope.resolvable.expression.type.function.objects.ObjectRenameExpression

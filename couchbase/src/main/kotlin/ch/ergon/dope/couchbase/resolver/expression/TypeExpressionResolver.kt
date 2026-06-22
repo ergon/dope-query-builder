@@ -3,6 +3,8 @@ package ch.ergon.dope.couchbase.resolver.expression
 import ch.ergon.dope.DopeParameters
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.couchbase.resolvable.expression.type.MetaExpression.MetaField
+import ch.ergon.dope.couchbase.resolvable.expression.type.Parameter
+import ch.ergon.dope.couchbase.resolvable.expression.type.function.array.UnpackExpression
 import ch.ergon.dope.couchbase.util.formatListToQueryStringWithBrackets
 import ch.ergon.dope.couchbase.util.formatToQueryString
 import ch.ergon.dope.couchbase.util.formatToQueryStringWithSeparator
@@ -29,7 +31,6 @@ import ch.ergon.dope.resolvable.expression.type.NumberPrimitive
 import ch.ergon.dope.resolvable.expression.type.ObjectEntry
 import ch.ergon.dope.resolvable.expression.type.ObjectEntryPrimitive
 import ch.ergon.dope.resolvable.expression.type.ObjectPrimitive
-import ch.ergon.dope.resolvable.expression.type.Parameter
 import ch.ergon.dope.resolvable.expression.type.SelectExpression
 import ch.ergon.dope.resolvable.expression.type.StringPrimitive
 import ch.ergon.dope.resolvable.expression.type.TRUE
@@ -37,7 +38,6 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.resolvable.expression.type.collection.ExistsExpression
 import ch.ergon.dope.resolvable.expression.type.collection.Iterator
 import ch.ergon.dope.resolvable.expression.type.collection.SatisfiesExpression
-import ch.ergon.dope.resolvable.expression.type.function.array.UnpackExpression
 import ch.ergon.dope.resolvable.expression.type.function.date.DateComponentType
 import ch.ergon.dope.resolvable.expression.type.function.date.DateUnitType
 import ch.ergon.dope.resolvable.expression.type.function.token.ContainsTokenOptions
