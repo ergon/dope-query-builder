@@ -17,25 +17,37 @@ import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 
 @JvmName("avgNumber")
-fun avg(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
-    AverageExpression = avg(field.toDopeType(), quantifier)
+fun avg(
+    field: CMJsonField<out Number>,
+    quantifier: AggregateQuantifier? = null,
+): AverageExpression = avg(field.toDopeType(), quantifier)
 
 @JvmName("meanNumber")
-fun mean(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
-    MeanExpression = mean(field.toDopeType(), quantifier)
+fun mean(
+    field: CMJsonField<out Number>,
+    quantifier: AggregateQuantifier? = null,
+): MeanExpression = mean(field.toDopeType(), quantifier)
 
 @JvmName("medianNumber")
-fun median(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
-    MedianExpression = median(field.toDopeType(), quantifier)
+fun median(
+    field: CMJsonField<out Number>,
+    quantifier: AggregateQuantifier? = null,
+): MedianExpression = median(field.toDopeType(), quantifier)
 
 @JvmName("sumNumber")
-fun sum(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
-    SumExpression = sum(field.toDopeType(), quantifier)
+fun sum(
+    field: CMJsonField<out Number>,
+    quantifier: AggregateQuantifier? = null,
+): SumExpression = sum(field.toDopeType(), quantifier)
 
 @JvmName("stdDevNumber")
-fun stdDev(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
-    StandardDeviationExpression = stdDev(field.toDopeType(), quantifier)
+fun stdDev(
+    field: CMJsonField<out Number>,
+    quantifier: AggregateQuantifier? = null,
+): StandardDeviationExpression = stdDev(field.toDopeType(), quantifier)
 
 @JvmName("varianceNumber")
-fun variance(field: CMJsonField<out Number>, quantifier: AggregateQuantifier? = null):
-    VarianceExpression = variance(field.toDopeType(), quantifier)
+fun variance(
+    field: CMJsonField<out Number>,
+    quantifier: AggregateQuantifier? = null,
+): VarianceExpression = variance(field.toDopeType(), quantifier)

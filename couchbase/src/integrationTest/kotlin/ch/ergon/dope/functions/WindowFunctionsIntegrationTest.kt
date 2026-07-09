@@ -41,50 +41,55 @@ import kotlin.test.assertEquals
 class WindowFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select window functions`() {
-        val windowReference = "ref".asWindowDeclaration(
-            WindowDefinition(
-                windowPartitionClause = listOf(nameField),
-                windowOrderClause = listOf(
-                    OrderingTerm(idField, DESC),
-                    OrderingTerm(nameField, ASC),
-                ),
-            ),
-        )
-
-        val dopeQuery = QueryBuilder
-            .select(
-                rowNumber().alias("rowNumber"),
-                cumeDist(windowReference.reference).alias("cumeDist"),
-                denseRank(listOf(orderingTerm(nameField, ASC))).alias("denseRank"),
-                firstValue(
-                    orderNumberField,
-                    windowOrderClause = listOf(orderingTerm(nameField, nullsOrder = NULLS_LAST)),
-                    windowFrameClause = WindowFrameClause(
-                        ROWS,
-                        between(currentRow(), following(1)),
-                        EXCLUDE_NO_OTHERS,
-                    ),
-                ).alias("firstValue"),
-                nthValue(
-                    idField,
-                    10,
-                    fromModifier = LAST,
-                    windowOrderClause = listOf(
-                        orderingTerm(
-                            nameField,
-                            nullsOrder = NULLS_FIRST,
+        val windowReference =
+            "ref".asWindowDeclaration(
+                WindowDefinition(
+                    windowPartitionClause = listOf(nameField),
+                    windowOrderClause =
+                        listOf(
+                            OrderingTerm(idField, DESC),
+                            OrderingTerm(nameField, ASC),
                         ),
-                    ),
-                ).alias("nthValue"),
-                lag(idField, windowOrderClause = listOf(orderingTerm(deliveryDateField, ASC)))
-                    .alias("lag"),
-                lastValue(nameField, IGNORE).alias("lastValue"),
+                ),
             )
-            .from(testBucket)
-            .referenceWindow(windowReference)
-            .orderBy(nameField)
-            .thenOrderBy(idField)
-            .build(CouchbaseResolver())
+
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    rowNumber().alias("rowNumber"),
+                    cumeDist(windowReference.reference).alias("cumeDist"),
+                    denseRank(listOf(orderingTerm(nameField, ASC))).alias("denseRank"),
+                    firstValue(
+                        orderNumberField,
+                        windowOrderClause = listOf(orderingTerm(nameField, nullsOrder = NULLS_LAST)),
+                        windowFrameClause =
+                            WindowFrameClause(
+                                ROWS,
+                                between(currentRow(), following(1)),
+                                EXCLUDE_NO_OTHERS,
+                            ),
+                    ).alias("firstValue"),
+                    nthValue(
+                        idField,
+                        10,
+                        fromModifier = LAST,
+                        windowOrderClause =
+                            listOf(
+                                orderingTerm(
+                                    nameField,
+                                    nullsOrder = NULLS_FIRST,
+                                ),
+                            ),
+                    ).alias("nthValue"),
+                    lag(idField, windowOrderClause = listOf(orderingTerm(deliveryDateField, ASC)))
+                        .alias("lag"),
+                    lastValue(nameField, IGNORE).alias("lastValue"),
+                )
+                .from(testBucket)
+                .referenceWindow(windowReference)
+                .orderBy(nameField)
+                .thenOrderBy(idField)
+                .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

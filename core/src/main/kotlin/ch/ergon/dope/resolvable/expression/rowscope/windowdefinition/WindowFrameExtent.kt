@@ -13,7 +13,10 @@ interface FrameAndBetween : Resolvable
 
 data class Between(val between: FrameBetween, val and: FrameAndBetween) : WindowFrameExtent
 
-fun between(between: FrameBetween, and: FrameAndBetween) = Between(between, and)
+fun between(
+    between: FrameBetween,
+    and: FrameAndBetween,
+) = Between(between, and)
 
 class UnboundedFollowing : FrameAndBetween
 

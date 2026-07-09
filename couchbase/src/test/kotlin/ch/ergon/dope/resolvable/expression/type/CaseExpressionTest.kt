@@ -20,13 +20,15 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support simple case expression with single when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE `numberField` WHEN `other` THEN `stringField` END",
-        )
-        val underTest = CaseExpression(
-            CaseClass(someNumberField()),
-            SearchResult(someNumberField("other"), someStringField()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE `numberField` WHEN `other` THEN `stringField` END",
+            )
+        val underTest =
+            CaseExpression(
+                CaseClass(someNumberField()),
+                SearchResult(someNumberField("other"), someStringField()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -35,14 +37,16 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support simple case expression with multiple when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
-        )
-        val underTest = CaseExpression(
-            CaseClass(someNumberField()),
-            SearchResult(someNumberField("other"), someStringField()),
-            listOf(SearchResult(someNumberField("other2"), someNumberField())),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` END",
+            )
+        val underTest =
+            CaseExpression(
+                CaseClass(someNumberField()),
+                SearchResult(someNumberField("other"), someStringField()),
+                listOf(SearchResult(someNumberField("other2"), someNumberField())),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -57,18 +61,21 @@ class CaseExpressionTest : ResolverDependentTest {
         val namedParameter2 = someBoolean()
         val parameterName1 = someString("booleanTrue")
         val parameterName2 = someString("booleanFalse")
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE `numberField` WHEN $1 THEN \$booleanTrue WHEN $2 THEN \$booleanFalse END",
-            parameters = DopeParameters(
-                namedParameters = mapOf(parameterName1 to namedParameter1, parameterName2 to namedParameter2),
-                positionalParameters = listOf(positionalParameter1, positionalParameter2),
-            ),
-        )
-        val underTest = CaseExpression(
-            CaseClass(someNumberField()),
-            SearchResult(positionalParameter1.asParameter(), namedParameter1.asParameter(parameterName1)),
-            listOf(SearchResult(positionalParameter2.asParameter(), namedParameter2.asParameter(parameterName2))),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE `numberField` WHEN $1 THEN \$booleanTrue WHEN $2 THEN \$booleanFalse END",
+                parameters =
+                    DopeParameters(
+                        namedParameters = mapOf(parameterName1 to namedParameter1, parameterName2 to namedParameter2),
+                        positionalParameters = listOf(positionalParameter1, positionalParameter2),
+                    ),
+            )
+        val underTest =
+            CaseExpression(
+                CaseClass(someNumberField()),
+                SearchResult(positionalParameter1.asParameter(), namedParameter1.asParameter(parameterName1)),
+                listOf(SearchResult(positionalParameter2.asParameter(), namedParameter2.asParameter(parameterName2))),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -77,14 +84,16 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support simple else case expression with single when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
-        )
-        val underTest = ElseCaseExpression(
-            CaseClass(someNumberField()),
-            SearchResult(someNumberField("other"), someStringField()),
-            elseCase = someNumberField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE `numberField` WHEN `other` THEN `stringField` ELSE `numberField` END",
+            )
+        val underTest =
+            ElseCaseExpression(
+                CaseClass(someNumberField()),
+                SearchResult(someNumberField("other"), someStringField()),
+                elseCase = someNumberField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -93,15 +102,17 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support simple else case expression with multiple when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
-        )
-        val underTest = ElseCaseExpression(
-            CaseClass(someNumberField()),
-            SearchResult(someNumberField("other"), someStringField()),
-            listOf(SearchResult(someNumberField("other2"), someNumberField())),
-            elseCase = someStringField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE `numberField` WHEN `other` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
+            )
+        val underTest =
+            ElseCaseExpression(
+                CaseClass(someNumberField()),
+                SearchResult(someNumberField("other"), someStringField()),
+                listOf(SearchResult(someNumberField("other2"), someNumberField())),
+                elseCase = someStringField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -110,13 +121,15 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support searched case expression with single when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE WHEN `booleanField` THEN `stringField` END",
-        )
-        val underTest = CaseExpression(
-            CaseClass(),
-            SearchResult(someBooleanField(), someStringField()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE WHEN `booleanField` THEN `stringField` END",
+            )
+        val underTest =
+            CaseExpression(
+                CaseClass(),
+                SearchResult(someBooleanField(), someStringField()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -125,14 +138,16 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support searched case expression with multiple when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
-        )
-        val underTest = CaseExpression(
-            CaseClass(),
-            SearchResult(someBooleanField("first"), someStringField()),
-            listOf(SearchResult(someBooleanField("second"), someNumberField())),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE WHEN `first` THEN `stringField` WHEN `second` THEN `numberField` END",
+            )
+        val underTest =
+            CaseExpression(
+                CaseClass(),
+                SearchResult(someBooleanField("first"), someStringField()),
+                listOf(SearchResult(someBooleanField("second"), someNumberField())),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -141,14 +156,16 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support searched else case expression with single when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
-        )
-        val underTest = ElseCaseExpression(
-            CaseClass(),
-            SearchResult(someBooleanField(), someStringField()),
-            elseCase = someNumberField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE WHEN `booleanField` THEN `stringField` ELSE `numberField` END",
+            )
+        val underTest =
+            ElseCaseExpression(
+                CaseClass(),
+                SearchResult(someBooleanField(), someStringField()),
+                elseCase = someNumberField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -157,15 +174,17 @@ class CaseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support searched else case expression with multiple when then`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
-        )
-        val underTest = ElseCaseExpression(
-            CaseClass(),
-            SearchResult(someBooleanField(), someStringField()),
-            listOf(SearchResult(someBooleanField("other2"), someNumberField())),
-            elseCase = someStringField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CASE WHEN `booleanField` THEN `stringField` WHEN `other2` THEN `numberField` ELSE `stringField` END",
+            )
+        val underTest =
+            ElseCaseExpression(
+                CaseClass(),
+                SearchResult(someBooleanField(), someStringField()),
+                listOf(SearchResult(someBooleanField("other2"), someNumberField())),
+                elseCase = someStringField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -175,13 +194,15 @@ class CaseExpressionTest : ResolverDependentTest {
     @Test
     fun `should support case function`() {
         val numberField = someNumberField()
-        val expected = CaseClass(
-            numberField,
-        )
+        val expected =
+            CaseClass(
+                numberField,
+            )
 
-        val actual = case(
-            numberField,
-        )
+        val actual =
+            case(
+                numberField,
+            )
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -246,12 +267,13 @@ class CaseExpressionTest : ResolverDependentTest {
         val firstCondition = SearchResult(someNumberField(), someStringField())
         val additionalCondition = SearchResult(someNumberField(), someNumberField())
         val elseCase = someNumberField()
-        val expected = ElseCaseExpression(
-            case,
-            firstCondition,
-            listOf(additionalCondition),
-            elseCase = elseCase,
-        )
+        val expected =
+            ElseCaseExpression(
+                case,
+                firstCondition,
+                listOf(additionalCondition),
+                elseCase = elseCase,
+            )
 
         val actual = case.condition(firstCondition).condition(additionalCondition).otherwise(elseCase)
 
@@ -307,12 +329,13 @@ class CaseExpressionTest : ResolverDependentTest {
         val firstCondition = SearchResult(someBooleanField(), someStringField())
         val additionalCondition = SearchResult(someBooleanField(), someNumberField())
         val elseCase = someNumberField()
-        val expected = ElseCaseExpression(
-            CaseClass(),
-            firstCondition,
-            listOf(additionalCondition),
-            elseCase = elseCase,
-        )
+        val expected =
+            ElseCaseExpression(
+                CaseClass(),
+                firstCondition,
+                listOf(additionalCondition),
+                elseCase = elseCase,
+            )
 
         val actual = case().condition(firstCondition).condition(additionalCondition).otherwise(elseCase)
 

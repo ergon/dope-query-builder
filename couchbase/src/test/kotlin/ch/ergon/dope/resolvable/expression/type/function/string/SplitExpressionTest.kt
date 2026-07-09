@@ -16,9 +16,10 @@ class SplitExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support split`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SPLIT(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SPLIT(`stringField`)",
+            )
         val underTest = SplitExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class SplitExpressionTest : ResolverDependentTest {
     @Test
     fun `should support split with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SPLIT($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SPLIT($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SplitExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,9 +44,10 @@ class SplitExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support split with substring`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SPLIT(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SPLIT(`stringField`, `stringField`)",
+            )
         val underTest = SplitExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -55,10 +58,11 @@ class SplitExpressionTest : ResolverDependentTest {
     @Test
     fun `should support split with substring and positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SPLIT($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SPLIT($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SplitExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -70,10 +74,11 @@ class SplitExpressionTest : ResolverDependentTest {
     fun `should support split with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SPLIT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SPLIT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = SplitExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -85,10 +90,11 @@ class SplitExpressionTest : ResolverDependentTest {
     fun `should support split with mixed parameters`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SPLIT(\$$parameterName, `stringField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SPLIT(\$$parameterName, `stringField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = SplitExpression(parameterValue.asParameter(parameterName), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)

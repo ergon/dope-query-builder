@@ -20,9 +20,10 @@ class ReplaceExpressionTest : ResolverDependentTest {
         val searchStr = someStringField("searchStr")
         val replace = someStringField("replace")
         val numberOfInstances = null
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPLACE(`inStr`, `searchStr`, `replace`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPLACE(`inStr`, `searchStr`, `replace`)",
+            )
         val underTest = ReplaceExpression(inStr, searchStr, replace, numberOfInstances)
 
         val actual = underTest.toDopeQuery(resolver)

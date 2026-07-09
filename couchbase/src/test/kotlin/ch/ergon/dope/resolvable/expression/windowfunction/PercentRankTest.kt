@@ -16,9 +16,10 @@ class PercentRankTest : ResolverDependentTest {
 
     @Test
     fun `should support percent rank with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "PERCENT_RANK() OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "PERCENT_RANK() OVER `ref`",
+            )
         val underTest = PercentRankWithReference("ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class PercentRankTest : ResolverDependentTest {
 
     @Test
     fun `should support percent rank with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "PERCENT_RANK() OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "PERCENT_RANK() OVER (ORDER BY `stringField`)",
+            )
         val underTest = PercentRank(windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,13 +42,15 @@ class PercentRankTest : ResolverDependentTest {
 
     @Test
     fun `should support percent rank with partition and order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "PERCENT_RANK() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = PercentRank(
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "PERCENT_RANK() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            PercentRank(
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

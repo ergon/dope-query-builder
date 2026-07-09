@@ -13,9 +13,10 @@ class DeleteClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support delete`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket`",
+            )
         val underTest = DeleteClause(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -25,9 +26,10 @@ class DeleteClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support delete with alias bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` AS `bucket`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` AS `bucket`",
+            )
         val underTest = DeleteClause(someBucket().alias("bucket"))
 
         val actual = underTest.toDopeQuery(resolver)

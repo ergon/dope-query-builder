@@ -7,7 +7,7 @@ import com.schwarz.crystalapi.schema.CMConverterField
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.Schema
-import java.util.*
+import java.util.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

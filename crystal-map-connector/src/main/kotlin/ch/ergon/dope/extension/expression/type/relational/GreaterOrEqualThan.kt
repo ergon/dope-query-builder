@@ -31,12 +31,14 @@ fun CMJsonField<out Number>.isGreaterOrEqualThan(right: Number): GreaterOrEqualT
     toDopeType().isGreaterOrEqualThan(right.toDopeType())
 
 @JvmName("isGreaterOrEqualThanNumberConverter")
-fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isGreaterOrEqualThan(other: Convertable):
-    GreaterOrEqualThanExpression<NumberType> = toDopeType().isGreaterOrEqualThan(toDopeType(other))
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isGreaterOrEqualThan(
+    other: Convertable,
+): GreaterOrEqualThanExpression<NumberType> = toDopeType().isGreaterOrEqualThan(toDopeType(other))
 
 @JvmName("isGreaterOrEqualThanNumberConverter")
-fun <Convertable : Any, JsonType : Number> Convertable.isGreaterOrEqualThan(other: CMConverterField<Convertable, JsonType>):
-    GreaterOrEqualThanExpression<NumberType> = toDopeType(other).isGreaterOrEqualThan(other.toDopeType())
+fun <Convertable : Any, JsonType : Number> Convertable.isGreaterOrEqualThan(
+    other: CMConverterField<Convertable, JsonType>,
+): GreaterOrEqualThanExpression<NumberType> = toDopeType(other).isGreaterOrEqualThan(other.toDopeType())
 
 @JvmName("isGreaterOrEqualThanString")
 fun CMJsonField<String>.isGreaterOrEqualThan(right: CMJsonField<String>): GreaterOrEqualThanExpression<StringType> =
@@ -59,9 +61,11 @@ fun CMJsonField<String>.isGreaterOrEqualThan(right: String): GreaterOrEqualThanE
     toDopeType().isGreaterOrEqualThan(right.toDopeType())
 
 @JvmName("isGreaterOrEqualThanStringConverter")
-fun <Convertable : Any> CMConverterField<Convertable, String>.isGreaterOrEqualThan(other: Convertable):
-    GreaterOrEqualThanExpression<StringType> = toDopeType().isGreaterOrEqualThan(toDopeType(other))
+fun <Convertable : Any> CMConverterField<Convertable, String>.isGreaterOrEqualThan(
+    other: Convertable,
+): GreaterOrEqualThanExpression<StringType> = toDopeType().isGreaterOrEqualThan(toDopeType(other))
 
 @JvmName("isGreaterOrEqualThanStringConverter")
-fun <Convertable : Any> Convertable.isGreaterOrEqualThan(other: CMConverterField<Convertable, String>):
-    GreaterOrEqualThanExpression<StringType> = toDopeType(other).isGreaterOrEqualThan(other.toDopeType())
+fun <Convertable : Any> Convertable.isGreaterOrEqualThan(
+    other: CMConverterField<Convertable, String>,
+): GreaterOrEqualThanExpression<StringType> = toDopeType(other).isGreaterOrEqualThan(other.toDopeType())

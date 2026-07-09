@@ -25,9 +25,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order expression without order type`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField`",
+            )
         val underTest = OrderExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -37,9 +38,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order expression with asc`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` ASC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` ASC",
+            )
         val underTest = OrderExpression(someStringField(), ASC)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -49,9 +51,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order expression with desc`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` DESC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` DESC",
+            )
         val underTest = OrderExpression(someStringField(), DESC)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -61,9 +64,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order expression with complex typeExpression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "LOWER(CONCAT(\"A\", \"B\")) DESC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LOWER(CONCAT(\"A\", \"B\")) DESC",
+            )
         val underTest = OrderExpression("A".toDopeType().concat("B").lower(), DESC)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -73,9 +77,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order by`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * ORDER BY `stringField` ASC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * ORDER BY `stringField` ASC",
+            )
         val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class OrderByClauseTest : ResolverDependentTest {
     fun `should support order by with named parameter in parent`() {
         val parameterValue = "asdf"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName ORDER BY `stringField` ASC",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT \$$parameterName ORDER BY `stringField` ASC",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause(parameterValue.asParameter(parameterName)))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -101,10 +107,11 @@ class OrderByClauseTest : ResolverDependentTest {
     @Test
     fun `should support order by with positional parameter in parent`() {
         val parameterValue = "asdf"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 ORDER BY `stringField` ASC",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT $1 ORDER BY `stringField` ASC",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SelectOrderByClause(someOrderExpression(), parentClause = someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -114,9 +121,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order by with type ASC`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * ORDER BY `stringField` ASC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * ORDER BY `stringField` ASC",
+            )
         val underTest = SelectOrderByClause(OrderExpression(someStringField(), ASC), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -128,14 +136,16 @@ class OrderByClauseTest : ResolverDependentTest {
     fun `should support order by with named parameter in parent with type ASC`() {
         val parameterValue = "asdf"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName ORDER BY `stringField` ASC",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
-        val underTest = SelectOrderByClause(
-            OrderExpression(someStringField(), ASC),
-            parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT \$$parameterName ORDER BY `stringField` ASC",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
+        val underTest =
+            SelectOrderByClause(
+                OrderExpression(someStringField(), ASC),
+                parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -145,14 +155,16 @@ class OrderByClauseTest : ResolverDependentTest {
     @Test
     fun `should support order by with positional parameter in parent with type ASC`() {
         val parameterValue = "asdf"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 ORDER BY `stringField` ASC",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
-        val underTest = SelectOrderByClause(
-            OrderExpression(someStringField(), ASC),
-            parentClause = someSelectClause(parameterValue.asParameter()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT $1 ORDER BY `stringField` ASC",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
+        val underTest =
+            SelectOrderByClause(
+                OrderExpression(someStringField(), ASC),
+                parentClause = someSelectClause(parameterValue.asParameter()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -161,9 +173,10 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support order by with type DESC`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * ORDER BY `stringField` DESC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * ORDER BY `stringField` DESC",
+            )
         val underTest = SelectOrderByClause(OrderExpression(someStringField(), DESC), parentClause = someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -175,14 +188,16 @@ class OrderByClauseTest : ResolverDependentTest {
     fun `should support order by with named parameter in parent with type DESC`() {
         val parameterValue = "asdf"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName ORDER BY `stringField` DESC",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
-        val underTest = SelectOrderByClause(
-            OrderExpression(someStringField(), DESC),
-            parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT \$$parameterName ORDER BY `stringField` DESC",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
+        val underTest =
+            SelectOrderByClause(
+                OrderExpression(someStringField(), DESC),
+                parentClause = someSelectClause(parameterValue.asParameter(parameterName)),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -192,14 +207,16 @@ class OrderByClauseTest : ResolverDependentTest {
     @Test
     fun `should support order by with positional parameter in parent with type DESC`() {
         val parameterValue = "asdf"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 ORDER BY `stringField` DESC",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
-        val underTest = SelectOrderByClause(
-            OrderExpression(someStringField(), DESC),
-            parentClause = someSelectClause(parameterValue.asParameter()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT $1 ORDER BY `stringField` DESC",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
+        val underTest =
+            SelectOrderByClause(
+                OrderExpression(someStringField(), DESC),
+                parentClause = someSelectClause(parameterValue.asParameter()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -208,17 +225,19 @@ class OrderByClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support multiple order by`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * ORDER BY `stringField` DESC, `numberField`, `booleanField` ASC",
-        )
-        val underTest = SelectOrderByClause(
-            OrderExpression(someStringField(), DESC),
-            listOf(
-                OrderExpression(someNumberField()),
-                OrderExpression(someBooleanField(), ASC),
-            ),
-            parentClause = someSelectClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * ORDER BY `stringField` DESC, `numberField`, `booleanField` ASC",
+            )
+        val underTest =
+            SelectOrderByClause(
+                OrderExpression(someStringField(), DESC),
+                listOf(
+                    OrderExpression(someNumberField()),
+                    OrderExpression(someBooleanField(), ASC),
+                ),
+                parentClause = someSelectClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -292,11 +311,12 @@ class OrderByClauseTest : ResolverDependentTest {
         val parentClause = someSelectClause()
         val orderType = ASC
         val orderType2 = DESC
-        val expected = SelectOrderByClause(
-            OrderExpression(stringField, orderType),
-            listOf(OrderExpression(numberField, orderType2)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(stringField, orderType),
+                listOf(OrderExpression(numberField, orderType2)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.orderBy(stringField, orderType).thenOrderBy(numberField, orderType2)
 

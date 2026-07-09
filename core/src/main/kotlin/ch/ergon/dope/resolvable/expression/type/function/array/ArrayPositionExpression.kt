@@ -12,8 +12,6 @@ data class ArrayPositionExpression<T : ValidType>(
     val value: TypeExpression<T>,
 ) : FunctionExpression<NumberType>(listOf(array, value))
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.position(value: TypeExpression<T>) =
-    ArrayPositionExpression(this, value)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.position(value: TypeExpression<T>) = ArrayPositionExpression(this, value)
 
-fun <T : ValidType> ISelectOffsetClause<T>.position(value: TypeExpression<T>) =
-    asExpression().position(value)
+fun <T : ValidType> ISelectOffsetClause<T>.position(value: TypeExpression<T>) = asExpression().position(value)

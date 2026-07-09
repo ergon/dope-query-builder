@@ -12,9 +12,10 @@ class ObjectConcatExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object concat expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_CONCAT(`field1`, `field2`, `field3`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_CONCAT(`field1`, `field2`, `field3`)",
+            )
         val underTest =
             ObjectConcatExpression(someObjectField("field1"), someObjectField("field2"), listOf(someObjectField("field3")))
 

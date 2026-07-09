@@ -15,9 +15,10 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_EXCEPT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT(`numberArrayField`, `numberArrayField`)",
+            )
         val underTest = ArrayExceptExpression(someNumberArrayField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_EXCEPT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT($1, `numberArrayField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT($1, `numberArrayField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_EXCEPT with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT(\$$parameterName, `numberArrayField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT(\$$parameterName, `numberArrayField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayExceptExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_EXCEPT with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_EXCEPT with named parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT(`numberArrayField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT(`numberArrayField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayExceptExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_EXCEPT with positional all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayExceptExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,14 +110,16 @@ class ArrayExceptExpressionTest : ResolverDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_EXCEPT(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
-        )
-        val underTest = ArrayExceptExpression(
-            parameterValueCollection.asParameter(parameterName),
-            parameterValue.asParameter(parameterName2),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_EXCEPT(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
+            )
+        val underTest =
+            ArrayExceptExpression(
+                parameterValueCollection.asParameter(parameterName),
+                parameterValue.asParameter(parameterName2),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

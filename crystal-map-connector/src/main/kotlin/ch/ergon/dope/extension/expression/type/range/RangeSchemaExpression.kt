@@ -42,14 +42,13 @@ data class FilterRangeSchemaExpression<S : Schema>(
     val iteratorName: String? = null,
     val condition: (ObjectField<S>) -> TypeExpression<BooleanType>,
 ) : TypeExpression<ArrayType<ObjectType>> {
-    fun <T : ValidType> map(
-        transformation: (ObjectField<S>) -> TypeExpression<T>,
-    ) = ArrayRangeSchemaExpression(
-        range,
-        iteratorName,
-        transformation,
-        condition,
-    )
+    fun <T : ValidType> map(transformation: (ObjectField<S>) -> TypeExpression<T>) =
+        ArrayRangeSchemaExpression(
+            range,
+            iteratorName,
+            transformation,
+            condition,
+        )
 }
 
 fun <S : Schema> CMObjectList<S>.filter(
@@ -67,19 +66,20 @@ data class ArrayRangeSchemaExpression<S : Schema, T : ValidType>(
     val objectTransformation: (ObjectField<S>) -> TypeExpression<T>,
     val objectCondition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : RangeSchemaExpression<S, T, ArrayType<T>>(
-    transformationType = ARRAY,
-    cmRange = range,
-    iteratorName = iteratorName,
-    cmWithAttributeKeys = null,
-    cmTransformation = objectTransformation,
-    cmCondition = objectCondition,
-) {
-    fun first() = FirstRangeSchemaExpression(
-        range = range,
+        transformationType = ARRAY,
+        cmRange = range,
         iteratorName = iteratorName,
+        cmWithAttributeKeys = null,
         cmTransformation = objectTransformation,
         cmCondition = objectCondition,
-    )
+    ) {
+    fun first() =
+        FirstRangeSchemaExpression(
+            range = range,
+            iteratorName = iteratorName,
+            cmTransformation = objectTransformation,
+            cmCondition = objectCondition,
+        )
 
     fun toObject(withAttributeKeys: (ObjectField<S>) -> TypeExpression<StringType>) =
         ObjectRangeSchemaExpression(
@@ -106,13 +106,13 @@ data class FirstRangeSchemaExpression<S : Schema, T : ValidType>(
     override val cmTransformation: (ObjectField<S>) -> TypeExpression<T>,
     override val cmCondition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : RangeSchemaExpression<S, T, T>(
-    transformationType = FIRST,
-    cmRange = range,
-    iteratorName = iteratorName,
-    cmWithAttributeKeys = null,
-    cmTransformation = cmTransformation,
-    cmCondition = cmCondition,
-)
+        transformationType = FIRST,
+        cmRange = range,
+        iteratorName = iteratorName,
+        cmWithAttributeKeys = null,
+        cmTransformation = cmTransformation,
+        cmCondition = cmCondition,
+    )
 
 data class ObjectRangeSchemaExpression<S : Schema, T : ValidType>(
     override val range: ObjectList<S>,
@@ -121,10 +121,10 @@ data class ObjectRangeSchemaExpression<S : Schema, T : ValidType>(
     override val cmTransformation: (ObjectField<S>) -> TypeExpression<T>,
     override val cmCondition: ((ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : RangeSchemaExpression<S, T, ObjectType>(
-    transformationType = OBJECT,
-    cmRange = range,
-    iteratorName = iteratorName,
-    cmWithAttributeKeys = cmWithAttributeKeys,
-    cmTransformation = cmTransformation,
-    cmCondition = cmCondition,
-)
+        transformationType = OBJECT,
+        cmRange = range,
+        iteratorName = iteratorName,
+        cmWithAttributeKeys = cmWithAttributeKeys,
+        cmTransformation = cmTransformation,
+        cmCondition = cmCondition,
+    )

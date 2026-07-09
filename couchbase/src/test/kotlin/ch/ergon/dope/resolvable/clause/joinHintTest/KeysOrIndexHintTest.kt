@@ -25,9 +25,10 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use single key hint`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "KEYS `stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "KEYS `stringField`",
+            )
         val underTest = KeysHint(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -37,9 +38,10 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use array keys hint`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "KEYS `stringArrayField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "KEYS `stringArrayField`",
+            )
         val underTest = KeysHint(someStringArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -101,12 +103,13 @@ class KeysOrIndexHintTest : ResolverDependentTest {
     fun `should support use array key hint extension multiple strings`() {
         val key1 = someString()
         val key2 = someString()
-        val expected = KeysHint(
-            listOf(
-                key1.toDopeType(),
-                key2.toDopeType(),
-            ).toDopeType(),
-        )
+        val expected =
+            KeysHint(
+                listOf(
+                    key1.toDopeType(),
+                    key2.toDopeType(),
+                ).toDopeType(),
+            )
 
         val actual = keysHint(key1, key2)
 
@@ -115,9 +118,10 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support empty use index hint`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "INDEX ()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INDEX ()",
+            )
         val underTest = IndexHint(listOf(IndexReference()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -127,9 +131,10 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use index hint`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "INDEX (`index`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INDEX (`index`)",
+            )
         val underTest = IndexHint(listOf(IndexReference("index")))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -139,9 +144,10 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use index using gsi`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "INDEX (`index` USING GSI)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INDEX (`index` USING GSI)",
+            )
         val underTest = IndexHint(listOf(IndexReference("index", USING_GSI)))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -151,9 +157,10 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use index using fts`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "INDEX (`index` USING FTS)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INDEX (`index` USING FTS)",
+            )
         val underTest = IndexHint(listOf(IndexReference("index", USING_FTS)))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -163,17 +170,19 @@ class KeysOrIndexHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use index multiple references`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "INDEX (`index`, `index2`, USING GSI, USING FTS)",
-        )
-        val underTest = IndexHint(
-            listOf(
-                IndexReference("index"),
-                IndexReference("index2"),
-                IndexReference(indexType = USING_GSI),
-                IndexReference(indexType = USING_FTS),
-            ),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INDEX (`index`, `index2`, USING GSI, USING FTS)",
+            )
+        val underTest =
+            IndexHint(
+                listOf(
+                    IndexReference("index"),
+                    IndexReference("index2"),
+                    IndexReference(indexType = USING_GSI),
+                    IndexReference(indexType = USING_FTS),
+                ),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

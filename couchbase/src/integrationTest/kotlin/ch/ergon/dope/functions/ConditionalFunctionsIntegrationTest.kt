@@ -24,20 +24,21 @@ import kotlin.test.assertEquals
 class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `decode the type field`() {
-        val dopeQuery = QueryBuilder
-            .select(
-                decode(
-                    typeField,
-                    "client".resultsIn(1),
-                    default = 0.toDopeType(),
-                ).alias("decoded"),
-            )
-            .from(
-                testBucket,
-            )
-            .where(
-                typeField.isEqualTo("client"),
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    decode(
+                        typeField,
+                        "client".resultsIn(1),
+                        default = 0.toDopeType(),
+                    ).alias("decoded"),
+                )
+                .from(
+                    testBucket,
+                )
+                .where(
+                    typeField.isEqualTo("client"),
+                ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -48,17 +49,18 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `return first non null, non missing value`() {
         val missingField = Field<StringType>("nonexistent", testBucket)
-        val dopeQuery = QueryBuilder
-            .select(
-                ifMissingOrNull(
-                    deliveryDateField,
-                    missingField,
-                    "value".toDopeType(),
-                ).alias("conditional"),
-            )
-            .from(
-                testBucket,
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    ifMissingOrNull(
+                        deliveryDateField,
+                        missingField,
+                        "value".toDopeType(),
+                    ).alias("conditional"),
+                )
+                .from(
+                    testBucket,
+                ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()
@@ -68,24 +70,25 @@ class ConditionalFunctionsIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `return null value logic substitute values`() {
-        val dopeQuery = QueryBuilder
-            .select(
-                nvl(
-                    deliveryDateField,
-                    "noDeliveryDate",
-                ).alias("nvl"),
-                nvl2(
-                    orderNumberField,
-                    "exists",
-                    "doesn't exist",
-                ).alias("nvl2"),
-            )
-            .from(
-                testBucket,
-            )
-            .where(
-                typeField.isEqualTo("order"),
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    nvl(
+                        deliveryDateField,
+                        "noDeliveryDate",
+                    ).alias("nvl"),
+                    nvl2(
+                        orderNumberField,
+                        "exists",
+                        "doesn't exist",
+                    ).alias("nvl2"),
+                )
+                .from(
+                    testBucket,
+                )
+                .where(
+                    typeField.isEqualTo("order"),
+                ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toMapValues()

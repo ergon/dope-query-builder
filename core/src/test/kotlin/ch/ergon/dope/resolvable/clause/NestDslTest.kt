@@ -21,8 +21,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class NestDslTest {
-    private fun parentClause(): ISelectFromClause<ObjectType> =
-        QueryBuilder.selectAsterisk().from(UnaliasedBucket("parent"))
+    private fun parentClause(): ISelectFromClause<ObjectType> = QueryBuilder.selectAsterisk().from(UnaliasedBucket("parent"))
 
     @Test
     fun `should support standard nest with condition`() {

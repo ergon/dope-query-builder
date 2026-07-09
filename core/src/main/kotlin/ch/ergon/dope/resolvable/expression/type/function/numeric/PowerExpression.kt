@@ -10,10 +10,22 @@ data class PowerExpression(
     val exponent: TypeExpression<NumberType>,
 ) : FunctionExpression<NumberType>(listOf(base, exponent))
 
-fun power(base: TypeExpression<NumberType>, exponent: TypeExpression<NumberType>) = PowerExpression(base, exponent)
+fun power(
+    base: TypeExpression<NumberType>,
+    exponent: TypeExpression<NumberType>,
+) = PowerExpression(base, exponent)
 
-fun power(base: TypeExpression<NumberType>, exponent: Number) = power(base, exponent.toDopeType())
+fun power(
+    base: TypeExpression<NumberType>,
+    exponent: Number,
+) = power(base, exponent.toDopeType())
 
-fun power(base: Number, exponent: TypeExpression<NumberType>) = power(base.toDopeType(), exponent)
+fun power(
+    base: Number,
+    exponent: TypeExpression<NumberType>,
+) = power(base.toDopeType(), exponent)
 
-fun power(base: Number, exponent: Number) = power(base.toDopeType(), exponent.toDopeType())
+fun power(
+    base: Number,
+    exponent: Number,
+) = power(base.toDopeType(), exponent.toDopeType())

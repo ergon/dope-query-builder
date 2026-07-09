@@ -48,9 +48,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ordering term`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField`",
+            )
         val underTest = OrderingTerm(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,9 +61,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ordering term with order type`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField` ASC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField` ASC",
+            )
         val underTest = OrderingTerm(someStringField(), OrderType.ASC)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,9 +74,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ordering term with nulls order`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField` NULLS LAST",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField` NULLS LAST",
+            )
         val underTest = OrderingTerm(someStringField(), nullsOrder = NULLS_LAST)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -84,9 +87,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ordering term with order type and nulls order`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField` ASC NULLS LAST",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField` ASC NULLS LAST",
+            )
         val underTest = OrderingTerm(someStringField(), OrderType.ASC, NULLS_LAST)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -97,10 +101,11 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ordering term with parameter and order type and nulls order`() {
         val value = someString()
-        val expected = CouchbaseDopeQuery(
-            "$1 ASC NULLS LAST",
-            DopeParameters(positionalParameters = listOf(value)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "$1 ASC NULLS LAST",
+                DopeParameters(positionalParameters = listOf(value)),
+            )
         val underTest = OrderingTerm(value.asParameter(), OrderType.ASC, NULLS_LAST)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -120,9 +125,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support OverClauseWindowDefinition`() {
-        val expected = CouchbaseDopeQuery(
-            "OVER ()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "OVER ()",
+            )
         val underTest = OverWindowDefinition(someWindowDefinition())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -132,9 +138,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support OverClauseWindowReference`() {
-        val expected = CouchbaseDopeQuery(
-            "OVER `someString`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "OVER `someString`",
+            )
         val underTest = OverWindowReference(someString())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -144,9 +151,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowDefinition`() {
-        val expected = CouchbaseDopeQuery(
-            "",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "",
+            )
         val underTest = WindowDefinition()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -156,9 +164,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowDefinition with window reference`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField`",
+            )
         val underTest = WindowDefinition(windowReferenceExpression = someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -168,9 +177,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowDefinition with window partition`() {
-        val expected = CouchbaseDopeQuery(
-            "PARTITION BY `numberField`, `stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "PARTITION BY `numberField`, `stringField`",
+            )
         val underTest = WindowDefinition(windowPartitionClause = listOf(someNumberField(), someStringField()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -180,9 +190,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowDefinition with ordering`() {
-        val expected = CouchbaseDopeQuery(
-            "ORDER BY `stringField` NULLS LAST, `stringField` DESC",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "ORDER BY `stringField` NULLS LAST, `stringField` DESC",
+            )
         val underTest =
             WindowDefinition(windowOrderClause = listOf(someOrderingTerm(nullsOrder = NULLS_LAST), someOrderingTerm(orderType = DESC)))
 
@@ -193,9 +204,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowDefinition with window frame`() {
-        val expected = CouchbaseDopeQuery(
-            "RANGE UNBOUNDED PRECEDING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RANGE UNBOUNDED PRECEDING",
+            )
         val underTest = WindowDefinition(windowFrameClause = someWindowFrameClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -205,15 +217,17 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowDefinition with all arguments`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField` PARTITION BY `numberField`, `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING",
-        )
-        val underTest = WindowDefinition(
-            someStringField(),
-            listOf(someNumberField(), someBooleanField()),
-            listOf(someOrderingTerm()),
-            someWindowFrameClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField` PARTITION BY `numberField`, `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING",
+            )
+        val underTest =
+            WindowDefinition(
+                someStringField(),
+                listOf(someNumberField(), someBooleanField()),
+                listOf(someOrderingTerm()),
+                someWindowFrameClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -222,9 +236,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowFrameClause`() {
-        val expected = CouchbaseDopeQuery(
-            "GROUPS UNBOUNDED PRECEDING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "GROUPS UNBOUNDED PRECEDING",
+            )
         val underTest = WindowFrameClause(WindowFrameType.GROUPS, someWindowFrameExtent())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -234,9 +249,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WindowFrameClause and exclusion`() {
-        val expected = CouchbaseDopeQuery(
-            "GROUPS UNBOUNDED PRECEDING EXCLUDE GROUP",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "GROUPS UNBOUNDED PRECEDING EXCLUDE GROUP",
+            )
         val underTest = WindowFrameClause(WindowFrameType.GROUPS, someWindowFrameExtent(), someWindowFrameExclusion())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -246,9 +262,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support UnboundedPreceding`() {
-        val expected = CouchbaseDopeQuery(
-            "UNBOUNDED PRECEDING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "UNBOUNDED PRECEDING",
+            )
         val underTest = UnboundedPreceding()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -267,9 +284,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support Preceding`() {
-        val expected = CouchbaseDopeQuery(
-            "`numberField` PRECEDING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`numberField` PRECEDING",
+            )
         val underTest = Preceding(someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -299,9 +317,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support CurrentRow`() {
-        val expected = CouchbaseDopeQuery(
-            "CURRENT ROW",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "CURRENT ROW",
+            )
         val underTest = CurrentRow()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -320,9 +339,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support between and`() {
-        val expected = CouchbaseDopeQuery(
-            "BETWEEN CURRENT ROW AND CURRENT ROW",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "BETWEEN CURRENT ROW AND CURRENT ROW",
+            )
         val underTest = Between(CurrentRow(), CurrentRow())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -342,9 +362,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support unbounded following`() {
-        val expected = CouchbaseDopeQuery(
-            "UNBOUNDED FOLLOWING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "UNBOUNDED FOLLOWING",
+            )
         val underTest = UnboundedFollowing()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -363,9 +384,10 @@ class WindowFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support following`() {
-        val expected = CouchbaseDopeQuery(
-            "`numberField` FOLLOWING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`numberField` FOLLOWING",
+            )
         val underTest = Following(someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)

@@ -26,9 +26,10 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_BINARY_SEARCH`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, `numberField`)",
+            )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -39,10 +40,11 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_BINARY_SEARCH with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -54,10 +56,11 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_BINARY_SEARCH with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayBinarySearchExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -68,10 +71,11 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_BINARY_SEARCH with positional parameter as value`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -83,10 +87,11 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_BINARY_SEARCH with named parameter as value`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH(`numberArrayField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayBinarySearchExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -98,10 +103,11 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_BINARY_SEARCH with positional all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayBinarySearchExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -115,14 +121,16 @@ class ArrayBinarySearchExpressionTest : ResolverDependentTest {
         val parameterValue = 1
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_BINARY_SEARCH(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
-        )
-        val underTest = ArrayBinarySearchExpression(
-            parameterValueCollection.asParameter(parameterName),
-            parameterValue.asParameter(parameterName2),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_BINARY_SEARCH(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
+            )
+        val underTest =
+            ArrayBinarySearchExpression(
+                parameterValueCollection.asParameter(parameterName),
+                parameterValue.asParameter(parameterName2),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

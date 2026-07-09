@@ -16,9 +16,10 @@ class MeanExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mean`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MEAN(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MEAN(`numberField`)",
+            )
         val underTest = MeanExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class MeanExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mean with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MEAN(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MEAN(ALL `numberField`)",
+            )
         val underTest = MeanExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class MeanExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mean with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MEAN(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MEAN(DISTINCT `numberField`)",
+            )
         val underTest = MeanExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

@@ -13,9 +13,10 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token like`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\")",
+            )
         val underTest = ContainsTokenLikeExpression(someStringField(), "%uk".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -25,14 +26,16 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token like with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\", {\"specials\": true})",
-        )
-        val underTest = ContainsTokenLikeExpression(
-            someStringField(),
-            "%uk".toDopeType(),
-            ContainsTokenOptions(includeSpecialCharacters = true),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\", {\"specials\": true})",
+            )
+        val underTest =
+            ContainsTokenLikeExpression(
+                someStringField(),
+                "%uk".toDopeType(),
+                ContainsTokenOptions(includeSpecialCharacters = true),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -41,15 +44,18 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token like with all options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\", " +
-                "{\"names\": false, \"case\": \"UPPER\", \"specials\": true, \"split\": false, \"trim\": true})",
-        )
-        val underTest = ContainsTokenLikeExpression(
-            someStringField(),
-            "%uk".toDopeType(),
-            ContainsTokenOptions(hasNames = false, case = TokenCase.UPPER, includeSpecialCharacters = true, split = false, trim = true),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString =
+                    "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\", " +
+                        "{\"names\": false, \"case\": \"UPPER\", \"specials\": true, \"split\": false, \"trim\": true})",
+            )
+        val underTest =
+            ContainsTokenLikeExpression(
+                someStringField(),
+                "%uk".toDopeType(),
+                ContainsTokenOptions(hasNames = false, case = TokenCase.UPPER, includeSpecialCharacters = true, split = false, trim = true),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -58,14 +64,16 @@ class ContainsTokenLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token like with empty options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\")",
-        )
-        val underTest = ContainsTokenLikeExpression(
-            someStringField(),
-            "%uk".toDopeType(),
-            ContainsTokenOptions(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONTAINS_TOKEN_LIKE(`stringField`, \"%uk\")",
+            )
+        val underTest =
+            ContainsTokenLikeExpression(
+                someStringField(),
+                "%uk".toDopeType(),
+                ContainsTokenOptions(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

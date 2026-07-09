@@ -36,13 +36,14 @@ class ObjectForRangeTest {
         val iteratorName = "it"
         val withAttributeKeys: (Iterator<NumberType>) -> TypeExpression<StringType> = { it.toStr() }
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
-        val expected = ObjectRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            withAttributeKeys,
-            transformation,
-        )
+        val expected =
+            ObjectRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                withAttributeKeys,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation).toObject(withAttributeKeys)
 
@@ -55,13 +56,14 @@ class ObjectForRangeTest {
         val iteratorName = "it"
         val withAttributeKeys: (Iterator<StringType>) -> TypeExpression<StringType> = { it.toStr() }
         val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.concat("test") }
-        val expected = ObjectRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            withAttributeKeys,
-            transformation,
-        )
+        val expected =
+            ObjectRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                withAttributeKeys,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation).toObject(withAttributeKeys)
 
@@ -74,13 +76,14 @@ class ObjectForRangeTest {
         val iteratorName = "it"
         val withAttributeKeys: (Iterator<BooleanType>) -> TypeExpression<StringType> = { it.toStr() }
         val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
-        val expected = ObjectRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            withAttributeKeys,
-            transformation,
-        )
+        val expected =
+            ObjectRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                withAttributeKeys,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation).toObject(withAttributeKeys)
 
@@ -94,14 +97,15 @@ class ObjectForRangeTest {
         val withAttributeKeys: (Iterator<NumberType>) -> TypeExpression<StringType> = { it.toStr() }
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
         val condition: (Iterator<NumberType>) -> TypeExpression<BooleanType> = { it.isEqualTo(1) }
-        val expected = ObjectRangeExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            iteratorName,
-            withAttributeKeys,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ObjectRangeExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                iteratorName,
+                withAttributeKeys,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation).toObject(withAttributeKeys)
 
@@ -115,19 +119,21 @@ class ObjectForRangeTest {
         val withAttributeKeys: (Iterator<StringType>) -> TypeExpression<StringType> = { it.toStr() }
         val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.repeat(1) }
         val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { it.contains("test") }
-        val expected = ObjectRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            withAttributeKeys,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ObjectRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                withAttributeKeys,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range
-            .filter(iteratorName, condition)
-            .map(transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .filter(iteratorName, condition)
+                .map(transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -139,19 +145,21 @@ class ObjectForRangeTest {
         val withAttributeKeys: (Iterator<BooleanType>) -> TypeExpression<StringType> = { it.toStr() }
         val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
         val condition: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it }
-        val expected = ObjectRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            withAttributeKeys,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ObjectRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                withAttributeKeys,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range
-            .filter(iteratorName, condition)
-            .map(transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .filter(iteratorName, condition)
+                .map(transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -165,18 +173,20 @@ class ObjectForRangeTest {
             { i, _ -> i.toStr() }
         val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
             { i, it -> it.add(i) }
-        val expected = ObjectRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            withAttributeKeys,
-            transformation,
-        )
+        val expected =
+            ObjectRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                withAttributeKeys,
+                transformation,
+            )
 
-        val actual = range
-            .mapIndexed(indexName, iteratorName, transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .mapIndexed(indexName, iteratorName, transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -190,18 +200,20 @@ class ObjectForRangeTest {
             { i, _ -> i.toStr() }
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
             { i, it -> it.concat(i.toStr()) }
-        val expected = ObjectRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            withAttributeKeys,
-            transformation,
-        )
+        val expected =
+            ObjectRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                withAttributeKeys,
+                transformation,
+            )
 
-        val actual = range
-            .mapIndexed(indexName, iteratorName, transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .mapIndexed(indexName, iteratorName, transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -215,18 +227,20 @@ class ObjectForRangeTest {
             { i, _ -> i.toStr() }
         val transformation: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
             { i, it -> it.and(i.toBool()) }
-        val expected = ObjectRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            withAttributeKeys,
-            transformation,
-        )
+        val expected =
+            ObjectRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                withAttributeKeys,
+                transformation,
+            )
 
-        val actual = range
-            .mapIndexed(indexName, iteratorName, transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .mapIndexed(indexName, iteratorName, transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -242,20 +256,22 @@ class ObjectForRangeTest {
             { i, it -> it.add(i) }
         val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
             { i, it -> it.isEqualTo(i) }
-        val expected = ObjectRangeIndexedExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            withAttributeKeys,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ObjectRangeIndexedExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                withAttributeKeys,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range
-            .filterIndexed(indexName, iteratorName, condition)
-            .map(transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .filterIndexed(indexName, iteratorName, condition)
+                .map(transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -271,20 +287,22 @@ class ObjectForRangeTest {
             { i, it -> it.repeat(i) }
         val condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType> =
             { i, it -> it.contains(i.toStr()) }
-        val expected = ObjectRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            withAttributeKeys,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ObjectRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                withAttributeKeys,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range
-            .filterIndexed(indexName, iteratorName, condition)
-            .map(transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .filterIndexed(indexName, iteratorName, condition)
+                .map(transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }
@@ -300,20 +318,22 @@ class ObjectForRangeTest {
             { i, it -> it.and(i.toBool()) }
         val condition: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
             { i, it -> it.or(i.toBool()) }
-        val expected = ObjectRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            withAttributeKeys,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ObjectRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                withAttributeKeys,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range
-            .filterIndexed(indexName, iteratorName, condition)
-            .map(transformation)
-            .toObject(withAttributeKeys)
+        val actual =
+            range
+                .filterIndexed(indexName, iteratorName, condition)
+                .map(transformation)
+                .toObject(withAttributeKeys)
 
         assertEquals(expected, actual)
     }

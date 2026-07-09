@@ -19,9 +19,10 @@ class RatioToReportTest : ResolverDependentTest {
 
     @Test
     fun `should support ratio to report with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "RATIO_TO_REPORT(`numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RATIO_TO_REPORT(`numberField`) OVER `ref`",
+            )
         val underTest = RatioToReportWithReference(someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,9 +32,10 @@ class RatioToReportTest : ResolverDependentTest {
 
     @Test
     fun `should support ratio to report with reference and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "RATIO_TO_REPORT(`numberField`) RESPECT NULLS OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RATIO_TO_REPORT(`numberField`) RESPECT NULLS OVER `ref`",
+            )
         val underTest = RatioToReportWithReference(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,13 +45,15 @@ class RatioToReportTest : ResolverDependentTest {
 
     @Test
     fun `should support ratio to report with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "RATIO_TO_REPORT(`numberField`) OVER (ORDER BY `stringField`)",
-        )
-        val underTest = RatioToReport(
-            someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RATIO_TO_REPORT(`numberField`) OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            RatioToReport(
+                someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -58,14 +62,16 @@ class RatioToReportTest : ResolverDependentTest {
 
     @Test
     fun `should support ratio to report with partition and order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "RATIO_TO_REPORT(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = RatioToReport(
-            someNumberField(),
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RATIO_TO_REPORT(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            RatioToReport(
+                someNumberField(),
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -74,14 +80,16 @@ class RatioToReportTest : ResolverDependentTest {
 
     @Test
     fun `should support ratio to report with frame clause`() {
-        val expected = CouchbaseDopeQuery(
-            "RATIO_TO_REPORT(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-        )
-        val underTest = RatioToReport(
-            someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-            windowFrameClause = someWindowFrameClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RATIO_TO_REPORT(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            )
+        val underTest =
+            RatioToReport(
+                someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+                windowFrameClause = someWindowFrameClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

@@ -21,8 +21,10 @@ import ch.ergon.dope.validtype.ValidType
 interface IDeleteReturningClause : Clause
 
 interface IDeleteOffsetClause : IDeleteReturningClause {
-    fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
-        DeleteReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
+    fun returning(
+        returningExpression: Returnable,
+        vararg additionalReturningExpressions: Returnable,
+    ) = DeleteReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
     fun returningAsterisk(bucket: Bucket? = null) = DeleteReturningClause(asterisk(bucket), parentClause = this)
 
@@ -38,11 +40,13 @@ interface IDeleteOffsetClause : IDeleteReturningClause {
 
 interface IDeleteLimitClause : IDeleteOffsetClause {
     fun offset(numberExpression: TypeExpression<NumberType>) = DeleteOffsetClause(numberExpression, this)
+
     fun offset(number: Number) = offset(number.toDopeType())
 }
 
 interface IDeleteWhereClause : IDeleteLimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>) = DeleteLimitClause(numberExpression, this)
+
     fun limit(number: Number) = limit(number.toDopeType())
 }
 

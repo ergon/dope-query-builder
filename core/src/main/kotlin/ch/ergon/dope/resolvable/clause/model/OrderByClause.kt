@@ -23,8 +23,10 @@ data class SelectOrderByClause<T : ValidType>(
             parentClause = this.parentClause,
         )
 
-    fun thenOrderBy(typeExpression: TypeExpression<out ValidType>, orderByType: OrderType? = null) =
-        thenOrderBy(OrderExpression(typeExpression, orderByType))
+    fun thenOrderBy(
+        typeExpression: TypeExpression<out ValidType>,
+        orderByType: OrderType? = null,
+    ) = thenOrderBy(OrderExpression(typeExpression, orderByType))
 }
 
 data class OrderExpression(

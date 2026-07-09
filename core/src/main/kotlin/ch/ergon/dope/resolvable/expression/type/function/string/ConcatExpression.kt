@@ -10,8 +10,8 @@ data class ConcatExpression<T : StringType>(
     val secondString: TypeExpression<T>,
     val stringTypes: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
-    listOf(firstString, secondString, *stringTypes.toTypedArray()),
-)
+        listOf(firstString, secondString, *stringTypes.toTypedArray()),
+    )
 
 fun TypeExpression<StringType>.concat(
     secondString: TypeExpression<StringType>,
@@ -45,9 +45,7 @@ fun String.concat(
     vararg strings: TypeExpression<StringType>,
 ) = toDopeType().concat(secondString.toDopeType(), *strings)
 
-fun String.concat(
-    secondString: String,
-) = toDopeType().concat(secondString.toDopeType())
+fun String.concat(secondString: String) = toDopeType().concat(secondString.toDopeType())
 
 fun String.concat(
     secondString: TypeExpression<StringType>,

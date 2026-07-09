@@ -16,6 +16,7 @@ interface Bucket : Fromable, Joinable, Nestable, Deletable, Updatable, SingleExp
 
 data class BucketScope(val name: String, val collection: ScopeCollection? = null) {
     fun withCollection(collectionName: String) = copy(collection = ScopeCollection(collectionName))
+
     fun withCollection(collection: ScopeCollection) = copy(collection = collection)
 }
 
@@ -30,8 +31,11 @@ data class UnaliasedBucket(
     fun withScope(scopeName: String) = copy(scope = BucketScope(scopeName))
 
     fun withScope(scope: BucketScope) = copy(scope = scope)
-    fun withScopeAndCollection(scopeName: String, collectionName: String) =
-        copy(scope = BucketScope(scopeName, ScopeCollection(collectionName)))
+
+    fun withScopeAndCollection(
+        scopeName: String,
+        collectionName: String,
+    ) = copy(scope = BucketScope(scopeName, ScopeCollection(collectionName)))
 }
 
 open class AliasedBucket(

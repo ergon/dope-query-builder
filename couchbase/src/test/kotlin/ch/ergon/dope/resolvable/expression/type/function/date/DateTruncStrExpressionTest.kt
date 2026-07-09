@@ -19,13 +19,15 @@ class DateTruncStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_TRUNC_STR with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_TRUNC_STR(`stringField`, \"MONTH\")",
-        )
-        val underTest = DateTruncStrExpression(
-            someStringField(),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_TRUNC_STR(`stringField`, \"MONTH\")",
+            )
+        val underTest =
+            DateTruncStrExpression(
+                someStringField(),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -35,14 +37,16 @@ class DateTruncStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_TRUNC_STR with positional parameter date`() {
         val dateVal = "2021-12-31T23:59:59Z"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_TRUNC_STR($1, \"YEAR\")",
-            DopeParameters(positionalParameters = listOf(dateVal)),
-        )
-        val underTest = DateTruncStrExpression(
-            dateVal.asParameter(),
-            YEAR,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_TRUNC_STR($1, \"YEAR\")",
+                DopeParameters(positionalParameters = listOf(dateVal)),
+            )
+        val underTest =
+            DateTruncStrExpression(
+                dateVal.asParameter(),
+                YEAR,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -53,14 +57,16 @@ class DateTruncStrExpressionTest : ResolverDependentTest {
     fun `should support DATE_TRUNC_STR with named parameter date`() {
         val dateVal = "2022-01-01T00:00:00Z"
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_TRUNC_STR($$name, \"WEEK\")",
-            DopeParameters(namedParameters = mapOf(name to dateVal)),
-        )
-        val underTest = DateTruncStrExpression(
-            dateVal.asParameter(name),
-            WEEK,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_TRUNC_STR($$name, \"WEEK\")",
+                DopeParameters(namedParameters = mapOf(name to dateVal)),
+            )
+        val underTest =
+            DateTruncStrExpression(
+                dateVal.asParameter(name),
+                WEEK,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

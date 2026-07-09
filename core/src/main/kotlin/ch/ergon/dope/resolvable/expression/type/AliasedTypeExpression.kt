@@ -12,8 +12,7 @@ data class AliasedTypeExpression<T : ValidType>(
     val alias: String,
 ) : SingleExpression<T>
 
-fun <T : ValidType> TypeExpression<T>.alias(alias: String): AliasedTypeExpression<T> =
-    AliasedTypeExpression(this, alias)
+fun <T : ValidType> TypeExpression<T>.alias(alias: String): AliasedTypeExpression<T> = AliasedTypeExpression(this, alias)
 
 fun Number.alias(alias: String): AliasedTypeExpression<NumberType> = toDopeType().alias(alias)
 

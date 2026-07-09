@@ -21,31 +21,35 @@ abstract class BaseIntegrationTest {
     fun queryWithNamedParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
-            queryParameters = QueryParameters.named {
-                dopeQuery.parameters.namedParameters.map {
-                    param(it.key, it.value)
-                }
-            },
+            queryParameters =
+                QueryParameters.named {
+                    dopeQuery.parameters.namedParameters.map {
+                        param(it.key, it.value)
+                    }
+                },
         )
 
     fun queryWithPositionalParameters(dopeQuery: CouchbaseDopeQuery) =
         queryExecution(
             queryString = dopeQuery.queryString,
-            queryParameters = QueryParameters.positional {
-                dopeQuery.parameters.positionalParameters.map {
-                    param(it)
-                }
-            },
+            queryParameters =
+                QueryParameters.positional {
+                    dopeQuery.parameters.positionalParameters.map {
+                        param(it)
+                    }
+                },
         )
 
-    private fun queryExecution(queryString: String, queryParameters: QueryParameters = QueryParameters.None) =
-        runBlocking {
-            cluster.waitUntilReady(CLUSTER_TIMEOUT).query(
-                statement = queryString,
-                parameters = queryParameters,
-                consistency = QueryScanConsistency.requestPlus(SCAN_CONSISTENCY_TIMEOUT),
-            ).execute()
-        }
+    private fun queryExecution(
+        queryString: String,
+        queryParameters: QueryParameters = QueryParameters.None,
+    ) = runBlocking {
+        cluster.waitUntilReady(CLUSTER_TIMEOUT).query(
+            statement = queryString,
+            parameters = queryParameters,
+            consistency = QueryScanConsistency.requestPlus(SCAN_CONSISTENCY_TIMEOUT),
+        ).execute()
+    }
 }
 
 fun <T> tryUntil(assertion: () -> T): T {

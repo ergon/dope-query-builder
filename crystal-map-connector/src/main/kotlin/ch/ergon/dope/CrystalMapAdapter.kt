@@ -122,11 +122,13 @@ fun CMObjectField<Schema>.alias(alias: String) = toDopeType().alias(alias)
 
 fun CMObjectList<Schema>.alias(alias: String) = toDopeType().alias(alias)
 
-private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConvertable(jsonType: JsonType?, jsonTypeClass: KClass<JsonType>) =
-    requireNotNull(jsonType) {
-        "Conversion failed: " +
-            "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
-    }
+private fun <Convertable : Any, JsonType : Any> Convertable.requireValidConvertable(
+    jsonType: JsonType?,
+    jsonTypeClass: KClass<JsonType>,
+) = requireNotNull(jsonType) {
+    "Conversion failed: " +
+        "The value of type '${this::class.simpleName}' couldn't be converted to the expected JSON type '${jsonTypeClass.simpleName}'. "
+}
 
 private fun bucketFrom(path: String?): UnaliasedBucket? {
     if (path.isNullOrBlank()) return null

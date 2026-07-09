@@ -9,8 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class RepeatExpression(val inStr: TypeExpression<StringType>, val repetitions: TypeExpression<NumberType>) :
     FunctionExpression<StringType>(listOf(inStr, repetitions))
 
-fun TypeExpression<StringType>.repeat(repetitions: TypeExpression<NumberType>) =
-    RepeatExpression(this, repetitions)
+fun TypeExpression<StringType>.repeat(repetitions: TypeExpression<NumberType>) = RepeatExpression(this, repetitions)
 
 fun TypeExpression<StringType>.repeat(repetitions: Number) = repeat(repetitions.toDopeType())
 

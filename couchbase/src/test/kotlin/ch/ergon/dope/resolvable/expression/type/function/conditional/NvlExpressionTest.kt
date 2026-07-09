@@ -20,9 +20,10 @@ class NvlExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support nvl`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL(`stringField`, `stringField`)",
+            )
         val underTest = NvlExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -33,10 +34,11 @@ class NvlExpressionTest : ResolverDependentTest {
     @Test
     fun `should support nvl with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NvlExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,10 +50,11 @@ class NvlExpressionTest : ResolverDependentTest {
     fun `should support nvl with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL(\$$parameterName, `stringField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL(\$$parameterName, `stringField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NvlExpression(parameterValue.asParameter(parameterName), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -62,10 +65,11 @@ class NvlExpressionTest : ResolverDependentTest {
     @Test
     fun `should support nvl with positional second parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL(`stringField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL(`stringField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NvlExpression(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -77,10 +81,11 @@ class NvlExpressionTest : ResolverDependentTest {
     fun `should support nvl with named second parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL(`stringField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL(`stringField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NvlExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,10 +97,11 @@ class NvlExpressionTest : ResolverDependentTest {
     fun `should support nvl with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = NvlExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -109,14 +115,16 @@ class NvlExpressionTest : ResolverDependentTest {
         val parameterValue2 = someString()
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NVL(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = NvlExpression(
-            parameterValue.asParameter(parameterName),
-            parameterValue2.asParameter(parameterName2),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NVL(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            NvlExpression(
+                parameterValue.asParameter(parameterName),
+                parameterValue2.asParameter(parameterName2),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

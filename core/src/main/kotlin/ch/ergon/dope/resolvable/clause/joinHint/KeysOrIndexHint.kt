@@ -14,17 +14,16 @@ import ch.ergon.dope.validtype.ValidType
 
 sealed interface KeysOrIndexHint : Resolvable
 
+@Suppress("ktlint:standard:function-naming")
 data class KeysHintClass private constructor(
     val keys: TypeExpression<out ValidType>,
 ) : KeysOrIndexHint {
     companion object {
         @JvmName("singleKeyHintConstructor")
-        fun KeysHint(key: TypeExpression<StringType>) =
-            KeysHintClass(key)
+        fun KeysHint(key: TypeExpression<StringType>) = KeysHintClass(key)
 
         @JvmName("multipleKeysHintConstructor")
-        fun KeysHint(keys: TypeExpression<ArrayType<StringType>>) =
-            KeysHintClass(keys)
+        fun KeysHint(keys: TypeExpression<ArrayType<StringType>>) = KeysHintClass(keys)
     }
 }
 
@@ -39,8 +38,10 @@ fun keysHint(keys: ISelectOffsetClause<StringType>) = KeysHint(keys.asExpression
 
 fun keysHint(keys: Collection<TypeExpression<StringType>>) = keysHint(keys.toDopeType())
 
-fun keysHint(key: String, vararg additionalKeys: String) =
-    keysHint(listOf(key.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())
+fun keysHint(
+    key: String,
+    vararg additionalKeys: String,
+) = keysHint(listOf(key.toDopeType(), *additionalKeys.map { it.toDopeType() }.toTypedArray()).toDopeType())
 
 data class IndexHint(
     val indexReferences: List<IndexReference> = emptyList(),
@@ -48,11 +49,9 @@ data class IndexHint(
 
 fun IndexHint.indexHint(indexName: String) = IndexHint(indexReferences + IndexReference(indexName))
 
-fun IndexHint.gsiIndexHint(indexName: String? = null) =
-    IndexHint(indexReferences + IndexReference(indexName, USING_GSI))
+fun IndexHint.gsiIndexHint(indexName: String? = null) = IndexHint(indexReferences + IndexReference(indexName, USING_GSI))
 
-fun IndexHint.ftsIndexHint(indexName: String? = null) =
-    IndexHint(indexReferences + IndexReference(indexName, USING_FTS))
+fun IndexHint.ftsIndexHint(indexName: String? = null) = IndexHint(indexReferences + IndexReference(indexName, USING_FTS))
 
 fun indexHint(indexName: String? = null) = IndexHint(listOf(IndexReference(indexName)))
 

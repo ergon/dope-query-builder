@@ -31,19 +31,20 @@ class ObjectFunctionsIntegrationTest : BaseIntegrationTest() {
     fun `use nested object functions`() {
         val testBucket = UnaliasedBucket(BUCKET).withScope(BucketScope("_default", ScopeCollection("_default")))
         val detailsField = Field<ObjectType>(detailsField.name, testBucket)
-        val dopeQuery = QueryBuilder
-            .selectRaw(
-                detailsField.concat(mapOf("someField" to 4).toDopeType()).addAttribute("otherField", TRUE).removeAttribute("department")
-                    .alias("result"),
-            )
-            .from(testBucket)
-            .where(
-                detailsField.getLength().isGreaterThan(2)
-                    .and(mapOf("name" to "email", "val" to "employee1@company.com").toDopeType().inArray(detailsField.getInnerPairs())),
-            ).orderBy(
-                meta().id,
-            )
-            .build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .selectRaw(
+                    detailsField.concat(mapOf("someField" to 4).toDopeType()).addAttribute("otherField", TRUE).removeAttribute("department")
+                        .alias("result"),
+                )
+                .from(testBucket)
+                .where(
+                    detailsField.getLength().isGreaterThan(2)
+                        .and(mapOf("name" to "email", "val" to "employee1@company.com").toDopeType().inArray(detailsField.getInnerPairs())),
+                ).orderBy(
+                    meta().id,
+                )
+                .build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

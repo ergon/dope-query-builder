@@ -8,8 +8,7 @@ import ch.ergon.dope.validtype.StringType
 data class RtrimExpression(val inStr: TypeExpression<StringType>, val char: TypeExpression<StringType>? = null) :
     FunctionExpression<StringType>(listOf(inStr, char))
 
-fun TypeExpression<StringType>.rtrim(char: TypeExpression<StringType>? = null) =
-    RtrimExpression(this, char)
+fun TypeExpression<StringType>.rtrim(char: TypeExpression<StringType>? = null) = RtrimExpression(this, char)
 
 fun TypeExpression<StringType>.rtrim(char: String) = rtrim(char.toDopeType())
 

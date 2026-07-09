@@ -59,11 +59,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(numberField.toDopeType().toNewValue(numberValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(numberField.toDopeType().toNewValue(numberValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
@@ -89,11 +90,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
-            listOf(stringField.toDopeType().toNewValue(stringValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+                listOf(stringField.toDopeType().toNewValue(stringValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
@@ -119,11 +121,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(booleanField.toDopeType().toNewValue(booleanValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(booleanField.toDopeType().toNewValue(booleanValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
@@ -149,11 +152,12 @@ class UpdateClauseTest {
         val stringField = someCMStringList()
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(numberField.toDopeType().toNewValue(numberValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(numberField.toDopeType().toNewValue(numberValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
@@ -179,11 +183,12 @@ class UpdateClauseTest {
         val stringField = someCMStringList()
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
-            listOf(stringField.toDopeType().toNewValue(stringValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+                listOf(stringField.toDopeType().toNewValue(stringValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
@@ -209,11 +214,12 @@ class UpdateClauseTest {
         val stringField = someCMStringList()
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(booleanField.toDopeType().toNewValue(booleanValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(booleanField.toDopeType().toNewValue(booleanValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
@@ -251,11 +257,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(numberField.toDopeType().toNewValue(numberValue)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(numberField.toDopeType().toNewValue(numberValue)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
@@ -281,11 +288,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someString().toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
-            listOf(stringField.toDopeType().toNewValue(stringValue)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+                listOf(stringField.toDopeType().toNewValue(stringValue)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
@@ -311,11 +319,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(booleanField.toDopeType().toNewValue(booleanValue)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(booleanField.toDopeType().toNewValue(booleanValue)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
@@ -341,11 +350,12 @@ class UpdateClauseTest {
         val stringField = someCMStringList()
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(numberField.toDopeType().toNewValue(numberValue)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(numberField.toDopeType().toNewValue(numberValue)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
@@ -371,11 +381,12 @@ class UpdateClauseTest {
         val stringField = someCMStringList()
         val stringValue = listOf(someString().toDopeType(), someString().toDopeType()).toDopeType()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
-            listOf(stringField.toDopeType().toNewValue(stringValue)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+                listOf(stringField.toDopeType().toNewValue(stringValue)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
@@ -401,11 +412,12 @@ class UpdateClauseTest {
         val stringField = someCMStringList()
         val stringValue = someCMStringList()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(booleanField.toDopeType().toNewValue(booleanValue)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(booleanField.toDopeType().toNewValue(booleanValue)),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
@@ -431,11 +443,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(numberField.toDopeType().toNewValue(numberValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(numberField.toDopeType().toNewValue(numberValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue))
 
@@ -447,10 +460,11 @@ class UpdateClauseTest {
         val field = someCMConverterNumberField()
         val value = someDate()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            field.toDopeType().toNewValue(value.toInstant().toEpochMilli().toDopeType()),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                field.toDopeType().toNewValue(value.toInstant().toEpochMilli().toDopeType()),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(field.toNewValue(value))
 
@@ -464,11 +478,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().toEpochMilli().toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().toEpochMilli().toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), dateField.toNewValue(dateValue))
 
@@ -494,11 +509,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someString()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            numberField.toDopeType().toNewValue(numberValue.toDopeType()),
-            listOf(stringField.toDopeType().toNewValue(stringValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                numberField.toDopeType().toNewValue(numberValue.toDopeType()),
+                listOf(stringField.toDopeType().toNewValue(stringValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(numberField.toNewValue(numberValue), stringField.toNewValue(stringValue))
 
@@ -510,10 +526,11 @@ class UpdateClauseTest {
         val field = someCMConverterStringField()
         val value = someDate()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            field.toDopeType().toNewValue(value.toInstant().toEpochMilli().toString().toDopeType()),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                field.toDopeType().toNewValue(value.toInstant().toEpochMilli().toString().toDopeType()),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(field.toNewValue(value))
 
@@ -527,11 +544,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().toEpochMilli().toString().toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(dateField.toDopeType().toNewValue(dateValue.toInstant().toEpochMilli().toString().toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), dateField.toNewValue(dateValue))
 
@@ -557,11 +575,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(booleanField.toDopeType().toNewValue(booleanValue.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(booleanField.toDopeType().toNewValue(booleanValue.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), booleanField.toNewValue(booleanValue))
 
@@ -587,11 +606,12 @@ class UpdateClauseTest {
         val stringField = someCMStringField()
         val stringValue = someCMStringField()
         val parentClause = someUpdate()
-        val expected = SetClause(
-            stringField.toDopeType().toNewValue(stringValue.toDopeType()),
-            listOf(dateField.toDopeType().toNewValue(true.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toDopeType().toNewValue(stringValue.toDopeType()),
+                listOf(dateField.toDopeType().toNewValue(true.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.set(stringField.toNewValue(stringValue), dateField.toNewValue(dateValue))
 
@@ -615,14 +635,15 @@ class UpdateClauseTest {
         val numberField = someCMNumberField()
         val booleanField = someCMBooleanField()
         val parentClause = someUpdate()
-        val expected = UnsetClause(
-            numberField.toDopeType(),
-            listOf(
-                booleanField.toDopeType(),
-                stringField.toDopeType(),
-            ),
-            parentClause = parentClause,
-        )
+        val expected =
+            UnsetClause(
+                numberField.toDopeType(),
+                listOf(
+                    booleanField.toDopeType(),
+                    stringField.toDopeType(),
+                ),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.unset(numberField, booleanField, stringField)
 
@@ -703,15 +724,16 @@ class UpdateClauseTest {
         val field2 = someCMNumberList()
         val field3 = someCMStringField()
         val parentClause = someUpdate()
-        val expected = UpdateReturningClause(
-            field1.toDopeType(),
-            listOf(
-                field2.toDopeType(),
-                asterisk(),
-                field3.toDopeType(),
-            ),
-            parentClause = parentClause,
-        )
+        val expected =
+            UpdateReturningClause(
+                field1.toDopeType(),
+                listOf(
+                    field2.toDopeType(),
+                    asterisk(),
+                    field3.toDopeType(),
+                ),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), asterisk(), field3.toDopeType())
 

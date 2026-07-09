@@ -12,9 +12,10 @@ class IsNotNullExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support is not null`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` IS NOT NULL",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` IS NOT NULL",
+            )
         val underTest = IsNotNullExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)

@@ -31,16 +31,17 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use number array functions arithmetically`() {
         val array = listOf(1.toDopeType(), 2.toDopeType(), 3.toDopeType()).toDopeType()
-        val dopeQuery = QueryBuilder
-            .select(
-                array.count().add(array.length()).sub(array.average()),
-            )
-            .where(
-                array.contains(array.min()).and(arrayRange(1, 4).isEqualTo(array)),
-            )
-            .limit(
-                array.get(0),
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    array.count().add(array.length()).sub(array.average()),
+                )
+                .where(
+                    array.contains(array.min()).and(arrayRange(1, 4).isEqualTo(array)),
+                )
+                .limit(
+                    array.get(0),
+                ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()
@@ -51,28 +52,29 @@ class ArrayFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `use nested array functions`() {
         val keys = listOf("employee:1".toDopeType(), "employee:2".toDopeType(), "employee:3".toDopeType()).toDopeType()
-        val dopeQuery = QueryBuilder
-            .selectRaw(
-                meta().id,
-            )
-            .from(
-                testBucket.useKeys(
-                    keys.append(
-                        "employee:5",
-                    ).put(
-                        "employee:1",
-                        "employee:4",
-                    ).sort(),
-                ),
-            )
-            .where(
-                arrayRange(1, 11).count().isEqualTo(
-                    arrayRepeat("value".toDopeType(), 10).length(),
-                ),
-            ).orderBy(
-                meta().id,
-            )
-            .build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .selectRaw(
+                    meta().id,
+                )
+                .from(
+                    testBucket.useKeys(
+                        keys.append(
+                            "employee:5",
+                        ).put(
+                            "employee:1",
+                            "employee:4",
+                        ).sort(),
+                    ),
+                )
+                .where(
+                    arrayRange(1, 11).count().isEqualTo(
+                        arrayRepeat("value".toDopeType(), 10).length(),
+                    ),
+                ).orderBy(
+                    meta().id,
+                )
+                .build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
 

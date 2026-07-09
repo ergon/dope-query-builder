@@ -34,12 +34,13 @@ class ArrayRangeTest {
     fun `should support array range transformation with cm number list without iterator name`() {
         val range = someCMNumberList()
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
-        val expected = ArrayRangeExpression(
-            IN,
-            range.toDopeType(),
-            null,
-            transformation,
-        )
+        val expected =
+            ArrayRangeExpression(
+                IN,
+                range.toDopeType(),
+                null,
+                transformation,
+            )
 
         val actual = range.map(transformation = transformation)
 
@@ -51,12 +52,13 @@ class ArrayRangeTest {
         val range = someCMNumberList()
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
-        val expected = ArrayRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation)
 
@@ -68,12 +70,13 @@ class ArrayRangeTest {
         val range = someCMStringList()
         val iteratorName = "it"
         val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.concat("test") }
-        val expected = ArrayRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation)
 
@@ -85,12 +88,13 @@ class ArrayRangeTest {
         val range = someCMBooleanList()
         val iteratorName = "it"
         val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
-        val expected = ArrayRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation)
 
@@ -103,13 +107,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
         val condition: (Iterator<NumberType>) -> TypeExpression<BooleanType> = { it.isEqualTo(1) }
-        val expected = ArrayRangeExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation)
 
@@ -122,13 +127,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.repeat(1) }
         val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { it.contains("test") }
-        val expected = ArrayRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation)
 
@@ -141,13 +147,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
         val condition: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it }
-        val expected = ArrayRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation)
 
@@ -161,13 +168,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
             { i, it -> it.add(i) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName, iteratorName, transformation)
 
@@ -179,13 +187,14 @@ class ArrayRangeTest {
         val range = someCMNumberList()
         val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
             { i, it -> it.add(i) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            null,
-            null,
-            transformation,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                null,
+                null,
+                transformation,
+            )
 
         val actual = range.mapIndexed(transformation = transformation)
 
@@ -198,13 +207,14 @@ class ArrayRangeTest {
         val indexName = "i"
         val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
             { i, it -> it.add(i) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            null,
-            transformation,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                null,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName = indexName, transformation = transformation)
 
@@ -217,13 +227,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
             { i, it -> it.add(i) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            null,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                null,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(iteratorName = iteratorName, transformation = transformation)
 
@@ -237,13 +248,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
             { i, it -> i.toStr().concat(it) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName, iteratorName, transformation)
 
@@ -257,13 +269,14 @@ class ArrayRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
             { i, it -> it.and(i.toBool()) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName, iteratorName, transformation)
 
@@ -279,20 +292,22 @@ class ArrayRangeTest {
             { i, it -> it.add(i) }
         val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
             { i, it -> it.isEqualTo(i) }
-        val expected = ArrayRangeIndexedExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-            condition,
-        ).map(transformation)
+        val actual =
+            range.filterIndexed(
+                indexName,
+                iteratorName,
+                condition,
+            ).map(transformation)
 
         assertEquals(expected, actual)
     }
@@ -304,14 +319,15 @@ class ArrayRangeTest {
             { i, it -> it.add(i) }
         val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
             { i, it -> it.isEqualTo(i) }
-        val expected = ArrayRangeIndexedExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            null,
-            null,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                null,
+                null,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filterIndexed(condition = condition).map(transformation)
 
@@ -326,14 +342,15 @@ class ArrayRangeTest {
             { i, it -> it.add(i) }
         val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
             { i, it -> it.isEqualTo(i) }
-        val expected = ArrayRangeIndexedExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            indexName,
-            null,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                indexName,
+                null,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filterIndexed(indexName = indexName, condition = condition).map(transformation)
 
@@ -348,14 +365,15 @@ class ArrayRangeTest {
             { i, it -> it.add(i) }
         val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
             { i, it -> it.isEqualTo(i) }
-        val expected = ArrayRangeIndexedExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            null,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                null,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filterIndexed(iteratorName = iteratorName, condition = condition).map(transformation)
 
@@ -371,20 +389,22 @@ class ArrayRangeTest {
             { i, it -> it.repeat(i) }
         val condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType> =
             { i, it -> i.toStr().contains(it) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-            condition,
-        ).map(transformation)
+        val actual =
+            range.filterIndexed(
+                indexName,
+                iteratorName,
+                condition,
+            ).map(transformation)
 
         assertEquals(expected, actual)
     }
@@ -398,20 +418,22 @@ class ArrayRangeTest {
             { i, it -> it.and(i.toBool()) }
         val condition: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
             { i, it -> it.or(i.toBool()) }
-        val expected = ArrayRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            ArrayRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-            condition,
-        ).map(transformation)
+        val actual =
+            range.filterIndexed(
+                indexName,
+                iteratorName,
+                condition,
+            ).map(transformation)
 
         assertEquals(expected, actual)
     }

@@ -13,14 +13,10 @@ data class ArrayFlattenExpression<T : ValidType>(
     val depth: TypeExpression<NumberType>,
 ) : FunctionExpression<ArrayType<T>>(listOf(array, depth))
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.flatten(depth: TypeExpression<NumberType>) =
-    ArrayFlattenExpression(this, depth)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.flatten(depth: TypeExpression<NumberType>) = ArrayFlattenExpression(this, depth)
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.flatten(depth: Number) =
-    flatten(depth.toDopeType())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.flatten(depth: Number) = flatten(depth.toDopeType())
 
-fun <T : ValidType> ISelectOffsetClause<T>.flatten(depth: TypeExpression<NumberType>) =
-    asExpression().flatten(depth)
+fun <T : ValidType> ISelectOffsetClause<T>.flatten(depth: TypeExpression<NumberType>) = asExpression().flatten(depth)
 
-fun <T : ValidType> ISelectOffsetClause<T>.flatten(depth: Number) =
-    asExpression().flatten(depth)
+fun <T : ValidType> ISelectOffsetClause<T>.flatten(depth: Number) = asExpression().flatten(depth)

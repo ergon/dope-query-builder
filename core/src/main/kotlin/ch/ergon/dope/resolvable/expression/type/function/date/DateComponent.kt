@@ -4,6 +4,7 @@ import ch.ergon.dope.resolvable.expression.type.TypeExpression
 import ch.ergon.dope.validtype.StringType
 
 sealed interface DateComponent : TypeExpression<StringType>
+
 sealed interface DateUnit : DateComponent
 
 enum class DateUnitType : DateUnit {
@@ -19,7 +20,6 @@ enum class DateUnitType : DateUnit {
     MINUTE,
     SECOND,
     MILLISECOND,
-    ;
 }
 
 enum class DateComponentType : DateComponent {
@@ -30,5 +30,4 @@ enum class DateComponentType : DateComponent {
     TIMEZONE,
     TIMEZONE_HOUR,
     TIMEZONE_MINUTE,
-    ;
 }

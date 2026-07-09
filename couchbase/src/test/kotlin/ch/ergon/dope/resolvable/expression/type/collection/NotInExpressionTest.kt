@@ -27,9 +27,10 @@ class NotInExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support NOT IN expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` NOT IN `numberArrayField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` NOT IN `numberArrayField`",
+            )
         val underTest = NotInExpression(someNumberField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -41,10 +42,11 @@ class NotInExpressionTest : ResolverDependentTest {
     fun `should support NOT IN expression with named parameter as value`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName NOT IN `numberArrayField`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName NOT IN `numberArrayField`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NotInExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -55,10 +57,11 @@ class NotInExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOT IN expression with positional parameter as value`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 NOT IN `numberArrayField`",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 NOT IN `numberArrayField`",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NotInExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -70,10 +73,11 @@ class NotInExpressionTest : ResolverDependentTest {
     fun `should support NOT IN expression with named parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` NOT IN \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` NOT IN \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NotInExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -84,10 +88,11 @@ class NotInExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOT IN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` NOT IN $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` NOT IN $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NotInExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -101,10 +106,11 @@ class NotInExpressionTest : ResolverDependentTest {
         val parameterCollectionValue = listOf(1, 2, 3)
         val parameterNameA = "paramA"
         val parameterNameB = "paramB"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterNameA NOT IN \$$parameterNameB",
-            DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterNameA NOT IN \$$parameterNameB",
+                DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
+            )
         val underTest = NotInExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -116,10 +122,11 @@ class NotInExpressionTest : ResolverDependentTest {
     fun `should support NOT IN expression with positional parameters as value and collection`() {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 NOT IN $2",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 NOT IN $2",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
+            )
         val underTest = NotInExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

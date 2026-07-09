@@ -17,25 +17,37 @@ fun TypeExpression<StringType>.substring(
     length: TypeExpression<NumberType>? = null,
 ) = SubstringExpression(this, startPos, length)
 
-fun TypeExpression<StringType>.substring(startPos: TypeExpression<NumberType>, length: Int) =
-    substring(startPos, length.toDopeType())
+fun TypeExpression<StringType>.substring(
+    startPos: TypeExpression<NumberType>,
+    length: Int,
+) = substring(startPos, length.toDopeType())
 
-fun TypeExpression<StringType>.substring(startPos: Int, length: TypeExpression<NumberType>? = null) =
-    substring(startPos.toDopeType(), length)
+fun TypeExpression<StringType>.substring(
+    startPos: Int,
+    length: TypeExpression<NumberType>? = null,
+) = substring(startPos.toDopeType(), length)
 
-fun TypeExpression<StringType>.substring(startPos: Int, length: Int) =
-    substring(startPos.toDopeType(), length.toDopeType())
+fun TypeExpression<StringType>.substring(
+    startPos: Int,
+    length: Int,
+) = substring(startPos.toDopeType(), length.toDopeType())
 
 fun String.substring(
     startPos: TypeExpression<NumberType>,
     length: TypeExpression<NumberType>? = null,
 ) = toDopeType().substring(startPos, length)
 
-fun String.substring(startPos: TypeExpression<NumberType>, length: Int) =
-    toDopeType().substring(startPos, length.toDopeType())
+fun String.substring(
+    startPos: TypeExpression<NumberType>,
+    length: Int,
+) = toDopeType().substring(startPos, length.toDopeType())
 
-fun String.substring(startPos: Int, length: TypeExpression<NumberType>? = null) =
-    toDopeType().substring(startPos.toDopeType(), length)
+fun String.substring(
+    startPos: Int,
+    length: TypeExpression<NumberType>? = null,
+) = toDopeType().substring(startPos.toDopeType(), length)
 
-fun String.substring(startPos: Int, length: Int) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun String.substring(
+    startPos: Int,
+    length: Int,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())

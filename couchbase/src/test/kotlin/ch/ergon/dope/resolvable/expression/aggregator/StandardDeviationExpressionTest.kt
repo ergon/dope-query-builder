@@ -16,9 +16,10 @@ class StandardDeviationExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support standard deviation`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "STDDEV(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STDDEV(`numberField`)",
+            )
         val underTest = StandardDeviationExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class StandardDeviationExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support standard deviation with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "STDDEV(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STDDEV(ALL `numberField`)",
+            )
         val underTest = StandardDeviationExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class StandardDeviationExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support standard deviation with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "STDDEV(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STDDEV(DISTINCT `numberField`)",
+            )
         val underTest = StandardDeviationExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

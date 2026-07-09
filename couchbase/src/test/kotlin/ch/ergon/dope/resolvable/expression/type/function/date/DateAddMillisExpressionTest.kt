@@ -20,14 +20,16 @@ class DateAddMillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_ADD_MILLIS with fields`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_ADD_MILLIS(`numberField`, `numberField`, \"DAY\")",
-        )
-        val underTest = DateAddMillisExpression(
-            someNumberField(),
-            someNumberField(),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_ADD_MILLIS(`numberField`, `numberField`, \"DAY\")",
+            )
+        val underTest =
+            DateAddMillisExpression(
+                someNumberField(),
+                someNumberField(),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -37,15 +39,17 @@ class DateAddMillisExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_ADD_MILLIS with positional parameter date`() {
         val dateValue = 1620000000000L
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_ADD_MILLIS($1, `numberField`, \"DAY\")",
-            DopeParameters(positionalParameters = listOf(dateValue)),
-        )
-        val underTest = DateAddMillisExpression(
-            dateValue.asParameter(),
-            someNumberField(),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_ADD_MILLIS($1, `numberField`, \"DAY\")",
+                DopeParameters(positionalParameters = listOf(dateValue)),
+            )
+        val underTest =
+            DateAddMillisExpression(
+                dateValue.asParameter(),
+                someNumberField(),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -56,15 +60,17 @@ class DateAddMillisExpressionTest : ResolverDependentTest {
     fun `should support DATE_ADD_MILLIS with named parameter increment`() {
         val incValue = 5
         val name = "inc"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_ADD_MILLIS(`numberField`, \$$name, \"DAY\")",
-            DopeParameters(namedParameters = mapOf(name to incValue)),
-        )
-        val underTest = DateAddMillisExpression(
-            someNumberField(),
-            incValue.asParameter(name),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_ADD_MILLIS(`numberField`, \$$name, \"DAY\")",
+                DopeParameters(namedParameters = mapOf(name to incValue)),
+            )
+        val underTest =
+            DateAddMillisExpression(
+                someNumberField(),
+                incValue.asParameter(name),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

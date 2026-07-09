@@ -55,5 +55,4 @@ fun Collection<String>.asParameter(parameterName: String? = null) = ArrayParamet
 fun Collection<Boolean>.asParameter(parameterName: String? = null) = ArrayParameter<BooleanType>(this, parameterName)
 
 @JvmName("objectCollectionAsParameter")
-fun Collection<Map<String, Any>>.asParameter(parameterName: String? = null) =
-    ArrayParameter<ObjectType>(this, parameterName)
+fun Collection<Map<String, Any>>.asParameter(parameterName: String? = null) = ArrayParameter<ObjectType>(this, parameterName)

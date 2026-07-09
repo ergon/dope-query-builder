@@ -15,9 +15,10 @@ class ArrayReverseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_REVERSE`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REVERSE(`numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REVERSE(`numberArrayField`)",
+            )
         val underTest = ArrayReverseExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayReverseExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_REVERSE with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REVERSE($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REVERSE($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayReverseExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayReverseExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REVERSE with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REVERSE(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REVERSE(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayReverseExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

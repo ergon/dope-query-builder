@@ -10,13 +10,22 @@ data class ClockTimezoneExpression(
     val format: TypeExpression<StringType>? = null,
 ) : FunctionExpression<StringType>(listOf(timeZone, format))
 
-fun formattedClockIn(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
-    ClockTimezoneExpression(timeZone, format)
+fun formattedClockIn(
+    timeZone: TypeExpression<StringType>,
+    format: TypeExpression<StringType>? = null,
+) = ClockTimezoneExpression(timeZone, format)
 
-fun formattedClockIn(timeZone: String, format: TypeExpression<StringType>? = null) =
-    formattedClockIn(timeZone.toDopeType(), format)
+fun formattedClockIn(
+    timeZone: String,
+    format: TypeExpression<StringType>? = null,
+) = formattedClockIn(timeZone.toDopeType(), format)
 
-fun formattedClockIn(timeZone: TypeExpression<StringType>, format: String) =
-    formattedClockIn(timeZone, format.toDopeType())
+fun formattedClockIn(
+    timeZone: TypeExpression<StringType>,
+    format: String,
+) = formattedClockIn(timeZone, format.toDopeType())
 
-fun formattedClockIn(timeZone: String, format: String) = formattedClockIn(timeZone.toDopeType(), format.toDopeType())
+fun formattedClockIn(
+    timeZone: String,
+    format: String,
+) = formattedClockIn(timeZone.toDopeType(), format.toDopeType())

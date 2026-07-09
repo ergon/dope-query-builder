@@ -22,13 +22,14 @@ data class RatioToReport(
     override val functionArguments: List<Selectable?> = listOf(expression)
     override val fromModifier: FromModifier? = null
     override val nullsModifier: NullsModifier? = null
-    override val overDefinition: OverDefinition = OverWindowDefinition(
-        WindowDefinition(
-            windowPartitionClause = windowPartitionClause,
-            windowOrderClause = windowOrderClause,
-            windowFrameClause = windowFrameClause,
-        ),
-    )
+    override val overDefinition: OverDefinition =
+        OverWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+                windowFrameClause = windowFrameClause,
+            ),
+        )
 }
 
 data class RatioToReportWithReference(

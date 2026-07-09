@@ -16,9 +16,10 @@ class AsteriskTest : ResolverDependentTest {
 
     @Test
     fun `should support asterisk`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "*",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "*",
+            )
         val underTest = Asterisk()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class AsteriskTest : ResolverDependentTest {
 
     @Test
     fun `should support asterisk with bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket`.*",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket`.*",
+            )
         val underTest = Asterisk(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class AsteriskTest : ResolverDependentTest {
 
     @Test
     fun `should support asterisk with aliased select clause`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`selectClause`.*",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`selectClause`.*",
+            )
         val underTest = Asterisk(someSelectClause().alias("selectClause"))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -52,9 +55,10 @@ class AsteriskTest : ResolverDependentTest {
 
     @Test
     fun `should support asterisk with object field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`objectField`.*",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`objectField`.*",
+            )
         val underTest = Asterisk(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

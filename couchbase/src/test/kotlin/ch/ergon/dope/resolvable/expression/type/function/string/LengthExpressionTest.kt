@@ -16,9 +16,10 @@ class LengthExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support length with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "LENGTH(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LENGTH(`stringField`)",
+            )
         val underTest = LengthExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class LengthExpressionTest : ResolverDependentTest {
     @Test
     fun `should support length with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "LENGTH($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LENGTH($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = LengthExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class LengthExpressionTest : ResolverDependentTest {
     fun `should support length with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "LENGTH(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LENGTH(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = LengthExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

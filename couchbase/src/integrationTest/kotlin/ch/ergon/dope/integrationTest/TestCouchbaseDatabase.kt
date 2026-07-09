@@ -45,11 +45,12 @@ object TestCouchbaseDatabase {
 
     init {
         initContainer()
-        cluster = Cluster.connect(
-            container.connectionString,
-            container.username,
-            container.password,
-        )
+        cluster =
+            Cluster.connect(
+                container.connectionString,
+                container.username,
+                container.password,
+            )
         initDatabase()
     }
 
@@ -65,22 +66,28 @@ object TestCouchbaseDatabase {
         container.start()
     }
 
-    private fun ensureAuditCollections() = runBlocking {
-        cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
-        cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
-        cluster.query("CREATE SCOPE `$BUCKET`.`app` IF NOT EXISTS").execute()
-        cluster.query("CREATE COLLECTION `$BUCKET`.`app`.`order_audit` IF NOT EXISTS").execute()
-    }
+    private fun ensureAuditCollections() =
+        runBlocking {
+            cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
+            cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
+            cluster.query("CREATE SCOPE `$BUCKET`.`app` IF NOT EXISTS").execute()
+            cluster.query("CREATE COLLECTION `$BUCKET`.`app`.`order_audit` IF NOT EXISTS").execute()
+        }
 
-    private fun ensureIndexes() = runBlocking {
-        cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
-        cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`").execute()
-        retryOnFailure { cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`.`app`.`order_audit`").execute() }
-        cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_employee` ON `$BUCKET`(`employee`) WHERE `type` = \"order\"").execute()
-        cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_client` ON `$BUCKET`(`client`) WHERE `type` = \"order\"").execute()
-    }
+    private fun ensureIndexes() =
+        runBlocking {
+            cluster.waitUntilReady(MAX_TIMEOUT_IN_SECONDS.seconds)
+            cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`").execute()
+            retryOnFailure { cluster.query("CREATE PRIMARY INDEX IF NOT EXISTS ON `$BUCKET`.`app`.`order_audit`").execute() }
+            cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_employee` ON `$BUCKET`(`employee`) WHERE `type` = \"order\"").execute()
+            cluster.query("CREATE INDEX IF NOT EXISTS `ix_order_client` ON `$BUCKET`(`client`) WHERE `type` = \"order\"").execute()
+        }
 
-    private suspend fun <T> retryOnFailure(maxRetries: Int = MAX_RETRIES, delayMs: Long = 2000, action: suspend () -> T): T {
+    private suspend fun <T> retryOnFailure(
+        maxRetries: Int = MAX_RETRIES,
+        delayMs: Long = 2000,
+        action: suspend () -> T,
+    ): T {
         repeat(maxRetries - 1) {
             try {
                 return action()
@@ -111,11 +118,12 @@ object TestCouchbaseDatabase {
                             "type" to "employee",
                             "name" to "employee$i",
                             "isActive" to true,
-                            "details" to mapOf(
-                                "position" to "Engineer",
-                                "department" to "Engineering",
-                                "email" to "employee$i@company.com",
-                            ),
+                            "details" to
+                                mapOf(
+                                    "position" to "Engineer",
+                                    "department" to "Engineering",
+                                    "email" to "employee$i@company.com",
+                                ),
                         ),
                     )
 
@@ -125,11 +133,13 @@ object TestCouchbaseDatabase {
                             "id" to i,
                             "type" to "client",
                             "name" to "client$i",
-                            "isActive" to (i % 2 == 0), // even-numbered clients are active
-                            "contacts" to listOf(
-                                mapOf("name" to "Contact A", "email" to "contact.a@client.com"),
-                                mapOf("name" to "Contact B", "email" to "contact.b@client.com"),
-                            ),
+                            // even-numbered clients are active
+                            "isActive" to (i % 2 == 0),
+                            "contacts" to
+                                listOf(
+                                    mapOf("name" to "Contact A", "email" to "contact.a@client.com"),
+                                    mapOf("name" to "Contact B", "email" to "contact.b@client.com"),
+                                ),
                         ),
                     )
 
@@ -157,18 +167,20 @@ object TestCouchbaseDatabase {
                             "status" to "CREATED",
                             "changedBy" to "employee:$i",
                             "changedAt" to java.time.Instant.now().toString(),
-                            "metrics" to mapOf(
-                                "itemCount" to quantities.size,
-                                "totalQuantity" to totalQty,
-                            ),
-                            "events" to listOf(
+                            "metrics" to
                                 mapOf(
-                                    "ts" to java.time.Instant.now().toString(),
-                                    "action" to "CREATED",
-                                    "by" to "employee:$i",
-                                    "note" to "Order initialized",
+                                    "itemCount" to quantities.size,
+                                    "totalQuantity" to totalQty,
                                 ),
-                            ),
+                            "events" to
+                                listOf(
+                                    mapOf(
+                                        "ts" to java.time.Instant.now().toString(),
+                                        "action" to "CREATED",
+                                        "by" to "employee:$i",
+                                        "note" to "Order initialized",
+                                    ),
+                                ),
                         ),
                     )
                 }
@@ -195,12 +207,15 @@ object TestCouchbaseDatabase {
     }
 }
 
-fun QueryResult.toMapValues(rowNumber: Int = 0, isSelectAsterisk: Boolean = false, bucket: Bucket = testBucket) =
-    if (isSelectAsterisk) {
-        this.rows.map { it.contentAs<Map<String, Map<String, Any>>>()[bucket.name]!! }[rowNumber]
-    } else {
-        this.rows.map { it.contentAs<Map<String, Any>>() }[rowNumber]
-    }
+fun QueryResult.toMapValues(
+    rowNumber: Int = 0,
+    isSelectAsterisk: Boolean = false,
+    bucket: Bucket = testBucket,
+) = if (isSelectAsterisk) {
+    this.rows.map { it.contentAs<Map<String, Map<String, Any>>>()[bucket.name]!! }[rowNumber]
+} else {
+    this.rows.map { it.contentAs<Map<String, Any>>() }[rowNumber]
+}
 
 fun QueryResult.toRawValues(rowNumber: Int = 0) = this.rows.map { it.contentAs<Any>() }[rowNumber]
 

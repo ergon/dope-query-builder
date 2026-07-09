@@ -13,14 +13,22 @@ data class NvlExpression<T : ValidType>(
     val substituteExpression: TypeExpression<T>,
 ) : FunctionExpression<T>(listOf(initialExpression, substituteExpression))
 
-fun <T : ValidType> nvl(initialExpression: TypeExpression<T>, substituteExpression: TypeExpression<T>) =
-    NvlExpression(initialExpression, substituteExpression)
+fun <T : ValidType> nvl(
+    initialExpression: TypeExpression<T>,
+    substituteExpression: TypeExpression<T>,
+) = NvlExpression(initialExpression, substituteExpression)
 
-fun nvl(initialExpression: TypeExpression<NumberType>, substituteExpression: Number) =
-    NvlExpression(initialExpression, substituteExpression.toDopeType())
+fun nvl(
+    initialExpression: TypeExpression<NumberType>,
+    substituteExpression: Number,
+) = NvlExpression(initialExpression, substituteExpression.toDopeType())
 
-fun nvl(initialExpression: TypeExpression<StringType>, substituteExpression: String) =
-    NvlExpression(initialExpression, substituteExpression.toDopeType())
+fun nvl(
+    initialExpression: TypeExpression<StringType>,
+    substituteExpression: String,
+) = NvlExpression(initialExpression, substituteExpression.toDopeType())
 
-fun nvl(initialExpression: TypeExpression<BooleanType>, substituteExpression: Boolean) =
-    NvlExpression(initialExpression, substituteExpression.toDopeType())
+fun nvl(
+    initialExpression: TypeExpression<BooleanType>,
+    substituteExpression: Boolean,
+) = NvlExpression(initialExpression, substituteExpression.toDopeType())

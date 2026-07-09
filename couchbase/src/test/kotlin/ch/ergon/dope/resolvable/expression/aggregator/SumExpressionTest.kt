@@ -16,9 +16,10 @@ class SumExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support sum`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUM(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUM(`numberField`)",
+            )
         val underTest = SumExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class SumExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support sum with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUM(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUM(ALL `numberField`)",
+            )
         val underTest = SumExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class SumExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support sum with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUM(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUM(DISTINCT `numberField`)",
+            )
         val underTest = SumExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

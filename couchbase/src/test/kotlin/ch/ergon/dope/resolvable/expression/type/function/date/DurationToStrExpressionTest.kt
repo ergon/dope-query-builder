@@ -15,9 +15,10 @@ class DurationToStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DURATION_TO_STR with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DURATION_TO_STR(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DURATION_TO_STR(`numberField`)",
+            )
         val underTest = DurationToStringExpression(someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class DurationToStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DURATION_TO_STR with positional parameter duration`() {
         val dur = 2000L
-        val expected = CouchbaseDopeQuery(
-            queryString = "DURATION_TO_STR($1)",
-            DopeParameters(positionalParameters = listOf(dur)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DURATION_TO_STR($1)",
+                DopeParameters(positionalParameters = listOf(dur)),
+            )
         val underTest = DurationToStringExpression(dur.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class DurationToStrExpressionTest : ResolverDependentTest {
     fun `should support DURATION_TO_STR with named parameter duration`() {
         val dur = 5000L
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DURATION_TO_STR(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to dur)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DURATION_TO_STR(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to dur)),
+            )
         val underTest = DurationToStringExpression(dur.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

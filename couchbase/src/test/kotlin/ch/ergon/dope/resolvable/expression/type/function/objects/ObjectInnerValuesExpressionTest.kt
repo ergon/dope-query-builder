@@ -12,9 +12,10 @@ class ObjectInnerValuesExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object inner values expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_INNER_VALUES(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_INNER_VALUES(`objectField`)",
+            )
         val underTest = ObjectInnerValuesExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

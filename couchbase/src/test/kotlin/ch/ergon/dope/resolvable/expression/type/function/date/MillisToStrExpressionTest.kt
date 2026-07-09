@@ -16,9 +16,10 @@ class MillisToStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support MILLIS_TO_STR without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS_TO_STR(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS_TO_STR(`numberField`)",
+            )
         val underTest = MillisToStringExpression(someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class MillisToStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support MILLIS_TO_STR with format field`() {
         val fmt = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS_TO_STR(`numberField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS_TO_STR(`numberField`, `stringField`)",
+            )
         val underTest = MillisToStringExpression(someNumberField(), fmt)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,10 +44,11 @@ class MillisToStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support MILLIS_TO_STR with positional parameter format`() {
         val fmt = "yyyy"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS_TO_STR(`numberField`, $1)",
-            DopeParameters(positionalParameters = listOf(fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS_TO_STR(`numberField`, $1)",
+                DopeParameters(positionalParameters = listOf(fmt)),
+            )
         val underTest = MillisToStringExpression(someNumberField(), fmt.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class MillisToStrExpressionTest : ResolverDependentTest {
     fun `should support MILLIS_TO_STR with named parameter format`() {
         val fmt = "MM-dd"
         val name = "f"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS_TO_STR(`numberField`, \$$name)",
-            DopeParameters(namedParameters = mapOf(name to fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS_TO_STR(`numberField`, \$$name)",
+                DopeParameters(namedParameters = mapOf(name to fmt)),
+            )
         val underTest = MillisToStringExpression(someNumberField(), fmt.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

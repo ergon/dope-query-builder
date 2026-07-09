@@ -31,21 +31,22 @@ class FromIntegrationTest : BaseIntegrationTest() {
         val employeeNameField = Field<StringType>("name", employeeAlias)
         val orderNumberField = Field<StringType>("orderNumber", orderAlias)
         val orderEmployeeIdField = Field<StringType>("employee", orderAlias)
-        val dopeQuery = QueryBuilder
-            .select(
-                employeeNameField,
-                orderNumberField,
-            )
-            .from(
-                employeeAlias,
-            )
-            .join(
-                orderAlias,
-                orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
-            ).orderBy(
-                orderNumberField,
-                ASC,
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    employeeNameField,
+                    orderNumberField,
+                )
+                .from(
+                    employeeAlias,
+                )
+                .join(
+                    orderAlias,
+                    orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
+                ).orderBy(
+                    orderNumberField,
+                    ASC,
+                ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -68,18 +69,19 @@ class FromIntegrationTest : BaseIntegrationTest() {
         val auditOrderRefField = Field<StringType>("orderRef", auditAlias)
         val auditStatusField = Field<StringType>("status", auditAlias)
 
-        val dopeQuery = QueryBuilder
-            .select(
-                orderNumberField,
-                auditStatusField,
-            )
-            .from(orderAlias)
-            .join(
-                auditAlias,
-                auditOrderRefField.isEqualTo(meta(orderAlias).id),
-            )
-            .orderBy(orderNumberField, ASC)
-            .build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    orderNumberField,
+                    auditStatusField,
+                )
+                .from(orderAlias)
+                .join(
+                    auditAlias,
+                    auditOrderRefField.isEqualTo(meta(orderAlias).id),
+                )
+                .orderBy(orderNumberField, ASC)
+                .build(CouchbaseResolver())
 
         println(dopeQuery)
 
@@ -107,29 +109,30 @@ class FromIntegrationTest : BaseIntegrationTest() {
         val orderNumberField = Field<StringType>("orderNumber", orderAlias)
         val orderEmployeeIdField = Field<StringType>("employee", orderAlias)
         val orderClientIdField = Field<StringType>("client", orderAlias)
-        val dopeQuery = QueryBuilder
-            .select(
-                orderNumberField,
-                employeeNameField.alias("employeeName"),
-                clientNameField.alias("clientName"),
-            )
-            .from(
-                orderAlias,
-            )
-            .join(
-                employeeAlias,
-                orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
-                hashOrNestedLoopHint = NESTED_LOOP,
-            )
-            .innerJoin(
-                clientAlias,
-                orderClientIdField.isEqualTo(meta(clientAlias).id),
-                keysOrIndexHint = indexHint(),
-            ).orderBy(
-                orderNumberField,
-                DESC,
-            )
-            .build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    orderNumberField,
+                    employeeNameField.alias("employeeName"),
+                    clientNameField.alias("clientName"),
+                )
+                .from(
+                    orderAlias,
+                )
+                .join(
+                    employeeAlias,
+                    orderEmployeeIdField.isEqualTo(meta(employeeAlias).id),
+                    hashOrNestedLoopHint = NESTED_LOOP,
+                )
+                .innerJoin(
+                    clientAlias,
+                    orderClientIdField.isEqualTo(meta(clientAlias).id),
+                    keysOrIndexHint = indexHint(),
+                ).orderBy(
+                    orderNumberField,
+                    DESC,
+                )
+                .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -177,33 +180,34 @@ class FromIntegrationTest : BaseIntegrationTest() {
         val nestedOrdersEmployeeField = Field<StringType>("employee", nestedOrders)
         val nestedOrdersTypeField = Field<StringType>("type", nestedOrders)
 
-        val dopeQuery = QueryBuilder
-            .selectDistinct(
-                eIdField.alias("employeeId"),
-                cIdField.alias("clientId"),
-                oOrderNumberField.alias("orderNumber"),
-            )
-            .from(
-                e,
-            )
-            .join(
-                c,
-                condition = eIdField.isEqualTo(cIdField).and(eTypeField.isEqualTo("employee")).and(cTypeField.isEqualTo("client")),
-            )
-            .join(
-                o,
-                condition = meta(c).id.isEqualTo(oClientField).and(oTypeField.isEqualTo("order")),
-            )
-            .nest(
-                nestedOrders,
-                condition = meta(e).id.isEqualTo(nestedOrdersEmployeeField).and(nestedOrdersTypeField.isEqualTo("order")),
-            )
-            .unnest(
-                oQuantitiesField.alias("unnestedQuantities"),
-            )
-            .where(
-                eIsActiveField.and(cIsActiveField),
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .selectDistinct(
+                    eIdField.alias("employeeId"),
+                    cIdField.alias("clientId"),
+                    oOrderNumberField.alias("orderNumber"),
+                )
+                .from(
+                    e,
+                )
+                .join(
+                    c,
+                    condition = eIdField.isEqualTo(cIdField).and(eTypeField.isEqualTo("employee")).and(cTypeField.isEqualTo("client")),
+                )
+                .join(
+                    o,
+                    condition = meta(c).id.isEqualTo(oClientField).and(oTypeField.isEqualTo("order")),
+                )
+                .nest(
+                    nestedOrders,
+                    condition = meta(e).id.isEqualTo(nestedOrdersEmployeeField).and(nestedOrdersTypeField.isEqualTo("order")),
+                )
+                .unnest(
+                    oQuantitiesField.alias("unnestedQuantities"),
+                )
+                .where(
+                    eIsActiveField.and(cIsActiveField),
+                ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

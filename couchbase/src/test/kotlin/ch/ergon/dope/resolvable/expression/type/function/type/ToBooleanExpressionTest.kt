@@ -17,9 +17,10 @@ class ToBooleanExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support to boolean expression with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOBOOLEAN(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOBOOLEAN(`stringField`)",
+            )
         val underTest = ToBooleanExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -30,10 +31,11 @@ class ToBooleanExpressionTest : ResolverDependentTest {
     @Test
     fun `should support to boolean expression with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOBOOLEAN($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOBOOLEAN($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ToBooleanExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,10 +47,11 @@ class ToBooleanExpressionTest : ResolverDependentTest {
     fun `should support to boolean expression with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOBOOLEAN(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOBOOLEAN(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ToBooleanExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

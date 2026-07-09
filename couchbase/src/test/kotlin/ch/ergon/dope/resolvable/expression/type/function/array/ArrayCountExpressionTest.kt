@@ -15,9 +15,10 @@ class ArrayCountExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_COUNT without parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_COUNT(`numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_COUNT(`numberArrayField`)",
+            )
         val underTest = ArrayCountExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayCountExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_COUNT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_COUNT($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_COUNT($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayCountExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayCountExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_COUNT with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_COUNT(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_COUNT(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayCountExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

@@ -17,25 +17,37 @@ fun TypeExpression<StringType>.substring1(
     length: TypeExpression<NumberType>? = null,
 ) = Substring1Expression(this, startPos, length)
 
-fun TypeExpression<StringType>.substring1(startPos: TypeExpression<NumberType>, length: Int) =
-    substring1(startPos, length.toDopeType())
+fun TypeExpression<StringType>.substring1(
+    startPos: TypeExpression<NumberType>,
+    length: Int,
+) = substring1(startPos, length.toDopeType())
 
-fun TypeExpression<StringType>.substring1(startPos: Int, length: TypeExpression<NumberType>? = null) =
-    substring1(startPos.toDopeType(), length)
+fun TypeExpression<StringType>.substring1(
+    startPos: Int,
+    length: TypeExpression<NumberType>? = null,
+) = substring1(startPos.toDopeType(), length)
 
-fun TypeExpression<StringType>.substring1(startPos: Int, length: Int) =
-    substring1(startPos.toDopeType(), length.toDopeType())
+fun TypeExpression<StringType>.substring1(
+    startPos: Int,
+    length: Int,
+) = substring1(startPos.toDopeType(), length.toDopeType())
 
 fun String.substring1(
     startPos: TypeExpression<NumberType>,
     length: TypeExpression<NumberType>? = null,
 ) = toDopeType().substring1(startPos, length)
 
-fun String.substring1(startPos: TypeExpression<NumberType>, length: Int) =
-    toDopeType().substring1(startPos, length.toDopeType())
+fun String.substring1(
+    startPos: TypeExpression<NumberType>,
+    length: Int,
+) = toDopeType().substring1(startPos, length.toDopeType())
 
-fun String.substring1(startPos: Int, length: TypeExpression<NumberType>? = null) =
-    toDopeType().substring1(startPos.toDopeType(), length)
+fun String.substring1(
+    startPos: Int,
+    length: TypeExpression<NumberType>? = null,
+) = toDopeType().substring1(startPos.toDopeType(), length)
 
-fun String.substring1(startPos: Int, length: Int) =
-    toDopeType().substring1(startPos.toDopeType(), length.toDopeType())
+fun String.substring1(
+    startPos: Int,
+    length: Int,
+) = toDopeType().substring1(startPos.toDopeType(), length.toDopeType())

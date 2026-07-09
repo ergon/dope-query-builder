@@ -10,7 +10,6 @@ data class MaskExpression(
     val options: Map<String, String> = mapOf(),
 ) : FunctionOperator<StringType>
 
-fun TypeExpression<StringType>.mask(options: Map<String, String> = mapOf()) =
-    MaskExpression(this, options)
+fun TypeExpression<StringType>.mask(options: Map<String, String> = mapOf()) = MaskExpression(this, options)
 
 fun String.mask(options: Map<String, String> = mapOf()) = toDopeType().mask(options)

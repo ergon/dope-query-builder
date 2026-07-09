@@ -22,16 +22,18 @@ class FilterRangeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support filter for in expression extension with condition type`() {
         val range = someNumberArrayField()
-        val expected = FilterRangeExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            condition = { it.isLessOrEqualThan(2) },
-        )
+        val expected =
+            FilterRangeExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                condition = { it.isLessOrEqualThan(2) },
+            )
 
-        val actual = range.filter(iteratorName = "it") {
-            it.isLessOrEqualThan(2)
-        }
+        val actual =
+            range.filter(iteratorName = "it") {
+                it.isLessOrEqualThan(2)
+            }
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -39,16 +41,18 @@ class FilterRangeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support filter for in expression extension with condition collection`() {
         val range = listOf(someNumberField(), someNumberField())
-        val expected = FilterRangeExpression(
-            membershipType = IN,
-            range = range.toDopeType(),
-            iteratorName = "it",
-            condition = { it.isLessOrEqualThan(2) },
-        )
+        val expected =
+            FilterRangeExpression(
+                membershipType = IN,
+                range = range.toDopeType(),
+                iteratorName = "it",
+                condition = { it.isLessOrEqualThan(2) },
+            )
 
-        val actual = range.filter(iteratorName = "it") {
-            it.isLessOrEqualThan(2)
-        }
+        val actual =
+            range.filter(iteratorName = "it") {
+                it.isLessOrEqualThan(2)
+            }
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -56,16 +60,18 @@ class FilterRangeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support filter for in expression extension with condition select clause`() {
         val range = someNumberSelectRawClause()
-        val expected = FilterRangeExpression(
-            membershipType = IN,
-            range = range.asExpression(),
-            iteratorName = "it",
-            condition = { it.isLessOrEqualThan(2) },
-        )
+        val expected =
+            FilterRangeExpression(
+                membershipType = IN,
+                range = range.asExpression(),
+                iteratorName = "it",
+                condition = { it.isLessOrEqualThan(2) },
+            )
 
-        val actual = range.filter(iteratorName = "it") {
-            it.isLessOrEqualThan(2)
-        }
+        val actual =
+            range.filter(iteratorName = "it") {
+                it.isLessOrEqualThan(2)
+            }
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -73,12 +79,13 @@ class FilterRangeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support filter for within expression extension with condition type`() {
         val range = someAnyTypeArrayField()
-        val expected = FilterRangeExpression(
-            membershipType = WITHIN,
-            range = range,
-            iteratorName = "it",
-            condition = { it.isNumber() },
-        )
+        val expected =
+            FilterRangeExpression(
+                membershipType = WITHIN,
+                range = range,
+                iteratorName = "it",
+                condition = { it.isNumber() },
+            )
 
         val actual = range.filterUnnested(iteratorName = "it") { it.isNumber() }
 
@@ -88,12 +95,13 @@ class FilterRangeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support filter for within expression extension with condition collection`() {
         val range = listOf(someAnyTypeField(), someAnyTypeField())
-        val expected = FilterRangeExpression(
-            membershipType = WITHIN,
-            range = range.toDopeType(),
-            iteratorName = "it",
-            condition = { it.isNumber() },
-        )
+        val expected =
+            FilterRangeExpression(
+                membershipType = WITHIN,
+                range = range.toDopeType(),
+                iteratorName = "it",
+                condition = { it.isNumber() },
+            )
 
         val actual = range.filterUnnested(iteratorName = "it") { it.isNumber() }
 
@@ -103,12 +111,13 @@ class FilterRangeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support filter for within expression extension with condition select clause`() {
         val range = someAnyTypeSelectRawClause()
-        val expected = FilterRangeExpression(
-            membershipType = WITHIN,
-            range = range.asExpression(),
-            iteratorName = "it",
-            condition = { it.isNumber() },
-        )
+        val expected =
+            FilterRangeExpression(
+                membershipType = WITHIN,
+                range = range.asExpression(),
+                iteratorName = "it",
+                condition = { it.isNumber() },
+            )
 
         val actual = range.filterUnnested(iteratorName = "it") { it.isNumber() }
 

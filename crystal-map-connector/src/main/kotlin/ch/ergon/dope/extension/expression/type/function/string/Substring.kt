@@ -28,47 +28,77 @@ fun CMJsonField<String>.substring(
     length: TypeExpression<NumberType>? = null,
 ) = toDopeType().substring(startPos.toDopeType(), length)
 
-fun CMJsonField<String>.substring(startPos: TypeExpression<NumberType>, length: CMJsonField<Number>) =
-    toDopeType().substring(startPos, length.toDopeType())
+fun CMJsonField<String>.substring(
+    startPos: TypeExpression<NumberType>,
+    length: CMJsonField<Number>,
+) = toDopeType().substring(startPos, length.toDopeType())
 
-fun TypeExpression<StringType>.substring(startPos: CMJsonField<Number>, length: CMJsonField<Number>) =
-    substring(startPos.toDopeType(), length.toDopeType())
+fun TypeExpression<StringType>.substring(
+    startPos: CMJsonField<Number>,
+    length: CMJsonField<Number>,
+) = substring(startPos.toDopeType(), length.toDopeType())
 
-fun CMJsonField<String>.substring(startPos: CMJsonField<Number>, length: CMJsonField<Number>) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun CMJsonField<String>.substring(
+    startPos: CMJsonField<Number>,
+    length: CMJsonField<Number>,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())
 
-fun CMJsonField<String>.substring(startPos: TypeExpression<NumberType>, length: Int) =
-    toDopeType().substring(startPos, length.toDopeType())
+fun CMJsonField<String>.substring(
+    startPos: TypeExpression<NumberType>,
+    length: Int,
+) = toDopeType().substring(startPos, length.toDopeType())
 
-fun TypeExpression<StringType>.substring(startPos: CMJsonField<Number>, length: Int) =
-    substring(startPos.toDopeType(), length.toDopeType())
+fun TypeExpression<StringType>.substring(
+    startPos: CMJsonField<Number>,
+    length: Int,
+) = substring(startPos.toDopeType(), length.toDopeType())
 
-fun CMJsonField<String>.substring(startPos: CMJsonField<Number>, length: Int) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun CMJsonField<String>.substring(
+    startPos: CMJsonField<Number>,
+    length: Int,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())
 
-fun TypeExpression<StringType>.substring(startPos: Int, length: CMJsonField<Number>) =
-    substring(startPos.toDopeType(), length.toDopeType())
+fun TypeExpression<StringType>.substring(
+    startPos: Int,
+    length: CMJsonField<Number>,
+) = substring(startPos.toDopeType(), length.toDopeType())
 
-fun CMJsonField<String>.substring(startPos: Int, length: TypeExpression<NumberType>? = null) =
-    toDopeType().substring(startPos.toDopeType(), length)
+fun CMJsonField<String>.substring(
+    startPos: Int,
+    length: TypeExpression<NumberType>? = null,
+) = toDopeType().substring(startPos.toDopeType(), length)
 
-fun CMJsonField<String>.substring(startPos: Int, length: CMJsonField<Number>) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun CMJsonField<String>.substring(
+    startPos: Int,
+    length: CMJsonField<Number>,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())
 
-fun String.substring(startPos: CMJsonField<Number>, length: TypeExpression<NumberType>? = null) =
-    toDopeType().substring(startPos.toDopeType(), length)
+fun String.substring(
+    startPos: CMJsonField<Number>,
+    length: TypeExpression<NumberType>? = null,
+) = toDopeType().substring(startPos.toDopeType(), length)
 
-fun String.substring(startPos: TypeExpression<NumberType>, length: CMJsonField<Number>) =
-    toDopeType().substring(startPos, length.toDopeType())
+fun String.substring(
+    startPos: TypeExpression<NumberType>,
+    length: CMJsonField<Number>,
+) = toDopeType().substring(startPos, length.toDopeType())
 
-fun String.substring(startPos: CMJsonField<Number>, length: CMJsonField<Number>) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun String.substring(
+    startPos: CMJsonField<Number>,
+    length: CMJsonField<Number>,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())
 
-fun CMJsonField<String>.substring(startPos: Int, length: Int) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun CMJsonField<String>.substring(
+    startPos: Int,
+    length: Int,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())
 
-fun String.substring(startPos: CMJsonField<Number>, length: Int) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun String.substring(
+    startPos: CMJsonField<Number>,
+    length: Int,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())
 
-fun String.substring(startPos: Int, length: CMJsonField<Number>) =
-    toDopeType().substring(startPos.toDopeType(), length.toDopeType())
+fun String.substring(
+    startPos: Int,
+    length: CMJsonField<Number>,
+) = toDopeType().substring(startPos.toDopeType(), length.toDopeType())

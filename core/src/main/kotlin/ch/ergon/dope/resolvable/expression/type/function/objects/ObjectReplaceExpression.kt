@@ -11,5 +11,7 @@ data class ObjectReplaceExpression(
     val newValue: TypeExpression<out ValidType>,
 ) : FunctionExpression<ObjectType>(listOf(objectExpression, oldValue, newValue))
 
-fun TypeExpression<ObjectType>.replace(oldValue: TypeExpression<out ValidType>, newValue: TypeExpression<out ValidType>) =
-    ObjectReplaceExpression(this, oldValue, newValue)
+fun TypeExpression<ObjectType>.replace(
+    oldValue: TypeExpression<out ValidType>,
+    newValue: TypeExpression<out ValidType>,
+) = ObjectReplaceExpression(this, oldValue, newValue)

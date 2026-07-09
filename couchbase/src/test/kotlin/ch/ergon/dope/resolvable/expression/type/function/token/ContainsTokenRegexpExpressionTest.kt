@@ -13,9 +13,10 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token regexp`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\")",
+            )
         val underTest = ContainsTokenRegexpExpression(someStringField(), "In+.*".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -25,14 +26,16 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token regexp with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\", {\"specials\": true})",
-        )
-        val underTest = ContainsTokenRegexpExpression(
-            someStringField(),
-            "In+.*".toDopeType(),
-            ContainsTokenOptions(includeSpecialCharacters = true),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\", {\"specials\": true})",
+            )
+        val underTest =
+            ContainsTokenRegexpExpression(
+                someStringField(),
+                "In+.*".toDopeType(),
+                ContainsTokenOptions(includeSpecialCharacters = true),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -41,15 +44,18 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token regexp with all options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\", " +
-                "{\"names\": true, \"case\": \"LOWER\", \"specials\": true, \"split\": true, \"trim\": true})",
-        )
-        val underTest = ContainsTokenRegexpExpression(
-            someStringField(),
-            "In+.*".toDopeType(),
-            ContainsTokenOptions(hasNames = true, case = TokenCase.LOWER, includeSpecialCharacters = true, split = true, trim = true),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString =
+                    "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\", " +
+                        "{\"names\": true, \"case\": \"LOWER\", \"specials\": true, \"split\": true, \"trim\": true})",
+            )
+        val underTest =
+            ContainsTokenRegexpExpression(
+                someStringField(),
+                "In+.*".toDopeType(),
+                ContainsTokenOptions(hasNames = true, case = TokenCase.LOWER, includeSpecialCharacters = true, split = true, trim = true),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -58,14 +64,16 @@ class ContainsTokenRegexpExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support contains token regexp with empty options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\")",
-        )
-        val underTest = ContainsTokenRegexpExpression(
-            someStringField(),
-            "In+.*".toDopeType(),
-            ContainsTokenOptions(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONTAINS_TOKEN_REGEXP(`stringField`, \"In+.*\")",
+            )
+        val underTest =
+            ContainsTokenRegexpExpression(
+                someStringField(),
+                "In+.*".toDopeType(),
+                ContainsTokenOptions(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

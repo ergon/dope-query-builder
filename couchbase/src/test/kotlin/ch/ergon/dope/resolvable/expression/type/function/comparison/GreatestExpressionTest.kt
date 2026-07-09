@@ -15,9 +15,10 @@ class GreatestExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support greatest expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST(`numberField`, `anotherNumberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST(`numberField`, `anotherNumberField`)",
+            )
         val underTest = GreatestExpression(someNumberField(), someNumberField("anotherNumberField"))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class GreatestExpressionTest : ResolverDependentTest {
     @Test
     fun `should support greatest expression with positional parameter`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = GreatestExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,10 +44,11 @@ class GreatestExpressionTest : ResolverDependentTest {
     @Test
     fun `should support greatest expression with positional parameter as value`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST(`numberField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST(`numberField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = GreatestExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class GreatestExpressionTest : ResolverDependentTest {
     fun `should support greatest expression with all positional parameters`() {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = GreatestExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class GreatestExpressionTest : ResolverDependentTest {
     fun `should support greatest expression with named parameter`() {
         val parameterValue = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = GreatestExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class GreatestExpressionTest : ResolverDependentTest {
     fun `should support greatest expression with named parameter as value`() {
         val parameterValue = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST(`numberField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST(`numberField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = GreatestExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,10 +110,11 @@ class GreatestExpressionTest : ResolverDependentTest {
         val parameterName = "param1"
         val parameterValue2 = someNumber()
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = GreatestExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -120,10 +127,11 @@ class GreatestExpressionTest : ResolverDependentTest {
         val parameterValue = someNumber()
         val parameterName = "param"
         val parameterValue2 = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "GREATEST(\$$parameterName, $1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "GREATEST(\$$parameterName, $1)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+            )
         val underTest = GreatestExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

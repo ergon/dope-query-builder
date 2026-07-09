@@ -15,9 +15,10 @@ class ArrayLengthExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_LENGTH`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_LENGTH(`numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_LENGTH(`numberArrayField`)",
+            )
         val underTest = ArrayLengthExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayLengthExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_LENGTH with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_LENGTH($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_LENGTH($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayLengthExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayLengthExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_LENGTH with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_LENGTH(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_LENGTH(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayLengthExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

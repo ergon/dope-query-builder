@@ -13,42 +13,48 @@ import ch.ergon.dope.resolvable.clause.model.mergeable.OnType
 
 interface MergeableClauseResolver : AbstractCouchbaseResolver {
     fun resolve(selectClause: MergeableClause<*>): CouchbaseDopeQuery {
-        val onType = when {
-            selectClause.condition != null -> OnType.ON
-            selectClause.keys != null || (selectClause.key != null && selectClause.bucket == null) -> OnType.ON_KEYS
-            selectClause.key != null && selectClause.bucket != null -> OnType.ON_KEY_FOR
-            else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
-        }
+        val onType =
+            when {
+                selectClause.condition != null -> OnType.ON
+                selectClause.keys != null || (selectClause.key != null && selectClause.bucket == null) -> OnType.ON_KEYS
+                selectClause.key != null && selectClause.bucket != null -> OnType.ON_KEY_FOR
+                else -> throw IllegalArgumentException("One of condition, keys or key must be provided for JoinClause.")
+            }
         val parent = selectClause.parentClause.toDopeQuery(this)
-        val mergeable = when (val mergeable = selectClause.mergeable) {
-            is AliasedBucket -> mergeable.asBucketDefinition().toDopeQuery(this)
-            is AliasedSelectClause<*> -> mergeable.asAliasedSelectClauseDefinition().toDopeQuery(this)
-            else -> selectClause.mergeable.toDopeQuery(this)
-        }
-        val hint = if (selectClause.hashOrNestedLoopHint != null || selectClause.keysOrIndexHint != null) {
-            val hashOrNestedLoopHintDopeQuery = selectClause.hashOrNestedLoopHint?.toDopeQuery(this)
-            val keysOrIndexHintQuery = selectClause.keysOrIndexHint?.toDopeQuery(this)
-            CouchbaseDopeQuery(
-                formatPartsToQueryStringWithSpace("USE", hashOrNestedLoopHintDopeQuery?.queryString, keysOrIndexHintQuery?.queryString),
-                hashOrNestedLoopHintDopeQuery?.parameters.orEmpty().merge(keysOrIndexHintQuery?.parameters),
-            )
-        } else {
-            null
-        }
-        val mergeTypeToken = when (val type = selectClause.mergeType) {
-            is JoinType -> when (type) {
-                JoinType.JOIN -> "JOIN"
-                JoinType.LEFT_JOIN -> "LEFT JOIN"
-                JoinType.INNER_JOIN -> "INNER JOIN"
-                JoinType.RIGHT_JOIN -> "RIGHT JOIN"
+        val mergeable =
+            when (val mergeable = selectClause.mergeable) {
+                is AliasedBucket -> mergeable.asBucketDefinition().toDopeQuery(this)
+                is AliasedSelectClause<*> -> mergeable.asAliasedSelectClauseDefinition().toDopeQuery(this)
+                else -> selectClause.mergeable.toDopeQuery(this)
             }
+        val hint =
+            if (selectClause.hashOrNestedLoopHint != null || selectClause.keysOrIndexHint != null) {
+                val hashOrNestedLoopHintDopeQuery = selectClause.hashOrNestedLoopHint?.toDopeQuery(this)
+                val keysOrIndexHintQuery = selectClause.keysOrIndexHint?.toDopeQuery(this)
+                CouchbaseDopeQuery(
+                    formatPartsToQueryStringWithSpace("USE", hashOrNestedLoopHintDopeQuery?.queryString, keysOrIndexHintQuery?.queryString),
+                    hashOrNestedLoopHintDopeQuery?.parameters.orEmpty().merge(keysOrIndexHintQuery?.parameters),
+                )
+            } else {
+                null
+            }
+        val mergeTypeToken =
+            when (val type = selectClause.mergeType) {
+                is JoinType ->
+                    when (type) {
+                        JoinType.JOIN -> "JOIN"
+                        JoinType.LEFT_JOIN -> "LEFT JOIN"
+                        JoinType.INNER_JOIN -> "INNER JOIN"
+                        JoinType.RIGHT_JOIN -> "RIGHT JOIN"
+                    }
 
-            is NestType -> when (type) {
-                NestType.NEST -> "NEST"
-                NestType.INNER_NEST -> "INNER NEST"
-                NestType.LEFT_NEST -> "LEFT NEST"
+                is NestType ->
+                    when (type) {
+                        NestType.NEST -> "NEST"
+                        NestType.INNER_NEST -> "INNER NEST"
+                        NestType.LEFT_NEST -> "LEFT NEST"
+                    }
             }
-        }
         val baseQueryString =
             formatPartsToQueryStringWithSpace(parent.queryString, mergeTypeToken, mergeable.queryString, hint?.queryString)
         val baseParams = parent.parameters.merge(mergeable.parameters, hint?.parameters)
@@ -61,13 +67,14 @@ interface MergeableClauseResolver : AbstractCouchbaseResolver {
             OnType.ON_KEYS -> {
                 val keys = selectClause.keys
                 val clauseKey = selectClause.key
-                val key = when {
-                    keys != null -> keys.toDopeQuery(this)
+                val key =
+                    when {
+                        keys != null -> keys.toDopeQuery(this)
 
-                    clauseKey != null -> clauseKey.toDopeQuery(this)
+                        clauseKey != null -> clauseKey.toDopeQuery(this)
 
-                    else -> null
-                }
+                        else -> null
+                    }
                 CouchbaseDopeQuery(
                     formatPartsToQueryStringWithSpace(baseQueryString, "ON KEYS", key?.queryString),
                     baseParams.merge(key?.parameters),

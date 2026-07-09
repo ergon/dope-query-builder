@@ -18,14 +18,16 @@ class DecodeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support decode expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE(`stringField`, \"someString\", 5, 0)",
-        )
-        val underTest = DecodeExpression(
-            someStringField(),
-            someStringSearchNumberResult(),
-            default = someNumber(0).toDopeType(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE(`stringField`, \"someString\", 5, 0)",
+            )
+        val underTest =
+            DecodeExpression(
+                someStringField(),
+                someStringSearchNumberResult(),
+                default = someNumber(0).toDopeType(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -35,15 +37,17 @@ class DecodeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support decode expression with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE($1, \"someString\", 5, 0)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
-        val underTest = DecodeExpression(
-            parameterValue.asParameter(),
-            someStringSearchNumberResult(),
-            default = someNumber(0).toDopeType(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE($1, \"someString\", 5, 0)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
+        val underTest =
+            DecodeExpression(
+                parameterValue.asParameter(),
+                someStringSearchNumberResult(),
+                default = someNumber(0).toDopeType(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -54,15 +58,17 @@ class DecodeExpressionTest : ResolverDependentTest {
     fun `should support decode expression with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE(\$$parameterName, \"someString\", 5, 0)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
-        val underTest = DecodeExpression(
-            parameterValue.asParameter(parameterName),
-            someStringSearchNumberResult(),
-            default = someNumber(0).toDopeType(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE(\$$parameterName, \"someString\", 5, 0)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
+        val underTest =
+            DecodeExpression(
+                parameterValue.asParameter(parameterName),
+                someStringSearchNumberResult(),
+                default = someNumber(0).toDopeType(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -72,15 +78,17 @@ class DecodeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support decode expression with positional second parameter`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE(`stringField`, \"someString\", 5, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
-        val underTest = DecodeExpression(
-            someStringField(),
-            someStringSearchNumberResult(),
-            default = parameterValue.asParameter(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE(`stringField`, \"someString\", 5, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
+        val underTest =
+            DecodeExpression(
+                someStringField(),
+                someStringSearchNumberResult(),
+                default = parameterValue.asParameter(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -91,15 +99,17 @@ class DecodeExpressionTest : ResolverDependentTest {
     fun `should support decode expression with named second parameter`() {
         val parameterValue = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE(`stringField`, \"someString\", 5, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
-        val underTest = DecodeExpression(
-            someStringField(),
-            someStringSearchNumberResult(),
-            default = parameterValue.asParameter(parameterName),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE(`stringField`, \"someString\", 5, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
+        val underTest =
+            DecodeExpression(
+                someStringField(),
+                someStringSearchNumberResult(),
+                default = parameterValue.asParameter(parameterName),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -110,15 +120,17 @@ class DecodeExpressionTest : ResolverDependentTest {
     fun `should support decode expression with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE($1, \"someString\", 5, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
-        val underTest = DecodeExpression(
-            parameterValue.asParameter(),
-            someStringSearchNumberResult(),
-            default = parameterValue2.asParameter(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE($1, \"someString\", 5, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
+        val underTest =
+            DecodeExpression(
+                parameterValue.asParameter(),
+                someStringSearchNumberResult(),
+                default = parameterValue2.asParameter(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -131,15 +143,17 @@ class DecodeExpressionTest : ResolverDependentTest {
         val parameterValue2 = someNumber()
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DECODE(\$$parameterName, \"someString\", 5, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = DecodeExpression(
-            parameterValue.asParameter(parameterName),
-            someStringSearchNumberResult(),
-            default = parameterValue2.asParameter(parameterName2),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DECODE(\$$parameterName, \"someString\", 5, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            DecodeExpression(
+                parameterValue.asParameter(parameterName),
+                someStringSearchNumberResult(),
+                default = parameterValue2.asParameter(parameterName2),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

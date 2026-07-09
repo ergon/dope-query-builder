@@ -9,8 +9,8 @@ data class ObjectConcatExpression(
     val secondObjectExpression: TypeExpression<ObjectType>,
     val additionalObjectExpression: List<TypeExpression<ObjectType>> = emptyList(),
 ) : FunctionExpression<ObjectType>(
-    listOf(firstObjectExpression, secondObjectExpression, *additionalObjectExpression.toTypedArray()),
-)
+        listOf(firstObjectExpression, secondObjectExpression, *additionalObjectExpression.toTypedArray()),
+    )
 
 fun TypeExpression<ObjectType>.concat(
     secondObjectExpression: TypeExpression<ObjectType>,

@@ -13,9 +13,10 @@ class TokensExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support tokens`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOKENS([\"test\", \"test2\"])",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOKENS([\"test\", \"test2\"])",
+            )
         val underTest = TokensExpression(listOf("test", "test2").toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -25,9 +26,10 @@ class TokensExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support tokens with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOKENS([\"test\"], {\"name\": true, \"specials\": true})",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOKENS([\"test\"], {\"name\": true, \"specials\": true})",
+            )
         val underTest = TokensExpression(listOf("test").toDopeType(), TokensOptions(hasName = true, includeSpecialCharacters = true))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -37,13 +39,15 @@ class TokensExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support tokens with all options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOKENS([\"test\"], {\"name\": true, \"case\": \"UPPER\", \"specials\": true})",
-        )
-        val underTest = TokensExpression(
-            listOf("test").toDopeType(),
-            TokensOptions(hasName = true, case = TokenCase.UPPER, includeSpecialCharacters = true),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOKENS([\"test\"], {\"name\": true, \"case\": \"UPPER\", \"specials\": true})",
+            )
+        val underTest =
+            TokensExpression(
+                listOf("test").toDopeType(),
+                TokensOptions(hasName = true, case = TokenCase.UPPER, includeSpecialCharacters = true),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -52,9 +56,10 @@ class TokensExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support tokens with empty options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOKENS([\"test\"])",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOKENS([\"test\"])",
+            )
         val underTest = TokensExpression(listOf("test").toDopeType(), TokensOptions())
 
         val actual = underTest.toDopeQuery(resolver)

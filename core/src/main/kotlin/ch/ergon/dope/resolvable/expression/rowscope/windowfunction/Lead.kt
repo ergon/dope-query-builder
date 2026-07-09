@@ -22,12 +22,13 @@ data class Lead<T : ValidType>(
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression, offset, default)
     override val fromModifier: FromModifier? = null
-    override val overDefinition: OverDefinition? = OverWindowDefinition(
-        WindowDefinition(
-            windowPartitionClause = windowPartitionClause,
-            windowOrderClause = windowOrderClause,
-        ),
-    )
+    override val overDefinition: OverDefinition? =
+        OverWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+            ),
+        )
 }
 
 data class LeadWithReference<T : ValidType>(

@@ -33,11 +33,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMNumberField()
         val secondExpression = someCMNumberField()
         val additionalExpression = someCMNumberField()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -60,11 +61,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMStringField()
         val secondExpression = someCMStringField()
         val additionalExpression = someCMStringField()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -87,11 +89,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMBooleanField()
         val secondExpression = someCMBooleanField()
         val additionalExpression = someCMBooleanField()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -114,11 +117,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMObjectField()
         val secondExpression = someCMObjectField()
         val additionalExpression = someCMObjectField()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -141,11 +145,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMNumberList()
         val secondExpression = someCMNumberList()
         val additionalExpression = someCMNumberList()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -168,11 +173,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMStringList()
         val secondExpression = someCMStringList()
         val additionalExpression = someCMStringList()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -195,11 +201,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMBooleanList()
         val secondExpression = someCMBooleanList()
         val additionalExpression = someCMBooleanList()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -222,11 +229,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMObjectList()
         val secondExpression = someCMObjectList()
         val additionalExpression = someCMObjectList()
-        val expected = IfMissingOrNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfMissingOrNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifMissingOrNull(firstExpression, secondExpression, additionalExpression)
 
@@ -249,11 +257,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMNumberField()
         val secondExpression = someCMNumberField()
         val additionalExpression = someCMNumberField()
-        val expected = CoalesceExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            CoalesceExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
@@ -276,11 +285,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMStringField()
         val secondExpression = someCMStringField()
         val additionalExpression = someCMStringField()
-        val expected = CoalesceExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            CoalesceExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
@@ -303,11 +313,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMBooleanField()
         val secondExpression = someCMBooleanField()
         val additionalExpression = someCMBooleanField()
-        val expected = CoalesceExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            CoalesceExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
@@ -330,11 +341,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMNumberList()
         val secondExpression = someCMNumberList()
         val additionalExpression = someCMNumberList()
-        val expected = CoalesceExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            CoalesceExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
@@ -357,11 +369,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMStringList()
         val secondExpression = someCMStringList()
         val additionalExpression = someCMStringList()
-        val expected = CoalesceExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            CoalesceExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 
@@ -384,11 +397,12 @@ class IfMissingOrNullTest {
         val firstExpression = someCMBooleanList()
         val secondExpression = someCMBooleanList()
         val additionalExpression = someCMBooleanList()
-        val expected = CoalesceExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            CoalesceExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = coalesce(firstExpression, secondExpression, additionalExpression)
 

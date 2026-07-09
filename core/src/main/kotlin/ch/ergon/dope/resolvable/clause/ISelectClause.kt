@@ -64,37 +64,51 @@ import ch.ergon.dope.validtype.ValidType
 
 interface ISelectOffsetClause<T : ValidType> : Clause {
     fun alias(alias: String): AliasedSelectClause<T> = AliasedSelectClause(alias, this)
+
     fun asExpression(): SelectExpression<T> = SelectExpression(this)
 }
 
 interface ISelectLimitClause<T : ValidType> : ISelectOffsetClause<T> {
     fun offset(numberExpression: TypeExpression<NumberType>) = SelectOffsetClause(numberExpression, this)
+
     fun offset(number: Number) = offset(number.toDopeType())
 }
 
 interface ISelectOrderByClause<T : ValidType> : ISelectLimitClause<T> {
     fun limit(numberExpression: TypeExpression<NumberType>) = SelectLimitClause(numberExpression, this)
+
     fun limit(number: Number) = limit(number.toDopeType())
 }
 
 interface ISelectWindowClause<T : ValidType> : ISelectOrderByClause<T> {
-    fun orderBy(orderExpression: OrderExpression, vararg additionalOrderExpressions: OrderExpression) =
-        SelectOrderByClause(orderExpression, additionalOrderExpressions.toList(), parentClause = this)
+    fun orderBy(
+        orderExpression: OrderExpression,
+        vararg additionalOrderExpressions: OrderExpression,
+    ) = SelectOrderByClause(orderExpression, additionalOrderExpressions.toList(), parentClause = this)
 
-    fun orderBy(expression: TypeExpression<out ValidType>, orderByType: OrderType? = null) = orderBy(OrderExpression(expression, orderByType))
+    fun orderBy(
+        expression: TypeExpression<out ValidType>,
+        orderByType: OrderType? = null,
+    ) = orderBy(OrderExpression(expression, orderByType))
 }
 
 interface ISelectGroupByClause<T : ValidType> : ISelectWindowClause<T> {
-    fun referenceWindow(reference: String, windowDefinition: WindowDefinition? = null) =
-        WindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
+    fun referenceWindow(
+        reference: String,
+        windowDefinition: WindowDefinition? = null,
+    ) = WindowClause(reference.asWindowDeclaration(windowDefinition), parentClause = this)
 
-    fun referenceWindow(windowDeclaration: WindowDeclaration, vararg windowDeclarations: WindowDeclaration) =
-        WindowClause(windowDeclaration, windowDeclarations.toList(), parentClause = this)
+    fun referenceWindow(
+        windowDeclaration: WindowDeclaration,
+        vararg windowDeclarations: WindowDeclaration,
+    ) = WindowClause(windowDeclaration, windowDeclarations.toList(), parentClause = this)
 }
 
 interface ISelectWhereClause<T : ValidType> : ISelectGroupByClause<T> {
-    fun groupBy(field: IField<out ValidType>, vararg fields: IField<out ValidType>) =
-        GroupByClause(field, fields.toList(), parentClause = this)
+    fun groupBy(
+        field: IField<out ValidType>,
+        vararg fields: IField<out ValidType>,
+    ) = GroupByClause(field, fields.toList(), parentClause = this)
 }
 
 interface ISelectLetClause<T : ValidType> : ISelectWhereClause<T> {
@@ -102,7 +116,10 @@ interface ISelectLetClause<T : ValidType> : ISelectWhereClause<T> {
 }
 
 interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
-    fun withVariables(dopeVariable: DopeVariable<out ValidType>, vararg dopeVariables: DopeVariable<out ValidType>) = LetClause(
+    fun withVariables(
+        dopeVariable: DopeVariable<out ValidType>,
+        vararg dopeVariables: DopeVariable<out ValidType>,
+    ) = LetClause(
         dopeVariable,
         dopeVariables.toList(),
         parentClause = this,
@@ -227,53 +244,89 @@ interface ISelectFromClause<T : ValidType> : ISelectLetClause<T> {
     ) = RightJoinClause(joinable, condition, hashOrNestedLoopHint, keysOrIndexHint, this)
 
     fun <U : ValidType> unnest(arrayField: Field<ArrayType<U>>) = UnnestClause(arrayField, this)
-    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedTypeExpression<ArrayType<U>>) =
-        AliasedUnnestClause(aliasedArrayExpression, this)
 
-    fun nest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
-        StandardNestOnConditionClause(nestable, condition, this)
+    fun <U : ValidType> unnest(aliasedArrayExpression: AliasedTypeExpression<ArrayType<U>>) = AliasedUnnestClause(aliasedArrayExpression, this)
 
-    fun nest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
-        StandardNestOnKeysClause(nestable, keys, this)
+    fun nest(
+        nestable: Nestable,
+        condition: TypeExpression<BooleanType>,
+    ) = StandardNestOnConditionClause(nestable, condition, this)
 
-    fun nest(nestable: Nestable, keys: Collection<String>) =
-        nest(nestable, keys.toDopeType())
+    fun nest(
+        nestable: Nestable,
+        keys: TypeExpression<ArrayType<StringType>>,
+    ) = StandardNestOnKeysClause(nestable, keys, this)
 
-    fun nest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
-        StandardNestOnKeyClause(nestable, key, bucket, this)
+    fun nest(
+        nestable: Nestable,
+        keys: Collection<String>,
+    ) = nest(nestable, keys.toDopeType())
 
-    fun nest(nestable: Nestable, key: String, bucket: Bucket? = null) =
-        nest(nestable, key.toDopeType(), bucket)
+    fun nest(
+        nestable: Nestable,
+        key: TypeExpression<StringType>,
+        bucket: Bucket? = null,
+    ) = StandardNestOnKeyClause(nestable, key, bucket, this)
 
-    fun innerNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
-        InnerNestOnConditionClause(nestable, condition, this)
+    fun nest(
+        nestable: Nestable,
+        key: String,
+        bucket: Bucket? = null,
+    ) = nest(nestable, key.toDopeType(), bucket)
 
-    fun innerNest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
-        InnerNestOnKeysClause(nestable, keys, this)
+    fun innerNest(
+        nestable: Nestable,
+        condition: TypeExpression<BooleanType>,
+    ) = InnerNestOnConditionClause(nestable, condition, this)
 
-    fun innerNest(nestable: Nestable, keys: Collection<String>) =
-        innerNest(nestable, keys.toDopeType())
+    fun innerNest(
+        nestable: Nestable,
+        keys: TypeExpression<ArrayType<StringType>>,
+    ) = InnerNestOnKeysClause(nestable, keys, this)
 
-    fun innerNest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
-        InnerNestOnKeyClause(nestable, key, bucket, this)
+    fun innerNest(
+        nestable: Nestable,
+        keys: Collection<String>,
+    ) = innerNest(nestable, keys.toDopeType())
 
-    fun innerNest(nestable: Nestable, key: String, bucket: Bucket? = null) =
-        innerNest(nestable, key.toDopeType(), bucket)
+    fun innerNest(
+        nestable: Nestable,
+        key: TypeExpression<StringType>,
+        bucket: Bucket? = null,
+    ) = InnerNestOnKeyClause(nestable, key, bucket, this)
 
-    fun leftNest(nestable: Nestable, condition: TypeExpression<BooleanType>) =
-        LeftNestOnConditionClause(nestable, condition, this)
+    fun innerNest(
+        nestable: Nestable,
+        key: String,
+        bucket: Bucket? = null,
+    ) = innerNest(nestable, key.toDopeType(), bucket)
 
-    fun leftNest(nestable: Nestable, keys: TypeExpression<ArrayType<StringType>>) =
-        LeftNestOnKeysClause(nestable, keys, this)
+    fun leftNest(
+        nestable: Nestable,
+        condition: TypeExpression<BooleanType>,
+    ) = LeftNestOnConditionClause(nestable, condition, this)
 
-    fun leftNest(nestable: Nestable, keys: Collection<String>) =
-        leftNest(nestable, keys.toDopeType())
+    fun leftNest(
+        nestable: Nestable,
+        keys: TypeExpression<ArrayType<StringType>>,
+    ) = LeftNestOnKeysClause(nestable, keys, this)
 
-    fun leftNest(nestable: Nestable, key: TypeExpression<StringType>, bucket: Bucket? = null) =
-        LeftNestOnKeyClause(nestable, key, bucket, this)
+    fun leftNest(
+        nestable: Nestable,
+        keys: Collection<String>,
+    ) = leftNest(nestable, keys.toDopeType())
 
-    fun leftNest(nestable: Nestable, key: String, bucket: Bucket? = null) =
-        leftNest(nestable, key.toDopeType(), bucket)
+    fun leftNest(
+        nestable: Nestable,
+        key: TypeExpression<StringType>,
+        bucket: Bucket? = null,
+    ) = LeftNestOnKeyClause(nestable, key, bucket, this)
+
+    fun leftNest(
+        nestable: Nestable,
+        key: String,
+        bucket: Bucket? = null,
+    ) = leftNest(nestable, key.toDopeType(), bucket)
 }
 
 interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
@@ -281,7 +334,10 @@ interface ISelectClause<T : ValidType> : ISelectFromClause<T> {
 }
 
 interface ISelectWithClause : QueryProvider, Resolvable {
-    override fun select(expression: Selectable, vararg expressions: Selectable) = SelectClause(
+    override fun select(
+        expression: Selectable,
+        vararg expressions: Selectable,
+    ) = SelectClause(
         expression,
         expressions.toList(),
         parentClause = this,
@@ -289,8 +345,10 @@ interface ISelectWithClause : QueryProvider, Resolvable {
 
     override fun selectAsterisk() = SelectClause(asterisk(), parentClause = this)
 
-    override fun selectDistinct(expression: Selectable, vararg expressions: Selectable) =
-        SelectDistinctClause(expression, expressions.toList(), parentClause = this)
+    override fun selectDistinct(
+        expression: Selectable,
+        vararg expressions: Selectable,
+    ) = SelectDistinctClause(expression, expressions.toList(), parentClause = this)
 
     override fun <T : ValidType> selectRaw(expression: Expression<T>) = SelectRawClause(expression, parentClause = this)
 

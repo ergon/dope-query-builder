@@ -13,9 +13,10 @@ class ObjectFieldExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object field expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_FIELD(`objectField`, \"key\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_FIELD(`objectField`, \"key\")",
+            )
         val underTest = ObjectFieldExpression(someObjectField(), "key".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

@@ -12,9 +12,10 @@ class IsNotValuedExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support is not valued`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` IS NOT VALUED",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` IS NOT VALUED",
+            )
         val underTest = IsNotValuedExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)

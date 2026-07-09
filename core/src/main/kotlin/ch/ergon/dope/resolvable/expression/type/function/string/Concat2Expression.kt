@@ -16,11 +16,17 @@ fun TypeExpression<StringType>.concat2(
     vararg strings: TypeExpression<StringType>,
 ) = Concat2Expression(this, string, strings.toList())
 
-fun String.concat2(string: String, vararg strings: String) =
-    toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+fun String.concat2(
+    string: String,
+    vararg strings: String,
+) = toDopeType().concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun TypeExpression<StringType>.concat2(string: String, vararg strings: String) =
-    concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
+fun TypeExpression<StringType>.concat2(
+    string: String,
+    vararg strings: String,
+) = concat2(string.toDopeType(), *strings.map { it.toDopeType() }.toTypedArray())
 
-fun String.concat2(string: TypeExpression<StringType>, vararg strings: TypeExpression<StringType>) =
-    toDopeType().concat2(string, *strings)
+fun String.concat2(
+    string: TypeExpression<StringType>,
+    vararg strings: TypeExpression<StringType>,
+) = toDopeType().concat2(string, *strings)

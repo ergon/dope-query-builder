@@ -80,12 +80,13 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                 val lower = typeExpression.start.toDopeQuery(this)
                 val upper = typeExpression.end.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryString(
-                        left.queryString,
-                        "BETWEEN ${lower.queryString}",
-                        "AND ${upper.queryString}",
-                        separator = " ",
-                    ),
+                    queryString =
+                        formatToQueryString(
+                            left.queryString,
+                            "BETWEEN ${lower.queryString}",
+                            "AND ${upper.queryString}",
+                            separator = " ",
+                        ),
                     parameters = left.parameters.merge(lower.parameters, upper.parameters),
                 )
             }
@@ -95,12 +96,13 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                 val lower = typeExpression.start.toDopeQuery(this)
                 val upper = typeExpression.end.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryString(
-                        left.queryString,
-                        "NOT BETWEEN ${lower.queryString}",
-                        "AND ${upper.queryString}",
-                        separator = " ",
-                    ),
+                    queryString =
+                        formatToQueryString(
+                            left.queryString,
+                            "NOT BETWEEN ${lower.queryString}",
+                            "AND ${upper.queryString}",
+                            separator = " ",
+                        ),
                     parameters = left.parameters.merge(lower.parameters, upper.parameters),
                 )
             }
@@ -122,8 +124,9 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                     typeExpression.predicate as (Iterator<ValidType>) -> TypeExpression<BooleanType>
                 val predicate = predicateFunc(Iterator(iteratorName)).toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = "${typeExpression.satisfiesType.queryString} `$iteratorName` " +
-                        "IN ${array.queryString} SATISFIES ${predicate.queryString} END",
+                    queryString =
+                        "${typeExpression.satisfiesType.queryString} `$iteratorName` " +
+                            "IN ${array.queryString} SATISFIES ${predicate.queryString} END",
                     parameters = array.parameters.merge(predicate.parameters),
                 )
             }
@@ -164,10 +167,11 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                         )
                     }
 
-                    else -> CouchbaseDopeQuery(
-                        queryString = "$$name",
-                        parameters = DopeParameters(namedParameters = mapOf(name to typeExpression.value)),
-                    )
+                    else ->
+                        CouchbaseDopeQuery(
+                            queryString = "$$name",
+                            parameters = DopeParameters(namedParameters = mapOf(name to typeExpression.value)),
+                        )
                 }
             }
 
@@ -210,14 +214,16 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                 val expressionDopeQueries =
                     pairs.map { it.searchExpression.toDopeQuery(this) to it.resultExpression.toDopeQuery(this) }
                 CouchbaseDopeQuery(
-                    queryString = case.queryString +
-                        expressionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
-                            "WHEN ${it.first.queryString} THEN ${it.second.queryString}"
-                        } + "END",
-                    parameters = case.parameters.merge(
-                        *expressionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }
-                            .toTypedArray(),
-                    ),
+                    queryString =
+                        case.queryString +
+                            expressionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
+                                "WHEN ${it.first.queryString} THEN ${it.second.queryString}"
+                            } + "END",
+                    parameters =
+                        case.parameters.merge(
+                            *expressionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }
+                                .toTypedArray(),
+                        ),
                 )
             }
 
@@ -228,33 +234,37 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                     pairs.map { it.searchExpression.toDopeQuery(this) to it.resultExpression.toDopeQuery(this) }
                 val elseDopeQuery = typeExpression.elseCase.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = case.queryString +
-                        expressionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
-                            "WHEN ${it.first.queryString} THEN ${it.second.queryString}"
-                        } + "ELSE ${elseDopeQuery.queryString} " + "END",
-                    parameters = case.parameters.merge(
-                        *expressionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }
-                            .toTypedArray(),
-                    ),
+                    queryString =
+                        case.queryString +
+                            expressionDopeQueries.joinToString(separator = " ", prefix = " ", postfix = " ") {
+                                "WHEN ${it.first.queryString} THEN ${it.second.queryString}"
+                            } + "ELSE ${elseDopeQuery.queryString} " + "END",
+                    parameters =
+                        case.parameters.merge(
+                            *expressionDopeQueries.map { it.first.parameters.merge(it.second.parameters) }
+                                .toTypedArray(),
+                        ),
                 )
             }
 
             is IField<*> -> {
                 val bucket = typeExpression.bucket
-                val fieldQuery = when (bucket) {
-                    is AliasedBucket -> "`${bucket.alias}`.`${typeExpression.name}`"
+                val fieldQuery =
+                    when (bucket) {
+                        is AliasedBucket -> "`${bucket.alias}`.`${typeExpression.name}`"
 
-                    is UnaliasedBucket -> {
-                        val path = when {
-                            bucket.scope != null && bucket.scope?.collection != null -> bucket.scope?.collection!!.name
-                            bucket.scope != null -> bucket.scope!!.name
-                            else -> bucket.name
+                        is UnaliasedBucket -> {
+                            val path =
+                                when {
+                                    bucket.scope != null && bucket.scope?.collection != null -> bucket.scope?.collection!!.name
+                                    bucket.scope != null -> bucket.scope!!.name
+                                    else -> bucket.name
+                                }
+                            "`$path`.`${typeExpression.name}`"
                         }
-                        "`$path`.`${typeExpression.name}`"
-                    }
 
-                    else -> "`${typeExpression.name}`"
-                }
+                        else -> "`${typeExpression.name}`"
+                    }
                 CouchbaseDopeQuery(queryString = fieldQuery)
             }
 
@@ -289,17 +299,19 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                 val transformationDopeQuery = transformationExpression.toDopeQuery(this)
                 val conditionDopeQuery = condExpr?.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = "${typeExpression.transformationType.name} " +
-                        withAttributeKeysDopeQuery?.let { "${withAttributeKeysDopeQuery.queryString}:" }.orEmpty() +
-                        "${transformationDopeQuery.queryString} FOR `$iteratorVariable` " +
-                        "${typeExpression.membershipType.name} ${rangeDopeQuery.queryString} " +
-                        conditionDopeQuery?.let { "WHEN ${conditionDopeQuery.queryString} " }.orEmpty() +
-                        "END",
-                    parameters = rangeDopeQuery.parameters.merge(
-                        withAttributeKeysDopeQuery?.parameters,
-                        transformationDopeQuery.parameters,
-                        conditionDopeQuery?.parameters,
-                    ),
+                    queryString =
+                        "${typeExpression.transformationType.name} " +
+                            withAttributeKeysDopeQuery?.let { "${withAttributeKeysDopeQuery.queryString}:" }.orEmpty() +
+                            "${transformationDopeQuery.queryString} FOR `$iteratorVariable` " +
+                            "${typeExpression.membershipType.name} ${rangeDopeQuery.queryString} " +
+                            conditionDopeQuery?.let { "WHEN ${conditionDopeQuery.queryString} " }.orEmpty() +
+                            "END",
+                    parameters =
+                        rangeDopeQuery.parameters.merge(
+                            withAttributeKeysDopeQuery?.parameters,
+                            transformationDopeQuery.parameters,
+                            conditionDopeQuery?.parameters,
+                        ),
                 )
             }
 
@@ -334,17 +346,19 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
                 val transformationDopeQuery = transformationExpression.toDopeQuery(this)
                 val conditionDopeQuery = conditionExpression?.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = typeExpression.transformationType.name + " " +
-                        (withAttributeKeysDopeQuery?.let { "${it.queryString}:" } ?: "") +
-                        "${transformationDopeQuery.queryString} FOR `$indexVar`:`$iterVar` " +
-                        "${typeExpression.membershipType.name} ${rangeQ.queryString} " +
-                        (conditionDopeQuery?.let { "WHEN ${it.queryString} " } ?: "") +
-                        "END",
-                    parameters = rangeQ.parameters.merge(
-                        withAttributeKeysDopeQuery?.parameters,
-                        transformationDopeQuery.parameters,
-                        conditionDopeQuery?.parameters,
-                    ),
+                    queryString =
+                        typeExpression.transformationType.name + " " +
+                            (withAttributeKeysDopeQuery?.let { "${it.queryString}:" } ?: "") +
+                            "${transformationDopeQuery.queryString} FOR `$indexVar`:`$iterVar` " +
+                            "${typeExpression.membershipType.name} ${rangeQ.queryString} " +
+                            (conditionDopeQuery?.let { "WHEN ${it.queryString} " } ?: "") +
+                            "END",
+                    parameters =
+                        rangeQ.parameters.merge(
+                            withAttributeKeysDopeQuery?.parameters,
+                            transformationDopeQuery.parameters,
+                            conditionDopeQuery?.parameters,
+                        ),
                 )
             }
 
@@ -369,31 +383,35 @@ interface TypeExpressionResolver : InfixOperatorResolver, FunctionOperatorResolv
     }
 
     fun resolve(tokensOptions: TokensOptions): CouchbaseDopeQuery {
-        val options = listOfNotNull(
-            tokensOptions.hasName?.let { "name" to it },
-            tokensOptions.case?.let { "case" to "\"${it.queryString}\"" },
-            tokensOptions.includeSpecialCharacters?.let { "specials" to it },
-        )
-        val queryString = options
-            .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
-            .takeIf { options.isNotEmpty() }
-            .orEmpty()
+        val options =
+            listOfNotNull(
+                tokensOptions.hasName?.let { "name" to it },
+                tokensOptions.case?.let { "case" to "\"${it.queryString}\"" },
+                tokensOptions.includeSpecialCharacters?.let { "specials" to it },
+            )
+        val queryString =
+            options
+                .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
+                .takeIf { options.isNotEmpty() }
+                .orEmpty()
 
         return CouchbaseDopeQuery(queryString = queryString)
     }
 
     fun resolve(containsTokenOptions: ContainsTokenOptions): CouchbaseDopeQuery {
-        val options = listOfNotNull(
-            containsTokenOptions.hasNames?.let { "names" to it },
-            containsTokenOptions.case?.let { "case" to "\"${it.queryString}\"" },
-            containsTokenOptions.includeSpecialCharacters?.let { "specials" to it },
-            containsTokenOptions.split?.let { "split" to it },
-            containsTokenOptions.trim?.let { "trim" to it },
-        )
-        val queryString = options
-            .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
-            .takeIf { options.isNotEmpty() }
-            .orEmpty()
+        val options =
+            listOfNotNull(
+                containsTokenOptions.hasNames?.let { "names" to it },
+                containsTokenOptions.case?.let { "case" to "\"${it.queryString}\"" },
+                containsTokenOptions.includeSpecialCharacters?.let { "specials" to it },
+                containsTokenOptions.split?.let { "split" to it },
+                containsTokenOptions.trim?.let { "trim" to it },
+            )
+        val queryString =
+            options
+                .joinToString(", ", "{", "}") { (key, value) -> "\"$key\": $value" }
+                .takeIf { options.isNotEmpty() }
+                .orEmpty()
 
         return CouchbaseDopeQuery(queryString = queryString)
     }

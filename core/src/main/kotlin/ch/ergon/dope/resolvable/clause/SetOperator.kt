@@ -18,11 +18,9 @@ data class SetOperator<T : ValidType>(
     val duplicatesAllowed: Boolean,
 ) : ISelectOffsetClause<T>
 
-fun <T : ValidType> ISelectOffsetClause<T>.union(select: ISelectOffsetClause<T>) =
-    SetOperator(UNION, this, select, duplicatesAllowed = false)
+fun <T : ValidType> ISelectOffsetClause<T>.union(select: ISelectOffsetClause<T>) = SetOperator(UNION, this, select, duplicatesAllowed = false)
 
-fun <T : ValidType> ISelectOffsetClause<T>.unionAll(select: ISelectOffsetClause<T>) =
-    SetOperator(UNION, this, select, duplicatesAllowed = true)
+fun <T : ValidType> ISelectOffsetClause<T>.unionAll(select: ISelectOffsetClause<T>) = SetOperator(UNION, this, select, duplicatesAllowed = true)
 
 fun <T : ValidType> ISelectOffsetClause<T>.intersect(select: ISelectOffsetClause<T>) =
     SetOperator(INTERSECT, this, select, duplicatesAllowed = false)
@@ -30,8 +28,7 @@ fun <T : ValidType> ISelectOffsetClause<T>.intersect(select: ISelectOffsetClause
 fun <T : ValidType> ISelectOffsetClause<T>.intersectAll(select: ISelectOffsetClause<T>) =
     SetOperator(INTERSECT, this, select, duplicatesAllowed = true)
 
-fun <T : ValidType> ISelectOffsetClause<T>.except(select: ISelectOffsetClause<T>) =
-    SetOperator(EXCEPT, this, select, duplicatesAllowed = false)
+fun <T : ValidType> ISelectOffsetClause<T>.except(select: ISelectOffsetClause<T>) = SetOperator(EXCEPT, this, select, duplicatesAllowed = false)
 
 fun <T : ValidType> ISelectOffsetClause<T>.exceptAll(select: ISelectOffsetClause<T>) =
     SetOperator(EXCEPT, this, select, duplicatesAllowed = true)

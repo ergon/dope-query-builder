@@ -17,9 +17,10 @@ class MaxExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support max`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MAX(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MAX(`numberField`)",
+            )
         val underTest = MaxExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class MaxExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support max with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MAX(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MAX(ALL `numberField`)",
+            )
         val underTest = MaxExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -41,9 +43,10 @@ class MaxExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support max with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MAX(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MAX(DISTINCT `numberField`)",
+            )
         val underTest = MaxExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

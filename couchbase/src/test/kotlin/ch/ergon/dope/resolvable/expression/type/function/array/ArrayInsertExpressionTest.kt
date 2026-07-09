@@ -24,9 +24,10 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_INSERT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(`numberArrayField`, 1, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(`numberArrayField`, 1, `numberField`)",
+            )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -37,10 +38,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_INSERT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT($1, 1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT($1, 1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), 1.toDopeType(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -52,10 +54,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INSERT with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(\$$parameterName, 1, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(\$$parameterName, 1, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -66,10 +69,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_INSERT with positional second parameter`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(`numberArrayField`, $1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(`numberArrayField`, $1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayInsertExpression(someNumberArrayField(), parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -81,10 +85,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INSERT with named second parameter`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(`numberArrayField`, \$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(`numberArrayField`, \$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayInsertExpression(someNumberArrayField(), parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -95,10 +100,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_INSERT with positional third parameter`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(`numberArrayField`, 1, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(`numberArrayField`, 1, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -110,10 +116,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INSERT with named third parameter`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(`numberArrayField`, 1, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(`numberArrayField`, 1, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayInsertExpression(someNumberArrayField(), 1.toDopeType(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -125,10 +132,11 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INSERT with positional all parameters`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT($1, $2, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT($1, $2, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = ArrayInsertExpression(parameterValue.asParameter(), parameterValue2.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -142,15 +150,17 @@ class ArrayInsertExpressionTest : ResolverDependentTest {
         val parameterValue2 = 1
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INSERT(\$$parameterName, \$$parameterName2, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = ArrayInsertExpression(
-            parameterValue.asParameter(parameterName),
-            parameterValue2.asParameter(parameterName2),
-            someNumberField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INSERT(\$$parameterName, \$$parameterName2, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            ArrayInsertExpression(
+                parameterValue.asParameter(parameterName),
+                parameterValue2.asParameter(parameterName2),
+                someNumberField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

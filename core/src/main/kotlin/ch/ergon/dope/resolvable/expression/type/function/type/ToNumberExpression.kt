@@ -18,8 +18,7 @@ fun String.toNumber() = toDopeType().toNumber()
 
 fun Boolean.toNumber() = toDopeType().toNumber()
 
-fun TypeExpression<StringType>.toNumber(filterChars: TypeExpression<StringType>) =
-    ToNumberExpression(this, filterChars)
+fun TypeExpression<StringType>.toNumber(filterChars: TypeExpression<StringType>) = ToNumberExpression(this, filterChars)
 
 fun TypeExpression<StringType>.toNumber(filterChars: String) = toNumber(filterChars.toDopeType())
 

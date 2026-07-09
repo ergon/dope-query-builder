@@ -15,24 +15,54 @@ fun floor(field: CMJsonField<out Number>) = floor(field.toDopeType())
 
 fun round(field: CMJsonField<out Number>) = round(field.toDopeType())
 
-fun round(field: CMJsonField<out Number>, digits: CMJsonField<out Number>) = round(field.toDopeType(), digits.toDopeType())
+fun round(
+    field: CMJsonField<out Number>,
+    digits: CMJsonField<out Number>,
+) = round(field.toDopeType(), digits.toDopeType())
 
-fun round(field: CMJsonField<out Number>, digits: TypeExpression<NumberType>) = round(field.toDopeType(), digits)
+fun round(
+    field: CMJsonField<out Number>,
+    digits: TypeExpression<NumberType>,
+) = round(field.toDopeType(), digits)
 
-fun round(field: CMJsonField<out Number>, digits: Number) = round(field.toDopeType(), digits)
+fun round(
+    field: CMJsonField<out Number>,
+    digits: Number,
+) = round(field.toDopeType(), digits)
 
-fun round(value: TypeExpression<NumberType>, digits: CMJsonField<out Number>) = round(value, digits.toDopeType())
+fun round(
+    value: TypeExpression<NumberType>,
+    digits: CMJsonField<out Number>,
+) = round(value, digits.toDopeType())
 
-fun round(value: Number, digits: CMJsonField<out Number>) = round(value, digits.toDopeType())
+fun round(
+    value: Number,
+    digits: CMJsonField<out Number>,
+) = round(value, digits.toDopeType())
 
 fun trunc(field: CMJsonField<out Number>) = trunc(field.toDopeType())
 
-fun trunc(field: CMJsonField<out Number>, digits: CMJsonField<out Number>) = trunc(field.toDopeType(), digits.toDopeType())
+fun trunc(
+    field: CMJsonField<out Number>,
+    digits: CMJsonField<out Number>,
+) = trunc(field.toDopeType(), digits.toDopeType())
 
-fun trunc(field: CMJsonField<out Number>, digits: TypeExpression<NumberType>) = trunc(field.toDopeType(), digits)
+fun trunc(
+    field: CMJsonField<out Number>,
+    digits: TypeExpression<NumberType>,
+) = trunc(field.toDopeType(), digits)
 
-fun trunc(field: CMJsonField<out Number>, digits: Number) = trunc(field.toDopeType(), digits)
+fun trunc(
+    field: CMJsonField<out Number>,
+    digits: Number,
+) = trunc(field.toDopeType(), digits)
 
-fun trunc(value: TypeExpression<NumberType>, digits: CMJsonField<out Number>) = trunc(value, digits.toDopeType())
+fun trunc(
+    value: TypeExpression<NumberType>,
+    digits: CMJsonField<out Number>,
+) = trunc(value, digits.toDopeType())
 
-fun trunc(value: Number, digits: CMJsonField<out Number>) = trunc(value, digits.toDopeType())
+fun trunc(
+    value: Number,
+    digits: CMJsonField<out Number>,
+) = trunc(value, digits.toDopeType())

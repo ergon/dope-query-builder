@@ -111,15 +111,16 @@ class DeleteClauseTest {
         val field2 = someCMNumberList()
         val field3 = someCMStringField()
         val parentClause = someDelete()
-        val expected = DeleteReturningClause(
-            field1.toDopeType(),
-            listOf(
-                field2.toDopeType(),
-                asterisk(),
-                field3.toDopeType(),
-            ),
-            parentClause = parentClause,
-        )
+        val expected =
+            DeleteReturningClause(
+                field1.toDopeType(),
+                listOf(
+                    field2.toDopeType(),
+                    asterisk(),
+                    field3.toDopeType(),
+                ),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.returning(field1.toDopeType(), field2.toDopeType(), asterisk(), field3.toDopeType())
 

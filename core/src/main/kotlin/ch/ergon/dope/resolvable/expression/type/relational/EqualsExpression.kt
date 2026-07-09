@@ -15,83 +15,59 @@ data class EqualsExpression<T : ValidType>(
     override val right: TypeExpression<T>,
 ) : InfixOperator<BooleanType>(left, right)
 
-fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): EqualsExpression<T> =
-    EqualsExpression(this, right)
+fun <T : ValidType> TypeExpression<T>.isEqualTo(right: TypeExpression<T>): EqualsExpression<T> = EqualsExpression(this, right)
 
-fun TypeExpression<NumberType>.isEqualTo(right: Number): EqualsExpression<NumberType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<NumberType>.isEqualTo(right: Number): EqualsExpression<NumberType> = isEqualTo(right.toDopeType())
 
-fun Number.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(right)
+fun Number.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> = toDopeType().isEqualTo(right)
 
-fun Number.isEqualTo(right: Number): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun Number.isEqualTo(right: Number): EqualsExpression<NumberType> = toDopeType().isEqualTo(right.toDopeType())
 
-fun TypeExpression<StringType>.isEqualTo(right: String): EqualsExpression<StringType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<StringType>.isEqualTo(right: String): EqualsExpression<StringType> = isEqualTo(right.toDopeType())
 
-fun String.isEqualTo(right: TypeExpression<StringType>): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(right)
+fun String.isEqualTo(right: TypeExpression<StringType>): EqualsExpression<StringType> = toDopeType().isEqualTo(right)
 
-fun String.isEqualTo(right: String): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun String.isEqualTo(right: String): EqualsExpression<StringType> = toDopeType().isEqualTo(right.toDopeType())
 
-fun TypeExpression<BooleanType>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<BooleanType>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> = isEqualTo(right.toDopeType())
 
 @JvmName("TypeExpressionIsFalse")
-fun TypeExpression<BooleanType>.isFalse(): EqualsExpression<BooleanType> =
-    isEqualTo(FALSE)
+fun TypeExpression<BooleanType>.isFalse(): EqualsExpression<BooleanType> = isEqualTo(FALSE)
 
 @JvmName("TypeExpressionIsTrue")
-fun TypeExpression<BooleanType>.isTrue(): EqualsExpression<BooleanType> =
-    isEqualTo(TRUE)
+fun TypeExpression<BooleanType>.isTrue(): EqualsExpression<BooleanType> = isEqualTo(TRUE)
 
-fun Boolean.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(right)
+fun Boolean.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> = toDopeType().isEqualTo(right)
 
-fun Boolean.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun Boolean.isEqualTo(right: Boolean): EqualsExpression<BooleanType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("BooleanIsFalse")
-fun Boolean.isFalse(): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(FALSE)
+fun Boolean.isFalse(): EqualsExpression<BooleanType> = toDopeType().isEqualTo(FALSE)
 
 @JvmName("BooleanIsTrue")
-fun Boolean.isTrue(): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(TRUE)
+fun Boolean.isTrue(): EqualsExpression<BooleanType> = toDopeType().isEqualTo(TRUE)
 
 data class NotEqualsExpression<T : ValidType>(
     override val left: TypeExpression<T>,
     override val right: TypeExpression<T>,
 ) : InfixOperator<BooleanType>(left, right)
 
-fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> =
-    NotEqualsExpression(this, right)
+fun <T : ValidType> TypeExpression<T>.isNotEqualTo(right: TypeExpression<T>): NotEqualsExpression<T> = NotEqualsExpression(this, right)
 
-fun TypeExpression<NumberType>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<NumberType>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> = isNotEqualTo(right.toDopeType())
 
-fun Number.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> =
-    toDopeType().isNotEqualTo(right)
+fun Number.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(right)
 
-fun Number.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun Number.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(right.toDopeType())
 
-fun TypeExpression<StringType>.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<StringType>.isNotEqualTo(right: String): NotEqualsExpression<StringType> = isNotEqualTo(right.toDopeType())
 
-fun String.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(right)
+fun String.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsExpression<StringType> = toDopeType().isNotEqualTo(right)
 
-fun String.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun String.isNotEqualTo(right: String): NotEqualsExpression<StringType> = toDopeType().isNotEqualTo(right.toDopeType())
 
-fun TypeExpression<BooleanType>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<BooleanType>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> = isNotEqualTo(right.toDopeType())
 
-fun Boolean.isNotEqualTo(right: TypeExpression<BooleanType>): NotEqualsExpression<BooleanType> =
-    toDopeType().isNotEqualTo(right)
+fun Boolean.isNotEqualTo(right: TypeExpression<BooleanType>): NotEqualsExpression<BooleanType> = toDopeType().isNotEqualTo(right)
 
-fun Boolean.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun Boolean.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> = toDopeType().isNotEqualTo(right.toDopeType())

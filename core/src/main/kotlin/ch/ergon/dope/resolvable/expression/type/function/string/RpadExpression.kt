@@ -17,14 +17,20 @@ fun TypeExpression<StringType>.rpad(
     char: TypeExpression<StringType>? = null,
 ) = RpadExpression(this, size, char)
 
-fun TypeExpression<StringType>.rpad(size: TypeExpression<NumberType>, char: String) =
-    rpad(size, char.toDopeType())
+fun TypeExpression<StringType>.rpad(
+    size: TypeExpression<NumberType>,
+    char: String,
+) = rpad(size, char.toDopeType())
 
-fun TypeExpression<StringType>.rpad(size: Number, char: TypeExpression<StringType>) =
-    rpad(size.toDopeType(), char)
+fun TypeExpression<StringType>.rpad(
+    size: Number,
+    char: TypeExpression<StringType>,
+) = rpad(size.toDopeType(), char)
 
-fun TypeExpression<StringType>.rpad(size: Number, char: String) =
-    rpad(size.toDopeType(), char.toDopeType())
+fun TypeExpression<StringType>.rpad(
+    size: Number,
+    char: String,
+) = rpad(size.toDopeType(), char.toDopeType())
 
 fun TypeExpression<StringType>.rpad(size: Number) = rpad(size.toDopeType())
 
@@ -33,13 +39,19 @@ fun String.rpad(
     char: TypeExpression<StringType>? = null,
 ) = toDopeType().rpad(size, char)
 
-fun String.rpad(size: TypeExpression<NumberType>, char: String) =
-    toDopeType().rpad(size, char.toDopeType())
+fun String.rpad(
+    size: TypeExpression<NumberType>,
+    char: String,
+) = toDopeType().rpad(size, char.toDopeType())
 
-fun String.rpad(size: Number, char: TypeExpression<StringType>) =
-    toDopeType().rpad(size.toDopeType(), char)
+fun String.rpad(
+    size: Number,
+    char: TypeExpression<StringType>,
+) = toDopeType().rpad(size.toDopeType(), char)
 
-fun String.rpad(size: Number, char: String) =
-    toDopeType().rpad(size.toDopeType(), char.toDopeType())
+fun String.rpad(
+    size: Number,
+    char: String,
+) = toDopeType().rpad(size.toDopeType(), char.toDopeType())
 
 fun String.rpad(size: Number) = toDopeType().rpad(size.toDopeType())

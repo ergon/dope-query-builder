@@ -12,8 +12,7 @@ data class MillisToUtcExpression(val date: TypeExpression<NumberType>, val forma
 data class StrToUtcExpression(val date: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(date))
 
-fun TypeExpression<NumberType>.toUtcDate(format: TypeExpression<StringType>? = null) =
-    MillisToUtcExpression(this, format)
+fun TypeExpression<NumberType>.toUtcDate(format: TypeExpression<StringType>? = null) = MillisToUtcExpression(this, format)
 
 fun Number.toUtcDate(format: TypeExpression<StringType>? = null) = toDopeType().toUtcDate(format)
 

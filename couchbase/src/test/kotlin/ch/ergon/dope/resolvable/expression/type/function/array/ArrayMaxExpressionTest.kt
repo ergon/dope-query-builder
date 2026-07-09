@@ -15,9 +15,10 @@ class ArrayMaxExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_MAX`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_MAX(`numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_MAX(`numberArrayField`)",
+            )
         val underTest = ArrayMaxExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayMaxExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_MAX with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_MAX($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_MAX($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayMaxExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayMaxExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_MAX with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_MAX(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_MAX(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayMaxExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

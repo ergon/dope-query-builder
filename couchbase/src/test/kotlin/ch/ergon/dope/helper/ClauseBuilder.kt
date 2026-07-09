@@ -26,17 +26,13 @@ fun someSelectClause(selectable: Selectable = Asterisk()) = SelectClause(selecta
 
 fun someSelectRawClause() = someStringSelectRawClause()
 
-fun someStringSelectRawClause(expression: TypeExpression<StringType> = someStringField()) =
-    SelectRawClause(expression)
+fun someStringSelectRawClause(expression: TypeExpression<StringType> = someStringField()) = SelectRawClause(expression)
 
-fun someNumberSelectRawClause(expression: TypeExpression<NumberType> = someNumberField()) =
-    SelectRawClause(expression)
+fun someNumberSelectRawClause(expression: TypeExpression<NumberType> = someNumberField()) = SelectRawClause(expression)
 
-fun someBooleanSelectRawClause(expression: TypeExpression<BooleanType> = someBooleanField()) =
-    SelectRawClause(expression)
+fun someBooleanSelectRawClause(expression: TypeExpression<BooleanType> = someBooleanField()) = SelectRawClause(expression)
 
-fun someObjectSelectRawClause(expression: TypeExpression<ObjectType> = someObjectField()) =
-    SelectRawClause(expression)
+fun someObjectSelectRawClause(expression: TypeExpression<ObjectType> = someObjectField()) = SelectRawClause(expression)
 
 fun someAnyTypeSelectRawClause(expression: Expression<ValidType> = someAnyTypeField()) = SelectRawClause(expression)
 
@@ -44,5 +40,7 @@ fun someDeleteClause(bucket: Bucket = someBucket()) = DeleteClause(bucket)
 
 fun someUpdateClause(bucket: Bucket = someBucket()) = UpdateClause(bucket)
 
-fun someFromClause(bucket: UnaliasedBucket = someBucket(), parent: SelectClause = someSelectClause()) =
-    FromClause(bucket, parent)
+fun someFromClause(
+    bucket: UnaliasedBucket = someBucket(),
+    parent: SelectClause = someSelectClause(),
+) = FromClause(bucket, parent)

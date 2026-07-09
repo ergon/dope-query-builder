@@ -13,8 +13,11 @@ import ch.ergon.dope.validtype.ValidType
 sealed class Primitive<T : ValidType> : TypeExpression<T>
 
 data object NULL : Primitive<NullType>()
+
 data object MISSING : Primitive<MissingType>()
+
 data object TRUE : Primitive<BooleanType>()
+
 data object FALSE : Primitive<BooleanType>()
 
 data class NumberPrimitive(val value: Number) : Primitive<NumberType>()
@@ -71,14 +74,15 @@ fun Collection<String>.toDopeType(): ArrayPrimitive<StringType> = map { it.toDop
 fun Collection<Boolean>.toDopeType(): ArrayPrimitive<BooleanType> = map { it.toDopeType() }.toDopeType()
 
 @Suppress("UNCHECKED_CAST")
-private fun <T> T.toDopeType() = when (this) {
-    is Number -> this.toDopeType()
-    is String -> this.toDopeType()
-    is Boolean -> this.toDopeType()
-    is Map<*, *> -> (this as? Map<String, Any>)?.toDopeType() ?: throw wrongTypeException()
-    is Collection<*> -> this.toDopeType()
-    else -> throw wrongTypeException()
-}
+private fun <T> T.toDopeType() =
+    when (this) {
+        is Number -> this.toDopeType()
+        is String -> this.toDopeType()
+        is Boolean -> this.toDopeType()
+        is Map<*, *> -> (this as? Map<String, Any>)?.toDopeType() ?: throw wrongTypeException()
+        is Collection<*> -> this.toDopeType()
+        else -> throw wrongTypeException()
+    }
 
 private fun <T> T.wrongTypeException(): IllegalArgumentException {
     return IllegalArgumentException("Type for value '$this' is not supported.")

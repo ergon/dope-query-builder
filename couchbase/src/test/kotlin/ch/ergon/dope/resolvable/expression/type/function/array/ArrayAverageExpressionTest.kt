@@ -15,9 +15,10 @@ class ArrayAverageExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_AVG`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_AVG(`numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_AVG(`numberArrayField`)",
+            )
         val underTest = ArrayAverageExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayAverageExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_AVG with parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_AVG($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_AVG($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayAverageExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

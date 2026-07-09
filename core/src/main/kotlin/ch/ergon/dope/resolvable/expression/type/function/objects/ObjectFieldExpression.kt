@@ -12,7 +12,6 @@ data class ObjectFieldExpression(
     val attributeKey: TypeExpression<StringType>,
 ) : FunctionExpression<ValidType>(listOf(objectExpression, attributeKey))
 
-fun TypeExpression<ObjectType>.getField(key: TypeExpression<StringType>) =
-    ObjectFieldExpression(this, key)
+fun TypeExpression<ObjectType>.getField(key: TypeExpression<StringType>) = ObjectFieldExpression(this, key)
 
 fun TypeExpression<ObjectType>.getField(key: String) = getField(key.toDopeType())

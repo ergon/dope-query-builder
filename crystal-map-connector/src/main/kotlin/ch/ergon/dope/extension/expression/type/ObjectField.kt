@@ -49,11 +49,12 @@ data class ObjectField<S : Schema>(
 inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProperty1<S, T>): T {
     val schemaField = field.get(schema)
     val bucketValue = bucket
-    val nestedFieldPath = if (bucketValue == null) {
-        name
-    } else {
-        "${bucketValue.name}${bucketValue.scope?.let { ".$it" }}${bucketValue.scope?.collection?.let { ".$it" }}.$name"
-    }
+    val nestedFieldPath =
+        if (bucketValue == null) {
+            name
+        } else {
+            "${bucketValue.name}${bucketValue.scope?.let { ".$it" }}${bucketValue.scope?.collection?.let { ".$it" }}.$name"
+        }
     return when (schemaField) {
         is CMConverterField<*, *> ->
             CMConverterField(
@@ -101,5 +102,4 @@ inline fun <reified T : CMType, S : Schema> ObjectField<S>.getField(field: KProp
  * @throws IllegalStateException if the attribute type is not supported
  * @return the retrieved CMType
  */
-inline fun <reified T : CMType, S : Schema> CMObjectField<S>.getField(field: KProperty1<S, T>): T =
-    toDopeType().getField(field)
+inline fun <reified T : CMType, S : Schema> CMObjectField<S>.getField(field: KProperty1<S, T>): T = toDopeType().getField(field)

@@ -20,9 +20,10 @@ class LastValueTest : ResolverDependentTest {
 
     @Test
     fun `should support last value with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "LAST_VALUE(`numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAST_VALUE(`numberField`) OVER `ref`",
+            )
         val underTest = LastValueWithReference(someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -32,9 +33,10 @@ class LastValueTest : ResolverDependentTest {
 
     @Test
     fun `should support last value with reference and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "LAST_VALUE(`numberField`) RESPECT NULLS OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAST_VALUE(`numberField`) RESPECT NULLS OVER `ref`",
+            )
         val underTest = LastValueWithReference(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,9 +46,10 @@ class LastValueTest : ResolverDependentTest {
 
     @Test
     fun `should support last value with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "LAST_VALUE(`numberField`) OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAST_VALUE(`numberField`) OVER (ORDER BY `stringField`)",
+            )
         val underTest = LastValue(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -56,14 +59,16 @@ class LastValueTest : ResolverDependentTest {
 
     @Test
     fun `should support last value with order clause and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "LAST_VALUE(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-        )
-        val underTest = LastValue(
-            someNumberField(),
-            nullsModifier = IGNORE,
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAST_VALUE(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            LastValue(
+                someNumberField(),
+                nullsModifier = IGNORE,
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -72,14 +77,16 @@ class LastValueTest : ResolverDependentTest {
 
     @Test
     fun `should support last value with all window partition`() {
-        val expected = CouchbaseDopeQuery(
-            "LAST_VALUE(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = LastValue(
-            someNumberField(),
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAST_VALUE(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            LastValue(
+                someNumberField(),
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -88,14 +95,16 @@ class LastValueTest : ResolverDependentTest {
 
     @Test
     fun `should support last value with frame clause`() {
-        val expected = CouchbaseDopeQuery(
-            "LAST_VALUE(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-        )
-        val underTest = LastValue(
-            someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-            windowFrameClause = someWindowFrameClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAST_VALUE(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            )
+        val underTest =
+            LastValue(
+                someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+                windowFrameClause = someWindowFrameClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

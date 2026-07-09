@@ -16,9 +16,10 @@ class LowerExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support lower with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "LOWER(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LOWER(`stringField`)",
+            )
         val underTest = LowerExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class LowerExpressionTest : ResolverDependentTest {
     @Test
     fun `should support lower with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "LOWER($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LOWER($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = LowerExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class LowerExpressionTest : ResolverDependentTest {
     fun `should support lower with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "LOWER(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "LOWER(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = LowerExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

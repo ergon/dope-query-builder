@@ -8,8 +8,6 @@ import ch.ergon.dope.validtype.StringType
 data class NowUtcExpression(val format: TypeExpression<StringType>? = null) :
     FunctionExpression<StringType>(listOf(format))
 
-fun utcNowString(format: TypeExpression<StringType>? = null) =
-    NowUtcExpression(format)
+fun utcNowString(format: TypeExpression<StringType>? = null) = NowUtcExpression(format)
 
-fun utcNowString(format: String) =
-    utcNowString(format.toDopeType())
+fun utcNowString(format: String) = utcNowString(format.toDopeType())

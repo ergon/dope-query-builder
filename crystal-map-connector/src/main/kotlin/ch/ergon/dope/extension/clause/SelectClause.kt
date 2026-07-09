@@ -95,8 +95,10 @@ fun <T : ValidType> SelectOrderByClause<T>.thenOrderBy(
     orderByType: OrderType? = null,
 ) = thenOrderBy(booleanField.toDopeType(), orderByType)
 
-fun <T : ValidType> ISelectWhereClause<T>.groupBy(field: CMType, vararg fields: CMType) =
-    groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
+fun <T : ValidType> ISelectWhereClause<T>.groupBy(
+    field: CMType,
+    vararg fields: CMType,
+) = groupBy(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
 fun <T : ValidType> ISelectFromClause<T>.where(whereExpression: CMJsonField<Boolean>) = where(whereExpression.toDopeType())
 

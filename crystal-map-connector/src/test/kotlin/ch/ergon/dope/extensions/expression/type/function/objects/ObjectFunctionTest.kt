@@ -1,4 +1,4 @@
-package ch.ergon.dope.extensions.expression.type.function.`object`
+package ch.ergon.dope.extensions.expression.type.function.objects
 
 import ch.ergon.dope.extension.expression.type.objects.addAttribute
 import ch.ergon.dope.extension.expression.type.objects.concat
@@ -58,10 +58,11 @@ class ObjectFunctionTest {
         val objectExpression = someCMObjectField()
         val newAttributeKey = "key"
         val newAttributeValue = "value".toDopeType()
-        val expected = ObjectAddExpression(
-            objectExpression.toDopeType(),
-            ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue),
-        )
+        val expected =
+            ObjectAddExpression(
+                objectExpression.toDopeType(),
+                ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue),
+            )
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -73,10 +74,11 @@ class ObjectFunctionTest {
         val objectExpression = someCMObjectField()
         val newAttributeKey = someCMStringField()
         val newAttributeValue = someNumberFieldList()
-        val expected = ObjectAddExpression(
-            objectExpression.toDopeType(),
-            ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue),
-        )
+        val expected =
+            ObjectAddExpression(
+                objectExpression.toDopeType(),
+                ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue),
+            )
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -88,10 +90,11 @@ class ObjectFunctionTest {
         val objectExpression = someCMObjectField()
         val newAttributeKey = someCMStringField()
         val newAttributeValue = someCMNumberList()
-        val expected = ObjectAddExpression(
-            objectExpression.toDopeType(),
-            ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue.toDopeType()),
-        )
+        val expected =
+            ObjectAddExpression(
+                objectExpression.toDopeType(),
+                ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue.toDopeType()),
+            )
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -103,10 +106,11 @@ class ObjectFunctionTest {
         val objectExpression = someObjectField()
         val newAttributeKey = someCMStringField()
         val newAttributeValue = someCMNumberList()
-        val expected = ObjectAddExpression(
-            objectExpression,
-            ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue.toDopeType()),
-        )
+        val expected =
+            ObjectAddExpression(
+                objectExpression,
+                ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue.toDopeType()),
+            )
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -118,10 +122,11 @@ class ObjectFunctionTest {
         val objectExpression = someCMObjectField()
         val newAttributeKey = "key"
         val newAttributeValue = someCMNumberList()
-        val expected = ObjectAddExpression(
-            objectExpression.toDopeType(),
-            ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue.toDopeType()),
-        )
+        val expected =
+            ObjectAddExpression(
+                objectExpression.toDopeType(),
+                ObjectEntryPrimitive(newAttributeKey.toDopeType(), newAttributeValue.toDopeType()),
+            )
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 
@@ -146,10 +151,11 @@ class ObjectFunctionTest {
         val objectExpression = someCMObjectField()
         val newAttributeKey = "key".toDopeType()
         val newAttributeValue = someCMNumberList()
-        val expected = ObjectAddExpression(
-            objectExpression.toDopeType(),
-            ObjectEntryPrimitive(newAttributeKey, newAttributeValue.toDopeType()),
-        )
+        val expected =
+            ObjectAddExpression(
+                objectExpression.toDopeType(),
+                ObjectEntryPrimitive(newAttributeKey, newAttributeValue.toDopeType()),
+            )
 
         val actual = objectExpression.addAttribute(newAttributeKey, newAttributeValue)
 

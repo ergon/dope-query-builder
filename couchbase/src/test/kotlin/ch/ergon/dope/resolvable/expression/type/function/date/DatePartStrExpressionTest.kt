@@ -19,13 +19,15 @@ class DatePartStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_PART_STR with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_PART_STR(`stringField`, \"DAY\")",
-        )
-        val underTest = DatePartStrExpression(
-            someStringField(),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_PART_STR(`stringField`, \"DAY\")",
+            )
+        val underTest =
+            DatePartStrExpression(
+                someStringField(),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -35,14 +37,16 @@ class DatePartStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_PART_STR with positional parameter date`() {
         val dateValue = "2021-01-01T00:00:00Z"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_PART_STR($1, \"MONTH\")",
-            DopeParameters(positionalParameters = listOf(dateValue)),
-        )
-        val underTest = DatePartStrExpression(
-            dateValue.asParameter(),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_PART_STR($1, \"MONTH\")",
+                DopeParameters(positionalParameters = listOf(dateValue)),
+            )
+        val underTest =
+            DatePartStrExpression(
+                dateValue.asParameter(),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -53,14 +57,16 @@ class DatePartStrExpressionTest : ResolverDependentTest {
     fun `should support DATE_PART_STR with named parameter date`() {
         val dateValue = "2021-01-01T00:00:00Z"
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_PART_STR(\$$name, \"YEAR\")",
-            DopeParameters(namedParameters = mapOf(name to dateValue)),
-        )
-        val underTest = DatePartStrExpression(
-            dateValue.asParameter(name),
-            YEAR,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_PART_STR(\$$name, \"YEAR\")",
+                DopeParameters(namedParameters = mapOf(name to dateValue)),
+            )
+        val underTest =
+            DatePartStrExpression(
+                dateValue.asParameter(name),
+                YEAR,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

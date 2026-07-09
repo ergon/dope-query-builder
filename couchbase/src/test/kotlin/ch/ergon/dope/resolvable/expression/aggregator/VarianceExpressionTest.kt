@@ -16,9 +16,10 @@ class VarianceExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support variance`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "VARIANCE(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "VARIANCE(`numberField`)",
+            )
         val underTest = VarianceExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class VarianceExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support variance with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "VARIANCE(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "VARIANCE(ALL `numberField`)",
+            )
         val underTest = VarianceExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class VarianceExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support variance with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "VARIANCE(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "VARIANCE(DISTINCT `numberField`)",
+            )
         val underTest = VarianceExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

@@ -20,13 +20,15 @@ class DateTruncMillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_TRUNC_MILLIS with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_TRUNC_MILLIS(`numberField`, \"MONTH\")",
-        )
-        val underTest = DateTruncMillisExpression(
-            someNumberField(),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_TRUNC_MILLIS(`numberField`, \"MONTH\")",
+            )
+        val underTest =
+            DateTruncMillisExpression(
+                someNumberField(),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -36,14 +38,16 @@ class DateTruncMillisExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_TRUNC_MILLIS with positional parameter date`() {
         val dateVal = 1620000000000L
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_TRUNC_MILLIS($1, \"YEAR\")",
-            DopeParameters(positionalParameters = listOf(dateVal)),
-        )
-        val underTest = DateTruncMillisExpression(
-            dateVal.asParameter(),
-            YEAR,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_TRUNC_MILLIS($1, \"YEAR\")",
+                DopeParameters(positionalParameters = listOf(dateVal)),
+            )
+        val underTest =
+            DateTruncMillisExpression(
+                dateVal.asParameter(),
+                YEAR,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -54,14 +58,16 @@ class DateTruncMillisExpressionTest : ResolverDependentTest {
     fun `should support DATE_TRUNC_MILLIS with named parameter date`() {
         val dateVal = 1620000000000L
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_TRUNC_MILLIS(\$$name, \"WEEK\")",
-            DopeParameters(namedParameters = mapOf(name to dateVal)),
-        )
-        val underTest = DateTruncMillisExpression(
-            dateVal.asParameter(name),
-            WEEK,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_TRUNC_MILLIS(\$$name, \"WEEK\")",
+                DopeParameters(namedParameters = mapOf(name to dateVal)),
+            )
+        val underTest =
+            DateTruncMillisExpression(
+                dateVal.asParameter(name),
+                WEEK,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

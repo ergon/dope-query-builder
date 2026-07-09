@@ -44,20 +44,22 @@ class NowTimezoneExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOW_TZ with positional timezone and positional format`() {
         val expr = NowTimezoneExpression("TZ".asParameter(), "FMT".asParameter())
-        val expected = CouchbaseDopeQuery(
-            "NOW_TZ($1, $2)",
-            DopeParameters(positionalParameters = listOf("TZ", "FMT")),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NOW_TZ($1, $2)",
+                DopeParameters(positionalParameters = listOf("TZ", "FMT")),
+            )
         assertEquals(expected, expr.toDopeQuery(resolver))
     }
 
     @Test
     fun `should support NOW_TZ with named timezone and named format`() {
         val expr = NowTimezoneExpression("TZ".asParameter("z"), "FMT".asParameter("f"))
-        val expected = CouchbaseDopeQuery(
-            "NOW_TZ(\$z, \$f)",
-            DopeParameters(namedParameters = mapOf("z" to "TZ", "f" to "FMT")),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NOW_TZ(\$z, \$f)",
+                DopeParameters(namedParameters = mapOf("z" to "TZ", "f" to "FMT")),
+            )
         assertEquals(expected, expr.toDopeQuery(resolver))
     }
 

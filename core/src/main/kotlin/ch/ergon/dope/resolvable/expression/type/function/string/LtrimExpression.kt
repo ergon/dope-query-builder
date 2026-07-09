@@ -8,8 +8,7 @@ import ch.ergon.dope.validtype.StringType
 data class LtrimExpression(val inStr: TypeExpression<StringType>, val char: TypeExpression<StringType>? = null) :
     FunctionExpression<StringType>(listOf(inStr, char))
 
-fun TypeExpression<StringType>.ltrim(char: TypeExpression<StringType>? = null) =
-    LtrimExpression(this, char)
+fun TypeExpression<StringType>.ltrim(char: TypeExpression<StringType>? = null) = LtrimExpression(this, char)
 
 fun TypeExpression<StringType>.ltrim(char: String) = ltrim(char.toDopeType())
 

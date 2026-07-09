@@ -23,13 +23,15 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support search string function expression on field`() {
         val field = someStringField(bucket = someBucket())
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`.`stringField`, \"someString\")",
-        )
-        val underTest = SearchFunctionFieldStringExpression(
-            field = field,
-            stringSearchExpression = "someString",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH(`someBucket`.`stringField`, \"someString\")",
+            )
+        val underTest =
+            SearchFunctionFieldStringExpression(
+                field = field,
+                stringSearchExpression = "someString",
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -39,14 +41,16 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support search string function expression on field with options`() {
         val field = someStringField(bucket = someBucket())
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`.`stringField`, \"+someString\", {\"index\" : \"someIndex\"})",
-        )
-        val underTest = SearchFunctionFieldStringExpression(
-            field = field,
-            stringSearchExpression = "+someString",
-            options = mapOf("index" to "someIndex"),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH(`someBucket`.`stringField`, \"+someString\", {\"index\" : \"someIndex\"})",
+            )
+        val underTest =
+            SearchFunctionFieldStringExpression(
+                field = field,
+                stringSearchExpression = "+someString",
+                options = mapOf("index" to "someIndex"),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -78,13 +82,15 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search string function expression on bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`, \"field:\"someString\"\")",
-        )
-        val underTest = SearchFunctionBucketStringExpression(
-            bucket = someBucket(),
-            stringSearchExpression = "field:\"someString\"",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH(`someBucket`, \"field:\"someString\"\")",
+            )
+        val underTest =
+            SearchFunctionBucketStringExpression(
+                bucket = someBucket(),
+                stringSearchExpression = "field:\"someString\"",
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -93,14 +99,16 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search string function expression on bucket with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`, \"field:\"someString\"\", {\"index\" : \"someIndex\"})",
-        )
-        val underTest = SearchFunctionBucketStringExpression(
-            bucket = someBucket(),
-            stringSearchExpression = "field:\"someString\"",
-            options = mapOf("index" to "someIndex"),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH(`someBucket`, \"field:\"someString\"\", {\"index\" : \"someIndex\"})",
+            )
+        val underTest =
+            SearchFunctionBucketStringExpression(
+                bucket = someBucket(),
+                stringSearchExpression = "field:\"someString\"",
+                options = mapOf("index" to "someIndex"),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -132,13 +140,15 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search object function expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`.`stringField`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
-        )
-        val underTest = SearchFunctionFieldObjectExpression(
-            field = someStringField(bucket = someBucket()),
-            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH(`someBucket`.`stringField`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
+            )
+        val underTest =
+            SearchFunctionFieldObjectExpression(
+                field = someStringField(bucket = someBucket()),
+                objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -147,16 +157,19 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search object function expression with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`.`stringField`, " +
-                "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
-                "{\"index\" : \"someIndex\"})",
-        )
-        val underTest = SearchFunctionFieldObjectExpression(
-            field = someStringField(bucket = someBucket()),
-            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
-            options = mapOf("index" to "someIndex"),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString =
+                    "SEARCH(`someBucket`.`stringField`, " +
+                        "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
+                        "{\"index\" : \"someIndex\"})",
+            )
+        val underTest =
+            SearchFunctionFieldObjectExpression(
+                field = someStringField(bucket = someBucket()),
+                objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+                options = mapOf("index" to "someIndex"),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -188,13 +201,15 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search object function expression on bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
-        )
-        val underTest = SearchFunctionBucketObjectExpression(
-            bucket = someBucket(),
-            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH(`someBucket`, {\"field\" : \"someField\", \"analyzer\" : \"standard\"})",
+            )
+        val underTest =
+            SearchFunctionBucketObjectExpression(
+                bucket = someBucket(),
+                objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -203,16 +218,19 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search object function expression on bucket with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH(`someBucket`, " +
-                "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
-                "{\"index\" : \"someIndex\"})",
-        )
-        val underTest = SearchFunctionBucketObjectExpression(
-            bucket = someBucket(),
-            objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
-            options = mapOf("index" to "someIndex"),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString =
+                    "SEARCH(`someBucket`, " +
+                        "{\"field\" : \"someField\", \"analyzer\" : \"standard\"}, " +
+                        "{\"index\" : \"someIndex\"})",
+            )
+        val underTest =
+            SearchFunctionBucketObjectExpression(
+                bucket = someBucket(),
+                objectSearchExpression = mapOf("field" to "someField", "analyzer" to "standard"),
+                options = mapOf("index" to "someIndex"),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -244,9 +262,10 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search meta function expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH_META()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH_META()",
+            )
         val underTest = SearchMetaFunctionExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -257,9 +276,10 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support search meta function expression with specified out name`() {
         val outName = "outName"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH_META(`$outName`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH_META(`$outName`)",
+            )
         val underTest = SearchMetaFunctionExpression(outName)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -288,9 +308,10 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support search score function expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH_SCORE()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH_SCORE()",
+            )
         val underTest = SearchScoreFunctionExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -301,9 +322,10 @@ class SearchFunctionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support search score function expression with specified out name`() {
         val outName = "outName"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SEARCH_SCORE(`$outName`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SEARCH_SCORE(`$outName`)",
+            )
         val underTest = SearchScoreFunctionExpression(outName)
 
         val actual = underTest.toDopeQuery(resolver)

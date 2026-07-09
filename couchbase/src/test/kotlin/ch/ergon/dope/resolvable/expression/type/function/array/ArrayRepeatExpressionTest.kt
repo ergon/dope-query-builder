@@ -16,9 +16,10 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_REPEAT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT(`numberField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT(`numberField`, `numberField`)",
+            )
         val underTest = ArrayRepeatExpression(someNumberField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_REPEAT with positional parameter`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_REPEAT with positional parameter as value`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT(`numberField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT(`numberField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -58,10 +61,11 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REPEAT with all positional parameters`() {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -73,10 +77,11 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REPEAT with named parameter`() {
         val parameterValue = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -88,10 +93,11 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REPEAT with named parameter as value`() {
         val parameterValue = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT(`numberField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT(`numberField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayRepeatExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,10 +110,11 @@ class ArrayRepeatExpressionTest : ResolverDependentTest {
         val parameterValue = someNumber()
         val parameterValue2 = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REPEAT(\$$parameterName, $1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REPEAT(\$$parameterName, $1)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+            )
         val underTest = ArrayRepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

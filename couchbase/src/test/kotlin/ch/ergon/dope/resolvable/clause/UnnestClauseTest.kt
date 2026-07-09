@@ -20,9 +20,10 @@ class UnnestClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support unnest`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` UNNEST `stringArrayField`",
+            )
         val underTest = UnnestClause(someStringArrayField(), someFromClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -32,9 +33,10 @@ class UnnestClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support aliased unnest`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` UNNEST `stringArrayField` AS `field`",
+            )
         val underTest = AliasedUnnestClause(someStringArrayField().alias("field"), someFromClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,10 +47,11 @@ class UnnestClauseTest : ResolverDependentTest {
     @Test
     fun `should support aliased unnest with positional parameter`() {
         val parameterValue = listOf("value")
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` UNNEST $1 AS `value`",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = AliasedUnnestClause(parameterValue.asParameter().alias("value"), someFromClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,10 +63,11 @@ class UnnestClauseTest : ResolverDependentTest {
     fun `should support aliased unnest with named parameter`() {
         val parameterValue = listOf("value")
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` UNNEST \$$parameterName AS `value`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` UNNEST \$$parameterName AS `value`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = AliasedUnnestClause(parameterValue.asParameter(parameterName).alias("value"), someFromClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -75,14 +79,16 @@ class UnnestClauseTest : ResolverDependentTest {
     fun `should support aliased unnest with positional parameter and positional parent parameter`() {
         val parameterValue = "param"
         val parameterValue2 = listOf("param")
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
-        val underTest = AliasedUnnestClause(
-            parameterValue2.asParameter().alias("value"),
-            someFromClause(parent = someSelectClause(parameterValue.asParameter())),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT $1 FROM `someBucket` UNNEST $2 AS `value`",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
+        val underTest =
+            AliasedUnnestClause(
+                parameterValue2.asParameter().alias("value"),
+                someFromClause(parent = someSelectClause(parameterValue.asParameter())),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -95,14 +101,16 @@ class UnnestClauseTest : ResolverDependentTest {
         val parameterValue2 = listOf("param")
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName FROM `someBucket` UNNEST \$$parameterName2 AS `value`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = AliasedUnnestClause(
-            parameterValue2.asParameter(parameterName2).alias("value"),
-            someFromClause(parent = someSelectClause(parameterValue.asParameter(parameterName))),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT \$$parameterName FROM `someBucket` UNNEST \$$parameterName2 AS `value`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            AliasedUnnestClause(
+                parameterValue2.asParameter(parameterName2).alias("value"),
+                someFromClause(parent = someSelectClause(parameterValue.asParameter(parameterName))),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

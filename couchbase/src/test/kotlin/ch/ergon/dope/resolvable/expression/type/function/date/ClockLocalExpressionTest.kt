@@ -16,9 +16,10 @@ class ClockLocalExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support CLOCK_LOCAL without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_LOCAL()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_LOCAL()",
+            )
         val underTest = ClockLocalExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class ClockLocalExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_LOCAL with format field`() {
         val formatField = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_LOCAL(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_LOCAL(`stringField`)",
+            )
         val underTest = ClockLocalExpression(formatField)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,10 +44,11 @@ class ClockLocalExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_LOCAL with positional parameter format`() {
         val parameterValue = "yyyy-MM-dd"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_LOCAL($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_LOCAL($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ClockLocalExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class ClockLocalExpressionTest : ResolverDependentTest {
     fun `should support CLOCK_LOCAL with named parameter format`() {
         val parameterValue = "yyyy-MM-dd"
         val parameterName = "fmt"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_LOCAL(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_LOCAL(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ClockLocalExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

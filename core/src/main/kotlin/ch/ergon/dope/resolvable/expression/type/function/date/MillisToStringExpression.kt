@@ -11,8 +11,7 @@ data class MillisToStringExpression(
     val format: TypeExpression<StringType>? = null,
 ) : FunctionExpression<StringType>(listOf(date, format))
 
-fun TypeExpression<NumberType>.toFormattedDate(format: TypeExpression<StringType>? = null) =
-    MillisToStringExpression(this, format)
+fun TypeExpression<NumberType>.toFormattedDate(format: TypeExpression<StringType>? = null) = MillisToStringExpression(this, format)
 
 fun Number.toFormattedDate(format: TypeExpression<StringType>? = null) = toDopeType().toFormattedDate(format)
 

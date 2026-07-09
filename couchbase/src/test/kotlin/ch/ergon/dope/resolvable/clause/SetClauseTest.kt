@@ -25,13 +25,15 @@ class SetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support set clause`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` SET `stringField` = \"test\"",
-        )
-        val underTest = SetClause(
-            someStringField().toNewValue("test".toDopeType()),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` SET `stringField` = \"test\"",
+            )
+        val underTest =
+            SetClause(
+                someStringField().toNewValue("test".toDopeType()),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -40,13 +42,15 @@ class SetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support set clause with null`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` SET `stringField` = NULL",
-        )
-        val underTest = SetClause(
-            someStringField().toNewValue(NULL),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` SET `stringField` = NULL",
+            )
+        val underTest =
+            SetClause(
+                someStringField().toNewValue(NULL),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -55,13 +59,15 @@ class SetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support set clause with meta expiration`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` SET META().`expiration` = 3600",
-        )
-        val underTest = SetClause(
-            meta().expiration.toNewValue(3600.toDopeType()),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` SET META().`expiration` = 3600",
+            )
+        val underTest =
+            SetClause(
+                meta().expiration.toNewValue(3600.toDopeType()),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -70,14 +76,16 @@ class SetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support multiple set clauses`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
-        )
-        val underTest = SetClause(
-            someStringField().toNewValue("test".toDopeType()),
-            listOf(meta().expiration.toNewValue(3600.toDopeType())),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` SET `stringField` = \"test\", META().`expiration` = 3600",
+            )
+        val underTest =
+            SetClause(
+                someStringField().toNewValue("test".toDopeType()),
+                listOf(meta().expiration.toNewValue(3600.toDopeType())),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -87,14 +95,16 @@ class SetClauseTest : ResolverDependentTest {
     @Test
     fun `should support set clause with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` SET `stringField` = $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
-        val underTest = SetClause(
-            someStringField().toNewValue(parameterValue.asParameter()),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` SET `stringField` = $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
+        val underTest =
+            SetClause(
+                someStringField().toNewValue(parameterValue.asParameter()),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -105,14 +115,16 @@ class SetClauseTest : ResolverDependentTest {
     fun `should support set clause with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` SET `stringField` = $$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
-        val underTest = SetClause(
-            someStringField().toNewValue(parameterValue.asParameter(parameterName)),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` SET `stringField` = $$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
+        val underTest =
+            SetClause(
+                someStringField().toNewValue(parameterValue.asParameter(parameterName)),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -176,17 +188,19 @@ class SetClauseTest : ResolverDependentTest {
         val booleanField = someBooleanField()
         val booleanValue = someBoolean().toDopeType()
         val parentClause = someUpdateClause()
-        val expected = SetClause(
-            stringField.toNewValue(stringValue),
-            listOf(
-                numberField.toNewValue(numberValue),
-                booleanField.toNewValue(booleanValue),
-            ),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                stringField.toNewValue(stringValue),
+                listOf(
+                    numberField.toNewValue(numberValue),
+                    booleanField.toNewValue(booleanValue),
+                ),
+                parentClause = parentClause,
+            )
 
-        val actual = parentClause
-            .set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue), booleanField.toNewValue(booleanValue))
+        val actual =
+            parentClause
+                .set(stringField.toNewValue(stringValue), numberField.toNewValue(numberValue), booleanField.toNewValue(booleanValue))
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }
@@ -202,22 +216,24 @@ class SetClauseTest : ResolverDependentTest {
         val booleanField = someBooleanField()
         val booleanValue = someBoolean()
         val parentClause = someUpdateClause()
-        val expected = SetClause(
-            field.toNewValue(value),
-            listOf(
-                stringField.toNewValue(stringValue.toDopeType()),
-                numberField.toNewValue(numberValue.toDopeType()),
-                booleanField.toNewValue(booleanValue.toDopeType()),
-            ),
-            parentClause = parentClause,
-        )
+        val expected =
+            SetClause(
+                field.toNewValue(value),
+                listOf(
+                    stringField.toNewValue(stringValue.toDopeType()),
+                    numberField.toNewValue(numberValue.toDopeType()),
+                    booleanField.toNewValue(booleanValue.toDopeType()),
+                ),
+                parentClause = parentClause,
+            )
 
-        val actual = parentClause.set(
-            field.toNewValue(value),
-            stringField.toNewValue(stringValue),
-            numberField.toNewValue(numberValue),
-            booleanField.toNewValue(booleanValue),
-        )
+        val actual =
+            parentClause.set(
+                field.toNewValue(value),
+                stringField.toNewValue(stringValue),
+                numberField.toNewValue(numberValue),
+                booleanField.toNewValue(booleanValue),
+            )
 
         assertEquals(expected.toDopeQuery(resolver), actual.toDopeQuery(resolver))
     }

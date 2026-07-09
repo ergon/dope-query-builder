@@ -3,26 +3,43 @@ package ch.ergon.dope.couchbase.util
 import ch.ergon.dope.couchbase.CouchbaseDopeQuery
 import ch.ergon.dope.resolvable.bucket.Bucket
 
-internal fun formatToQueryString(left: String, vararg right: String, separator: String = ", ") =
-    "$left ${right.joinToString(separator)}"
+internal fun formatToQueryString(
+    left: String,
+    vararg right: String,
+    separator: String = ", ",
+) = "$left ${right.joinToString(separator)}"
 
-internal fun formatToQueryStringWithSymbol(left: String, symbol: String, vararg right: String) =
-    "$left $symbol ${right.joinToString()}"
+internal fun formatToQueryStringWithSymbol(
+    left: String,
+    symbol: String,
+    vararg right: String,
+) = "$left $symbol ${right.joinToString()}"
 
-internal fun formatToQueryStringWithSeparator(symbol: String, separator: String, vararg argument: String) =
-    "$symbol$separator${argument.joinToString(separator = ", ")}"
+internal fun formatToQueryStringWithSeparator(
+    symbol: String,
+    separator: String,
+    vararg argument: String,
+) = "$symbol$separator${argument.joinToString(separator = ", ")}"
 
-internal fun formatToQueryStringWithBrackets(left: String, symbol: String, right: String) = "($left $symbol $right)"
+internal fun formatToQueryStringWithBrackets(
+    left: String,
+    symbol: String,
+    right: String,
+) = "($left $symbol $right)"
 
-internal fun formatToQueryStringWithBrackets(symbol: String, vararg argument: String) =
-    "$symbol(${argument.joinToString(separator = ", ")})"
+internal fun formatToQueryStringWithBrackets(
+    symbol: String,
+    vararg argument: String,
+) = "$symbol(${argument.joinToString(separator = ", ")})"
 
-internal fun formatPathToQueryString(name: String, path: String) =
-    if (path.isBlank()) {
-        "`$name`"
-    } else {
-        "${path.split(".").joinToString(".") { "`$it`" }}.`$name`"
-    }
+internal fun formatPathToQueryString(
+    name: String,
+    path: String,
+) = if (path.isBlank()) {
+    "`$name`"
+} else {
+    "${path.split(".").joinToString(".") { "`$it`" }}.`$name`"
+}
 
 internal fun formatBucket(bucket: Bucket): String =
     bucket.name.split(".").plus(listOfNotNull(bucket.scope?.name, bucket.scope?.collection?.name))
@@ -34,8 +51,7 @@ internal fun formatBucket(bucket: Bucket): String =
                 .joinToString(":") { "`$it`" }
         }
 
-internal fun formatPartsToQueryStringWithSpace(vararg string: String?) =
-    listOfNotNull(*string).joinToString(separator = " ")
+internal fun formatPartsToQueryStringWithSpace(vararg string: String?) = listOfNotNull(*string).joinToString(separator = " ")
 
 internal fun formatListToQueryStringWithBrackets(
     dopeQueries: List<CouchbaseDopeQuery>,
@@ -54,5 +70,7 @@ internal fun formatQueryStringWithNullableFirst(
         "$symbol " +
         listOf(expressionDopeQuery, *expressionsDopeQuery.toTypedArray()).joinToString { it.queryString }
 
-internal fun formatFunctionQueryString(symbol: String, vararg arguments: String?): String =
-    arguments.filterNotNull().joinToString(prefix = "$symbol(", postfix = ")")
+internal fun formatFunctionQueryString(
+    symbol: String,
+    vararg arguments: String?,
+): String = arguments.filterNotNull().joinToString(prefix = "$symbol(", postfix = ")")

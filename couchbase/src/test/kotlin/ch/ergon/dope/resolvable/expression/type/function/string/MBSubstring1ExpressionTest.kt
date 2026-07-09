@@ -17,9 +17,10 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mb sub string 1`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_SUBSTR1(`stringField`, 3, 1)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_SUBSTR1(`stringField`, 3, 1)",
+            )
         val underTest = MBSubstring1Expression(someStringField(), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -30,10 +31,11 @@ class MBSubstring1ExpressionTest : ResolverDependentTest {
     @Test
     fun `should support mb sub string 1 with parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_SUBSTR1($1, 3, 1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_SUBSTR1($1, 3, 1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = MBSubstring1Expression(parameterValue.asParameter(), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

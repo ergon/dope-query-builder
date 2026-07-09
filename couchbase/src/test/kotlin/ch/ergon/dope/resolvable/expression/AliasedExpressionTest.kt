@@ -23,9 +23,10 @@ class AliasedExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support aliased expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "COUNT(*) AS `count`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COUNT(*) AS `count`",
+            )
         val underTest = AliasedRowScopeExpression(countAsterisk(), "count")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -35,9 +36,10 @@ class AliasedExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support aliased type expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` AS `test`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` AS `test`",
+            )
         val underTest = AliasedTypeExpression(someStringField(), "test")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,10 +50,11 @@ class AliasedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support aliased expression with positional parameter`() {
         val parameterValue = "testValue"
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 AS `test`",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 AS `test`",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest =
             AliasedTypeExpression(parameterValue.asParameter(), "test")
 
@@ -64,14 +67,16 @@ class AliasedExpressionTest : ResolverDependentTest {
     fun `should support aliased expression with named parameter`() {
         val parameterValue = "testValue"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName AS `test`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
-        val underTest = AliasedTypeExpression(
-            parameterValue.asParameter(parameterName),
-            "test",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName AS `test`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
+        val underTest =
+            AliasedTypeExpression(
+                parameterValue.asParameter(parameterName),
+                "test",
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

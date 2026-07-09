@@ -14,9 +14,10 @@ class ObjectAddExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object add expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_ADD(`objectField`, \"key\", \"value\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_ADD(`objectField`, \"key\", \"value\")",
+            )
         val underTest =
             ObjectAddExpression(someObjectField(), ObjectEntryPrimitive("key".toDopeType(), "value".toDopeType()))
 

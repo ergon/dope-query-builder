@@ -17,9 +17,10 @@ class ClockTimezoneExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_TZ with timezone field`() {
         val tzField = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_TZ(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_TZ(`stringField`)",
+            )
         val underTest = ClockTimezoneExpression(tzField)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -30,10 +31,11 @@ class ClockTimezoneExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_TZ with positional parameter timezone`() {
         val tz = "UTC"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_TZ($1)",
-            DopeParameters(positionalParameters = listOf(tz)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_TZ($1)",
+                DopeParameters(positionalParameters = listOf(tz)),
+            )
         val underTest = ClockTimezoneExpression(tz.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,10 +47,11 @@ class ClockTimezoneExpressionTest : ResolverDependentTest {
     fun `should support CLOCK_TZ with named parameter timezone`() {
         val tz = "UTC"
         val name = "zone"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_TZ(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to tz)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_TZ(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to tz)),
+            )
         val underTest = ClockTimezoneExpression(tz.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,9 +63,10 @@ class ClockTimezoneExpressionTest : ResolverDependentTest {
     fun `should support CLOCK_TZ with timezone and format field`() {
         val tzField = someStringField()
         val fmtField = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_TZ(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_TZ(`stringField`, `stringField`)",
+            )
         val underTest = ClockTimezoneExpression(tzField, fmtField)
 
         val actual = underTest.toDopeQuery(resolver)

@@ -16,9 +16,10 @@ class RankTest : ResolverDependentTest {
 
     @Test
     fun `should support rank with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "RANK() OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RANK() OVER `ref`",
+            )
         val underTest = RankWithReference("ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class RankTest : ResolverDependentTest {
 
     @Test
     fun `should support rank with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "RANK() OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RANK() OVER (ORDER BY `stringField`)",
+            )
         val underTest = Rank(windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,13 +42,15 @@ class RankTest : ResolverDependentTest {
 
     @Test
     fun `should support rank with partition and order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "RANK() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = Rank(
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "RANK() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            Rank(
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

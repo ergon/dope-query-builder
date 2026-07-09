@@ -19,9 +19,10 @@ class ToStringExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support to string expression with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOSTRING(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOSTRING(`stringField`)",
+            )
         val underTest = ToStringExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -32,10 +33,11 @@ class ToStringExpressionTest : ResolverDependentTest {
     @Test
     fun `should support to string expression with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOSTRING($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOSTRING($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ToStringExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -47,10 +49,11 @@ class ToStringExpressionTest : ResolverDependentTest {
     fun `should support to string expression with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOSTRING(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOSTRING(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ToStringExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

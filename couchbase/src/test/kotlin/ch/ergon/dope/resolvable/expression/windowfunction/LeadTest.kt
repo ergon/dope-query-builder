@@ -19,9 +19,10 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`) OVER `ref`",
+            )
         val underTest = LeadWithReference(someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,9 +32,10 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with reference and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`) RESPECT NULLS OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`) RESPECT NULLS OVER `ref`",
+            )
         val underTest = LeadWithReference(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,9 +45,10 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with offset`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`, `numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`, `numberField`) OVER `ref`",
+            )
         val underTest = LeadWithReference(someNumberField(), offset = someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -55,9 +58,10 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with default`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`, `numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`, `numberField`) OVER `ref`",
+            )
         val underTest = LeadWithReference(someNumberField(), default = someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -67,16 +71,18 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with all parameters`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
-        )
-        val underTest = LeadWithReference(
-            someNumberField(),
-            offset = someNumberField(),
-            default = someNumberField(),
-            nullsModifier = IGNORE,
-            windowReference = "ref",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
+            )
+        val underTest =
+            LeadWithReference(
+                someNumberField(),
+                offset = someNumberField(),
+                default = someNumberField(),
+                nullsModifier = IGNORE,
+                windowReference = "ref",
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -85,9 +91,10 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`) OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`) OVER (ORDER BY `stringField`)",
+            )
         val underTest = Lead(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -97,14 +104,16 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with order clause and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-        )
-        val underTest = Lead(
-            someNumberField(),
-            nullsModifier = IGNORE,
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            Lead(
+                someNumberField(),
+                nullsModifier = IGNORE,
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -113,14 +122,16 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with order clause and offset`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
-        )
-        val underTest = Lead(
-            someNumberField(),
-            offset = someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            Lead(
+                someNumberField(),
+                offset = someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -129,14 +140,16 @@ class LeadTest : ResolverDependentTest {
 
     @Test
     fun `should support lead with all window partition`() {
-        val expected = CouchbaseDopeQuery(
-            "LEAD(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = Lead(
-            someNumberField(),
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LEAD(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            Lead(
+                someNumberField(),
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

@@ -16,9 +16,10 @@ class MBPositionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mbPosition`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_POSITION(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_POSITION(`stringField`, `stringField`)",
+            )
         val underTest = MBPositionExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,11 +30,11 @@ class MBPositionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support mbPosition with parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_POSITION($1, `stringField`)",
-
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_POSITION($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = MBPositionExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,11 +46,11 @@ class MBPositionExpressionTest : ResolverDependentTest {
     fun `should support mbPosition with all parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_POSITION($1, $2)",
-
-            DopeParameters(positionalParameters = listOf(parameterValue2, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_POSITION($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue2, parameterValue2)),
+            )
         val underTest = MBPositionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

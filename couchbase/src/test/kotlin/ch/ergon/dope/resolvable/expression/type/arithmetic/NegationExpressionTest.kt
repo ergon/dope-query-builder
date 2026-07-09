@@ -16,9 +16,10 @@ class NegationExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support negation`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "-`numberField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "-`numberField`",
+            )
         val underTest = NegationExpression(someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class NegationExpressionTest : ResolverDependentTest {
     @Test
     fun `should support negation with positional parameter`() {
         val parameterValue = 4
-        val expected = CouchbaseDopeQuery(
-            queryString = "-$1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "-$1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NegationExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class NegationExpressionTest : ResolverDependentTest {
     fun `should support negation with named parameter`() {
         val parameterValue = 4
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "-\$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "-\$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NegationExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

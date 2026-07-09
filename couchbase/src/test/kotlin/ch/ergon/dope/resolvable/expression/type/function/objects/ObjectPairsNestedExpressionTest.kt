@@ -12,9 +12,10 @@ class ObjectPairsNestedExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object pairs nested expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_PAIRS_NESTED(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_PAIRS_NESTED(`objectField`)",
+            )
         val underTest = ObjectPairsNestedExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -24,9 +25,10 @@ class ObjectPairsNestedExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object pairs nested expression with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_PAIRS_NESTED(`objectField`, `options`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_PAIRS_NESTED(`objectField`, `options`)",
+            )
         val underTest = ObjectPairsNestedExpression(someObjectField(), someObjectField("options"))
 
         val actual = underTest.toDopeQuery(resolver)

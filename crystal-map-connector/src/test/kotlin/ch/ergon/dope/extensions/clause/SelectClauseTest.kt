@@ -304,12 +304,13 @@ class SelectClauseTest {
         val field = someStringField()
         val keysHint = keysHint(someCMStringField())
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeyClause(
-            bucket,
-            key = field,
-            keysOrIndexHint = keysHint,
-            parentClause = parentClause,
-        )
+        val expected =
+            StandardJoinOnKeyClause(
+                bucket,
+                key = field,
+                keysOrIndexHint = keysHint,
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
@@ -322,12 +323,13 @@ class SelectClauseTest {
         val field = someStringField()
         val keysHint = keysHint(someCMStringList())
         val parentClause = someFrom()
-        val expected = StandardJoinOnKeyClause(
-            bucket,
-            key = field,
-            keysOrIndexHint = keysHint,
-            parentClause = parentClause,
-        )
+        val expected =
+            StandardJoinOnKeyClause(
+                bucket,
+                key = field,
+                keysOrIndexHint = keysHint,
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.join(bucket, key = field, keysOrIndexHint = keysHint)
 
@@ -499,11 +501,12 @@ class SelectClauseTest {
     fun `should support select then order by with CMNumberField`() {
         val field = someCMNumberField()
         val parentClause = someSelect()
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
@@ -515,11 +518,12 @@ class SelectClauseTest {
         val field = someCMNumberField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType(), orderType)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType(), orderType)),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
@@ -530,11 +534,12 @@ class SelectClauseTest {
     fun `should support select then order by with CMStringField`() {
         val field = someCMStringField()
         val parentClause = someSelect()
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
@@ -546,11 +551,12 @@ class SelectClauseTest {
         val field = someCMStringField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType(), orderType)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType(), orderType)),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
@@ -561,11 +567,12 @@ class SelectClauseTest {
     fun `should support select then order by with CMBooleanField`() {
         val field = someCMBooleanField()
         val parentClause = someSelect()
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
@@ -577,11 +584,12 @@ class SelectClauseTest {
         val field = someCMBooleanField()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType(), orderType)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType(), orderType)),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
@@ -592,11 +600,12 @@ class SelectClauseTest {
     fun `should support select then order by with CMNumberList`() {
         val field = someCMNumberList()
         val parentClause = someSelect()
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
@@ -608,11 +617,12 @@ class SelectClauseTest {
         val field = someCMNumberList()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType(), orderType)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType(), orderType)),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
@@ -623,11 +633,12 @@ class SelectClauseTest {
     fun `should support select then order by with CMStringList`() {
         val field = someCMStringList()
         val parentClause = someSelect()
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
@@ -639,11 +650,12 @@ class SelectClauseTest {
         val field = someCMStringList()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType(), orderType)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType(), orderType)),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 
@@ -654,11 +666,12 @@ class SelectClauseTest {
     fun `should support select then order by with CMBooleanList`() {
         val field = someCMBooleanList()
         val parentClause = someSelect()
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType())),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType())),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field)
 
@@ -670,11 +683,12 @@ class SelectClauseTest {
         val field = someCMBooleanList()
         val parentClause = someSelect()
         val orderType = OrderType.ASC
-        val expected = SelectOrderByClause(
-            OrderExpression(someNumberField(), OrderType.ASC),
-            listOf(OrderExpression(field.toDopeType(), orderType)),
-            parentClause = parentClause,
-        )
+        val expected =
+            SelectOrderByClause(
+                OrderExpression(someNumberField(), OrderType.ASC),
+                listOf(OrderExpression(field.toDopeType(), orderType)),
+                parentClause = parentClause,
+            )
 
         val actual = someOrderBy(parentClause).thenOrderBy(field, orderType)
 

@@ -24,13 +24,14 @@ data class NthValue<T : ValidType>(
 ) : WindowFunctionExpression<T> {
     override val quantifier: AggregateQuantifier? = null
     override val functionArguments: List<Selectable?> = listOf(expression, offset)
-    override val overDefinition: OverDefinition? = OverWindowDefinition(
-        WindowDefinition(
-            windowPartitionClause = windowPartitionClause,
-            windowOrderClause = windowOrderClause,
-            windowFrameClause = windowFrameClause,
-        ),
-    )
+    override val overDefinition: OverDefinition? =
+        OverWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+                windowFrameClause = windowFrameClause,
+            ),
+        )
 }
 
 data class NthValueWithReference<T : ValidType>(

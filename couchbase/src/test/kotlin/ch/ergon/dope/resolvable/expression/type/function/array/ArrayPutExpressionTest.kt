@@ -24,9 +24,10 @@ class ArrayPutExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_PUT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT(`numberArrayField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT(`numberArrayField`, `numberField`)",
+            )
         val underTest = ArrayPutExpression(someNumberArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -38,10 +39,11 @@ class ArrayPutExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_PUT with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayPutExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -52,10 +54,11 @@ class ArrayPutExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_PUT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayPutExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -67,10 +70,11 @@ class ArrayPutExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_PUT with named parameter as value`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT(`numberArrayField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT(`numberArrayField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -81,10 +85,11 @@ class ArrayPutExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_PUT with positional parameter as value`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayPutExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -98,10 +103,11 @@ class ArrayPutExpressionTest : ResolverDependentTest {
         val parameterValue = 1
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
+            )
         val underTest = ArrayPutExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -113,10 +119,11 @@ class ArrayPutExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_PUT with all positional parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_PUT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_PUT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayPutExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

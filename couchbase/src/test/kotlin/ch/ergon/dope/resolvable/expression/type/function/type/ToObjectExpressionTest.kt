@@ -19,10 +19,11 @@ class ToObjectExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support to object expression`() {
-        val expected = CouchbaseDopeQuery(
-            "TOOBJECT(`stringField`)",
-            DopeParameters(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "TOOBJECT(`stringField`)",
+                DopeParameters(),
+            )
         val underTest = ToObjectExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -33,10 +34,11 @@ class ToObjectExpressionTest : ResolverDependentTest {
     @Test
     fun `should support to object expression with parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            "TOOBJECT($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "TOOBJECT($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ToObjectExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

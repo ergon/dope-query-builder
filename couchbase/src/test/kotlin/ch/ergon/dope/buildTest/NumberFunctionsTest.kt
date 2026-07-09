@@ -39,10 +39,11 @@ class NumberFunctionsTest : ResolverDependentTest {
     fun `should support numberType alias`() {
         val expected = "SELECT 12 AS `someNumber`"
 
-        val actual: String = QueryBuilder
-            .select(
-                12.toDopeType().alias("someNumber"),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    12.toDopeType().alias("someNumber"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -150,10 +151,11 @@ class NumberFunctionsTest : ResolverDependentTest {
     fun `should support ATAN2 expression with number field as divisor and dividend`() {
         val expected = "ATAN2(`numberField`, `anotherNumberField`)"
 
-        val actual = atan2(
-            someNumberField(),
-            someNumberField("anotherNumberField"),
-        ).toDopeQuery(resolver).queryString
+        val actual =
+            atan2(
+                someNumberField(),
+                someNumberField("anotherNumberField"),
+            ).toDopeQuery(resolver).queryString
 
         assertEquals(expected, actual)
     }

@@ -15,26 +15,18 @@ data class ArrayContainsExpression<T : ValidType>(
     val value: TypeExpression<T>,
 ) : FunctionExpression<BooleanType>(listOf(array, value))
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.contains(value: TypeExpression<T>) =
-    ArrayContainsExpression(this, value)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.contains(value: TypeExpression<T>) = ArrayContainsExpression(this, value)
 
-fun TypeExpression<ArrayType<StringType>>.contains(value: String) =
-    contains(value.toDopeType())
+fun TypeExpression<ArrayType<StringType>>.contains(value: String) = contains(value.toDopeType())
 
-fun TypeExpression<ArrayType<NumberType>>.contains(value: Number) =
-    contains(value.toDopeType())
+fun TypeExpression<ArrayType<NumberType>>.contains(value: Number) = contains(value.toDopeType())
 
-fun TypeExpression<ArrayType<BooleanType>>.contains(value: Boolean) =
-    contains(value.toDopeType())
+fun TypeExpression<ArrayType<BooleanType>>.contains(value: Boolean) = contains(value.toDopeType())
 
-fun <T : ValidType> ISelectOffsetClause<T>.contains(value: TypeExpression<T>) =
-    asExpression().contains(value)
+fun <T : ValidType> ISelectOffsetClause<T>.contains(value: TypeExpression<T>) = asExpression().contains(value)
 
-fun ISelectOffsetClause<StringType>.contains(value: String) =
-    asExpression().contains(value.toDopeType())
+fun ISelectOffsetClause<StringType>.contains(value: String) = asExpression().contains(value.toDopeType())
 
-fun ISelectOffsetClause<NumberType>.contains(value: Number) =
-    asExpression().contains(value.toDopeType())
+fun ISelectOffsetClause<NumberType>.contains(value: Number) = asExpression().contains(value.toDopeType())
 
-fun ISelectOffsetClause<BooleanType>.contains(value: Boolean) =
-    asExpression().contains(value.toDopeType())
+fun ISelectOffsetClause<BooleanType>.contains(value: Boolean) = asExpression().contains(value.toDopeType())

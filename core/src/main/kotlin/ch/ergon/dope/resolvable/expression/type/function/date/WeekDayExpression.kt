@@ -14,8 +14,7 @@ data class WeekDayMillisExpression(
 data class WeekDayStrExpression(val date: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(date))
 
-fun TypeExpression<NumberType>.extractWeekdayName(timeZone: TypeExpression<StringType>? = null) =
-    WeekDayMillisExpression(this, timeZone)
+fun TypeExpression<NumberType>.extractWeekdayName(timeZone: TypeExpression<StringType>? = null) = WeekDayMillisExpression(this, timeZone)
 
 fun TypeExpression<NumberType>.extractWeekdayName(timeZone: String) = extractWeekdayName(timeZone.toDopeType())
 

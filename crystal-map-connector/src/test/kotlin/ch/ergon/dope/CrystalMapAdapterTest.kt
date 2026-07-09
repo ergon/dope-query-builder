@@ -32,7 +32,7 @@ import com.schwarz.crystalapi.schema.CMJsonList
 import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.CMObjectList
 import org.junit.jupiter.api.assertThrows
-import java.util.*
+import java.util.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

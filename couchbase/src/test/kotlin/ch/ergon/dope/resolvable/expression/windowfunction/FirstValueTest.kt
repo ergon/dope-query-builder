@@ -20,9 +20,10 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) OVER `ref`",
+            )
         val underTest = FirstValueWithReference(someNumberField(), "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -32,9 +33,10 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with reference and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) RESPECT NULLS OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) RESPECT NULLS OVER `ref`",
+            )
         val underTest = FirstValueWithReference(someNumberField(), "ref", RESPECT)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,9 +46,10 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) OVER (ORDER BY `stringField`)",
+            )
         val underTest = FirstValue(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -56,9 +59,10 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with order clause and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            )
         val underTest = FirstValue(someNumberField(), nullsModifier = IGNORE, windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -68,14 +72,16 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with all window partition`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) OVER (PARTITION BY `booleanField` ORDER BY `stringField`)",
-        )
-        val underTest = FirstValue(
-            someNumberField(),
-            windowPartitionClause = listOf(someBooleanField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) OVER (PARTITION BY `booleanField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            FirstValue(
+                someNumberField(),
+                windowPartitionClause = listOf(someBooleanField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -84,14 +90,16 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with frame clause`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-        )
-        val underTest = FirstValue(
-            someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-            windowFrameClause = someWindowFrameClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            )
+        val underTest =
+            FirstValue(
+                someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+                windowFrameClause = someWindowFrameClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -100,16 +108,18 @@ class FirstValueTest : ResolverDependentTest {
 
     @Test
     fun `should support first value with all arguments`() {
-        val expected = CouchbaseDopeQuery(
-            "FIRST_VALUE(`numberField`) IGNORE NULLS OVER (PARTITION BY `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-        )
-        val underTest = FirstValue(
-            someNumberField(),
-            nullsModifier = IGNORE,
-            windowPartitionClause = listOf(someBooleanField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-            windowFrameClause = someWindowFrameClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST_VALUE(`numberField`) IGNORE NULLS OVER (PARTITION BY `booleanField` ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            )
+        val underTest =
+            FirstValue(
+                someNumberField(),
+                nullsModifier = IGNORE,
+                windowPartitionClause = listOf(someBooleanField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+                windowFrameClause = someWindowFrameClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

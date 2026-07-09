@@ -28,10 +28,11 @@ class UnnestClauseTest {
         val expected = "SELECT * FROM `someBucket` UNNEST [\"a\"] AS `a`"
 
         val alias: AliasedTypeExpression<ArrayType<StringType>> = aField.alias("a")
-        val actual: String = QueryBuilder
-            .selectFrom(airline)
-            .unnest(alias)
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectFrom(airline)
+                .unnest(alias)
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -40,11 +41,12 @@ class UnnestClauseTest {
     fun `should support unnest with arrayField`() {
         val expected = "SELECT `c` FROM `airline` UNNEST `a`"
 
-        val actual: String = QueryBuilder
-            .select(someNumberArrayField("c"))
-            .from(someBucket("airline"))
-            .unnest(someNumberArrayField("a"))
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(someNumberArrayField("c"))
+                .from(someBucket("airline"))
+                .unnest(someNumberArrayField("a"))
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -55,13 +57,14 @@ class UnnestClauseTest {
         val aField = someNumberArrayField("a")
         val expected = "SELECT `c` FROM `airline` AS `ai` UNNEST `a` AS `ab` UNNEST `ab`.`c` WHERE `a` IS VALUED"
 
-        val actual: String = QueryBuilder
-            .select(someNumberArrayField("c"))
-            .from(airline)
-            .unnest(aField.alias("ab"))
-            .unnest(someBooleanArrayField("c", someBucket("ab")))
-            .where(aField.isValued())
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(someNumberArrayField("c"))
+                .from(airline)
+                .unnest(aField.alias("ab"))
+                .unnest(someBooleanArrayField("c", someBucket("ab")))
+                .where(aField.isValued())
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -73,15 +76,16 @@ class UnnestClauseTest {
                 "WHERE (`b`.`stringField` = \"something\" AND `a`.`stringField` = \$param)"
 
         val bucket = someBucket().alias("b")
-        val actual: String = QueryBuilder
-            .select(bucket.asterisk())
-            .from(bucket)
-            .unnest(someStringArrayField().alias("a"))
-            .where(
-                someStringField(bucket = bucket).isEqualTo("something")
-                    .and(someStringField(bucket = someBucket("a")).isEqualTo("".asParameter("param"))),
-            )
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(bucket.asterisk())
+                .from(bucket)
+                .unnest(someStringArrayField().alias("a"))
+                .where(
+                    someStringField(bucket = bucket).isEqualTo("something")
+                        .and(someStringField(bucket = someBucket("a")).isEqualTo("".asParameter("param"))),
+                )
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

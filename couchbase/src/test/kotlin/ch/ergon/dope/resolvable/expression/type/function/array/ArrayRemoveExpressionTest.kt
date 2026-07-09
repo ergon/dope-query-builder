@@ -24,9 +24,10 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_REMOVE`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE(`numberArrayField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE(`numberArrayField`, `numberField`)",
+            )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -37,10 +38,11 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_REMOVE with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -51,10 +53,11 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_REMOVE with positional parameter as value`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -66,10 +69,11 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REMOVE with all positional parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -81,10 +85,11 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REMOVE with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayRemoveExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -96,10 +101,11 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_REMOVE with named parameter as value`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE(`numberArrayField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE(`numberArrayField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayRemoveExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -112,10 +118,14 @@ class ArrayRemoveExpressionTest : ResolverDependentTest {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_REMOVE(\$$parameterName, $1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection), positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_REMOVE(\$$parameterName, $1)",
+                DopeParameters(
+                    namedParameters = mapOf(parameterName to parameterValueCollection),
+                    positionalParameters = listOf(parameterValue),
+                ),
+            )
         val underTest = ArrayRemoveExpression(parameterValueCollection.asParameter(parameterName), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

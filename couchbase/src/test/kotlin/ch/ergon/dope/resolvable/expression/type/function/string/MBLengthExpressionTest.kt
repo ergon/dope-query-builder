@@ -16,9 +16,10 @@ class MBLengthExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mbLength`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_LENGTH(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_LENGTH(`stringField`)",
+            )
         val underTest = MBLengthExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class MBLengthExpressionTest : ResolverDependentTest {
     @Test
     fun `should support mbLength with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MB_LENGTH($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MB_LENGTH($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = MBLengthExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

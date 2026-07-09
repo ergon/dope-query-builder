@@ -16,9 +16,10 @@ class ArrayIfNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_IFNULL`() {
         val array = someNumberArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_IFNULL(`numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_IFNULL(`numberArrayField`)",
+            )
         val underTest = ArrayIfNullExpression(array)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class ArrayIfNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_IFNULL with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_IFNULL($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_IFNULL($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class ArrayIfNullExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_IFNULL with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_IFNULL(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_IFNULL(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayIfNullExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

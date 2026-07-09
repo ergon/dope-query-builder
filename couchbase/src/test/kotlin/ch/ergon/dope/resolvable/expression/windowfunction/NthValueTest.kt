@@ -24,9 +24,10 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) OVER `ref`",
+            )
         val underTest = NthValueWithReference(someNumberField(), someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -36,9 +37,10 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with reference and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) RESPECT NULLS OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) RESPECT NULLS OVER `ref`",
+            )
         val underTest = NthValueWithReference(someNumberField(), someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,9 +50,10 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
+            )
         val underTest = NthValue(someNumberField(), someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,15 +63,17 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with order clause and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-        )
-        val underTest = NthValue(
-            someNumberField(),
-            someNumberField(),
-            nullsModifier = IGNORE,
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            NthValue(
+                someNumberField(),
+                someNumberField(),
+                nullsModifier = IGNORE,
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -77,15 +82,17 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with from modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) FROM FIRST OVER (ORDER BY `stringField`)",
-        )
-        val underTest = NthValue(
-            someNumberField(),
-            someNumberField(),
-            fromModifier = FIRST,
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) FROM FIRST OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            NthValue(
+                someNumberField(),
+                someNumberField(),
+                fromModifier = FIRST,
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -94,15 +101,17 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with all window partition`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = NthValue(
-            someNumberField(),
-            someNumberField(),
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            NthValue(
+                someNumberField(),
+                someNumberField(),
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -111,15 +120,17 @@ class NthValueTest : ResolverDependentTest {
 
     @Test
     fun `should support nth value with frame clause`() {
-        val expected = CouchbaseDopeQuery(
-            "NTH_VALUE(`numberField`, `numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
-        )
-        val underTest = NthValue(
-            someNumberField(),
-            someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-            windowFrameClause = someWindowFrameClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTH_VALUE(`numberField`, `numberField`) OVER (ORDER BY `stringField` RANGE UNBOUNDED PRECEDING)",
+            )
+        val underTest =
+            NthValue(
+                someNumberField(),
+                someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+                windowFrameClause = someWindowFrameClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

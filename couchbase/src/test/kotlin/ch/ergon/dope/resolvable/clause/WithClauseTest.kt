@@ -19,9 +19,10 @@ class WithClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support with clause`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "WITH `alias` AS (\"someString\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "WITH `alias` AS (\"someString\")",
+            )
         val underTest = WithClause(DopeVariable("alias", someString().toDopeType()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,13 +32,15 @@ class WithClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support with clause multiple CTEs`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "WITH `alias` AS (\"someString\"), `subquery` AS ((SELECT *))",
-        )
-        val underTest = WithClause(
-            DopeVariable("alias", someString().toDopeType()),
-            listOf(DopeVariable("subquery", someSelectClause().asExpression())),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "WITH `alias` AS (\"someString\"), `subquery` AS ((SELECT *))",
+            )
+        val underTest =
+            WithClause(
+                DopeVariable("alias", someString().toDopeType()),
+                listOf(DopeVariable("subquery", someSelectClause().asExpression())),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
