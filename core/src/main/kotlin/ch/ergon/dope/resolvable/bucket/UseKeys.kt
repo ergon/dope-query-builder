@@ -13,18 +13,23 @@ import ch.ergon.dope.validtype.StringType
 import ch.ergon.dope.validtype.ValidType
 import kotlin.collections.Collection
 
+@Suppress("ktlint:standard:function-naming")
 data class UseKeysClass private constructor(
     val useKeys: TypeExpression<out ValidType>,
     val bucket: Bucket,
 ) : Joinable, Deletable, Updatable, Fromable {
     companion object {
         @JvmName("singleUseKeysClauseConstructor")
-        fun UseKeys(key: TypeExpression<StringType>, bucket: Bucket) =
-            UseKeysClass(key, bucket)
+        fun UseKeys(
+            key: TypeExpression<StringType>,
+            bucket: Bucket,
+        ) = UseKeysClass(key, bucket)
 
         @JvmName("multipleUseKeysClauseConstructor")
-        fun UseKeys(keys: TypeExpression<ArrayType<StringType>>, bucket: Bucket) =
-            UseKeysClass(keys, bucket)
+        fun UseKeys(
+            keys: TypeExpression<ArrayType<StringType>>,
+            bucket: Bucket,
+        ) = UseKeysClass(keys, bucket)
     }
 }
 
@@ -42,11 +47,14 @@ fun Bucket.useKeys(keys: Collection<TypeExpression<StringType>>) = useKeys(keys.
 @JvmName("useKeysStringCollection")
 fun Bucket.useKeys(keys: Collection<String>) = useKeys(keys.toDopeType())
 
-fun Bucket.useKeys(firstKey: String, secondKey: String, vararg additionalKeys: String) =
-    useKeys(
-        listOf(
-            firstKey.toDopeType(),
-            secondKey.toDopeType(),
-            *additionalKeys.map { it.toDopeType() }.toTypedArray(),
-        ).toDopeType(),
-    )
+fun Bucket.useKeys(
+    firstKey: String,
+    secondKey: String,
+    vararg additionalKeys: String,
+) = useKeys(
+    listOf(
+        firstKey.toDopeType(),
+        secondKey.toDopeType(),
+        *additionalKeys.map { it.toDopeType() }.toTypedArray(),
+    ).toDopeType(),
+)

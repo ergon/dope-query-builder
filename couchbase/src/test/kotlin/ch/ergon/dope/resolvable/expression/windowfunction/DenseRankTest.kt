@@ -17,9 +17,10 @@ class DenseRankTest : ResolverDependentTest {
 
     @Test
     fun `should support dense rank with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "DENSE_RANK() OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "DENSE_RANK() OVER `ref`",
+            )
         val underTest = DenseRankWithReference("ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class DenseRankTest : ResolverDependentTest {
 
     @Test
     fun `should support dense rank with ordering term`() {
-        val expected = CouchbaseDopeQuery(
-            "DENSE_RANK() OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "DENSE_RANK() OVER (ORDER BY `stringField`)",
+            )
         val underTest = DenseRank(listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -41,9 +43,10 @@ class DenseRankTest : ResolverDependentTest {
 
     @Test
     fun `should support dense rank with ordering term and partition`() {
-        val expected = CouchbaseDopeQuery(
-            "DENSE_RANK() OVER (PARTITION BY `stringField`, `numberField` ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "DENSE_RANK() OVER (PARTITION BY `stringField`, `numberField` ORDER BY `stringField`)",
+            )
         val underTest = DenseRank(listOf(someOrderingTerm()), listOf(someStringField(), someNumberField()))
 
         val actual = underTest.toDopeQuery(resolver)

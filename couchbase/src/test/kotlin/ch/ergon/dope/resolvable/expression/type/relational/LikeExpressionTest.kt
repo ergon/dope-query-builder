@@ -16,9 +16,10 @@ class LikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support like with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` LIKE `stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` LIKE `stringField`",
+            )
         val underTest = LikeExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class LikeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support like with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` LIKE $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` LIKE $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class LikeExpressionTest : ResolverDependentTest {
     fun `should support like with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` LIKE \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` LIKE \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = LikeExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

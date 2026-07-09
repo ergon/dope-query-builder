@@ -19,10 +19,11 @@ interface KeySpaceResolver : AbstractCouchbaseResolver {
         )
 
     fun resolve(useKeysClass: UseKeysClass): CouchbaseDopeQuery {
-        val bucket = when (val bucket = useKeysClass.bucket) {
-            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
-            else -> useKeysClass.bucket.toDopeQuery(this)
-        }
+        val bucket =
+            when (val bucket = useKeysClass.bucket) {
+                is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
+                else -> useKeysClass.bucket.toDopeQuery(this)
+            }
         val keys = useKeysClass.useKeys.toDopeQuery(this)
         return CouchbaseDopeQuery(
             queryString = formatToQueryStringWithSymbol(bucket.queryString, "USE KEYS", keys.queryString),
@@ -38,17 +39,19 @@ interface KeySpaceResolver : AbstractCouchbaseResolver {
 
     fun resolve(useIndex: UseIndex): CouchbaseDopeQuery {
         val bucket = useIndex.bucket
-        val bucketDopeQuery = when (bucket) {
-            is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
-            else -> bucket.toDopeQuery(this)
-        }
+        val bucketDopeQuery =
+            when (bucket) {
+                is AliasedBucket -> bucket.asBucketDefinition().toDopeQuery(this)
+                else -> bucket.toDopeQuery(this)
+            }
         val refs = useIndex.indexReferences.map { it.toDopeQuery(this) }
         return CouchbaseDopeQuery(
-            queryString = formatToQueryStringWithSymbol(
-                bucketDopeQuery.queryString,
-                "USE INDEX",
-                formatListToQueryStringWithBrackets(refs, separator = ", ", prefix = "(", postfix = ")"),
-            ),
+            queryString =
+                formatToQueryStringWithSymbol(
+                    bucketDopeQuery.queryString,
+                    "USE INDEX",
+                    formatListToQueryStringWithBrackets(refs, separator = ", ", prefix = "(", postfix = ")"),
+                ),
             parameters = bucketDopeQuery.parameters.merge(*refs.map { it.parameters }.toTypedArray()),
         )
     }

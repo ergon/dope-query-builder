@@ -19,12 +19,13 @@ data class CumeDist(
     override val functionArguments: List<Selectable?> = emptyList()
     override val fromModifier: FromModifier? = null
     override val nullsModifier: NullsModifier? = null
-    override val overDefinition: OverDefinition = OverWindowDefinition(
-        WindowDefinition(
-            windowPartitionClause = windowPartitionClause,
-            windowOrderClause = windowOrderClause,
-        ),
-    )
+    override val overDefinition: OverDefinition =
+        OverWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+            ),
+        )
 }
 
 data class CumeDistWithReference(val windowReference: String) : WindowFunctionExpression<NumberType> {

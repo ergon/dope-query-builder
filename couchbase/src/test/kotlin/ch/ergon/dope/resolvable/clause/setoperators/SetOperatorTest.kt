@@ -23,15 +23,17 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support union operator with two select statements`() {
-        val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)",
-        )
-        val underTest = SetOperator(
-            UNION,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
-            duplicatesAllowed = false,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "(SELECT * FROM `bucket1`) UNION (SELECT * FROM `bucket2`)",
+            )
+        val underTest =
+            SetOperator(
+                UNION,
+                someFromClause(someBucket("bucket1")),
+                someFromClause(someBucket("bucket2")),
+                duplicatesAllowed = false,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -40,15 +42,17 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support union all operator with two select statements`() {
-        val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) UNION ALL (SELECT * FROM `bucket2`)",
-        )
-        val underTest = SetOperator(
-            UNION,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
-            duplicatesAllowed = true,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "(SELECT * FROM `bucket1`) UNION ALL (SELECT * FROM `bucket2`)",
+            )
+        val underTest =
+            SetOperator(
+                UNION,
+                someFromClause(someBucket("bucket1")),
+                someFromClause(someBucket("bucket2")),
+                duplicatesAllowed = true,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -79,15 +83,17 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support intersect operator with two select statements`() {
-        val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) INTERSECT (SELECT * FROM `bucket2`)",
-        )
-        val underTest = SetOperator(
-            INTERSECT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
-            duplicatesAllowed = false,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "(SELECT * FROM `bucket1`) INTERSECT (SELECT * FROM `bucket2`)",
+            )
+        val underTest =
+            SetOperator(
+                INTERSECT,
+                someFromClause(someBucket("bucket1")),
+                someFromClause(someBucket("bucket2")),
+                duplicatesAllowed = false,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -96,15 +102,17 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support intersect all operator with two select statements`() {
-        val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)",
-        )
-        val underTest = SetOperator(
-            INTERSECT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
-            duplicatesAllowed = true,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "(SELECT * FROM `bucket1`) INTERSECT ALL (SELECT * FROM `bucket2`)",
+            )
+        val underTest =
+            SetOperator(
+                INTERSECT,
+                someFromClause(someBucket("bucket1")),
+                someFromClause(someBucket("bucket2")),
+                duplicatesAllowed = true,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -135,15 +143,17 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support except operator with two select statements`() {
-        val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) EXCEPT (SELECT * FROM `bucket2`)",
-        )
-        val underTest = SetOperator(
-            EXCEPT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
-            duplicatesAllowed = false,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "(SELECT * FROM `bucket1`) EXCEPT (SELECT * FROM `bucket2`)",
+            )
+        val underTest =
+            SetOperator(
+                EXCEPT,
+                someFromClause(someBucket("bucket1")),
+                someFromClause(someBucket("bucket2")),
+                duplicatesAllowed = false,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -152,15 +162,17 @@ class SetOperatorTest : ResolverDependentTest {
 
     @Test
     fun `should support except all operator with two select statements`() {
-        val expected = CouchbaseDopeQuery(
-            "(SELECT * FROM `bucket1`) EXCEPT ALL (SELECT * FROM `bucket2`)",
-        )
-        val underTest = SetOperator(
-            EXCEPT,
-            someFromClause(someBucket("bucket1")),
-            someFromClause(someBucket("bucket2")),
-            duplicatesAllowed = true,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "(SELECT * FROM `bucket1`) EXCEPT ALL (SELECT * FROM `bucket2`)",
+            )
+        val underTest =
+            SetOperator(
+                EXCEPT,
+                someFromClause(someBucket("bucket1")),
+                someFromClause(someBucket("bucket2")),
+                duplicatesAllowed = true,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

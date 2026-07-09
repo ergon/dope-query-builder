@@ -16,16 +16,19 @@ data class DopeParameters(
      * Merges multiple instances of DopeParameters, so that the receiver instance of [DopeParameters]
      * is the first in the order of merging.
      */
-    fun merge(vararg otherParameters: DopeParameters?) = this.copy(
-        namedParameters = otherParameters.filterNotNull()
-            .fold(this.namedParameters) { namedParams, additionalNamedParams ->
-                namedParams + additionalNamedParams.namedParameters
-            },
-        positionalParameters = otherParameters.filterNotNull()
-            .fold(this.positionalParameters) { positionalParams, additionalPositionalParams ->
-                positionalParams + additionalPositionalParams.positionalParameters
-            },
-    )
+    fun merge(vararg otherParameters: DopeParameters?) =
+        this.copy(
+            namedParameters =
+                otherParameters.filterNotNull()
+                    .fold(this.namedParameters) { namedParams, additionalNamedParams ->
+                        namedParams + additionalNamedParams.namedParameters
+                    },
+            positionalParameters =
+                otherParameters.filterNotNull()
+                    .fold(this.positionalParameters) { positionalParams, additionalPositionalParams ->
+                        positionalParams + additionalPositionalParams.positionalParameters
+                    },
+        )
 }
 
 fun List<DopeParameters>.merge(vararg otherParameters: DopeParameters?): DopeParameters =

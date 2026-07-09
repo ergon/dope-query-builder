@@ -14,9 +14,10 @@ class UrlEncodeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support url encode expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "URL_ENCODE(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "URL_ENCODE(`stringField`)",
+            )
         val underTest = UrlEncodeExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)

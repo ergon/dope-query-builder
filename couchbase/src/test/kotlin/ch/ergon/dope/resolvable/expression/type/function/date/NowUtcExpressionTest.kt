@@ -16,9 +16,10 @@ class NowUtcExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support NOW_UTC without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_UTC()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_UTC()",
+            )
         val underTest = NowUtcExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class NowUtcExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOW_UTC with positional parameter format`() {
         val fmt = "yyyy-MM-dd"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_UTC($1)",
-            DopeParameters(positionalParameters = listOf(fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_UTC($1)",
+                DopeParameters(positionalParameters = listOf(fmt)),
+            )
         val underTest = NowUtcExpression(fmt.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class NowUtcExpressionTest : ResolverDependentTest {
     fun `should support NOW_UTC with named parameter format`() {
         val fmt = "yyyy-MM-dd"
         val name = "f"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_UTC(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_UTC(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to fmt)),
+            )
         val underTest = NowUtcExpression(fmt.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

@@ -21,10 +21,11 @@ class ObjectEntryPrimitiveTest : ResolverDependentTest {
 
     @Test
     fun `should support object entry`() {
-        val expected = CouchbaseDopeQuery(
-            "`stringField` : `stringField`",
-            DopeParameters(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField` : `stringField`",
+                DopeParameters(),
+            )
         val underTest = ObjectEntryPrimitive(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -35,10 +36,11 @@ class ObjectEntryPrimitiveTest : ResolverDependentTest {
     @Test
     fun `should support object entry with parameter`() {
         val value = "test"
-        val expected = CouchbaseDopeQuery(
-            "`stringField` : $1",
-            DopeParameters(positionalParameters = listOf(value)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`stringField` : $1",
+                DopeParameters(positionalParameters = listOf(value)),
+            )
         val underTest = ObjectEntryPrimitive(someStringField(), value.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -70,10 +72,11 @@ class ObjectEntryPrimitiveTest : ResolverDependentTest {
 
     @Test
     fun `should support object entry field`() {
-        val expected = CouchbaseDopeQuery(
-            "`objectField`.`someString`",
-            DopeParameters(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "`objectField`.`someString`",
+                DopeParameters(),
+            )
         val underTest = ObjectEntry<StringType>(someObjectField(), someString())
 
         val actual = underTest.toDopeQuery(resolver)

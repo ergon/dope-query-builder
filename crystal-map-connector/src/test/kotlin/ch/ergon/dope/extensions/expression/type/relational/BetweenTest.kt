@@ -192,11 +192,12 @@ class BetweenTest {
         val field = someCMConverterNumberField()
         val start = someDate()
         val end = someDate()
-        val expected = NotBetweenExpression(
-            field.toDopeType(),
-            DateNumberConverterInstance.write(start)!!.toDopeType(),
-            DateNumberConverterInstance.write(end)!!.toDopeType(),
-        )
+        val expected =
+            NotBetweenExpression(
+                field.toDopeType(),
+                DateNumberConverterInstance.write(start)!!.toDopeType(),
+                DateNumberConverterInstance.write(end)!!.toDopeType(),
+            )
 
         val actual = field.notBetween(start, end)
 
@@ -304,11 +305,12 @@ class BetweenTest {
         val field = someCMConverterNumberField()
         val start = someDate()
         val end = someDate()
-        val expected = BetweenExpression(
-            field.toDopeType(),
-            DateNumberConverterInstance.write(start)!!.toDopeType(),
-            DateNumberConverterInstance.write(end)!!.toDopeType(),
-        )
+        val expected =
+            BetweenExpression(
+                field.toDopeType(),
+                DateNumberConverterInstance.write(start)!!.toDopeType(),
+                DateNumberConverterInstance.write(end)!!.toDopeType(),
+            )
 
         val actual = field.between(start, end)
 
@@ -320,11 +322,12 @@ class BetweenTest {
         val field = someCMConverterStringField()
         val start = someDate()
         val end = someDate()
-        val expected = BetweenExpression(
-            field.toDopeType(),
-            DateStringConverterInstance.write(start)!!.toDopeType(),
-            DateStringConverterInstance.write(end)!!.toDopeType(),
-        )
+        val expected =
+            BetweenExpression(
+                field.toDopeType(),
+                DateStringConverterInstance.write(start)!!.toDopeType(),
+                DateStringConverterInstance.write(end)!!.toDopeType(),
+            )
 
         val actual = field.between(start, end)
 
@@ -420,11 +423,12 @@ class BetweenTest {
         val field = someCMConverterStringField()
         val start = someDate()
         val end = someDate()
-        val expected = NotBetweenExpression(
-            field.toDopeType(),
-            DateStringConverterInstance.write(start)!!.toDopeType(),
-            DateStringConverterInstance.write(end)!!.toDopeType(),
-        )
+        val expected =
+            NotBetweenExpression(
+                field.toDopeType(),
+                DateStringConverterInstance.write(start)!!.toDopeType(),
+                DateStringConverterInstance.write(end)!!.toDopeType(),
+            )
 
         val actual = field.notBetween(start, end)
 

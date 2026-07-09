@@ -15,9 +15,10 @@ class IfNullExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support if null`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL(`stringField`, `stringField`)",
+            )
         val underTest = IfNullExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class IfNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support if null with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = IfNullExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class IfNullExpressionTest : ResolverDependentTest {
     fun `should support if null with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL(\$$parameterName, `stringField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL(\$$parameterName, `stringField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = IfNullExpression(parameterValue.asParameter(parameterName), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class IfNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support if null with positional second parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL(`stringField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL(`stringField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = IfNullExpression(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class IfNullExpressionTest : ResolverDependentTest {
     fun `should support if null with named second parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL(`stringField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL(`stringField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = IfNullExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class IfNullExpressionTest : ResolverDependentTest {
     fun `should support if null with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = IfNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,10 +110,11 @@ class IfNullExpressionTest : ResolverDependentTest {
         val parameterValue2 = someString()
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFNULL(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFNULL(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = IfNullExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

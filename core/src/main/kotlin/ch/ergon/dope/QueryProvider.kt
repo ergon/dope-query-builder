@@ -11,11 +11,17 @@ import ch.ergon.dope.validtype.ObjectType
 import ch.ergon.dope.validtype.ValidType
 
 interface QueryProvider {
-    fun select(expression: Selectable, vararg expressions: Selectable): SelectClause
+    fun select(
+        expression: Selectable,
+        vararg expressions: Selectable,
+    ): SelectClause
 
     fun selectAsterisk(): SelectClause
 
-    fun selectDistinct(expression: Selectable, vararg expressions: Selectable): SelectDistinctClause
+    fun selectDistinct(
+        expression: Selectable,
+        vararg expressions: Selectable,
+    ): SelectDistinctClause
 
     fun <T : ValidType> selectRaw(expression: Expression<T>): SelectRawClause<T>
 

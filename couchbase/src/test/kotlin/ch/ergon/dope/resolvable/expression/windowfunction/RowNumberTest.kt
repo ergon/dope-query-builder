@@ -16,9 +16,10 @@ class RowNumberTest : ResolverDependentTest {
 
     @Test
     fun `should support row number with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "ROW_NUMBER() OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "ROW_NUMBER() OVER `ref`",
+            )
         val underTest = RowNumberWithReference("ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class RowNumberTest : ResolverDependentTest {
 
     @Test
     fun `should support row number with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "ROW_NUMBER() OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "ROW_NUMBER() OVER (ORDER BY `stringField`)",
+            )
         val underTest = RowNumber(windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,13 +42,15 @@ class RowNumberTest : ResolverDependentTest {
 
     @Test
     fun `should support row number with partition and order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "ROW_NUMBER() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = RowNumber(
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "ROW_NUMBER() OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            RowNumber(
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

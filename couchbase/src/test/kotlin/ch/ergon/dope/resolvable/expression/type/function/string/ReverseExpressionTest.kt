@@ -16,9 +16,10 @@ class ReverseExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support reverse`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "REVERSE(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REVERSE(`stringField`)",
+            )
         val underTest = ReverseExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class ReverseExpressionTest : ResolverDependentTest {
     @Test
     fun `should support reverse with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "REVERSE($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REVERSE($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ReverseExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class ReverseExpressionTest : ResolverDependentTest {
     fun `should support reverse with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "REVERSE(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REVERSE(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ReverseExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

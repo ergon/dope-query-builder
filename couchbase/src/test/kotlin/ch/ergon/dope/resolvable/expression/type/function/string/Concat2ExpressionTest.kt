@@ -16,9 +16,10 @@ class Concat2ExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support concat2 with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT2(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT2(`stringField`, `stringField`)",
+            )
         val underTest = Concat2Expression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class Concat2ExpressionTest : ResolverDependentTest {
     @Test
     fun `should support concat2 with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT2($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT2($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = Concat2Expression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class Concat2ExpressionTest : ResolverDependentTest {
     fun `should support concat2 with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT2($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT2($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = Concat2Expression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -59,10 +62,11 @@ class Concat2ExpressionTest : ResolverDependentTest {
     fun `should support concat2 with mixed parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT2($1, `stringField`, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT2($1, `stringField`, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = Concat2Expression(parameterValue.asParameter(), someStringField(), listOf(parameterValue2.asParameter()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -76,10 +80,11 @@ class Concat2ExpressionTest : ResolverDependentTest {
         val parameterValue2 = "test"
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT2(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT2(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = Concat2Expression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -126,10 +131,11 @@ class Concat2ExpressionTest : ResolverDependentTest {
     fun `should support concat2 function string string`() {
         val separator = someString("separator")
         val string = someString()
-        val expected = Concat2Expression(
-            separator.toDopeType(),
-            string.toDopeType(),
-        )
+        val expected =
+            Concat2Expression(
+                separator.toDopeType(),
+                string.toDopeType(),
+            )
 
         val actual = separator.concat2(string)
 

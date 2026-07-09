@@ -18,9 +18,10 @@ class RpadExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support rpad`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "RPAD(`stringField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "RPAD(`stringField`, `numberField`)",
+            )
         val underTest = RpadExpression(someStringField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,10 +32,11 @@ class RpadExpressionTest : ResolverDependentTest {
     @Test
     fun `should support rpad with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "RPAD($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "RPAD($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = RpadExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -46,10 +48,11 @@ class RpadExpressionTest : ResolverDependentTest {
     fun `should support rpad with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "RPAD($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "RPAD($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = RpadExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -59,9 +62,10 @@ class RpadExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support rpad with extra parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "RPAD(`stringField`, `numberField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "RPAD(`stringField`, `numberField`, `stringField`)",
+            )
         val underTest = RpadExpression(someStringField(), someNumberField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class RpadExpressionTest : ResolverDependentTest {
     @Test
     fun `should support rpad with extra and positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "RPAD($1, `numberField`, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "RPAD($1, `numberField`, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = RpadExpression(parameterValue.asParameter(), someNumberField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -88,10 +93,11 @@ class RpadExpressionTest : ResolverDependentTest {
         val parameterValue = "test"
         val parameterValue2 = 5
         val parameterValue3 = "extra"
-        val expected = CouchbaseDopeQuery(
-            queryString = "RPAD($1, $2, $3)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "RPAD($1, $2, $3)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
+            )
         val underTest = RpadExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

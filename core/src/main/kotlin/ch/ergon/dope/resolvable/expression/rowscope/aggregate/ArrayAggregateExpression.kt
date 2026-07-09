@@ -31,24 +31,25 @@ data class ArrayAggregateExpression<T : ValidType>(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<ArrayType<T>> {
     override val selectable: Selectable = field
-    override val overDefinition: OverDefinition? = if (listOf(
-            windowReferenceExpression,
-            windowPartitionClause,
-            windowOrderClause,
-            windowFrameClause,
-        ).all { it == null }
-    ) {
-        null
-    } else {
-        OverWindowDefinition(
-            WindowDefinition(
+    override val overDefinition: OverDefinition? =
+        if (listOf(
                 windowReferenceExpression,
                 windowPartitionClause,
                 windowOrderClause,
                 windowFrameClause,
-            ),
-        )
-    }
+            ).all { it == null }
+        ) {
+            null
+        } else {
+            OverWindowDefinition(
+                WindowDefinition(
+                    windowReferenceExpression,
+                    windowPartitionClause,
+                    windowOrderClause,
+                    windowFrameClause,
+                ),
+            )
+        }
 }
 
 fun <T : ValidType> arrayAggregateWithReference(

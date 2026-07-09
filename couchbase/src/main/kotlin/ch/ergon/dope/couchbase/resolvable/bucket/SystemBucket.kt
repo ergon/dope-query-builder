@@ -15,18 +15,23 @@ abstract class SystemBucket(
     bucketName: String,
     private val customAlias: String? = null,
 ) : AliasedBucket("system:$bucketName", customAlias ?: bucketName) {
-    override fun asBucketDefinition(): Resolvable = if (customAlias != null) {
-        super.asBucketDefinition()
-    } else {
-        UnaliasedBucket(name)
-    }
+    override fun asBucketDefinition(): Resolvable =
+        if (customAlias != null) {
+            super.asBucketDefinition()
+        } else {
+            UnaliasedBucket(name)
+        }
 
     protected fun stringField(name: String): IField<StringType> = Field(name, this)
+
     protected fun numberField(name: String): IField<NumberType> = Field(name, this)
+
     protected fun booleanField(name: String): IField<BooleanType> = Field(name, this)
+
     protected fun objectField(name: String): IField<ObjectType> = Field(name, this)
 
     protected fun stringArrayField(name: String): IField<ArrayType<StringType>> = Field(name, this)
+
     protected fun objectArrayField(name: String): IField<ArrayType<ObjectType>> = Field(name, this)
 }
 

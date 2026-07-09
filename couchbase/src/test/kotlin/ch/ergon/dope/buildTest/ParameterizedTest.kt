@@ -22,9 +22,10 @@ import kotlin.test.assertEquals
 class ParameterizedTest {
     @Test
     fun `should get no parameter as result`() {
-        val parameters = QueryBuilder
-            .select(someNumber().isEqualTo(someNumber()))
-            .build(CouchbaseResolver()).parameters
+        val parameters =
+            QueryBuilder
+                .select(someNumber().isEqualTo(someNumber()))
+                .build(CouchbaseResolver()).parameters
 
         assertEquals(DopeParameters(), parameters)
     }
@@ -33,9 +34,10 @@ class ParameterizedTest {
     fun `should get one parameter as result`() {
         val parameter = someNumber().asParameter(someString())
 
-        val namedParameters = QueryBuilder
-            .select(parameter.isEqualTo(someNumber().toDopeType()))
-            .build(CouchbaseResolver()).parameters.namedParameters
+        val namedParameters =
+            QueryBuilder
+                .select(parameter.isEqualTo(someNumber().toDopeType()))
+                .build(CouchbaseResolver()).parameters.namedParameters
 
         assertEquals(1, namedParameters.size)
     }
@@ -46,9 +48,10 @@ class ParameterizedTest {
         val parameterValue = someNumber(5)
         val parameter = parameterValue.asParameter(parameterName)
 
-        val namedParameters = QueryBuilder
-            .select(parameter.isEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters.namedParameters
+        val namedParameters =
+            QueryBuilder
+                .select(parameter.isEqualTo(someNumberField()))
+                .build(CouchbaseResolver()).parameters.namedParameters
 
         assertEquals(parameterValue, namedParameters[parameterName])
     }
@@ -58,18 +61,20 @@ class ParameterizedTest {
         val parameterValue = someNumber(2)
         val parameter = parameterValue.asParameter()
 
-        val positionalParameters = QueryBuilder
-            .select(parameter.isEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters.positionalParameters
+        val positionalParameters =
+            QueryBuilder
+                .select(parameter.isEqualTo(someNumberField()))
+                .build(CouchbaseResolver()).parameters.positionalParameters
 
         assertEquals(parameterValue, positionalParameters[0])
     }
 
     @Test
     fun `should get empty map when there is no named parameter`() {
-        val parameters = QueryBuilder
-            .select(someNumber(2).asParameter().isEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters
+        val parameters =
+            QueryBuilder
+                .select(someNumber(2).asParameter().isEqualTo(someNumberField()))
+                .build(CouchbaseResolver()).parameters
 
         assertEquals(0, parameters.namedParameters.size)
     }
@@ -83,10 +88,11 @@ class ParameterizedTest {
         val parameterValue3 = someNumber(80)
         val parameter3 = parameterValue3.asParameter()
 
-        val positionalParameters = QueryBuilder
-            .select(parameter1.isEqualTo(parameter2))
-            .where(parameter3.isNotEqualTo(someNumberField()))
-            .build(CouchbaseResolver()).parameters.positionalParameters
+        val positionalParameters =
+            QueryBuilder
+                .select(parameter1.isEqualTo(parameter2))
+                .where(parameter3.isNotEqualTo(someNumberField()))
+                .build(CouchbaseResolver()).parameters.positionalParameters
 
         assertEquals(parameterValue1, positionalParameters[0])
         assertEquals(parameterValue2, positionalParameters[1])
@@ -102,10 +108,11 @@ class ParameterizedTest {
         val parameter2 = parameterValue2.asParameter(someString("param"))
         val parameterValue3 = someNumber(80)
         val parameter3 = parameterValue3.asParameter()
-        val underTest = QueryBuilder
-            .select(parameter1.isEqualTo(parameter2))
-            .where(parameter3.isNotEqualTo(someNumberField()))
-            .build(CouchbaseResolver())
+        val underTest =
+            QueryBuilder
+                .select(parameter1.isEqualTo(parameter2))
+                .where(parameter3.isNotEqualTo(someNumberField()))
+                .build(CouchbaseResolver())
 
         val namedParameters = underTest.parameters.namedParameters
         val positionalParameters = underTest.parameters.positionalParameters
@@ -134,16 +141,17 @@ class ParameterizedTest {
         val parameterName5 = someString("superMagic")
         val parameter5 = value5.asParameter(parameterName5)
         val parameter6 = value6.asParameter()
-        val underTest = QueryBuilder
-            .select(
-                parameter1,
-                parameter2.or(
-                    parameter3.and(
-                        parameter4,
-                    ),
-                ).alias(someString("one")),
-                parameter5.concat(parameter6),
-            ).build(CouchbaseResolver())
+        val underTest =
+            QueryBuilder
+                .select(
+                    parameter1,
+                    parameter2.or(
+                        parameter3.and(
+                            parameter4,
+                        ),
+                    ).alias(someString("one")),
+                    parameter5.concat(parameter6),
+                ).build(CouchbaseResolver())
 
         val namedParameters = underTest.parameters.namedParameters
         val positionalParameters = underTest.parameters.positionalParameters
@@ -163,8 +171,9 @@ class ParameterizedTest {
         val parameterValue = someNumber(3)
         val parameter = parameterValue.asParameter()
 
-        val parameters = QueryBuilder
-            .select(listOf(parameter).toDopeType()).build(CouchbaseResolver()).parameters.positionalParameters
+        val parameters =
+            QueryBuilder
+                .select(listOf(parameter).toDopeType()).build(CouchbaseResolver()).parameters.positionalParameters
 
         assertEquals(parameterValue, parameters[0])
         assertEquals(1, parameters.size)
@@ -179,24 +188,26 @@ class ParameterizedTest {
         val positionalParameter1 = someString()
         val positionalParameter2 = someBoolean()
         val positionalParameter3 = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT CONCAT($$namedParameter1name, $1) WHERE $2 LIMIT $$namedParameter2name OFFSET $3",
-            DopeParameters(
-                mapOf(namedParameter1name to namedParameter1, namedParameter2name to namedParameter2),
-                listOf(positionalParameter1, positionalParameter2, positionalParameter3),
-            ),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT CONCAT($$namedParameter1name, $1) WHERE $2 LIMIT $$namedParameter2name OFFSET $3",
+                DopeParameters(
+                    mapOf(namedParameter1name to namedParameter1, namedParameter2name to namedParameter2),
+                    listOf(positionalParameter1, positionalParameter2, positionalParameter3),
+                ),
+            )
 
-        val actual = QueryBuilder
-            .select(
-                namedParameter1.asParameter(namedParameter1name).concat(positionalParameter1.asParameter()),
-            ).where(
-                positionalParameter2.asParameter(),
-            ).limit(
-                namedParameter2.asParameter(namedParameter2name),
-            ).offset(
-                positionalParameter3.asParameter(),
-            ).build(CouchbaseResolver())
+        val actual =
+            QueryBuilder
+                .select(
+                    namedParameter1.asParameter(namedParameter1name).concat(positionalParameter1.asParameter()),
+                ).where(
+                    positionalParameter2.asParameter(),
+                ).limit(
+                    namedParameter2.asParameter(namedParameter2name),
+                ).offset(
+                    positionalParameter3.asParameter(),
+                ).build(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -209,23 +220,26 @@ class ParameterizedTest {
         val parameterValue3 = someNumber()
         val parameterValue4 = someNumber()
         val parameterName4 = someString("namedParameter2")
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT [$1, $$parameterName2, $2, $$parameterName4]",
-            parameters = DopeParameters(
-                namedParameters = mapOf(parameterName2 to parameterValue2, parameterName4 to parameterValue4),
-                positionalParameters = listOf(parameterValue1, parameterValue3),
-            ),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT [$1, $$parameterName2, $2, $$parameterName4]",
+                parameters =
+                    DopeParameters(
+                        namedParameters = mapOf(parameterName2 to parameterValue2, parameterName4 to parameterValue4),
+                        positionalParameters = listOf(parameterValue1, parameterValue3),
+                    ),
+            )
 
-        val actual = QueryBuilder
-            .select(
-                listOf(
-                    parameterValue1.asParameter(),
-                    parameterValue2.asParameter(parameterName2),
-                    parameterValue3.asParameter(),
-                    parameterValue4.asParameter(parameterName4),
-                ).toDopeType(),
-            ).build(CouchbaseResolver())
+        val actual =
+            QueryBuilder
+                .select(
+                    listOf(
+                        parameterValue1.asParameter(),
+                        parameterValue2.asParameter(parameterName2),
+                        parameterValue3.asParameter(),
+                        parameterValue4.asParameter(parameterName4),
+                    ).toDopeType(),
+                ).build(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }

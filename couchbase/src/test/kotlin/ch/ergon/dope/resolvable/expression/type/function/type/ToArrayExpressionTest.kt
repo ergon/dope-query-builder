@@ -16,9 +16,10 @@ class ToArrayExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support to array expression with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOARRAY(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOARRAY(`stringField`)",
+            )
         val underTest = ToArrayExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class ToArrayExpressionTest : ResolverDependentTest {
     @Test
     fun `should support to array expression with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOARRAY($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOARRAY($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ToArrayExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class ToArrayExpressionTest : ResolverDependentTest {
     fun `should support to array expression with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TOARRAY(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TOARRAY(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ToArrayExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

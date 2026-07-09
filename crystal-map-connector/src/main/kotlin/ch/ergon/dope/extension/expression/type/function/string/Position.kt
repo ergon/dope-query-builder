@@ -7,17 +7,12 @@ import ch.ergon.dope.toDopeType
 import ch.ergon.dope.validtype.StringType
 import com.schwarz.crystalapi.schema.CMJsonField
 
-fun CMJsonField<String>.position(searchStr: CMJsonField<String>) =
-    toDopeType().position(searchStr.toDopeType())
+fun CMJsonField<String>.position(searchStr: CMJsonField<String>) = toDopeType().position(searchStr.toDopeType())
 
-fun CMJsonField<String>.position(searchStr: TypeExpression<StringType>) =
-    toDopeType().position(searchStr)
+fun CMJsonField<String>.position(searchStr: TypeExpression<StringType>) = toDopeType().position(searchStr)
 
-fun CMJsonField<String>.position(searchStr: String) =
-    toDopeType().position(searchStr.toDopeType())
+fun CMJsonField<String>.position(searchStr: String) = toDopeType().position(searchStr.toDopeType())
 
-fun String.position(searchStr: CMJsonField<String>) =
-    toDopeType().position(searchStr.toDopeType())
+fun String.position(searchStr: CMJsonField<String>) = toDopeType().position(searchStr.toDopeType())
 
-fun TypeExpression<StringType>.position(searchStr: CMJsonField<String>) =
-    position(searchStr.toDopeType())
+fun TypeExpression<StringType>.position(searchStr: CMJsonField<String>) = position(searchStr.toDopeType())

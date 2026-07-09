@@ -21,12 +21,13 @@ data class NTile(
     override val functionArguments: List<Selectable?> = listOf(numTiles)
     override val fromModifier: FromModifier? = null
     override val nullsModifier: NullsModifier? = null
-    override val overDefinition: OverDefinition = OverWindowDefinition(
-        WindowDefinition(
-            windowPartitionClause = windowPartitionClause,
-            windowOrderClause = windowOrderClause,
-        ),
-    )
+    override val overDefinition: OverDefinition =
+        OverWindowDefinition(
+            WindowDefinition(
+                windowPartitionClause = windowPartitionClause,
+                windowOrderClause = windowOrderClause,
+            ),
+        )
 }
 
 data class NTileWithReference(

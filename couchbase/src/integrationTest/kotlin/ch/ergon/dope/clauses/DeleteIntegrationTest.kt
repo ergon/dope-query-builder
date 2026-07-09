@@ -24,15 +24,16 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `delete single document and return id field`() {
-        val dopeQuery = QueryBuilder
-            .deleteFrom(
-                testBucket.useKeys("employee:1"),
-            )
-            .returning(
-                idField,
-                asterisk(),
-            )
-            .build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .deleteFrom(
+                    testBucket.useKeys("employee:1"),
+                )
+                .returning(
+                    idField,
+                    asterisk(),
+                )
+                .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)
@@ -44,21 +45,23 @@ class DeleteIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun `delete every document in bucket`() {
-        val deleteEverythingCouchbaseDopeQuery = QueryBuilder
-            .deleteFrom(
-                testBucket,
-            )
-            .where(
-                1.add(1).isEqualTo(2),
-            )
-            .returning(
-                idField,
-            ).build(CouchbaseResolver())
+        val deleteEverythingCouchbaseDopeQuery =
+            QueryBuilder
+                .deleteFrom(
+                    testBucket,
+                )
+                .where(
+                    1.add(1).isEqualTo(2),
+                )
+                .returning(
+                    idField,
+                ).build(CouchbaseResolver())
 
-        val selectEverythingCouchbaseDopeQuery = QueryBuilder
-            .selectFrom(
-                testBucket,
-            ).build(CouchbaseResolver())
+        val selectEverythingCouchbaseDopeQuery =
+            QueryBuilder
+                .selectFrom(
+                    testBucket,
+                ).build(CouchbaseResolver())
 
         tryUntil {
             val selectBeforeDeleteQueryResult = queryWithoutParameters(selectEverythingCouchbaseDopeQuery)

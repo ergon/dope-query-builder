@@ -12,12 +12,13 @@ class MetaTest {
     fun `should support meta expression with bucket`() {
         val expected = "SELECT META(`someBucket`) FROM `someBucket`"
 
-        val actual: String = QueryBuilder
-            .select(
-                meta(someBucket()),
-            ).from(
-                someBucket(),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    meta(someBucket()),
+                ).from(
+                    someBucket(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -26,31 +27,34 @@ class MetaTest {
     fun `should support meta expression without a bucket`() {
         val expected = "SELECT META() FROM `someBucket`"
 
-        val actual: String = QueryBuilder
-            .select(
-                meta(),
-            ).from(
-                someBucket(),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    meta(),
+                ).from(
+                    someBucket(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support meta expression fields`() {
-        val expected = "SELECT META().`cas`, META().`expiration`, META().`flags`, META().`id`, " +
-            "META().`type` FROM `someBucket`"
+        val expected =
+            "SELECT META().`cas`, META().`expiration`, META().`flags`, META().`id`, " +
+                "META().`type` FROM `someBucket`"
 
-        val actual: String = QueryBuilder
-            .select(
-                meta().cas,
-                meta().expiration,
-                meta().flags,
-                meta().id,
-                meta().type,
-            ).from(
-                someBucket(),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    meta().cas,
+                    meta().expiration,
+                    meta().flags,
+                    meta().id,
+                    meta().type,
+                ).from(
+                    someBucket(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

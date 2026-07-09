@@ -21,13 +21,15 @@ class DatePartMillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_PART_MILLIS with field and no timezone`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_PART_MILLIS(`numberField`, \"DAY\")",
-        )
-        val underTest = DatePartMillisExpression(
-            someNumberField(),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_PART_MILLIS(`numberField`, \"DAY\")",
+            )
+        val underTest =
+            DatePartMillisExpression(
+                someNumberField(),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -37,14 +39,16 @@ class DatePartMillisExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_PART_MILLIS with positional parameter date`() {
         val dateValue = 1620000000000L
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_PART_MILLIS($1, \"HOUR\")",
-            DopeParameters(positionalParameters = listOf(dateValue)),
-        )
-        val underTest = DatePartMillisExpression(
-            dateValue.asParameter(),
-            HOUR,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_PART_MILLIS($1, \"HOUR\")",
+                DopeParameters(positionalParameters = listOf(dateValue)),
+            )
+        val underTest =
+            DatePartMillisExpression(
+                dateValue.asParameter(),
+                HOUR,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -55,15 +59,17 @@ class DatePartMillisExpressionTest : ResolverDependentTest {
     fun `should support DATE_PART_MILLIS with named parameter timezone`() {
         val tz = "UTC"
         val name = "zone"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_PART_MILLIS(`numberField`, \"MONTH\", \$$name)",
-            DopeParameters(namedParameters = mapOf(name to tz)),
-        )
-        val underTest = DatePartMillisExpression(
-            someNumberField(),
-            MONTH,
-            tz.asParameter(name),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_PART_MILLIS(`numberField`, \"MONTH\", \$$name)",
+                DopeParameters(namedParameters = mapOf(name to tz)),
+            )
+        val underTest =
+            DatePartMillisExpression(
+                someNumberField(),
+                MONTH,
+                tz.asParameter(name),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -98,11 +104,12 @@ class DatePartMillisExpressionTest : ResolverDependentTest {
     @Test
     fun `should support Number extractDateComponent extension with raw timezone`() {
         val expr = 1620000000000L.extractDateComponent(MILLISECOND, "Europe/Paris")
-        val expected = DatePartMillisExpression(
-            1620000000000L.toDopeType(),
-            MILLISECOND,
-            "Europe/Paris".toDopeType(),
-        )
+        val expected =
+            DatePartMillisExpression(
+                1620000000000L.toDopeType(),
+                MILLISECOND,
+                "Europe/Paris".toDopeType(),
+            )
 
         assertEquals(expected.toDopeQuery(resolver), expr.toDopeQuery(resolver))
     }

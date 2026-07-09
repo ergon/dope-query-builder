@@ -19,24 +19,19 @@ import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("isEqualToNumber")
-fun CMJsonField<out Number>.isEqualTo(right: Number): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMJsonField<out Number>.isEqualTo(right: Number): EqualsExpression<NumberType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToNumber")
-fun Number.isEqualTo(right: CMJsonField<out Number>): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun Number.isEqualTo(right: CMJsonField<out Number>): EqualsExpression<NumberType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToNumber")
-fun CMJsonField<out Number>.isEqualTo(right: CMJsonField<out Number>): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMJsonField<out Number>.isEqualTo(right: CMJsonField<out Number>): EqualsExpression<NumberType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToNumber")
-fun TypeExpression<NumberType>.isEqualTo(right: CMJsonField<out Number>): EqualsExpression<NumberType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<NumberType>.isEqualTo(right: CMJsonField<out Number>): EqualsExpression<NumberType> = isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToNumber")
-fun CMJsonField<out Number>.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> =
-    toDopeType().isEqualTo(right)
+fun CMJsonField<out Number>.isEqualTo(right: TypeExpression<NumberType>): EqualsExpression<NumberType> = toDopeType().isEqualTo(right)
 
 @JvmName("isEqualToNumberConverter")
 fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isEqualTo(other: Convertable): EqualsExpression<NumberType> =
@@ -47,24 +42,19 @@ fun <Convertable : Any, JsonType : Number> Convertable.isEqualTo(other: CMConver
     toDopeType(other).isEqualTo(other.toDopeType())
 
 @JvmName("isEqualToString")
-fun CMJsonField<String>.isEqualTo(right: String): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMJsonField<String>.isEqualTo(right: String): EqualsExpression<StringType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToString")
-fun String.isEqualTo(right: CMJsonField<String>): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun String.isEqualTo(right: CMJsonField<String>): EqualsExpression<StringType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToString")
-fun CMJsonField<String>.isEqualTo(right: CMJsonField<String>): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMJsonField<String>.isEqualTo(right: CMJsonField<String>): EqualsExpression<StringType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToString")
-fun TypeExpression<StringType>.isEqualTo(right: CMJsonField<String>): EqualsExpression<StringType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<StringType>.isEqualTo(right: CMJsonField<String>): EqualsExpression<StringType> = isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToString")
-fun CMJsonField<String>.isEqualTo(right: TypeExpression<StringType>): EqualsExpression<StringType> =
-    toDopeType().isEqualTo(right)
+fun CMJsonField<String>.isEqualTo(right: TypeExpression<StringType>): EqualsExpression<StringType> = toDopeType().isEqualTo(right)
 
 @JvmName("isEqualToStringConverter")
 fun <JsonType : Any> CMConverterField<JsonType, String>.isEqualTo(other: JsonType): EqualsExpression<StringType> =
@@ -75,32 +65,25 @@ fun <Convertable : Any> Convertable.isEqualTo(other: CMConverterField<Convertabl
     toDopeType(other).isEqualTo(other.toDopeType())
 
 @JvmName("isEqualToBoolean")
-fun CMJsonField<Boolean>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMJsonField<Boolean>.isEqualTo(right: Boolean): EqualsExpression<BooleanType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("CMFieldIsFalse")
-fun CMJsonField<Boolean>.isFalse(): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(FALSE)
+fun CMJsonField<Boolean>.isFalse(): EqualsExpression<BooleanType> = toDopeType().isEqualTo(FALSE)
 
 @JvmName("CMFieldIsTrue")
-fun CMJsonField<Boolean>.isTrue(): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(TRUE)
+fun CMJsonField<Boolean>.isTrue(): EqualsExpression<BooleanType> = toDopeType().isEqualTo(TRUE)
 
 @JvmName("isEqualToBoolean")
-fun Boolean.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun Boolean.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToBoolean")
-fun CMJsonField<Boolean>.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMJsonField<Boolean>.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToBoolean")
-fun TypeExpression<BooleanType>.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<BooleanType>.isEqualTo(right: CMJsonField<Boolean>): EqualsExpression<BooleanType> = isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToBoolean")
-fun CMJsonField<Boolean>.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> =
-    toDopeType().isEqualTo(right)
+fun CMJsonField<Boolean>.isEqualTo(right: TypeExpression<BooleanType>): EqualsExpression<BooleanType> = toDopeType().isEqualTo(right)
 
 @JvmName("isEqualToBooleanConverter")
 fun <JsonType : Any> CMConverterField<JsonType, Boolean>.isEqualTo(other: JsonType): EqualsExpression<BooleanType> =
@@ -111,72 +94,60 @@ fun <Convertable : Any> Convertable.isEqualTo(other: CMConverterField<Convertabl
     toDopeType(other).isEqualTo(other.toDopeType())
 
 @JvmName("isEqualToObject")
-fun <V> CMObjectField<Schema>.isEqualTo(right: Map<String, V>): EqualsExpression<ObjectType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun <V> CMObjectField<Schema>.isEqualTo(right: Map<String, V>): EqualsExpression<ObjectType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToObject")
-fun <V> Map<String, V>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun <V> Map<String, V>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToObject")
-fun CMObjectField<Schema>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> =
-    toDopeType().isEqualTo(right.toDopeType())
+fun CMObjectField<Schema>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> = toDopeType().isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToObject")
-fun TypeExpression<ObjectType>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> =
-    isEqualTo(right.toDopeType())
+fun TypeExpression<ObjectType>.isEqualTo(right: CMObjectField<Schema>): EqualsExpression<ObjectType> = isEqualTo(right.toDopeType())
 
 @JvmName("isEqualToObject")
-fun CMObjectField<Schema>.isEqualTo(right: TypeExpression<ObjectType>): EqualsExpression<ObjectType> =
-    toDopeType().isEqualTo(right)
+fun CMObjectField<Schema>.isEqualTo(right: TypeExpression<ObjectType>): EqualsExpression<ObjectType> = toDopeType().isEqualTo(right)
 
 @JvmName("isNotEqualToNumber")
-fun CMJsonField<out Number>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun CMJsonField<out Number>.isNotEqualTo(right: Number): NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToNumber")
-fun Number.isNotEqualTo(right: CMJsonField<out Number>): NotEqualsExpression<NumberType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun Number.isNotEqualTo(right: CMJsonField<out Number>): NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToNumber")
 fun CMJsonField<out Number>.isNotEqualTo(right: CMJsonField<out Number>): NotEqualsExpression<NumberType> =
     toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToNumber")
-fun TypeExpression<NumberType>.isNotEqualTo(right: CMJsonField<out Number>): NotEqualsExpression<NumberType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<NumberType>.isNotEqualTo(right: CMJsonField<out Number>): NotEqualsExpression<NumberType> = isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToNumber")
-fun CMJsonField<out Number>.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> =
-    toDopeType().isNotEqualTo(right)
+fun CMJsonField<out Number>.isNotEqualTo(right: TypeExpression<NumberType>): NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(right)
 
 @JvmName("isNotEqualToNumberConverter")
-fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isNotEqualTo(other: Convertable):
-    NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(toDopeType(other))
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isNotEqualTo(
+    other: Convertable,
+): NotEqualsExpression<NumberType> = toDopeType().isNotEqualTo(toDopeType(other))
 
 @JvmName("isNotEqualToNumberConverter")
-fun <Convertable : Any, JsonType : Number> Convertable.isNotEqualTo(other: CMConverterField<Convertable, JsonType>):
-    NotEqualsExpression<NumberType> = toDopeType(other).isNotEqualTo(other.toDopeType())
+fun <Convertable : Any, JsonType : Number> Convertable.isNotEqualTo(
+    other: CMConverterField<Convertable, JsonType>,
+): NotEqualsExpression<NumberType> = toDopeType(other).isNotEqualTo(other.toDopeType())
 
 @JvmName("isNotEqualToString")
-fun CMJsonField<String>.isNotEqualTo(right: String): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun CMJsonField<String>.isNotEqualTo(right: String): NotEqualsExpression<StringType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToString")
-fun String.isNotEqualTo(right: CMJsonField<String>): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun String.isNotEqualTo(right: CMJsonField<String>): NotEqualsExpression<StringType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToString")
-fun CMJsonField<String>.isNotEqualTo(right: CMJsonField<String>): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun CMJsonField<String>.isNotEqualTo(right: CMJsonField<String>): NotEqualsExpression<StringType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToString")
-fun TypeExpression<StringType>.isNotEqualTo(right: CMJsonField<String>): NotEqualsExpression<StringType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<StringType>.isNotEqualTo(right: CMJsonField<String>): NotEqualsExpression<StringType> = isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToString")
-fun CMJsonField<String>.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsExpression<StringType> =
-    toDopeType().isNotEqualTo(right)
+fun CMJsonField<String>.isNotEqualTo(right: TypeExpression<StringType>): NotEqualsExpression<StringType> = toDopeType().isNotEqualTo(right)
 
 @JvmName("isNotEqualToStringConverter")
 fun <Convertable : Any> CMConverterField<Convertable, String>.isNotEqualTo(other: Convertable): NotEqualsExpression<StringType> =
@@ -187,24 +158,20 @@ fun <Convertable : Any> Convertable.isNotEqualTo(other: CMConverterField<Convert
     toDopeType(other).isNotEqualTo(other.toDopeType())
 
 @JvmName("isNotEqualToBoolean")
-fun CMJsonField<Boolean>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun CMJsonField<Boolean>.isNotEqualTo(right: Boolean): NotEqualsExpression<BooleanType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToBoolean")
-fun Boolean.isNotEqualTo(right: CMJsonField<Boolean>): NotEqualsExpression<BooleanType> =
-    toDopeType().isNotEqualTo(right.toDopeType())
+fun Boolean.isNotEqualTo(right: CMJsonField<Boolean>): NotEqualsExpression<BooleanType> = toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToBoolean")
 fun CMJsonField<Boolean>.isNotEqualTo(right: CMJsonField<Boolean>): NotEqualsExpression<BooleanType> =
     toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToBoolean")
-fun TypeExpression<BooleanType>.isNotEqualTo(right: CMJsonField<Boolean>): NotEqualsExpression<BooleanType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<BooleanType>.isNotEqualTo(right: CMJsonField<Boolean>): NotEqualsExpression<BooleanType> = isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToBoolean")
-fun CMJsonField<Boolean>.isNotEqualTo(right: TypeExpression<BooleanType>): NotEqualsExpression<BooleanType> =
-    toDopeType().isNotEqualTo(right)
+fun CMJsonField<Boolean>.isNotEqualTo(right: TypeExpression<BooleanType>): NotEqualsExpression<BooleanType> = toDopeType().isNotEqualTo(right)
 
 @JvmName("isNotEqualToBooleanConverter")
 fun <Convertable : Any> CMConverterField<Convertable, Boolean>.isNotEqualTo(other: Convertable): NotEqualsExpression<BooleanType> =
@@ -227,9 +194,7 @@ fun CMObjectField<Schema>.isNotEqualTo(right: CMObjectField<Schema>): NotEqualsE
     toDopeType().isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToObject")
-fun TypeExpression<ObjectType>.isNotEqualTo(right: CMObjectField<Schema>): NotEqualsExpression<ObjectType> =
-    isNotEqualTo(right.toDopeType())
+fun TypeExpression<ObjectType>.isNotEqualTo(right: CMObjectField<Schema>): NotEqualsExpression<ObjectType> = isNotEqualTo(right.toDopeType())
 
 @JvmName("isNotEqualToObject")
-fun CMObjectField<Schema>.isNotEqualTo(right: TypeExpression<ObjectType>): NotEqualsExpression<ObjectType> =
-    toDopeType().isNotEqualTo(right)
+fun CMObjectField<Schema>.isNotEqualTo(right: TypeExpression<ObjectType>): NotEqualsExpression<ObjectType> = toDopeType().isNotEqualTo(right)

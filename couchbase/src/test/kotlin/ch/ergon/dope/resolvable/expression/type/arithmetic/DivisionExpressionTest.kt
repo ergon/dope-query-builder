@@ -16,9 +16,10 @@ class DivisionExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support division`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`numberField` / `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`numberField` / `numberField`)",
+            )
         val underTest = DivisionExpression(someNumberField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class DivisionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support division with parameter`() {
         val parameterValue = 4
-        val expected = CouchbaseDopeQuery(
-            queryString = "($1 / `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($1 / `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = DivisionExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class DivisionExpressionTest : ResolverDependentTest {
     fun `should support division with all parameters`() {
         val parameterValue = 4
         val parameterValue2 = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "($1 / $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($1 / $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = DivisionExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -58,10 +61,11 @@ class DivisionExpressionTest : ResolverDependentTest {
     @Test
     fun `should support division with second parameter`() {
         val parameterValue = 4
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`numberField` / $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`numberField` / $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = DivisionExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -73,10 +77,11 @@ class DivisionExpressionTest : ResolverDependentTest {
     fun `should support division with named parameter`() {
         val parameterValue = 4
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`numberField` / \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`numberField` / \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = DivisionExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -89,10 +94,11 @@ class DivisionExpressionTest : ResolverDependentTest {
         val parameterValue = 4
         val parameterValue2 = 5
         val parameterName = "param1"
-        val expected = CouchbaseDopeQuery(
-            queryString = "(\$$parameterName / $1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(\$$parameterName / $1)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+            )
         val underTest = DivisionExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

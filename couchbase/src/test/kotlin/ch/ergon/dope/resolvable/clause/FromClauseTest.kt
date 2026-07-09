@@ -14,9 +14,10 @@ class FromClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support from`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket`",
+            )
         val underTest = FromClause(someBucket(), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -26,9 +27,10 @@ class FromClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support from with alias bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` AS `bucket`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` AS `bucket`",
+            )
         val underTest = FromClause(someBucket().alias("bucket"), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)

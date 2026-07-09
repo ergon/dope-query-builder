@@ -13,14 +13,18 @@ data class ObjectAddExpression(
     val objectExpression: TypeExpression<ObjectType>,
     val objectEntryPrimitive: ObjectEntryPrimitive<out ValidType>,
 ) : FunctionExpression<ObjectType>(
-    listOf(objectExpression, objectEntryPrimitive.key, objectEntryPrimitive.value),
-)
+        listOf(objectExpression, objectEntryPrimitive.key, objectEntryPrimitive.value),
+    )
 
 fun TypeExpression<ObjectType>.addAttribute(objectEntryPrimitive: ObjectEntryPrimitive<out ValidType>) =
     ObjectAddExpression(this, objectEntryPrimitive)
 
-fun TypeExpression<ObjectType>.addAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
-    addAttribute(key.toObjectEntry(value))
+fun TypeExpression<ObjectType>.addAttribute(
+    key: TypeExpression<StringType>,
+    value: TypeExpression<out ValidType>,
+) = addAttribute(key.toObjectEntry(value))
 
-fun TypeExpression<ObjectType>.addAttribute(key: String, value: TypeExpression<out ValidType>) =
-    addAttribute(key.toDopeType(), value)
+fun TypeExpression<ObjectType>.addAttribute(
+    key: String,
+    value: TypeExpression<out ValidType>,
+) = addAttribute(key.toDopeType(), value)

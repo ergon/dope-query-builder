@@ -16,9 +16,10 @@ class AverageExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support average`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "AVG(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "AVG(`numberField`)",
+            )
         val underTest = AverageExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class AverageExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support average with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "AVG(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "AVG(ALL `numberField`)",
+            )
         val underTest = AverageExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class AverageExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support average with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "AVG(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "AVG(DISTINCT `numberField`)",
+            )
         val underTest = AverageExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

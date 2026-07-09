@@ -12,9 +12,10 @@ class ObjectPairsExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object pairs expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_PAIRS(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_PAIRS(`objectField`)",
+            )
         val underTest = ObjectPairsExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

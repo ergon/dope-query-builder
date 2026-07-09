@@ -14,9 +14,10 @@ class IsArrayExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support is array expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ISARRAY(`stringArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ISARRAY(`stringArrayField`)",
+            )
         val underTest = IsArrayExpression(someStringArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -27,10 +28,11 @@ class IsArrayExpressionTest : ResolverDependentTest {
     @Test
     fun `should support is array expression with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ISARRAY($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ISARRAY($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = IsArrayExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,10 +44,11 @@ class IsArrayExpressionTest : ResolverDependentTest {
     fun `should support is array expression with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ISARRAY(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ISARRAY(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = IsArrayExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

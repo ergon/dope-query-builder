@@ -22,8 +22,7 @@ fun TypeExpression<NumberType>.isGreaterOrEqualThan(right: Number): GreaterOrEqu
 fun Number.isGreaterOrEqualThan(right: TypeExpression<NumberType>): GreaterOrEqualThanExpression<NumberType> =
     toDopeType().isGreaterOrEqualThan(right)
 
-fun Number.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<NumberType> =
-    toDopeType().isGreaterOrEqualThan(right.toDopeType())
+fun Number.isGreaterOrEqualThan(right: Number): GreaterOrEqualThanExpression<NumberType> = toDopeType().isGreaterOrEqualThan(right.toDopeType())
 
 fun TypeExpression<StringType>.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<StringType> =
     isGreaterOrEqualThan(right.toDopeType())
@@ -31,5 +30,4 @@ fun TypeExpression<StringType>.isGreaterOrEqualThan(right: String): GreaterOrEqu
 fun String.isGreaterOrEqualThan(right: TypeExpression<StringType>): GreaterOrEqualThanExpression<StringType> =
     toDopeType().isGreaterOrEqualThan(right)
 
-fun String.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<StringType> =
-    toDopeType().isGreaterOrEqualThan(right.toDopeType())
+fun String.isGreaterOrEqualThan(right: String): GreaterOrEqualThanExpression<StringType> = toDopeType().isGreaterOrEqualThan(right.toDopeType())

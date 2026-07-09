@@ -25,8 +25,7 @@ fun case() = CaseClass<BooleanType>()
 fun <T : ValidType> case(case: TypeExpression<T>) = CaseClass(case)
 
 @JvmName("simpleCaseCondition")
-fun <T : ValidType, U : ValidType> CaseClass<T>.condition(conditionExpression: SearchResult<T, U>) =
-    CaseExpression(this, conditionExpression)
+fun <T : ValidType, U : ValidType> CaseClass<T>.condition(conditionExpression: SearchResult<T, U>) = CaseExpression(this, conditionExpression)
 
 @JvmName("simpleCaseConditionWithGeneric")
 fun <T : ValidType, U : ValidType> CaseExpression<T, U>.condition(conditionExpression: SearchResult<T, U>) =
@@ -45,8 +44,7 @@ fun <T : ValidType> CaseExpression<T, out ValidType>.otherwise(elseCase: TypeExp
     ElseCaseExpression(case, firstSearchResult, additionalSearchResults, elseCase = elseCase)
 
 @JvmName("searchedCaseCondition")
-fun <U : ValidType> CaseClass<BooleanType>.condition(condition: SearchResult<BooleanType, U>) =
-    CaseExpression(this, condition)
+fun <U : ValidType> CaseClass<BooleanType>.condition(condition: SearchResult<BooleanType, U>) = CaseExpression(this, condition)
 
 @JvmName("searchedCaseConditionWithGeneric")
 fun <U : ValidType> CaseExpression<BooleanType, U>.condition(condition: SearchResult<BooleanType, U>) =

@@ -35,12 +35,13 @@ class FirstRangeTest {
         val range = someCMNumberList()
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
-        val expected = FirstRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            FirstRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation).first()
 
@@ -52,12 +53,13 @@ class FirstRangeTest {
         val range = someCMStringList()
         val iteratorName = "it"
         val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.concat("test") }
-        val expected = FirstRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            FirstRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation).first()
 
@@ -69,12 +71,13 @@ class FirstRangeTest {
         val range = someCMBooleanList()
         val iteratorName = "it"
         val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
-        val expected = FirstRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            FirstRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.map(iteratorName, transformation).first()
 
@@ -87,13 +90,14 @@ class FirstRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>) -> TypeExpression<NumberType> = { it.add(1) }
         val condition: (Iterator<NumberType>) -> TypeExpression<BooleanType> = { it.isEqualTo(1) }
-        val expected = FirstRangeExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            FirstRangeExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation).first()
 
@@ -106,13 +110,14 @@ class FirstRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<StringType>) -> TypeExpression<StringType> = { it.repeat(1) }
         val condition: (Iterator<StringType>) -> TypeExpression<BooleanType> = { it.contains("test") }
-        val expected = FirstRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            FirstRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation).first()
 
@@ -125,13 +130,14 @@ class FirstRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it.or(FALSE) }
         val condition: (Iterator<BooleanType>) -> TypeExpression<BooleanType> = { it }
-        val expected = FirstRangeExpression(
-            IN,
-            range.toDopeType(),
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            FirstRangeExpression(
+                IN,
+                range.toDopeType(),
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
         val actual = range.filter(iteratorName, condition).map(transformation).first()
 
@@ -145,13 +151,14 @@ class FirstRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<NumberType> =
             { i, it -> it.add(i) }
-        val expected = FirstRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName, iteratorName, transformation).first()
 
@@ -165,13 +172,14 @@ class FirstRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<StringType> =
             { i, it -> i.toStr().concat(it) }
-        val expected = FirstRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName, iteratorName, transformation).first()
 
@@ -185,13 +193,14 @@ class FirstRangeTest {
         val iteratorName = "it"
         val transformation: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
             { i, it -> it.and(i.toBool()) }
-        val expected = FirstRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation,
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation,
+            )
 
         val actual = range.mapIndexed(indexName, iteratorName, transformation).first()
 
@@ -207,20 +216,22 @@ class FirstRangeTest {
             { i, it -> it.add(i) }
         val condition: (Iterator<NumberType>, Iterator<NumberType>) -> TypeExpression<BooleanType> =
             { i, it -> it.isEqualTo(i) }
-        val expected = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-            condition,
-        ).map(transformation).first()
+        val actual =
+            range.filterIndexed(
+                indexName,
+                iteratorName,
+                condition,
+            ).map(transformation).first()
 
         assertEquals(expected, actual)
     }
@@ -234,20 +245,22 @@ class FirstRangeTest {
             { i, it -> it.repeat(i) }
         val condition: (Iterator<NumberType>, Iterator<StringType>) -> TypeExpression<BooleanType> =
             { i, it -> it.contains(i.toStr()) }
-        val expected = FirstRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-            condition,
-        ).map(transformation).first()
+        val actual =
+            range.filterIndexed(
+                indexName,
+                iteratorName,
+                condition,
+            ).map(transformation).first()
 
         assertEquals(expected, actual)
     }
@@ -261,20 +274,22 @@ class FirstRangeTest {
             { i, it -> it.and(i.toBool()) }
         val condition: (Iterator<NumberType>, Iterator<BooleanType>) -> TypeExpression<BooleanType> =
             { i, it -> it.or(i.toBool()) }
-        val expected = FirstRangeIndexedExpression(
-            IN,
-            range.toDopeType(),
-            indexName,
-            iteratorName,
-            transformation = transformation,
-            condition = condition,
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                IN,
+                range.toDopeType(),
+                indexName,
+                iteratorName,
+                transformation = transformation,
+                condition = condition,
+            )
 
-        val actual = range.filterIndexed(
-            indexName,
-            iteratorName,
-            condition,
-        ).map(transformation).first()
+        val actual =
+            range.filterIndexed(
+                indexName,
+                iteratorName,
+                condition,
+            ).map(transformation).first()
 
         assertEquals(expected, actual)
     }

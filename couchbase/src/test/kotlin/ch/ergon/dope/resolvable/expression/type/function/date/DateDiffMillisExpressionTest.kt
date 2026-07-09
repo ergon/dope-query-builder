@@ -21,14 +21,16 @@ class DateDiffMillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_DIFF_MILLIS with fields`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_DIFF_MILLIS(`numberField`, `numberField`, \"DAY\")",
-        )
-        val underTest = DateDiffMillisExpression(
-            someNumberField(),
-            someNumberField(),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_DIFF_MILLIS(`numberField`, `numberField`, \"DAY\")",
+            )
+        val underTest =
+            DateDiffMillisExpression(
+                someNumberField(),
+                someNumberField(),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -38,15 +40,17 @@ class DateDiffMillisExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_DIFF_MILLIS with positional parameter other`() {
         val otherValue = 1000L
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_DIFF_MILLIS(`numberField`, $1, \"HOUR\")",
-            DopeParameters(positionalParameters = listOf(otherValue)),
-        )
-        val underTest = DateDiffMillisExpression(
-            someNumberField(),
-            otherValue.asParameter(),
-            HOUR,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_DIFF_MILLIS(`numberField`, $1, \"HOUR\")",
+                DopeParameters(positionalParameters = listOf(otherValue)),
+            )
+        val underTest =
+            DateDiffMillisExpression(
+                someNumberField(),
+                otherValue.asParameter(),
+                HOUR,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -57,15 +61,17 @@ class DateDiffMillisExpressionTest : ResolverDependentTest {
     fun `should support DATE_DIFF_MILLIS with named parameter date`() {
         val dateValue = 2000L
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_DIFF_MILLIS(\$$name, `numberField`, \"MINUTE\")",
-            DopeParameters(namedParameters = mapOf(name to dateValue)),
-        )
-        val underTest = DateDiffMillisExpression(
-            dateValue.asParameter(name),
-            someNumberField(),
-            MINUTE,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_DIFF_MILLIS(\$$name, `numberField`, \"MINUTE\")",
+                DopeParameters(namedParameters = mapOf(name to dateValue)),
+            )
+        val underTest =
+            DateDiffMillisExpression(
+                dateValue.asParameter(name),
+                someNumberField(),
+                MINUTE,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

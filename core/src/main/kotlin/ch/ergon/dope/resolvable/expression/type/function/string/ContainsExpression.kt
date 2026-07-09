@@ -11,8 +11,7 @@ data class ContainsExpression(
     val searchStr: TypeExpression<StringType>,
 ) : FunctionExpression<BooleanType>(listOf(inStr, searchStr))
 
-fun TypeExpression<StringType>.contains(searchStr: TypeExpression<StringType>) =
-    ContainsExpression(this, searchStr)
+fun TypeExpression<StringType>.contains(searchStr: TypeExpression<StringType>) = ContainsExpression(this, searchStr)
 
 fun TypeExpression<StringType>.contains(searchStr: String) = contains(searchStr.toDopeType())
 

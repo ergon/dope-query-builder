@@ -25,9 +25,10 @@ class InExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support in`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` IN `stringArrayField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` IN `stringArrayField`",
+            )
         val underTest = InExpression(someStringField(), someStringArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -38,10 +39,11 @@ class InExpressionTest : ResolverDependentTest {
     @Test
     fun `should support in with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 IN `stringArrayField`",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 IN `stringArrayField`",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = InExpression(parameterValue.asParameter(), someStringArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -53,10 +55,11 @@ class InExpressionTest : ResolverDependentTest {
     fun `should support in with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = listOf("test")
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 IN $2",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 IN $2",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = InExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -67,10 +70,11 @@ class InExpressionTest : ResolverDependentTest {
     @Test
     fun `should support in with second positional parameter`() {
         val parameterValue = listOf(5)
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` IN $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` IN $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = InExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -82,10 +86,11 @@ class InExpressionTest : ResolverDependentTest {
     fun `should support in with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "$$parameterName IN `stringArrayField`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$$parameterName IN `stringArrayField`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = InExpression(parameterValue.asParameter(parameterName), someStringArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -99,10 +104,11 @@ class InExpressionTest : ResolverDependentTest {
         val parameterValue2 = listOf("test")
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "$$parameterName IN $$parameterName2",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$$parameterName IN $$parameterName2",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = InExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

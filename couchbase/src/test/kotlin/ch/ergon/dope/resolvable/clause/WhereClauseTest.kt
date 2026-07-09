@@ -20,9 +20,10 @@ class WhereClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support delete where`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` WHERE TRUE",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` WHERE TRUE",
+            )
         val underTest = DeleteWhereClause(someBooleanExpression(), someDeleteClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -33,10 +34,11 @@ class WhereClauseTest : ResolverDependentTest {
     @Test
     fun `should support delete where with positional parameter`() {
         val parameterValue = true
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` WHERE $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` WHERE $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = DeleteWhereClause(parameterValue.asParameter(), someDeleteClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,10 +50,11 @@ class WhereClauseTest : ResolverDependentTest {
     fun `should support delete where with named parameter`() {
         val parameterValue = true
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` WHERE \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` WHERE \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = DeleteWhereClause(parameterValue.asParameter(parameterName), someDeleteClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,9 +75,10 @@ class WhereClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support select where`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * WHERE TRUE",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * WHERE TRUE",
+            )
         val underTest = SelectWhereClause(someBooleanExpression(), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -85,10 +89,11 @@ class WhereClauseTest : ResolverDependentTest {
     @Test
     fun `should support select where with positional parameter`() {
         val parameterValue = false
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * WHERE $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * WHERE $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SelectWhereClause(parameterValue.asParameter(), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -100,10 +105,11 @@ class WhereClauseTest : ResolverDependentTest {
     fun `should support select where with named parameter`() {
         val parameterValue = false
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * WHERE \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * WHERE \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = SelectWhereClause(parameterValue.asParameter(parameterName), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -115,10 +121,11 @@ class WhereClauseTest : ResolverDependentTest {
     fun `should support select where with positional parameter and positional parent parameter`() {
         val parameterValue = "param"
         val parameterValue2 = false
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 WHERE $2",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT $1 WHERE $2",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = SelectWhereClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -132,14 +139,16 @@ class WhereClauseTest : ResolverDependentTest {
         val parameterValue2 = false
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName WHERE \$$parameterName2",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = SelectWhereClause(
-            parameterValue2.asParameter(parameterName2),
-            someSelectClause(parameterValue.asParameter(parameterName)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT \$$parameterName WHERE \$$parameterName2",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            SelectWhereClause(
+                parameterValue2.asParameter(parameterName2),
+                someSelectClause(parameterValue.asParameter(parameterName)),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -159,9 +168,10 @@ class WhereClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support update where`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` WHERE TRUE",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` WHERE TRUE",
+            )
         val underTest = UpdateWhereClause(someBooleanExpression(), someUpdateClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -172,10 +182,11 @@ class WhereClauseTest : ResolverDependentTest {
     @Test
     fun `should support update where with positional parameter`() {
         val parameterValue = false
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` WHERE $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` WHERE $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = UpdateWhereClause(parameterValue.asParameter(), someUpdateClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -187,10 +198,11 @@ class WhereClauseTest : ResolverDependentTest {
     fun `should support update where with named parameter`() {
         val parameterValue = false
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` WHERE \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` WHERE \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = UpdateWhereClause(parameterValue.asParameter(parameterName), someUpdateClause())
 
         val actual = underTest.toDopeQuery(resolver)

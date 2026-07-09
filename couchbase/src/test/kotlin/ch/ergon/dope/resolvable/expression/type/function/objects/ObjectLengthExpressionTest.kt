@@ -12,9 +12,10 @@ class ObjectLengthExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object length expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_LENGTH(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_LENGTH(`objectField`)",
+            )
         val underTest = ObjectLengthExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

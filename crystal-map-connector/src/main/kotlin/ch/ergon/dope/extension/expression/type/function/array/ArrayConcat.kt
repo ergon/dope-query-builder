@@ -15,34 +15,38 @@ import com.schwarz.crystalapi.schema.Schema
 fun CMJsonList<String>.concat(
     secondArray: CMJsonList<String>,
     vararg additionalArrays: CMJsonList<String>,
-): ArrayConcatExpression<StringType> = toDopeType().concat(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayConcatExpression<StringType> =
+    toDopeType().concat(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )
 
 @JvmName("numberArrayConcat")
 fun CMJsonList<Number>.concat(
     secondArray: CMJsonList<Number>,
     vararg additionalArrays: CMJsonList<Number>,
-): ArrayConcatExpression<NumberType> = toDopeType().concat(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayConcatExpression<NumberType> =
+    toDopeType().concat(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )
 
 @JvmName("booleanArrayConcat")
 fun CMJsonList<Boolean>.concat(
     secondArray: CMJsonList<Boolean>,
     vararg additionalArrays: CMJsonList<Boolean>,
-): ArrayConcatExpression<BooleanType> = toDopeType().concat(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayConcatExpression<BooleanType> =
+    toDopeType().concat(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )
 
 @JvmName("objectArrayConcat")
 fun CMObjectList<Schema>.concat(
     secondArray: CMObjectList<Schema>,
     vararg additionalArrays: CMObjectList<Schema>,
-): ArrayConcatExpression<ObjectType> = toDopeType().concat(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayConcatExpression<ObjectType> =
+    toDopeType().concat(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )

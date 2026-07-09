@@ -18,17 +18,18 @@ class SearchFunctionsTest {
         val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`.`stringField`, \"+something\")"
 
-        val actual = QueryBuilder
-            .select(
-                meta().id,
-            ).from(
-                bucket,
-            ).where(
-                fullTextSearch(
-                    someStringField(bucket = bucket),
-                    "+something",
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    meta().id,
+                ).from(
+                    bucket,
+                ).where(
+                    fullTextSearch(
+                        someStringField(bucket = bucket),
+                        "+something",
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -38,17 +39,18 @@ class SearchFunctionsTest {
         val bucket = someBucket()
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, \"stringField:\"something\"\")"
 
-        val actual = QueryBuilder
-            .select(
-                meta().id,
-            ).from(
-                bucket,
-            ).where(
-                fullTextSearch(
+        val actual =
+            QueryBuilder
+                .select(
+                    meta().id,
+                ).from(
                     bucket,
-                    "stringField:\"something\"",
-                ),
-            ).build(CouchbaseResolver()).queryString
+                ).where(
+                    fullTextSearch(
+                        bucket,
+                        "stringField:\"something\"",
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -57,19 +59,20 @@ class SearchFunctionsTest {
     fun `should support search function on field with object query`() {
         val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`stringField`, {\"match\" : \"something\"})"
 
-        val actual = QueryBuilder
-            .select(
-                meta().id,
-            ).from(
-                someBucket(),
-            ).where(
-                fullTextSearch(
-                    someStringField(),
-                    mapOf(
-                        "match" to "something",
+        val actual =
+            QueryBuilder
+                .select(
+                    meta().id,
+                ).from(
+                    someBucket(),
+                ).where(
+                    fullTextSearch(
+                        someStringField(),
+                        mapOf(
+                            "match" to "something",
+                        ),
                     ),
-                ),
-            ).build(CouchbaseResolver()).queryString
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -77,71 +80,78 @@ class SearchFunctionsTest {
     @Test
     fun `should support search function on bucket with object query`() {
         val bucket = someBucket()
-        val expected = "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, {\"disjuncts\" : " +
-            "[{\"regexp\" : \"(?i).*123.*\", \"field\" : \"someField\"}, " +
-            "{\"regexp\" : \"(?i).*123.*\", \"field\" : \"anotherField\"}]}) " +
-            "LIMIT 10"
+        val expected =
+            "SELECT META().`id` FROM `someBucket` WHERE SEARCH(`someBucket`, {\"disjuncts\" : " +
+                "[{\"regexp\" : \"(?i).*123.*\", \"field\" : \"someField\"}, " +
+                "{\"regexp\" : \"(?i).*123.*\", \"field\" : \"anotherField\"}]}) " +
+                "LIMIT 10"
 
-        val actual = QueryBuilder
-            .select(
-                meta().id,
-            ).from(
-                bucket,
-            ).where(
-                fullTextSearch(
+        val actual =
+            QueryBuilder
+                .select(
+                    meta().id,
+                ).from(
                     bucket,
-                    mapOf(
-                        "disjuncts" to listOf(
-                            mapOf("regexp" to "(?i).*123.*", "field" to "someField"),
-                            mapOf("regexp" to "(?i).*123.*", "field" to "anotherField"),
+                ).where(
+                    fullTextSearch(
+                        bucket,
+                        mapOf(
+                            "disjuncts" to
+                                listOf(
+                                    mapOf("regexp" to "(?i).*123.*", "field" to "someField"),
+                                    mapOf("regexp" to "(?i).*123.*", "field" to "anotherField"),
+                                ),
                         ),
                     ),
-                ),
-            ).limit(10).build(CouchbaseResolver()).queryString
+                ).limit(10).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support search score function on specified out name`() {
-        val expected = "SELECT META().`id`, SEARCH_SCORE(`outName`) AS `score` FROM `someBucket` " +
-            "WHERE SEARCH(`stringField`, \"+something\", {\"out\" : \"outName\"})"
+        val expected =
+            "SELECT META().`id`, SEARCH_SCORE(`outName`) AS `score` FROM `someBucket` " +
+                "WHERE SEARCH(`stringField`, \"+something\", {\"out\" : \"outName\"})"
 
-        val actual = QueryBuilder
-            .select(
-                meta().id,
-                fullTextSearchScore("outName").alias("score"),
-            ).from(
-                someBucket(),
-            ).where(
-                fullTextSearch(
-                    someStringField(),
-                    "+something",
-                    mapOf(
-                        "out" to "outName",
+        val actual =
+            QueryBuilder
+                .select(
+                    meta().id,
+                    fullTextSearchScore("outName").alias("score"),
+                ).from(
+                    someBucket(),
+                ).where(
+                    fullTextSearch(
+                        someStringField(),
+                        "+something",
+                        mapOf(
+                            "out" to "outName",
+                        ),
                     ),
-                ),
-            ).build(CouchbaseResolver()).queryString
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support search score function on implicit out name`() {
-        val expected = "SELECT SEARCH_META() AS `meta` FROM `someBucket` " +
-            "WHERE SEARCH(`stringField`, \"+something\")"
+        val expected =
+            "SELECT SEARCH_META() AS `meta` FROM `someBucket` " +
+                "WHERE SEARCH(`stringField`, \"+something\")"
 
-        val actual = QueryBuilder
-            .select(
-                fullTextSearchMeta().alias("meta"),
-            ).from(
-                someBucket(),
-            ).where(
-                fullTextSearch(
-                    someStringField(),
-                    "+something",
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    fullTextSearchMeta().alias("meta"),
+                ).from(
+                    someBucket(),
+                ).where(
+                    fullTextSearch(
+                        someStringField(),
+                        "+something",
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

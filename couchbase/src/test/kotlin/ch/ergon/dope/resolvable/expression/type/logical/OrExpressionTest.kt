@@ -18,9 +18,10 @@ class OrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support or`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`booleanField` OR `booleanField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`booleanField` OR `booleanField`)",
+            )
         val underTest = OrExpression(someBooleanField(), someBooleanField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,10 +32,11 @@ class OrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support or with positional parameter`() {
         val parameterValue = true
-        val expected = CouchbaseDopeQuery(
-            queryString = "($1 OR `booleanField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($1 OR `booleanField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = OrExpression(parameterValue.asParameter(), someBooleanField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -46,10 +48,11 @@ class OrExpressionTest : ResolverDependentTest {
     fun `should support or with all positional parameters`() {
         val parameterValue = true
         val parameterValue2 = false
-        val expected = CouchbaseDopeQuery(
-            queryString = "($1 OR $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($1 OR $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = OrExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,10 +63,11 @@ class OrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support or with second positional parameter`() {
         val parameterValue = false
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`booleanField` OR $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`booleanField` OR $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = OrExpression(someBooleanField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -75,10 +79,11 @@ class OrExpressionTest : ResolverDependentTest {
     fun `should support or with named parameter`() {
         val parameterValue = true
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "($$parameterName OR `booleanField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($$parameterName OR `booleanField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = OrExpression(parameterValue.asParameter(parameterName), someBooleanField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,10 +97,11 @@ class OrExpressionTest : ResolverDependentTest {
         val parameterValue2 = false
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "($$parameterName OR $$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($$parameterName OR $$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = OrExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

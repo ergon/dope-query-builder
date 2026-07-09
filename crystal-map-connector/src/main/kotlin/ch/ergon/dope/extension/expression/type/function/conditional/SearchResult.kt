@@ -13,20 +13,16 @@ import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.Schema
 
 @JvmName("caseNumberField")
-fun <U : ValidType> CMJsonField<out Number>.resultsIn(resultExpression: TypeExpression<U>) =
-    SearchResult(toDopeType(), resultExpression)
+fun <U : ValidType> CMJsonField<out Number>.resultsIn(resultExpression: TypeExpression<U>) = SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseStringField")
-fun <U : ValidType> CMJsonField<String>.resultsIn(resultExpression: TypeExpression<U>) =
-    SearchResult(toDopeType(), resultExpression)
+fun <U : ValidType> CMJsonField<String>.resultsIn(resultExpression: TypeExpression<U>) = SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseBooleanField")
-fun <U : ValidType> CMJsonField<Boolean>.resultsIn(resultExpression: TypeExpression<U>) =
-    SearchResult(toDopeType(), resultExpression)
+fun <U : ValidType> CMJsonField<Boolean>.resultsIn(resultExpression: TypeExpression<U>) = SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseObjectField")
-fun <U : ValidType> CMObjectField<Schema>.resultsIn(resultExpression: TypeExpression<U>) =
-    SearchResult(toDopeType(), resultExpression)
+fun <U : ValidType> CMObjectField<Schema>.resultsIn(resultExpression: TypeExpression<U>) = SearchResult(toDopeType(), resultExpression)
 
 @JvmName("caseNumberField")
 fun <T : ValidType> TypeExpression<T>.resultsIn(resultField: CMJsonField<out Number>): SearchResult<T, NumberType> =

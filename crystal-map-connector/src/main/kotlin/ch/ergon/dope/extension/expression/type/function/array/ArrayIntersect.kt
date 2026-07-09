@@ -12,25 +12,28 @@ import com.schwarz.crystalapi.schema.CMJsonList
 fun CMJsonList<String>.intersect(
     secondArray: CMJsonList<String>,
     vararg additionalArrays: CMJsonList<String>,
-): ArrayIntersectExpression<StringType> = toDopeType().intersect(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayIntersectExpression<StringType> =
+    toDopeType().intersect(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )
 
 @JvmName("numberArrayIntersect")
 fun CMJsonList<Number>.intersect(
     secondArray: CMJsonList<Number>,
     vararg additionalArrays: CMJsonList<Number>,
-): ArrayIntersectExpression<NumberType> = toDopeType().intersect(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayIntersectExpression<NumberType> =
+    toDopeType().intersect(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )
 
 @JvmName("booleanArrayIntersect")
 fun CMJsonList<Boolean>.intersect(
     secondArray: CMJsonList<Boolean>,
     vararg additionalArrays: CMJsonList<Boolean>,
-): ArrayIntersectExpression<BooleanType> = toDopeType().intersect(
-    secondArray.toDopeType(),
-    *additionalArrays.map { it.toDopeType() }.toTypedArray(),
-)
+): ArrayIntersectExpression<BooleanType> =
+    toDopeType().intersect(
+        secondArray.toDopeType(),
+        *additionalArrays.map { it.toDopeType() }.toTypedArray(),
+    )

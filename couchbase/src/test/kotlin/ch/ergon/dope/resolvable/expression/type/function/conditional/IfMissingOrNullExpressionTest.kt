@@ -15,9 +15,10 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support if missing or null`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL(`stringField`, `stringField`)",
+            )
         val underTest = IfMissingOrNullExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support if missing or null with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     fun `should support if missing or null with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL(\$$parameterName, `stringField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL(\$$parameterName, `stringField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(parameterName), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support if missing or null with positional second parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL(`stringField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL(`stringField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     fun `should support if missing or null with named second parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL(`stringField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL(`stringField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = IfMissingOrNullExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     fun `should support if missing or null with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,10 +110,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
         val parameterValue2 = someString()
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "IFMISSINGORNULL(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "IFMISSINGORNULL(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = IfMissingOrNullExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -128,9 +135,10 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support coalesce`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE(`stringField`, `stringField`)",
+            )
         val underTest = CoalesceExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -141,10 +149,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support coalesce with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = CoalesceExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -156,10 +165,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     fun `should support coalesce with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE(\$$parameterName, `stringField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE(\$$parameterName, `stringField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = CoalesceExpression(parameterValue.asParameter(parameterName), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -170,10 +180,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     @Test
     fun `should support coalesce with positional second parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE(`stringField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE(`stringField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -185,10 +196,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     fun `should support coalesce with named second parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE(`stringField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE(`stringField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = CoalesceExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -200,10 +212,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
     fun `should support coalesce with positional all parameters`() {
         val parameterValue = someString()
         val parameterValue2 = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = CoalesceExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -217,10 +230,11 @@ class IfMissingOrNullExpressionTest : ResolverDependentTest {
         val parameterValue2 = someString()
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "COALESCE(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COALESCE(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = CoalesceExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

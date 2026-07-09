@@ -15,9 +15,10 @@ class NowStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support NOW_STR without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_STR()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_STR()",
+            )
         val underTest = NowStringExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class NowStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOW_STR with positional parameter format`() {
         val fmt = "yyyy"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_STR($1)",
-            DopeParameters(positionalParameters = listOf(fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_STR($1)",
+                DopeParameters(positionalParameters = listOf(fmt)),
+            )
         val underTest = NowStringExpression(fmt.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class NowStrExpressionTest : ResolverDependentTest {
     fun `should support NOW_STR with named parameter format`() {
         val fmt = "yyyy"
         val name = "f"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_STR(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_STR(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to fmt)),
+            )
         val underTest = NowStringExpression(fmt.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

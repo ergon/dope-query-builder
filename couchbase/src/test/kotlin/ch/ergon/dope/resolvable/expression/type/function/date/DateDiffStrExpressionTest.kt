@@ -20,14 +20,16 @@ class DateDiffStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_DIFF_STR with fields`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_DIFF_STR(`stringField`, `stringField`, \"MONTH\")",
-        )
-        val underTest = DateDiffStrExpression(
-            someStringField(),
-            someStringField(),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_DIFF_STR(`stringField`, `stringField`, \"MONTH\")",
+            )
+        val underTest =
+            DateDiffStrExpression(
+                someStringField(),
+                someStringField(),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -37,15 +39,17 @@ class DateDiffStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_DIFF_STR with positional parameter other`() {
         val otherValue = "2021-01-02T00:00:00Z"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_DIFF_STR(`stringField`, $1, \"DAY\")",
-            DopeParameters(positionalParameters = listOf(otherValue)),
-        )
-        val underTest = DateDiffStrExpression(
-            someStringField(),
-            otherValue.asParameter(),
-            DAY,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_DIFF_STR(`stringField`, $1, \"DAY\")",
+                DopeParameters(positionalParameters = listOf(otherValue)),
+            )
+        val underTest =
+            DateDiffStrExpression(
+                someStringField(),
+                otherValue.asParameter(),
+                DAY,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -56,15 +60,17 @@ class DateDiffStrExpressionTest : ResolverDependentTest {
     fun `should support DATE_DIFF_STR with named parameter date`() {
         val dateValue = "2021-01-01T00:00:00Z"
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_DIFF_STR(\$$name, `stringField`, \"YEAR\")",
-            DopeParameters(namedParameters = mapOf(name to dateValue)),
-        )
-        val underTest = DateDiffStrExpression(
-            dateValue.asParameter(name),
-            someStringField(),
-            YEAR,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_DIFF_STR(\$$name, `stringField`, \"YEAR\")",
+                DopeParameters(namedParameters = mapOf(name to dateValue)),
+            )
+        val underTest =
+            DateDiffStrExpression(
+                dateValue.asParameter(name),
+                someStringField(),
+                YEAR,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

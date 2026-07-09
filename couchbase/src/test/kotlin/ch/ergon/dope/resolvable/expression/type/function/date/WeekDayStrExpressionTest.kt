@@ -16,9 +16,10 @@ class WeekDayStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WEEKDAY_STR with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "WEEKDAY_STR(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "WEEKDAY_STR(`stringField`)",
+            )
         val underTest = WeekDayStrExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class WeekDayStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support WEEKDAY_STR with positional parameter date`() {
         val date = "2021-07-07"
-        val expected = CouchbaseDopeQuery(
-            queryString = "WEEKDAY_STR($1)",
-            DopeParameters(positionalParameters = listOf(date)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "WEEKDAY_STR($1)",
+                DopeParameters(positionalParameters = listOf(date)),
+            )
         val underTest = WeekDayStrExpression(date.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class WeekDayStrExpressionTest : ResolverDependentTest {
     fun `should support WEEKDAY_STR with named parameter date`() {
         val date = "2021-08-08"
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "WEEKDAY_STR(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to date)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "WEEKDAY_STR(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to date)),
+            )
         val underTest = WeekDayStrExpression(date.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

@@ -10,14 +10,22 @@ data class NowTimezoneExpression(
     val format: TypeExpression<StringType>? = null,
 ) : FunctionExpression<StringType>(listOf(timeZone, format))
 
-fun nowStringInZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
-    NowTimezoneExpression(timeZone, format)
+fun nowStringInZone(
+    timeZone: TypeExpression<StringType>,
+    format: TypeExpression<StringType>? = null,
+) = NowTimezoneExpression(timeZone, format)
 
-fun nowStringInZone(timeZone: String, format: TypeExpression<StringType>? = null) =
-    nowStringInZone(timeZone.toDopeType(), format)
+fun nowStringInZone(
+    timeZone: String,
+    format: TypeExpression<StringType>? = null,
+) = nowStringInZone(timeZone.toDopeType(), format)
 
-fun nowStringInZone(timeZone: TypeExpression<StringType>, format: String) =
-    nowStringInZone(timeZone, format.toDopeType())
+fun nowStringInZone(
+    timeZone: TypeExpression<StringType>,
+    format: String,
+) = nowStringInZone(timeZone, format.toDopeType())
 
-fun nowStringInZone(timeZone: String, format: String) =
-    nowStringInZone(timeZone.toDopeType(), format.toDopeType())
+fun nowStringInZone(
+    timeZone: String,
+    format: String,
+) = nowStringInZone(timeZone.toDopeType(), format.toDopeType())

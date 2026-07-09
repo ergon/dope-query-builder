@@ -19,9 +19,10 @@ class UnpackExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support unpack on object array field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`objectArrayField`[*]",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`objectArrayField`[*]",
+            )
         val underTest = UnpackExpression(someObjectArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,9 +32,10 @@ class UnpackExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support unpack on collection of objects`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "[`objectField`, {\"key1\" : 5, \"key2\" : \"someString\"}][*]",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "[`objectField`, {\"key1\" : 5, \"key2\" : \"someString\"}][*]",
+            )
         val underTest = UnpackExpression(listOf(someObjectField(), someObject().toDopeType()).toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,9 +46,10 @@ class UnpackExpressionTest : ResolverDependentTest {
     @Test
     fun `should support unpack`() {
         val selectObjectArray = someObjectSelectRawClause().from(someBucket())
-        val expected = CouchbaseDopeQuery(
-            queryString = "(SELECT RAW `objectField` FROM `someBucket`)[*]",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(SELECT RAW `objectField` FROM `someBucket`)[*]",
+            )
         val underTest = UnpackExpression(selectObjectArray.asExpression())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,16 +60,19 @@ class UnpackExpressionTest : ResolverDependentTest {
     @Test
     fun `should support unpack with named parameter`() {
         val parameterName = "objectArray"
-        val parameterValue = listOf(
-            mapOf("key1" to 1, "key2" to "test"),
-            mapOf("key1" to 2, "key2" to "string"),
-        )
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$objectArray[*]",
-            parameters = DopeParameters(
-                namedParameters = mapOf(parameterName to parameterValue),
-            ),
-        )
+        val parameterValue =
+            listOf(
+                mapOf("key1" to 1, "key2" to "test"),
+                mapOf("key1" to 2, "key2" to "string"),
+            )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$objectArray[*]",
+                parameters =
+                    DopeParameters(
+                        namedParameters = mapOf(parameterName to parameterValue),
+                    ),
+            )
         val underTest = UnpackExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -76,16 +82,19 @@ class UnpackExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support unpack with positional parameter`() {
-        val parameterValue = listOf(
-            mapOf("key1" to 1, "key2" to "test"),
-            mapOf("key1" to 2, "key2" to "string"),
-        )
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$1[*]",
-            parameters = DopeParameters(
-                positionalParameters = listOf(parameterValue),
-            ),
-        )
+        val parameterValue =
+            listOf(
+                mapOf("key1" to 1, "key2" to "test"),
+                mapOf("key1" to 2, "key2" to "string"),
+            )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$1[*]",
+                parameters =
+                    DopeParameters(
+                        positionalParameters = listOf(parameterValue),
+                    ),
+            )
         val underTest = UnpackExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

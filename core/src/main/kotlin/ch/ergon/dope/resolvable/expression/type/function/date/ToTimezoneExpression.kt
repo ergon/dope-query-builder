@@ -15,29 +15,45 @@ data class MillisToTimezoneExpression(
 data class StrToTimezoneExpression(val date: TypeExpression<StringType>, val timeZone: TypeExpression<StringType>) :
     FunctionExpression<StringType>(listOf(date, timeZone))
 
-fun TypeExpression<NumberType>.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
-    MillisToTimezoneExpression(this, timeZone, format)
+fun TypeExpression<NumberType>.toTimeZone(
+    timeZone: TypeExpression<StringType>,
+    format: TypeExpression<StringType>? = null,
+) = MillisToTimezoneExpression(this, timeZone, format)
 
-fun Number.toTimeZone(timeZone: TypeExpression<StringType>, format: TypeExpression<StringType>? = null) =
-    toDopeType().toTimeZone(timeZone, format)
+fun Number.toTimeZone(
+    timeZone: TypeExpression<StringType>,
+    format: TypeExpression<StringType>? = null,
+) = toDopeType().toTimeZone(timeZone, format)
 
-fun TypeExpression<NumberType>.toTimeZone(timeZone: String, format: TypeExpression<StringType>? = null) =
-    toTimeZone(timeZone.toDopeType(), format)
+fun TypeExpression<NumberType>.toTimeZone(
+    timeZone: String,
+    format: TypeExpression<StringType>? = null,
+) = toTimeZone(timeZone.toDopeType(), format)
 
-fun Number.toTimeZone(timeZone: String, format: TypeExpression<StringType>? = null) =
-    toDopeType().toTimeZone(timeZone.toDopeType(), format)
+fun Number.toTimeZone(
+    timeZone: String,
+    format: TypeExpression<StringType>? = null,
+) = toDopeType().toTimeZone(timeZone.toDopeType(), format)
 
-fun TypeExpression<NumberType>.toTimeZone(timeZone: TypeExpression<StringType>, format: String) =
-    toTimeZone(timeZone, format.toDopeType())
+fun TypeExpression<NumberType>.toTimeZone(
+    timeZone: TypeExpression<StringType>,
+    format: String,
+) = toTimeZone(timeZone, format.toDopeType())
 
-fun Number.toTimeZone(timeZone: TypeExpression<StringType>, format: String) =
-    toDopeType().toTimeZone(timeZone, format.toDopeType())
+fun Number.toTimeZone(
+    timeZone: TypeExpression<StringType>,
+    format: String,
+) = toDopeType().toTimeZone(timeZone, format.toDopeType())
 
-fun TypeExpression<NumberType>.toTimeZone(timeZone: String, format: String) =
-    toTimeZone(timeZone.toDopeType(), format.toDopeType())
+fun TypeExpression<NumberType>.toTimeZone(
+    timeZone: String,
+    format: String,
+) = toTimeZone(timeZone.toDopeType(), format.toDopeType())
 
-fun Number.toTimeZone(timeZone: String, format: String) =
-    toDopeType().toTimeZone(timeZone.toDopeType(), format.toDopeType())
+fun Number.toTimeZone(
+    timeZone: String,
+    format: String,
+) = toDopeType().toTimeZone(timeZone.toDopeType(), format.toDopeType())
 
 fun TypeExpression<StringType>.toTimeZone(timeZone: TypeExpression<StringType>) = StrToTimezoneExpression(this, timeZone)
 

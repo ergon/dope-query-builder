@@ -16,9 +16,10 @@ class ConcatExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support concat`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT(`stringField`, `stringField`)",
+            )
         val underTest = ConcatExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class ConcatExpressionTest : ResolverDependentTest {
     @Test
     fun `should support concat with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class ConcatExpressionTest : ResolverDependentTest {
     fun `should support concat with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = ConcatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -59,10 +62,11 @@ class ConcatExpressionTest : ResolverDependentTest {
     fun `should support concat with mixed parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT($1, `stringField`, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT($1, `stringField`, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = ConcatExpression(parameterValue.asParameter(), someStringField(), listOf(parameterValue2.asParameter()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -76,10 +80,11 @@ class ConcatExpressionTest : ResolverDependentTest {
         val parameterValue2 = "test"
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CONCAT(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CONCAT(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = ConcatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

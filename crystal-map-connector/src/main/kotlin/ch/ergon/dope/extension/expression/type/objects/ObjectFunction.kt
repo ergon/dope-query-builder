@@ -25,24 +25,45 @@ import com.schwarz.crystalapi.schema.CMObjectField
 import com.schwarz.crystalapi.schema.CMType
 import com.schwarz.crystalapi.schema.Schema
 
-fun CMObjectField<Schema>.addAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
-    toDopeType().addAttribute(key, value)
+fun CMObjectField<Schema>.addAttribute(
+    key: TypeExpression<StringType>,
+    value: TypeExpression<out ValidType>,
+) = toDopeType().addAttribute(key, value)
 
-fun CMObjectField<Schema>.addAttribute(key: String, value: TypeExpression<out ValidType>) =
-    toDopeType().addAttribute(key.toDopeType(), value)
+fun CMObjectField<Schema>.addAttribute(
+    key: String,
+    value: TypeExpression<out ValidType>,
+) = toDopeType().addAttribute(key.toDopeType(), value)
 
-fun CMObjectField<Schema>.addAttribute(key: TypeExpression<StringType>, value: CMType) = toDopeType().addAttribute(key, value.toDopeType())
+fun CMObjectField<Schema>.addAttribute(
+    key: TypeExpression<StringType>,
+    value: CMType,
+) = toDopeType().addAttribute(key, value.toDopeType())
 
-fun CMObjectField<Schema>.addAttribute(key: String, value: CMType) = toDopeType().addAttribute(key.toDopeType(), value.toDopeType())
+fun CMObjectField<Schema>.addAttribute(
+    key: String,
+    value: CMType,
+) = toDopeType().addAttribute(key.toDopeType(), value.toDopeType())
 
-fun TypeExpression<ObjectType>.addAttribute(key: TypeExpression<StringType>, value: CMType) = addAttribute(key, value.toDopeType())
+fun TypeExpression<ObjectType>.addAttribute(
+    key: TypeExpression<StringType>,
+    value: CMType,
+) = addAttribute(key, value.toDopeType())
 
-fun CMObjectField<Schema>.addAttribute(key: CMJsonField<String>, value: TypeExpression<out ValidType>) =
-    toDopeType().addAttribute(key.toDopeType(), value)
+fun CMObjectField<Schema>.addAttribute(
+    key: CMJsonField<String>,
+    value: TypeExpression<out ValidType>,
+) = toDopeType().addAttribute(key.toDopeType(), value)
 
-fun CMObjectField<Schema>.addAttribute(key: CMJsonField<String>, value: CMType) = toDopeType().addAttribute(key.toDopeType(), value.toDopeType())
+fun CMObjectField<Schema>.addAttribute(
+    key: CMJsonField<String>,
+    value: CMType,
+) = toDopeType().addAttribute(key.toDopeType(), value.toDopeType())
 
-fun TypeExpression<ObjectType>.addAttribute(key: CMJsonField<String>, value: CMType) = addAttribute(key.toDopeType(), value.toDopeType())
+fun TypeExpression<ObjectType>.addAttribute(
+    key: CMJsonField<String>,
+    value: CMType,
+) = addAttribute(key.toDopeType(), value.toDopeType())
 
 fun CMObjectField<Schema>.concat(
     secondObjectExpression: CMObjectField<Schema>,
@@ -69,28 +90,55 @@ fun CMObjectField<Schema>.paths(options: CMObjectField<Schema>) = toDopeType().g
 
 fun TypeExpression<ObjectType>.paths(options: CMObjectField<Schema>) = getPaths(options.toDopeType())
 
-fun CMObjectField<Schema>.putAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
-    toDopeType().putAttribute(key, value)
+fun CMObjectField<Schema>.putAttribute(
+    key: TypeExpression<StringType>,
+    value: TypeExpression<out ValidType>,
+) = toDopeType().putAttribute(key, value)
 
-fun CMObjectField<Schema>.putAttribute(key: TypeExpression<StringType>, value: CMType) = toDopeType().putAttribute(key, value.toDopeType())
+fun CMObjectField<Schema>.putAttribute(
+    key: TypeExpression<StringType>,
+    value: CMType,
+) = toDopeType().putAttribute(key, value.toDopeType())
 
-fun CMObjectField<Schema>.putAttribute(key: String, value: TypeExpression<out ValidType>) = toDopeType().putAttribute(key.toDopeType(), value)
+fun CMObjectField<Schema>.putAttribute(
+    key: String,
+    value: TypeExpression<out ValidType>,
+) = toDopeType().putAttribute(key.toDopeType(), value)
 
-fun CMObjectField<Schema>.putAttribute(key: String, value: CMType) = toDopeType().putAttribute(key.toDopeType(), value.toDopeType())
+fun CMObjectField<Schema>.putAttribute(
+    key: String,
+    value: CMType,
+) = toDopeType().putAttribute(key.toDopeType(), value.toDopeType())
 
-fun CMObjectField<Schema>.putAttribute(key: CMJsonField<String>, value: TypeExpression<out ValidType>) =
-    toDopeType().putAttribute(key.toDopeType(), value)
+fun CMObjectField<Schema>.putAttribute(
+    key: CMJsonField<String>,
+    value: TypeExpression<out ValidType>,
+) = toDopeType().putAttribute(key.toDopeType(), value)
 
-fun CMObjectField<Schema>.putAttribute(key: CMJsonField<String>, value: CMType) = toDopeType().putAttribute(key.toDopeType(), value.toDopeType())
+fun CMObjectField<Schema>.putAttribute(
+    key: CMJsonField<String>,
+    value: CMType,
+) = toDopeType().putAttribute(key.toDopeType(), value.toDopeType())
 
-fun TypeExpression<ObjectType>.putAttribute(key: String, value: CMType) = putAttribute(key.toDopeType(), value.toDopeType())
+fun TypeExpression<ObjectType>.putAttribute(
+    key: String,
+    value: CMType,
+) = putAttribute(key.toDopeType(), value.toDopeType())
 
-fun TypeExpression<ObjectType>.putAttribute(key: TypeExpression<StringType>, value: CMType) = putAttribute(key, value.toDopeType())
+fun TypeExpression<ObjectType>.putAttribute(
+    key: TypeExpression<StringType>,
+    value: CMType,
+) = putAttribute(key, value.toDopeType())
 
-fun TypeExpression<ObjectType>.putAttribute(key: CMJsonField<String>, value: CMType) = putAttribute(key.toDopeType(), value.toDopeType())
+fun TypeExpression<ObjectType>.putAttribute(
+    key: CMJsonField<String>,
+    value: CMType,
+) = putAttribute(key.toDopeType(), value.toDopeType())
 
-fun TypeExpression<ObjectType>.putAttribute(key: CMJsonField<String>, value: TypeExpression<out ValidType>) =
-    putAttribute(key.toDopeType(), value)
+fun TypeExpression<ObjectType>.putAttribute(
+    key: CMJsonField<String>,
+    value: TypeExpression<out ValidType>,
+) = putAttribute(key.toDopeType(), value)
 
 fun CMObjectField<Schema>.removeAttribute(key: TypeExpression<StringType>) = toDopeType().removeAttribute(key)
 
@@ -168,22 +216,40 @@ fun TypeExpression<ObjectType>.renameAttribute(
     newFieldName: CMJsonField<String>,
 ) = renameAttribute(oldFieldName, newFieldName.toDopeType())
 
-fun CMObjectField<Schema>.replace(oldValue: TypeExpression<out ValidType>, newValue: TypeExpression<out ValidType>) =
-    toDopeType().replace(oldValue, newValue)
+fun CMObjectField<Schema>.replace(
+    oldValue: TypeExpression<out ValidType>,
+    newValue: TypeExpression<out ValidType>,
+) = toDopeType().replace(oldValue, newValue)
 
-fun TypeExpression<ObjectType>.replace(oldValue: CMType, newValue: CMType) = replace(oldValue.toDopeType(), newValue.toDopeType())
+fun TypeExpression<ObjectType>.replace(
+    oldValue: CMType,
+    newValue: CMType,
+) = replace(oldValue.toDopeType(), newValue.toDopeType())
 
-fun TypeExpression<ObjectType>.replace(oldValue: TypeExpression<out ValidType>, newValue: CMType) = replace(oldValue, newValue.toDopeType())
+fun TypeExpression<ObjectType>.replace(
+    oldValue: TypeExpression<out ValidType>,
+    newValue: CMType,
+) = replace(oldValue, newValue.toDopeType())
 
-fun TypeExpression<ObjectType>.replace(oldValue: CMType, newValue: TypeExpression<out ValidType>) = replace(oldValue.toDopeType(), newValue)
+fun TypeExpression<ObjectType>.replace(
+    oldValue: CMType,
+    newValue: TypeExpression<out ValidType>,
+) = replace(oldValue.toDopeType(), newValue)
 
-fun CMObjectField<Schema>.replace(oldValue: CMType, newValue: CMType) = toDopeType().replace(oldValue.toDopeType(), newValue.toDopeType())
+fun CMObjectField<Schema>.replace(
+    oldValue: CMType,
+    newValue: CMType,
+) = toDopeType().replace(oldValue.toDopeType(), newValue.toDopeType())
 
-fun CMObjectField<Schema>.replace(oldValue: TypeExpression<out ValidType>, newValue: CMType) =
-    toDopeType().replace(oldValue, newValue.toDopeType())
+fun CMObjectField<Schema>.replace(
+    oldValue: TypeExpression<out ValidType>,
+    newValue: CMType,
+) = toDopeType().replace(oldValue, newValue.toDopeType())
 
-fun CMObjectField<Schema>.replace(oldValue: CMType, newValue: TypeExpression<out ValidType>) =
-    toDopeType().replace(oldValue.toDopeType(), newValue)
+fun CMObjectField<Schema>.replace(
+    oldValue: CMType,
+    newValue: TypeExpression<out ValidType>,
+) = toDopeType().replace(oldValue.toDopeType(), newValue)
 
 fun CMObjectField<Schema>.unwrap() = toDopeType().unwrap()
 

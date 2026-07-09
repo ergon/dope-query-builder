@@ -20,14 +20,16 @@ class DateAddStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_ADD_STR with fields`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_ADD_STR(`stringField`, `numberField`, \"MONTH\")",
-        )
-        val underTest = DateAddStrExpression(
-            someStringField(),
-            someNumberField(),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_ADD_STR(`stringField`, `numberField`, \"MONTH\")",
+            )
+        val underTest =
+            DateAddStrExpression(
+                someStringField(),
+                someNumberField(),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -37,15 +39,17 @@ class DateAddStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_ADD_STR with positional parameter date`() {
         val dateValue = "2021-01-01T00:00:00Z"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_ADD_STR($1, `numberField`, \"MONTH\")",
-            DopeParameters(positionalParameters = listOf(dateValue)),
-        )
-        val underTest = DateAddStrExpression(
-            dateValue.asParameter(),
-            someNumberField(),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_ADD_STR($1, `numberField`, \"MONTH\")",
+                DopeParameters(positionalParameters = listOf(dateValue)),
+            )
+        val underTest =
+            DateAddStrExpression(
+                dateValue.asParameter(),
+                someNumberField(),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -56,15 +60,17 @@ class DateAddStrExpressionTest : ResolverDependentTest {
     fun `should support DATE_ADD_STR with named parameter increment`() {
         val incValue = 3
         val name = "qty"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_ADD_STR(`stringField`, \$$name, \"MONTH\")",
-            DopeParameters(namedParameters = mapOf(name to incValue)),
-        )
-        val underTest = DateAddStrExpression(
-            someStringField(),
-            incValue.asParameter(name),
-            MONTH,
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_ADD_STR(`stringField`, \$$name, \"MONTH\")",
+                DopeParameters(namedParameters = mapOf(name to incValue)),
+            )
+        val underTest =
+            DateAddStrExpression(
+                someStringField(),
+                incValue.asParameter(name),
+                MONTH,
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

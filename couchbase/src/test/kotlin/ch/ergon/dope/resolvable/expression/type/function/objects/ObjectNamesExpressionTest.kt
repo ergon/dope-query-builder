@@ -12,9 +12,10 @@ class ObjectNamesExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object names expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_NAMES(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_NAMES(`objectField`)",
+            )
         val underTest = ObjectNamesExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

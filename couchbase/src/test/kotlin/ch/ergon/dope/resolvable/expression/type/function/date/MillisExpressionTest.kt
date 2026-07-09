@@ -15,9 +15,10 @@ class MillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support MILLIS with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS(`stringField`)",
+            )
         val underTest = MillisExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class MillisExpressionTest : ResolverDependentTest {
     @Test
     fun `should support MILLIS with positional parameter date`() {
         val date = "2021-06-01T00:00:00Z"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS($1)",
-            DopeParameters(positionalParameters = listOf(date)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS($1)",
+                DopeParameters(positionalParameters = listOf(date)),
+            )
         val underTest = MillisExpression(date.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class MillisExpressionTest : ResolverDependentTest {
     fun `should support MILLIS with named parameter date`() {
         val date = "2021-06-01T00:00:00Z"
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MILLIS(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to date)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MILLIS(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to date)),
+            )
         val underTest = MillisExpression(date.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

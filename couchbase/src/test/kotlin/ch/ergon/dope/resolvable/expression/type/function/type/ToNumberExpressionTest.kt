@@ -17,9 +17,10 @@ class ToNumberExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support to number expression with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TONUMBER(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TONUMBER(`stringField`)",
+            )
         val underTest = ToNumberExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -30,10 +31,11 @@ class ToNumberExpressionTest : ResolverDependentTest {
     @Test
     fun `should support to number expression with positional parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "TONUMBER($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TONUMBER($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ToNumberExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,10 +47,11 @@ class ToNumberExpressionTest : ResolverDependentTest {
     fun `should support to number expression with named parameter`() {
         val parameterValue = someString()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TONUMBER(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TONUMBER(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ToNumberExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

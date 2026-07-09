@@ -31,11 +31,12 @@ class IfNullTest {
         val firstExpression = someCMNumberField()
         val secondExpression = someCMNumberField()
         val additionalExpression = someCMNumberField()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -58,11 +59,12 @@ class IfNullTest {
         val firstExpression = someCMStringField()
         val secondExpression = someCMStringField()
         val additionalExpression = someCMStringField()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -85,11 +87,12 @@ class IfNullTest {
         val firstExpression = someCMBooleanField()
         val secondExpression = someCMBooleanField()
         val additionalExpression = someCMBooleanField()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -112,11 +115,12 @@ class IfNullTest {
         val firstExpression = someCMObjectField()
         val secondExpression = someCMObjectField()
         val additionalExpression = someCMObjectField()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -139,11 +143,12 @@ class IfNullTest {
         val firstExpression = someCMNumberList()
         val secondExpression = someCMNumberList()
         val additionalExpression = someCMNumberList()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -166,11 +171,12 @@ class IfNullTest {
         val firstExpression = someCMStringList()
         val secondExpression = someCMStringList()
         val additionalExpression = someCMStringList()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -193,11 +199,12 @@ class IfNullTest {
         val firstExpression = someCMBooleanList()
         val secondExpression = someCMBooleanList()
         val additionalExpression = someCMBooleanList()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 
@@ -220,11 +227,12 @@ class IfNullTest {
         val firstExpression = someCMObjectList()
         val secondExpression = someCMObjectList()
         val additionalExpression = someCMObjectList()
-        val expected = IfNullExpression(
-            firstExpression.toDopeType(),
-            secondExpression.toDopeType(),
-            listOf(additionalExpression.toDopeType()),
-        )
+        val expected =
+            IfNullExpression(
+                firstExpression.toDopeType(),
+                secondExpression.toDopeType(),
+                listOf(additionalExpression.toDopeType()),
+            )
 
         val actual = ifNull(firstExpression, secondExpression, additionalExpression)
 

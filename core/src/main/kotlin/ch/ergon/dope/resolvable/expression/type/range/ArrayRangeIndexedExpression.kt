@@ -23,14 +23,15 @@ data class ArrayRangeIndexedExpression<T : ValidType, U : ValidType>(
     override val transformationType: TransformationType = TransformationType.ARRAY
     override val withAttributeKeys: ((Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>)? = null
 
-    fun first() = FirstRangeIndexedExpression(
-        membershipType = membershipType,
-        range = range,
-        iteratorName = iteratorName,
-        indexName = indexName,
-        transformation = transformation,
-        condition = condition,
-    )
+    fun first() =
+        FirstRangeIndexedExpression(
+            membershipType = membershipType,
+            range = range,
+            iteratorName = iteratorName,
+            indexName = indexName,
+            transformation = transformation,
+            condition = condition,
+        )
 
     fun toObject(attributeKeys: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>) =
         ObjectRangeIndexedExpression(

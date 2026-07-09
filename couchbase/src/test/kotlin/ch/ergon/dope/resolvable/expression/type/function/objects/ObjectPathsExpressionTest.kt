@@ -12,9 +12,10 @@ class ObjectPathsExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object paths expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_PATHS(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_PATHS(`objectField`)",
+            )
         val underTest = ObjectPathsExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -24,9 +25,10 @@ class ObjectPathsExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object paths expression with options`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_PATHS(`objectField`, `options`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_PATHS(`objectField`, `options`)",
+            )
         val underTest = ObjectPathsExpression(someObjectField(), someObjectField("options"))
 
         val actual = underTest.toDopeQuery(resolver)

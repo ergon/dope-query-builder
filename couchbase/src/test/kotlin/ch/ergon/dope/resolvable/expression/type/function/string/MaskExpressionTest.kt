@@ -16,9 +16,10 @@ class MaskExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support mask with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MASK(`stringField`, {\"mask\": \"*\"})",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MASK(`stringField`, {\"mask\": \"*\"})",
+            )
         val underTest = MaskExpression(someStringField(), mapOf("mask" to "*"))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class MaskExpressionTest : ResolverDependentTest {
     @Test
     fun `should support mask with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MASK($1, {\"mask\": \"*\"})",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MASK($1, {\"mask\": \"*\"})",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = MaskExpression(parameterValue.asParameter(), mapOf("mask" to "*"))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class MaskExpressionTest : ResolverDependentTest {
     fun `should support mask with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "MASK(\$$parameterName, {\"mask\": \"*\"})",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MASK(\$$parameterName, {\"mask\": \"*\"})",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = MaskExpression(parameterValue.asParameter(parameterName), mapOf("mask" to "*"))
 
         val actual = underTest.toDopeQuery(resolver)

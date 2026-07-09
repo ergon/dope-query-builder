@@ -31,12 +31,14 @@ fun CMJsonField<out Number>.isLessOrEqualThan(right: Number): LessOrEqualThanExp
     toDopeType().isLessOrEqualThan(right.toDopeType())
 
 @JvmName("isLessOrEqualThanNumberConverter")
-fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isLessOrEqualThan(other: Convertable):
-    LessOrEqualThanExpression<NumberType> = toDopeType().isLessOrEqualThan(toDopeType(other))
+fun <Convertable : Any, JsonType : Number> CMConverterField<Convertable, JsonType>.isLessOrEqualThan(
+    other: Convertable,
+): LessOrEqualThanExpression<NumberType> = toDopeType().isLessOrEqualThan(toDopeType(other))
 
 @JvmName("isLessOrEqualThanNumberConverter")
-fun <Convertable : Any, JsonType : Number> Convertable.isLessOrEqualThan(other: CMConverterField<Convertable, JsonType>):
-    LessOrEqualThanExpression<NumberType> = toDopeType(other).isLessOrEqualThan(other.toDopeType())
+fun <Convertable : Any, JsonType : Number> Convertable.isLessOrEqualThan(
+    other: CMConverterField<Convertable, JsonType>,
+): LessOrEqualThanExpression<NumberType> = toDopeType(other).isLessOrEqualThan(other.toDopeType())
 
 @JvmName("isLessOrEqualThanString")
 fun CMJsonField<String>.isLessOrEqualThan(right: CMJsonField<String>): LessOrEqualThanExpression<StringType> =

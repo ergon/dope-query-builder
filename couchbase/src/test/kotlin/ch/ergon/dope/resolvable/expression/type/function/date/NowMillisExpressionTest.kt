@@ -11,9 +11,10 @@ class NowMillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support NOW_MILLIS`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_MILLIS()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_MILLIS()",
+            )
         val underTest = NowMillisExpression()
 
         val actual = underTest.toDopeQuery(resolver)

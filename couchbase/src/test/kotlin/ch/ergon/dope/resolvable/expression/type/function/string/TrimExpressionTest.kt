@@ -16,9 +16,10 @@ class TrimExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support trim`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TRIM(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TRIM(`stringField`)",
+            )
         val underTest = TrimExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class TrimExpressionTest : ResolverDependentTest {
     @Test
     fun `should support trim with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TRIM($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TRIM($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = TrimExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,9 +44,10 @@ class TrimExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support trim with extra positional parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "TRIM(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TRIM(`stringField`, `stringField`)",
+            )
         val underTest = TrimExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -55,10 +58,11 @@ class TrimExpressionTest : ResolverDependentTest {
     @Test
     fun `should support trim with extra positional parameter and named parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TRIM($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TRIM($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = TrimExpression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -70,10 +74,11 @@ class TrimExpressionTest : ResolverDependentTest {
     fun `should support trim with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TRIM($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TRIM($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = TrimExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -85,10 +90,11 @@ class TrimExpressionTest : ResolverDependentTest {
     fun `should support trim with mixed parameters`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "TRIM(\$$parameterName, `stringField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "TRIM(\$$parameterName, `stringField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = TrimExpression(parameterValue.asParameter(parameterName), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)

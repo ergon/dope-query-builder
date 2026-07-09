@@ -17,9 +17,10 @@ class CountExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support count`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "COUNT(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COUNT(`numberField`)",
+            )
         val underTest = CountExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class CountExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support count with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "COUNT(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COUNT(ALL `numberField`)",
+            )
         val countExpression = CountExpression(someNumberField(), ALL)
 
         val actual = countExpression.toDopeQuery(resolver)
@@ -41,9 +43,10 @@ class CountExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support count with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "COUNT(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "COUNT(DISTINCT `numberField`)",
+            )
         val countExpression = CountExpression(someNumberField(), DISTINCT)
 
         val actual = countExpression.toDopeQuery(resolver)

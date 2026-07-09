@@ -17,25 +17,37 @@ fun TypeExpression<StringType>.lpad(
     prefix: TypeExpression<StringType>? = null,
 ) = LpadExpression(this, size, prefix)
 
-fun TypeExpression<StringType>.lpad(size: TypeExpression<NumberType>, prefix: String) =
-    lpad(size, prefix.toDopeType())
+fun TypeExpression<StringType>.lpad(
+    size: TypeExpression<NumberType>,
+    prefix: String,
+) = lpad(size, prefix.toDopeType())
 
-fun TypeExpression<StringType>.lpad(size: Number, prefix: TypeExpression<StringType>? = null) =
-    lpad(size.toDopeType(), prefix)
+fun TypeExpression<StringType>.lpad(
+    size: Number,
+    prefix: TypeExpression<StringType>? = null,
+) = lpad(size.toDopeType(), prefix)
 
-fun TypeExpression<StringType>.lpad(size: Number, prefix: String) =
-    lpad(size.toDopeType(), prefix.toDopeType())
+fun TypeExpression<StringType>.lpad(
+    size: Number,
+    prefix: String,
+) = lpad(size.toDopeType(), prefix.toDopeType())
 
 fun String.lpad(
     size: TypeExpression<NumberType>,
     prefix: TypeExpression<StringType>? = null,
 ) = toDopeType().lpad(size, prefix)
 
-fun String.lpad(size: TypeExpression<NumberType>, prefix: String) =
-    toDopeType().lpad(size, prefix.toDopeType())
+fun String.lpad(
+    size: TypeExpression<NumberType>,
+    prefix: String,
+) = toDopeType().lpad(size, prefix.toDopeType())
 
-fun String.lpad(size: Number, prefix: TypeExpression<StringType>? = null) =
-    toDopeType().lpad(size.toDopeType(), prefix)
+fun String.lpad(
+    size: Number,
+    prefix: TypeExpression<StringType>? = null,
+) = toDopeType().lpad(size.toDopeType(), prefix)
 
-fun String.lpad(size: Number, prefix: String) =
-    toDopeType().lpad(size.toDopeType(), prefix.toDopeType())
+fun String.lpad(
+    size: Number,
+    prefix: String,
+) = toDopeType().lpad(size.toDopeType(), prefix.toDopeType())

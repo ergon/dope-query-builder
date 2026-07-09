@@ -15,13 +15,15 @@ class DateFormatStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support DATE_FORMAT_STR with fields`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_FORMAT_STR(`stringField`, `stringField`)",
-        )
-        val underTest = DateFormatStrExpression(
-            someStringField(),
-            someStringField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_FORMAT_STR(`stringField`, `stringField`)",
+            )
+        val underTest =
+            DateFormatStrExpression(
+                someStringField(),
+                someStringField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -31,14 +33,16 @@ class DateFormatStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support DATE_FORMAT_STR with positional parameter date`() {
         val dateValue = "2019-12-31"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_FORMAT_STR($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(dateValue)),
-        )
-        val underTest = DateFormatStrExpression(
-            dateValue.asParameter(),
-            someStringField(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_FORMAT_STR($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(dateValue)),
+            )
+        val underTest =
+            DateFormatStrExpression(
+                dateValue.asParameter(),
+                someStringField(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -49,14 +53,16 @@ class DateFormatStrExpressionTest : ResolverDependentTest {
     fun `should support DATE_FORMAT_STR with named parameter format`() {
         val fmtValue = "yyyy"
         val name = "fmt"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DATE_FORMAT_STR(`stringField`, \$$name)",
-            DopeParameters(namedParameters = mapOf(name to fmtValue)),
-        )
-        val underTest = DateFormatStrExpression(
-            someStringField(),
-            fmtValue.asParameter(name),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DATE_FORMAT_STR(`stringField`, \$$name)",
+                DopeParameters(namedParameters = mapOf(name to fmtValue)),
+            )
+        val underTest =
+            DateFormatStrExpression(
+                someStringField(),
+                fmtValue.asParameter(name),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

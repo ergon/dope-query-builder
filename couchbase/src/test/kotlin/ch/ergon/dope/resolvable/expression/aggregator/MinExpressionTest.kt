@@ -16,9 +16,10 @@ class MinExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support min`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MIN(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MIN(`numberField`)",
+            )
         val underTest = MinExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class MinExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support min with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MIN(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MIN(ALL `numberField`)",
+            )
         val underTest = MinExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class MinExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support min with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MIN(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MIN(DISTINCT `numberField`)",
+            )
         val underTest = MinExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

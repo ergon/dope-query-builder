@@ -71,7 +71,7 @@ import ch.ergon.dope.resolvable.expression.type.function.date.WeekDayStrExpressi
 import ch.ergon.dope.resolvable.expression.type.function.date.extractDateComponent
 import ch.ergon.dope.resolvable.expression.type.toDopeType
 import ch.ergon.dope.toDopeType
-import java.util.*
+import java.util.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

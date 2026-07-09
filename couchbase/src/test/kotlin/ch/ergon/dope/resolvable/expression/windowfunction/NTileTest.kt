@@ -19,9 +19,10 @@ class NTileTest : ResolverDependentTest {
 
     @Test
     fun `should support ntile with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "NTILE(`numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTILE(`numberField`) OVER `ref`",
+            )
         val underTest = NTileWithReference(someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,13 +32,15 @@ class NTileTest : ResolverDependentTest {
 
     @Test
     fun `should support ntile with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "NTILE(`numberField`) OVER (ORDER BY `stringField`)",
-        )
-        val underTest = NTile(
-            someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTILE(`numberField`) OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            NTile(
+                someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -46,14 +49,16 @@ class NTileTest : ResolverDependentTest {
 
     @Test
     fun `should support ntile with partition and order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "NTILE(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = NTile(
-            someNumberField(),
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "NTILE(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            NTile(
+                someNumberField(),
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

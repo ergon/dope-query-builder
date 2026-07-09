@@ -16,9 +16,10 @@ class MedianExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support median`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MEDIAN(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MEDIAN(`numberField`)",
+            )
         val underTest = MedianExpression(someNumberField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class MedianExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support median with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MEDIAN(ALL `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MEDIAN(ALL `numberField`)",
+            )
         val underTest = MedianExpression(someNumberField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class MedianExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support median with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "MEDIAN(DISTINCT `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "MEDIAN(DISTINCT `numberField`)",
+            )
         val underTest = MedianExpression(someNumberField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)

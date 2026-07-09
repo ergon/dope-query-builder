@@ -9,8 +9,8 @@ data class IfNullExpression<T : ValidType>(
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
-    listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
-)
+        listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
+    )
 
 fun <T : ValidType> ifNull(
     firstExpression: TypeExpression<T>,

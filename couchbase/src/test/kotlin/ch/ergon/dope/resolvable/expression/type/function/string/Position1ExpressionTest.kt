@@ -16,9 +16,10 @@ class Position1ExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support position1`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "POSITION1(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "POSITION1(`stringField`, `stringField`)",
+            )
         val underTest = Position1Expression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class Position1ExpressionTest : ResolverDependentTest {
     @Test
     fun `should support position1 with parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "POSITION1($1, `stringField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "POSITION1($1, `stringField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = Position1Expression(parameterValue.asParameter(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class Position1ExpressionTest : ResolverDependentTest {
     fun `should support position1 with all parameters`() {
         val parameterValue = "test"
         val parameterValue2 = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "POSITION1($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "POSITION1($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = Position1Expression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

@@ -18,9 +18,10 @@ class GreaterOrEqualThanExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support greater or equals`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` >= `numberField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` >= `numberField`",
+            )
         val underTest = GreaterOrEqualThanExpression(someNumberField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,10 +32,11 @@ class GreaterOrEqualThanExpressionTest : ResolverDependentTest {
     @Test
     fun `should support greater or equals with positional parameter`() {
         val parameterValue = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 >= `numberField`",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 >= `numberField`",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -46,10 +48,11 @@ class GreaterOrEqualThanExpressionTest : ResolverDependentTest {
     fun `should support greater or equals with all positional parameters`() {
         val parameterValue = 5
         val parameterValue2 = 6
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 >= $2",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 >= $2",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,10 +63,11 @@ class GreaterOrEqualThanExpressionTest : ResolverDependentTest {
     @Test
     fun `should support greater or equals with second positional parameter`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` >= $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` >= $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = GreaterOrEqualThanExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -75,10 +79,11 @@ class GreaterOrEqualThanExpressionTest : ResolverDependentTest {
     fun `should support greater or equals with named parameter`() {
         val parameterValue = 5
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "$$parameterName >= `numberField`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$$parameterName >= `numberField`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,10 +97,11 @@ class GreaterOrEqualThanExpressionTest : ResolverDependentTest {
         val parameterValue2 = 6
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "$$parameterName >= $$parameterName2",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$$parameterName >= $$parameterName2",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = GreaterOrEqualThanExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

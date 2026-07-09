@@ -12,9 +12,10 @@ class ObjectUnwrapExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object unwrap expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_UNWRAP(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_UNWRAP(`objectField`)",
+            )
         val underTest = ObjectUnwrapExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

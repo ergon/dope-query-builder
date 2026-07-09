@@ -18,21 +18,23 @@ import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowDefin
 import ch.ergon.dope.resolvable.expression.rowscope.windowdefinition.WindowFrameClause
 
 interface WindowResolver : AbstractCouchbaseResolver {
-    fun resolve(overDefinition: OverDefinition): CouchbaseDopeQuery = when (overDefinition) {
-        is OverWindowDefinition -> {
-            val win = overDefinition.windowDefinition.toDopeQuery(this)
-            CouchbaseDopeQuery("OVER (${win.queryString})", win.parameters)
-        }
+    fun resolve(overDefinition: OverDefinition): CouchbaseDopeQuery =
+        when (overDefinition) {
+            is OverWindowDefinition -> {
+                val win = overDefinition.windowDefinition.toDopeQuery(this)
+                CouchbaseDopeQuery("OVER (${win.queryString})", win.parameters)
+            }
 
-        is OverWindowReference -> CouchbaseDopeQuery("OVER `${overDefinition.windowReference}`")
-    }
+            is OverWindowReference -> CouchbaseDopeQuery("OVER `${overDefinition.windowReference}`")
+        }
 
     fun resolve(windowDefinition: WindowDefinition): CouchbaseDopeQuery {
         val ref = windowDefinition.windowReferenceExpression?.toDopeQuery(this)
         val parts = mutableListOf<String>()
         val params = mutableListOf<DopeParameters>()
         if (ref != null) {
-            parts += ref.queryString; params += ref.parameters
+            parts += ref.queryString
+            params += ref.parameters
         }
         windowDefinition.windowPartitionClause?.map { it.toDopeQuery(this) }?.let { list ->
             parts += list.joinToString(", ", prefix = "PARTITION BY ") { it.queryString }
@@ -44,18 +46,20 @@ interface WindowResolver : AbstractCouchbaseResolver {
         }
         val frame = windowDefinition.windowFrameClause?.toDopeQuery(this)
         if (frame != null) {
-            parts += frame.queryString; params += listOf(frame.parameters)
+            parts += frame.queryString
+            params += listOf(frame.parameters)
         }
         return CouchbaseDopeQuery(parts.joinToString(" "), params.merge())
     }
 
     fun resolve(windowFrameClause: WindowFrameClause): CouchbaseDopeQuery {
         val extent = windowFrameClause.windowFrameExtent.toDopeQuery(this)
-        val windowFrameQueryString = listOfNotNull(
-            windowFrameClause.windowFrameType.queryString,
-            extent.queryString,
-            windowFrameClause.windowFrameExclusion?.queryString,
-        ).joinToString(" ")
+        val windowFrameQueryString =
+            listOfNotNull(
+                windowFrameClause.windowFrameType.queryString,
+                extent.queryString,
+                windowFrameClause.windowFrameExclusion?.queryString,
+            ).joinToString(" ")
         return CouchbaseDopeQuery(windowFrameQueryString, extent.parameters)
     }
 
@@ -84,7 +88,7 @@ interface WindowResolver : AbstractCouchbaseResolver {
             expressionDopeQuery.queryString + (
                 orderingTerm.orderType?.let { " $it" }
                     ?: ""
-                ) + (orderingTerm.nullsOrder?.let { " " + it.queryString } ?: "")
+            ) + (orderingTerm.nullsOrder?.let { " " + it.queryString } ?: "")
         return CouchbaseDopeQuery(orderingQueryString, expressionDopeQuery.parameters)
     }
 

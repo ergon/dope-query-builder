@@ -18,9 +18,10 @@ class AndExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support and`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`booleanField` AND `booleanField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`booleanField` AND `booleanField`)",
+            )
         val underTest = AndExpression(someBooleanField(), someBooleanField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,10 +32,11 @@ class AndExpressionTest : ResolverDependentTest {
     @Test
     fun `should support and with positional parameter`() {
         val parameterValue = true
-        val expected = CouchbaseDopeQuery(
-            queryString = "($1 AND `booleanField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($1 AND `booleanField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = AndExpression(parameterValue.asParameter(), someBooleanField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -46,10 +48,11 @@ class AndExpressionTest : ResolverDependentTest {
     fun `should support and with all positional parameters`() {
         val parameterValue = true
         val parameterValue2 = true
-        val expected = CouchbaseDopeQuery(
-            queryString = "($1 AND $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($1 AND $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = AndExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,10 +63,11 @@ class AndExpressionTest : ResolverDependentTest {
     @Test
     fun `should support and with second positional parameter`() {
         val parameterValue = false
-        val expected = CouchbaseDopeQuery(
-            queryString = "(`booleanField` AND $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "(`booleanField` AND $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = AndExpression(someBooleanField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -75,10 +79,11 @@ class AndExpressionTest : ResolverDependentTest {
     fun `should support and with named parameter`() {
         val parameterValue = true
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "($$parameterName AND `booleanField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($$parameterName AND `booleanField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = AndExpression(parameterValue.asParameter(parameterName), someBooleanField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,10 +97,11 @@ class AndExpressionTest : ResolverDependentTest {
         val parameterValue2 = false
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "($$parameterName AND $$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "($$parameterName AND $$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = AndExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)

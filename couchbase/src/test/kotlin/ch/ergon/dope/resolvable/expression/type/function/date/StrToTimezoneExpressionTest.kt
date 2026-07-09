@@ -18,9 +18,10 @@ class StrToTimezoneExpressionTest : ResolverDependentTest {
     fun `should support STR_TO_TZ with field timezone`() {
         val dateField = someStringField()
         val tzField = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "STR_TO_TZ(`stringField`, `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STR_TO_TZ(`stringField`, `stringField`)",
+            )
         val underTest = StrToTimezoneExpression(dateField, tzField)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -32,10 +33,11 @@ class StrToTimezoneExpressionTest : ResolverDependentTest {
     fun `should support STR_TO_TZ with positional tz parameter`() {
         val date = someStringField()
         val tz = "UTC"
-        val expected = CouchbaseDopeQuery(
-            queryString = "STR_TO_TZ(`stringField`, $1)",
-            DopeParameters(positionalParameters = listOf(tz)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STR_TO_TZ(`stringField`, $1)",
+                DopeParameters(positionalParameters = listOf(tz)),
+            )
         val underTest = StrToTimezoneExpression(date, tz.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -48,10 +50,11 @@ class StrToTimezoneExpressionTest : ResolverDependentTest {
         val date = someStringField()
         val tz = "UTC"
         val name = "zone"
-        val expected = CouchbaseDopeQuery(
-            queryString = "STR_TO_TZ(`stringField`, \$$name)",
-            DopeParameters(namedParameters = mapOf(name to tz)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STR_TO_TZ(`stringField`, \$$name)",
+                DopeParameters(namedParameters = mapOf(name to tz)),
+            )
         val underTest = StrToTimezoneExpression(date, tz.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

@@ -9,8 +9,7 @@ import ch.ergon.dope.validtype.StringType
 data class SplitExpression(val inStr: TypeExpression<StringType>, val inSubstring: TypeExpression<StringType>? = null) :
     FunctionExpression<ArrayType<StringType>>(listOf(inStr, inSubstring))
 
-fun TypeExpression<StringType>.split(inSubstring: TypeExpression<StringType>? = null) =
-    SplitExpression(this, inSubstring)
+fun TypeExpression<StringType>.split(inSubstring: TypeExpression<StringType>? = null) = SplitExpression(this, inSubstring)
 
 fun TypeExpression<StringType>.split(inSubstring: String) = split(inSubstring.toDopeType())
 

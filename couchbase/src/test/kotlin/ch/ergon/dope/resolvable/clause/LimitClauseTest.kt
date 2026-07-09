@@ -22,9 +22,10 @@ class LimitClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support delete limit`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` LIMIT `numberField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` LIMIT `numberField`",
+            )
         val underTest = DeleteLimitClause(someNumberField(), someDeleteClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -36,10 +37,11 @@ class LimitClauseTest : ResolverDependentTest {
     fun `should support delete limit with named parameter`() {
         val parameterValue = 2
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` LIMIT \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` LIMIT \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = DeleteLimitClause(parameterValue.asParameter(parameterName), someDeleteClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -50,10 +52,11 @@ class LimitClauseTest : ResolverDependentTest {
     @Test
     fun `should support delete limit with positional parameter`() {
         val parameterValue = 2
-        val expected = CouchbaseDopeQuery(
-            queryString = "DELETE FROM `someBucket` LIMIT $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "DELETE FROM `someBucket` LIMIT $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = DeleteLimitClause(parameterValue.asParameter(), someDeleteClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -75,10 +78,11 @@ class LimitClauseTest : ResolverDependentTest {
     @Test
     fun `should support select limit with positional parameter`() {
         val parameterValue = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * LIMIT $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * LIMIT $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SelectLimitClause(parameterValue.asParameter(), someSelectClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -92,14 +96,16 @@ class LimitClauseTest : ResolverDependentTest {
         val parameterName2 = "param2"
         val parameterValue = "param"
         val parameterValue2 = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT \$$parameterName LIMIT \$$parameterName2",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = SelectLimitClause(
-            parameterValue2.asParameter(parameterName2),
-            someSelectClause(parameterValue.asParameter(parameterName)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT \$$parameterName LIMIT \$$parameterName2",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            SelectLimitClause(
+                parameterValue2.asParameter(parameterName2),
+                someSelectClause(parameterValue.asParameter(parameterName)),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -110,10 +116,11 @@ class LimitClauseTest : ResolverDependentTest {
     fun `should support select limit with positional parameter and positional parent parameter`() {
         val parameterValue = "param"
         val parameterValue2 = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT $1 LIMIT $2",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT $1 LIMIT $2",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = SelectLimitClause(parameterValue2.asParameter(), someSelectClause(parameterValue.asParameter()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -134,9 +141,10 @@ class LimitClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support update limit`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` LIMIT `numberField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` LIMIT `numberField`",
+            )
         val underTest = UpdateLimitClause(someNumberField(), someUpdateClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -148,10 +156,11 @@ class LimitClauseTest : ResolverDependentTest {
     fun `should support update limit with named parameter`() {
         val parameterValue = 5
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` LIMIT \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` LIMIT \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = UpdateLimitClause(parameterValue.asParameter(parameterName), someUpdateClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -162,10 +171,11 @@ class LimitClauseTest : ResolverDependentTest {
     @Test
     fun `should support update limit with positional parameter`() {
         val parameterValue = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` LIMIT $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` LIMIT $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = UpdateLimitClause(parameterValue.asParameter(), someUpdateClause())
 
         val actual = underTest.toDopeQuery(resolver)

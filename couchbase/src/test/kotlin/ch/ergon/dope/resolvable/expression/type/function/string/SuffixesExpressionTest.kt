@@ -16,9 +16,10 @@ class SuffixesExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support split`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUFFIXES(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUFFIXES(`stringField`)",
+            )
         val underTest = SuffixesExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class SuffixesExpressionTest : ResolverDependentTest {
     @Test
     fun `should support suffixes with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUFFIXES($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUFFIXES($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SuffixesExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class SuffixesExpressionTest : ResolverDependentTest {
     fun `should support suffixes with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUFFIXES(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUFFIXES(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = SuffixesExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

@@ -23,8 +23,10 @@ import ch.ergon.dope.validtype.ValidType
 interface IUpdateReturningClause : Clause
 
 interface IUpdateLimitClause : IUpdateReturningClause {
-    fun returning(returningExpression: Returnable, vararg additionalReturningExpressions: Returnable) =
-        UpdateReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
+    fun returning(
+        returningExpression: Returnable,
+        vararg additionalReturningExpressions: Returnable,
+    ) = UpdateReturningClause(returningExpression, additionalReturningExpressions.toList(), parentClause = this)
 
     fun returningAsterisk(bucket: Bucket? = null) = UpdateReturningClause(Asterisk(bucket), parentClause = this)
 
@@ -40,6 +42,7 @@ interface IUpdateLimitClause : IUpdateReturningClause {
 
 interface IUpdateWhereClause : IUpdateLimitClause {
     fun limit(numberExpression: TypeExpression<NumberType>) = UpdateLimitClause(numberExpression, this)
+
     fun limit(numberExpression: Number) = UpdateLimitClause(numberExpression.toDopeType(), this)
 }
 
@@ -48,11 +51,15 @@ interface IUpdateUnsetClause : IUpdateWhereClause {
 }
 
 interface IUpdateSetClause : IUpdateUnsetClause {
-    fun unset(field: IField<out ValidType>, vararg fields: IField<out ValidType>) =
-        UnsetClause(field, fields.toList(), parentClause = this)
+    fun unset(
+        field: IField<out ValidType>,
+        vararg fields: IField<out ValidType>,
+    ) = UnsetClause(field, fields.toList(), parentClause = this)
 }
 
 interface IUpdateClause : IUpdateSetClause {
-    fun set(setAssignment: SetAssignment<out ValidType>, vararg setAssignments: SetAssignment<out ValidType>) =
-        SetClause(setAssignment, setAssignments.toList(), parentClause = this)
+    fun set(
+        setAssignment: SetAssignment<out ValidType>,
+        vararg setAssignments: SetAssignment<out ValidType>,
+    ) = SetClause(setAssignment, setAssignments.toList(), parentClause = this)
 }

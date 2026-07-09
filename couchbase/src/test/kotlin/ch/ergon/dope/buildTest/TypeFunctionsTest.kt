@@ -25,13 +25,14 @@ class TypeFunctionsTest {
     fun `should support ISARRAY as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISARRAY(`numberArrayField`)"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                someNumberArrayField().isArray(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    someNumberArrayField().isArray(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -40,13 +41,14 @@ class TypeFunctionsTest {
     fun `should support ISATOM as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISATOM(`numberField`)"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                someNumberField().isAtom(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    someNumberField().isAtom(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -55,13 +57,14 @@ class TypeFunctionsTest {
     fun `should support ISBOOLEAN as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISBOOLEAN(`booleanField`)"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                someBooleanField().isBoolean(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    someBooleanField().isBoolean(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -70,13 +73,14 @@ class TypeFunctionsTest {
     fun `should support ISNUMBER as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISNUMBER(`numberField`)"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                someNumberField().isNumber(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    someNumberField().isNumber(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -85,13 +89,14 @@ class TypeFunctionsTest {
     fun `should support ISSTRING as boolean comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE ISSTRING(`stringField`)"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                someStringField().isString(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    someStringField().isString(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -100,10 +105,11 @@ class TypeFunctionsTest {
     fun `should support TOARRAY from atom to array`() {
         val expected = "SELECT (TOARRAY(1)[0] + 1)"
 
-        val actual = QueryBuilder
-            .select(
-                someNumber(1).toDopeType().toArray().get(0).add(1),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    someNumber(1).toDopeType().toArray().get(0).add(1),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

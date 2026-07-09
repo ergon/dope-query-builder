@@ -27,15 +27,17 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for in expression`() {
         val range = someNumberArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST (`it` * `it`) FOR `iterator1`:`it` IN `numberArrayField` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            transformation = { _, it -> it.mul(it) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST (`it` * `it`) FOR `iterator1`:`it` IN `numberArrayField` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                transformation = { _, it -> it.mul(it) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -45,15 +47,17 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for in expression string function`() {
         val range = someStringArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST CONCAT(\"test\", `it`) FOR `iterator1`:`it` IN `stringArrayField` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            transformation = { _, it -> "test".toDopeType().concat(it) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST CONCAT(\"test\", `it`) FOR `iterator1`:`it` IN `stringArrayField` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                transformation = { _, it -> "test".toDopeType().concat(it) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -63,16 +67,18 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for in expression resulting in new type`() {
         val range = someStringArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST (`i` * TONUMBER(`it`)) FOR `i`:`it` IN `stringArrayField` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { i, it -> i.mul(it.toNumber()) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST (`i` * TONUMBER(`it`)) FOR `i`:`it` IN `stringArrayField` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { i, it -> i.mul(it.toNumber()) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -82,16 +88,18 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for in expression with condition`() {
         val range = someNumberArrayField()
-        val expected = CouchbaseDopeQuery(
-            "FIRST (`iterator1` + 1) FOR `i`:`iterator1` IN `numberArrayField` WHEN `i` <= 2 END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            indexName = "i",
-            transformation = { _, it -> it.add(1) },
-            condition = { i, _ -> i.isLessOrEqualThan(2) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST (`iterator1` + 1) FOR `i`:`iterator1` IN `numberArrayField` WHEN `i` <= 2 END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                indexName = "i",
+                transformation = { _, it -> it.add(1) },
+                condition = { i, _ -> i.isLessOrEqualThan(2) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -103,19 +111,22 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
         val range = listOf("test1", "test2", "test3")
         val positionalParameterValue = "test"
         val namedParameterName = "first"
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST CONCAT(\$1, `it`) FOR `iterator1`:`it` IN \$$namedParameterName END",
-            parameters = DopeParameters(
-                namedParameters = mapOf(namedParameterName to range),
-                positionalParameters = listOf(positionalParameterValue),
-            ),
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range.asParameter(namedParameterName),
-            iteratorName = "it",
-            transformation = { _, it -> positionalParameterValue.asParameter().concat(it) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST CONCAT(\$1, `it`) FOR `iterator1`:`it` IN \$$namedParameterName END",
+                parameters =
+                    DopeParameters(
+                        namedParameters = mapOf(namedParameterName to range),
+                        positionalParameters = listOf(positionalParameterValue),
+                    ),
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range.asParameter(namedParameterName),
+                iteratorName = "it",
+                transformation = { _, it -> positionalParameterValue.asParameter().concat(it) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -125,26 +136,28 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support nested first for in expression with condition`() {
         val range = someNumberArrayField()
-        val expected = CouchbaseDopeQuery(
-            "FIRST (`it` + `i`) FOR `i`:`it` IN `numberArrayField` " +
-                "WHEN FIRST `it2` FOR `i2`:`it2` IN `numberArrayField` END = `it` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { i, it -> it.add(i) },
-            condition = { _, it ->
-                FirstRangeIndexedExpression(
-                    membershipType = IN,
-                    range = range,
-                    iteratorName = "it2",
-                    indexName = "i2",
-                    transformation = { _, it2 -> it2 },
-                ).isEqualTo(it)
-            },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST (`it` + `i`) FOR `i`:`it` IN `numberArrayField` " +
+                    "WHEN FIRST `it2` FOR `i2`:`it2` IN `numberArrayField` END = `it` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { i, it -> it.add(i) },
+                condition = { _, it ->
+                    FirstRangeIndexedExpression(
+                        membershipType = IN,
+                        range = range,
+                        iteratorName = "it2",
+                        indexName = "i2",
+                        transformation = { _, it2 -> it2 },
+                    ).isEqualTo(it)
+                },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -154,13 +167,14 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for in expression extension`() {
         val range = someNumberArrayField()
-        val expected = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { _, it -> it.add(1) },
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { _, it -> it.add(1) },
+            )
 
         val actual =
             range.mapIndexed(iteratorName = "it", indexName = "i") { _, it ->
@@ -173,14 +187,15 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for in expression extension with condition`() {
         val range = someNumberArrayField()
-        val expected = FirstRangeIndexedExpression(
-            membershipType = IN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { _, it -> it.add(1) },
-            condition = { i, _ -> i.isLessOrEqualThan(2) },
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                membershipType = IN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { _, it -> it.add(1) },
+                condition = { i, _ -> i.isLessOrEqualThan(2) },
+            )
 
         val actual =
             range.filterIndexed(iteratorName = "it", indexName = "i") { i, _ ->
@@ -195,15 +210,17 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for within expression`() {
         val range = someAnyTypeArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST (TONUMBER(`it`) * TONUMBER(`it`)) FOR `iterator1`:`it` WITHIN `anyTypeArrayField` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = WITHIN,
-            range = range,
-            iteratorName = "it",
-            transformation = { _, it -> it.toNumber().mul(it.toNumber()) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST (TONUMBER(`it`) * TONUMBER(`it`)) FOR `iterator1`:`it` WITHIN `anyTypeArrayField` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = WITHIN,
+                range = range,
+                iteratorName = "it",
+                transformation = { _, it -> it.toNumber().mul(it.toNumber()) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -213,15 +230,17 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for within expression string function`() {
         val range = someAnyTypeArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST CONCAT(\"test\", TOSTRING(`it`)) FOR `iterator1`:`it` WITHIN `anyTypeArrayField` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = WITHIN,
-            range = range,
-            iteratorName = "it",
-            transformation = { _, it -> "test".toDopeType().concat(it.toStr()) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST CONCAT(\"test\", TOSTRING(`it`)) FOR `iterator1`:`it` WITHIN `anyTypeArrayField` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = WITHIN,
+                range = range,
+                iteratorName = "it",
+                transformation = { _, it -> "test".toDopeType().concat(it.toStr()) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -231,16 +250,18 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for within expression resulting in new type`() {
         val range = someAnyTypeArrayField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "FIRST (`i` * TONUMBER(`it`)) FOR `i`:`it` WITHIN `anyTypeArrayField` END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = WITHIN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { i, it -> i.mul(it.toNumber()) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "FIRST (`i` * TONUMBER(`it`)) FOR `i`:`it` WITHIN `anyTypeArrayField` END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = WITHIN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { i, it -> i.mul(it.toNumber()) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -250,16 +271,18 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for within expression with condition`() {
         val range = someAnyTypeArrayField()
-        val expected = CouchbaseDopeQuery(
-            "FIRST (TONUMBER(`iterator1`) + 1) FOR `i`:`iterator1` WITHIN `anyTypeArrayField` WHEN `i` <= 2 END",
-        )
-        val underTest = FirstRangeIndexedExpression(
-            membershipType = WITHIN,
-            range = range,
-            indexName = "i",
-            transformation = { _, it -> it.toNumber().add(1) },
-            condition = { i, _ -> i.isLessOrEqualThan(2) },
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "FIRST (TONUMBER(`iterator1`) + 1) FOR `i`:`iterator1` WITHIN `anyTypeArrayField` WHEN `i` <= 2 END",
+            )
+        val underTest =
+            FirstRangeIndexedExpression(
+                membershipType = WITHIN,
+                range = range,
+                indexName = "i",
+                transformation = { _, it -> it.toNumber().add(1) },
+                condition = { i, _ -> i.isLessOrEqualThan(2) },
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -269,13 +292,14 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for within expression extension`() {
         val range = someAnyTypeArrayField()
-        val expected = FirstRangeIndexedExpression(
-            membershipType = WITHIN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { _, it -> it.toNumber().add(1) },
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                membershipType = WITHIN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { _, it -> it.toNumber().add(1) },
+            )
 
         val actual =
             range.mapIndexedUnnested(iteratorName = "it", indexName = "i") { _, it ->
@@ -288,14 +312,15 @@ class FirstRangeIndexedExpressionTest : ResolverDependentTest {
     @Test
     fun `should support first for within expression extension with condition`() {
         val range = someAnyTypeArrayField()
-        val expected = FirstRangeIndexedExpression(
-            membershipType = WITHIN,
-            range = range,
-            iteratorName = "it",
-            indexName = "i",
-            transformation = { _, it -> it.toNumber().add(1) },
-            condition = { i, _ -> i.isLessOrEqualThan(2) },
-        )
+        val expected =
+            FirstRangeIndexedExpression(
+                membershipType = WITHIN,
+                range = range,
+                iteratorName = "it",
+                indexName = "i",
+                transformation = { _, it -> it.toNumber().add(1) },
+                condition = { i, _ -> i.isLessOrEqualThan(2) },
+            )
 
         val actual =
             range.filterIndexedUnnested(iteratorName = "it", indexName = "i") { i, _ ->

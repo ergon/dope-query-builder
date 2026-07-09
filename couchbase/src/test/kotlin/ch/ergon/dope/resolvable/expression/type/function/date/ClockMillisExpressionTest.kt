@@ -11,9 +11,10 @@ class ClockMillisExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support CLOCK_MILLIS`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_MILLIS()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_MILLIS()",
+            )
         val underTest = ClockMillisExpression()
 
         val actual = underTest.toDopeQuery(resolver)

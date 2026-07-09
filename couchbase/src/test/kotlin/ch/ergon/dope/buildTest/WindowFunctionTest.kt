@@ -34,59 +34,65 @@ import kotlin.test.assertEquals
 class WindowFunctionTest {
     @Test
     fun `should support window functions`() {
-        val expected = "SELECT ROW_NUMBER() OVER () AS `row`, " +
-            "CUME_DIST() OVER `ref`, " +
-            "DENSE_RANK() OVER (ORDER BY `stringField` ASC), " +
-            "FIRST_VALUE(`stringField`) OVER (ORDER BY `stringField` NULLS LAST ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING EXCLUDE NO OTHERS), " +
-            "NTH_VALUE(`numberField`, 10) FROM LAST OVER (ORDER BY `stringField` NULLS FIRST), " +
-            "LAG(`numberField`) OVER (ORDER BY `stringField` ASC), " +
-            "LAST_VALUE(`last`) IGNORE NULLS OVER () " +
-            "FROM `someBucket` " +
-            "WINDOW `ref` AS (ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)"
+        val expected =
+            "SELECT ROW_NUMBER() OVER () AS `row`, " +
+                "CUME_DIST() OVER `ref`, " +
+                "DENSE_RANK() OVER (ORDER BY `stringField` ASC), " +
+                "FIRST_VALUE(`stringField`) OVER " +
+                "(ORDER BY `stringField` NULLS LAST ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING EXCLUDE NO OTHERS), " +
+                "NTH_VALUE(`numberField`, 10) FROM LAST OVER (ORDER BY `stringField` NULLS FIRST), " +
+                "LAG(`numberField`) OVER (ORDER BY `stringField` ASC), " +
+                "LAST_VALUE(`last`) IGNORE NULLS OVER () " +
+                "FROM `someBucket` " +
+                "WINDOW `ref` AS (ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)"
 
-        val actual = QueryBuilder
-            .select(
-                rowNumber().alias("row"),
-                cumeDist("ref"),
-                denseRank(listOf(orderingTerm(someStringField(), ASC))),
-                firstValue(
-                    someStringField(),
-                    windowOrderClause = listOf(orderingTerm(someStringField(), nullsOrder = NULLS_LAST)),
-                    windowFrameClause = WindowFrameClause(
-                        ROWS,
-                        between(currentRow(), following(1)),
-                        EXCLUDE_NO_OTHERS,
+        val actual =
+            QueryBuilder
+                .select(
+                    rowNumber().alias("row"),
+                    cumeDist("ref"),
+                    denseRank(listOf(orderingTerm(someStringField(), ASC))),
+                    firstValue(
+                        someStringField(),
+                        windowOrderClause = listOf(orderingTerm(someStringField(), nullsOrder = NULLS_LAST)),
+                        windowFrameClause =
+                            WindowFrameClause(
+                                ROWS,
+                                between(currentRow(), following(1)),
+                                EXCLUDE_NO_OTHERS,
+                            ),
                     ),
-                ),
-                nthValue(
-                    someNumberField(),
-                    10,
-                    fromModifier = LAST,
-                    windowOrderClause = listOf(
-                        orderingTerm(
-                            someStringField(),
-                            nullsOrder = NULLS_FIRST,
+                    nthValue(
+                        someNumberField(),
+                        10,
+                        fromModifier = LAST,
+                        windowOrderClause =
+                            listOf(
+                                orderingTerm(
+                                    someStringField(),
+                                    nullsOrder = NULLS_FIRST,
+                                ),
+                            ),
+                    ),
+                    lag(someNumberField(), windowOrderClause = listOf(orderingTerm(someStringField(), ASC))),
+                    lastValue(
+                        someStringField("last"),
+                        IGNORE,
+                    ),
+                )
+                .from(someBucket())
+                .referenceWindow(
+                    "ref".asWindowDeclaration(
+                        WindowDefinition(
+                            windowFrameClause =
+                                WindowFrameClause(
+                                    ROWS,
+                                    between(currentRow(), unboundedFollowing()),
+                                ),
                         ),
                     ),
-                ),
-                lag(someNumberField(), windowOrderClause = listOf(orderingTerm(someStringField(), ASC))),
-                lastValue(
-                    someStringField("last"),
-                    IGNORE,
-                ),
-            )
-            .from(someBucket())
-            .referenceWindow(
-                "ref".asWindowDeclaration(
-                    WindowDefinition(
-                        windowFrameClause = WindowFrameClause(
-                            ROWS,
-                            between(currentRow(), unboundedFollowing()),
-                        ),
-                    ),
-                ),
-            )
-            .build(CouchbaseResolver()).queryString
+                )
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

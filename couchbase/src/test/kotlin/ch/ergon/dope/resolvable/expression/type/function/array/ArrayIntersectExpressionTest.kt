@@ -15,9 +15,10 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_INTERSECT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT(`numberArrayField`, `numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT(`numberArrayField`, `numberArrayField`)",
+            )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_INTERSECT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT($1, `numberArrayField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT($1, `numberArrayField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayIntersectExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INTERSECT with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT(\$$parameterName, `numberArrayField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT(\$$parameterName, `numberArrayField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayIntersectExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_INTERSECT with positional second parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INTERSECT with named second parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT(`numberArrayField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT(`numberArrayField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayIntersectExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_INTERSECT with positional all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayIntersectExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,14 +110,16 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_INTERSECT(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
-        )
-        val underTest = ArrayIntersectExpression(
-            parameterValueCollection.asParameter(parameterName),
-            parameterValue.asParameter(parameterName2),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_INTERSECT(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
+            )
+        val underTest =
+            ArrayIntersectExpression(
+                parameterValueCollection.asParameter(parameterName),
+                parameterValue.asParameter(parameterName2),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -251,11 +259,12 @@ class ArrayIntersectExpressionTest : ResolverDependentTest {
         val firstArray = someNumberSelectRawClause()
         val secondArray = someNumberSelectRawClause()
         val thirdArray = someNumberSelectRawClause()
-        val expected = ArrayIntersectExpression(
-            firstArray.asExpression(),
-            secondArray.asExpression(),
-            listOf(thirdArray.asExpression()),
-        )
+        val expected =
+            ArrayIntersectExpression(
+                firstArray.asExpression(),
+                secondArray.asExpression(),
+                listOf(thirdArray.asExpression()),
+            )
 
         val actual = firstArray.intersect(secondArray, thirdArray)
 

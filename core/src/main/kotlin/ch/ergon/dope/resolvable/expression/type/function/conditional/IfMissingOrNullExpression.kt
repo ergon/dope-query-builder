@@ -9,8 +9,8 @@ data class IfMissingOrNullExpression<T : ValidType>(
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
-    listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
-)
+        listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
+    )
 
 fun <T : ValidType> ifMissingOrNull(
     firstExpression: TypeExpression<T>,
@@ -23,8 +23,8 @@ data class CoalesceExpression<T : ValidType>(
     val secondExpression: TypeExpression<T>,
     val additionalExpressions: List<TypeExpression<T>> = emptyList(),
 ) : FunctionExpression<T>(
-    listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
-)
+        listOf(firstExpression, secondExpression, *additionalExpressions.toTypedArray()),
+    )
 
 fun <T : ValidType> coalesce(
     firstExpression: TypeExpression<T>,

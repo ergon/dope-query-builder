@@ -32,24 +32,25 @@ data class CountExpression(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = field
-    override val overDefinition: OverDefinition? = if (listOf(
-            windowReferenceExpression,
-            windowPartitionClause,
-            windowOrderClause,
-            windowFrameClause,
-        ).all { it == null }
-    ) {
-        null
-    } else {
-        OverWindowDefinition(
-            WindowDefinition(
+    override val overDefinition: OverDefinition? =
+        if (listOf(
                 windowReferenceExpression,
                 windowPartitionClause,
                 windowOrderClause,
                 windowFrameClause,
-            ),
-        )
-    }
+            ).all { it == null }
+        ) {
+            null
+        } else {
+            OverWindowDefinition(
+                WindowDefinition(
+                    windowReferenceExpression,
+                    windowPartitionClause,
+                    windowOrderClause,
+                    windowFrameClause,
+                ),
+            )
+        }
 }
 
 data class CountAsteriskExpressionWithReference(
@@ -68,24 +69,25 @@ data class CountAsteriskExpression(
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = Asterisk()
     override val quantifier: AggregateQuantifier? = null
-    override val overDefinition: OverDefinition? = if (listOf(
-            windowReferenceExpression,
-            windowPartitionClause,
-            windowOrderClause,
-            windowFrameClause,
-        ).all { it == null }
-    ) {
-        null
-    } else {
-        OverWindowDefinition(
-            WindowDefinition(
+    override val overDefinition: OverDefinition? =
+        if (listOf(
                 windowReferenceExpression,
                 windowPartitionClause,
                 windowOrderClause,
                 windowFrameClause,
-            ),
-        )
-    }
+            ).all { it == null }
+        ) {
+            null
+        } else {
+            OverWindowDefinition(
+                WindowDefinition(
+                    windowReferenceExpression,
+                    windowPartitionClause,
+                    windowOrderClause,
+                    windowFrameClause,
+                ),
+            )
+        }
 }
 
 fun count(
@@ -110,9 +112,7 @@ fun count(
     quantifier: AggregateQuantifier? = null,
 ) = CountExpressionWithReference(field, windowReference, quantifier)
 
-fun countAsterisk(
-    windowReference: String,
-) = CountAsteriskExpressionWithReference(windowReference)
+fun countAsterisk(windowReference: String) = CountAsteriskExpressionWithReference(windowReference)
 
 fun countAsterisk(
     windowReferenceExpression: TypeExpression<StringType>? = null,

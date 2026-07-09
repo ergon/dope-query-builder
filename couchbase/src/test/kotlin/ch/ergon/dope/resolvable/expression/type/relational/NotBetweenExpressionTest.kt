@@ -15,9 +15,10 @@ class NotBetweenExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support NOT BETWEEN expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` NOT BETWEEN 1 AND 10",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` NOT BETWEEN 1 AND 10",
+            )
         val underTest = NotBetweenExpression(someNumberField(), 1.toDopeType(), 10.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class NotBetweenExpressionTest : ResolverDependentTest {
     fun `should support NOT BETWEEN expression with named parameter`() {
         val parameterValue = 5
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName NOT BETWEEN 1 AND 10",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName NOT BETWEEN 1 AND 10",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NotBetweenExpression(parameterValue.asParameter(parameterName), 1.toDopeType(), 10.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class NotBetweenExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOT BETWEEN expression with positional parameter`() {
         val parameterValue = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 NOT BETWEEN 1 AND 10",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 NOT BETWEEN 1 AND 10",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), 1.toDopeType(), 10.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -60,15 +63,17 @@ class NotBetweenExpressionTest : ResolverDependentTest {
         val parameterValue2 = 1
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName NOT BETWEEN \$$parameterName2 AND 10",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
-        val underTest = NotBetweenExpression(
-            parameterValue.asParameter(parameterName),
-            parameterValue2.asParameter(parameterName2),
-            10.toDopeType(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName NOT BETWEEN \$$parameterName2 AND 10",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
+        val underTest =
+            NotBetweenExpression(
+                parameterValue.asParameter(parameterName),
+                parameterValue2.asParameter(parameterName2),
+                10.toDopeType(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -79,10 +84,11 @@ class NotBetweenExpressionTest : ResolverDependentTest {
     fun `should support NOT BETWEEN expression with positional first and second parameter`() {
         val parameterValue = 5
         val parameterValue2 = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 NOT BETWEEN $2 AND 10",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 NOT BETWEEN $2 AND 10",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), parameterValue2.asParameter(), 10.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -98,17 +104,24 @@ class NotBetweenExpressionTest : ResolverDependentTest {
         val parameterName = "param1"
         val parameterName2 = "param2"
         val parameterName3 = "param3"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName NOT BETWEEN \$$parameterName2 AND \$$parameterName3",
-            DopeParameters(
-                namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2, parameterName3 to parameterValue3),
-            ),
-        )
-        val underTest = NotBetweenExpression(
-            parameterValue.asParameter(parameterName),
-            parameterValue2.asParameter(parameterName2),
-            parameterValue3.asParameter(parameterName3),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName NOT BETWEEN \$$parameterName2 AND \$$parameterName3",
+                DopeParameters(
+                    namedParameters =
+                        mapOf(
+                            parameterName to parameterValue,
+                            parameterName2 to parameterValue2,
+                            parameterName3 to parameterValue3,
+                        ),
+                ),
+            )
+        val underTest =
+            NotBetweenExpression(
+                parameterValue.asParameter(parameterName),
+                parameterValue2.asParameter(parameterName2),
+                parameterValue3.asParameter(parameterName3),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -120,10 +133,11 @@ class NotBetweenExpressionTest : ResolverDependentTest {
         val parameterValue = 5
         val parameterValue2 = 1
         val parameterValue3 = 10
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 NOT BETWEEN $2 AND $3",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 NOT BETWEEN $2 AND $3",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2, parameterValue3)),
+            )
         val underTest = NotBetweenExpression(parameterValue.asParameter(), parameterValue2.asParameter(), parameterValue3.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

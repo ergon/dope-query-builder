@@ -13,9 +13,10 @@ class ObjectRemoveExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object remove expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_REMOVE(`objectField`, \"key\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_REMOVE(`objectField`, \"key\")",
+            )
         val underTest = ObjectRemoveExpression(someObjectField(), "key".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

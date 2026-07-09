@@ -16,9 +16,10 @@ class IsNumberExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support is number expression with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ISNUMBER(`numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ISNUMBER(`numberField`)",
+            )
         val underTest = IsNumberExpression(someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class IsNumberExpressionTest : ResolverDependentTest {
     @Test
     fun `should support is number expression with positional parameter`() {
         val parameterValue = someNumber()
-        val expected = CouchbaseDopeQuery(
-            queryString = "ISNUMBER($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ISNUMBER($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = IsNumberExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class IsNumberExpressionTest : ResolverDependentTest {
     fun `should support is number expression with named parameter`() {
         val parameterValue = someNumber()
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ISNUMBER(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ISNUMBER(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = IsNumberExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

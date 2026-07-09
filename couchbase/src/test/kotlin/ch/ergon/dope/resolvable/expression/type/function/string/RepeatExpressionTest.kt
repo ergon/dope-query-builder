@@ -18,9 +18,10 @@ class RepeatExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support repeat`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPEAT(`stringField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPEAT(`stringField`, `numberField`)",
+            )
         val underTest = RepeatExpression(someStringField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,10 +32,11 @@ class RepeatExpressionTest : ResolverDependentTest {
     @Test
     fun `should support repeat with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPEAT($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPEAT($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = RepeatExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -46,10 +48,11 @@ class RepeatExpressionTest : ResolverDependentTest {
     fun `should support repeat with all positional parameters`() {
         val parameterValue = "test"
         val parameterValue2 = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPEAT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPEAT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = RepeatExpression(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -61,10 +64,11 @@ class RepeatExpressionTest : ResolverDependentTest {
     fun `should support repeat with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param1"
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPEAT(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPEAT(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = RepeatExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -78,10 +82,11 @@ class RepeatExpressionTest : ResolverDependentTest {
         val parameterValue2 = 5
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPEAT(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPEAT(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = RepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -94,10 +99,11 @@ class RepeatExpressionTest : ResolverDependentTest {
         val parameterValue = "test"
         val parameterName = "param"
         val parameterValue2 = 5
-        val expected = CouchbaseDopeQuery(
-            queryString = "REPEAT(\$$parameterName, $1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "REPEAT(\$$parameterName, $1)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+            )
         val underTest = RepeatExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

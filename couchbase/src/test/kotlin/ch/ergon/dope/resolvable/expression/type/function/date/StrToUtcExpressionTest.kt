@@ -16,9 +16,10 @@ class StrToUtcExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support STR_TO_UTC with field`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "STR_TO_UTC(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STR_TO_UTC(`stringField`)",
+            )
         val underTest = StrToUtcExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class StrToUtcExpressionTest : ResolverDependentTest {
     @Test
     fun `should support STR_TO_UTC with positional parameter date`() {
         val date = "2021-01-01T00:00:00Z"
-        val expected = CouchbaseDopeQuery(
-            queryString = "STR_TO_UTC($1)",
-            DopeParameters(positionalParameters = listOf(date)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STR_TO_UTC($1)",
+                DopeParameters(positionalParameters = listOf(date)),
+            )
         val underTest = StrToUtcExpression(date.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class StrToUtcExpressionTest : ResolverDependentTest {
     fun `should support STR_TO_UTC with named parameter date`() {
         val date = "2022-02-02T02:02:02Z"
         val name = "d"
-        val expected = CouchbaseDopeQuery(
-            queryString = "STR_TO_UTC(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to date)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "STR_TO_UTC(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to date)),
+            )
         val underTest = StrToUtcExpression(date.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

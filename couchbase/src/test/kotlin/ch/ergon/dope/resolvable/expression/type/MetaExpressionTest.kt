@@ -14,9 +14,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`someBucket`)",
+            )
         val underTest = MetaExpression(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -26,9 +27,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta field cas`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`).`cas`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`someBucket`).`cas`",
+            )
         val underTest = MetaExpression(someBucket())
 
         val actual = underTest.cas.toDopeQuery(resolver)
@@ -38,9 +40,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta field expiration`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`).`expiration`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`someBucket`).`expiration`",
+            )
         val underTest = MetaExpression(someBucket())
 
         val actual = underTest.expiration.toDopeQuery(resolver)
@@ -50,9 +53,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta field flags`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`).`flags`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`someBucket`).`flags`",
+            )
         val underTest = MetaExpression(someBucket())
 
         val actual = underTest.flags.toDopeQuery(resolver)
@@ -62,9 +66,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta field id`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`).`id`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`someBucket`).`id`",
+            )
         val underTest = MetaExpression(someBucket())
 
         val actual = underTest.id.toDopeQuery(resolver)
@@ -74,9 +79,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta field type`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`someBucket`.`someScope`.`someCollection`).`type`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`someBucket`.`someScope`.`someCollection`).`type`",
+            )
         val underTest = MetaExpression(someBucket("someBucket", "someScope", "someCollection"))
 
         val actual = underTest.type.toDopeQuery(resolver)
@@ -86,9 +92,10 @@ class MetaExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support meta field type with aliased bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "META(`alias`).`type`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "META(`alias`).`type`",
+            )
         val underTest = MetaExpression(someBucket("someBucket", "someScope", "someCollection").alias("alias"))
 
         val actual = underTest.type.toDopeQuery(resolver)

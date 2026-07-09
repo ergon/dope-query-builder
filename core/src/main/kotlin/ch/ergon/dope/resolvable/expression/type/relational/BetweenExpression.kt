@@ -10,8 +10,10 @@ data class BetweenExpression<T : ComparableType>(
     val end: TypeExpression<T>,
 ) : TypeExpression<BooleanType>
 
-fun <T : ComparableType> TypeExpression<T>.between(start: TypeExpression<T>, end: TypeExpression<T>) =
-    BetweenExpression(this, start, end)
+fun <T : ComparableType> TypeExpression<T>.between(
+    start: TypeExpression<T>,
+    end: TypeExpression<T>,
+) = BetweenExpression(this, start, end)
 
 data class NotBetweenExpression<T : ComparableType>(
     val expression: TypeExpression<T>,
@@ -19,5 +21,7 @@ data class NotBetweenExpression<T : ComparableType>(
     val end: TypeExpression<T>,
 ) : TypeExpression<BooleanType>
 
-fun <T : ComparableType> TypeExpression<T>.notBetween(start: TypeExpression<T>, end: TypeExpression<T>) =
-    NotBetweenExpression(this, start, end)
+fun <T : ComparableType> TypeExpression<T>.notBetween(
+    start: TypeExpression<T>,
+    end: TypeExpression<T>,
+) = NotBetweenExpression(this, start, end)

@@ -15,13 +15,15 @@ class UnsetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support unset clause`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` UNSET `stringField`",
-        )
-        val underTest = UnsetClause(
-            someStringField(),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` UNSET `stringField`",
+            )
+        val underTest =
+            UnsetClause(
+                someStringField(),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -30,14 +32,16 @@ class UnsetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support multiple unset clauses`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` UNSET `stringField`, `numberField`",
-        )
-        val underTest = UnsetClause(
-            someStringField(),
-            listOf(someNumberField()),
-            parentClause = someUpdateClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` UNSET `stringField`, `numberField`",
+            )
+        val underTest =
+            UnsetClause(
+                someStringField(),
+                listOf(someNumberField()),
+                parentClause = someUpdateClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -60,11 +64,12 @@ class UnsetClauseTest : ResolverDependentTest {
         val stringField = someStringField()
         val numberField = someNumberField()
         val parentClause = someUpdateClause()
-        val expected = UnsetClause(
-            stringField,
-            listOf(numberField),
-            parentClause = parentClause,
-        )
+        val expected =
+            UnsetClause(
+                stringField,
+                listOf(numberField),
+                parentClause = parentClause,
+            )
 
         val actual = parentClause.unset(stringField, numberField)
 

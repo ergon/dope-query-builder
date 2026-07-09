@@ -15,9 +15,10 @@ class ArrayAccessTest : ResolverDependentTest {
 
     @Test
     fun `should support array access`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringArrayField`[`numberField`]",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringArrayField`[`numberField`]",
+            )
         val underTest = ArrayAccess(someStringArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayAccessTest : ResolverDependentTest {
     @Test
     fun `should support array access with positional parameter`() {
         val parameterValue = listOf("value")
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1[`numberField`]",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1[`numberField`]",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayAccess(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayAccessTest : ResolverDependentTest {
     fun `should support array access with named parameter`() {
         val parameterValue = listOf("value")
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName[`numberField`]",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName[`numberField`]",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayAccess(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -58,10 +61,11 @@ class ArrayAccessTest : ResolverDependentTest {
     fun `should support array access with positional all parameters`() {
         val parameterValue = listOf("value")
         val parameterValue2 = 4
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1[$2]",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1[$2]",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterValue2)),
+            )
         val underTest = ArrayAccess(parameterValue.asParameter(), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -75,10 +79,11 @@ class ArrayAccessTest : ResolverDependentTest {
         val parameterValue2 = 4
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName[\$$parameterName2]",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName[\$$parameterName2]",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue, parameterName2 to parameterValue2)),
+            )
         val underTest = ArrayAccess(parameterValue.asParameter(parameterName), parameterValue2.asParameter(parameterName2))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -89,10 +94,11 @@ class ArrayAccessTest : ResolverDependentTest {
     @Test
     fun `should support array access with positional second parameter`() {
         val parameterValue = 4
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringArrayField`[$1]",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringArrayField`[$1]",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,10 +110,11 @@ class ArrayAccessTest : ResolverDependentTest {
     fun `should support array access with named second parameter`() {
         val parameterValue = 4
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringArrayField`[\$$parameterName]",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringArrayField`[\$$parameterName]",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayAccess(someStringArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -120,10 +127,11 @@ class ArrayAccessTest : ResolverDependentTest {
         val parameterValue = listOf("value")
         val parameterValue2 = 4
         val parameterName = "param1"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName[$1]",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName[$1]",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+            )
         val underTest = ArrayAccess(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

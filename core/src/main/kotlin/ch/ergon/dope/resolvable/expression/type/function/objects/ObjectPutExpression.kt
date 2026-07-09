@@ -13,7 +13,12 @@ data class ObjectPutExpression(
     val attributeValue: TypeExpression<out ValidType>,
 ) : FunctionExpression<ObjectType>(listOf(objectExpression, attributeKey, attributeValue))
 
-fun TypeExpression<ObjectType>.putAttribute(key: TypeExpression<StringType>, value: TypeExpression<out ValidType>) =
-    ObjectPutExpression(this, key, value)
+fun TypeExpression<ObjectType>.putAttribute(
+    key: TypeExpression<StringType>,
+    value: TypeExpression<out ValidType>,
+) = ObjectPutExpression(this, key, value)
 
-fun TypeExpression<ObjectType>.putAttribute(key: String, value: TypeExpression<out ValidType>) = putAttribute(key.toDopeType(), value)
+fun TypeExpression<ObjectType>.putAttribute(
+    key: String,
+    value: TypeExpression<out ValidType>,
+) = putAttribute(key.toDopeType(), value)

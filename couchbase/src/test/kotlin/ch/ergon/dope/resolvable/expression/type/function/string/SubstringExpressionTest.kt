@@ -17,9 +17,10 @@ class SubstringExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support sub string`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUBSTR(`stringField`, 3, 1)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUBSTR(`stringField`, 3, 1)",
+            )
         val underTest = SubstringExpression(someStringField(), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -30,10 +31,11 @@ class SubstringExpressionTest : ResolverDependentTest {
     @Test
     fun `should support substring with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUBSTR($1, 3, 1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUBSTR($1, 3, 1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = SubstringExpression(parameterValue.asParameter(), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,10 +47,11 @@ class SubstringExpressionTest : ResolverDependentTest {
     fun `should support substring with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "SUBSTR(\$$parameterName, 3, 1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SUBSTR(\$$parameterName, 3, 1)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = SubstringExpression(parameterValue.asParameter(parameterName), 3.toDopeType(), 1.toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

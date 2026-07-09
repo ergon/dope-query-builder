@@ -16,13 +16,14 @@ class OrderByTest {
     fun `should add an Order By clause to the end`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField`"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).orderBy(
-                someStringField(),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).orderBy(
+                    someStringField(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -31,14 +32,15 @@ class OrderByTest {
     fun `should add an Order By Ascending clause`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` ASC"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).orderBy(
-                someStringField(),
-                OrderType.ASC,
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).orderBy(
+                    someStringField(),
+                    OrderType.ASC,
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -47,14 +49,15 @@ class OrderByTest {
     fun `should add an Order By Descending clause`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` DESC"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).orderBy(
-                someStringField(),
-                OrderType.DESC,
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).orderBy(
+                    someStringField(),
+                    OrderType.DESC,
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -63,19 +66,20 @@ class OrderByTest {
     fun `should support multiple Order By clause`() {
         val expected = "SELECT * FROM `someBucket` ORDER BY `stringField` DESC, `numberField`, LOWER(\"SOMETHING\") ASC"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).orderBy(
-                someStringField(),
-                OrderType.DESC,
-            ).thenOrderBy(
-                someNumberField(),
-            ).thenOrderBy(
-                "SOMETHING".toDopeType().lower(),
-                OrderType.ASC,
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).orderBy(
+                    someStringField(),
+                    OrderType.DESC,
+                ).thenOrderBy(
+                    someNumberField(),
+                ).thenOrderBy(
+                    "SOMETHING".toDopeType().lower(),
+                    OrderType.ASC,
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

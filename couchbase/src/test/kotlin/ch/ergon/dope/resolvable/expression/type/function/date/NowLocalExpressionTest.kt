@@ -16,9 +16,10 @@ class NowLocalExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support NOW_LOCAL without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_LOCAL()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_LOCAL()",
+            )
         val underTest = NowLocalExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class NowLocalExpressionTest : ResolverDependentTest {
     @Test
     fun `should support NOW_LOCAL with positional parameter format`() {
         val fmt = "yyyy-MM-dd"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_LOCAL($1)",
-            DopeParameters(positionalParameters = listOf(fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_LOCAL($1)",
+                DopeParameters(positionalParameters = listOf(fmt)),
+            )
         val underTest = NowLocalExpression(fmt.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class NowLocalExpressionTest : ResolverDependentTest {
     fun `should support NOW_LOCAL with named parameter format`() {
         val fmt = "yyyy-MM-dd"
         val name = "f"
-        val expected = CouchbaseDopeQuery(
-            queryString = "NOW_LOCAL(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NOW_LOCAL(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to fmt)),
+            )
         val underTest = NowLocalExpression(fmt.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

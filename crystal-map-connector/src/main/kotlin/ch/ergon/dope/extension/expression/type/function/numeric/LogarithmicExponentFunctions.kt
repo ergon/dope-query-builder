@@ -16,14 +16,29 @@ fun log(field: CMJsonField<out Number>) = log(field.toDopeType())
 
 fun ln(field: CMJsonField<out Number>) = ln(field.toDopeType())
 
-fun power(base: CMJsonField<out Number>, exponent: CMJsonField<out Number>) = power(base.toDopeType(), exponent.toDopeType())
+fun power(
+    base: CMJsonField<out Number>,
+    exponent: CMJsonField<out Number>,
+) = power(base.toDopeType(), exponent.toDopeType())
 
-fun power(base: CMJsonField<out Number>, exponent: TypeExpression<NumberType>) = power(base.toDopeType(), exponent)
+fun power(
+    base: CMJsonField<out Number>,
+    exponent: TypeExpression<NumberType>,
+) = power(base.toDopeType(), exponent)
 
-fun power(base: CMJsonField<out Number>, exponent: Number) = power(base.toDopeType(), exponent)
+fun power(
+    base: CMJsonField<out Number>,
+    exponent: Number,
+) = power(base.toDopeType(), exponent)
 
-fun power(base: TypeExpression<NumberType>, exponent: CMJsonField<out Number>) = power(base, exponent.toDopeType())
+fun power(
+    base: TypeExpression<NumberType>,
+    exponent: CMJsonField<out Number>,
+) = power(base, exponent.toDopeType())
 
-fun power(base: Number, exponent: CMJsonField<out Number>) = power(base, exponent.toDopeType())
+fun power(
+    base: Number,
+    exponent: CMJsonField<out Number>,
+) = power(base, exponent.toDopeType())
 
 fun sqrt(field: CMJsonField<out Number>) = sqrt(field.toDopeType())

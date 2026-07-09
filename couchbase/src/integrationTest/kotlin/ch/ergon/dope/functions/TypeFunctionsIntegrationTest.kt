@@ -15,10 +15,11 @@ import kotlin.test.assertEquals
 class TypeFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `return type conversions of type functions`() {
-        val dopeQuery = QueryBuilder
-            .select(
-                not("".toBool()).and("3!".toNumber("!").isNumber()),
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    not("".toBool()).and("3!".toNumber("!").isNumber()),
+                ).build(CouchbaseResolver())
 
         val queryResult = queryWithoutParameters(dopeQuery)
         val result = queryResult.toSingleValue()

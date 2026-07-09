@@ -22,9 +22,10 @@ class LetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support let`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` LET `someName` = `numberField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` LET `someName` = `numberField`",
+            )
         val underTest = LetClause(DopeVariable("someName", someNumberField()), parentClause = someFromClause())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -34,14 +35,16 @@ class LetClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support let with multiple expressions`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "SELECT * FROM `someBucket` LET `name1` = `numberField`, `name2` = `stringField`",
-        )
-        val underTest = LetClause(
-            DopeVariable("name1", someNumberField()),
-            listOf(DopeVariable("name2", someStringField())),
-            parentClause = someFromClause(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "SELECT * FROM `someBucket` LET `name1` = `numberField`, `name2` = `stringField`",
+            )
+        val underTest =
+            LetClause(
+                DopeVariable("name1", someNumberField()),
+                listOf(DopeVariable("name2", someStringField())),
+                parentClause = someFromClause(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

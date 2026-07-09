@@ -38,11 +38,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support greater than number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` > 5"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someNumberField().isGreaterThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someNumberField().isGreaterThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -51,13 +52,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is greater than a number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 2 > 4"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                2.isGreaterThan(4),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    2.isGreaterThan(4),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -66,13 +68,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is greater than a numberType`() {
         val expected = "SELECT * FROM `someBucket` WHERE 2 > 4"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                2.isGreaterThan(4.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    2.isGreaterThan(4.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -81,13 +84,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support numberType is greater than a number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 2 > 4"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                2.toDopeType().isGreaterThan(4),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    2.toDopeType().isGreaterThan(4),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -96,11 +100,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support greater than with a field and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` > \"a\""
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isGreaterThan("a".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isGreaterThan("a".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -109,13 +114,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support string is greater than a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" > \"test\""
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                "hallo".isGreaterThan("test"),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    "hallo".isGreaterThan("test"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -124,13 +130,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support stringType is greater than a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" > \"test\""
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                "hallo".toDopeType().isGreaterThan("test"),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    "hallo".toDopeType().isGreaterThan("test"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -139,13 +146,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support string is greater than a stringType`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" > \"test\""
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                "hallo".isGreaterThan("test".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    "hallo".isGreaterThan("test".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -154,11 +162,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support greater than with a string and a field`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"a\" > `stringField`"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                "a".toDopeType().isGreaterThan(someStringField()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    "a".toDopeType().isGreaterThan(someStringField()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -167,12 +176,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support less than with a field and a number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` < 5"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            ).where(
-                someNumberField().isLessThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                ).where(
+                    someNumberField().isLessThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -181,11 +191,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support less than with a number and a field`() {
         val expected = "SELECT * FROM `someBucket` WHERE 5 < `numberField`"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                5.toDopeType().isLessThan(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    5.toDopeType().isLessThan(someNumberField()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -194,13 +205,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is less than a number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 5 < 7"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                5.isLessThan(7),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    5.isLessThan(7),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -209,13 +221,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support numberType is less than a number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 5 < 7"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                5.toDopeType().isLessThan(7),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    5.toDopeType().isLessThan(7),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -224,13 +237,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is less than a numberType`() {
         val expected = "SELECT * FROM `someBucket` WHERE 5 < 7"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                5.isLessThan(7.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    5.isLessThan(7.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -239,11 +253,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is less than with a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` < \"a\""
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isLessThan("a".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isLessThan("a".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -252,13 +267,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support string is less than a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" < \"test\""
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                "hallo".isLessThan("test"),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    "hallo".isLessThan("test"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -267,13 +283,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support stringType is less than a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" < \"test\""
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                "hallo".toDopeType().isLessThan("test"),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    "hallo".toDopeType().isLessThan("test"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -282,13 +299,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support string is less than a stringType`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" < \"test\""
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            ).where(
-                "hallo".isLessThan("test".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                ).where(
+                    "hallo".isLessThan("test".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -297,11 +315,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support like with a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` LIKE \"_b%\""
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isLike("_b%"),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isLike("_b%"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -310,11 +329,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support like with a type`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` LIKE \"_b%\""
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isLike("_b%".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isLike("_b%".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -323,11 +343,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support not like with a string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `email` NOT LIKE \"%@yahoo.com\""
 
-        val actual: String = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField("email").isNotLike("%@yahoo.com"),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField("email").isNotLike("%@yahoo.com"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -336,11 +357,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support not like with a type`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` NOT LIKE \"_b%\""
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isNotLike("_b%".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isNotLike("_b%".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -349,11 +371,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is null`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NULL"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isNull(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isNull(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -362,11 +385,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not null`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT NULL"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isNotNull(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isNotNull(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -375,11 +399,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is missing`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS MISSING"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isMissing(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isMissing(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -388,11 +413,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not missing`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT MISSING"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isNotMissing(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isNotMissing(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -401,11 +427,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is valued`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS VALUED"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isValued(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isValued(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -414,11 +441,12 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not valued`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` IS NOT VALUED"
 
-        val actual = QueryBuilder
-            .selectFrom(someBucket())
-            .where(
-                someStringField().isNotValued(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(someBucket())
+                .where(
+                    someStringField().isNotValued(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -427,12 +455,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.toDopeType().isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.toDopeType().isNotEqualTo(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -441,12 +470,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is not equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.isNotEqualTo(5),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.isNotEqualTo(5),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -455,12 +485,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support numberType is not equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.toDopeType().isNotEqualTo(5),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.toDopeType().isNotEqualTo(5),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -469,12 +500,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is not equal to with numberType`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 != 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.isNotEqualTo(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -483,12 +515,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not equal to with numberField and number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` != 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someNumberField().isNotEqualTo(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someNumberField().isNotEqualTo(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -497,12 +530,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not equal to with number and numberField`() {
         val expected = "SELECT * FROM `someBucket` WHERE 3 != `numberField`"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                3.toDopeType().isNotEqualTo(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    3.toDopeType().isNotEqualTo(someNumberField()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -511,12 +545,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" != \"hallo\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    "test".toDopeType().isNotEqualTo("hallo".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -525,12 +560,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is not equal to with stringField and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` != \"5\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someStringField().isNotEqualTo("5".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someStringField().isNotEqualTo("5".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -539,12 +575,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is greater or equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.toDopeType().isGreaterOrEqualThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -553,12 +590,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support number is greater or equal to with numberType`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.isGreaterOrEqualThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -567,12 +605,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support numberType is greater or equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 >= 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.toDopeType().isGreaterOrEqualThan(5),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.toDopeType().isGreaterOrEqualThan(5),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -581,12 +620,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support string is greater or equal to with stringType`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"hallo\" >= \"test\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                "hallo".isGreaterOrEqualThan("test".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    "hallo".isGreaterOrEqualThan("test".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -595,12 +635,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support stringType is greater or equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` >= \"test\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someStringField().isGreaterOrEqualThan("test"),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someStringField().isGreaterOrEqualThan("test"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -609,12 +650,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is greater or equal to with numberField and number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` >= 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someNumberField().isGreaterOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someNumberField().isGreaterOrEqualThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -623,12 +665,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is greater or equal to with number and numberField`() {
         val expected = "SELECT * FROM `someBucket` WHERE 3 >= `numberField`"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                3.toDopeType().isGreaterOrEqualThan(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    3.toDopeType().isGreaterOrEqualThan(someNumberField()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -637,12 +680,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is greater or equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= \"hallo\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    "test".toDopeType().isGreaterOrEqualThan("hallo".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -651,12 +695,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is greater or equal to with stringField and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` >= \"5\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someStringField().isGreaterOrEqualThan("5".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someStringField().isGreaterOrEqualThan("5".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -665,12 +710,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is greater or equal to with boolean and stringField`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" >= `stringField`"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                "test".toDopeType().isGreaterOrEqualThan(someStringField()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    "test".toDopeType().isGreaterOrEqualThan(someStringField()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -679,12 +725,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is Less or equal to with number`() {
         val expected = "SELECT * FROM `someBucket` WHERE 12 <= 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                12.toDopeType().isLessOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    12.toDopeType().isLessOrEqualThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -693,12 +740,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is Less or equal to with numberField and number`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` <= 5"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someNumberField().isLessOrEqualThan(5.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someNumberField().isLessOrEqualThan(5.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -707,12 +755,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is Less or equal to with number and numberField`() {
         val expected = "SELECT * FROM `someBucket` WHERE 3 <= `numberField`"
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                3.toDopeType().isLessOrEqualThan(someNumberField()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    3.toDopeType().isLessOrEqualThan(someNumberField()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -721,12 +770,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is Less or equal to with string`() {
         val expected = "SELECT * FROM `someBucket` WHERE \"test\" <= \"hallo\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    "test".toDopeType().isLessOrEqualThan("hallo".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -735,12 +785,13 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support is Less or equal to with stringField and string`() {
         val expected = "SELECT * FROM `someBucket` WHERE `stringField` <= \"5\""
 
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(someBucket())
-            .where(
-                someStringField().isLessOrEqualThan("5".toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(someBucket())
+                .where(
+                    someStringField().isLessOrEqualThan("5".toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -749,17 +800,18 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should Support Where With Like`() {
         val expected = "SELECT `stringField`, `email` FROM `someBucket` WHERE `email` LIKE \"%@yahoo.com\""
 
-        val actual: String = QueryBuilder
-            .select(
-                someStringField(),
-                someStringField("email"),
-            ).from(
-                someBucket(),
-            ).where(
-                someStringField("email").isLike(
-                    "%@yahoo.com".toDopeType(),
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    someStringField(),
+                    someStringField("email"),
+                ).from(
+                    someBucket(),
+                ).where(
+                    someStringField("email").isLike(
+                        "%@yahoo.com".toDopeType(),
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -768,19 +820,20 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should Support Where With Like Chained`() {
         val expected = "SELECT `stringField`, `numberField` FROM `someBucket` WHERE (`email` LIKE \"%@gmail.com\" AND `numberField` = 46)"
 
-        val actual: String = QueryBuilder
-            .select(
-                someStringField(),
-                someNumberField(),
-            ).from(
-                someBucket(),
-            ).where(
-                someStringField("email").isLike(
-                    "%@gmail.com".toDopeType(),
-                ).and(
-                    someNumberField().isEqualTo(46.toDopeType()),
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    someStringField(),
+                    someNumberField(),
+                ).from(
+                    someBucket(),
+                ).where(
+                    someStringField("email").isLike(
+                        "%@gmail.com".toDopeType(),
+                    ).and(
+                        someNumberField().isEqualTo(46.toDopeType()),
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(unifyString(expected), actual)
     }
@@ -875,15 +928,16 @@ class BooleanComparatorTest : ResolverDependentTest {
     @Test
     fun `should add brackets to one Boolean comparator`() {
         val expected = "SELECT * FROM `someBucket` WHERE (TRUE AND TRUE)"
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            )
-            .where(
-                true.toDopeType().and(true),
-            )
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                )
+                .where(
+                    true.toDopeType().and(true),
+                )
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -891,15 +945,16 @@ class BooleanComparatorTest : ResolverDependentTest {
     @Test
     fun `should add first bracket pair to two Boolean comparators`() {
         val expected = "SELECT * FROM `someBucket` WHERE ((TRUE AND TRUE) OR FALSE)"
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            )
-            .where(
-                true.toDopeType().and(true).or(false),
-            )
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                )
+                .where(
+                    true.toDopeType().and(true).or(false),
+                )
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -907,15 +962,16 @@ class BooleanComparatorTest : ResolverDependentTest {
     @Test
     fun `should add second bracket pair to two Boolean comparators`() {
         val expected = "SELECT * FROM `someBucket` WHERE (TRUE AND (TRUE OR FALSE))"
-        val actual: String = QueryBuilder
-            .selectAsterisk()
-            .from(
-                someBucket(),
-            )
-            .where(
-                true.toDopeType().and(true.toDopeType().or(false)),
-            )
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .selectAsterisk()
+                .from(
+                    someBucket(),
+                )
+                .where(
+                    true.toDopeType().and(true.toDopeType().or(false)),
+                )
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -924,13 +980,14 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support between comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE `numberField` BETWEEN 1 AND 10"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                someNumberField().between(1.toDopeType(), 10.toDopeType()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    someNumberField().between(1.toDopeType(), 10.toDopeType()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -939,18 +996,19 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support greatest comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE GREATEST(`numberField`, `anotherNumberField`) > 5"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                greatestOf(
-                    someNumberField(),
-                    someNumberField("anotherNumberField"),
-                ).isGreaterThan(
-                    someNumber(),
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    greatestOf(
+                        someNumberField(),
+                        someNumberField("anotherNumberField"),
+                    ).isGreaterThan(
+                        someNumber(),
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -959,18 +1017,19 @@ class BooleanComparatorTest : ResolverDependentTest {
     fun `should support least comparison`() {
         val expected = "SELECT * FROM `someBucket` WHERE LEAST(`numberField`, `anotherNumberField`) <= 5"
 
-        val actual = QueryBuilder
-            .selectFrom(
-                someBucket(),
-            )
-            .where(
-                leastOf(
-                    someNumberField(),
-                    someNumberField("anotherNumberField"),
-                ).isLessOrEqualThan(
-                    someNumber(),
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectFrom(
+                    someBucket(),
+                )
+                .where(
+                    leastOf(
+                        someNumberField(),
+                        someNumberField("anotherNumberField"),
+                    ).isLessOrEqualThan(
+                        someNumber(),
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

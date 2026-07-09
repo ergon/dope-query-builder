@@ -13,9 +13,10 @@ class ObjectReplaceExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object replace expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_REPLACE(`objectField`, \"key\", \"value\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_REPLACE(`objectField`, \"key\", \"value\")",
+            )
         val underTest = ObjectReplaceExpression(someObjectField(), "key".toDopeType(), "value".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

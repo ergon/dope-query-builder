@@ -31,24 +31,25 @@ data class AverageExpression(
     val windowFrameClause: WindowFrameClause? = null,
 ) : AggregateFunctionExpression<NumberType> {
     override val selectable: Selectable = number
-    override val overDefinition: OverDefinition? = if (listOf(
-            windowReferenceExpression,
-            windowPartitionClause,
-            windowOrderClause,
-            windowFrameClause,
-        ).all { it == null }
-    ) {
-        null
-    } else {
-        OverWindowDefinition(
-            WindowDefinition(
+    override val overDefinition: OverDefinition? =
+        if (listOf(
                 windowReferenceExpression,
                 windowPartitionClause,
                 windowOrderClause,
                 windowFrameClause,
-            ),
-        )
-    }
+            ).all { it == null }
+        ) {
+            null
+        } else {
+            OverWindowDefinition(
+                WindowDefinition(
+                    windowReferenceExpression,
+                    windowPartitionClause,
+                    windowOrderClause,
+                    windowFrameClause,
+                ),
+            )
+        }
 }
 
 fun avg(

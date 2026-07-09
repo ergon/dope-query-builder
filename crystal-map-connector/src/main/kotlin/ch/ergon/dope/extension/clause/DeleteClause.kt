@@ -8,17 +8,16 @@ import ch.ergon.dope.toDopeType
 import com.schwarz.crystalapi.schema.CMJsonField
 import com.schwarz.crystalapi.schema.CMType
 
-fun IDeleteOffsetClause.returning(field: CMType, vararg fields: CMType) =
-    returning(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
+fun IDeleteOffsetClause.returning(
+    field: CMType,
+    vararg fields: CMType,
+) = returning(field.toDopeType(), *fields.map { it.toDopeType() }.toTypedArray())
 
-fun IDeleteOffsetClause.returningRaw(field: CMType) =
-    returningRaw(field.toDopeType())
+fun IDeleteOffsetClause.returningRaw(field: CMType) = returningRaw(field.toDopeType())
 
-fun IDeleteOffsetClause.returningValue(field: CMType) =
-    returningValue(field.toDopeType())
+fun IDeleteOffsetClause.returningValue(field: CMType) = returningValue(field.toDopeType())
 
-fun IDeleteOffsetClause.returningElement(field: CMType) =
-    returningElement(field.toDopeType())
+fun IDeleteOffsetClause.returningElement(field: CMType) = returningElement(field.toDopeType())
 
 fun IDeleteLimitClause.offset(numberExpression: CMJsonField<Number>) = offset(numberExpression.toDopeType())
 

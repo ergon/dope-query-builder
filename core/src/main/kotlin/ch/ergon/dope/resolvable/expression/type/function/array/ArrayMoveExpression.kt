@@ -14,26 +14,42 @@ data class ArrayMoveExpression<T : ValidType>(
     val to: TypeExpression<NumberType>,
 ) : FunctionExpression<ArrayType<T>>(listOf(array, from, to))
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
-    ArrayMoveExpression(this, from, to)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(
+    from: TypeExpression<NumberType>,
+    to: TypeExpression<NumberType>,
+) = ArrayMoveExpression(this, from, to)
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: TypeExpression<NumberType>, to: Number) =
-    move(from, to.toDopeType())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(
+    from: TypeExpression<NumberType>,
+    to: Number,
+) = move(from, to.toDopeType())
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: Number, to: TypeExpression<NumberType>) =
-    move(from.toDopeType(), to)
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(
+    from: Number,
+    to: TypeExpression<NumberType>,
+) = move(from.toDopeType(), to)
 
-fun <T : ValidType> TypeExpression<ArrayType<T>>.move(from: Number, to: Number) =
-    move(from.toDopeType(), to.toDopeType())
+fun <T : ValidType> TypeExpression<ArrayType<T>>.move(
+    from: Number,
+    to: Number,
+) = move(from.toDopeType(), to.toDopeType())
 
-fun <T : ValidType> ISelectOffsetClause<T>.move(from: TypeExpression<NumberType>, to: TypeExpression<NumberType>) =
-    asExpression().move(from, to)
+fun <T : ValidType> ISelectOffsetClause<T>.move(
+    from: TypeExpression<NumberType>,
+    to: TypeExpression<NumberType>,
+) = asExpression().move(from, to)
 
-fun <T : ValidType> ISelectOffsetClause<T>.move(from: TypeExpression<NumberType>, to: Number) =
-    asExpression().move(from, to)
+fun <T : ValidType> ISelectOffsetClause<T>.move(
+    from: TypeExpression<NumberType>,
+    to: Number,
+) = asExpression().move(from, to)
 
-fun <T : ValidType> ISelectOffsetClause<T>.move(from: Number, to: TypeExpression<NumberType>) =
-    asExpression().move(from, to)
+fun <T : ValidType> ISelectOffsetClause<T>.move(
+    from: Number,
+    to: TypeExpression<NumberType>,
+) = asExpression().move(from, to)
 
-fun <T : ValidType> ISelectOffsetClause<T>.move(from: Number, to: Number) =
-    asExpression().move(from, to)
+fun <T : ValidType> ISelectOffsetClause<T>.move(
+    from: Number,
+    to: Number,
+) = asExpression().move(from, to)

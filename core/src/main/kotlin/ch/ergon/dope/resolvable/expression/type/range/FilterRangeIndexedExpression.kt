@@ -23,25 +23,25 @@ data class FilterRangeIndexedExpression<T : ValidType>(
     override val transformationType: TransformationType = TransformationType.ARRAY
     override val transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<T> = { _, it -> it }
 
-    fun <U : ValidType> map(
-        transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<U>,
-    ) = ArrayRangeIndexedExpression(
-        membershipType = membershipType,
-        range = range,
-        indexName = indexName,
-        iteratorName = iteratorName,
-        transformation = transformation,
-        condition = condition,
-    )
+    fun <U : ValidType> map(transformation: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<U>) =
+        ArrayRangeIndexedExpression(
+            membershipType = membershipType,
+            range = range,
+            indexName = indexName,
+            iteratorName = iteratorName,
+            transformation = transformation,
+            condition = condition,
+        )
 
-    fun first() = FirstRangeIndexedExpression(
-        membershipType = membershipType,
-        range = range,
-        indexName = indexName,
-        iteratorName = iteratorName,
-        transformation = transformation,
-        condition = condition,
-    )
+    fun first() =
+        FirstRangeIndexedExpression(
+            membershipType = membershipType,
+            range = range,
+            indexName = indexName,
+            iteratorName = iteratorName,
+            transformation = transformation,
+            condition = condition,
+        )
 
     fun toObject(withAttributeKeys: (Iterator<NumberType>, Iterator<T>) -> TypeExpression<StringType>) =
         ObjectRangeIndexedExpression(

@@ -19,9 +19,10 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with reference`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`) OVER `ref`",
+            )
         val underTest = LagWithReference(someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,9 +32,10 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with reference and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`) RESPECT NULLS OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`) RESPECT NULLS OVER `ref`",
+            )
         val underTest = LagWithReference(someNumberField(), nullsModifier = RESPECT, windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,9 +45,10 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with offset`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`, `numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`, `numberField`) OVER `ref`",
+            )
         val underTest = LagWithReference(someNumberField(), offset = someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -55,9 +58,10 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with default`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`, `numberField`) OVER `ref`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`, `numberField`) OVER `ref`",
+            )
         val underTest = LagWithReference(someNumberField(), default = someNumberField(), windowReference = "ref")
 
         val actual = underTest.toDopeQuery(resolver)
@@ -67,16 +71,18 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with all`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
-        )
-        val underTest = LagWithReference(
-            someNumberField(),
-            nullsModifier = IGNORE,
-            offset = someNumberField(),
-            default = someNumberField(),
-            windowReference = "ref",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`, `numberField`, `numberField`) IGNORE NULLS OVER `ref`",
+            )
+        val underTest =
+            LagWithReference(
+                someNumberField(),
+                nullsModifier = IGNORE,
+                offset = someNumberField(),
+                default = someNumberField(),
+                windowReference = "ref",
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -85,9 +91,10 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with order clause`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`) OVER (ORDER BY `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`) OVER (ORDER BY `stringField`)",
+            )
         val underTest = Lag(someNumberField(), windowOrderClause = listOf(someOrderingTerm()))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -97,14 +104,16 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with order clause and nulls modifier`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
-        )
-        val underTest = Lag(
-            someNumberField(),
-            nullsModifier = IGNORE,
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`) IGNORE NULLS OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            Lag(
+                someNumberField(),
+                nullsModifier = IGNORE,
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -113,14 +122,16 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with order clause and offset`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
-        )
-        val underTest = Lag(
-            someNumberField(),
-            offset = someNumberField(),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`, `numberField`) OVER (ORDER BY `stringField`)",
+            )
+        val underTest =
+            Lag(
+                someNumberField(),
+                offset = someNumberField(),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -129,14 +140,16 @@ class LagTest : ResolverDependentTest {
 
     @Test
     fun `should support lag with all window partition`() {
-        val expected = CouchbaseDopeQuery(
-            "LAG(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
-        )
-        val underTest = Lag(
-            someNumberField(),
-            windowPartitionClause = listOf(someStringField()),
-            windowOrderClause = listOf(someOrderingTerm()),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "LAG(`numberField`) OVER (PARTITION BY `stringField` ORDER BY `stringField`)",
+            )
+        val underTest =
+            Lag(
+                someNumberField(),
+                windowPartitionClause = listOf(someStringField()),
+                windowOrderClause = listOf(someOrderingTerm()),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 

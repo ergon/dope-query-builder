@@ -14,9 +14,10 @@ class HashOrNestedLoopHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use hash build`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "HASH (BUILD)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "HASH (BUILD)",
+            )
         val underTest = HASH_BUILD
 
         val actual = underTest.toDopeQuery(resolver)
@@ -26,9 +27,10 @@ class HashOrNestedLoopHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use hash probe`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "HASH (PROBE)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "HASH (PROBE)",
+            )
         val underTest = HASH_PROBE
 
         val actual = underTest.toDopeQuery(resolver)
@@ -38,9 +40,10 @@ class HashOrNestedLoopHintTest : ResolverDependentTest {
 
     @Test
     fun `should support use nested loop`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "NL",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "NL",
+            )
         val underTest = NESTED_LOOP
 
         val actual = underTest.toDopeQuery(resolver)

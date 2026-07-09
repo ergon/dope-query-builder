@@ -10,11 +10,22 @@ data class ArcTangent2Expression(
     val dividend: TypeExpression<NumberType>,
 ) : FunctionExpression<NumberType>(listOf(divisor, dividend))
 
-fun atan2(divisor: TypeExpression<NumberType>, dividend: TypeExpression<NumberType>) =
-    ArcTangent2Expression(divisor, dividend)
+fun atan2(
+    divisor: TypeExpression<NumberType>,
+    dividend: TypeExpression<NumberType>,
+) = ArcTangent2Expression(divisor, dividend)
 
-fun atan2(divisor: TypeExpression<NumberType>, dividend: Number) = atan2(divisor, dividend.toDopeType())
+fun atan2(
+    divisor: TypeExpression<NumberType>,
+    dividend: Number,
+) = atan2(divisor, dividend.toDopeType())
 
-fun atan2(divisor: Number, dividend: TypeExpression<NumberType>) = atan2(divisor.toDopeType(), dividend)
+fun atan2(
+    divisor: Number,
+    dividend: TypeExpression<NumberType>,
+) = atan2(divisor.toDopeType(), dividend)
 
-fun atan2(divisor: Number, dividend: Number) = atan2(divisor.toDopeType(), dividend.toDopeType())
+fun atan2(
+    divisor: Number,
+    dividend: Number,
+) = atan2(divisor.toDopeType(), dividend.toDopeType())

@@ -37,11 +37,12 @@ interface ClauseResolver : SelectClauseResolver {
                 val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val whereDopeQuery = clause.whereExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryStringWithSymbol(
-                        parentDopeQuery.queryString,
-                        "WHERE",
-                        whereDopeQuery.queryString,
-                    ),
+                    queryString =
+                        formatToQueryStringWithSymbol(
+                            parentDopeQuery.queryString,
+                            "WHERE",
+                            whereDopeQuery.queryString,
+                        ),
                     parameters = parentDopeQuery.parameters.merge(whereDopeQuery.parameters),
                 )
             }
@@ -49,18 +50,20 @@ interface ClauseResolver : SelectClauseResolver {
             is ReturningClause -> {
                 val parent = clause.parentClause.toDopeQuery(this)
                 val returnables = arrayOf(clause.returnable) + clause.additionalReturnables
-                val returnableDope = returnables.map {
-                    when (it) {
-                        is AliasedSelectClause<*> -> it.asAliasedSelectClauseDefinition().toDopeQuery(this)
-                        else -> it.toDopeQuery(this)
+                val returnableDope =
+                    returnables.map {
+                        when (it) {
+                            is AliasedSelectClause<*> -> it.asAliasedSelectClauseDefinition().toDopeQuery(this)
+                            else -> it.toDopeQuery(this)
+                        }
                     }
-                }
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryStringWithSymbol(
-                        parent.queryString,
-                        "RETURNING",
-                        *returnableDope.map { it.queryString }.toTypedArray(),
-                    ),
+                    queryString =
+                        formatToQueryStringWithSymbol(
+                            parent.queryString,
+                            "RETURNING",
+                            *returnableDope.map { it.queryString }.toTypedArray(),
+                        ),
                     parameters = parent.parameters.merge(*returnableDope.map { it.parameters }.toTypedArray()),
                 )
             }
@@ -75,10 +78,11 @@ interface ClauseResolver : SelectClauseResolver {
             }
 
             is UpdateClause -> {
-                val updatable = when (val updatable = clause.updatable) {
-                    is AliasedBucket -> updatable.asBucketDefinition().toDopeQuery(this)
-                    else -> clause.updatable.toDopeQuery(this)
-                }
+                val updatable =
+                    when (val updatable = clause.updatable) {
+                        is AliasedBucket -> updatable.asBucketDefinition().toDopeQuery(this)
+                        else -> clause.updatable.toDopeQuery(this)
+                    }
                 CouchbaseDopeQuery(
                     queryString = "UPDATE ${updatable.queryString}",
                     parameters = updatable.parameters,
@@ -86,10 +90,11 @@ interface ClauseResolver : SelectClauseResolver {
             }
 
             is DeleteClause -> {
-                val bucket = when (val deletable = clause.deletable) {
-                    is AliasedBucket -> deletable.asBucketDefinition().toDopeQuery(this)
-                    else -> clause.deletable.toDopeQuery(this)
-                }
+                val bucket =
+                    when (val deletable = clause.deletable) {
+                        is AliasedBucket -> deletable.asBucketDefinition().toDopeQuery(this)
+                        else -> clause.deletable.toDopeQuery(this)
+                    }
                 CouchbaseDopeQuery(
                     queryString = "DELETE FROM ${bucket.queryString}",
                     parameters = bucket.parameters,
@@ -101,15 +106,17 @@ interface ClauseResolver : SelectClauseResolver {
                 val firstAssignmentDopeQuery = clause.setAssignment.toDopeQuery(this)
                 val additionalAssignmentDopeQueries = clause.setAssignments.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryString(
-                        "${parentDopeQuery.queryString} SET",
-                        firstAssignmentDopeQuery.queryString,
-                        *additionalAssignmentDopeQueries.map { it.queryString }.toTypedArray(),
-                    ),
-                    parameters = parentDopeQuery.parameters.merge(
-                        firstAssignmentDopeQuery.parameters,
-                        *additionalAssignmentDopeQueries.map { it.parameters }.toTypedArray(),
-                    ),
+                    queryString =
+                        formatToQueryString(
+                            "${parentDopeQuery.queryString} SET",
+                            firstAssignmentDopeQuery.queryString,
+                            *additionalAssignmentDopeQueries.map { it.queryString }.toTypedArray(),
+                        ),
+                    parameters =
+                        parentDopeQuery.parameters.merge(
+                            firstAssignmentDopeQuery.parameters,
+                            *additionalAssignmentDopeQueries.map { it.parameters }.toTypedArray(),
+                        ),
                 )
             }
 
@@ -118,15 +125,17 @@ interface ClauseResolver : SelectClauseResolver {
                 val firstFieldDopeQuery = clause.field.toDopeQuery(this)
                 val additionalFieldDopeQueries = clause.fields.map { it.toDopeQuery(this) }
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryString(
-                        "${parentDopeQuery.queryString} UNSET",
-                        firstFieldDopeQuery.queryString,
-                        *additionalFieldDopeQueries.map { it.queryString }.toTypedArray(),
-                    ),
-                    parameters = parentDopeQuery.parameters.merge(
-                        firstFieldDopeQuery.parameters,
-                        *additionalFieldDopeQueries.map { it.parameters }.toTypedArray(),
-                    ),
+                    queryString =
+                        formatToQueryString(
+                            "${parentDopeQuery.queryString} UNSET",
+                            firstFieldDopeQuery.queryString,
+                            *additionalFieldDopeQueries.map { it.queryString }.toTypedArray(),
+                        ),
+                    parameters =
+                        parentDopeQuery.parameters.merge(
+                            firstFieldDopeQuery.parameters,
+                            *additionalFieldDopeQueries.map { it.parameters }.toTypedArray(),
+                        ),
                 )
             }
 
@@ -134,11 +143,12 @@ interface ClauseResolver : SelectClauseResolver {
                 val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val numberDopeQuery = clause.numberExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryStringWithSymbol(
-                        parentDopeQuery.queryString,
-                        "LIMIT",
-                        numberDopeQuery.queryString,
-                    ),
+                    queryString =
+                        formatToQueryStringWithSymbol(
+                            parentDopeQuery.queryString,
+                            "LIMIT",
+                            numberDopeQuery.queryString,
+                        ),
                     parameters = parentDopeQuery.parameters.merge(numberDopeQuery.parameters),
                 )
             }
@@ -147,11 +157,12 @@ interface ClauseResolver : SelectClauseResolver {
                 val parentDopeQuery = clause.parentClause.toDopeQuery(this)
                 val numberDopeQuery = clause.numberExpression.toDopeQuery(this)
                 CouchbaseDopeQuery(
-                    queryString = formatToQueryStringWithSymbol(
-                        parentDopeQuery.queryString,
-                        "OFFSET",
-                        numberDopeQuery.queryString,
-                    ),
+                    queryString =
+                        formatToQueryStringWithSymbol(
+                            parentDopeQuery.queryString,
+                            "OFFSET",
+                            numberDopeQuery.queryString,
+                        ),
                     parameters = parentDopeQuery.parameters.merge(numberDopeQuery.parameters),
                 )
             }
@@ -164,9 +175,10 @@ interface ClauseResolver : SelectClauseResolver {
     fun resolve(withClause: WithClause): CouchbaseDopeQuery {
         val first = withClause.withExpression
         val firstDope = first.toWithDefinitionDopeQuery(this)
-        val additionalWithExpressions = withClause.additionalWithExpressions.map { variable ->
-            variable.toWithDefinitionDopeQuery(this)
-        }
+        val additionalWithExpressions =
+            withClause.additionalWithExpressions.map { variable ->
+                variable.toWithDefinitionDopeQuery(this)
+            }
         return CouchbaseDopeQuery(
             queryString = "WITH ${listOf(firstDope, *additionalWithExpressions.toTypedArray()).joinToString(", ") { it.queryString }}",
             parameters = firstDope.parameters.merge(*additionalWithExpressions.map { it.parameters }.toTypedArray()),
@@ -190,26 +202,28 @@ interface ClauseResolver : SelectClauseResolver {
         )
     }
 
-    fun resolve(hashOrNestedLoopHint: HashOrNestedLoopHint): CouchbaseDopeQuery = when (hashOrNestedLoopHint) {
-        HashOrNestedLoopHint.HASH_BUILD -> CouchbaseDopeQuery("HASH (BUILD)")
-        HashOrNestedLoopHint.HASH_PROBE -> CouchbaseDopeQuery("HASH (PROBE)")
-        HashOrNestedLoopHint.NESTED_LOOP -> CouchbaseDopeQuery("NL")
-    }
-
-    fun resolve(keysOrIndexHint: KeysOrIndexHint): CouchbaseDopeQuery = when (keysOrIndexHint) {
-        is KeysHintClass -> {
-            val keys = keysOrIndexHint.keys.toDopeQuery(this)
-            CouchbaseDopeQuery(queryString = "KEYS ${keys.queryString}", parameters = keys.parameters)
+    fun resolve(hashOrNestedLoopHint: HashOrNestedLoopHint): CouchbaseDopeQuery =
+        when (hashOrNestedLoopHint) {
+            HashOrNestedLoopHint.HASH_BUILD -> CouchbaseDopeQuery("HASH (BUILD)")
+            HashOrNestedLoopHint.HASH_PROBE -> CouchbaseDopeQuery("HASH (PROBE)")
+            HashOrNestedLoopHint.NESTED_LOOP -> CouchbaseDopeQuery("NL")
         }
 
-        is IndexHint -> {
-            val refs = keysOrIndexHint.indexReferences.map { it.toDopeQuery(this) }
-            CouchbaseDopeQuery(
-                queryString = formatToQueryString("INDEX", formatListToQueryStringWithBrackets(refs)),
-                parameters = refs.map { it.parameters }.merge(),
-            )
+    fun resolve(keysOrIndexHint: KeysOrIndexHint): CouchbaseDopeQuery =
+        when (keysOrIndexHint) {
+            is KeysHintClass -> {
+                val keys = keysOrIndexHint.keys.toDopeQuery(this)
+                CouchbaseDopeQuery(queryString = "KEYS ${keys.queryString}", parameters = keys.parameters)
+            }
+
+            is IndexHint -> {
+                val refs = keysOrIndexHint.indexReferences.map { it.toDopeQuery(this) }
+                CouchbaseDopeQuery(
+                    queryString = formatToQueryString("INDEX", formatListToQueryStringWithBrackets(refs)),
+                    parameters = refs.map { it.parameters }.merge(),
+                )
+            }
         }
-    }
 
     private fun <T : ValidType> DopeVariable<T>.toWithDefinitionDopeQuery(resolver: QueryResolver<CouchbaseDopeQuery>): CouchbaseDopeQuery {
         val expressionDopeQuery = value.toDopeQuery(resolver)

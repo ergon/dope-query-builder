@@ -16,9 +16,10 @@ class InitCapExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support init cap`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "INITCAP(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INITCAP(`stringField`)",
+            )
         val underTest = InitCapExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class InitCapExpressionTest : ResolverDependentTest {
     @Test
     fun `should support init cap with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "INITCAP($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INITCAP($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = InitCapExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class InitCapExpressionTest : ResolverDependentTest {
     fun `should support init cap with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "INITCAP(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "INITCAP(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = InitCapExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

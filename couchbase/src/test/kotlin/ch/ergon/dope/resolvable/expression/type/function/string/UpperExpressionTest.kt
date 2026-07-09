@@ -16,9 +16,10 @@ class UpperExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support upper`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPPER(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPPER(`stringField`)",
+            )
         val underTest = UpperExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class UpperExpressionTest : ResolverDependentTest {
     @Test
     fun `should support upper with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPPER($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPPER($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = UpperExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class UpperExpressionTest : ResolverDependentTest {
     fun `should support upper with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPPER(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPPER(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = UpperExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

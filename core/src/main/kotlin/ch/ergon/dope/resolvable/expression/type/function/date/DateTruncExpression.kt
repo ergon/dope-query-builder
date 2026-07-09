@@ -13,15 +13,11 @@ data class DateTruncStrExpression(val date: TypeExpression<StringType>, val date
     FunctionExpression<StringType>(listOf(date, dateUnit))
 
 @JvmName("millisTruncTypeDateComponent")
-fun TypeExpression<NumberType>.truncateTo(dateUnit: DateUnit) =
-    DateTruncMillisExpression(this, dateUnit)
+fun TypeExpression<NumberType>.truncateTo(dateUnit: DateUnit) = DateTruncMillisExpression(this, dateUnit)
 
-fun Number.truncateTo(dateUnit: DateUnit) =
-    toDopeType().truncateTo(dateUnit)
+fun Number.truncateTo(dateUnit: DateUnit) = toDopeType().truncateTo(dateUnit)
 
 @JvmName("strTruncTypeDateComponent")
-fun TypeExpression<StringType>.truncateTo(dateUnit: DateUnit) =
-    DateTruncStrExpression(this, dateUnit)
+fun TypeExpression<StringType>.truncateTo(dateUnit: DateUnit) = DateTruncStrExpression(this, dateUnit)
 
-fun String.truncateTo(dateUnit: DateUnit) =
-    toDopeType().truncateTo(dateUnit)
+fun String.truncateTo(dateUnit: DateUnit) = toDopeType().truncateTo(dateUnit)

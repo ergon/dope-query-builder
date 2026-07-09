@@ -22,11 +22,12 @@ class SystemBucketTest {
         val allSequences = SystemBuckets.allSequencesBucket
         val expected = "SELECT `all_sequences`.`name` FROM `system`:`all_sequences`"
 
-        val actual = QueryBuilder
-            .select(allSequences.sequenceName)
-            .from(allSequences)
-            .build(CouchbaseResolver())
-            .queryString
+        val actual =
+            QueryBuilder
+                .select(allSequences.sequenceName)
+                .from(allSequences)
+                .build(CouchbaseResolver())
+                .queryString
 
         assertEquals(expected, actual)
     }
@@ -36,11 +37,12 @@ class SystemBucketTest {
         val seq = SystemBuckets.allSequencesBucket.alias("seq")
         val expected = "SELECT `seq`.`name` FROM `system`:`all_sequences` AS `seq`"
 
-        val actual = QueryBuilder
-            .select(seq.sequenceName)
-            .from(seq)
-            .build(CouchbaseResolver())
-            .queryString
+        val actual =
+            QueryBuilder
+                .select(seq.sequenceName)
+                .from(seq)
+                .build(CouchbaseResolver())
+                .queryString
 
         assertEquals(expected, actual)
     }

@@ -16,9 +16,10 @@ class ClockUtcExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support CLOCK_UTC without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_UTC()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_UTC()",
+            )
         val underTest = ClockUtcExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class ClockUtcExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_UTC with format field`() {
         val fmtField = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_UTC(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_UTC(`stringField`)",
+            )
         val underTest = ClockUtcExpression(fmtField)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,10 +44,11 @@ class ClockUtcExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_UTC with positional parameter format`() {
         val fmt = "dd/MM/yyyy"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_UTC($1)",
-            DopeParameters(positionalParameters = listOf(fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_UTC($1)",
+                DopeParameters(positionalParameters = listOf(fmt)),
+            )
         val underTest = ClockUtcExpression(fmt.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class ClockUtcExpressionTest : ResolverDependentTest {
     fun `should support CLOCK_UTC with named parameter format`() {
         val fmt = "dd/MM/yyyy"
         val name = "f"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_UTC(\$$name)",
-            DopeParameters(namedParameters = mapOf(name to fmt)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_UTC(\$$name)",
+                DopeParameters(namedParameters = mapOf(name to fmt)),
+            )
         val underTest = ClockUtcExpression(fmt.asParameter(name))
 
         val actual = underTest.toDopeQuery(resolver)

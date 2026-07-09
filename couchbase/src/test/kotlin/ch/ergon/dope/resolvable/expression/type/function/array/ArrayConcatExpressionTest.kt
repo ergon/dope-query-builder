@@ -15,9 +15,10 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_CONCAT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT(`numberArrayField`, `numberArrayField`)",
+            )
         val underTest = ArrayConcatExpression(someNumberArrayField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,10 +29,11 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_CONCAT with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT($1, `numberArrayField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT($1, `numberArrayField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -43,10 +45,11 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_CONCAT with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT(\$$parameterName, `numberArrayField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT(\$$parameterName, `numberArrayField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayConcatExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_CONCAT with positional parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -72,10 +76,11 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_CONCAT with named parameter as value`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT(`numberArrayField`, \$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT(`numberArrayField`, \$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayConcatExpression(someNumberArrayField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -87,10 +92,11 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_CONCAT with positional all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = listOf(4, 5, 6)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayConcatExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -104,14 +110,16 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
         val parameterValue = listOf(4, 5, 6)
         val parameterName = "param1"
         val parameterName2 = "param2"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_CONCAT(\$$parameterName, \$$parameterName2)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
-        )
-        val underTest = ArrayConcatExpression(
-            parameterValueCollection.asParameter(parameterName),
-            parameterValue.asParameter(parameterName2),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_CONCAT(\$$parameterName, \$$parameterName2)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValueCollection, parameterName2 to parameterValue)),
+            )
+        val underTest =
+            ArrayConcatExpression(
+                parameterValueCollection.asParameter(parameterName),
+                parameterValue.asParameter(parameterName2),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -251,11 +259,12 @@ class ArrayConcatExpressionTest : ResolverDependentTest {
         val firstArray = someNumberSelectRawClause()
         val secondArray = someNumberSelectRawClause()
         val thirdArray = someNumberSelectRawClause()
-        val expected = ArrayConcatExpression(
-            firstArray.asExpression(),
-            secondArray.asExpression(),
-            listOf(thirdArray.asExpression()),
-        )
+        val expected =
+            ArrayConcatExpression(
+                firstArray.asExpression(),
+                secondArray.asExpression(),
+                listOf(thirdArray.asExpression()),
+            )
 
         val actual = firstArray.concat(secondArray, thirdArray)
 

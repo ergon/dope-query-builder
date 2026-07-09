@@ -26,9 +26,10 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support ARRAY_APPEND`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_APPEND(`numberArrayField`, `numberField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_APPEND(`numberArrayField`, `numberField`)",
+            )
         val underTest = ArrayAppendExpression(someNumberArrayField(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -39,10 +40,11 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_APPEND with parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_APPEND($1, `numberField`)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_APPEND($1, `numberField`)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -53,10 +55,11 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
     @Test
     fun `should support ARRAY_APPEND with parameter as value`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_APPEND(`numberArrayField`, $1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_APPEND(`numberArrayField`, $1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ArrayAppendExpression(someNumberArrayField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -68,10 +71,11 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_APPEND with all parameters`() {
         val parameterValueCollection = listOf(1, 2, 3)
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_APPEND($1, $2)",
-            DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_APPEND($1, $2)",
+                DopeParameters(positionalParameters = listOf(parameterValueCollection, parameterValue)),
+            )
         val underTest = ArrayAppendExpression(parameterValueCollection.asParameter(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -83,10 +87,11 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
     fun `should support ARRAY_APPEND with named parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_APPEND(\$$parameterName, `numberField`)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_APPEND(\$$parameterName, `numberField`)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), someNumberField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -99,10 +104,11 @@ class ArrayAppendExpressionTest : ResolverDependentTest {
         val parameterValue = listOf(1, 2, 3)
         val parameterValue2 = 5
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_APPEND(\$$parameterName, $1)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_APPEND(\$$parameterName, $1)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue), positionalParameters = listOf(parameterValue2)),
+            )
         val underTest = ArrayAppendExpression(parameterValue.asParameter(parameterName), parameterValue2.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

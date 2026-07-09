@@ -13,9 +13,10 @@ class ObjectRenameExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object rename expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_RENAME(`objectField`, \"name\", \"newName\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_RENAME(`objectField`, \"name\", \"newName\")",
+            )
         val underTest = ObjectRenameExpression(someObjectField(), "name".toDopeType(), "newName".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

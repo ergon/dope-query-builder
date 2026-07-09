@@ -56,11 +56,17 @@ data class SearchFunctionBucketObjectExpression(
     override val stringSearchExpression: String? = null
 }
 
-fun fullTextSearch(field: IField<out ValidType>, stringSearchExpression: String, options: Map<String, Any>? = null) =
-    SearchFunctionFieldStringExpression(field, stringSearchExpression, options)
+fun fullTextSearch(
+    field: IField<out ValidType>,
+    stringSearchExpression: String,
+    options: Map<String, Any>? = null,
+) = SearchFunctionFieldStringExpression(field, stringSearchExpression, options)
 
-fun fullTextSearch(bucket: Bucket, stringSearchExpression: String, options: Map<String, Any>? = null) =
-    SearchFunctionBucketStringExpression(bucket, stringSearchExpression, options)
+fun fullTextSearch(
+    bucket: Bucket,
+    stringSearchExpression: String,
+    options: Map<String, Any>? = null,
+) = SearchFunctionBucketStringExpression(bucket, stringSearchExpression, options)
 
 fun fullTextSearch(
     field: IField<out ValidType>,
@@ -68,5 +74,8 @@ fun fullTextSearch(
     options: Map<String, Any>? = null,
 ) = SearchFunctionFieldObjectExpression(field, objectSearchExpression, options)
 
-fun fullTextSearch(bucket: Bucket, objectSearchExpression: Map<String, Any>, options: Map<String, Any>? = null) =
-    SearchFunctionBucketObjectExpression(bucket, objectSearchExpression, options)
+fun fullTextSearch(
+    bucket: Bucket,
+    objectSearchExpression: Map<String, Any>,
+    options: Map<String, Any>? = null,
+) = SearchFunctionBucketObjectExpression(bucket, objectSearchExpression, options)

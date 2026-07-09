@@ -20,20 +20,30 @@ fun asin(field: CMJsonField<out Number>) = asin(field.toDopeType())
 
 fun atan(field: CMJsonField<out Number>) = atan(field.toDopeType())
 
-fun atan2(divisor: CMJsonField<out Number>, dividend: CMJsonField<out Number>) =
-    atan2(divisor.toDopeType(), dividend.toDopeType())
+fun atan2(
+    divisor: CMJsonField<out Number>,
+    dividend: CMJsonField<out Number>,
+) = atan2(divisor.toDopeType(), dividend.toDopeType())
 
-fun atan2(divisor: CMJsonField<out Number>, dividend: TypeExpression<NumberType>) =
-    atan2(divisor.toDopeType(), dividend)
+fun atan2(
+    divisor: CMJsonField<out Number>,
+    dividend: TypeExpression<NumberType>,
+) = atan2(divisor.toDopeType(), dividend)
 
-fun atan2(divisor: CMJsonField<out Number>, dividend: Number) =
-    atan2(divisor.toDopeType(), dividend)
+fun atan2(
+    divisor: CMJsonField<out Number>,
+    dividend: Number,
+) = atan2(divisor.toDopeType(), dividend)
 
-fun atan2(divisor: TypeExpression<NumberType>, dividend: CMJsonField<out Number>) =
-    atan2(divisor, dividend.toDopeType())
+fun atan2(
+    divisor: TypeExpression<NumberType>,
+    dividend: CMJsonField<out Number>,
+) = atan2(divisor, dividend.toDopeType())
 
-fun atan2(divisor: Number, dividend: CMJsonField<out Number>) =
-    atan2(divisor, dividend.toDopeType())
+fun atan2(
+    divisor: Number,
+    dividend: CMJsonField<out Number>,
+) = atan2(divisor, dividend.toDopeType())
 
 fun cos(field: CMJsonField<out Number>) = cos(field.toDopeType())
 

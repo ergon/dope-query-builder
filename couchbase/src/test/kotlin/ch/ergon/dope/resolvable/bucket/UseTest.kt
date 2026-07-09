@@ -19,9 +19,10 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support empty use index`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE INDEX ()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE INDEX ()",
+            )
         val underTest = UseIndex(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,13 +32,15 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support single use index with string name`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE INDEX (`index`)",
-        )
-        val underTest = UseIndex(
-            someBucket(),
-            listOf(IndexReference("index")),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE INDEX (`index`)",
+            )
+        val underTest =
+            UseIndex(
+                someBucket(),
+                listOf(IndexReference("index")),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -46,17 +49,19 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support multiple use index with name and type mixed`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
-        )
-        val underTest = UseIndex(
-            someBucket(),
-            listOf(
-                IndexReference("index", USING_GSI),
-                IndexReference(indexType = USING_FTS),
-                IndexReference("secondIndex"),
-            ),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE INDEX (`index` USING GSI, USING FTS, `secondIndex`)",
+            )
+        val underTest =
+            UseIndex(
+                someBucket(),
+                listOf(
+                    IndexReference("index", USING_GSI),
+                    IndexReference(indexType = USING_FTS),
+                    IndexReference("secondIndex"),
+                ),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -65,13 +70,15 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support single use index with parameter`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE INDEX (`index`)",
-        )
-        val underTest = UseIndex(
-            someBucket(),
-            listOf(IndexReference("index")),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE INDEX (`index`)",
+            )
+        val underTest =
+            UseIndex(
+                someBucket(),
+                listOf(IndexReference("index")),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -80,13 +87,15 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support use index with aliased bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` AS `a` USE INDEX (`index`)",
-        )
-        val underTest = UseIndex(
-            someBucket().alias("a"),
-            listOf(IndexReference("index")),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` AS `a` USE INDEX (`index`)",
+            )
+        val underTest =
+            UseIndex(
+                someBucket().alias("a"),
+                listOf(IndexReference("index")),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -153,15 +162,16 @@ class UseTest : ResolverDependentTest {
         val indexName = "index"
         val indexName2 = "index"
         val bucket = someBucket()
-        val expected = UseIndex(
-            bucket,
-            listOf(
-                IndexReference(indexName, USING_GSI),
-                IndexReference(indexName2),
-                IndexReference(indexType = USING_FTS),
-                IndexReference(indexType = USING_GSI),
-            ),
-        )
+        val expected =
+            UseIndex(
+                bucket,
+                listOf(
+                    IndexReference(indexName, USING_GSI),
+                    IndexReference(indexName2),
+                    IndexReference(indexType = USING_FTS),
+                    IndexReference(indexType = USING_GSI),
+                ),
+            )
 
         val actual = bucket.useGsiIndex(indexName).useIndex(indexName2).useFtsIndex().useGsiIndex()
 
@@ -170,13 +180,15 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support select single use keys`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE KEYS \"someString\"",
-        )
-        val underTest = UseKeys(
-            "someString".toDopeType(),
-            someBucket(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE KEYS \"someString\"",
+            )
+        val underTest =
+            UseKeys(
+                "someString".toDopeType(),
+                someBucket(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -185,13 +197,15 @@ class UseTest : ResolverDependentTest {
 
     @Test
     fun `should support select array use keys`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE KEYS [\"someString\", \"anotherString\"]",
-        )
-        val underTest = UseKeys(
-            listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
-            someBucket(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE KEYS [\"someString\", \"anotherString\"]",
+            )
+        val underTest =
+            UseKeys(
+                listOf("someString".toDopeType(), "anotherString".toDopeType()).toDopeType(),
+                someBucket(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -201,14 +215,16 @@ class UseTest : ResolverDependentTest {
     @Test
     fun `should support use keys with parameter`() {
         val parameterValue = someString()
-        val expected = CouchbaseDopeQuery(
-            queryString = "`someBucket` USE KEYS $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
-        val underTest = UseKeys(
-            parameterValue.asParameter(),
-            someBucket(),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`someBucket` USE KEYS $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
+        val underTest =
+            UseKeys(
+                parameterValue.asParameter(),
+                someBucket(),
+            )
 
         val actual = underTest.toDopeQuery(resolver)
 
@@ -243,10 +259,11 @@ class UseTest : ResolverDependentTest {
         val useKeysString2 = someString()
         val useKeysString3 = someString()
         val bucket = someBucket()
-        val expected = UseKeys(
-            listOf(useKeysString1.toDopeType(), useKeysString2.toDopeType(), useKeysString3.toDopeType()).toDopeType(),
-            bucket = bucket,
-        )
+        val expected =
+            UseKeys(
+                listOf(useKeysString1.toDopeType(), useKeysString2.toDopeType(), useKeysString3.toDopeType()).toDopeType(),
+                bucket = bucket,
+            )
 
         val actual = bucket.useKeys(useKeysString1, useKeysString2, useKeysString3)
 

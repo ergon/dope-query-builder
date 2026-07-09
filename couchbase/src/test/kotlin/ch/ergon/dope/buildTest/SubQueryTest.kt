@@ -36,10 +36,11 @@ class SubQueryTest {
     fun `should support sub select in from`() {
         val expected = "SELECT `stringField` FROM (SELECT * FROM `someBucket`) AS `asdf`"
 
-        val actual: String = QueryBuilder
-            .select(someStringField())
-            .from(QueryBuilder.selectAsterisk().from(someBucket()).alias("asdf"))
-            .build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(someStringField())
+                .from(QueryBuilder.selectAsterisk().from(someBucket()).alias("asdf"))
+                .build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -48,14 +49,15 @@ class SubQueryTest {
     fun `should support sub select with in array`() {
         val expected = "SELECT TRUE IN (SELECT RAW FALSE FROM `other`) FROM `someBucket`"
 
-        val actual: String = QueryBuilder
-            .select(
-                TRUE.inArray(
-                    QueryBuilder.selectRaw(FALSE).from(someBucket("other")).asExpression(),
-                ),
-            ).from(
-                someBucket(),
-            ).build(CouchbaseResolver()).queryString
+        val actual: String =
+            QueryBuilder
+                .select(
+                    TRUE.inArray(
+                        QueryBuilder.selectRaw(FALSE).from(someBucket("other")).asExpression(),
+                    ),
+                ).from(
+                    someBucket(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -64,10 +66,11 @@ class SubQueryTest {
     fun `should support sub select in EXISTS`() {
         val expected = "SELECT EXISTS (SELECT * FROM `someBucket`)"
 
-        val actual = QueryBuilder
-            .select(
-                exists(someSelectClause().from(someBucket()).asExpression()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    exists(someSelectClause().from(someBucket()).asExpression()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -76,10 +79,11 @@ class SubQueryTest {
     fun `should support sub select in ARRAY_LENGTH`() {
         val expected = "SELECT ARRAY_LENGTH((SELECT * FROM `someBucket`))"
 
-        val actual = QueryBuilder
-            .select(
-                someSelectClause().from(someBucket()).asExpression().length(),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    someSelectClause().from(someBucket()).asExpression().length(),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -88,31 +92,34 @@ class SubQueryTest {
     fun `should support sub select in Equals`() {
         val expected = "SELECT `stringField` = (SELECT RAW `stringField` FROM `someBucket`)[0]"
 
-        val actual = QueryBuilder
-            .select(
-                someStringField().isEqualTo(QueryBuilder.selectRaw(someStringField()).from(someBucket()).get(0)),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    someStringField().isEqualTo(QueryBuilder.selectRaw(someStringField()).from(someBucket()).get(0)),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support sub select with multiple parameters`() {
-        val expected = CouchbaseDopeQuery(
-            "SELECT EXISTS (SELECT \$1 FROM `someBucket`) FROM (SELECT \$num FROM `other`) AS `asdf`",
-            DopeParameters(
-                namedParameters = mapOf("num" to 5),
-                positionalParameters = listOf("someString"),
-            ),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                "SELECT EXISTS (SELECT \$1 FROM `someBucket`) FROM (SELECT \$num FROM `other`) AS `asdf`",
+                DopeParameters(
+                    namedParameters = mapOf("num" to 5),
+                    positionalParameters = listOf("someString"),
+                ),
+            )
 
-        val actual = QueryBuilder
-            .select(
-                exists(someSelectClause(someString().asParameter()).from(someBucket()).asExpression()),
-            ).from(
-                QueryBuilder
-                    .select(someNumber().asParameter("num")).from(someBucket("other")).alias("asdf"),
-            ).build(CouchbaseResolver())
+        val actual =
+            QueryBuilder
+                .select(
+                    exists(someSelectClause(someString().asParameter()).from(someBucket()).asExpression()),
+                ).from(
+                    QueryBuilder
+                        .select(someNumber().asParameter("num")).from(someBucket("other")).alias("asdf"),
+                ).build(CouchbaseResolver())
 
         assertEquals(expected, actual)
     }
@@ -121,14 +128,15 @@ class SubQueryTest {
     fun `should support sub select in conditional function`() {
         val expected = "SELECT DECODE((SELECT RAW `stringField`)[0], \"string\", 1, \"anotherString\", 2)"
 
-        val actual = QueryBuilder
-            .select(
-                decode(
-                    someStringSelectRawClause().get(0),
-                    "string".resultsIn(1),
-                    "anotherString".resultsIn(2),
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    decode(
+                        someStringSelectRawClause().get(0),
+                        "string".resultsIn(1),
+                        "anotherString".resultsIn(2),
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -137,10 +145,11 @@ class SubQueryTest {
     fun `should support sub select in type function`() {
         val expected = "SELECT TYPE((SELECT RAW `stringField`))"
 
-        val actual = QueryBuilder
-            .select(
-                typeOf(someSelectRawClause().asExpression()),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    typeOf(someSelectRawClause().asExpression()),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -149,14 +158,15 @@ class SubQueryTest {
     fun `should support sub select entry field`() {
         val expected = "SELECT (SELECT * FROM `someBucket`)[0].`name`"
 
-        val actual = QueryBuilder
-            .select(
-                QueryBuilder
-                    .selectAsterisk()
-                    .from(someBucket()).asExpression()
-                    .get(0)
-                    .getString("name"),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    QueryBuilder
+                        .selectAsterisk()
+                        .from(someBucket()).asExpression()
+                        .get(0)
+                        .getString("name"),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
@@ -165,31 +175,34 @@ class SubQueryTest {
     fun `should support sub select entry field with in array`() {
         val expected = "SELECT * WHERE 5 IN (SELECT RAW `numberField` FROM `someBucket`)"
 
-        val actual = QueryBuilder
-            .selectAsterisk()
-            .where(
-                someNumber().inArray(
-                    QueryBuilder
-                        .selectRaw(someNumberField())
-                        .from(someBucket()).asExpression(),
-                ),
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .selectAsterisk()
+                .where(
+                    someNumber().inArray(
+                        QueryBuilder
+                            .selectRaw(someNumberField())
+                            .from(someBucket()).asExpression(),
+                    ),
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `should support asterisk on sub select`() {
-        val sub: AliasedSelectClause<ObjectType> = QueryBuilder
-            .select(1.toDopeType()).alias("sub")
+        val sub: AliasedSelectClause<ObjectType> =
+            QueryBuilder
+                .select(1.toDopeType()).alias("sub")
         val expected = "SELECT `sub`.* FROM (SELECT 1) AS `sub`"
 
-        val actual = QueryBuilder
-            .select(
-                sub.asterisk(),
-            ).from(
-                sub,
-            ).build(CouchbaseResolver()).queryString
+        val actual =
+            QueryBuilder
+                .select(
+                    sub.asterisk(),
+                ).from(
+                    sub,
+                ).build(CouchbaseResolver()).queryString
 
         assertEquals(expected, actual)
     }

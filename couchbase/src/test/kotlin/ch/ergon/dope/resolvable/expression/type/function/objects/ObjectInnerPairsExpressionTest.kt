@@ -12,9 +12,10 @@ class ObjectInnerPairsExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object inner pairs expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_INNER_PAIRS(`objectField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_INNER_PAIRS(`objectField`)",
+            )
         val underTest = ObjectInnerPairsExpression(someObjectField())
 
         val actual = underTest.toDopeQuery(resolver)

@@ -6,5 +6,6 @@ import ch.ergon.dope.resolvable.Resolvable
 
 interface QueryResolver<T : DopeQuery> {
     val manager: DopeQueryManager
+
     fun resolve(resolvable: Resolvable): T
 }

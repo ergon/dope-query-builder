@@ -49,15 +49,14 @@ data class ForRangeIndexedConditionSchemaExpression<S : Schema>(
     val iteratorName: String? = null,
     val condition: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>,
 ) {
-    fun <T : ValidType> map(
-        transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
-    ) = ArrayRangeIndexedSchemaExpression(
-        range = range,
-        indexName = indexName,
-        iteratorName = iteratorName,
-        cmTransformation = transformation,
-        cmCondition = condition,
-    )
+    fun <T : ValidType> map(transformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>) =
+        ArrayRangeIndexedSchemaExpression(
+            range = range,
+            indexName = indexName,
+            iteratorName = iteratorName,
+            cmTransformation = transformation,
+            cmCondition = condition,
+        )
 }
 
 fun <S : Schema> CMObjectList<S>.filterIndexed(
@@ -78,21 +77,22 @@ data class ArrayRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
     override val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
     override val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : RangeIndexedSchemaExpression<S, T, ArrayType<T>>(
-    transformationType = ARRAY,
-    cmRange = range,
-    indexName = indexName,
-    iteratorName = iteratorName,
-    cmWithAttributeKeys = null,
-    cmTransformation = cmTransformation,
-    cmCondition = cmCondition,
-) {
-    fun first() = FirstRangeIndexedSchemaExpression(
-        range = cmRange,
+        transformationType = ARRAY,
+        cmRange = range,
         indexName = indexName,
         iteratorName = iteratorName,
+        cmWithAttributeKeys = null,
         cmTransformation = cmTransformation,
         cmCondition = cmCondition,
-    )
+    ) {
+    fun first() =
+        FirstRangeIndexedSchemaExpression(
+            range = cmRange,
+            indexName = indexName,
+            iteratorName = iteratorName,
+            cmTransformation = cmTransformation,
+            cmCondition = cmCondition,
+        )
 
     fun toObject(withAttributeKeys: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<StringType>) =
         ObjectRangeIndexedSchemaExpression(
@@ -123,14 +123,14 @@ data class FirstRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
     override val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
     override val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : RangeIndexedSchemaExpression<S, T, T>(
-    transformationType = FIRST,
-    cmRange = range,
-    indexName = indexName,
-    iteratorName = iteratorName,
-    cmWithAttributeKeys = null,
-    cmTransformation = cmTransformation,
-    cmCondition = cmCondition,
-)
+        transformationType = FIRST,
+        cmRange = range,
+        indexName = indexName,
+        iteratorName = iteratorName,
+        cmWithAttributeKeys = null,
+        cmTransformation = cmTransformation,
+        cmCondition = cmCondition,
+    )
 
 data class ObjectRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
     override val range: ObjectList<S>,
@@ -140,11 +140,11 @@ data class ObjectRangeIndexedSchemaExpression<S : Schema, T : ValidType>(
     override val cmTransformation: (Iterator<NumberType>, ObjectField<S>) -> TypeExpression<T>,
     override val cmCondition: ((Iterator<NumberType>, ObjectField<S>) -> TypeExpression<BooleanType>)? = null,
 ) : RangeIndexedSchemaExpression<S, T, ObjectType>(
-    transformationType = OBJECT,
-    cmRange = range,
-    indexName = indexName,
-    iteratorName = iteratorName,
-    cmWithAttributeKeys = cmWithAttributeKeys,
-    cmTransformation = cmTransformation,
-    cmCondition = cmCondition,
-)
+        transformationType = OBJECT,
+        cmRange = range,
+        indexName = indexName,
+        iteratorName = iteratorName,
+        cmWithAttributeKeys = cmWithAttributeKeys,
+        cmTransformation = cmTransformation,
+        cmCondition = cmCondition,
+    )

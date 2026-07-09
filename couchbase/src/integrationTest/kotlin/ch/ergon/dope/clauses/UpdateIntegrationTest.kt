@@ -29,23 +29,24 @@ class UpdateIntegrationTest : BaseIntegrationTest() {
     fun `update to set and unset single attribute`() {
         val newFieldName = Field<StringType>("newFieldName", testBucket)
         val newNullField = Field<NumberType>("nullField", testBucket)
-        val dopeQuery = QueryBuilder
-            .update(
-                testBucket.useKeys("client:1"),
-            )
-            .set(
-                newFieldName.toNewValue("newName"),
-                newNullField.toNewValue(NULL),
-            )
-            .unset(
-                nameField,
-            )
-            .returning(
-                newFieldName,
-                newNullField,
-                nameField,
-            )
-            .build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .update(
+                    testBucket.useKeys("client:1"),
+                )
+                .set(
+                    newFieldName.toNewValue("newName"),
+                    newNullField.toNewValue(NULL),
+                )
+                .unset(
+                    nameField,
+                )
+                .returning(
+                    newFieldName,
+                    newNullField,
+                    nameField,
+                )
+                .build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

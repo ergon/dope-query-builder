@@ -13,9 +13,10 @@ class ObjectPutExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support object put expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "OBJECT_PUT(`objectField`, \"key\", \"value\")",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "OBJECT_PUT(`objectField`, \"key\", \"value\")",
+            )
         val underTest = ObjectPutExpression(someObjectField(), "key".toDopeType(), "value".toDopeType())
 
         val actual = underTest.toDopeQuery(resolver)

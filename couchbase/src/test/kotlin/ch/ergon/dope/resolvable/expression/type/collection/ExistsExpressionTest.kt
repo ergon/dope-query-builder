@@ -17,9 +17,10 @@ class ExistsExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support EXISTS expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "EXISTS `numberArrayField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "EXISTS `numberArrayField`",
+            )
         val underTest = ExistsExpression(someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -31,10 +32,11 @@ class ExistsExpressionTest : ResolverDependentTest {
     fun `should support EXISTS expression with parameter`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "EXISTS \$param",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "EXISTS \$param",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ExistsExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -45,10 +47,11 @@ class ExistsExpressionTest : ResolverDependentTest {
     @Test
     fun `should support EXISTS expression with positional parameter`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "EXISTS $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "EXISTS $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ExistsExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

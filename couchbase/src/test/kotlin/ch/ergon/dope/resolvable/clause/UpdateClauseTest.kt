@@ -13,9 +13,10 @@ class UpdateClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support update clause`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket`",
+            )
         val underTest = UpdateClause(someBucket())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -25,9 +26,10 @@ class UpdateClauseTest : ResolverDependentTest {
 
     @Test
     fun `should support update clause with an alias bucket`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "UPDATE `someBucket` AS `bucket`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "UPDATE `someBucket` AS `bucket`",
+            )
         val underTest = UpdateClause(someBucket().alias("bucket"))
 
         val actual = underTest.toDopeQuery(resolver)

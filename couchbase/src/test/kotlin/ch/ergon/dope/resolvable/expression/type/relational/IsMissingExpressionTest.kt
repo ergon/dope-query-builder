@@ -12,9 +12,10 @@ class IsMissingExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support is missing`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` IS MISSING",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` IS MISSING",
+            )
         val underTest = IsMissingExpression(someStringField())
 
         val actual = underTest.toDopeQuery(resolver)

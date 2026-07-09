@@ -23,17 +23,18 @@ import kotlin.test.assertEquals
 class AggregateFunctionsIntegrationTest : BaseIntegrationTest() {
     @Test
     fun `select aggregate functions`() {
-        val dopeQuery = QueryBuilder
-            .select(
-                min(orderNumberField).alias("min"),
-                max(nameField).alias("max"),
-                sum(idField).alias("sum"),
-                arrayAggregate(typeField, DISTINCT).alias("arrayAggregate"),
-                countAsterisk().alias("count"),
-            )
-            .from(
-                testBucket,
-            ).build(CouchbaseResolver())
+        val dopeQuery =
+            QueryBuilder
+                .select(
+                    min(orderNumberField).alias("min"),
+                    max(nameField).alias("max"),
+                    sum(idField).alias("sum"),
+                    arrayAggregate(typeField, DISTINCT).alias("arrayAggregate"),
+                    countAsterisk().alias("count"),
+                )
+                .from(
+                    testBucket,
+                ).build(CouchbaseResolver())
 
         tryUntil {
             val queryResult = queryWithoutParameters(dopeQuery)

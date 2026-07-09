@@ -16,9 +16,10 @@ class ClockStrExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support CLOCK_STR without format`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_STR()",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_STR()",
+            )
         val underTest = ClockStringExpression()
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,9 +30,10 @@ class ClockStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_STR with format field`() {
         val fmt = someStringField()
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_STR(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_STR(`stringField`)",
+            )
         val underTest = ClockStringExpression(fmt)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -42,10 +44,11 @@ class ClockStrExpressionTest : ResolverDependentTest {
     @Test
     fun `should support CLOCK_STR with positional parameter format`() {
         val parameterValue = "MM-dd-yyyy"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_STR($1)",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_STR($1)",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = ClockStringExpression(parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -57,10 +60,11 @@ class ClockStrExpressionTest : ResolverDependentTest {
     fun `should support CLOCK_STR with named parameter format`() {
         val parameterValue = "MM-dd-yyyy"
         val parameterName = "fmt"
-        val expected = CouchbaseDopeQuery(
-            queryString = "CLOCK_STR(\$$parameterName)",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "CLOCK_STR(\$$parameterName)",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = ClockStringExpression(parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

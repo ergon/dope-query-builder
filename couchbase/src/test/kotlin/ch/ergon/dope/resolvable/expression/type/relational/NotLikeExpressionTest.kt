@@ -16,9 +16,10 @@ class NotLikeExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support not like with no parameters`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` NOT LIKE `stringField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` NOT LIKE `stringField`",
+            )
         val underTest = NotLikeExpression(someStringField(), someStringField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -29,10 +30,11 @@ class NotLikeExpressionTest : ResolverDependentTest {
     @Test
     fun `should support not like with positional parameter`() {
         val parameterValue = "test"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` NOT LIKE $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` NOT LIKE $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -44,10 +46,11 @@ class NotLikeExpressionTest : ResolverDependentTest {
     fun `should support not like with named parameter`() {
         val parameterValue = "test"
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`stringField` NOT LIKE \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`stringField` NOT LIKE \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = NotLikeExpression(someStringField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)

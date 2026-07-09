@@ -24,9 +24,10 @@ class WithinExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support WITHIN expression`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` WITHIN `numberArrayField`",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` WITHIN `numberArrayField`",
+            )
         val underTest = WithinExpression(someNumberField(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -38,10 +39,11 @@ class WithinExpressionTest : ResolverDependentTest {
     fun `should support WITHIN expression with named parameter as value`() {
         val parameterValue = 1
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterName WITHIN `numberArrayField`",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterName WITHIN `numberArrayField`",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = WithinExpression(parameterValue.asParameter(parameterName), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -52,10 +54,11 @@ class WithinExpressionTest : ResolverDependentTest {
     @Test
     fun `should support WITHIN expression with positional parameter as value`() {
         val parameterValue = 1
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 WITHIN `numberArrayField`",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 WITHIN `numberArrayField`",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = WithinExpression(parameterValue.asParameter(), someNumberArrayField())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -67,10 +70,11 @@ class WithinExpressionTest : ResolverDependentTest {
     fun `should support WITHIN expression with named parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
         val parameterName = "param"
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` WITHIN \$$parameterName",
-            DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` WITHIN \$$parameterName",
+                DopeParameters(namedParameters = mapOf(parameterName to parameterValue)),
+            )
         val underTest = WithinExpression(someNumberField(), parameterValue.asParameter(parameterName))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -81,10 +85,11 @@ class WithinExpressionTest : ResolverDependentTest {
     @Test
     fun `should support WITHIN expression with positional parameter as collection`() {
         val parameterValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "`numberField` WITHIN $1",
-            DopeParameters(positionalParameters = listOf(parameterValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "`numberField` WITHIN $1",
+                DopeParameters(positionalParameters = listOf(parameterValue)),
+            )
         val underTest = WithinExpression(someNumberField(), parameterValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)
@@ -98,10 +103,11 @@ class WithinExpressionTest : ResolverDependentTest {
         val parameterCollectionValue = listOf(1, 2, 3)
         val parameterNameA = "paramA"
         val parameterNameB = "paramB"
-        val expected = CouchbaseDopeQuery(
-            queryString = "\$$parameterNameA WITHIN \$$parameterNameB",
-            DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "\$$parameterNameA WITHIN \$$parameterNameB",
+                DopeParameters(namedParameters = mapOf(parameterNameA to parameterValue, parameterNameB to parameterCollectionValue)),
+            )
         val underTest = WithinExpression(parameterValue.asParameter(parameterNameA), parameterCollectionValue.asParameter(parameterNameB))
 
         val actual = underTest.toDopeQuery(resolver)
@@ -113,10 +119,11 @@ class WithinExpressionTest : ResolverDependentTest {
     fun `should support WITHIN expression with positional parameters as value and collection`() {
         val parameterValue = 1
         val parameterCollectionValue = listOf(1, 2, 3)
-        val expected = CouchbaseDopeQuery(
-            queryString = "$1 WITHIN $2",
-            DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "$1 WITHIN $2",
+                DopeParameters(positionalParameters = listOf(parameterValue, parameterCollectionValue)),
+            )
         val underTest = WithinExpression(parameterValue.asParameter(), parameterCollectionValue.asParameter())
 
         val actual = underTest.toDopeQuery(resolver)

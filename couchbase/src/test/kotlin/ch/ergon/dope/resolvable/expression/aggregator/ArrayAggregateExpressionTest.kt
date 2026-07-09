@@ -16,9 +16,10 @@ class ArrayAggregateExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support array aggregate`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_AGG(`stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_AGG(`stringField`)",
+            )
         val underTest = ArrayAggregateExpression(someStringField(), null)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -28,9 +29,10 @@ class ArrayAggregateExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support array aggregate with quantifier ALL`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_AGG(ALL `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_AGG(ALL `stringField`)",
+            )
         val underTest = ArrayAggregateExpression(someStringField(), ALL)
 
         val actual = underTest.toDopeQuery(resolver)
@@ -40,9 +42,10 @@ class ArrayAggregateExpressionTest : ResolverDependentTest {
 
     @Test
     fun `should support array aggregate with quantifier DISTINCT`() {
-        val expected = CouchbaseDopeQuery(
-            queryString = "ARRAY_AGG(DISTINCT `stringField`)",
-        )
+        val expected =
+            CouchbaseDopeQuery(
+                queryString = "ARRAY_AGG(DISTINCT `stringField`)",
+            )
         val underTest = ArrayAggregateExpression(someStringField(), DISTINCT)
 
         val actual = underTest.toDopeQuery(resolver)
