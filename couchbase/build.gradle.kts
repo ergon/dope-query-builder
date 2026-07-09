@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
-    id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+    kotlin("jvm") version "2.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     `maven-publish`
     idea
 }
@@ -37,7 +37,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("com.couchbase.client:kotlin-client:1.5.0")
+    testImplementation("com.couchbase.client:kotlin-client:3.12.0")
     testImplementation("org.testcontainers:couchbase:1.21.4")
     implementation(kotlin("reflect"))
 }
